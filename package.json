@@ -27,6 +27,10 @@
     ],
     "permissionSets" : [
       {
+        "permissionName": "module.orders.enabled",
+        "displayName": "UI: Orders module is enabled"
+      },
+      {
         "permissionName" : "purchase_order.collection.get",
         "displayName" : "purchase-orders collection get",
         "description" : "Get a collection of Purchase Orders"

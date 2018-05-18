@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Switch from 'react-router-dom/Switch';
 import Route from 'react-router-dom/Route';
-import Application from './routes/application';
-import ExamplePage from './routes/example-page';
+import Main from './routes/Main';
 import Settings from './settings';
 
 /*
@@ -15,6 +14,15 @@ class Orders extends React.Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     showSettings: PropTypes.bool,
+    stripes: PropTypes.shape({
+      connect: PropTypes.func.isRequired,
+    }).isRequired,
+    location: PropTypes.object.isRequired,
+  }
+
+  constructor(props, context) {
+    super(props, context);
+    this.connectedApp = props.stripes.connect(Main);
   }
 
   render() {
@@ -23,8 +31,10 @@ class Orders extends React.Component {
     }
     return (
       <Switch>
-        <Route path={`${this.props.match.path}`} exact component={Application} />
-        <Route path={`${this.props.match.path}/examples`} exact component={ExamplePage} />
+        <Route
+          path={`${this.props.match.path}`}
+          render={props => <this.connectedApp {...props} {...this.props} />}
+        />
       </Switch>
     );
   }
