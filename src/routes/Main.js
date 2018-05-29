@@ -6,7 +6,8 @@ import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import packageInfo from '../../package';
 // Components and Pages
 // import PaneDetails from '../PaneDetails';
-import POView from '../components/POViews';
+// import POView from '../components/POViews';
+import Panes from '../components/Panes';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -125,7 +126,7 @@ class Main extends Component {
             filterConfig={filterConfig}
             visibleColumns={['Name', 'Code', 'Description', 'Vendor Status']}
             resultsFormatter={resultsFormatter}
-            viewRecordComponent={POView}
+            viewRecordComponent={Panes}
             // editRecordComponent={PaneDetails}
             onCreate={this.create}
             newRecordInitialValues={{}}

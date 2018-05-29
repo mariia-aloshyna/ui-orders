@@ -34,11 +34,11 @@ class POView extends Component {
     super(props);
     this.state = {
       sections: {
+        purcahseOrder: true,
         POSummary: true,
-        POLine: false
+        POListing: true
       }
     };
-    // this.connectedPaneDetails = this.props.stripes.connect(PaneDetails);
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
   }
@@ -91,14 +91,14 @@ class POView extends Component {
 
     if (!initialValues) {
       return (
-        <Pane id="pane-podetails" defaultWidth={this.props.paneWidth} paneTitle="Details" lastMenu={lastMenu} dismissible onClose={this.props.onClose}>
+        <Pane id="pane-podetails" defaultWidth="fill" paneTitle="Details" lastMenu={lastMenu} dismissible onClose={this.props.onClose}>
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
         </Pane>
       );
     }
 
     return (
-      <Pane id="pane-podetails" defaultWidth={this.props.paneWidth} paneTitle={_.get(initialValues, ['name'], '')} lastMenu={lastMenu} dismissible onClose={this.props.onClose}>
+      <Pane id="pane-podetails" defaultWidth="fill" paneTitle={_.get(initialValues, ['name'], '')} lastMenu={lastMenu} dismissible onClose={this.props.onClose}>
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
           <Accordion label="Purcahse Order" id="purcahseOrder">
@@ -107,7 +107,7 @@ class POView extends Component {
           <Accordion label="PO Summary" id="POSummary">
             <POSummaryView initialValues={initialValues} {...this.props} />
           </Accordion>
-          <Accordion label="PO Line" id="POLine">
+          <Accordion label="PO Listing" id="POListing">
             <POLineListing initialValues={initialValues} {...this.props} />
           </Accordion>
         </AccordionSet>
