@@ -1,1 +1,1 @@
-export { default } from './PaneDetails';
+export { default } from './POView';

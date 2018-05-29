@@ -6,7 +6,7 @@ import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import packageInfo from '../../package';
 // Components and Pages
 // import PaneDetails from '../PaneDetails';
-import POView from '../components/POView.js';
+import POView from '../components/POViews';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;

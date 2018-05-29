@@ -11,52 +11,28 @@ class PODetailsView extends React.Component {
     initialValues: PropTypes.object
   }
 
-  constructor(props) {
-    super(props);
-    this.getPODetails = this.getPODetails.bind(this);
-  }
-
-  getPODetails(val, key) {
-    const rowCount = this.props.initialValues.contacts.length - 1 !== key;
-    return (
-      <Row key={key}>
-        <Col xs={3}>
-          <KeyValue label="Approval Status" value={_.get(val, 'approval_status')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Comments" value={_.get(val, 'comments')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Reference URL" value={FormatDate(_.get(val, 'reference_url'))} />
-        </Col>
-        <Col xs={12}>
-          <KeyValue label="Notes" value={_.get(val, 'notes')} />
-        </Col>
-        {rowCount &&
-          <div style={{ width: '100%' }}>
-            <hr />
-          </div>
-        }
-      </Row>
-    );
-  }
-
   render() {
     const { initialValues } = this.props;
     const dataVal = initialValues.agreements.length >= 1 ? initialValues.agreements : false;
-    if (dataVal) {
-      return (
-        <div style={{ width: '100%' }} className={css.horizontalLine}>
-          {dataVal.map(this.getPODetails)}
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <p>-- No PO Details Available --</p>
-        </div>
-      );
-    }
+    return (
+      <Row>
+        <Col xs={3}>
+          <KeyValue label="Vendor" value={_.get(dataVal, 'vendor')} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="PO Number" value={_.get(dataVal, 'po_number')} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Assigned To" value={_.get(dataVal, 'assigned_to')} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Created On" value={FormatDate(_.toString(_.get(dataVal, 'created')))} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Created By" value={FormatDate(_.toString(_.get(dataVal, 'created_by')))} />
+        </Col>
+      </Row>
+    );
   }
 }
 

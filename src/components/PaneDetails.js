@@ -5,7 +5,7 @@ import Pane from '@folio/stripes-components/lib/Pane';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
 import stripesForm from '@folio/stripes-form';
-import { FormVendor } from '../VendorViews';
+// import { FormVendor } from '../VendorViews';
 import { arrayToObject, convertValueToLabel } from '../Utils/Convert';
 
 class PaneDetails extends React.Component {
