@@ -12,9 +12,9 @@ import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import Layer from '@folio/stripes-components/lib/Layer';
 import DetailsView from '../Details';
 import SummaryView from '../Summary';
-import LineListing from '../Line/LineListing';
+import LineListing from '../LineListing';
 
-class POView extends Component {
+class POPane extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
     location: PropTypes.object.isRequired,
@@ -126,4 +126,4 @@ class POView extends Component {
   }
 }
 
-export default POView;
+export default POPane;

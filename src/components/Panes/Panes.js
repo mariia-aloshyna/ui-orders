@@ -6,8 +6,8 @@ import _ from 'lodash';
 import Pane from '@folio/stripes-components/lib/Pane';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
-import View from '../View';
-import LineView from '../Line/LineView';
+import POPane from './POPane';
+import LinePane from './LinePane';
 
 class Panes extends React.Component {
   static propTypes = {
@@ -16,8 +16,8 @@ class Panes extends React.Component {
 
   constructor(props) {
     super(props);
-    this.connectedView = this.props.stripes.connect(View);
-    this.connectedLineView = this.props.stripes.connect(LineView);
+    this.connectedPOPane = this.props.stripes.connect(POPane);
+    this.connectedLinePane = this.props.stripes.connect(LinePane);
   }
 
   render() {
@@ -26,7 +26,7 @@ class Panes extends React.Component {
         <Route
           exact
           path={`${this.props.match.path}`}
-          render={props => <this.connectedView
+          render={props => <this.connectedPOPane
             {...this.props}
             {...props}
           />}
@@ -35,14 +35,14 @@ class Panes extends React.Component {
           <Route
             exact
             path={`${this.props.match.path}/po-line/view/:id`}
-            render={props => <this.connectedLineView
+            render={props => <this.connectedLinePane
               poURL={`${this.props.match.url}`}
               {...this.props}
               {...props}
             />}
           />
         </IfPermission>
-        <Route render={props => <this.connectedView {...this.props} {...props} />} />
+        <Route render={props => <this.connectedPOPane {...this.props} {...props} />} />
       </Switch>
     );
   }

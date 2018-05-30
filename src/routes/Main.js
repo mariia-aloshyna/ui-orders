@@ -7,7 +7,7 @@ import packageInfo from '../../package';
 // Components and Pages
 // import PaneDetails from '../PaneDetails';
 // import POView from '../components/POViews';
-import Panes from '../components/Panes';
+import { Panes } from '../components/Panes';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;

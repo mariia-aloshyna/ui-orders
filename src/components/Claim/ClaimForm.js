@@ -6,7 +6,7 @@ import TextField from '@folio/stripes-components/lib/TextField';
 import TextArea from '@folio/stripes-components/lib/TextArea';
 import { Required } from '../../Utils/Validate';
 
-class LineForm extends Component {
+class FundForm extends Component {
   constructor(props) {
     super(props);
     this.renderForm = this.renderForm.bind(this);
@@ -66,4 +66,4 @@ class LineForm extends Component {
   }
 }
 
-export default LineForm;
+export default FundForm;

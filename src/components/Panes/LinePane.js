@@ -11,7 +11,6 @@ import IconButton from '@folio/stripes-components/lib/IconButton';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FormatDate from '../../Utils/FormatDate';
-import css from './LineView.css';
 import LineDetailsView from '../LineDetails/LineDetailsView';
 import CostView from '../Cost/CostView';
 import FundView from '../Fund/FundView';

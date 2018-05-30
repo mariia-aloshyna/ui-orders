@@ -7,9 +7,8 @@ import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FormatDate from '../../Utils/FormatDate';
-import LineView from '../Line/LineView';
 
-class POLineListing extends React.Component {
+class LineListing extends React.Component {
   static propTypes = {
     initialValues: PropTypes.object,
     stripes: PropTypes.object
@@ -19,7 +18,6 @@ class POLineListing extends React.Component {
     super(props);
     this.state = { 
     };
-    this.connectedLineView = this.props.stripes.connect(LineView);
     this.onSelectRow = this.onSelectRow.bind(this);
   }
 
@@ -69,4 +67,4 @@ class POLineListing extends React.Component {
   }
 }
 
-export default POLineListing;
+export default LineListing;
