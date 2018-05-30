@@ -12,6 +12,8 @@ import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FormatDate from '../../Utils/FormatDate';
 import css from './LineView.css';
+import LineDetailsView from '../LineDetails/LineDetailsView';
+
 
 class LineView extends React.Component {
   static propTypes = {
@@ -49,13 +51,20 @@ class LineView extends React.Component {
   }
 
   render() {
+    const { poURL } = this.props;
+    const firstMenu = (<PaneMenu>
+        <IconButton
+          icon="left-arrow"
+          id="clickable-backToPO"
+          href={`${poURL}`}
+          title="Back to PO"
+        />
+      </PaneMenu>);
     const lastMenu = (<PaneMenu>
       <IfPermission perm="vendor.item.put">
         <IconButton
           icon="edit"
           id="clickable-editvendor"
-          style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
-          onClick={this.props.onEdit}
           href={this.props.editLink}
           title="Edit Vendor"
         />
@@ -63,27 +72,27 @@ class LineView extends React.Component {
 
     const { location, initialValues } = this.props;
 
-    if (!initialValues) {
-      return (
-        <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" lastMenu={lastMenu} dismissible>
-          <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
-        </Pane>
-      );
-    }
+    // if (!initialValues) {
+    //   return (
+    //     <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" lastMenu={lastMenu} dismissible>
+    //       <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
+    //     </Pane>
+    //   );
+    // }
 
     return (
-      <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" lastMenu={lastMenu} dismissible>
+      <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" firstMenu={firstMenu} lastMenu={lastMenu}>
+        <LineDetailsView initialValues={initialValues} {...this.props} />
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
           <Accordion label="Purcahse Order" id="purcahseOrder">
-            <DetailsView initialValues={initialValues} {...this.props} />
           </Accordion>
-          <Accordion label="PO Summary" id="POSummary">
+          {/* <Accordion label="PO Summary" id="POSummary">
             <SummaryView initialValues={initialValues} {...this.props} />
           </Accordion>
           <Accordion label="PO Listing" id="POListing">
             <LineListing initialValues={initialValues} {...this.props} />
-          </Accordion>
+          </Accordion> */}
         </AccordionSet>
         {/* <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Vendor Dialog">
           <this.connectedPaneDetails

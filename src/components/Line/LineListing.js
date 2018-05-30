@@ -27,13 +27,6 @@ class POLineListing extends React.Component {
     const { match, history } = this.props;
     const url = match.url;
     history.push(`${url}/po-line/view/${meta.id}`);
-    // if (this.props.onSelectRow) {
-    //   const shouldFallBackToRegularRecordDisplay = this.props.onSelectRow(e, meta);
-    //   if (!shouldFallBackToRegularRecordDisplay) return;
-    // }
-    // this.log('action', `clicked ${meta.id}, selected record =`, meta);
-    // this.setState({ selectedItem: meta });
-    // this.transitionToParams({ _path: `${this.props.packageInfo.stripes.route}/view/${meta.id}` });
   }
 
   render() {
