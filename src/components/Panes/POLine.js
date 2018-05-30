@@ -16,7 +16,7 @@ import CostView from '../Cost/CostView';
 import FundView from '../Fund/FundView';
 
 
-class LineView extends React.Component {
+class POLine extends React.Component {
   static propTypes = {
     initialValues: PropTypes.object,
     location: PropTypes.object
@@ -108,4 +108,4 @@ class LineView extends React.Component {
   }
 }
 
-export default LineView;
+export default POLine;

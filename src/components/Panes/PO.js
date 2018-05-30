@@ -14,7 +14,7 @@ import DetailsView from '../Details';
 import SummaryView from '../Summary';
 import LineListing from '../LineListing';
 
-class POPane extends Component {
+class PO extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
     location: PropTypes.object.isRequired,
@@ -126,4 +126,4 @@ class POPane extends Component {
   }
 }
 
-export default POPane;
+export default PO;

@@ -1,5 +1,5 @@
 import Panes from './Panes';
-import LinePane from './LinePane';
-import POPane from './POPane';
+import PO from './PO';
+import POLine from './POLine';
 
-export { Panes, LinePane, POPane };
+export { Panes, PO, POLine };
