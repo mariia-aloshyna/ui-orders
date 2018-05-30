@@ -13,6 +13,8 @@ import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FormatDate from '../../Utils/FormatDate';
 import css from './LineView.css';
 import LineDetailsView from '../LineDetails/LineDetailsView';
+import CostView from '../Cost/CostView';
+import FundView from '../Fund/FundView';
 
 
 class LineView extends React.Component {
@@ -25,7 +27,7 @@ class LineView extends React.Component {
     super(props);
     this.state = {
       sections: {
-        purcahseOrder: true,
+        Cost: true,
         POSummary: true,
         POListing: true
       }
@@ -85,14 +87,12 @@ class LineView extends React.Component {
         <LineDetailsView initialValues={initialValues} {...this.props} />
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-          <Accordion label="Purcahse Order" id="purcahseOrder">
+          <Accordion label="Cost" id="Cost">
+            <CostView initialValues={initialValues} {...this.props} />
           </Accordion>
-          {/* <Accordion label="PO Summary" id="POSummary">
-            <SummaryView initialValues={initialValues} {...this.props} />
+          <Accordion label="Fund Distribution" id="Fund">
+            <FundView initialValues={initialValues} {...this.props} />
           </Accordion>
-          <Accordion label="PO Listing" id="POListing">
-            <LineListing initialValues={initialValues} {...this.props} />
-          </Accordion> */}
         </AccordionSet>
         {/* <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Vendor Dialog">
           <this.connectedPaneDetails
