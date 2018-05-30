@@ -1,5 +1,5 @@
 import React from 'react';
-import Route from 'react-router-dom/Route';
+import { Route, Link } from 'react-router-dom/Route';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import MultiColumnList from '@folio/stripes-components/lib/MultiColumnList';
@@ -7,7 +7,7 @@ import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FormatDate from '../../Utils/FormatDate';
-import POLineView from '../POLine/POLineView';
+import LineView from '../Line/LineView';
 
 class POLineListing extends React.Component {
   static propTypes = {
@@ -19,7 +19,22 @@ class POLineListing extends React.Component {
     super(props);
     this.state = {
     };
-    this.connectedPOLineView = this.props.stripes.connect(POLineView);
+    this.connectedLineView = this.props.stripes.connect(LineView);
+    this.onSelectRow = this.onSelectRow.bind(this);
+  }
+
+  onSelectRow = (e, meta) => {
+    console.log(meta);
+    const { match, history } = this.props;
+    const url = match.url;
+    history.push(`${url}/po-line/view/${meta.id}`);
+    // if (this.props.onSelectRow) {
+    //   const shouldFallBackToRegularRecordDisplay = this.props.onSelectRow(e, meta);
+    //   if (!shouldFallBackToRegularRecordDisplay) return;
+    // }
+    // this.log('action', `clicked ${meta.id}, selected record =`, meta);
+    // this.setState({ selectedItem: meta });
+    // this.transitionToParams({ _path: `${this.props.packageInfo.stripes.route}/view/${meta.id}` });
   }
 
   render() {
@@ -54,6 +69,7 @@ class POLineListing extends React.Component {
         <MultiColumnList
           contentData={catalogResults}
           formatter={resultsFormatter}
+          onRowClick={this.onSelectRow}
           visibleColumns={['title', 'id']}
         />
       </div>

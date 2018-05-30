@@ -4,9 +4,9 @@ import _ from 'lodash';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FormatDate from '../../Utils/FormatDate';
-import css from './POSummaryView.css';
+import css from './SummaryView.css';
 
-class POSummaryView extends React.Component {
+class SummaryView extends React.Component {
   static propTypes = {
     initialValues: PropTypes.object
   }
@@ -35,4 +35,4 @@ class POSummaryView extends React.Component {
   }
 }
 
-export default POSummaryView;
+export default SummaryView;

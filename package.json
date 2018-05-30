@@ -25,41 +25,41 @@
         "title": "Orders"
       }
     ],
-    "permissionSets" : [
+    "permissionSets": [
       {
         "permissionName": "module.orders.enabled",
         "displayName": "UI: Orders module is enabled"
       },
       {
-        "permissionName" : "purchase_order.collection.get",
-        "displayName" : "purchase-orders collection get",
-        "description" : "Get a collection of Purchase Orders"
+        "permissionName": "purchase_order.collection.get",
+        "displayName": "purchase-orders collection get",
+        "description": "Get a collection of Purchase Orders"
       },
       {
-        "permissionName" : "purchase_order.item.post",
-        "displayName" : "purchase-order post",
-        "description" : "Create a new Purchase Order"
+        "permissionName": "purchase_order.item.post",
+        "displayName": "purchase-order post",
+        "description": "Create a new Purchase Order"
       },
       {
-        "permissionName" : "purchase_order.item.get",
-        "displayName" : "purchase-order get",
-        "description" : "Fetch a Purchase Order"
+        "permissionName": "purchase_order.item.get",
+        "displayName": "purchase-order get",
+        "description": "Fetch a Purchase Order"
       },
       {
-        "permissionName" : "purchase_order.item.put",
-        "displayName" : "purchase-order put",
-        "description" : "Update a Purchase Order"
+        "permissionName": "purchase_order.item.put",
+        "displayName": "purchase-order put",
+        "description": "Update a Purchase Order"
       },
       {
-        "permissionName" : "purchase_order.item.delete",
-        "displayName" : "purchase-order delete",
-        "description" : "Delete a Purchase Order"
+        "permissionName": "purchase_order.item.delete",
+        "displayName": "purchase-order delete",
+        "description": "Delete a Purchase Order"
       },
       {
-        "permissionName" : "purchase_order.all",
-        "displayName" : "purchase-order all",
-        "description" : "All permissions for purchase_order",
-        "subPermissions" : [
+        "permissionName": "purchase_order.all",
+        "displayName": "purchase-order all",
+        "description": "All permissions for purchase_order",
+        "subPermissions": [
           "purchase_order.collection.get",
           "purchase_order.item.post",
           "purchase_order.item.get",
@@ -68,35 +68,35 @@
         ]
       },
       {
-        "permissionName" : "purchase_order_line.collection.get",
-        "displayName" : "purchase-order-lines collection get",
-        "description" : "Get a collection of Purchase Order Lines"
+        "permissionName": "purchase_order_line.collection.get",
+        "displayName": "purchase-order-lines collection get",
+        "description": "Get a collection of Purchase Order Lines"
       },
       {
-        "permissionName" : "purchase_order_line.item.post",
-        "displayName" : "purchase-order-line post",
-        "description" : "Create a new Purchase Order Line"
+        "permissionName": "purchase_order_line.item.post",
+        "displayName": "purchase-order-line post",
+        "description": "Create a new Purchase Order Line"
       },
       {
-        "permissionName" : "purchase_order_line.item.get",
-        "displayName" : "purchase-order-line get",
-        "description" : "Fetch a Purchase Order Line"
+        "permissionName": "purchase_order_line.item.get",
+        "displayName": "purchase-order-line get",
+        "description": "Fetch a Purchase Order Line"
       },
       {
-        "permissionName" : "purchase_order_line.item.put",
-        "displayName" : "purchase-order-line put",
-        "description" : "Update a Purchase Order Line"
+        "permissionName": "purchase_order_line.item.put",
+        "displayName": "purchase-order-line put",
+        "description": "Update a Purchase Order Line"
       },
       {
-        "permissionName" : "purchase_order_line.item.delete",
-        "displayName" : "purchase-order-line delete",
-        "description" : "Delete a Purchase Order Line"
+        "permissionName": "purchase_order_line.item.delete",
+        "displayName": "purchase-order-line delete",
+        "description": "Delete a Purchase Order Line"
       },
       {
-        "permissionName" : "purchase_order_line.all",
-        "displayName" : "purchase-order-line all",
-        "description" : "All permissions for purchase_order_line",
-        "subPermissions" : [
+        "permissionName": "purchase_order_line.all",
+        "displayName": "purchase-order-line all",
+        "description": "All permissions for purchase_order_line",
+        "subPermissions": [
           "purchase_order_line.collection.get",
           "purchase_order_line.item.post",
           "purchase_order_line.item.get",

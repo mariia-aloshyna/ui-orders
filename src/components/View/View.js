@@ -10,9 +10,9 @@ import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import Layer from '@folio/stripes-components/lib/Layer';
-import PODetailsView from '../PODetails';
-import POSummaryView from '../POSummary';
-import POLineListing from '../POLine/POLineListing';
+import DetailsView from '../Details';
+import SummaryView from '../Summary';
+import LineListing from '../Line/LineListing';
 
 class POView extends Component {
   static propTypes = {
@@ -102,13 +102,13 @@ class POView extends Component {
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
           <Accordion label="Purcahse Order" id="purcahseOrder">
-            <PODetailsView initialValues={initialValues} {...this.props} />
+            <DetailsView initialValues={initialValues} {...this.props} />
           </Accordion>
           <Accordion label="PO Summary" id="POSummary">
-            <POSummaryView initialValues={initialValues} {...this.props} />
+            <SummaryView initialValues={initialValues} {...this.props} />
           </Accordion>
           <Accordion label="PO Listing" id="POListing">
-            <POLineListing initialValues={initialValues} {...this.props} />
+            <LineListing initialValues={initialValues} {...this.props} />
           </Accordion>
         </AccordionSet>
         {/* <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Vendor Dialog">

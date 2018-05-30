@@ -6,8 +6,8 @@ import _ from 'lodash';
 import Pane from '@folio/stripes-components/lib/Pane';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
-import POView from '../POView';
-import POLineView from '../POLine/POLineView';
+import View from '../View';
+import LineView from '../Line/LineView';
 
 class Panes extends React.Component {
   static propTypes = {
@@ -16,36 +16,34 @@ class Panes extends React.Component {
 
   constructor(props) {
     super(props);
-    this.connectedPOView = this.props.stripes.connect(POView);
-    this.connectedPOLineView = this.props.stripes.connect(POLineView);
+    this.connectedView = this.props.stripes.connect(View);
+    this.connectedLineView = this.props.stripes.connect(LineView);
   }
 
   render() {
-    console.log(`${this.props.match.path}`);
     return (
-      <div>
-        <Switch>
+      <Switch>
+        <Route
+          exact
+          path={`${this.props.match.path}`}
+          render={props => <this.connectedView
+            {...this.props}
+            {...props}
+          />}
+        />
+        <IfPermission perm="vendor.item.view">
           <Route
             exact
-            path={`${this.props.match.path}`}
-            render={props => <this.connectedPOView
+            path={`${this.props.match.path}/po-line/view/:id`}
+            render={props => <this.connectedLineView
+              poURL={`${this.props.match.url}`}
               {...this.props}
               {...props}
             />}
           />
-          {/* <IfPermission perm="vendor.item.view, purchase_order_line.item.view"> */}
-            <Route
-              exact
-              path={`${this.props.match.path}/po/view/:id`}
-              render={props => <this.connectedPOLineView
-                {...this.props}
-                {...props}
-              />}
-            />
-            <Route render={props => <this.connectedPOView {...this.props} {...props}/> } />
-          {/* </IfPermission> */}
-        </Switch>
-      </div>
+        </IfPermission>
+        <Route render={props => <this.connectedView {...this.props} {...props} />} />
+      </Switch>
     );
   }
 }
