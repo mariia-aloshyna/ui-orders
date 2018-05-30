@@ -17,14 +17,13 @@ class POLineListing extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = { 
     };
     this.connectedLineView = this.props.stripes.connect(LineView);
     this.onSelectRow = this.onSelectRow.bind(this);
   }
 
   onSelectRow = (e, meta) => {
-    console.log(meta);
     const { match, history } = this.props;
     const url = match.url;
     history.push(`${url}/po-line/view/${meta.id}`);
