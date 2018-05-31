@@ -14,6 +14,10 @@ import FormatDate from '../../Utils/FormatDate';
 import LineDetailsView from '../LineDetails/LineDetailsView';
 import CostView from '../Cost/CostView';
 import FundView from '../Fund/FundView';
+import TagView from '../Tags/TagView';
+import LocationView from '../Location/LocationView';
+import VendorView from '../Vendor/VendorView';
+import EresourcesView from '../Eresources/EresourcesView';
 
 
 class POLine extends React.Component {
@@ -28,7 +32,11 @@ class POLine extends React.Component {
       sections: {
         Cost: true,
         POSummary: true,
-        POListing: true
+        POListing: true,
+        Tags: true,
+        Location: true,
+        Vendor: true,
+        Eresources: true,
       }
     };
     this.handleExpandAll = this.handleExpandAll.bind(this);
@@ -91,6 +99,19 @@ class POLine extends React.Component {
           </Accordion>
           <Accordion label="Fund Distribution" id="Fund">
             <FundView initialValues={initialValues} {...this.props} />
+            <br />
+          </Accordion>
+          <Accordion label="Po Line Tags" id="Tags">
+            <TagView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Locations" id="Locations">
+            <LocationView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Vendor" id="Vendor">
+            <VendorView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Eresources" id="Eresources">
+            <EresourcesView initialValues={initialValues} {...this.props} />
           </Accordion>
         </AccordionSet>
         {/* <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Vendor Dialog">
