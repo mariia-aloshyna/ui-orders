@@ -18,6 +18,12 @@ import TagView from '../Tags/TagView';
 import LocationView from '../Location/LocationView';
 import VendorView from '../Vendor/VendorView';
 import EresourcesView from '../Eresources/EresourcesView';
+import ItemView from '../Item/ItemView';
+import PhysicalView from '../Physical/PhysicalView';
+import RenewalView from '../Renewal/RenewalView';
+import AdjustmentsView from '../Adjustments/AdjustmentsView';
+import LicenseView from '../License/LicenseView';
+
 
 
 class POLine extends React.Component {
@@ -30,13 +36,19 @@ class POLine extends React.Component {
     super(props);
     this.state = {
       sections: {
-        Cost: true,
-        POSummary: true,
-        POListing: true,
-        Tags: true,
-        Location: true,
-        Vendor: true,
-        Eresources: true,
+        Cost: false,
+        POSummary: false,
+        POListing: false,
+        Fund: false,
+        Tags: false,
+        Locations: false,
+        Vendor: false,
+        Eresources: false,
+        Item: false,
+        Physical: false,
+        Renewal: false,
+        Adjustments: false,
+        License: true
       }
     };
     this.handleExpandAll = this.handleExpandAll.bind(this);
@@ -106,12 +118,28 @@ class POLine extends React.Component {
           </Accordion>
           <Accordion label="Locations" id="Locations">
             <LocationView initialValues={initialValues} {...this.props} />
+            <br />
           </Accordion>
           <Accordion label="Vendor" id="Vendor">
             <VendorView initialValues={initialValues} {...this.props} />
           </Accordion>
-          <Accordion label="Eresources" id="Eresources">
+          <Accordion label="Item Details" id="Item">
+            <ItemView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="E-resources Details" id="Eresources">
             <EresourcesView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Physical Record Details" id="Physical">
+            <PhysicalView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Renewals" id="Renewal">
+            <RenewalView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Adjustments" id="Adjustments">
+            <AdjustmentsView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="License" id="License">
+            <LicenseView initialValues={initialValues} {...this.props} />
           </Accordion>
         </AccordionSet>
         {/* <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Vendor Dialog">

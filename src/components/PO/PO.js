@@ -10,7 +10,7 @@ import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import Layer from '@folio/stripes-components/lib/Layer';
-import DetailsView from '../Details';
+import PODetailsView from '../PODetails';
 import SummaryView from '../Summary';
 import LineListing from '../LineListing';
 
@@ -102,7 +102,7 @@ class PO extends Component {
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
           <Accordion label="Purcahse Order" id="purcahseOrder">
-            <DetailsView initialValues={initialValues} {...this.props} />
+            <PODetailsView initialValues={initialValues} {...this.props} />
           </Accordion>
           <Accordion label="PO Summary" id="POSummary">
             <SummaryView initialValues={initialValues} {...this.props} />
