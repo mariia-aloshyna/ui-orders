@@ -22,13 +22,13 @@ class SummaryView extends React.Component {
           <KeyValue label="Receipt Status" value={_.get(initialValues, 'receipt_status')} />
         </Col>
         <Col xs={3}>
+          <KeyValue label="Payment Status" value={_.get(initialValues, 'payment_status')} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Sent" value={_.get(initialValues, 'sent')} />
+        </Col>
+        <Col xs={3}>
           <KeyValue label="Comments" value={_.get(initialValues, 'comments')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Comments" value={_.get(initialValues, 'payment_status')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Comments" value={_.get(initialValues, 'sent')} />
         </Col>
       </Row>
     );

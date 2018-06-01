@@ -10,8 +10,8 @@ import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import Layer from '@folio/stripes-components/lib/Layer';
-import PODetailsView from '../PODetails';
-import SummaryView from '../Summary';
+import { PODetailsView, PODetailsForm } from '../PODetails';
+import { SummaryView } from '../Summary';
 import LineListing from '../LineListing';
 
 class PO extends Component {
@@ -34,13 +34,14 @@ class PO extends Component {
     super(props);
     this.state = {
       sections: {
-        purcahseOrder: true,
+        purchaseOrder: true,
         POSummary: true,
         POListing: true
       }
     };
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
+    this.connectedPODetailsForm = this.props.stripes.connect(PODetailsForm);
   }
 
   getData() {
@@ -101,7 +102,7 @@ class PO extends Component {
       <Pane id="pane-podetails" defaultWidth="fill" paneTitle={_.get(initialValues, ['name'], '')} lastMenu={lastMenu} dismissible onClose={this.props.onClose}>
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-          <Accordion label="Purcahse Order" id="purcahseOrder">
+          <Accordion label="Purcahse Order" id="purchaseOrder">
             <PODetailsView initialValues={initialValues} {...this.props} />
           </Accordion>
           <Accordion label="PO Summary" id="POSummary">
@@ -111,16 +112,16 @@ class PO extends Component {
             <LineListing initialValues={initialValues} {...this.props} />
           </Accordion>
         </AccordionSet>
-        {/* <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Vendor Dialog">
-          <this.connectedPaneDetails
-            stripes={this.props.stripes}
+        <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Order Dialog">
+          <this.connectedPODetailsForm
+            // stripes={this.props.stripes}
             initialValues={initialValues}
-            onSubmit={(record) => { this.update(record); }}
-            onCancel={this.props.onCloseEdit}
+            // onSubmit={(record) => { this.update(record); }}
+            // onCancel={this.props.onCloseEdit}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
           />
-        </Layer> */}
+        </Layer>
       </Pane>
     );
   }

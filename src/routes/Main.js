@@ -8,6 +8,7 @@ import packageInfo from '../../package';
 // import PaneDetails from '../PaneDetails';
 // import POView from '../components/POViews';
 import { Panes } from '../components/Panes';
+import { POForm } from '../components/PO';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -127,7 +128,7 @@ class Main extends Component {
             visibleColumns={['Name', 'Code', 'Description', 'Vendor Status']}
             resultsFormatter={resultsFormatter}
             viewRecordComponent={Panes}
-            // editRecordComponent={PaneDetails}
+            editRecordComponent={POForm}
             onCreate={this.create}
             newRecordInitialValues={{}}
             initialResultCount={INITIAL_RESULT_COUNT}

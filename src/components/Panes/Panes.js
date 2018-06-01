@@ -6,8 +6,8 @@ import _ from 'lodash';
 import Pane from '@folio/stripes-components/lib/Pane';
 import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import Button from '@folio/stripes-components/lib/Button';
-import PO from '../PO';
-import POLine from '../POLine';
+import { PO } from '../PO';
+import POLine from '../POLine/POLine';
 
 class Panes extends React.Component {
   static propTypes = {

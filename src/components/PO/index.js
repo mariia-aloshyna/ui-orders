@@ -1,3 +1,4 @@
 import PO from './PO';
+import POForm from './POForm';
 
-export { PO as default };
+export { PO, POForm };

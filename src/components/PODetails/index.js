@@ -1,4 +1,4 @@
-// import PODetailsForm from './PODetailsForm';
+import PODetailsForm from './PODetailsForm';
 import PODetailsView from './PODetailsView';
 
-export { PODetailsView as default };
+export { PODetailsView, PODetailsForm };
