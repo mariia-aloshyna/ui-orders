@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Field, FieldArray } from 'redux-form';
 import queryString from 'query-string';
 import { AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 import stripesForm from '@folio/stripes-form';
@@ -13,8 +12,8 @@ import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import Layer from '@folio/stripes-components/lib/Layer';
-// import { PODetailsForm } from '../PODetails';
-// import { SummaryForm } from '../Summary';
+import { PODetailsForm } from '../PODetails';
+import { SummaryForm } from '../Summary';
 
 class POForm extends Component {
   static propTypes = {
@@ -33,7 +32,7 @@ class POForm extends Component {
     super(props);
     this.state = {
       sections: {
-        purcahseOrder: true,
+        purchaseOrder: true,
         POSummary: true,
       }
     };
@@ -99,29 +98,27 @@ class POForm extends Component {
   }
 
   render() {
-    // const { initialValues, location, onCancel } = this.props;
-    // const query = location.search ? queryString.parse(location.search) : {};
-    // const firstMenu = this.getAddFirstMenu();
-    // const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create Order';
-    // const lastMenu = initialValues.id ?
-    //   this.getLastMenu('clickable-updatevendor', 'Update vendor') :
-    //   this.getLastMenu('clickable-createnewvendor', 'Create vendor');
-    // const showDeleteButton = initialValues.id || false;
+    const { initialValues, location, onCancel } = this.props;
+    const query = location.search ? queryString.parse(location.search) : {};
+    const firstMenu = this.getAddFirstMenu();
+    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create Order';
+    const lastMenu = initialValues.id ?
+      this.getLastMenu('clickable-updatevendor', 'Update vendor') :
+      this.getLastMenu('clickable-createnewvendor', 'Create vendor');
+    const showDeleteButton = initialValues.id || false;
 
-    // if (!initialValues) {
-    //   return (
-    //     <Pane id="pane-podetails" defaultWidth="fill" paneTitle="Details" fistMenu={firstMenu} lastMenu={lastMenu} dismissible>
-    //       <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
-    //     </Pane>
-    //   );
-    // }
+    if (!initialValues) {
+      return (
+        <Pane id="pane-podetails" defaultWidth="fill" paneTitle="Details" fistMenu={firstMenu} lastMenu={lastMenu} dismissible>
+          <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
+        </Pane>
+      );
+    }
 
     return (
-      <form id="form-po">
-        {/* <Pane id="pane-poForm" defaultWidth="fill" paneTitle={paneTitle} lastMenu={lastMenu} onClose={onCancel} dismissible> */}
-        <Pane id="pane-poForm" defaultWidth="fill">
-          <p>Hello wo</p>
-          {/* <Row>
+      <Pane id="pane-poForm" defaultWidth="fill" paneTitle={paneTitle} lastMenu={lastMenu} onClose={onCancel} dismissible>
+        <form id="form-po">
+          <Row>
             <Col xs={12}>
               <Row center="xs">
                 <Col xs={12} md={8}>
@@ -140,30 +137,29 @@ class POForm extends Component {
                       <SummaryForm {...this.props} />
                     </Accordion>
                   </AccordionSet>
+                  <IfPermission perm="vendor.item.delete">
+                    <Row end="xs">
+                      <Col xs={12}>
+                        {
+                          showDeleteButton &&
+                          <Button type="button" buttonStyle="danger" onClick={() => { this.deleteVendor(this.props.initialValues.id); }}>Remove</Button>
+                        }
+                      </Col>
+                    </Row>
+                  </IfPermission>
                 </Col>
               </Row>
-              <IfPermission perm="vendor.item.delete">
-                <Row end="xs">
-                  <Col xs={12}>
-                    {
-                      showDeleteButton &&
-                      <Button type="button" buttonStyle="danger" onClick={() => { this.deleteVendor(this.props.initialValues.id); }}>Remove</Button>
-                    }
-                  </Col>
-                </Row>
-              </IfPermission>
             </Col>
-          </Row> */}
-        </Pane>
-      </form>
+          </Row>
+        </form>
+      </Pane>
     );
   }
 }
 
-export default POForm;
-// export default stripesForm({
-//   form: 'FormPo',
-//   navigationCheck: true,
-//   enableReinitialize: true,
-// })(POForm);
+export default stripesForm({
+  form: 'FormPO',
+  navigationCheck: true,
+  enableReinitialize: true,
+})(POForm);
 

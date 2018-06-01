@@ -10,7 +10,8 @@ import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import Layer from '@folio/stripes-components/lib/Layer';
-import { PODetailsView, PODetailsForm } from '../PODetails';
+import { POForm } from '../PO';
+import { PODetailsView } from '../PODetails';
 import { SummaryView } from '../Summary';
 import LineListing from '../LineListing';
 
@@ -41,7 +42,7 @@ class PO extends Component {
     };
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
-    this.connectedPODetailsForm = this.props.stripes.connect(PODetailsForm);
+    this.connectedPOForm = this.props.stripes.connect(POForm);
   }
 
   getData() {
@@ -76,6 +77,7 @@ class PO extends Component {
 
   render() {
     const { location } = this.props;
+    console.log(this.props);
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const lastMenu = (<PaneMenu>
@@ -113,11 +115,11 @@ class PO extends Component {
           </Accordion>
         </AccordionSet>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Order Dialog">
-          <this.connectedPODetailsForm
-            // stripes={this.props.stripes}
+          <this.connectedPOForm
+            stripes={this.props.stripes}
             initialValues={initialValues}
-            // onSubmit={(record) => { this.update(record); }}
-            // onCancel={this.props.onCloseEdit}
+            onSubmit={(record) => { this.update(record); }}
+            onCancel={this.props.onCloseEdit}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}
           />
