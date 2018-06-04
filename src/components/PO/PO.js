@@ -8,6 +8,7 @@ import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
+import Button from '@folio/stripes-components/lib/Button';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import Layer from '@folio/stripes-components/lib/Layer';
 import { POForm } from '../PO';
@@ -42,6 +43,7 @@ class PO extends Component {
     };
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
+    this.onAddPOLine = this.onAddPOLine.bind(this);
     this.connectedPOForm = this.props.stripes.connect(POForm);
   }
 
@@ -91,6 +93,7 @@ class PO extends Component {
           title="Edit Vendor"
         />
       </IfPermission> </PaneMenu>);
+    const addPOLineButton = (<Button onClick={onAddPOLine}>Add PO Line</Button>);
 
     if (!initialValues) {
       return (
@@ -110,7 +113,7 @@ class PO extends Component {
           <Accordion label="PO Summary" id="POSummary">
             <SummaryView initialValues={initialValues} {...this.props} />
           </Accordion>
-          <Accordion label="PO Listing" id="POListing">
+          <Accordion label="PO Listing" id="POListing" displayWhenOpen={addPOLineButton}>
             <LineListing initialValues={initialValues} {...this.props} />
           </Accordion>
         </AccordionSet>
