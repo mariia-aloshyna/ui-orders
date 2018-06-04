@@ -43,7 +43,6 @@ class POForm extends Component {
 
   getAddFirstMenu() {
     const { onCancel } = this.props;
-    console.log(this.props);
     return (
       <PaneMenu>
         <button id="clickable-closenewvendordialog" onClick={onCancel} title="close" aria-label="Close New Vendor Dialog">
