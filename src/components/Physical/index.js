@@ -1,3 +1,4 @@
 import PhysicalView from './PhysicalView';
+import PhysicalForm from './PhysicalForm';
 
-export { PhysicalView };
+export { PhysicalView, PhysicalForm };

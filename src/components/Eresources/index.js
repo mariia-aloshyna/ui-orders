@@ -1,3 +1,4 @@
-import Eresources from './Eresources';
+import EresourcesView from './EresourcesView';
+import EresourcesForm from './EresourcesForm';
 
-export { Eresources };
+export { EresourcesView, EresourcesForm };

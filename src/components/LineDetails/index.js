@@ -1,3 +1,4 @@
 import LineDetailsView from './LineDetailsView';
+import LineDetailsForm from './LineDetailsForm';
 
-export { LineDetailsView as default };
+export { LineDetailsView, LineDetailsForm };

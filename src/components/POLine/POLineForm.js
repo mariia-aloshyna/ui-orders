@@ -12,8 +12,21 @@ import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import Layer from '@folio/stripes-components/lib/Layer';
+import { LineDetailsForm } from '../LineDetails';
+import { CostForm } from '../Cost';
+import { ClaimForm } from '../Claim';
+import { FundForm } from '../Fund';
+import { TagForm } from '../Tags';
+import { LocationForm } from '../Location';
+import { VendorForm } from '../Vendor';
+import { EresourcesForm } from '../Eresources';
+import { ItemForm } from '../Item';
+import { PhysicalForm } from '../Physical';
+import { RenewalForm } from '../Renewal';
+import { AdjustmentsForm } from '../Adjustments';
+import { LicenseForm } from '../License';
 
-class POForm extends Component {
+class POLineForm extends Component {
   static propTypes = {
     // initialValues: PropTypes.object,
     // handleSubmit: PropTypes.func.isRequired,
@@ -30,8 +43,19 @@ class POForm extends Component {
     super(props);
     this.state = {
       sections: {
-        purchaseOrder: true,
-        POSummary: true,
+        LineDetails: false,
+        Cost: false,
+        Fund: false,
+        Claim: true,
+        Tags: true,
+        Locations: true,
+        Vendor: true,
+        Eresources: true,
+        Item: true,
+        Physical: true,
+        Renewal: true,
+        Adjustments: true,
+        License: true
       }
     };
     this.deletePO = this.deletePO.bind(this);
@@ -100,8 +124,8 @@ class POForm extends Component {
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create Order';
     const lastMenu = initialValues.id ?
-      this.getLastMenu('clickable-updatevendor', 'Update vendor') :
-      this.getLastMenu('clickable-createnewvendor', 'Create vendor');
+      this.getLastMenu('clickable-updatePoLine', 'Update PO Line') :
+      this.getLastMenu('clickable-createnewPoLine', 'Create PO Line');
     const showDeleteButton = initialValues.id || false;
 
     if (!initialValues) {
@@ -113,7 +137,7 @@ class POForm extends Component {
     }
 
     return (
-      <Pane id="pane-poForm" defaultWidth="fill" paneTitle={paneTitle} lastMenu={lastMenu} onClose={onCancel} dismissible>
+      <Pane id="pane-poLineForm" defaultWidth="fill" paneTitle={paneTitle} lastMenu={lastMenu} onClose={onCancel} dismissible>
         <form id="form-po">
           <Row>
             <Col xs={12}>
@@ -127,11 +151,47 @@ class POForm extends Component {
                 </Col>
                 <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                   <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-                    <Accordion label="Purcahse Order" id="purchaseOrder">
-                      <PODetailsForm {...this.props} />
+                    <Accordion label="PO Line Details" id="LineDetails">
+                      <LineDetailsForm {...this.props} />
                     </Accordion>
-                    <Accordion label="PO Summary" id="POSummary">
-                      <SummaryForm {...this.props} />
+                    <Accordion label="Cost" id="Cost">
+                      <CostForm {...this.props} />
+                    </Accordion>
+                    <Accordion label="Fund Distribution" id="Fund">
+                      <FundForm {...this.props} />
+                      <br />
+                    </Accordion>
+                    <Accordion label="Claim" id="Claim">
+                      <ClaimForm {...this.props} />
+                      <br />
+                    </Accordion>
+                    <Accordion label="Po Line Tags" id="Tags">
+                      <TagForm {...this.props} />
+                    </Accordion>
+                    <Accordion label="Locations" id="Locations">
+                      <LocationForm {...this.props} />
+                      <br />
+                    </Accordion>
+                    <Accordion label="Vendor" id="Vendor">
+                      <VendorForm {...this.props} />
+                    </Accordion>
+                    <Accordion label="Item Details" id="Item">
+                      <ItemForm {...this.props} />
+                    </Accordion>
+                    <Accordion label="E-resources Details" id="Eresources">
+                      <EresourcesForm {...this.props} />
+                    </Accordion>
+                    <Accordion label="Physical Record Details" id="Physical">
+                      <PhysicalForm {...this.props} />
+                    </Accordion>
+                    <Accordion label="Renewals" id="Renewal">
+                      <RenewalForm {...this.props} />
+                    </Accordion>
+                    <Accordion label="Adjustments" id="Adjustments">
+                      <AdjustmentsForm {...this.props} />
+                    </Accordion>
+                    <Accordion label="License" id="License">
+                      <LicenseForm {...this.props} />
                     </Accordion>
                   </AccordionSet>
                   <IfPermission perm="vendor.item.delete">
@@ -158,5 +218,5 @@ export default stripesForm({
   form: 'FormPO',
   navigationCheck: true,
   enableReinitialize: true,
-})(POForm);
+})(POLineForm);
 

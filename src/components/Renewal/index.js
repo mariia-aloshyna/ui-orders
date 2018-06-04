@@ -1,3 +1,4 @@
 import RenewalView from './RenewalView';
+import RenewalForm from './RenewalForm';
 
-export { RenewalView };
+export { RenewalView, RenewalForm };

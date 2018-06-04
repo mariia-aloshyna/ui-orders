@@ -11,7 +11,9 @@ import IconButton from '@folio/stripes-components/lib/IconButton';
 import Button from '@folio/stripes-components/lib/Button';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import Layer from '@folio/stripes-components/lib/Layer';
+import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import { POForm } from '../PO';
+import { POLineForm } from '../POLine';
 import { PODetailsView } from '../PODetails';
 import { SummaryView } from '../Summary';
 import LineListing from '../LineListing';
@@ -44,7 +46,9 @@ class PO extends Component {
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
     this.onAddPOLine = this.onAddPOLine.bind(this);
+    this.transitionToParams = transitionToParams.bind(this);
     this.connectedPOForm = this.props.stripes.connect(POForm);
+    this.connectedPOLineForm = this.props.stripes.connect(POLineForm);
   }
 
   getData() {
@@ -76,10 +80,19 @@ class PO extends Component {
     });
   }
 
+  updatePOLine(data) {
+    this.props.parentMutator.records.PUT(data).then(() => {
+      this.props.onCloseEdit();
+    });
+  }
+
+  onAddPOLine = (e) => {
+    if (e) e.preventDefault();
+    this.transitionToParams({ layer: 'create-po-line' });
+  }
 
   render() {
     const { location } = this.props;
-    console.log(this.props);
     const initialValues = this.getData();
     const query = location.search ? queryString.parse(location.search) : {};
     const lastMenu = (<PaneMenu>
@@ -93,7 +106,7 @@ class PO extends Component {
           title="Edit Vendor"
         />
       </IfPermission> </PaneMenu>);
-    const addPOLineButton = (<Button onClick={onAddPOLine}>Add PO Line</Button>);
+    const addPOLineButton = (<Button onClick={this.onAddPOLine}>Add PO Line</Button>);
 
     if (!initialValues) {
       return (
@@ -122,6 +135,16 @@ class PO extends Component {
             stripes={this.props.stripes}
             initialValues={initialValues}
             onSubmit={(record) => { this.update(record); }}
+            onCancel={this.props.onCloseEdit}
+            parentResources={this.props.parentResources}
+            parentMutator={this.props.parentMutator}
+          />
+        </Layer>
+        <Layer isOpen={query.layer ? query.layer === 'create-po-line' : false} label="Create PO Line Dialog">
+          <this.connectedPOLineForm
+            stripes={this.props.stripes}
+            initialValues={initialValues}
+            onSubmit={(record) => { this.updatePOLine(record); }}
             onCancel={this.props.onCloseEdit}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}

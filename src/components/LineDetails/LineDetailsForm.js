@@ -1,65 +1,76 @@
 import React, { Component } from 'react';
 import { Field, FieldArray } from 'redux-form';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import Button from '@folio/stripes-components/lib/Button';
+import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import TextField from '@folio/stripes-components/lib/TextField';
 import TextArea from '@folio/stripes-components/lib/TextArea';
+import Checkbox from '@folio/stripes-components/lib/Checkbox';
+import Select from '@folio/stripes-components/lib/Select';
 import { Required } from '../../Utils/Validate';
 
 class LineDetailsForm extends Component {
-  constructor(props) {
-    super(props);
-    this.renderForm = this.renderForm.bind(this);
-    this.renderSubForm = this.renderSubForm.bind(this);
-  }
-
-  renderForm = ({ fields }) => {
-    return (
-      <Row>
-        <Col xs={12}>
-          {fields.length === 0 &&
-            <Col xs={6}>
-              <div><em>- Please add agreements -</em></div>
-            </Col>
-          }
-          {fields.map(this.renderSubForm)}
-        </Col>
-        <Col xs={12} style={{ paddingTop: '10px' }}>
-          <Button onClick={() => fields.push({})}>+ Add</Button>
-        </Col>
-      </Row>
-    );
-  }
-
-  renderSubForm = (elem, index, fields) => {
-    return (
-      <Row key={index}>
-        <Col xs={12} md={4}>
-          <Field label="Name" name={`${elem}.name`} id={`${elem}.name`} validate={[Required]} component={TextField} fullWidth />
-        </Col>
-        <Col xs={12} md={4}>
-          <Field label="Discount %" name={`${elem}.discount`} id={`${elem}.discount`} type="number" component={TextField} fullWidth />
-        </Col>
-        <Col xs={12} md={4}>
-          <Field label="URL" name={`${elem}.reference_url`} id={`${elem}.reference_url`} type="text" component={TextField} fullWidth />
-        </Col>
-        <Col xs={12} md={10}>
-          <Field label="Notes" name={`${elem}.notes`} id={`${elem}.notes`} component={TextArea} fullWidth />
-        </Col>
-        <Col xs={12} md={2} style={{ textAlign: 'right' }}>
-          <Button onClick={() => fields.remove(index)} buttonStyle="danger">
-            Remove
-          </Button>
-        </Col>
-      </Row>
-    );
-  }
-
   render() {
     return (
       <Row>
+        <Col xs={6}>
+          <Field label="Po Line ID" name="Po Line ID" id="po_line_id" validate={[Required]} component={TextField} fullWidth />
+        </Col>
+        <Col xs={6}>
+          <Field label="Acquisition Method" name="acquisition_method" id="acquisition_method" type="select" component={Select} fullWidth />
+        </Col>
+        <Col xs={6}>
+          <Field label="Owner" name="owner" id="owner" component={TextField} fullWidth />
+        </Col>
+        <Col xs={6}>
+          <Field label="Order Format" name="format" id="format" type="select" component={Select} fullWidth />
+        </Col>
+        <Col xs={6}>
+          <Field label="Status" name="status" id="status" type="select" component={Select} fullWidth />
+        </Col>
+        <Col xs={6}>
+          <Field label="Order Type" name="type" id="type" type="select" component={Select} fullWidth />
+        </Col>
+        <Col xs={6}>
+          <Field label="Created on" name="recorded" id="recorded" type="date" component={TextField} fullWidth />
+        </Col>
+        <Col xs={6}>
+          <Field label="Receipt Date" name="receipt_date" id="receipt_date" type="date" component={TextField} fullWidth />
+        </Col>
+        <Col xs={6}>
+          <Field label="Source" name="source" id="source" type="text" component={TextField} fullWidth />
+        </Col>
+        <Col xs={6}>
+          <Field label="Donor" name="donor" id="donor" type="text" component={TextField} fullWidth />
+        </Col>
+        <Col xs={6}>
+          <Field label="Selector" name="selector" id="selector" type="text" component={TextField} fullWidth />
+        </Col>
+        <Col xs={6}>
+          <Field label="Requester" name="requester" id="requester" type="text" component={TextField} fullWidth />
+        </Col>
         <Col xs={12}>
-          <FieldArray label="Agreements" name="agreements" id="agreements" component={this.renderForm} />
+          <Row>
+            <Col xs={3}>
+              <Field label="Rush" name="rush" id="rush" type="text" component={Checkbox} fullWidth />
+            </Col>
+            <Col xs={3}>
+              <Field label="Manual Batching" name="manual_batching" id="manual_batching" component={Checkbox} fullWidth />
+            </Col>
+            <Col xs={3}>
+              <Field label="Collection" name="collection" id="collection" type="text" component={Checkbox} fullWidth />
+            </Col>
+            <Col xs={3}>
+              <Field label="Cancellation Restriction" name="cancellation_restriction" id="cancellation_restriction" component={Checkbox} fullWidth />
+            </Col>
+            <br />
+            <br />
+          </Row>
+        </Col>
+        <Col xs={12}>
+          <Field label="Line Description" name="line_description" id="line_description" component={TextArea} fullWidth />
+        </Col>
+        <Col xs={12}>
+          <Field label="Comments" name="comments" id="comments" component={TextArea} fullWidth />
         </Col>
       </Row>
     );

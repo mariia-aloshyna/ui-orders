@@ -1,3 +1,4 @@
 import LocationView from './LocationView';
+import LocationForm from './LocationForm';
 
-export { LocationView };
+export { LocationView, LocationForm };

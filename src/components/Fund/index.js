@@ -1,3 +1,4 @@
 import FundView from './FundView';
+import FundForm from './FundForm';
 
-export { FundView };
+export { FundView, FundForm };

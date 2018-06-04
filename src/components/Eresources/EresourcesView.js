@@ -5,7 +5,7 @@ import MultiColumnList from '@folio/stripes-components/lib/MultiColumnList';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import KeyValue from "@folio/stripes-components/lib/KeyValue";
 
-class Eresources extends React.Component {
+class EresourcesView extends React.Component {
   static propTypes = {
     initialValues: PropTypes.object
   }
@@ -44,4 +44,4 @@ class Eresources extends React.Component {
   }
 }
 
-export default Eresources;
+export default EresourcesView;

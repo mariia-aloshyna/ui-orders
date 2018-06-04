@@ -24,8 +24,6 @@ import RenewalView from '../Renewal/RenewalView';
 import AdjustmentsView from '../Adjustments/AdjustmentsView';
 import LicenseView from '../License/LicenseView';
 
-
-
 class POLine extends React.Component {
   static propTypes = {
     initialValues: PropTypes.object,

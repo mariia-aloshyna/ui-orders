@@ -19,7 +19,7 @@ class LocationForm extends Component {
         <Col xs={12}>
           {fields.length === 0 &&
             <Col xs={6}>
-              <div><em>- Please add agreements -</em></div>
+              <div><em>- Please add location -</em></div>
             </Col>
           }
           {fields.map(this.renderSubForm)}
@@ -32,25 +32,29 @@ class LocationForm extends Component {
   }
 
   renderSubForm = (elem, index, fields) => {
+    const rowCount = (fields.length - 1) !== index;
+
     return (
       <Row key={index}>
-        <Col xs={12} md={4}>
-          <Field label="Name" name={`${elem}.name`} id={`${elem}.name`} validate={[Required]} component={TextField} fullWidth />
+        <Col xs={6}>
+          <Field label="Name" name="name" id="name" component={TextField} fullWidth />
         </Col>
-        <Col xs={12} md={4}>
-          <Field label="Discount %" name={`${elem}.discount`} id={`${elem}.discount`} type="number" component={TextField} fullWidth />
+        <Col xs={6}>
+          <Field label="Quantity Electronic" name="quantity_electronic" id="quantity_electronic" component={TextField} fullWidth />
         </Col>
-        <Col xs={12} md={4}>
-          <Field label="URL" name={`${elem}.reference_url`} id={`${elem}.reference_url`} type="text" component={TextField} fullWidth />
+        <Col xs={6}>
+          <Field label="Quantity Physical" name="quantity_physical" id="quantity_physical" component={TextField} fullWidth />
         </Col>
-        <Col xs={12} md={10}>
-          <Field label="Notes" name={`${elem}.notes`} id={`${elem}.notes`} component={TextArea} fullWidth />
-        </Col>
-        <Col xs={12} md={2} style={{ textAlign: 'right' }}>
+        <Col xs={6} style={{ textAlign: 'right' }}>
           <Button onClick={() => fields.remove(index)} buttonStyle="danger">
             Remove
           </Button>
         </Col>
+        {rowCount &&
+          <Col xs={12}>
+            <hr />
+          </Col>
+        }
       </Row>
     );
   }
@@ -59,7 +63,7 @@ class LocationForm extends Component {
     return (
       <Row>
         <Col xs={12}>
-          <FieldArray label="Agreements" name="agreements" id="agreements" component={this.renderForm} />
+          <FieldArray label="Locations" name="locataions" id="locataions" component={this.renderForm} />
         </Col>
       </Row>
     );
