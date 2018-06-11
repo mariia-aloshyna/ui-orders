@@ -1,12 +1,9 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom/Route';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import MultiColumnList from '@folio/stripes-components/lib/MultiColumnList';
-import IfPermission from '@folio/stripes-components/lib/IfPermission';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import KeyValue from '@folio/stripes-components/lib/KeyValue';
-import FormatDate from '../../Utils/FormatDate';
+import POLineData from '../../Utils/POLineData';
+
 
 class LineListing extends React.Component {
   static propTypes = {
@@ -28,39 +25,23 @@ class LineListing extends React.Component {
   }
 
   render() {
-    const catalogResults = [
-      { title: 'Biology Today',
-        id: '199930490002',
-        author: {
-          firstName: 'James',
-          lastName: 'Whitcomb',
-        }
-      },
-      { title: 'Financial Matters',
-        id: '199930490034',
-        author: {
-          firstName: 'Philip',
-          lastName: 'Marston',
-        },
-      },
-      { title: 'Modern Microbiotics',
-        id: '199930490064',
-        author: {
-          firstName: 'Eric',
-          lastName: 'Martin',
-        },
-      }
-    ];
+    const catalogResults = POLineData;
     const resultsFormatter = {
-      author: item => `${item.author.firstName} ${item.author.lastName}`,
+      'po_line_id': item => _.toString(_.get(item, ['po_line_id'], '')),
+      'acquisition_method': item => _.toString(_.get(item, ['acquisition_method'], '')),
     };
+
     return (
       <div>
         <MultiColumnList
           contentData={catalogResults}
           formatter={resultsFormatter}
           onRowClick={this.onSelectRow}
-          visibleColumns={['title', 'id']}
+          visibleColumns={['po_line_id', 'acquisition_method']}
+          columnMapping={{
+            po_line_id: 'ID',
+            acquisition_method: 'Acquisition Method'
+          }}
         />
       </div>
     );
