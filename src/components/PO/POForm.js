@@ -129,7 +129,7 @@ class POForm extends Component {
                 </Col>
                 <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                   <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-                    <Accordion label="Purcahse Order" id="purchaseOrder">
+                    <Accordion label="Purchase Order" id="purchaseOrder">
                       <PODetailsForm {...this.props} />
                     </Accordion>
                     <Accordion label="PO Summary" id="POSummary">

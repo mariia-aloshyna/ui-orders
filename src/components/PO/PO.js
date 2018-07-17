@@ -17,6 +17,8 @@ import { POLineForm } from '../POLine';
 import { PODetailsView } from '../PODetails';
 import { SummaryView } from '../Summary';
 import LineListing from '../LineListing';
+import FundDistribution from '../FundDistribution';
+import Receive from '../Receive';
 
 class PO extends Component {
   static propTypes = {
@@ -48,7 +50,7 @@ class PO extends Component {
     this.onAddPOLine = this.onAddPOLine.bind(this);
     this.transitionToParams = transitionToParams.bind(this);
     this.connectedPOForm = this.props.stripes.connect(POForm);
-    this.connectedPOLineForm = this.props.stripes.connect(POLineForm);
+    this.connectedReceive = this.props.stripes.connect(Receive);
   }
 
   getData() {
@@ -91,6 +93,11 @@ class PO extends Component {
     this.transitionToParams({ layer: 'create-po-line' });
   }
 
+  openReceive = (e) => {
+    if (e) e.preventDefault();
+    this.transitionToParams({ layer: 'receive' });
+  }
+
   render() {
     const { location } = this.props;
     const initialValues = this.getData();
@@ -118,9 +125,10 @@ class PO extends Component {
 
     return (
       <Pane id="pane-podetails" defaultWidth="fill" paneTitle={_.get(initialValues, ['name'], '')} lastMenu={lastMenu} dismissible onClose={this.props.onClose}>
+        <FundDistribution openReceive={this.openReceive} />
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-          <Accordion label="Purcahse Order" id="purchaseOrder">
+          <Accordion label="Purchase Order" id="purchaseOrder">
             <PODetailsView initialValues={initialValues} {...this.props} />
           </Accordion>
           <Accordion label="PO Summary" id="POSummary">
@@ -142,6 +150,16 @@ class PO extends Component {
         </Layer>
         <Layer isOpen={query.layer ? query.layer === 'create-po-line' : false} label="Create PO Line Dialog">
           <this.connectedPOLineForm
+            stripes={this.props.stripes}
+            initialValues={initialValues}
+            onSubmit={(record) => { this.updatePOLine(record); }}
+            onCancel={this.props.onCloseEdit}
+            parentResources={this.props.parentResources}
+            parentMutator={this.props.parentMutator}
+          />
+        </Layer>
+        <Layer isOpen={query.layer ? query.layer === 'receive' : false} label="Receive">
+          <this.connectedReceive
             stripes={this.props.stripes}
             initialValues={initialValues}
             onSubmit={(record) => { this.updatePOLine(record); }}
