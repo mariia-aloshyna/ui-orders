@@ -15,9 +15,9 @@ const RESULT_COUNT_INCREMENT = 30;
 
 const filterConfig = [
   {
-    label: 'Vendor Status',
-    name: 'vendor_status',
-    cql: 'vendor_status',
+    label: 'Status',
+    name: 'status',
+    cql: 'status',
     values: ['Active', 'Pending', 'Inactive']
   }
 ];
@@ -42,9 +42,9 @@ class Main extends Component {
       type: 'okapi',
       clear: true,
       // records: 'orders',
-      records: 'vendors',
+      records: 'orders',
       recordsRequired: '%{resultCount}',
-      path: 'vendor',
+      path: 'orders',
       // path: 'purchase_order',
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {
