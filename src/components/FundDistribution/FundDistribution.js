@@ -19,7 +19,7 @@ class LicenseView extends React.Component {
         <Col xs={12}>
           <Row center="xs">
             <Col xs={12}>
-              <h6 style={{ 'font-size': '1rem', 'color': clr }} >Fund Distribution</h6>
+              <h6 style={{ 'fontSize': '1rem', 'color': clr }} >Fund Distribution</h6>
             </Col>
             <Col xs={3}>
               <Button buttonStyle="default" style={{ width: '100%' }}>History %</Button>

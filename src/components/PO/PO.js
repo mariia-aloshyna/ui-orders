@@ -2,23 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import queryString from 'query-string';
-import { AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
-import Pane from '@folio/stripes-components/lib/Pane';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import Icon from '@folio/stripes-components/lib/Icon';
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import Button from '@folio/stripes-components/lib/Button';
-import IfPermission from '@folio/stripes-components/lib/IfPermission';
-import Layer from '@folio/stripes-components/lib/Layer';
+import { Icon, IconButton, AccordionSet, Accordion, ExpandAllButton, Pane, PaneMenu, Row, Col, Button, IfPermission, Layer } from '@folio/stripes-components';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
+import FundDistribution from '../FundDistribution';
+import LineListing from '../LineListing';
+import Receive from '../Receive';
 import { POForm } from '../PO';
 import { POLineForm } from '../POLine';
 import { PODetailsView } from '../PODetails';
 import { SummaryView } from '../Summary';
-import LineListing from '../LineListing';
-import FundDistribution from '../FundDistribution';
-import Receive from '../Receive';
 
 class PO extends Component {
   static propTypes = {
@@ -50,6 +42,7 @@ class PO extends Component {
     this.onAddPOLine = this.onAddPOLine.bind(this);
     this.transitionToParams = transitionToParams.bind(this);
     this.connectedPOForm = this.props.stripes.connect(POForm);
+    this.connectedPOLineForm = this.props.stripes.connect(POLineForm);
     this.connectedReceive = this.props.stripes.connect(Receive);
   }
 
