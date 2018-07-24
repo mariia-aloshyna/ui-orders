@@ -6,7 +6,7 @@ import { Icon, IconButton, AccordionSet, Accordion, ExpandAllButton, Pane, PaneM
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import FundDistribution from '../FundDistribution';
 import LineListing from '../LineListing';
-import Receive from '../Receive';
+import { ReceiveItems, Received } from '../Receive';
 import { POForm } from '../PO';
 import { POLineForm } from '../POLine';
 import { PODetailsView } from '../PODetails';
@@ -43,7 +43,8 @@ class PO extends Component {
     this.transitionToParams = transitionToParams.bind(this);
     this.connectedPOForm = this.props.stripes.connect(POForm);
     this.connectedPOLineForm = this.props.stripes.connect(POLineForm);
-    this.connectedReceive = this.props.stripes.connect(Receive);
+    this.connectedReceiveItems = this.props.stripes.connect(ReceiveItems);
+    this.connectedReceived = this.props.stripes.connect(Received);
   }
 
   getData() {
@@ -86,9 +87,14 @@ class PO extends Component {
     this.transitionToParams({ layer: 'create-po-line' });
   }
 
-  openReceive = (e) => {
+  openReceiveItem = (e) => {
     if (e) e.preventDefault();
-    this.transitionToParams({ layer: 'receive' });
+    this.transitionToParams({ layer: 'receive-items' });
+  }
+
+  openReceived = (e) => {
+    if (e) e.preventDefault();
+    this.transitionToParams({ layer: 'received' });
   }
 
   render() {
@@ -118,7 +124,7 @@ class PO extends Component {
 
     return (
       <Pane id="pane-podetails" defaultWidth="fill" paneTitle={_.get(initialValues, ['name'], '')} lastMenu={lastMenu} dismissible onClose={this.props.onClose}>
-        <FundDistribution openReceive={this.openReceive} />
+        <FundDistribution openReceiveItem={this.openReceiveItem} />
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
           <Accordion label="Purchase Order" id="purchaseOrder">
@@ -151,11 +157,22 @@ class PO extends Component {
             parentMutator={this.props.parentMutator}
           />
         </Layer>
-        <Layer isOpen={query.layer ? query.layer === 'receive' : false} label="Receive">
-          <this.connectedReceive
+        <Layer isOpen={query.layer ? query.layer === 'receive-items' : false} label="Receive Items">
+          <this.connectedReceiveItems
             stripes={this.props.stripes}
             initialValues={initialValues}
-            onSubmit={(record) => { this.updatePOLine(record); }}
+            location={location}
+            openReceived={this.openReceived}
+            onCancel={this.props.onCloseEdit}
+            parentResources={this.props.parentResources}
+            parentMutator={this.props.parentMutator}
+          />
+        </Layer>
+        <Layer isOpen={query.layer ? query.layer === 'received' : false} label="Received">
+          <this.connectedReceived
+            stripes={this.props.stripes}
+            initialValues={initialValues}
+            location={location}
             onCancel={this.props.onCloseEdit}
             parentResources={this.props.parentResources}
             parentMutator={this.props.parentMutator}

@@ -1,3 +1,4 @@
-import Receive from './Receive';
+import ReceiveItems from './ReceiveItems';
+import Received from './Received';
 
-export default Receive;
+export { ReceiveItems, Received };

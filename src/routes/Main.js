@@ -42,9 +42,9 @@ class Main extends Component {
       type: 'okapi',
       clear: true,
       // records: 'orders',
-      records: 'orders',
+      records: 'vendors',
       recordsRequired: '%{resultCount}',
-      path: 'orders',
+      path: 'vendor',
       // path: 'purchase_order',
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {

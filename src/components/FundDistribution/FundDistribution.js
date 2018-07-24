@@ -11,7 +11,7 @@ class LicenseView extends React.Component {
   }
 
   render() {
-    const { openReceive } = this.props;
+    const { openReceiveItem } = this.props;
     const clr = '#616161';
 
     return (
@@ -45,7 +45,7 @@ class LicenseView extends React.Component {
           <Row center="xs">
             <Col xs={12}>
               <Button buttonStyle="primary">Checkin</Button>
-              <Button buttonStyle="primary" onClick={openReceive}>Receive</Button>
+              <Button buttonStyle="primary" onClick={openReceiveItem}>Receive</Button>
               <Button buttonStyle="primary">Order</Button>
               <Button buttonStyle="primary">Save Order</Button>
             </Col>
