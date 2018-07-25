@@ -4,23 +4,13 @@ import _ from 'lodash';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
 import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import packageInfo from '../../package';
-// Components and Pages
-// import PaneDetails from '../PaneDetails';
-// import POView from '../components/POViews';
-import { Panes } from '../components/Panes';
-import { POForm } from '../components/PO';
+import { Panes, PanesForm } from '../components/Panes';
+import { Filters, SearchableIndexes } from '../Utils/FilterConfig';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
-
-const filterConfig = [
-  {
-    label: 'Status',
-    name: 'status',
-    cql: 'status',
-    values: ['Active', 'Pending', 'Inactive']
-  }
-];
+const filterConfig = Filters();
+const searchableIndexes = SearchableIndexes;
 
 class Main extends Component {
   static propTypes = {
@@ -41,11 +31,9 @@ class Main extends Component {
     records: {
       type: 'okapi',
       clear: true,
-      // records: 'orders',
-      records: 'vendors',
+      records: 'purchase_orders',
       recordsRequired: '%{resultCount}',
-      path: 'vendor',
-      // path: 'purchase_order',
+      path: 'purchase_order',
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {
         params: {
@@ -59,11 +47,17 @@ class Main extends Component {
             */
             const resourceData = args[2];
             const sortMap = {
-              Name: 'name',
-              Code: 'code'
+              id: 'id',
+              po_number: 'po_number',
+              created: 'created',
+              comments: 'comments',
+              assigned_to: 'assigned_to',
             };
 
-            let cql = `(name="${resourceData.query.query}*")`;
+            const index = resourceData.query.qindex ? resourceData.query.qindex : 'all';
+            const searchableIndex = searchableIndexes.find(idx => idx.value === index);
+
+            let cql = searchableIndex.makeQuery(resourceData.query.query);
             const filterCql = filters2cql(filterConfig, resourceData.query.filters);
             if (filterCql) {
               if (cql) {
@@ -103,19 +97,20 @@ class Main extends Component {
     const { mutator } = this.props;
     mutator.records.POST(ledgerdata).then(newLedger => {
       mutator.query.update({
-        _path: `/vendors/view/${newLedger.id}`,
+        _path: `/purchase_order/view/${newLedger.id}`,
         layer: null
       });
     });
   }
 
   render() {
-    const { resources, mutator, stripes } = this.props;
+    const { resources, mutator } = this.props;
     const resultsFormatter = {
-      'Name': data => _.get(data, ['name'], ''),
-      'Code': data => _.get(data, ['code'], ''),
-      'Description': data => _.get(data, ['description'], ''),
-      'Vendor Status': data => _.toString(_.get(data, ['vendor_status'], ''))
+      'id': data => _.toString(_.get(data, ['id'], '')),
+      'po_number': data => _.toString(_.get(data, ['po_number'], '')),
+      'created': data => _.toString(_.get(data, ['created'], '')),
+      'comments': data => _.toString(_.get(data, ['comments'], '')),
+      'assigned_to': data => _.toString(_.get(data, ['assigned_to'], '')),
     };
     const getRecords = (this.props.resources || {}).records || [];
     return (
@@ -127,20 +122,21 @@ class Main extends Component {
             objectName="orders"
             baseRoute={packageInfo.stripes.route}
             filterConfig={filterConfig}
-            visibleColumns={['Name', 'Code', 'Description', 'Vendor Status']}
+            visibleColumns={['id', 'po_number', 'created', 'comments', 'assigned_to']}
             resultsFormatter={resultsFormatter}
             viewRecordComponent={Panes}
-            editRecordComponent={POForm}
+            editRecordComponent={PanesForm}
             onCreate={this.create}
             newRecordInitialValues={{}}
             initialResultCount={INITIAL_RESULT_COUNT}
             resultCountIncrement={RESULT_COUNT_INCREMENT}
             finishedResourceName="perms"
-            viewRecordPerms="purchase_order.item.get, vendor.item.get"
-            newRecordPerms="purchase_order.item.post, vendor.item.post, login.item.post"
-            parentResources={resources}
-            parentMutator={mutator}
-            detailProps={{ stripes }}
+            viewRecordPerms="purchase_order.item.get"
+            newRecordPerms="purchase_order.item.post, login.item.post"
+            parentResources={this.props.resources}
+            parentMutator={this.props.mutator}
+            detailProps={this.props.stripes}
+            stripes={this.props.stripes}
           />
         }
       </div>
