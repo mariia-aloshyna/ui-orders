@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import queryString from 'query-string';
-import { AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 import stripesForm from '@folio/stripes-form';
-import Pane from '@folio/stripes-components/lib/Pane';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-import Button from '@folio/stripes-components/lib/Button';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import Icon from '@folio/stripes-components/lib/Icon';
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import IfPermission from '@folio/stripes-components/lib/IfPermission';
-import Layer from '@folio/stripes-components/lib/Layer';
+import { Pane, PaneMenu, Button, Row, Icon, Col, IconButton, IfPermission, Layer, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components';
 import { PODetailsForm } from '../PODetails';
 import { SummaryForm } from '../Summary';
 
 class POForm extends Component {
   static propTypes = {
-    // initialValues: PropTypes.object,
-    // handleSubmit: PropTypes.func.isRequired,
-    // onSave: PropTypes.func,
-    // onCancel: PropTypes.func,
-    // onRemove: PropTypes.func,
-    // pristine: PropTypes.bool,
-    // submitting: PropTypes.bool,
-    // parentResources: PropTypes.object,
-    // parentMutator: PropTypes.object
+    initialValues: PropTypes.object,
+    handleSubmit: PropTypes.func.isRequired,
+    onSave: PropTypes.func,
+    onCancel: PropTypes.func,
+    onRemove: PropTypes.func,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    parentResources: PropTypes.object,
+    parentMutator: PropTypes.object
   }
 
   constructor(props) {
@@ -45,7 +36,7 @@ class POForm extends Component {
     const { onCancel } = this.props;
     return (
       <PaneMenu>
-        <button id="clickable-closenewvendordialog" onClick={onCancel} title="close" aria-label="Close New Vendor Dialog">
+        <button id="clickable-close-new-purchase-order-dialog" onClick={onCancel} title="close" aria-label="Close New Purchase Order Dialog">
           <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
         </button>
       </PaneMenu>
@@ -90,32 +81,31 @@ class POForm extends Component {
     const { parentMutator } = this.props;
     parentMutator.records.DELETE({ id: ID }).then(() => {
       parentMutator.query.update({
-        _path: '/vendor',
+        _path: '/orders',
         layer: null
       });
     });
   }
 
   render() {
-    const { initialValues, location, onCancel } = this.props;
-    const query = location.search ? queryString.parse(location.search) : {};
+    const { initialValues, onCancel } = this.props;
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create Order';
+    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Create Order';
     const lastMenu = initialValues.id ?
-      this.getLastMenu('clickable-updatevendor', 'Update vendor') :
-      this.getLastMenu('clickable-createnewvendor', 'Create vendor');
+      this.getLastMenu('clickable-update-purchase-order', 'Update Order') :
+      this.getLastMenu('clickable-create-new-purchase-order', 'Create Order');
     const showDeleteButton = initialValues.id || false;
 
     if (!initialValues) {
       return (
-        <Pane id="pane-podetails" defaultWidth="fill" paneTitle="Details" fistMenu={firstMenu} lastMenu={lastMenu} dismissible>
+        <Pane id="pane-podetails" defaultWidth="fill" paneTitle="Details" fistMenu={firstMenu} onClose={onCancel} lastMenu={lastMenu} dismissible>
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
         </Pane>
       );
     }
 
     return (
-      <Pane id="pane-poForm" defaultWidth="fill" paneTitle={paneTitle} lastMenu={lastMenu} onClose={onCancel} dismissible>
+      <Pane id="pane-poForm" defaultWidth="fill" paneTitle={paneTitle} fistMenu={firstMenu} onClose={onCancel} lastMenu={lastMenu} dismissible>
         <form id="form-po">
           <Row>
             <Col xs={12}>
@@ -141,7 +131,7 @@ class POForm extends Component {
                       <Col xs={12}>
                         {
                           showDeleteButton &&
-                          <Button type="button" buttonStyle="danger" onClick={() => { this.deleteVendor(this.props.initialValues.id); }}>Remove</Button>
+                          <Button type="button" buttonStyle="danger" onClick={() => { this.deletePO(this.props.initialValues.id); }}>Remove</Button>
                         }
                       </Col>
                     </Row>

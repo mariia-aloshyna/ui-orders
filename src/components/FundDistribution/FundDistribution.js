@@ -47,7 +47,6 @@ class LicenseView extends React.Component {
               <Button buttonStyle="primary">Checkin</Button>
               <Button buttonStyle="primary" onClick={openReceiveItem}>Receive</Button>
               <Button buttonStyle="primary">Order</Button>
-              <Button buttonStyle="primary">Save Order</Button>
             </Col>
           </Row>
         </Col>

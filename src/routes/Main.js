@@ -4,7 +4,8 @@ import _ from 'lodash';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
 import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import packageInfo from '../../package';
-import { Panes, PanesForm } from '../components/Panes';
+import Panes from '../components/Panes';
+import { POForm } from '../components/PO';
 import { Filters, SearchableIndexes } from '../Utils/FilterConfig';
 
 const INITIAL_RESULT_COUNT = 30;
@@ -93,11 +94,11 @@ class Main extends Component {
     }
   });
 
-  create = (ledgerdata) => {
+  create = (data) => {
     const { mutator } = this.props;
-    mutator.records.POST(ledgerdata).then(newLedger => {
+    mutator.records.POST(data).then(newOrder => {
       mutator.query.update({
-        _path: `/purchase_order/view/${newLedger.id}`,
+        _path: `/orders/view/${newOrder.id}`,
         layer: null
       });
     });
@@ -125,7 +126,7 @@ class Main extends Component {
             visibleColumns={['id', 'po_number', 'created', 'comments', 'assigned_to']}
             resultsFormatter={resultsFormatter}
             viewRecordComponent={Panes}
-            editRecordComponent={PanesForm}
+            editRecordComponent={POForm}
             onCreate={this.create}
             newRecordInitialValues={{}}
             initialResultCount={INITIAL_RESULT_COUNT}
