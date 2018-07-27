@@ -89,6 +89,7 @@ class POForm extends Component {
 
   render() {
     const { initialValues, onCancel } = this.props;
+    console.log(this.props);
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Create Order';
     const lastMenu = initialValues.id ?

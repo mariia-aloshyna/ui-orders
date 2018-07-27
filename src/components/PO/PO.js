@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import queryString from 'query-string';
 import { Icon, IconButton, AccordionSet, Accordion, ExpandAllButton, Pane, PaneMenu, Row, Col, Button, IfPermission, Layer } from '@folio/stripes-components';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import FundDistribution from '../FundDistribution';
 import LineListing from '../LineListing';
-import { ReceiveItems, Received } from '../Receive';
-import { POForm } from '../PO';
-import { POLineForm } from '../POLine';
 import { PODetailsView } from '../PODetails';
 import { SummaryView } from '../Summary';
+import LayerCollection from '../LayerCollection';
 
 class PO extends Component {
   static propTypes = {
@@ -41,10 +38,6 @@ class PO extends Component {
     this.onToggleSection = this.onToggleSection.bind(this);
     this.onAddPOLine = this.onAddPOLine.bind(this);
     this.transitionToParams = transitionToParams.bind(this);
-    this.connectedPOForm = this.props.stripes.connect(POForm);
-    this.connectedPOLineForm = this.props.stripes.connect(POLineForm);
-    this.connectedReceiveItems = this.props.stripes.connect(ReceiveItems);
-    this.connectedReceived = this.props.stripes.connect(Received);
   }
 
   getData() {
@@ -70,37 +63,14 @@ class PO extends Component {
     });
   }
 
-  update(data) {
-    this.props.parentMutator.records.PUT(data).then(() => {
-      this.props.onCloseEdit();
-    });
-  }
-
-  updatePOLine(data) {
-    this.props.parentMutator.records.PUT(data).then(() => {
-      this.props.onCloseEdit();
-    });
-  }
-
   onAddPOLine = (e) => {
     if (e) e.preventDefault();
     this.transitionToParams({ layer: 'create-po-line' });
   }
 
-  openReceiveItem = (e) => {
-    if (e) e.preventDefault();
-    this.transitionToParams({ layer: 'receive-items' });
-  }
-
-  openReceived = (e) => {
-    if (e) e.preventDefault();
-    this.transitionToParams({ layer: 'received' });
-  }
-
   render() {
     const { location } = this.props;
     const initialValues = this.getData();
-    const query = location.search ? queryString.parse(location.search) : {};
     const lastMenu = (<PaneMenu>
       <IfPermission perm="vendor.item.put">
         <IconButton
@@ -137,47 +107,14 @@ class PO extends Component {
             <LineListing initialValues={initialValues} {...this.props} />
           </Accordion>
         </AccordionSet>
-        <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Order Dialog">
-          <this.connectedPOForm
-            stripes={this.props.stripes}
-            initialValues={initialValues}
-            onSubmit={(record) => { this.update(record); }}
-            onCancel={this.props.onCloseEdit}
-            parentResources={this.props.parentResources}
-            parentMutator={this.props.parentMutator}
-          />
-        </Layer>
-        <Layer isOpen={query.layer ? query.layer === 'create-po-line' : false} label="Create PO Line Dialog">
-          <this.connectedPOLineForm
-            stripes={this.props.stripes}
-            initialValues={initialValues}
-            onSubmit={(record) => { this.updatePOLine(record); }}
-            onCancel={this.props.onCloseEdit}
-            parentResources={this.props.parentResources}
-            parentMutator={this.props.parentMutator}
-          />
-        </Layer>
-        <Layer isOpen={query.layer ? query.layer === 'receive-items' : false} label="Receive Items">
-          <this.connectedReceiveItems
-            stripes={this.props.stripes}
-            initialValues={initialValues}
-            location={location}
-            openReceived={this.openReceived}
-            onCancel={this.props.onCloseEdit}
-            parentResources={this.props.parentResources}
-            parentMutator={this.props.parentMutator}
-          />
-        </Layer>
-        <Layer isOpen={query.layer ? query.layer === 'received' : false} label="Received">
-          <this.connectedReceived
-            stripes={this.props.stripes}
-            initialValues={initialValues}
-            location={location}
-            onCancel={this.props.onCloseEdit}
-            parentResources={this.props.parentResources}
-            parentMutator={this.props.parentMutator}
-          />
-        </Layer>
+        <LayerCollection
+          location={location}
+          initialValues={initialValues}
+          stripes={this.props.stripes}
+          onCancel={this.props.onCloseEdit}
+          parentResources={this.props.parentResources}
+          parentMutator={this.props.parentMutator}
+        />
       </Pane>
     );
   }

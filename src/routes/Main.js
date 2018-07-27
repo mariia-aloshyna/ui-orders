@@ -91,6 +91,27 @@ class Main extends Component {
         },
         staticFallback: { params: {} },
       },
+    },
+    // Vendor
+    vendorQuery: { initialValue: { query: '' } },
+    vendorResultCount: { initialValue: INITIAL_RESULT_COUNT },
+    vendor: {
+      type: 'okapi',
+      clear: true,
+      records: 'vendors',
+      recordsRequired: '%{vendorResultCount}',
+      path: 'vendor',
+      perRequest: RESULT_COUNT_INCREMENT,
+      GET: {
+        params: {
+          query: (...args) => {
+            const resourceData = args[2];
+            let cql = `(name="${resourceData.query.query}*")`;
+            return cql;
+          },
+        },
+        staticFallback: { params: {} },
+      },
     }
   });
 
