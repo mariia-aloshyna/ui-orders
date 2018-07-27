@@ -29,13 +29,13 @@ class LayerCollection extends Component {
 
   update(data) {
     this.props.parentMutator.records.PUT(data).then(() => {
-      this.props.onCloseEdit();
+      this.props.onCancel();
     });
   }
 
   updatePOLine(data) {
     this.props.parentMutator.records.PUT(data).then(() => {
-      this.props.onCloseEdit();
+      this.props.onCancel();
     });
   }
 
@@ -50,7 +50,7 @@ class LayerCollection extends Component {
   }
 
   render() {
-    const { initialValues, location } = this.props;
+    const { location } = this.props;
     const query = location.search ? queryString.parse(location.search) : {};
 
     return (
