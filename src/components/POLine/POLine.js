@@ -11,9 +11,8 @@ import IconButton from '@folio/stripes-components/lib/IconButton';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FormatDate from '../../Utils/FormatDate';
-import LineDetailsView from '../LineDetails/LineDetailsView';
+import { POLineDetails } from '../POLineDetails';
 import CostView from '../Cost/CostView';
-import FundView from '../Fund/FundView';
 import TagView from '../Tags/TagView';
 import LocationView from '../Location/LocationView';
 import VendorView from '../Vendor/VendorView';
@@ -27,7 +26,15 @@ import LicenseView from '../License/LicenseView';
 class POLine extends React.Component {
   static propTypes = {
     initialValues: PropTypes.object,
-    location: PropTypes.object
+    location: PropTypes.object,
+    editLink: PropTypes.object,
+    parentResources: PropTypes.object,
+    parentMutator: PropTypes.object,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    }).isRequired,
   }
 
   constructor(props) {
@@ -37,7 +44,6 @@ class POLine extends React.Component {
         Cost: false,
         POSummary: false,
         POListing: false,
-        Fund: false,
         Tags: false,
         Locations: false,
         Vendor: false,
@@ -69,16 +75,23 @@ class POLine extends React.Component {
     });
   }
 
+  getData() {
+    const { parentResources, match: { params: { id } } } = this.props;
+    const poLine = (parentResources.poLine || {}).records || [];
+    if (!poLine || poLine.length === 0 || !id) return null;
+    return poLine.find(u => u.id === id);
+  }
+
   render() {
     const { poURL } = this.props;
     const firstMenu = (<PaneMenu>
-        <IconButton
-          icon="left-arrow"
-          id="clickable-backToPO"
-          href={`${poURL}`}
-          title="Back to PO"
-        />
-      </PaneMenu>);
+      <IconButton
+        icon="left-arrow"
+        id="clickable-backToPO"
+        href={`${poURL}`}
+        title="Back to PO"
+      />
+    </PaneMenu>);
     const lastMenu = (<PaneMenu>
       <IfPermission perm="vendor.item.put">
         <IconButton
@@ -88,28 +101,24 @@ class POLine extends React.Component {
           title="Edit Vendor"
         />
       </IfPermission> </PaneMenu>);
+    const { location } = this.props;
+    const initialValues = this.getData();
 
-    const { location, initialValues } = this.props;
-
-    // if (!initialValues) {
-    //   return (
-    //     <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" lastMenu={lastMenu} dismissible>
-    //       <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
-    //     </Pane>
-    //   );
-    // }
+    if (!initialValues) {
+      return (
+        <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" lastMenu={lastMenu} dismissible>
+          <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
+        </Pane>
+      );
+    }
 
     return (
       <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" firstMenu={firstMenu} lastMenu={lastMenu}>
-        <LineDetailsView initialValues={initialValues} {...this.props} />
+        <POLineDetails initialValues={initialValues} {...this.props} />
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
           <Accordion label="Cost" id="Cost">
             <CostView initialValues={initialValues} {...this.props} />
-          </Accordion>
-          <Accordion label="Fund Distribution" id="Fund">
-            <FundView initialValues={initialValues} {...this.props} />
-            <br />
           </Accordion>
           <Accordion label="Po Line Tags" id="Tags">
             <TagView initialValues={initialValues} {...this.props} />

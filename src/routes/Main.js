@@ -106,7 +106,28 @@ class Main extends Component {
         params: {
           query: (...args) => {
             const resourceData = args[2];
-            let cql = `(name="${resourceData.query.query}*")`;
+            let cql = `(name="${resourceData.poLineQuery.query}*")`;
+            return cql;
+          },
+        },
+        staticFallback: { params: {} },
+      },
+    },
+    // Po Line
+    poLineQuery: { initialValue: { query: '' } },
+    poLineResultCount: { initialValue: INITIAL_RESULT_COUNT },
+    poLine: {
+      type: 'okapi',
+      clear: true,
+      records: 'po_lines',
+      recordsRequired: '%{poLineResultCount}',
+      path: 'po_line',
+      perRequest: RESULT_COUNT_INCREMENT,
+      GET: {
+        params: {
+          query: (...args) => {
+            const resourceData = args[2];
+            let cql = `(id="${resourceData.poLineQuery.query}*")`;
             return cql;
           },
         },
@@ -126,7 +147,7 @@ class Main extends Component {
   }
 
   render() {
-    const { resources, mutator } = this.props;
+    const { stripes, resources, mutator } = this.props;
     const resultsFormatter = {
       'id': data => _.toString(_.get(data, ['id'], '')),
       'po_number': data => _.toString(_.get(data, ['po_number'], '')),
@@ -134,7 +155,7 @@ class Main extends Component {
       'comments': data => _.toString(_.get(data, ['comments'], '')),
       'assigned_to': data => _.toString(_.get(data, ['assigned_to'], '')),
     };
-    const getRecords = (this.props.resources || {}).records || [];
+    const getRecords = (resources || {}).records || [];
     return (
       <div>
         {
@@ -155,15 +176,16 @@ class Main extends Component {
             finishedResourceName="perms"
             viewRecordPerms="purchase_order.item.get"
             newRecordPerms="purchase_order.item.post, login.item.post"
-            parentResources={this.props.resources}
-            parentMutator={this.props.mutator}
-            detailProps={this.props.stripes}
-            stripes={this.props.stripes}
+            parentResources={resources}
+            parentMutator={mutator}
+            detailProps={stripes}
+            stripes={stripes}
           />
         }
       </div>
     );
   }
+
 }
 
 export default Main;

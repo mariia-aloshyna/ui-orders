@@ -42,9 +42,9 @@ class PO extends Component {
 
   getData() {
     const { parentResources, match: { params: { id } } } = this.props;
-    const vendors = (parentResources.records || {}).records || [];
-    if (!vendors || vendors.length === 0 || !id) return null;
-    return vendors.find(u => u.id === id);
+    const po = (parentResources.records || {}).records || [];
+    if (!po || po.length === 0 || !id) return null;
+    return po.find(u => u.id === id);
   }
 
   onToggleSection({ id }) {

@@ -37,4 +37,3 @@ class DetailsView extends React.Component {
 }
 
 export default DetailsView;
-  

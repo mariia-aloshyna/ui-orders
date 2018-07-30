@@ -2,20 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import MultiColumnList from '@folio/stripes-components/lib/MultiColumnList';
-import POLineData from '../../Utils/POLineData';
-
 
 class LineListing extends React.Component {
   static propTypes = {
     initialValues: PropTypes.object,
-    stripes: PropTypes.object
+    stripes: PropTypes.object,
+    parentResources: PropTypes.object.isRequired,
+    parentMutator: PropTypes.object.isRequired,
   }
 
   constructor(props) {
     super(props);
-    this.state = { 
-    };
+    this.state = {};
     this.onSelectRow = this.onSelectRow.bind(this);
+    this.getPOLineData = this.getPOLineData.bind(this);
   }
 
   onSelectRow = (e, meta) => {
@@ -24,23 +24,33 @@ class LineListing extends React.Component {
     history.push(`${url}/po-line/view/${meta.id}`);
   }
 
+  getPOLineData() {
+    const { parentResources } = this.props;
+    const poLine = (parentResources.poLine || {}).records || [];
+    if (!poLine || poLine.length === 0) return [];
+    return poLine;
+  }
+
   render() {
-    const catalogResults = POLineData;
     const resultsFormatter = {
-      'po_line_id': item => _.toString(_.get(item, ['po_line_id'], '')),
+      'barcode': item => _.toString(_.get(item, ['barcode'], '')),
       'acquisition_method': item => _.toString(_.get(item, ['acquisition_method'], '')),
+      'owner': item => _.toString(_.get(item, ['owner'], '')),
+      'po_line_description': item => _.toString(_.get(item, ['po_line_description'], '')),
     };
 
     return (
       <div>
         <MultiColumnList
-          contentData={catalogResults}
+          contentData={this.getPOLineData()}
           formatter={resultsFormatter}
           onRowClick={this.onSelectRow}
-          visibleColumns={['po_line_id', 'acquisition_method']}
+          visibleColumns={['barcode', 'acquisition_method', 'owner', 'po_line_description']}
           columnMapping={{
-            po_line_id: 'ID',
-            acquisition_method: 'Acquisition Method'
+            barcode: 'Barcode',
+            acquisition_method: 'Acquisition Method',
+            owner: 'Owner',
+            po_line_description: 'PO Line Description'
           }}
         />
       </div>
