@@ -13,7 +13,7 @@ class DetailsView extends React.Component {
 
   render() {
     const { initialValues } = this.props;
-    const dataVal = initialValues.agreements.length >= 1 ? initialValues.agreements : false;
+    const dataVal = initialValues || false;
     return (
       <Row>
         <Col xs={3}>
@@ -29,7 +29,7 @@ class DetailsView extends React.Component {
           <KeyValue label="Created On" value={FormatDate(_.toString(_.get(dataVal, 'created')))} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Created By" value={FormatDate(_.toString(_.get(dataVal, 'created_by')))} />
+          <KeyValue label="Created By" value={_.toString(_.get(dataVal, 'created_by'))} />
         </Col>
       </Row>
     );
