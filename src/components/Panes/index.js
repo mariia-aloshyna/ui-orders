@@ -1,3 +1,3 @@
 import Panes from './Panes';
 
-export { Panes };
+export default Panes;

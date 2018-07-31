@@ -7,7 +7,7 @@ import queryString from 'query-string';
 import { AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FormatDate from '../../Utils/FormatDate';
-import css from './LineDetailsView.css';
+import css from './POLineDetails.css';
 
 class LineDetailsView extends React.Component {
   static propTypes = {

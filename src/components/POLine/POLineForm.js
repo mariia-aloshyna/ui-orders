@@ -12,10 +12,9 @@ import Icon from '@folio/stripes-components/lib/Icon';
 import IconButton from '@folio/stripes-components/lib/IconButton';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
 import Layer from '@folio/stripes-components/lib/Layer';
-import { LineDetailsForm } from '../LineDetails';
+import { POLineDetailsForm } from '../POLineDetails';
 import { CostForm } from '../Cost';
 import { ClaimForm } from '../Claim';
-import { FundForm } from '../Fund';
 import { TagForm } from '../Tags';
 import { LocationForm } from '../Location';
 import { VendorForm } from '../Vendor';
@@ -45,7 +44,6 @@ class POLineForm extends Component {
       sections: {
         LineDetails: false,
         Cost: false,
-        Fund: false,
         Claim: false,
         Tags: false,
         Locations: false,
@@ -152,14 +150,10 @@ class POLineForm extends Component {
                 <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                   <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
                     <Accordion label="PO Line Details" id="LineDetails">
-                      <LineDetailsForm {...this.props} />
+                      <POLineDetailsForm {...this.props} />
                     </Accordion>
                     <Accordion label="Cost" id="Cost">
                       <CostForm {...this.props} />
-                    </Accordion>
-                    <Accordion label="Fund Distribution" id="Fund">
-                      <FundForm {...this.props} />
-                      <br />
                     </Accordion>
                     <Accordion label="Claim" id="Claim">
                       <ClaimForm {...this.props} />

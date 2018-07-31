@@ -1,11 +1,7 @@
 import React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import IfPermission from '@folio/stripes-components/lib/IfPermission';
-import _ from 'lodash';
-import Pane from '@folio/stripes-components/lib/Pane';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-import Button from '@folio/stripes-components/lib/Button';
 import { PO } from '../PO';
 import POLine from '../POLine/POLine';
 
@@ -31,7 +27,7 @@ class Panes extends React.Component {
             {...props}
           />}
         />
-        <IfPermission perm="vendor.item.view">
+        <IfPermission perm="purchase_order.item.view">
           <Route
             exact
             path={`${this.props.match.path}/po-line/view/:id`}

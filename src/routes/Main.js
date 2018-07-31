@@ -4,23 +4,14 @@ import _ from 'lodash';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
 import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import packageInfo from '../../package';
-// Components and Pages
-// import PaneDetails from '../PaneDetails';
-// import POView from '../components/POViews';
-import { Panes } from '../components/Panes';
+import Panes from '../components/Panes';
 import { POForm } from '../components/PO';
+import { Filters, SearchableIndexes } from '../Utils/FilterConfig';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
-
-const filterConfig = [
-  {
-    label: 'Status',
-    name: 'status',
-    cql: 'status',
-    values: ['Active', 'Pending', 'Inactive']
-  }
-];
+const filterConfig = Filters();
+const searchableIndexes = SearchableIndexes;
 
 class Main extends Component {
   static propTypes = {
@@ -41,11 +32,9 @@ class Main extends Component {
     records: {
       type: 'okapi',
       clear: true,
-      // records: 'orders',
-      records: 'orders',
+      records: 'purchase_orders',
       recordsRequired: '%{resultCount}',
-      path: 'orders',
-      // path: 'purchase_order',
+      path: 'purchase_order',
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {
         params: {
@@ -59,11 +48,17 @@ class Main extends Component {
             */
             const resourceData = args[2];
             const sortMap = {
-              Name: 'name',
-              Code: 'code'
+              id: 'id',
+              po_number: 'po_number',
+              created: 'created',
+              comments: 'comments',
+              assigned_to: 'assigned_to',
             };
 
-            let cql = `(name="${resourceData.query.query}*")`;
+            const index = resourceData.query.qindex ? resourceData.query.qindex : 'all';
+            const searchableIndex = searchableIndexes.find(idx => idx.value === index);
+
+            let cql = searchableIndex.makeQuery(resourceData.query.query);
             const filterCql = filters2cql(filterConfig, resourceData.query.filters);
             if (filterCql) {
               if (cql) {
@@ -96,28 +91,71 @@ class Main extends Component {
         },
         staticFallback: { params: {} },
       },
+    },
+    // Vendor
+    vendorQuery: { initialValue: { query: '' } },
+    vendorResultCount: { initialValue: INITIAL_RESULT_COUNT },
+    vendor: {
+      type: 'okapi',
+      clear: true,
+      records: 'vendors',
+      recordsRequired: '%{vendorResultCount}',
+      path: 'vendor',
+      perRequest: RESULT_COUNT_INCREMENT,
+      GET: {
+        params: {
+          query: (...args) => {
+            const resourceData = args[2];
+            let cql = `(name="${resourceData.poLineQuery.query}*")`;
+            return cql;
+          },
+        },
+        staticFallback: { params: {} },
+      },
+    },
+    // Po Line
+    poLineQuery: { initialValue: { query: '' } },
+    poLineResultCount: { initialValue: INITIAL_RESULT_COUNT },
+    poLine: {
+      type: 'okapi',
+      clear: true,
+      records: 'po_lines',
+      recordsRequired: '%{poLineResultCount}',
+      path: 'po_line',
+      perRequest: RESULT_COUNT_INCREMENT,
+      GET: {
+        params: {
+          query: (...args) => {
+            const resourceData = args[2];
+            let cql = `(id="${resourceData.poLineQuery.query}*")`;
+            return cql;
+          },
+        },
+        staticFallback: { params: {} },
+      },
     }
   });
 
-  create = (ledgerdata) => {
+  create = (data) => {
     const { mutator } = this.props;
-    mutator.records.POST(ledgerdata).then(newLedger => {
+    mutator.records.POST(data).then(newOrder => {
       mutator.query.update({
-        _path: `/vendors/view/${newLedger.id}`,
+        _path: `/orders/view/${newOrder.id}`,
         layer: null
       });
     });
   }
 
   render() {
-    const { resources, mutator, stripes } = this.props;
+    const { stripes, resources, mutator } = this.props;
     const resultsFormatter = {
-      'Name': data => _.get(data, ['name'], ''),
-      'Code': data => _.get(data, ['code'], ''),
-      'Description': data => _.get(data, ['description'], ''),
-      'Vendor Status': data => _.toString(_.get(data, ['vendor_status'], ''))
+      'id': data => _.toString(_.get(data, ['id'], '')),
+      'po_number': data => _.toString(_.get(data, ['po_number'], '')),
+      'created': data => _.toString(_.get(data, ['created'], '')),
+      'comments': data => _.toString(_.get(data, ['comments'], '')),
+      'assigned_to': data => _.toString(_.get(data, ['assigned_to'], '')),
     };
-    const getRecords = (this.props.resources || {}).records || [];
+    const getRecords = (resources || {}).records || [];
     return (
       <div>
         {
@@ -127,7 +165,7 @@ class Main extends Component {
             objectName="orders"
             baseRoute={packageInfo.stripes.route}
             filterConfig={filterConfig}
-            visibleColumns={['Name', 'Code', 'Description', 'Vendor Status']}
+            visibleColumns={['id', 'po_number', 'created', 'comments', 'assigned_to']}
             resultsFormatter={resultsFormatter}
             viewRecordComponent={Panes}
             editRecordComponent={POForm}
@@ -136,16 +174,18 @@ class Main extends Component {
             initialResultCount={INITIAL_RESULT_COUNT}
             resultCountIncrement={RESULT_COUNT_INCREMENT}
             finishedResourceName="perms"
-            viewRecordPerms="purchase_order.item.get, vendor.item.get"
-            newRecordPerms="purchase_order.item.post, vendor.item.post, login.item.post"
+            viewRecordPerms="purchase_order.item.get"
+            newRecordPerms="purchase_order.item.post, login.item.post"
             parentResources={resources}
             parentMutator={mutator}
-            detailProps={{ stripes }}
+            detailProps={stripes}
+            stripes={stripes}
           />
         }
       </div>
     );
   }
+
 }
 
 export default Main;
