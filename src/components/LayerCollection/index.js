@@ -1,3 +1,4 @@
-import LayerCollection from './LayerCollection';
+import LayerPO from './LayerPO';
+import LayerPOLine from './LayerPOLine';
 
-export default LayerCollection;
+export { LayerPO, LayerPOLine };

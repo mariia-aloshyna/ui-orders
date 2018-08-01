@@ -8,7 +8,7 @@ import { ReceiveItems, Received } from '../Receive';
 import { POForm } from '../PO';
 import { POLineForm } from '../POLine';
 
-class LayerCollection extends Component {
+class LayerPO extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
     location: PropTypes.object.isRequired,
@@ -34,19 +34,9 @@ class LayerCollection extends Component {
   }
 
   updatePOLine(data) {
-    this.props.parentMutator.records.PUT(data).then(() => {
+    this.props.parentMutator.poLine.PUT(data).then(() => {
       this.props.onCancel();
     });
-  }
-
-  openReceiveItem = (e) => {
-    if (e) e.preventDefault();
-    this.transitionToParams({ layer: 'receive-items' });
-  }
-
-  openReceived = (e) => {
-    if (e) e.preventDefault();
-    this.transitionToParams({ layer: 'received' });
   }
 
   render() {
@@ -72,4 +62,4 @@ class LayerCollection extends Component {
   }
 }
 
-export default LayerCollection;
+export default LayerPO;

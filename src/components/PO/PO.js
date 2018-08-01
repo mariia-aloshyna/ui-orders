@@ -7,7 +7,7 @@ import FundDistribution from '../FundDistribution';
 import LineListing from '../LineListing';
 import { PODetailsView } from '../PODetails';
 import { SummaryView } from '../Summary';
-import LayerCollection from '../LayerCollection';
+import { LayerPO } from '../LayerCollection';
 
 class PO extends Component {
   static propTypes = {
@@ -63,6 +63,11 @@ class PO extends Component {
     });
   }
 
+  openReceiveItem = (e) => {
+    if (e) e.preventDefault();
+    this.transitionToParams({ layer: 'receive-items' });
+  }
+
   onAddPOLine = (e) => {
     if (e) e.preventDefault();
     this.transitionToParams({ layer: 'create-po-line' });
@@ -107,7 +112,7 @@ class PO extends Component {
             <LineListing initialValues={initialValues} {...this.props} />
           </Accordion>
         </AccordionSet>
-        <LayerCollection
+        <LayerPO
           location={location}
           initialValues={initialValues}
           stripes={this.props.stripes}

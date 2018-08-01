@@ -120,7 +120,7 @@ class POLineForm extends Component {
     const { initialValues, location, onCancel } = this.props;
     const query = location.search ? queryString.parse(location.search) : {};
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create Order';
+    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Create Order';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-updatePoLine', 'Update PO Line') :
       this.getLastMenu('clickable-createnewPoLine', 'Create PO Line');
