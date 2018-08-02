@@ -13,9 +13,15 @@ class PODetailsForm extends Component {
     }).isRequired
   }
 
-  componentWillMount () {
-    const { user: { user:{ id } }} = this.props;
-    this.props.initialize({ created_by:id });
+  static getDerivedStateFromProps(props, state) {
+    const { user: { user: { id } } } = this.props;
+    if (props.initialize.id) {
+      if (props.initialize.created_by !== state.created_by) {
+        props.initialize({ created_by: id });
+        return { created_by: id };
+      }
+    }
+    return false;
   }
 
   render() {
