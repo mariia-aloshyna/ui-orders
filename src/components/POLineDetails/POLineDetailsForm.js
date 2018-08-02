@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Field, FieldArray } from 'redux-form';
 import Button from '@folio/stripes-components/lib/Button';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
@@ -9,12 +10,19 @@ import Select from '@folio/stripes-components/lib/Select';
 import { Required } from '../../Utils/Validate';
 
 class LineDetailsForm extends Component {
+  static propTypes = {
+    parentResources: PropTypes.shape({
+      dropdown: PropTypes.object
+    })
+  }
+
+  getAcquisitionMethodDD() {
+    return (this.props.parentResources.dropdown || {}).acquisition_method_dd || [];
+  }
+
   render() {
     return (
       <Row>
-        <Col xs={6}>
-          <Field label="Po Line ID" name="Po Line ID" id="po_line_id" validate={[Required]} component={TextField} fullWidth />
-        </Col>
         <Col xs={6}>
           <Field label="Acquisition Method" name="acquisition_method" id="acquisition_method" type="select" component={Select} fullWidth />
         </Col>

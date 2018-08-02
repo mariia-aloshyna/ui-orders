@@ -22,6 +22,7 @@ class LayerPOLine extends Component {
   }
 
   updatePOLine(data) {
+    console.log(data);
     this.props.parentMutator.poLine.PUT(data).then(() => {
       this.props.onCancel();
     });

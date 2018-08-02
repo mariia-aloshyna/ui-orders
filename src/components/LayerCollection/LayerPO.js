@@ -27,7 +27,7 @@ class LayerPO extends Component {
     this.connectedReceived = this.props.stripes.connect(Received);
   }
 
-  update(data) {
+  updatePO(data) {
     this.props.parentMutator.records.PUT(data).then(() => {
       this.props.onCancel();
     });
@@ -46,7 +46,7 @@ class LayerPO extends Component {
     return (
       <Fragment>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Order Dialog">
-          <this.connectedPOForm onSubmit={(record) => { this.update(record); }} {...this.props} />
+          <this.connectedPOForm onSubmit={(record) => { this.updatePO(record); }} {...this.props} />
         </Layer>
         <Layer isOpen={query.layer ? query.layer === 'create-po-line' : false} label="Create PO Line Dialog">
           <this.connectedPOLineForm onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />

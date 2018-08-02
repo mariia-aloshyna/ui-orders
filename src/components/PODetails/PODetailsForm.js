@@ -1,9 +1,23 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Field, FieldArray } from 'redux-form';
 import { Select, TextField, Row, Col, Datepicker } from '@folio/stripes-components';
 import { Required } from '../../Utils/Validate';
 
 class PODetailsForm extends Component {
+  static propTypes = {
+    user: PropTypes.shape({
+      user: PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    }).isRequired
+  }
+
+  componentWillMount () {
+    const { user: { user:{ id } }} = this.props;
+    this.props.initialize({ created_by:id });
+  }
+
   render() {
     return (
       <Row>
@@ -17,7 +31,7 @@ class PODetailsForm extends Component {
           <Field label="Created On" name="created" id="created" type="date" component={Datepicker} fullWidth />
         </Col>
         <Col xs={6} md={3}>
-          <Field label="Created By" name="created_by" id="created_by" type="text" component={TextField} fullWidth />
+          <Field label="Created By" name="created_by" id="created_by" type="text" component={TextField} fullWidth readOnly />
         </Col>
       </Row>
     );

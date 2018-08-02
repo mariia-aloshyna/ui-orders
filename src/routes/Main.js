@@ -25,7 +25,7 @@ class Main extends Component {
       initialValue: {
         query: '',
         filters: '',
-        sort: 'Name'
+        sort: ''
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
@@ -133,6 +133,9 @@ class Main extends Component {
         },
         staticFallback: { params: {} },
       },
+    },
+    dropdown: {
+      acquisition_method_dd: ['Purchase', 'Vendor System', 'Approval', 'Depository', 'Exchange', 'Gift', 'Technical']
     }
   });
 
@@ -149,7 +152,6 @@ class Main extends Component {
   render() {
     const { stripes, resources, mutator } = this.props;
     const resultsFormatter = {
-      'id': data => _.toString(_.get(data, ['id'], '')),
       'po_number': data => _.toString(_.get(data, ['po_number'], '')),
       'created': data => _.toString(_.get(data, ['created'], '')),
       'comments': data => _.toString(_.get(data, ['comments'], '')),
@@ -165,7 +167,7 @@ class Main extends Component {
             objectName="orders"
             baseRoute={packageInfo.stripes.route}
             filterConfig={filterConfig}
-            visibleColumns={['id', 'po_number', 'created', 'comments', 'assigned_to']}
+            visibleColumns={['po_number', 'created', 'comments', 'assigned_to']}
             resultsFormatter={resultsFormatter}
             viewRecordComponent={Panes}
             editRecordComponent={POForm}
