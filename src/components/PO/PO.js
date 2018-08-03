@@ -114,7 +114,7 @@ class PO extends Component {
         </AccordionSet>
         <LayerPO
           location={location}
-          initialValues={initialValues}
+          iVPO={initialValues}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}
           parentResources={this.props.parentResources}

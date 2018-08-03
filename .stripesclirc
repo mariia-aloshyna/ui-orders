@@ -1,7 +1,5 @@
 {
   "configFile": "stripes.config.js.local",
   "port": 8081,
-  "aliases": {
-    
-  }
+  "aliases": {}
 }

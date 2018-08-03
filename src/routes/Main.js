@@ -14,12 +14,6 @@ const filterConfig = Filters();
 const searchableIndexes = SearchableIndexes;
 
 class Main extends Component {
-  static propTypes = {
-    mutator: PropTypes.object.isRequired,
-    resources: PropTypes.object.isRequired,
-    stripes: PropTypes.object
-  }
-
   static manifest = Object.freeze({
     query: {
       initialValue: {
@@ -134,10 +128,45 @@ class Main extends Component {
         staticFallback: { params: {} },
       },
     },
-    dropdown: {
-      acquisition_method_dd: ['Purchase', 'Vendor System', 'Approval', 'Depository', 'Exchange', 'Gift', 'Technical']
-    }
+    dropdown: { initialValue: {
+      acquisitionMethodDD: [
+        { value: 'Purchase', label: 'Purchase' },
+        { value: 'vendor System', label: 'Vendor System' },
+        { value: 'approval', label: 'Approval' },
+        { value: 'Depository', label: 'Depository' },
+        { value: 'Exchange', label: 'Gift' },
+        { value: 'Technical', label: 'Technical '}
+      ],
+      orderFormatDD: [
+        { value: 'Physical Resource', label: 'Physical Resource' },
+        { value: 'Electronic Resource', label: 'Electronic Resource' }
+      ],
+      statusDD: [
+        { value: 'Pending', label: 'Pending' },
+        { value: 'In Review', label: 'In Review' },
+        { value: 'Not Approved Update Required', label: 'Not Approved Update Required' },
+        { value: 'Declined', label: 'Declined' },
+        { value: 'Cancelled', label: 'Cancelled ' }
+      ],
+      orderTypeDD: [
+        { value: 'One-Time', label: 'One-Time' },
+        { value: 'On-Going', label: 'On-Going' },
+        { value: 'On-Going Re-encumber', label: 'On-Going Re-encumber' }
+      ],
+    }}
   });
+
+  static propTypes = {
+    mutator: PropTypes.object.isRequired,
+    resources: PropTypes.object.isRequired,
+    stripes: PropTypes.shape({
+      user: PropTypes.shape({
+        user: PropTypes.shape({
+          id: PropTypes.string,
+        }),
+      })
+    }),
+  }
 
   create = (data) => {
     const { mutator } = this.props;
@@ -150,13 +179,14 @@ class Main extends Component {
   }
 
   render() {
-    const { stripes, resources, mutator } = this.props;
+    const { stripes, stripes: { user: { user: { id } } }, resources, mutator } = this.props;
     const resultsFormatter = {
       'po_number': data => _.toString(_.get(data, ['po_number'], '')),
       'created': data => _.toString(_.get(data, ['created'], '')),
       'comments': data => _.toString(_.get(data, ['comments'], '')),
       'assigned_to': data => _.toString(_.get(data, ['assigned_to'], '')),
     };
+    const getUser = id || '';
     const getRecords = (resources || {}).records || [];
     return (
       <div>
@@ -172,7 +202,7 @@ class Main extends Component {
             viewRecordComponent={Panes}
             editRecordComponent={POForm}
             onCreate={this.create}
-            newRecordInitialValues={{}}
+            newRecordInitialValues={{ created_by: getUser }}
             initialResultCount={INITIAL_RESULT_COUNT}
             resultCountIncrement={RESULT_COUNT_INCREMENT}
             finishedResourceName="perms"

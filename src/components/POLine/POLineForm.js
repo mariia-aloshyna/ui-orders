@@ -111,7 +111,6 @@ class POLineForm extends Component {
 
   render() {
     const { initialValues, location, onCancel } = this.props;
-    const query = location.search ? queryString.parse(location.search) : {};
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Create Order';
     const lastMenu = initialValues.id ?
@@ -119,7 +118,7 @@ class POLineForm extends Component {
       this.getLastMenu('clickable-createnewPoLine', 'Create PO Line');
     const showDeleteButton = initialValues.id || false;
 
-    if (!initialValues) {
+    if (!initialValues) {  
       return (
         <Pane id="pane-podetails" defaultWidth="fill" paneTitle="Details" fistMenu={firstMenu} lastMenu={lastMenu} dismissible>
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
@@ -204,6 +203,6 @@ class POLineForm extends Component {
 export default stripesForm({
   form: 'POLineForm',
   navigationCheck: true,
-  enableReinitialize: true,
+  enableReinitialize: true
 })(POLineForm);
 
