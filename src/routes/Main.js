@@ -72,7 +72,6 @@ class Main extends Component {
 
               cql += ` sortby ${sortIndexes.join(' ')}`;
             }
-            console.log(cql);
             return cql;
           },
         },
@@ -167,6 +166,7 @@ class Main extends Component {
 
   create = (data) => {
     const { mutator } = this.props;
+    console.log(data);
     mutator.records.POST(data).then(newOrder => {
       mutator.query.update({
         _path: `/orders/view/${newOrder.id}`,

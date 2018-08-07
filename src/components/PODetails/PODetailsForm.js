@@ -15,10 +15,10 @@ class PODetailsForm extends Component {
           <Field label="PO Number" name="po_number" id="po_number" type="text" component={TextField} fullWidth />
         </Col>
         <Col xs={6} md={3}>
-          <Field label="Created On" name="created" id="created" type="date" component={Datepicker} fullWidth />
+          <Field label="Created On" name="created" id="created" dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} fullWidth />
         </Col>
         <Col xs={6} md={3}>
-          <Field label="Created By" name="created_by" id="created_by" type="text" component={TextField} fullWidth readonly />
+          <Field label="Created By" name="created_by" id="created_by" type="text" component={TextField} fullWidth />
         </Col>
       </Row>
     );

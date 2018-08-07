@@ -28,6 +28,7 @@ class LayerPO extends Component {
   }
 
   updatePO(data) {
+    console.log(data);
     this.props.parentMutator.records.PUT(data).then(() => {
       this.props.onCancel();
     });
@@ -42,15 +43,12 @@ class LayerPO extends Component {
   render() {
     const { initialValues, location } = this.props;
     const newRecordInitialValues = { new_record: true, po_number: initialValues.po_number };
-    initialValues.created = initialValues;
-    const newI = initialValues;
     const query = location.search ? queryString.parse(location.search) : {};
-    console.log(newI);
 
     return (
       <Fragment>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Order Dialog">
-          <this.connectedPOForm initialValues={newI} onSubmit={(record) => { this.updatePO(record); }} {...this.props} />
+          <this.connectedPOForm initialValues={initialValues} onSubmit={(record) => { this.updatePO(record); }} {...this.props} />
         </Layer>
         <Layer isOpen={query.layer ? query.layer === 'create-po-line' : false} label="Create PO Line Dialog">
           <this.connectedPOLineForm initialValues={newRecordInitialValues} onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />

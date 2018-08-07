@@ -120,10 +120,10 @@ class POForm extends Component {
                 <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                   <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
                     <Accordion label="Purchase Order" id="purchaseOrder">
-                      <PODetailsForm initialValues={initialValues} {...this.props} />
+                      <PODetailsForm {...this.props} />
                     </Accordion>
                     <Accordion label="PO Summary" id="POSummary">
-                      <SummaryForm initialValues={initialValues} {...this.props} />
+                      <SummaryForm {...this.props} />
                     </Accordion>
                   </AccordionSet>
                   <IfPermission perm="purchase_order.item.delete">
