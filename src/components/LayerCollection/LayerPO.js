@@ -10,7 +10,7 @@ import { POLineForm } from '../POLine';
 
 class LayerPO extends Component {
   static propTypes = {
-    iVPO: PropTypes.object,
+    initialValues: PropTypes.object,
     location: PropTypes.object.isRequired,
     stripes: PropTypes.object.isRequired,
     onCancel: PropTypes.func,
@@ -40,14 +40,17 @@ class LayerPO extends Component {
   }
 
   render() {
-    const { iVPO, location } = this.props;
-    const newRecordInitialValues = { new_record: true, po_number: iVPO.po_number };
+    const { initialValues, location } = this.props;
+    const newRecordInitialValues = { new_record: true, po_number: initialValues.po_number };
+    initialValues.created = initialValues;
+    const newI = initialValues;
     const query = location.search ? queryString.parse(location.search) : {};
+    console.log(newI);
 
     return (
       <Fragment>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Order Dialog">
-          <this.connectedPOForm initialValue={iVPO} onSubmit={(record) => { this.updatePO(record); }} {...this.props} />
+          <this.connectedPOForm initialValues={newI} onSubmit={(record) => { this.updatePO(record); }} {...this.props} />
         </Layer>
         <Layer isOpen={query.layer ? query.layer === 'create-po-line' : false} label="Create PO Line Dialog">
           <this.connectedPOLineForm initialValues={newRecordInitialValues} onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />

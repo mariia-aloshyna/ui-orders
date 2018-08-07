@@ -68,6 +68,11 @@ class PO extends Component {
     this.transitionToParams({ layer: 'receive-items' });
   }
 
+  openReceived = (e) => {
+    if (e) e.preventDefault();
+    this.transitionToParams({ layer: 'received' });
+  }
+
   onAddPOLine = (e) => {
     if (e) e.preventDefault();
     this.transitionToParams({ layer: 'create-po-line' });
@@ -99,7 +104,7 @@ class PO extends Component {
 
     return (
       <Pane id="pane-podetails" defaultWidth="fill" paneTitle={_.get(initialValues, ['name'], '')} lastMenu={lastMenu} dismissible onClose={this.props.onClose}>
-        <FundDistribution openReceiveItem={this.openReceiveItem} />
+        <FundDistribution openReceiveItem={this.openReceiveItem} openReceived={this.openReceived} />
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
           <Accordion label="Purchase Order" id="purchaseOrder">
@@ -114,7 +119,7 @@ class PO extends Component {
         </AccordionSet>
         <LayerPO
           location={location}
-          iVPO={initialValues}
+          initialValues={initialValues}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}
           parentResources={this.props.parentResources}

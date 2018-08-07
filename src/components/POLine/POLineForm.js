@@ -36,17 +36,17 @@ class POLineForm extends Component {
     this.state = {
       sections: {
         LineDetails: true,
-        Cost: true,
+        Cost: false,
         Claim: false,
         Tags: false,
         Locations: false,
-        Vendor: true,
+        Vendor: false,
         Eresources: false,
         Item: false,
-        Physical: true,
-        Renewal: true,
-        Adjustments: true,
-        License: true
+        Physical: false,
+        Renewal: false,
+        Adjustments: false,
+        License: false
       }
     };
     this.deletePOLine = this.deletePOLine.bind(this);

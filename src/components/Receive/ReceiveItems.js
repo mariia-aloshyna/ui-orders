@@ -8,40 +8,40 @@ import TableDropdownMenu from './TableDropdownMenu';
 
 const fundDistribution = [
   {
-    'title': 'Lorem ipsum des tis metis',
-    'polline': 'po line',
-    'received': 'received',
-    'date_ordered': '',
-    'receiving': '1/3',
-    'receiving_note': '',
-    'status': ''
-  },
-  {
-    'title': 'dos',
-    'polline': '',
+    'title': 'Title 1',
+    'polline': '123456789',
     'received': '',
     'date_ordered': '',
     'receiving': '1/3',
     'receiving_note': '',
-    'status': ''
+    'status': 'pending'
   },
   {
-    'title': 'tres',
-    'polline': '',
+    'title': 'Title 2',
+    'polline': '123456789',
     'received': '',
     'date_ordered': '',
     'receiving': '1/3',
     'receiving_note': '',
-    'status': ''
+    'status': 'pending'
   },
   {
-    'title': 'quatro',
-    'polline': '',
+    'title': 'Title 3',
+    'polline': '123456789',
     'received': '',
     'date_ordered': '',
     'receiving': '1/3',
     'receiving_note': '',
-    'status': ''
+    'status': 'pending'
+  },
+  {
+    'title': 'Title 4',
+    'polline': '123456789',
+    'received': '',
+    'date_ordered': '',
+    'receiving': '1/3',
+    'receiving_note': '',
+    'status': 'pending'
   },
 ];
 
