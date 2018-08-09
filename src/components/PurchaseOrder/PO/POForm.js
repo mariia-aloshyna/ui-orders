@@ -44,14 +44,13 @@ class POForm extends Component {
       </PaneMenu>
     );
   }
+
   firstMenuSecondPane() {
     return (
       <PaneMenu>
-        <IconButton
-          title="back"
-          icon="left-arrow"
-          onClick={() => this.showPaneUsers(false)}
-        />
+        <button id="clickable-close-users-pane" onClick={() => this.showPaneUsers(false)} title="close" aria-label="Close users Pane" style={{ marginBottom: '0', marginLeft: '10px' }}>
+          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
+        </button>
       </PaneMenu>
     );
   }
