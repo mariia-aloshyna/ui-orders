@@ -13,6 +13,7 @@ class PO extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
     location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     dropdown: PropTypes.object,
     stripes: PropTypes.object.isRequired,
@@ -78,8 +79,15 @@ class PO extends Component {
     this.transitionToParams({ layer: 'create-po-line' });
   }
 
+  onBacktoEdit = async (e) => {
+    if (e) e.preventDefault();
+    await this.transitionToParams({ layer: null });
+    await this.transitionToParams({ layer: 'edit' });
+    return false;
+  }
+
   render() {
-    const { location } = this.props;
+    const { location, history, match } = this.props;
     const initialValues = this.getData();
     const lastMenu = (<PaneMenu>
       <IfPermission perm="vendor.item.put">
@@ -120,8 +128,11 @@ class PO extends Component {
         <LayerPO
           location={location}
           initialValues={initialValues}
+          onBacktoEdit={this.onBacktoEdit}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}
+          history={history}
+          match={match}
           parentResources={this.props.parentResources}
           parentMutator={this.props.parentMutator}
         />

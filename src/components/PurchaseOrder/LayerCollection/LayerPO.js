@@ -7,6 +7,8 @@ import { Layer } from '@folio/stripes-components';
 import { ReceiveItems, Received } from '../Receive';
 import { POForm } from '../PO';
 import { POLineForm } from '../POLine';
+import Users from '../Users';
+import { runInThisContext } from 'vm';
 
 class LayerPO extends Component {
   static propTypes = {
@@ -22,6 +24,7 @@ class LayerPO extends Component {
     super(props);
     this.transitionToParams = transitionToParams.bind(this);
     this.connectedPOForm = this.props.stripes.connect(POForm);
+    this.connectedUsers = this.props.stripes.connect(Users);
     this.connectedPOLineForm = this.props.stripes.connect(POLineForm);
     this.connectedReceiveItems = this.props.stripes.connect(ReceiveItems);
     this.connectedReceived = this.props.stripes.connect(Received);
@@ -42,24 +45,27 @@ class LayerPO extends Component {
 
   render() {
     const { initialValues, location } = this.props;
-    const newRecordInitialValues = { new_record: true, po_number: initialValues.po_number };
+    // const newRecordInitialValues = { new_record: true, po_number: initialValues.po_number };
     const query = location.search ? queryString.parse(location.search) : {};
 
     return (
-      <Fragment>
+      <div className="layerCollection">
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Order Dialog">
           <this.connectedPOForm initialValues={initialValues} onSubmit={(record) => { this.updatePO(record); }} {...this.props} />
         </Layer>
-        <Layer isOpen={query.layer ? query.layer === 'create-po-line' : false} label="Create PO Line Dialog">
-          <this.connectedPOLineForm initialValues={newRecordInitialValues} onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />
+        <Layer isOpen={query.layer ? query.layer === 'users' : false} label="Users Order Dialog">
+          <this.connectedUsers {...this.props} />
         </Layer>
+        {/* <Layer isOpen={query.layer ? query.layer === 'create-po-line' : false} label="Create PO Line Dialog">
+          <this.connectedPOLineForm initialValues={newRecordInitialValues} onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />
+        </Layer> */}
         <Layer isOpen={query.layer ? query.layer === 'receive-items' : false} label="Receive Items">
           <this.connectedReceiveItems openReceived={this.openReceived} {...this.props} />
         </Layer>
         <Layer isOpen={query.layer ? query.layer === 'received' : false} label="Received">
           <this.connectedReceived {...this.props} />
         </Layer>
-      </Fragment>
+      </div>
     );
   }
 }

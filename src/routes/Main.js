@@ -4,9 +4,9 @@ import _ from 'lodash';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
 import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import packageInfo from '../../package';
-import Panes from '../components/Panes';
-import { PO, POForm } from '../components/PO';
-import { Filters, SearchableIndexes } from '../Utils/FilterConfig';
+import Panes from '../components/PurchaseOrder/Panes';
+import { PO, POForm } from '../components/PurchaseOrder/PO';
+import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -98,7 +98,7 @@ class Main extends Component {
         },
         staticFallback: { params: {} },
       },
-    },
+    },  
     // Po Line
     poLineQuery: { initialValue: { query: '' } },
     poLineResultCount: { initialValue: INITIAL_RESULT_COUNT },
@@ -176,7 +176,7 @@ class Main extends Component {
   }
 
   render() {
-    const { browseOnly, showSingleResult, disableRecordCreation, onComponentWillUnmount, stripes: { user: { user: { id } } } } = this.props;
+    const { resources, mutator, stripes, browseOnly, showSingleResult, disableRecordCreation, onComponentWillUnmount, stripes: { user: { user: { id } } } } = this.props;
     const resultsFormatter = {
       'po_number': data => _.toString(_.get(data, ['po_number'], '')),
       'created': data => _.toString(_.get(data, ['created'], '')),
@@ -184,32 +184,33 @@ class Main extends Component {
       'assigned_to': data => _.toString(_.get(data, ['assigned_to'], '')),
     };
     const getUser = id || '';
+
     return (
-      <div>
-        <SearchAndSort
-          packageInfo={packageInfo}
-          objectName="orders"
-          baseRoute={packageInfo.stripes.route}
-          filterConfig={filterConfig}
-          visibleColumns={['po_number', 'created', 'comments', 'assigned_to']}
-          resultsFormatter={resultsFormatter}
-          viewRecordComponent={Panes}
-          editRecordComponent={POForm}
-          onCreate={this.create}
-          newRecordInitialValues={{ created_by: getUser }}
-          initialResultCount={INITIAL_RESULT_COUNT}
-          resultCountIncrement={RESULT_COUNT_INCREMENT}
-          onComponentWillUnmount={onComponentWillUnmount}
-          disableRecordCreation={disableRecordCreation}
-          finishedResourceName="perms"
-          viewRecordPerms="purchase_order.item.get"
-          newRecordPerms="purchase_order.item.post, login.item.post"
-          parentResources={this.props.resources}
-          parentMutator={this.props.mutator}
-          showSingleResult={showSingleResult}
-          browseOnly={browseOnly}
-        />
-      </div>
+      <SearchAndSort
+        packageInfo={packageInfo}
+        objectName="orders"
+        baseRoute={packageInfo.stripes.route}
+        filterConfig={filterConfig}
+        visibleColumns={['po_number', 'created', 'comments', 'assigned_to']}
+        resultsFormatter={resultsFormatter}
+        viewRecordComponent={PO}
+        editRecordComponent={POForm}
+        onCreate={this.create}
+        newRecordInitialValues={{ created_by: getUser }}
+        initialResultCount={INITIAL_RESULT_COUNT}
+        resultCountIncrement={RESULT_COUNT_INCREMENT}
+        onComponentWillUnmount={onComponentWillUnmount}
+        disableRecordCreation={disableRecordCreation}
+        finishedResourceName="perms"
+        viewRecordPerms="purchase_order.item.get"
+        newRecordPerms="purchase_order.item.post, login.item.post"
+        parentResources={resources}
+        parentMutator={mutator}
+        detailProps={stripes}
+        stripes={stripes}
+        showSingleResult={showSingleResult}
+        browseOnly={browseOnly}
+      />
     );
   }
 
