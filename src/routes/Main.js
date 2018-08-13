@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
+import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
 import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import packageInfo from '../../package';
 import Panes from '../components/PurchaseOrder/Panes';
@@ -120,6 +121,7 @@ class Main extends Component {
         staticFallback: { params: {} },
       },
     },
+    // DropDown
     dropdown: { initialValue: {
       acquisitionMethodDD: [
         { value: 'Purchase', label: 'Purchase' },
@@ -145,7 +147,37 @@ class Main extends Component {
         { value: 'On-Going', label: 'On-Going' },
         { value: 'On-Going Re-encumber', label: 'On-Going Re-encumber' }
       ],
-    }}
+    }},
+    // Users
+    usersQuery: { initialValue: { query: '' } },
+    usersResultCount: { initialValue: INITIAL_RESULT_COUNT },
+    user: {
+      type: 'okapi',
+      clear: true,
+      records: 'users',
+      recordsRequired: '%{poLineResultCount}',
+      path: 'users',
+      perRequest: RESULT_COUNT_INCREMENT,
+      GET: {
+        params: {
+          query: makeQueryFunction(
+            'cql.allRecords=1',
+            '(username="%{query.query}*" or personal.firstName="%{query.query}*" or personal.lastName="%{query.query}*" or personal.email="%{query.query}*" or barcode="%{query.query}*" or id="%{query.query}*" or externalSystemId="%{query.query}*")',
+            {
+              'Active': 'active',
+              'Name': 'personal.lastName personal.firstName',
+              'Patron group': 'patronGroup.group',
+              'Username': 'username',
+              'Barcode': 'barcode',
+              'Email': 'personal.email',
+            },
+            '',
+            '',
+          ),
+        },
+        staticFallback: { params: {} },
+      },
+    },
   });
 
   static propTypes = {
@@ -164,6 +196,32 @@ class Main extends Component {
     disableRecordCreation: PropTypes.bool
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      newRecordInitialValues: {
+        created_by: ''
+      }
+    };
+    this.onUpdateAssignedTo = this.onUpdateAssignedTo.bind(this);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    const { stripes } = props;
+    if (stripes || stripes.user) {
+      const { stripes: { user: { user: { id } } } } = props;
+      if (state.newRecordInitialValues.created_by !== id) {
+        return {
+          newRecordInitialValues: {
+            created_by: id,
+            assigned_to: ''
+          }
+        };
+      }
+    }
+    return false;
+  }
+
   create = (data) => {
     const { mutator } = this.props;
     console.log(data);
@@ -175,15 +233,22 @@ class Main extends Component {
     });
   }
 
+  onUpdateAssignedTo(e, row) {
+    if (e) e.preventDefault();
+    const newRecordInitialValues = this.state.newRecordInitialValues;
+    newRecordInitialValues.assigned_to_user = `${row.personal.firstname} ${row.personal.lastname}`;
+    newRecordInitialValues.assigned_to = row.id || '';
+    this.setState({ newRecordInitialValues });
+  }
+
   render() {
-    const { resources, mutator, stripes, browseOnly, showSingleResult, disableRecordCreation, onComponentWillUnmount, stripes: { user: { user: { id } } } } = this.props;
+    const { resources, mutator, stripes, browseOnly, showSingleResult, disableRecordCreation, onComponentWillUnmount } = this.props;
     const resultsFormatter = {
       'po_number': data => _.toString(_.get(data, ['po_number'], '')),
       'created': data => _.toString(_.get(data, ['created'], '')),
       'comments': data => _.toString(_.get(data, ['comments'], '')),
       'assigned_to': data => _.toString(_.get(data, ['assigned_to'], '')),
     };
-    const getUser = id || '';
 
     return (
       <SearchAndSort
@@ -196,7 +261,7 @@ class Main extends Component {
         viewRecordComponent={PO}
         editRecordComponent={POForm}
         onCreate={this.create}
-        newRecordInitialValues={{ created_by: getUser }}
+        newRecordInitialValues={this.state.newRecordInitialValues}
         initialResultCount={INITIAL_RESULT_COUNT}
         resultCountIncrement={RESULT_COUNT_INCREMENT}
         onComponentWillUnmount={onComponentWillUnmount}
@@ -206,7 +271,7 @@ class Main extends Component {
         newRecordPerms="purchase_order.item.post, login.item.post"
         parentResources={resources}
         parentMutator={mutator}
-        detailProps={stripes}
+        detailProps={Object.assign({ onUpdateAssignedTo: this.onUpdateAssignedTo }, stripes)}
         stripes={stripes}
         showSingleResult={showSingleResult}
         browseOnly={browseOnly}

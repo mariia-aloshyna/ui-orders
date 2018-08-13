@@ -10,7 +10,7 @@
     },
     "stripes": {
         "type": "app",
-        "displayName": "Orders",
+        "displayName": "ui-orders.meta.title",
         "route": "/orders",
         "home": "/orders",
         "hasSettings": true,

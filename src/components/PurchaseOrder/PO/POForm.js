@@ -5,6 +5,7 @@ import stripesForm from '@folio/stripes-form';
 import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, IfPermission, IconButton, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components';
 import { PODetailsForm } from '../PODetails';
 import { SummaryForm } from '../Summary';
+import Users from '../Users';
 
 class POForm extends Component {
   static propTypes = {
@@ -26,13 +27,13 @@ class POForm extends Component {
         purchaseOrder: true,
         POSummary: true,
       },
-      showPaneUsers: false,
+      showPaneUsers: true,
     };
     this.deletePO = this.deletePO.bind(this);
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
     this.showPaneUsers = this.showPaneUsers.bind(this);
-  }
+    }
 
   getAddFirstMenu() {
     const { onCancel } = this.props;
@@ -163,8 +164,8 @@ class POForm extends Component {
           </Pane>
           {
             this.state.showPaneUsers &&
-            <Pane id="pane-users" defaultWidth="30%" paneTitle="Users" firstMenu={firstMenuSecondPane}>
-              <p>Users Pane</p>
+            <Pane id="pane-users" defaultWidth="30%" paneTitle="Search Users" firstMenu={firstMenuSecondPane}>
+              <Users onUpdateAssignTo={this.onUpdateAssignTo} {...this.props} />
             </Pane>
           }
         </Paneset>

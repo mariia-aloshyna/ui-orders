@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Field, FieldArray } from 'redux-form';
 import { Datepicker, TextArea, TextField, Button, Row, Col } from '@folio/stripes-components/';
+import { Field, FieldArray } from 'redux-form';
 import { Required } from '../../Utils/Validate';
 
 class SummaryForm extends Component {
+
   render() {       
     return (
       <Row>

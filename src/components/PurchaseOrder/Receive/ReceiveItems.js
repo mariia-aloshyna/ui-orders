@@ -111,14 +111,14 @@ class ReceiveItems extends React.Component {
               columnMapping={columnMapping}
               formatter={formatter}
               resultsFormatter={resultsFormatter}
-              interactive={false}
+              interactive={false} 
               visibleColumns={['title', 'polline', 'received', 'date_ordered', 'receiving', 'receiving_note', 'status', 'menu']}
             />
           </Col>
         </Row>
       </Pane>
     );
-  }
+  }      
 }
 
 export default ReceiveItems;

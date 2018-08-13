@@ -1,12 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
+import _ from 'lodash';
 import { Select, TextField, Row, Col, Datepicker, IconButton } from '@folio/stripes-components';
 import { Required } from '../../Utils/Validate';
 
 class PODetailsForm extends Component {
   static propTypes = {
     showPaneUsers: PropTypes.func,
+  }
+
+  // const { initialValues, initialize } = this.props;
+  // const newValues = Object.assign({ assigned_to: 'aveeno' }, initialValues);
+  // initialize(newValues);
+
+  static getDerivedStateFromProps(props, state) {
+    const { initialvalues, initialize } = props;
+    const isAssignedTo = (initialvalues || {}).assigned_to || [];
+    console.log(isAssignedTo);
+    console.log(_.isEmpty(isAssignedTo));
+    // if () {
+    //   if (initialvalues.assigned_to !== state.assigned_to) {
+    //     console.log("assigned_to is visible");
+    //     this.setState({ assigned_to: initialvalues.assigned_to });
+    //   }
+    // }
+
+    return false;
   }
 
   render() {
@@ -25,7 +45,8 @@ class PODetailsForm extends Component {
           <Field label="Created By" name="created_by" id="created_by" component={TextField} fullWidth />
         </Col>
         <Col xs={6} md={3} style={{ display: 'flex', alignItems: 'center' }}>
-          <Field label="Assign To" name="assigned_to" id="assigned_to" component={TextField} fullWidth />
+          <Field label="Assigned To User" name="assigned_to_user" id="assigned_to_user" component={TextField} value="test" fullWidth disabled />
+          <Field label="Assigned To" name="assigned_to" id="assigned_to" component={TextField} value="test" fullWidth />
           <IconButton
             title="Add Button"
             icon="plus-sign"
