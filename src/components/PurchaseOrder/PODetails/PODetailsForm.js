@@ -10,17 +10,6 @@ class PODetailsForm extends Component {
     showPaneUsers: PropTypes.func,
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const { initialvalues } = props;
-    const isAssignedTo = (initialvalues || {}).assigned_to || '';
-    if (isAssignedTo.length > 0 && state.initialvalues.isAssignedTo) {
-      return {
-        initialvalues
-      };
-    }
-    return false;
-  }
-
   render() {
     return (
       <Row>

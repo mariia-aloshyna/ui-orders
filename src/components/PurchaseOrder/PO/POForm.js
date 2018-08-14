@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import stripesForm from '@folio/stripes-form';
+import { getFormValues } from 'redux-form';
 import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, IfPermission, IconButton, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components';
 import { PODetailsForm } from '../PODetails';
 import { SummaryForm } from '../Summary';
@@ -107,13 +108,16 @@ class POForm extends Component {
 
   onUpdateAssignedTo(e, row) {
     if (e) e.preventDefault();
-    const iniVal = this.props.initialValues;
+    const { stripes: { store } } = this.props;
+    // Get current form values/data
+    const formValues = getFormValues('FormPO')(store.getState());
+    // Assign data
     const initialValues = Object.assign({
       assigned_to_user: `${row.personal.firstName} ${row.personal.lastName}`,
       assigned_to: row.id || ''
-    }, iniVal);
-    console.info(initialValues);
-    this.props.initialize({ ...initialValues });
+    }, formValues);
+    // console.info(initialValues);
+    // this.props.initialize({ ...initialValues });
   }
 
   render() {
