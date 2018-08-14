@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import stripesForm from '@folio/stripes-form';
-import { getFormValues } from 'redux-form';
 import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, IfPermission, IconButton, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components';
 import { PODetailsForm } from '../PODetails';
 import { SummaryForm } from '../Summary';
@@ -28,13 +27,12 @@ class POForm extends Component {
         purchaseOrder: true,
         POSummary: true,
       },
-      showPaneUsers: true,
+      showPaneUsers: false,
     };
     this.deletePO = this.deletePO.bind(this);
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
     this.showPaneUsers = this.showPaneUsers.bind(this);
-    this.onUpdateAssignedTo = this.onUpdateAssignedTo.bind(this);
   }
 
   getAddFirstMenu() {
@@ -106,20 +104,6 @@ class POForm extends Component {
     this.setState({ showPaneUsers: val });
   }
 
-  onUpdateAssignedTo(e, row) {
-    if (e) e.preventDefault();
-    const { stripes: { store } } = this.props;
-    // Get current form values/data
-    const formValues = getFormValues('FormPO')(store.getState());
-    // Assign data
-    const initialValues = Object.assign({
-      assigned_to_user: `${row.personal.firstName} ${row.personal.lastName}`,
-      assigned_to: row.id || ''
-    }, formValues);
-    // console.info(initialValues);
-    // this.props.initialize({ ...initialValues });
-  }
-
   render() {
     const { initialValues, onCancel } = this.props;
 
@@ -182,7 +166,7 @@ class POForm extends Component {
           {
             this.state.showPaneUsers &&
             <Pane id="pane-users" defaultWidth="30%" paneTitle="Search Users" firstMenu={firstMenuSecondPane}>
-              <Users onUpdateAssignedTo={this.onUpdateAssignedTo} {...this.props} />
+              <Users {...this.props} />
             </Pane>
           }
         </Paneset>

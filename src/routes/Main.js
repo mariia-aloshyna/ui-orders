@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { getFormValues } from 'redux-form';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
 import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
 import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
@@ -196,6 +197,32 @@ class Main extends Component {
     disableRecordCreation: PropTypes.bool
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      newRecordInitialValues: {
+        created_by: ''
+      }
+    };
+    this.onUpdateAssignedTo = this.onUpdateAssignedTo.bind(this);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    const { stripes } = props;
+    if (stripes || stripes.user) {
+      const { stripes: { user: { user: { id, firstName, lastName } } } } = props;
+      if (state.newRecordInitialValues.created_by !== id) {
+        return {
+          newRecordInitialValues: {
+            created_by: id,
+            created_by_name: `${firstName} ${lastName}` || ''
+          }
+        };
+      }
+    }
+    return false;
+  }
+
   create = (data) => {
     const { mutator } = this.props;
     console.log(data);
@@ -207,6 +234,18 @@ class Main extends Component {
     });
   }
 
+  onUpdateAssignedTo(e, row) {
+    if (e) e.preventDefault();
+    const { stripes: { store } } = this.props;
+    // Get current form values/data
+    const formValues = getFormValues('FormPO')(store.getState());
+    // Assign data
+    const initialValues = Object.assign({
+      assigned_to_user: `${row.personal.firstName} ${row.personal.lastName}`,
+      assigned_to: row.id || ''
+    }, formValues);
+    this.setState({ newRecordInitialValues: initialValues });
+  }
 
   render() {
     const { resources, mutator, stripes, browseOnly, showSingleResult, disableRecordCreation, onComponentWillUnmount, stripes: { user: { user: { id, firstName, lastName } } } } = this.props;
@@ -216,9 +255,9 @@ class Main extends Component {
       'comments': data => _.toString(_.get(data, ['comments'], '')),
       'assigned_to': data => _.toString(_.get(data, ['assigned_to'], '')),
     };
-    const getUserID = id || '';
-    const getUserName = `${firstName} ${lastName}` || '';
-
+    // const getUserID = id || '';
+    // const getUserName = `${firstName} ${lastName}` || '';
+    // created_by: getUserID, created_by_name: getUserName
     return (
       <SearchAndSort
         packageInfo={packageInfo}
@@ -230,7 +269,7 @@ class Main extends Component {
         viewRecordComponent={PO}
         editRecordComponent={POForm}
         onCreate={this.create}
-        newRecordInitialValues={{ created_by: getUserID, created_by_name: getUserName }}
+        newRecordInitialValues={{ ...this.state.newRecordInitialValues }}
         initialResultCount={INITIAL_RESULT_COUNT}
         resultCountIncrement={RESULT_COUNT_INCREMENT}
         onComponentWillUnmount={onComponentWillUnmount}
@@ -240,7 +279,7 @@ class Main extends Component {
         newRecordPerms="purchase_order.item.post, login.item.post"
         parentResources={resources}
         parentMutator={mutator}
-        detailProps={stripes}
+        detailProps={Object.assign({ onUpdateAssignedTo: this.onUpdateAssignedTo }, stripes)}
         stripes={stripes}
         showSingleResult={showSingleResult}
         browseOnly={browseOnly}

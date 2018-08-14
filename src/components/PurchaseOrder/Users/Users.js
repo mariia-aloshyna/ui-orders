@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { MultiColumnList, IconButton, Pane, PaneMenu, TextField, Row, Col } from '@folio/stripes-components/';
+import { MultiColumnList, IconButton, PaneMenu, TextField, Row, Col } from '@folio/stripes-components/';
 import TextFieldIcon from '@folio/stripes-components/lib/TextField/TextFieldIcon';
 
-
 class Users extends Component {
+
+  constructor(props) {
+    super(props);
+    this.onRowClick = this.onRowClick.bind(this);
+  }
 
   getUsers() {
     const { parentResources } = this.props;
@@ -24,6 +28,14 @@ class Users extends Component {
         />
       </PaneMenu>
     );
+  }
+
+  onRowClick(e, row) {
+    const { blur, onUpdateAssignedTo } = this.props;
+    onUpdateAssignedTo(e, row);
+    blur();
+    this.props.change();
+    this.props.reset();
   }
 
   render() {
@@ -47,6 +59,7 @@ class Users extends Component {
       'lastname': '20%'
     };
 
+    console.log(this.props);
     return (
       <div>
         <Row>
@@ -55,7 +68,7 @@ class Users extends Component {
           </Col>
           <Col xs={12}>
             <MultiColumnList
-              onRowClick={this.props.onUpdateAssignedTo}
+              onRowClick={this.onRowClick}
               contentData={this.getUsers()}
               formatter={resultsFormatter}
               columnMapping={columnMapping}
