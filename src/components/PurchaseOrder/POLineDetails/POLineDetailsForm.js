@@ -1,34 +1,46 @@
 import React, { Component } from 'react';
-import { Field, FieldArray } from 'redux-form';
-import Button from '@folio/stripes-components/lib/Button';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import TextField from '@folio/stripes-components/lib/TextField';
-import TextArea from '@folio/stripes-components/lib/TextArea';
-import Checkbox from '@folio/stripes-components/lib/Checkbox';
-import Select from '@folio/stripes-components/lib/Select';
+import PropTypes from 'prop-types';
+import { Field } from 'redux-form'
+import { Select, Checkbox, TextArea, Button, Row, Col, TextField } from '@folio/stripes-components';
 import { Required } from '../../Utils/Validate';
 
 class LineDetailsForm extends Component {
+  static propTypes = {
+    parentResources: PropTypes.shape({
+      dropdown: PropTypes.shape({
+        acquisitionMethodDD: PropTypes.Object,
+        orderFormatDD: PropTypes.Object,
+        status_dd: PropTypes.Object,
+        order_type_dd: PropTypes.Object
+      })
+    })
+  }
+
   render() {
+    const acquisitionMethodDD = (this.props.parentResources.dropdown || {}).acquisitionMethodDD || [];
+    const orderFormatDD = (this.props.parentResources.dropdown || {}).orderFormatDD || [];
+    const statusDD = (this.props.parentResources.dropdown || {}).statusDD || [];
+    const orderTypeDD = (this.props.parentResources.dropdown || {}).orderTypeDD || [];
+
     return (
       <Row>
         <Col xs={6}>
-          <Field label="Po Line ID" name="Po Line ID" id="po_line_id" validate={[Required]} component={TextField} fullWidth />
+          <Field label="PO Number" name="po_number" id="po_number" type="text" component={TextField} validate={[Required]} fullWidth disabled readOnly />
         </Col>
         <Col xs={6}>
-          <Field label="Acquisition Method" name="acquisition_method" id="acquisition_method" type="select" component={Select} fullWidth />
+          <Field label="Acquisition Method" name="acquisition_method" id="acquisition_method" type="select" component={Select} dataOptions={acquisitionMethodDD} fullWidth />
         </Col>
         <Col xs={6}>
           <Field label="Owner" name="owner" id="owner" component={TextField} fullWidth />
         </Col>
         <Col xs={6}>
-          <Field label="Order Format" name="format" id="format" type="select" component={Select} fullWidth />
+          <Field label="Order Format" name="format" id="format" type="select" component={Select} dataOptions={orderFormatDD} fullWidth />
         </Col>
         <Col xs={6}>
-          <Field label="Status" name="status" id="status" type="select" component={Select} fullWidth />
+          <Field label="Status" name="status" id="status" type="select" component={Select} dataOptions={statusDD} fullWidth />
         </Col>
         <Col xs={6}>
-          <Field label="Order Type" name="type" id="type" type="select" component={Select} fullWidth />
+          <Field label="Order Type" name="type" id="type" type="select" component={Select} dataOptions={orderTypeDD}  fullWidth />
         </Col>
         <Col xs={6}>
           <Field label="Created on" name="recorded" id="recorded" type="date" component={TextField} fullWidth />

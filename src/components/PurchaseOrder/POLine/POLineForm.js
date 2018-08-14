@@ -2,16 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import queryString from 'query-string';
-import { AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
+import { IfPermission, Pane, PaneMenu, Button, Icon, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/';
 import stripesForm from '@folio/stripes-form';
-import Pane from '@folio/stripes-components/lib/Pane';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-import Button from '@folio/stripes-components/lib/Button';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import Icon from '@folio/stripes-components/lib/Icon';
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import IfPermission from '@folio/stripes-components/lib/IfPermission';
-import Layer from '@folio/stripes-components/lib/Layer';
 import { POLineDetailsForm } from '../POLineDetails';
 import { CostForm } from '../Cost';
 import { ClaimForm } from '../Claim';
@@ -27,36 +19,37 @@ import { LicenseForm } from '../License';
 
 class POLineForm extends Component {
   static propTypes = {
-    // initialValues: PropTypes.object,
-    // handleSubmit: PropTypes.func.isRequired,
-    // onSave: PropTypes.func,
-    // onCancel: PropTypes.func,
-    // onRemove: PropTypes.func,
-    // pristine: PropTypes.bool,
-    // submitting: PropTypes.bool,
-    // parentResources: PropTypes.object,
-    // parentMutator: PropTypes.object
+    initialValues: PropTypes.object,
+    handleSubmit: PropTypes.func.isRequired,
+    onSave: PropTypes.func,
+    onCancel: PropTypes.func,
+    onRemove: PropTypes.func,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    parentResources: PropTypes.object,
+    parentMutator: PropTypes.object,
+    location: PropTypes.object.isRequired,
   }
 
   constructor(props) {
     super(props);
     this.state = {
       sections: {
-        LineDetails: false,
+        LineDetails: true,
         Cost: false,
         Claim: false,
         Tags: false,
         Locations: false,
-        Vendor: true,
-        Eresources: true,
-        Item: true,
-        Physical: true,
-        Renewal: true,
-        Adjustments: true,
-        License: true
+        Vendor: false,
+        Eresources: false,
+        Item: false,
+        Physical: false,
+        Renewal: false,
+        Adjustments: false,
+        License: false
       }
     };
-    this.deletePO = this.deletePO.bind(this);
+    this.deletePOLine = this.deletePOLine.bind(this);
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
   }
@@ -65,7 +58,7 @@ class POLineForm extends Component {
     const { onCancel } = this.props;
     return (
       <PaneMenu>
-        <button id="clickable-closenewvendordialog" onClick={onCancel} title="close" aria-label="Close New Vendor Dialog">
+        <button id="clickable-close-new-purchase-order-dialog" onClick={onCancel} title="close" aria-label="Close New Purchase Order Dialog">
           <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
         </button>
       </PaneMenu>
@@ -106,11 +99,11 @@ class POLineForm extends Component {
     });
   }
 
-  deletePO(ID) {
+  deletePOLine(ID) {
     const { parentMutator } = this.props;
-    parentMutator.records.DELETE({ id: ID }).then(() => {
+    parentMutator.poLine.DELETE({ id: ID }).then(() => {
       parentMutator.query.update({
-        _path: '/vendor',
+        _path: '/orders',
         layer: null
       });
     });
@@ -118,15 +111,14 @@ class POLineForm extends Component {
 
   render() {
     const { initialValues, location, onCancel } = this.props;
-    const query = location.search ? queryString.parse(location.search) : {};
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['name'], '')} </span> : 'Create Order';
+    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Create Order';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-updatePoLine', 'Update PO Line') :
       this.getLastMenu('clickable-createnewPoLine', 'Create PO Line');
     const showDeleteButton = initialValues.id || false;
 
-    if (!initialValues) {
+    if (!initialValues) {  
       return (
         <Pane id="pane-podetails" defaultWidth="fill" paneTitle="Details" fistMenu={firstMenu} lastMenu={lastMenu} dismissible>
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
@@ -136,7 +128,7 @@ class POLineForm extends Component {
 
     return (
       <Pane id="pane-poLineForm" defaultWidth="fill" paneTitle={paneTitle} lastMenu={lastMenu} onClose={onCancel} dismissible>
-        <form id="form-po">
+        <form id="form-po-line">
           <Row>
             <Col xs={12}>
               <Row center="xs">
@@ -193,7 +185,7 @@ class POLineForm extends Component {
                       <Col xs={12}>
                         {
                           showDeleteButton &&
-                          <Button type="button" buttonStyle="danger" onClick={() => { this.deleteVendor(this.props.initialValues.id); }}>Remove</Button>
+                          <Button type="button" buttonStyle="danger" onClick={() => { this.deletePOLine(this.props.initialValues.id); }}>Delete - {this.props.initialValues.id}</Button>
                         }
                       </Col>
                     </Row>
@@ -209,8 +201,8 @@ class POLineForm extends Component {
 }
 
 export default stripesForm({
-  form: 'FormPO',
+  form: 'POLineForm',
   navigationCheck: true,
-  enableReinitialize: true,
+  enableReinitialize: true
 })(POLineForm);
 

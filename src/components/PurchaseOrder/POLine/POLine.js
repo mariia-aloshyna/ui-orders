@@ -1,16 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import { AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
-import Pane from '@folio/stripes-components/lib/Pane';
-import PaneMenu from '@folio/stripes-components/lib/PaneMenu';
-import queryString from 'query-string';
-import Icon from '@folio/stripes-components/lib/Icon';
-import IconButton from '@folio/stripes-components/lib/IconButton';
-import IfPermission from '@folio/stripes-components/lib/IfPermission';
-import KeyValue from '@folio/stripes-components/lib/KeyValue';
-import FormatDate from '../../Utils/FormatDate';
+import { Pane, PaneMenu, Icon, IconButton, IfPermission, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/';
+import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import { POLineDetails } from '../POLineDetails';
 import CostView from '../Cost/CostView';
 import TagView from '../Tags/TagView';
@@ -22,11 +14,14 @@ import PhysicalView from '../Physical/PhysicalView';
 import RenewalView from '../Renewal/RenewalView';
 import AdjustmentsView from '../Adjustments/AdjustmentsView';
 import LicenseView from '../License/LicenseView';
+import { LayerPOLine } from '../LayerCollection';
 
 class POLine extends React.Component {
   static propTypes = {
     initialValues: PropTypes.object,
     location: PropTypes.object,
+    stripes: PropTypes.object.isRequired,
+    onCloseEdit: PropTypes.func,
     editLink: PropTypes.object,
     parentResources: PropTypes.object,
     parentMutator: PropTypes.object,
@@ -57,6 +52,7 @@ class POLine extends React.Component {
     };
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
+    this.transitionToParams = transitionToParams.bind(this);
   }
 
   onToggleSection({ id }) {
@@ -82,6 +78,11 @@ class POLine extends React.Component {
     return poLine.find(u => u.id === id);
   }
 
+  onEditPOLine = (e) => {
+    if (e) e.preventDefault();
+    this.transitionToParams({ layer: 'edit-po-line' });
+  }
+
   render() {
     const { poURL } = this.props;
     const firstMenu = (<PaneMenu>
@@ -93,12 +94,12 @@ class POLine extends React.Component {
       />
     </PaneMenu>);
     const lastMenu = (<PaneMenu>
-      <IfPermission perm="vendor.item.put">
+      <IfPermission perm="po_line.item.put">
         <IconButton
           icon="edit"
-          id="clickable-editvendor"
-          href={this.props.editLink}
-          title="Edit Vendor"
+          id="clickable-edit-po-line"
+          onClick={this.onEditPOLine}
+          title="Edit PO Line"
         />
       </IfPermission> </PaneMenu>);
     const { location } = this.props;
@@ -149,16 +150,14 @@ class POLine extends React.Component {
             <LicenseView initialValues={initialValues} {...this.props} />
           </Accordion>
         </AccordionSet>
-        {/* <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Vendor Dialog">
-          <this.connectedPaneDetails
-            stripes={this.props.stripes}
-            initialValues={initialValues}
-            onSubmit={(record) => { this.update(record); }}
-            onCancel={this.props.onCloseEdit}
-            parentResources={this.props.parentResources}
-            parentMutator={this.props.parentMutator}
-          />
-        </Layer> */}
+        <LayerPOLine
+          location={location}
+          initialValues={initialValues}
+          stripes={this.props.stripes}
+          onCancel={this.props.onCloseEdit}
+          parentResources={this.props.parentResources}
+          parentMutator={this.props.parentMutator}
+        />
       </Pane>
     );
   }
