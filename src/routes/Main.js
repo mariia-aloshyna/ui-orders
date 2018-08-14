@@ -196,32 +196,6 @@ class Main extends Component {
     disableRecordCreation: PropTypes.bool
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      newRecordInitialValues: {
-        created_by: ''
-      }
-    };
-    this.onUpdateAssignedTo = this.onUpdateAssignedTo.bind(this);
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    const { stripes } = props;
-    if (stripes || stripes.user) {
-      const { stripes: { user: { user: { id } } } } = props;
-      if (state.newRecordInitialValues.created_by !== id) {
-        return {
-          newRecordInitialValues: {
-            created_by: id,
-            assigned_to: ''
-          }
-        };
-      }
-    }
-    return false;
-  }
-
   create = (data) => {
     const { mutator } = this.props;
     console.log(data);
@@ -233,22 +207,17 @@ class Main extends Component {
     });
   }
 
-  onUpdateAssignedTo(e, row) {
-    if (e) e.preventDefault();
-    const newRecordInitialValues = this.state.newRecordInitialValues;
-    newRecordInitialValues.assigned_to_user = `${row.personal.firstname} ${row.personal.lastname}`;
-    newRecordInitialValues.assigned_to = row.id || '';
-    this.setState({ newRecordInitialValues });
-  }
 
   render() {
-    const { resources, mutator, stripes, browseOnly, showSingleResult, disableRecordCreation, onComponentWillUnmount } = this.props;
+    const { resources, mutator, stripes, browseOnly, showSingleResult, disableRecordCreation, onComponentWillUnmount, stripes: { user: { user: { id, firstName, lastName } } } } = this.props;
     const resultsFormatter = {
       'po_number': data => _.toString(_.get(data, ['po_number'], '')),
       'created': data => _.toString(_.get(data, ['created'], '')),
       'comments': data => _.toString(_.get(data, ['comments'], '')),
       'assigned_to': data => _.toString(_.get(data, ['assigned_to'], '')),
     };
+    const getUserID = id || '';
+    const getUserName = `${firstName} ${lastName}` || '';
 
     return (
       <SearchAndSort
@@ -261,7 +230,7 @@ class Main extends Component {
         viewRecordComponent={PO}
         editRecordComponent={POForm}
         onCreate={this.create}
-        newRecordInitialValues={this.state.newRecordInitialValues}
+        newRecordInitialValues={{ created_by: getUserID, created_by_name: getUserName }}
         initialResultCount={INITIAL_RESULT_COUNT}
         resultCountIncrement={RESULT_COUNT_INCREMENT}
         onComponentWillUnmount={onComponentWillUnmount}
@@ -271,7 +240,7 @@ class Main extends Component {
         newRecordPerms="purchase_order.item.post, login.item.post"
         parentResources={resources}
         parentMutator={mutator}
-        detailProps={Object.assign({ onUpdateAssignedTo: this.onUpdateAssignedTo }, stripes)}
+        detailProps={stripes}
         stripes={stripes}
         showSingleResult={showSingleResult}
         browseOnly={browseOnly}

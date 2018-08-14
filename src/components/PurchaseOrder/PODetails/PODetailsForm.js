@@ -10,22 +10,14 @@ class PODetailsForm extends Component {
     showPaneUsers: PropTypes.func,
   }
 
-  // const { initialValues, initialize } = this.props;
-  // const newValues = Object.assign({ assigned_to: 'aveeno' }, initialValues);
-  // initialize(newValues);
-
   static getDerivedStateFromProps(props, state) {
-    const { initialvalues, initialize } = props;
-    const isAssignedTo = (initialvalues || {}).assigned_to || [];
-    console.log(isAssignedTo);
-    console.log(_.isEmpty(isAssignedTo));
-    // if () {
-    //   if (initialvalues.assigned_to !== state.assigned_to) {
-    //     console.log("assigned_to is visible");
-    //     this.setState({ assigned_to: initialvalues.assigned_to });
-    //   }
-    // }
-
+    const { initialvalues } = props;
+    const isAssignedTo = (initialvalues || {}).assigned_to || '';
+    if (isAssignedTo.length > 0 && state.initialvalues.isAssignedTo) {
+      return {
+        initialvalues
+      };
+    }
     return false;
   }
 
@@ -41,12 +33,17 @@ class PODetailsForm extends Component {
         <Col xs={6} md={3}>
           <Field label="Created On" name="created" id="created" dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} fullWidth />
         </Col>
+        <Col xs={6} md={3} style={{ display: 'none' }}>
+          <Field label="Created By" name="created_by" id="created_by" component={TextField} fullWidth disabled readOnly />
+        </Col>
         <Col xs={6} md={3}>
-          <Field label="Created By" name="created_by" id="created_by" component={TextField} fullWidth />
+          <Field label="Created By" name="created_by_name" id="created_by_name" component={TextField} fullWidth disabled readOnly />
+        </Col>
+        <Col xs={6} md={3} style={{ display: 'none' }}>
+          <Field label="Assigned To" name="assigned_to" id="assigned_to" type="hidden" component={TextField} fullWidth />
         </Col>
         <Col xs={6} md={3} style={{ display: 'flex', alignItems: 'center' }}>
-          <Field label="Assigned To User" name="assigned_to_user" id="assigned_to_user" component={TextField} value="test" fullWidth disabled />
-          <Field label="Assigned To" name="assigned_to" id="assigned_to" component={TextField} value="test" fullWidth />
+          <Field label="Assigned To" name="assigned_to_user" id="assigned_to_user" component={TextField} fullWidth disabled />
           <IconButton
             title="Add Button"
             icon="plus-sign"

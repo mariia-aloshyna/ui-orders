@@ -33,7 +33,8 @@ class POForm extends Component {
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
     this.showPaneUsers = this.showPaneUsers.bind(this);
-    }
+    this.onUpdateAssignedTo = this.onUpdateAssignedTo.bind(this);
+  }
 
   getAddFirstMenu() {
     const { onCancel } = this.props;
@@ -104,8 +105,20 @@ class POForm extends Component {
     this.setState({ showPaneUsers: val });
   }
 
+  onUpdateAssignedTo(e, row) {
+    if (e) e.preventDefault();
+    const iniVal = this.props.initialValues;
+    const initialValues = Object.assign({
+      assigned_to_user: `${row.personal.firstName} ${row.personal.lastName}`,
+      assigned_to: row.id || ''
+    }, iniVal);
+    console.info(initialValues);
+    this.props.initialize({ ...initialValues });
+  }
+
   render() {
     const { initialValues, onCancel } = this.props;
+
     const firstMenu = this.getAddFirstMenu();
     const firstMenuSecondPane = this.firstMenuSecondPane();
     const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues.id, ['id'], '')} </span> : 'Create Order';
@@ -165,7 +178,7 @@ class POForm extends Component {
           {
             this.state.showPaneUsers &&
             <Pane id="pane-users" defaultWidth="30%" paneTitle="Search Users" firstMenu={firstMenuSecondPane}>
-              <Users onUpdateAssignTo={this.onUpdateAssignTo} {...this.props} />
+              <Users onUpdateAssignedTo={this.onUpdateAssignedTo} {...this.props} />
             </Pane>
           }
         </Paneset>

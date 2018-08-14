@@ -7,10 +7,6 @@ import TextFieldIcon from '@folio/stripes-components/lib/TextField/TextFieldIcon
 
 class Users extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   getUsers() {
     const { parentResources } = this.props;
     const users = (parentResources.user || {}).records || [];
