@@ -23,10 +23,10 @@ class PODetailsForm extends Component {
           <Field label="Created On" name="created" id="created" dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} fullWidth />
         </Col>
         <Col xs={6} md={3} style={{ display: 'none' }}>
-          <Field label="Created By" name="created_by" id="created_by" component={TextField} fullWidth disabled readOnly />
+          <Field label="Created By" name="created_by" id="created_by" component={TextField} fullWidth readOnly />
         </Col>
         <Col xs={6} md={3}>
-          <Field label="Created By" name="created_by_name" id="created_by_name" component={TextField} fullWidth disabled readOnly />
+          <Field label="Created By" name="created_by_name" id="created_by_name" component={TextField} fullWidth disabled />
         </Col>
         <Col xs={6} md={3} style={{ display: 'none' }}>
           <Field label="Assigned To" name="assigned_to" id="assigned_to" type="hidden" component={TextField} fullWidth />

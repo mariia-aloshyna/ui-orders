@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { getFormValues } from 'redux-form';
 import { MultiColumnList, IconButton, PaneMenu, TextField, Row, Col } from '@folio/stripes-components/';
 import TextFieldIcon from '@folio/stripes-components/lib/TextField/TextFieldIcon';
 
@@ -31,11 +32,9 @@ class Users extends Component {
   }
 
   onRowClick(e, row) {
-    const { blur, onUpdateAssignedTo } = this.props;
-    onUpdateAssignedTo(e, row);
-    blur();
-    this.props.change();
-    this.props.reset();
+    const { dispatch, change } = this.props;
+    dispatch(change('assigned_to_user', `${row.personal.firstName} ${row.personal.lastName}`));
+    dispatch(change('assigned_to', `${row.id}`));
   }
 
   render() {
