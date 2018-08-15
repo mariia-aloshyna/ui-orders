@@ -11,6 +11,7 @@
     "stripes": {
         "type": "app",
         "displayName": "ui-orders.meta.title",
+        "moduleName": "Orders",
         "route": "/orders",
         "home": "/orders",
         "hasSettings": true,
