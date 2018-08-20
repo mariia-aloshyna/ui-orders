@@ -29,7 +29,8 @@ class POForm extends Component {
         POSummary: true,
       },
       showPaneUsers: false,
-      showPaneVendors: false
+      showPaneVendors: false,
+      confirmDelete: false
     };
     this.deletePO = this.deletePO.bind(this);
     this.handleExpandAll = this.handleExpandAll.bind(this);
@@ -121,7 +122,7 @@ class POForm extends Component {
     return (
       <div style={{ height: '100vh' }}>
         <Paneset>
-          <Pane id="pane-poForm" defaultWidth="fill" paneTitle={paneTitle} fistMenu={firstMenu} onClose={onCancel} lastMenu={lastMenu} dismissible>
+          <Pane id="pane-poForm" defaultWidth="100%" paneTitle={paneTitle} fistMenu={firstMenu} onClose={onCancel} lastMenu={lastMenu} dismissible>
             <form id="form-po">
               <Row>
                 <Col xs={12}>
@@ -158,14 +159,14 @@ class POForm extends Component {
               </Row>
             </form>
           </Pane>
-          {
+          {/* {
             this.state.showPaneUsers &&
             <UsersSearch showPaneUsers={this.showPaneUsers} {...this.props} />
-          }
-          {
+          } */}
+          {/* {
             this.state.showPaneVendors &&
             <VendorsSearch showPaneVendors={this.showPaneVendors} {...this.props} />
-          }
+          } */}
         </Paneset>
       </div>
     );

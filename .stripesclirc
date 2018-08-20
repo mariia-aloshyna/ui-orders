@@ -1,5 +1,9 @@
 {
   "configFile": "stripes.config.js.local",
   "port": 8081,
-  "aliases": {}
+  "aliases": {
+    "@folio/receiving": "/Users/arvind/Sites/workspace/ui-receiving",
+    "@folio/plugin-find-user": "/Users/arvind/Sites/workspace/ui-plugin-find-user",
+    "@folio/users": "/Users/arvind/Sites/workspace/ui-users"
+  }
 }
