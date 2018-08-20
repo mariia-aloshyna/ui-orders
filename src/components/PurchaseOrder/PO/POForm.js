@@ -5,7 +5,8 @@ import stripesForm from '@folio/stripes-form';
 import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, IfPermission, IconButton, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components';
 import { PODetailsForm } from '../PODetails';
 import { SummaryForm } from '../Summary';
-import Users from '../Users';
+import UsersSearch from '../UsersSearch';
+import VendorsSearch from '../VendorsSearch';
 
 class POForm extends Component {
   static propTypes = {
@@ -28,11 +29,13 @@ class POForm extends Component {
         POSummary: true,
       },
       showPaneUsers: false,
+      showPaneVendors: false
     };
     this.deletePO = this.deletePO.bind(this);
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
     this.showPaneUsers = this.showPaneUsers.bind(this);
+    this.showPaneVendors = this.showPaneVendors.bind(this);
   }
 
   getAddFirstMenu() {
@@ -40,16 +43,6 @@ class POForm extends Component {
     return (
       <PaneMenu>
         <button id="clickable-close-new-purchase-order-dialog" onClick={onCancel} title="close" aria-label="Close New Purchase Order Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
-        </button>
-      </PaneMenu>
-    );
-  }
-
-  firstMenuSecondPane() {
-    return (
-      <PaneMenu>
-        <button id="clickable-close-users-pane" onClick={() => this.showPaneUsers(false)} title="close" aria-label="Close users Pane" style={{ marginBottom: '0', marginLeft: '10px' }}>
           <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
         </button>
       </PaneMenu>
@@ -101,14 +94,16 @@ class POForm extends Component {
   }
 
   showPaneUsers(val) {
-    this.setState({ showPaneUsers: val });
+    this.setState({ showPaneVendors: false, showPaneUsers: val });
+  }
+
+  showPaneVendors(val) {
+    this.setState({ showPaneUsers: false, showPaneVendors: val });
   }
 
   render() {
     const { initialValues, onCancel } = this.props;
-
     const firstMenu = this.getAddFirstMenu();
-    const firstMenuSecondPane = this.firstMenuSecondPane();
     const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues.id, ['id'], '')} </span> : 'Create Order';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-update-purchase-order', 'Update Order') :
@@ -141,7 +136,7 @@ class POForm extends Component {
                     <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                       <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
                         <Accordion label="Purchase Order" id="purchaseOrder">
-                          <PODetailsForm showPaneUsers={this.showPaneUsers} {...this.props} />
+                          <PODetailsForm showPaneVendors={this.showPaneVendors} showPaneUsers={this.showPaneUsers} {...this.props} />
                         </Accordion>
                         <Accordion label="PO Summary" id="POSummary">
                           <SummaryForm {...this.props} />
@@ -165,9 +160,11 @@ class POForm extends Component {
           </Pane>
           {
             this.state.showPaneUsers &&
-            <Pane id="pane-users" defaultWidth="30%" paneTitle="Search Users" firstMenu={firstMenuSecondPane}>
-              <Users {...this.props} />
-            </Pane>
+            <UsersSearch showPaneUsers={this.showPaneUsers} {...this.props} />
+          }
+          {
+            this.state.showPaneVendors &&
+            <VendorsSearch showPaneVendors={this.showPaneVendors} {...this.props} />
           }
         </Paneset>
       </div>

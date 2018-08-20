@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { getFormValues } from 'redux-form';
-import { MultiColumnList, IconButton, PaneMenu, TextField, Row, Col } from '@folio/stripes-components/';
+import { MultiColumnList, Pane, PaneMenu, TextField, Row, Col } from '@folio/stripes-components/';
 import TextFieldIcon from '@folio/stripes-components/lib/TextField/TextFieldIcon';
 
-class Users extends Component {
+class UsersSearch extends Component {
 
   constructor(props) {
     super(props);
     this.onRowClick = this.onRowClick.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   getUsers() {
@@ -19,16 +19,12 @@ class Users extends Component {
     return users;
   }
 
-  getAddFirstMenu() {
-    return (
-      <PaneMenu>
-        <IconButton
-          title="back"
-          icon="left-arrow"
-          // onClick={this.props.onBacktoEdit}
-        />
-      </PaneMenu>
-    );
+  onChange(e) {
+    const { parentMutator } = this.props;
+    const val = e.target.value;
+    parentMutator.userQuery.update({
+      query: val,
+    });
   }
 
   onRowClick(e, row) {
@@ -37,8 +33,19 @@ class Users extends Component {
     dispatch(change('assigned_to', `${row.id}`));
   }
 
+  getAddFirstMenu() {
+    return (
+      <PaneMenu>
+        <button id="clickable-close-users-pane" onClick={() => this.props.showPaneUsers(false)} title="close" aria-label="Close users Pane" style={{ marginBottom: '0', marginLeft: '10px' }}>
+          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
+        </button>
+      </PaneMenu>
+    );
+  }
+
   render() {
     const firstMenu = this.getAddFirstMenu();
+    const contentData = this.getUsers();
     const resultsFormatter = {
       'username': data => _.get(data, ['username'], ''),
       'type': data => _.get(data, ['type'], ''),
@@ -58,17 +65,16 @@ class Users extends Component {
       'lastname': '20%'
     };
 
-    console.log(this.props);
     return (
-      <div>
+      <Pane id="pane-users" defaultWidth="30%" paneTitle="Search Users" firstMenu={firstMenu}>
         <Row>
           <Col xs={12}>
-            <TextField startControl={<TextFieldIcon icon="search" />} />
+            <TextField onChange={this.onChange} startControl={<TextFieldIcon icon="search" />} />
           </Col>
           <Col xs={12}>
             <MultiColumnList
               onRowClick={this.onRowClick}
-              contentData={this.getUsers()}
+              contentData={contentData}
               formatter={resultsFormatter}
               columnMapping={columnMapping}
               columnWidths={columnWidths}
@@ -76,9 +82,9 @@ class Users extends Component {
             />
           </Col>
         </Row>
-      </div>
+      </Pane>
     );
   }
 }
 
-export default Users;
+export default UsersSearch;
