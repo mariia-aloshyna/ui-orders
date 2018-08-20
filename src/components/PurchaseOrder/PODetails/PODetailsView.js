@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FormatDate from '../../Utils/FormatDate';
-import css from './PODetailsView.css';
+import css from './css/PODetailsView.css';
 
 class DetailsView extends React.Component {
   static propTypes = {
