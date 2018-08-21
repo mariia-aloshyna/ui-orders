@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import stripesForm from '@folio/stripes-form';
-import { Pane, PaneMenu, Button, Row, Icon, Col, IconButton, IfPermission, Layer, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components';
+import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, IfPermission, IconButton, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components';
 import { PODetailsForm } from '../PODetails';
 import { SummaryForm } from '../Summary';
 
@@ -53,7 +53,7 @@ class POForm extends Component {
           title={label}
           disabled={pristine || submitting}
           onClick={handleSubmit}
-          style={{ marginBottom: '0' }}
+          style={{ marginBottom: '0', marginRight: '10px' }}
         >
           {label}
         </Button>
@@ -89,9 +89,8 @@ class POForm extends Component {
 
   render() {
     const { initialValues, onCancel } = this.props;
-    console.log(this.props);
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Create Order';
+    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues.id, ['id'], '')} </span> : 'Create Order';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-update-purchase-order', 'Update Order') :
       this.getLastMenu('clickable-create-new-purchase-order', 'Create Order');
@@ -106,43 +105,47 @@ class POForm extends Component {
     }
 
     return (
-      <Pane id="pane-poForm" defaultWidth="fill" paneTitle={paneTitle} fistMenu={firstMenu} onClose={onCancel} lastMenu={lastMenu} dismissible>
-        <form id="form-po">
-          <Row>
-            <Col xs={12}>
-              <Row center="xs">
-                <Col xs={12} md={8}>
-                  <Row end="xs">
-                    <Col xs={12}>
-                      <ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} />
+      <div style={{ height: '100vh' }}>
+        <Paneset>
+          <Pane id="pane-poForm" defaultWidth="100%" paneTitle={paneTitle} fistMenu={firstMenu} onClose={onCancel} lastMenu={lastMenu} dismissible>
+            <form id="form-po">
+              <Row>
+                <Col xs={12}>
+                  <Row center="xs">
+                    <Col xs={12} md={8}>
+                      <Row end="xs">
+                        <Col xs={12}>
+                          <ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} />
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col xs={12} md={8} style={{ textAlign: 'left' }}>
+                      <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
+                        <Accordion label="Purchase Order" id="purchaseOrder">
+                          <PODetailsForm showPaneVendors={this.showPaneVendors} showPaneUsers={this.showPaneUsers} {...this.props} />
+                        </Accordion>
+                        <Accordion label="PO Summary" id="POSummary">
+                          <SummaryForm {...this.props} />
+                        </Accordion>
+                      </AccordionSet>
+                      <IfPermission perm="purchase_order.item.delete">
+                        <Row end="xs">
+                          <Col xs={12}>
+                            {
+                              showDeleteButton &&
+                              <Button type="button" buttonStyle="danger" onClick={() => { this.deletePO(this.props.initialValues.id); }}>Remove</Button>
+                            }
+                          </Col>
+                        </Row>
+                      </IfPermission>
                     </Col>
                   </Row>
                 </Col>
-                <Col xs={12} md={8} style={{ textAlign: 'left' }}>
-                  <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-                    <Accordion label="Purchase Order" id="purchaseOrder">
-                      <PODetailsForm {...this.props} />
-                    </Accordion>
-                    <Accordion label="PO Summary" id="POSummary">
-                      <SummaryForm {...this.props} />
-                    </Accordion>
-                  </AccordionSet>
-                  <IfPermission perm="vendor.item.delete">
-                    <Row end="xs">
-                      <Col xs={12}>
-                        {
-                          showDeleteButton &&
-                          <Button type="button" buttonStyle="danger" onClick={() => { this.deletePO(this.props.initialValues.id); }}>Remove</Button>
-                        }
-                      </Col>
-                    </Row>
-                  </IfPermission>
-                </Col>
               </Row>
-            </Col>
-          </Row>
-        </form>
-      </Pane>
+            </form>
+          </Pane>
+        </Paneset>
+      </div>
     );
   }
 }

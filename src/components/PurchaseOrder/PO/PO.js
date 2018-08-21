@@ -7,12 +7,13 @@ import FundDistribution from '../FundDistribution';
 import LineListing from '../LineListing';
 import { PODetailsView } from '../PODetails';
 import { SummaryView } from '../Summary';
-import LayerCollection from '../LayerCollection';
+import { LayerPO } from '../LayerCollection';
 
 class PO extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
     location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     dropdown: PropTypes.object,
     stripes: PropTypes.object.isRequired,
@@ -63,13 +64,30 @@ class PO extends Component {
     });
   }
 
+  openReceiveItem = (e) => {
+    if (e) e.preventDefault();
+    this.transitionToParams({ layer: 'receive-items' });
+  }
+
+  openReceived = (e) => {
+    if (e) e.preventDefault();
+    this.transitionToParams({ layer: 'received' });
+  }
+
   onAddPOLine = (e) => {
     if (e) e.preventDefault();
     this.transitionToParams({ layer: 'create-po-line' });
   }
 
+  onBacktoEdit = async (e) => {
+    if (e) e.preventDefault();
+    await this.transitionToParams({ layer: null });
+    await this.transitionToParams({ layer: 'edit' });
+    return false;
+  }
+
   render() {
-    const { location } = this.props;
+    const { location, history, match } = this.props;
     const initialValues = this.getData();
     const lastMenu = (<PaneMenu>
       <IfPermission perm="vendor.item.put">
@@ -94,7 +112,7 @@ class PO extends Component {
 
     return (
       <Pane id="pane-podetails" defaultWidth="fill" paneTitle={_.get(initialValues, ['name'], '')} lastMenu={lastMenu} dismissible onClose={this.props.onClose}>
-        <FundDistribution openReceiveItem={this.openReceiveItem} />
+        <FundDistribution openReceiveItem={this.openReceiveItem} openReceived={this.openReceived} />
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
           <Accordion label="Purchase Order" id="purchaseOrder">
@@ -107,11 +125,14 @@ class PO extends Component {
             <LineListing initialValues={initialValues} {...this.props} />
           </Accordion>
         </AccordionSet>
-        <LayerCollection
+        <LayerPO
           location={location}
           initialValues={initialValues}
+          onBacktoEdit={this.onBacktoEdit}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}
+          history={history}
+          match={match}
           parentResources={this.props.parentResources}
           parentMutator={this.props.parentMutator}
         />

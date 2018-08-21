@@ -20,7 +20,6 @@ class Panes extends React.Component {
     return (
       <Switch>
         <Route
-          exact
           path={`${this.props.match.path}`}
           render={props => <this.connectedPO
             {...this.props}
