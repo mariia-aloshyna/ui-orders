@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { getFormValues } from 'redux-form';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
-import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
 import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import packageInfo from '../../package';
-import Panes from '../components/PurchaseOrder/Panes';
 import { PO, POForm } from '../components/PurchaseOrder/PO';
 import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
 

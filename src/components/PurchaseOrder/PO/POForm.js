@@ -5,8 +5,6 @@ import stripesForm from '@folio/stripes-form';
 import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, IfPermission, IconButton, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components';
 import { PODetailsForm } from '../PODetails';
 import { SummaryForm } from '../Summary';
-import UsersSearch from '../UsersSearch';
-import VendorsSearch from '../VendorsSearch';
 
 class POForm extends Component {
   static propTypes = {
