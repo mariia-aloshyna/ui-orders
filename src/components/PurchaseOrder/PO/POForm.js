@@ -27,16 +27,11 @@ class POForm extends Component {
       sections: {
         purchaseOrder: true,
         POSummary: true,
-      },
-      showPaneUsers: false,
-      showPaneVendors: false,
-      confirmDelete: false
+      }
     };
     this.deletePO = this.deletePO.bind(this);
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
-    this.showPaneUsers = this.showPaneUsers.bind(this);
-    this.showPaneVendors = this.showPaneVendors.bind(this);
   }
 
   getAddFirstMenu() {
@@ -92,14 +87,6 @@ class POForm extends Component {
         layer: null
       });
     });
-  }
-
-  showPaneUsers(val) {
-    this.setState({ showPaneVendors: false, showPaneUsers: val });
-  }
-
-  showPaneVendors(val) {
-    this.setState({ showPaneUsers: false, showPaneVendors: val });
   }
 
   render() {
@@ -159,14 +146,6 @@ class POForm extends Component {
               </Row>
             </form>
           </Pane>
-          {/* {
-            this.state.showPaneUsers &&
-            <UsersSearch showPaneUsers={this.showPaneUsers} {...this.props} />
-          } */}
-          {/* {
-            this.state.showPaneVendors &&
-            <VendorsSearch showPaneVendors={this.showPaneVendors} {...this.props} />
-          } */}
         </Paneset>
       </div>
     );
