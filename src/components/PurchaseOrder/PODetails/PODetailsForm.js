@@ -23,7 +23,7 @@ class PODetailsForm extends Component {
 
   onClearFieldVendor() {
     const { dispatch, change } = this.props;
-    dispatch(change('vendor', ''));
+    dispatch(change('vendor_id', ''));
     dispatch(change('vendor_name', ''));
   }
 
@@ -40,21 +40,23 @@ class PODetailsForm extends Component {
   }
 
   userClearButton() {
-    const { stripes: { store }, showPaneUsers } = this.props;
+    const { stripes: { store } } = this.props;
     const formValues = getFormValues('FormPO')(store.getState());
     const isValues = formValues.assigned_to || formValues.assigned_to_user;
     if (isValues && isValues.length > 0) {
       return (<IconButton onClick={this.onClearFieldUser} icon="clearX" size="small" />);
     }
+    return null;
   }
-  
+
   vendorClearButton() {
-    const { stripes: { store }, showPaneVendors } = this.props;
+    const { stripes: { store } } = this.props;
     const formValues = getFormValues('FormPO')(store.getState());
     const isValues = formValues.vendor_name || formValues.vendor;
     if (isValues && isValues.length > 0) {
       return (<IconButton onClick={this.onClearFieldVendor} icon="clearX" size="small" />);
     }
+    return null;
   }
 
   userModal() {
@@ -69,7 +71,7 @@ class PODetailsForm extends Component {
       <Pluggable
         aria-haspopup="true"
         type="find-user"
-        dataKey={undefined}
+        dataKey="user"
         searchLabel="+"
         searchButtonStyle="default"
         selectUser={user => this.onAddUser(user)}
@@ -95,7 +97,7 @@ class PODetailsForm extends Component {
       <Pluggable
         aria-haspopup="true"
         type="find-vendor"
-        dataKey={undefined}
+        dataKey="vendor"
         searchLabel="+"
         searchButtonStyle="default"
         selectVendor={vendor => this.onAddVendor(vendor)}

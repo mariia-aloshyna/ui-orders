@@ -34,7 +34,6 @@ class LayerPO extends Component {
     delete deep.created_by_name;
     delete deep.assigned_to_user;
     delete deep.vendor_name;
-
     this.props.parentMutator.records.PUT(deep).then(() => {
       this.props.onCancel();
     });
@@ -48,7 +47,6 @@ class LayerPO extends Component {
 
   render() {
     const { initialValues, location } = this.props;
-    // const newRecordInitialValues = { new_record: true, po_number: initialValues.po_number };
     const query = location.search ? queryString.parse(location.search) : {};
 
     return (

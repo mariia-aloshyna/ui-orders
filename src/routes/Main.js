@@ -18,7 +18,7 @@ class Main extends Component {
       initialValue: {
         query: '',
         filters: '',
-        sort: 'po_number'
+        sort: 'id'
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
@@ -43,7 +43,8 @@ class Main extends Component {
             const index = resourceData.query.qindex ? resourceData.query.qindex : 'all';
             const searchableIndex = searchableIndexes.find(idx => idx.value === index);
 
-            let cql = resourceData.query.query ? searchableIndex.makeQuery(resourceData.query.query) : '(id="*")';
+            // let cql = resourceData.query.query ? searchableIndex.makeQuery(resourceData.query.query) : '(id="*")';
+            let cql = searchableIndex.makeQuery(resourceData.query.query);
             const filterCql = filters2cql(filterConfig, resourceData.query.filters);
             if (filterCql) {
               if (cql) {
@@ -77,27 +78,6 @@ class Main extends Component {
         staticFallback: { params: {} },
       },
     },
-    // Vendor
-    vendorQuery: { initialValue: { query: '' } },
-    vendorResultCount: { initialValue: INITIAL_RESULT_COUNT },
-    vendor: {
-      type: 'okapi',
-      clear: true,
-      records: 'vendors',
-      recordsRequired: '%{vendorResultCount}',
-      path: 'vendor',
-      perRequest: RESULT_COUNT_INCREMENT,
-      GET: {
-        params: {
-          query: (...args) => {
-            const resourceData = args[2];
-            const cql = `(name="${resourceData.vendorQuery.query}*")`;
-            return cql;
-          },
-        },
-        staticFallback: { params: {} },
-      },
-    },  
     // Po Line
     poLineQuery: { initialValue: { query: '' } },
     poLineResultCount: { initialValue: INITIAL_RESULT_COUNT },
@@ -119,27 +99,6 @@ class Main extends Component {
         staticFallback: { params: {} },
       },
     },
-    // Users
-    userQuery: { initialValue: { query: '*' } },
-    userResultCount: { initialValue: INITIAL_RESULT_COUNT },
-    user: {
-      type: 'okapi',
-      clear: true,
-      records: 'users',
-      recordsRequired: '%{userResultCount}',
-      path: 'users',
-      perRequest: RESULT_COUNT_INCREMENT,
-      GET: {
-        params: {
-          query: (...args) => {
-            const resourceData = args[2];
-            let cql = `(username="${resourceData.userQuery.query}*" or personal.firstName="${resourceData.userQuery.query}*" or personal.lastName="${resourceData.userQuery.query}*" or personal.email="${resourceData.userQuery.query}*" or barcode="${resourceData.userQuery.query}*" or externalSystemId="${resourceData.userQuery.query}*")`;
-            return cql;
-          }
-        },
-        staticFallback: { params: {} },
-      },
-    },
     // DropDown
     dropdown: { initialValue: {
       acquisitionMethodDD: [
@@ -148,7 +107,7 @@ class Main extends Component {
         { value: 'approval', label: 'Approval' },
         { value: 'Depository', label: 'Depository' },
         { value: 'Exchange', label: 'Gift' },
-        { value: 'Technical', label: 'Technical '}
+        { value: 'Technical', label: 'Technical ' }
       ],
       orderFormatDD: [
         { value: 'Physical Resource', label: 'Physical Resource' },
@@ -186,6 +145,7 @@ class Main extends Component {
   }
 
   create = (data) => {
+    console.log(data);
     const { mutator } = this.props;
     const deep = _.cloneDeep(data);
     delete deep.created_by_name;
@@ -193,7 +153,7 @@ class Main extends Component {
     delete deep.vendor_name;
     
     mutator.records.POST(deep).then(newOrder => {
-      mutator.vendorQuery.update({
+      mutator.query.update({
         _path: `/orders/view/${newOrder.id}`,
         layer: null
       });
