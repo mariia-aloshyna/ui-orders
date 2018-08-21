@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
-import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
 import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import packageInfo from '../../package';
-import Panes from '../components/PurchaseOrder/Panes';
 import { PO, POForm } from '../components/PurchaseOrder/PO';
 import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
 
@@ -93,7 +91,7 @@ class Main extends Component {
         params: {
           query: (...args) => {
             const resourceData = args[2];
-            let cql = `(name="${resourceData.poLineQuery.query}*")`;
+            const cql = `(name="${resourceData.vendorQuery.query}*")`;
             return cql;
           },
         },
@@ -117,6 +115,27 @@ class Main extends Component {
             let cql = `(id="${resourceData.poLineQuery.query}*")`;
             return cql;
           },
+        },
+        staticFallback: { params: {} },
+      },
+    },
+    // Users
+    userQuery: { initialValue: { query: '*' } },
+    userResultCount: { initialValue: INITIAL_RESULT_COUNT },
+    user: {
+      type: 'okapi',
+      clear: true,
+      records: 'users',
+      recordsRequired: '%{userResultCount}',
+      path: 'users',
+      perRequest: RESULT_COUNT_INCREMENT,
+      GET: {
+        params: {
+          query: (...args) => {
+            const resourceData = args[2];
+            let cql = `(username="${resourceData.userQuery.query}*" or personal.firstName="${resourceData.userQuery.query}*" or personal.lastName="${resourceData.userQuery.query}*" or personal.email="${resourceData.userQuery.query}*" or barcode="${resourceData.userQuery.query}*" or externalSystemId="${resourceData.userQuery.query}*")`;
+            return cql;
+          }
         },
         staticFallback: { params: {} },
       },
@@ -147,37 +166,7 @@ class Main extends Component {
         { value: 'On-Going', label: 'On-Going' },
         { value: 'On-Going Re-encumber', label: 'On-Going Re-encumber' }
       ],
-    }},
-    // Users
-    usersQuery: { initialValue: { query: '' } },
-    usersResultCount: { initialValue: INITIAL_RESULT_COUNT },
-    user: {
-      type: 'okapi',
-      clear: true,
-      records: 'users',
-      recordsRequired: '%{poLineResultCount}',
-      path: 'users',
-      perRequest: RESULT_COUNT_INCREMENT,
-      GET: {
-        params: {
-          query: makeQueryFunction(
-            'cql.allRecords=1',
-            '(username="%{query.query}*" or personal.firstName="%{query.query}*" or personal.lastName="%{query.query}*" or personal.email="%{query.query}*" or barcode="%{query.query}*" or id="%{query.query}*" or externalSystemId="%{query.query}*")',
-            {
-              'Active': 'active',
-              'Name': 'personal.lastName personal.firstName',
-              'Patron group': 'patronGroup.group',
-              'Username': 'username',
-              'Barcode': 'barcode',
-              'Email': 'personal.email',
-            },
-            '',
-            '',
-          ),
-        },
-        staticFallback: { params: {} },
-      },
-    },
+    }}
   });
 
   static propTypes = {
@@ -198,15 +187,18 @@ class Main extends Component {
 
   create = (data) => {
     const { mutator } = this.props;
-    console.log(data);
-    mutator.records.POST(data).then(newOrder => {
-      mutator.query.update({
+    const deep = _.cloneDeep(data);
+    delete deep.created_by_name;
+    delete deep.assigned_to_user;
+    delete deep.vendor_name;
+    
+    mutator.records.POST(deep).then(newOrder => {
+      mutator.vendorQuery.update({
         _path: `/orders/view/${newOrder.id}`,
         layer: null
       });
     });
   }
-
 
   render() {
     const { resources, mutator, stripes, browseOnly, showSingleResult, disableRecordCreation, onComponentWillUnmount, stripes: { user: { user: { id, firstName, lastName } } } } = this.props;
@@ -240,7 +232,7 @@ class Main extends Component {
         newRecordPerms="purchase_order.item.post, login.item.post"
         parentResources={resources}
         parentMutator={mutator}
-        detailProps={stripes}
+        detailProps={Object.assign({ onUpdateAssignedTo: this.onUpdateAssignedTo }, stripes)}
         stripes={stripes}
         showSingleResult={showSingleResult}
         browseOnly={browseOnly}

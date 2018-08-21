@@ -5,7 +5,7 @@ import { Required } from '../../Utils/Validate';
 
 class SummaryForm extends Component {
 
-  render() {       
+  render() {
     return (
       <Row>
         <Col xs={6} md={3}>
@@ -24,13 +24,13 @@ class SummaryForm extends Component {
           <Field label="Transmission Method" name="transmission_method" id="transmission_method" dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} fullWidth />
         </Col>
         <Col xs={6} md={3}>
-          <Field label="Workflow Status" name="po_workflow_status_id" id="po_workflow_status_id" component={TextField} fullWidth />
+          <Field label="Workflow Status" name="po_workflow_status_id" id="po_workflow_status_id" component={TextField} fullWidth disabled />
         </Col>
         <Col xs={6} md={3}>
-          <Field label="PO Receipt Status" name="po_receipt_status" id="po_receipt_status" component={TextField} fullWidth />
+          <Field label="PO Receipt Status" name="po_receipt_status" id="po_receipt_status" component={TextField} fullWidth disabled />
         </Col>
         <Col xs={6} md={3}>
-          <Field label="PO Payment Status" name="po_payment_status" id="po_payment_status" component={TextField} fullWidth />
+          <Field label="PO Payment Status" name="po_payment_status" id="po_payment_status" component={TextField} fullWidth disabled />
         </Col>
         <Col xs={12}>
           <Field label="Comments" name="comments" id="comments" type="text" component={TextArea} fullWidth />

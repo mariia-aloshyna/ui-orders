@@ -1,5 +1,11 @@
 {
   "configFile": "stripes.config.js.local",
   "port": 8081,
-  "aliases": {}
+  "aliases": {
+    "@folio/vendors": "/Users/arvind/Sites/workspace/ui-vendors",
+    "@folio/plugin-find-user": "/Users/arvind/Sites/workspace/ui-plugin-find-user",
+    "@folio/plugin-find-instance": "/Users/arvind/Sites/workspace/ui-plugin-find-instance",
+    "@folio/plugin-find-vendor": "/Users/arvind/Sites/workspace/ui-plugin-find-vendor",
+    "@folio/users": "/Users/arvind/Sites/workspace/ui-users"
+  }
 }

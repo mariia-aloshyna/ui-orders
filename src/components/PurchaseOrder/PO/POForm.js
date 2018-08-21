@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import stripesForm from '@folio/stripes-form';
-import { getFormValues } from 'redux-form';
 import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, IfPermission, IconButton, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components';
 import { PODetailsForm } from '../PODetails';
 import { SummaryForm } from '../Summary';
-import Users from '../Users';
 
 class POForm extends Component {
   static propTypes = {
@@ -27,14 +25,11 @@ class POForm extends Component {
       sections: {
         purchaseOrder: true,
         POSummary: true,
-      },
-      showPaneUsers: true,
+      }
     };
     this.deletePO = this.deletePO.bind(this);
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
-    this.showPaneUsers = this.showPaneUsers.bind(this);
-    this.onUpdateAssignedTo = this.onUpdateAssignedTo.bind(this);
   }
 
   getAddFirstMenu() {
@@ -42,16 +37,6 @@ class POForm extends Component {
     return (
       <PaneMenu>
         <button id="clickable-close-new-purchase-order-dialog" onClick={onCancel} title="close" aria-label="Close New Purchase Order Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
-        </button>
-      </PaneMenu>
-    );
-  }
-
-  firstMenuSecondPane() {
-    return (
-      <PaneMenu>
-        <button id="clickable-close-users-pane" onClick={() => this.showPaneUsers(false)} title="close" aria-label="Close users Pane" style={{ marginBottom: '0', marginLeft: '10px' }}>
           <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
         </button>
       </PaneMenu>
@@ -102,29 +87,9 @@ class POForm extends Component {
     });
   }
 
-  showPaneUsers(val) {
-    this.setState({ showPaneUsers: val });
-  }
-
-  onUpdateAssignedTo(e, row) {
-    if (e) e.preventDefault();
-    const { stripes: { store } } = this.props;
-    // Get current form values/data
-    const formValues = getFormValues('FormPO')(store.getState());
-    // Assign data
-    const initialValues = Object.assign({
-      assigned_to_user: `${row.personal.firstName} ${row.personal.lastName}`,
-      assigned_to: row.id || ''
-    }, formValues);
-    // console.info(initialValues);
-    // this.props.initialize({ ...initialValues });
-  }
-
   render() {
     const { initialValues, onCancel } = this.props;
-
     const firstMenu = this.getAddFirstMenu();
-    const firstMenuSecondPane = this.firstMenuSecondPane();
     const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues.id, ['id'], '')} </span> : 'Create Order';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-update-purchase-order', 'Update Order') :
@@ -142,7 +107,7 @@ class POForm extends Component {
     return (
       <div style={{ height: '100vh' }}>
         <Paneset>
-          <Pane id="pane-poForm" defaultWidth="fill" paneTitle={paneTitle} fistMenu={firstMenu} onClose={onCancel} lastMenu={lastMenu} dismissible>
+          <Pane id="pane-poForm" defaultWidth="100%" paneTitle={paneTitle} fistMenu={firstMenu} onClose={onCancel} lastMenu={lastMenu} dismissible>
             <form id="form-po">
               <Row>
                 <Col xs={12}>
@@ -157,7 +122,7 @@ class POForm extends Component {
                     <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                       <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
                         <Accordion label="Purchase Order" id="purchaseOrder">
-                          <PODetailsForm showPaneUsers={this.showPaneUsers} {...this.props} />
+                          <PODetailsForm showPaneVendors={this.showPaneVendors} showPaneUsers={this.showPaneUsers} {...this.props} />
                         </Accordion>
                         <Accordion label="PO Summary" id="POSummary">
                           <SummaryForm {...this.props} />
@@ -179,12 +144,6 @@ class POForm extends Component {
               </Row>
             </form>
           </Pane>
-          {
-            this.state.showPaneUsers &&
-            <Pane id="pane-users" defaultWidth="30%" paneTitle="Search Users" firstMenu={firstMenuSecondPane}>
-              <Users onUpdateAssignedTo={this.onUpdateAssignedTo} {...this.props} />
-            </Pane>
-          }
         </Paneset>
       </div>
     );
