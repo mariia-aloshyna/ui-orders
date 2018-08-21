@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, getFormValues } from 'redux-form';
-import _ from 'lodash';
-import { TextField, Row, Col, Datepicker, Pluggable } from '@folio/stripes-components';
-import TextFieldIcon from '@folio/stripes-components/lib/TextField/TextFieldIcon';
+import { TextField, Row, Col, Datepicker, Pluggable, IconButton } from '@folio/stripes-components';
 import { Required } from '../../Utils/Validate';
 
 class PODetailsForm extends Component {
@@ -17,16 +15,16 @@ class PODetailsForm extends Component {
     this.onClearFieldUser = this.onClearFieldUser.bind(this);
   }
 
-  onClearFieldVendor() {
-    const { dispatch, change } = this.props;
-    dispatch(change('vendor', ''));
-    dispatch(change('vendor_name', ''));
-  }
-
   onClearFieldUser() {
     const { dispatch, change } = this.props;
     dispatch(change('assigned_to_user', ''));
     dispatch(change('assigned_to', ''));
+  }
+
+  onClearFieldVendor() {
+    const { dispatch, change } = this.props;
+    dispatch(change('vendor', ''));
+    dispatch(change('vendor_name', ''));
   }
 
   onAddUser(user) {
@@ -39,6 +37,24 @@ class PODetailsForm extends Component {
     const { dispatch, change } = this.props;
     dispatch(change('vendor_name', `${vendor.name}`));
     dispatch(change('vendor_id', `${vendor.id}`));
+  }
+
+  userClearButton() {
+    const { stripes: { store }, showPaneUsers } = this.props;
+    const formValues = getFormValues('FormPO')(store.getState());
+    const isValues = formValues.assigned_to || formValues.assigned_to_user;
+    if (isValues && isValues.length > 0) {
+      return (<IconButton onClick={this.onClearFieldUser} icon="clearX" size="small" />);
+    }
+  }
+  
+  vendorClearButton() {
+    const { stripes: { store }, showPaneVendors } = this.props;
+    const formValues = getFormValues('FormPO')(store.getState());
+    const isValues = formValues.vendor_name || formValues.vendor;
+    if (isValues && isValues.length > 0) {
+      return (<IconButton onClick={this.onClearFieldVendor} icon="clearX" size="small" />);
+    }
   }
 
   userModal() {
@@ -109,7 +125,7 @@ class PODetailsForm extends Component {
           <Field label="Created By" name="created_by_name" id="created_by_name" component={TextField} fullWidth readOnly />
         </Col>
         <Col xs={6} md={3} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-          <Field label="Assigned To Name" name="assigned_to_user" id="assigned_to_user" component={TextField} fullWidth readOnly />
+          <Field label="Assigned To Name" name="assigned_to_user" id="assigned_to_user" component={TextField} endControl={this.userClearButton()} fullWidth readOnly />
           <div style={{ marginLeft: '10px', top: '2px', position: 'relative' }}>
             {this.userModal()}
           </div>
@@ -121,7 +137,7 @@ class PODetailsForm extends Component {
           <Field label="Vendor" name="vendor" id="vendor" component={TextField} fullWidth readOnly />
         </Col>
         <Col xs={6} md={3} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-          <Field label="Vendor name" name="vendor_name" id="vendor_name" component={TextField} fullWidth readOnly />
+          <Field label="Vendor name" name="vendor_name" id="vendor_name" component={TextField} endControl={this.vendorClearButton()} fullWidth readOnly />
           <div style={{ marginLeft: '10px', top: '2px', position: 'relative' }}>
             {this.userVendor()}
           </div>
