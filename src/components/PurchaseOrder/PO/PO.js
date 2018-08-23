@@ -131,7 +131,7 @@ class PO extends Component {
 
   render() {
     const { location, history, match } = this.props;
-    const initialValues = this.getData();
+    const initialValues = this.state.initialValues || {};
     const lastMenu = (<PaneMenu>
       <IfPermission perm="vendor.item.put">
         <IconButton
