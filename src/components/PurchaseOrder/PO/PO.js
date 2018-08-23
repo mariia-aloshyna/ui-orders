@@ -26,6 +26,40 @@ class PO extends Component {
     paneWidth: PropTypes.string.isRequired,
   }
 
+  static getDerivedStateFromProps(props, state) {
+    const { parentMutator, parentResources, match: { params: { id } } } = props;
+    const po = (parentResources.records || {}).records || [];
+    const initialValues = (po || po.length > 0 || id) ? po.find(u => u.id === id) : false;
+    // Set initialValues
+    if (initialValues) {
+      if (!_.isEqual(initialValues, state.initialValues)) {
+        return { initialValues };
+      }
+    }
+    // Check if initialValues STATE before updating child;
+    if (!_.isEmpty(state.initialValues)) {
+      const vendor = (parentResources.vendor || {}).records || [];
+      const user = (parentResources.user || {}).records || [];      
+      if ((vendor || vendor.length > 0) || (user || user.length > 0)) {
+        const initialValues = state.initialValues;
+        const vendorName = vendor[0] && vendor[0].name ? `${vendor[0].name}` : '';
+        const assignToName = user[0] && user[0].personal ? `${user[0].personal.firstName} ${user[0].personal.lastName}` : '';
+        if (vendorName !== initialValues.vendor_name || assignToName !== initialValues.assigned_to_user) {
+          parentMutator.queryII.update({ 
+            vendorID: initialValues.vendor,
+            userID: initialValues.assigned_to
+          });
+          initialValues.vendor_name = vendorName;
+          initialValues.assigned_to_user = assignToName;
+          return { initialValues };
+        }
+      }
+    }
+
+
+    return null;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -33,12 +67,21 @@ class PO extends Component {
         purchaseOrder: true,
         POSummary: true,
         POListing: true
-      }
+      },
+      initialValues: {}
     };
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
     this.onAddPOLine = this.onAddPOLine.bind(this);
     this.transitionToParams = transitionToParams.bind(this);
+  }
+
+  updateVendor(data) {
+    this.props.parentMutator.vendor.update({ vendorID: data });
+  }
+
+  updateUser(data) {
+    this.props.parentMutator.user.update({ userID: data });
   }
 
   getData() {
@@ -135,6 +178,9 @@ class PO extends Component {
           match={match}
           parentResources={this.props.parentResources}
           parentMutator={this.props.parentMutator}
+          // States
+          vendorName={this.state.vendorName}
+          assignToName={this.state.assignToName}
         />
       </Pane>
     );

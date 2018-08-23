@@ -31,9 +31,6 @@ class DetailsView extends React.Component {
         <Col xs={3}>
           <KeyValue label="Created By" value={_.toString(_.get(dataVal, 'created_by'))} />
         </Col>
-        <Col xs={3}>
-          <KeyValue label="Assign To" value={_.toString(_.get(dataVal, 'assign_to'))} />
-        </Col>
       </Row>
     );
   }

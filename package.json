@@ -638,6 +638,43 @@
             ]
           },
           {
+            "permissionName" : "vendor_detail.collection.get",
+            "displayName" : "vendor_detail-collection get",
+            "description" : "Get a collection of vendor_details"
+          },
+          {
+            "permissionName" : "vendor_detail.item.post",
+            "displayName" : "vendor_detail-item post",
+            "description" : "Create a new vendor_detail"
+          },
+          {
+            "permissionName" : "vendor_detail.item.get",
+            "displayName" : "vendor_detail-item get",
+            "description" : "Fetch a vendor_detail"
+          },
+          {
+            "permissionName" : "vendor_detail.item.put",
+            "displayName" : "vendor_detail-item put",
+            "description" : "Update a vendor_detail"
+          },
+          {
+            "permissionName" : "vendor_detail.item.delete",
+            "displayName" : "vendor_detail-item delete",
+            "description" : "Delete a vendor_detail"
+          },
+          {
+            "permissionName" : "vendor_detail.all",
+            "displayName" : "All vendor_detail perms",
+            "description" : "All permissions for the vendor_detail",
+            "subPermissions" : [
+              "vendor_detail.collection.get",
+              "vendor_detail.item.post",
+              "vendor_detail.item.get",
+              "vendor_detail.item.put",
+              "vendor_detail.item.delete"
+            ]
+          },
+          {
             "permissionName" : "workflow_status.collection.get",
             "displayName" : "workflow_status-collection get",
             "description" : "Get a collection of workflow statuses"
@@ -695,6 +732,7 @@
               "receipt_status.all",
               "renewal.all",
               "source.all",
+              "vendor_detail.all",
               "workflow_status.all"
             ]
           }
