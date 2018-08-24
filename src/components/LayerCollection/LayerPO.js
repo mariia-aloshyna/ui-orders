@@ -4,9 +4,8 @@ import queryString from 'query-string';
 import _ from 'lodash';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import { Layer } from '@folio/stripes-components';
-
 import { ReceiveItems, Received } from '../Receive';
-import { POForm } from '../PO';
+import { POForm } from '../PurchaseOrder';
 import { POLineForm } from '../POLine';
 
 
@@ -23,10 +22,10 @@ class LayerPO extends Component {
   constructor(props) {
     super(props);
     this.transitionToParams = transitionToParams.bind(this);
-    this.connectedPOForm = this.props.stripes.connect(POForm);
-    this.connectedPOLineForm = this.props.stripes.connect(POLineForm);
-    this.connectedReceiveItems = this.props.stripes.connect(ReceiveItems);
-    this.connectedReceived = this.props.stripes.connect(Received);
+    this.connectedPOForm = props.stripes.connect(POForm);
+    this.connectedPOLineForm = props.stripes.connect(POLineForm);
+    this.connectedReceiveItems = props.stripes.connect(ReceiveItems);
+    this.connectedReceived = props.stripes.connect(Received);
   }
 
   updatePO(data) {

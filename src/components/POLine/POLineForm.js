@@ -4,18 +4,18 @@ import _ from 'lodash';
 import queryString from 'query-string';
 import { IfPermission, Pane, PaneMenu, Button, Icon, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/';
 import stripesForm from '@folio/stripes-form';
-import { POLineDetailsForm } from '../POLineDetails';
-import { CostForm } from '../Cost';
-import { ClaimForm } from '../Claim';
-import { TagForm } from '../Tags';
-import { LocationForm } from '../Location';
-import { VendorForm } from '../Vendor';
-import { EresourcesForm } from '../Eresources';
-import { ItemForm } from '../Item';
-import { PhysicalForm } from '../Physical';
-import { RenewalForm } from '../Renewal';
-import { AdjustmentsForm } from '../Adjustments';
-import { LicenseForm } from '../License';
+import { POLineDetailsForm } from './POLineDetails';
+import { CostForm } from './Cost';
+import { ClaimForm } from './Claim';
+import { TagForm } from './Tags';
+import { LocationForm } from './Location';
+import { VendorForm } from './Vendor';
+import { EresourcesForm } from './Eresources';
+import { ItemForm } from './Item';
+import { PhysicalForm } from './Physical';
+import { RenewalForm } from './Renewal';
+import { AdjustmentsForm } from './Adjustments';
+import { LicenseForm } from './License';
 
 class POLineForm extends Component {
   static propTypes = {

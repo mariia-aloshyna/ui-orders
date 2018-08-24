@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Icon, IconButton, AccordionSet, Accordion, ExpandAllButton, Pane, PaneMenu, Row, Col, Button, IfPermission, Layer } from '@folio/stripes-components';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
-import FundDistribution from '../FundDistribution';
-import LineListing from '../LineListing';
-import { PODetailsView } from '../PODetails';
-import { SummaryView } from '../Summary';
+import FundDistribution from './FundDistribution';
+import LineListing from './LineListing';
+import { PODetailsView } from './PODetails';
+import { SummaryView } from './Summary';
 import { LayerPO } from '../LayerCollection';
 
 class PO extends Component {
@@ -55,8 +55,6 @@ class PO extends Component {
         }
       }
     }
-
-
     return null;
   }
 

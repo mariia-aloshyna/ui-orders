@@ -4,7 +4,8 @@ import _ from 'lodash';
 import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
 import packageInfo from '../../package';
-import { PO, POForm } from '../components/PurchaseOrder/PO';
+// import Panes from '../components/Panes/';
+import { PO, POForm } from '../components/PurchaseOrder/';
 import { Filters } from '../components/Utils/FilterConfig';
 
 const INITIAL_RESULT_COUNT = 30;
@@ -180,7 +181,6 @@ class Main extends Component {
     };
     const getUserID = id || '';
     const getUserName = `${firstName} ${lastName}` || '';
-    // console.log(this.props)
 
     return (
       <SearchAndSort
@@ -210,7 +210,6 @@ class Main extends Component {
       />
     );
   }
-
 }
 
 export default Main;
