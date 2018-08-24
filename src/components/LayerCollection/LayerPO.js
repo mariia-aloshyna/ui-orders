@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import _ from 'lodash';
@@ -6,8 +6,6 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 import { Layer } from '@folio/stripes-components';
 import { ReceiveItems, Received } from '../Receive';
 import { POForm } from '../PurchaseOrder';
-import { POLineForm } from '../POLine';
-
 
 class LayerPO extends Component {
   static propTypes = {
@@ -23,7 +21,6 @@ class LayerPO extends Component {
     super(props);
     this.transitionToParams = transitionToParams.bind(this);
     this.connectedPOForm = props.stripes.connect(POForm);
-    this.connectedPOLineForm = props.stripes.connect(POLineForm);
     this.connectedReceiveItems = props.stripes.connect(ReceiveItems);
     this.connectedReceived = props.stripes.connect(Received);
   }
@@ -49,13 +46,10 @@ class LayerPO extends Component {
     const query = location.search ? queryString.parse(location.search) : {};
 
     return (
-      <div className="layerCollection">
+      <div>
         <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Order Dialog">
           <this.connectedPOForm initialValues={initialValues} onSubmit={(record) => { this.updatePO(record); }} {...this.props} />
         </Layer>
-        {/* <Layer isOpen={query.layer ? query.layer === 'create-po-line' : false} label="Create PO Line Dialog">
-          <this.connectedPOLineForm initialValues={newRecordInitialValues} onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />
-        </Layer> */}
         <Layer isOpen={query.layer ? query.layer === 'receive-items' : false} label="Receive Items">
           <this.connectedReceiveItems openReceived={this.openReceived} {...this.props} />
         </Layer>

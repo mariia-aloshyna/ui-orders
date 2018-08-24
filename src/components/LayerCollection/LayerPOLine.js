@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { Layer } from '@folio/stripes-components';
@@ -18,11 +18,11 @@ class LayerPOLine extends Component {
   constructor(props) {
     super(props);
     this.transitionToParams = transitionToParams.bind(this);
-    this.connectedPOLineForm = this.props.stripes.connect(POLineForm);
+    this.connectedPOLineForm = props.stripes.connect(POLineForm);
+    // this.connectedPOLineForm = this.props.stripes.connect(POLineForm);
   }
 
   updatePOLine(data) {
-    console.log(data);
     this.props.parentMutator.poLine.PUT(data).then(() => {
       this.props.onCancel();
     });
@@ -33,11 +33,15 @@ class LayerPOLine extends Component {
     const query = location.search ? queryString.parse(location.search) : {};
 
     return (
-      <Fragment>
-        <Layer isOpen={query.layer ? query.layer === 'edit-po-line' : false} label="Edit PO Line Dialog">
+      <div>
+        <Layer isOpen={query.layer ? query.layer === 'create-po-line' : false} label="Create PO Line Dialog">
+          {/* /*initialValues={newRecordInitialValues}*/}
           <this.connectedPOLineForm onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />
         </Layer>
-      </Fragment>
+        {/* <Layer isOpen={query.layer ? query.layer === 'edit-po-line' : false} label="Edit PO Line Dialog">
+          <this.connectedPOLineForm onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />
+        </Layer> */}
+      </div>
     );
   }
 }

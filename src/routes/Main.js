@@ -4,7 +4,7 @@ import _ from 'lodash';
 import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
 import packageInfo from '../../package';
-// import Panes from '../components/Panes/';
+import Panes from '../components/Panes/';
 import { PO, POForm } from '../components/PurchaseOrder/';
 import { Filters } from '../components/Utils/FilterConfig';
 
@@ -156,7 +156,6 @@ class Main extends Component {
   }
 
   create = (data) => {
-    console.log(data);
     const { mutator } = this.props;
     const deep = _.cloneDeep(data);
     delete deep.created_by_name;
@@ -190,7 +189,7 @@ class Main extends Component {
         filterConfig={filterConfig}
         visibleColumns={['po_number', 'created', 'comments', 'assigned_to']}
         resultsFormatter={resultsFormatter}
-        viewRecordComponent={PO}
+        viewRecordComponent={Panes}
         editRecordComponent={POForm}
         onCreate={this.create}
         newRecordInitialValues={{ created_by: getUserID, created_by_name: getUserName }}

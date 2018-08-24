@@ -7,7 +7,7 @@ import FundDistribution from './FundDistribution';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
-import { LayerPO } from '../LayerCollection';
+import { LayerPO, LayerPOLine } from '../LayerCollection';
 
 class PO extends Component {
   static propTypes = {
@@ -23,7 +23,7 @@ class PO extends Component {
     parentResources: PropTypes.object.isRequired,
     parentMutator: PropTypes.object.isRequired,
     editLink: PropTypes.string,
-    paneWidth: PropTypes.string.isRequired,
+    paneWidth: PropTypes.string.isRequired
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -41,17 +41,17 @@ class PO extends Component {
       const vendor = (parentResources.vendor || {}).records || [];
       const user = (parentResources.user || {}).records || [];      
       if ((vendor || vendor.length > 0) || (user || user.length > 0)) {
-        const initialValues = state.initialValues;
+        const initData = state.initialValues;
         const vendorName = vendor[0] && vendor[0].name ? `${vendor[0].name}` : '';
         const assignToName = user[0] && user[0].personal ? `${user[0].personal.firstName} ${user[0].personal.lastName}` : '';
-        if (vendorName !== initialValues.vendor_name || assignToName !== initialValues.assigned_to_user) {
+        if (vendorName !== initData.vendor_name || assignToName !== initData.assigned_to_user) {
           parentMutator.queryII.update({ 
-            vendorID: initialValues.vendor,
-            userID: initialValues.assigned_to
+            vendorID: initData.vendor,
+            userID: initData.assigned_to
           });
-          initialValues.vendor_name = vendorName;
-          initialValues.assigned_to_user = assignToName;
-          return { initialValues };
+          initData.vendor_name = vendorName;
+          initData.assigned_to_user = assignToName;
+          return { initialValues: initData };
         }
       }
     }
@@ -179,6 +179,16 @@ class PO extends Component {
           // States
           vendorName={this.state.vendorName}
           assignToName={this.state.assignToName}
+        />
+        <LayerPOLine
+          location={location}
+          onBacktoEdit={this.onBacktoEdit}
+          stripes={this.props.stripes}
+          onCancel={this.props.onCloseEdit}
+          history={history}
+          match={match}
+          parentResources={this.props.parentResources}
+          parentMutator={this.props.parentMutator}
         />
       </Pane>
     );

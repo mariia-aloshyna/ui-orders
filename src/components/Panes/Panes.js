@@ -1,47 +1,49 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, { Component } from 'react';
+import Switch from 'react-router-dom/Switch';
+import Route from 'react-router-dom/Route';
 import PropTypes from 'prop-types';
-import IfPermission from '@folio/stripes-components/lib/IfPermission';
-import { PO } from '../PurchaseOrder/PO';
-// import { POLine } from '../POLine';
+import { IfPermission } from '@folio/stripes-components';
+import { PO } from '../PurchaseOrder';
+import { POLine } from '../POLine';
 
-class Panes extends React.Component {
+class Panes extends Component {
   static propTypes = {
     initialValues: PropTypes.object
   }
 
   constructor(props) {
     super(props);
-    this.connectedPO = this.props.stripes.connect(PO);
-    // this.connectedPOLine = this.props.stripes.connect(POLine);
+    this.connectedPO = props.stripes.connect(PO);
+    this.connectedPOLine = props.stripes.connect(POLine);
   }
 
   render() {
-    console.log(this.props.match.path);
     return (
       <Switch>
         <Route
+          exact
           path={`${this.props.match.path}`}
           render={props => <this.connectedPO
             {...this.props}
             {...props}
           />}
         />
-        {/* <IfPermission perm="po_line.item.get"> */}
-        {/* <Route
-          // exact
-          path={`${this.props.match.path}/po-line/view/:id`}
-          render={props => <this.connectedPOLine
-            poURL={`${this.props.match.url}`}
-            {...this.props}
-            {...props}
-          />}
-        /> */}
-        {/* </IfPermission> */}
+        <IfPermission perm="po_line.item.get">
+          <Route
+            exact
+            path={`${this.props.match.path}/po-line/view/:id`}
+            render={props => <this.connectedPOLine
+              poURL={`${this.props.match.url}`}
+              {...this.props}
+              {...props}
+            />}
+          />
+        </IfPermission>
         <Route render={props => <this.connectedPO {...this.props} {...props} />} />
       </Switch>
     );
   }
 }
+
 
 export default Panes;
