@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
-import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import packageInfo from '../../package';
 import { PO, POForm } from '../components/PurchaseOrder/PO';
-import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
+import { Filters } from '../components/Utils/FilterConfig';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 const filterConfig = Filters();
-// const searchableIndexes = SearchableIndexes;
 
 class Main extends Component {
   static manifest = Object.freeze({
@@ -49,26 +47,23 @@ class Main extends Component {
       },
     },
     // Po Line
-    queryII: { 
-      initialValue: { 
-        poline: '',
+    queryII: {
+      initialValue: {
+        poLine: '',
         vendorID: '',
         userID: ''
       }
     },
-    poLineResultCount: { initialValue: INITIAL_RESULT_COUNT },
     poLine: {
       type: 'okapi',
       clear: true,
-      records: 'po_lines',
-      recordsRequired: '%{poLineResultCount}',
       path: 'po_line',
-      perRequest: RESULT_COUNT_INCREMENT,
+      records: 'po_lines',
       GET: {
         params: {
           query: (...args) => {
             const resourceData = args[2];
-            let cql = `(id="${resourceData.queryII.query}*")`;
+            let cql = `(purchase_order_id="${resourceData.queryII.poLine}*")`;
             return cql;
           },
         },
