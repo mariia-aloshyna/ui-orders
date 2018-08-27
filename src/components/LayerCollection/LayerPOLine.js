@@ -35,8 +35,7 @@ class LayerPOLine extends Component {
     return (
       <div>
         <Layer isOpen={query.layer ? query.layer === 'create-po-line' : false} label="Create PO Line Dialog">
-          {/* /*initialValues={newRecordInitialValues}*/}
-          <this.connectedPOLineForm onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />
+          <this.connectedPOLineForm initialValues={{}} onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />
         </Layer>
         {/* <Layer isOpen={query.layer ? query.layer === 'edit-po-line' : false} label="Edit PO Line Dialog">
           <this.connectedPOLineForm onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />

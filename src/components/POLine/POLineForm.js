@@ -118,7 +118,7 @@ class POLineForm extends Component {
       this.getLastMenu('clickable-createnewPoLine', 'Create PO Line');
     const showDeleteButton = initialValues.id || false;
 
-    if (!initialValues) {  
+    if (!initialValues) {
       return (
         <Pane id="pane-podetails" defaultWidth="fill" paneTitle="Details" fistMenu={firstMenu} lastMenu={lastMenu} dismissible>
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
