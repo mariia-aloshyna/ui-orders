@@ -69,16 +69,18 @@ class POLineForm extends Component {
     const { pristine, submitting, handleSubmit } = this.props;
     return (
       <PaneMenu>
-        <Button
-          id={id}
-          type="submit"
-          title={label}
-          disabled={pristine || submitting}
-          onClick={handleSubmit}
-          style={{ marginBottom: '0' }}
-        >
-          {label}
-        </Button>
+        <IfPermission perm="po_line.item.post, login.item.post, po_line.item.put, login.item.put">
+          <Button
+            id={id}
+            type="submit"
+            title={label}
+            disabled={pristine || submitting}
+            onClick={handleSubmit}
+            style={{ marginBottom: '0' }}
+          >
+            {label}
+          </Button>
+        </IfPermission>
       </PaneMenu>
     );
   }
@@ -144,7 +146,7 @@ class POLineForm extends Component {
                     <Accordion label="PO Line Details" id="LineDetails">
                       <POLineDetailsForm {...this.props} />
                     </Accordion>
-                    <Accordion label="Cost" id="Cost">
+                    {/* <Accordion label="Cost" id="Cost">
                       <CostForm {...this.props} />
                     </Accordion>
                     <Accordion label="Claim" id="Claim">
@@ -178,9 +180,9 @@ class POLineForm extends Component {
                     </Accordion>
                     <Accordion label="License" id="License">
                       <LicenseForm {...this.props} />
-                    </Accordion>
+                    </Accordion> */}
                   </AccordionSet>
-                  <IfPermission perm="vendor.item.delete">
+                  <IfPermission perm="po_line.item.delete">
                     <Row end="xs">
                       <Col xs={12}>
                         {

@@ -7,7 +7,7 @@ import { POLineForm } from '../POLine';
 
 class LayerPOLine extends Component {
   static propTypes = {
-    initialValues: PropTypes.object,
+    poInitialValues: PropTypes.object,
     location: PropTypes.object.isRequired,
     stripes: PropTypes.object.isRequired,
     onCancel: PropTypes.func,
@@ -19,23 +19,33 @@ class LayerPOLine extends Component {
     super(props);
     this.transitionToParams = transitionToParams.bind(this);
     this.connectedPOLineForm = props.stripes.connect(POLineForm);
-    // this.connectedPOLineForm = this.props.stripes.connect(POLineForm);
+    this.getCreatePOLIneInitialValues = this.getCreatePOLIneInitialValues.bind(this);
   }
 
   updatePOLine(data) {
-    this.props.parentMutator.poLine.PUT(data).then(() => {
+    console.log(data);
+    this.props.parentMutator.poLine.POST(data).then(() => {
       this.props.onCancel();
     });
+  }
+
+  getCreatePOLIneInitialValues() {
+    const { poInitialValues } = this.props;
+    console.log(poInitialValues);
+    const newObj = Object.assign({
+      purchase_order_id: poInitialValues.id,
+      // vendor_name: poInitialValues.vendor_name,
+    });
+    return newObj;
   }
 
   render() {
     const { location } = this.props;
     const query = location.search ? queryString.parse(location.search) : {};
-
     return (
       <div>
         <Layer isOpen={query.layer ? query.layer === 'create-po-line' : false} label="Create PO Line Dialog">
-          <this.connectedPOLineForm initialValues={{}} onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />
+          <this.connectedPOLineForm initialValues={this.getCreatePOLIneInitialValues()} onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />
         </Layer>
         {/* <Layer isOpen={query.layer ? query.layer === 'edit-po-line' : false} label="Edit PO Line Dialog">
           <this.connectedPOLineForm onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />

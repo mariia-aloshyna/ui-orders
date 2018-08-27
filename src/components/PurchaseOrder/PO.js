@@ -167,8 +167,8 @@ class PO extends Component {
           </Accordion>
         </AccordionSet>
         <LayerPO
-          location={location}
           initialValues={initialValues}
+          location={location}
           onBacktoEdit={this.onBacktoEdit}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}
@@ -181,6 +181,7 @@ class PO extends Component {
           assignToName={this.state.assignToName}
         />
         <LayerPOLine
+          poInitialValues={initialValues}
           location={location}
           onBacktoEdit={this.onBacktoEdit}
           stripes={this.props.stripes}

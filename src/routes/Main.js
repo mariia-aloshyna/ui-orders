@@ -107,30 +107,40 @@ class Main extends Component {
     dropdown: {
       initialValue: {
         acquisitionMethodDD: [
-          { value: 'Purchase', label: 'Purchase' },
-          { value: 'vendor System', label: 'Vendor System' },
-          { value: 'approval', label: 'Approval' },
-          { value: 'Depository', label: 'Depository' },
-          { value: 'Exchange', label: 'Gift' },
-          { value: 'Technical', label: 'Technical ' }
+          { value: '', label: '--- Select ---' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b1', label: 'Purchase' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b2', label: 'Vendor System' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b3', label: 'Approval' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b4', label: 'Depository' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b5', label: 'Gift' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b6', label: 'Technical ' }
         ],
         orderFormatDD: [
-          { value: 'Physical Resource', label: 'Physical Resource' },
-          { value: 'Electronic Resource', label: 'Electronic Resource' }
+          { value: '', label: '--- Select ---' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b7', label: 'Physical Resource' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b8', label: 'Electronic Resource' }
         ],
         statusDD: [
-          { value: 'Pending', label: 'Pending' },
-          { value: 'In Review', label: 'In Review' },
-          { value: 'Not Approved Update Required', label: 'Not Approved Update Required' },
-          { value: 'Declined', label: 'Declined' },
-          { value: 'Cancelled', label: 'Cancelled ' }
+          { value: '', label: '--- Select ---' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b9', label: 'Pending' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552910', label: 'In Review' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552911', label: 'Not Approved Update Required' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552912', label: 'Declined' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552913', label: 'Cancelled ' }
         ],
         orderTypeDD: [
-          { value: 'One-Time', label: 'One-Time' },
-          { value: 'On-Going', label: 'On-Going' },
-          { value: 'On-Going Re-encumber', label: 'On-Going Re-encumber' }
+          { value: '', label: '--- Select ---' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552914', label: 'One-Time' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552915', label: 'On-Going' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552916', label: 'On-Going Re-encumber' }
         ],
-      }
+        sourceDD: [
+          { value: '', label: '--- Select ---' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552917', label: 'Source 1' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552918', label: 'Source 2' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552919', label: 'Source 3' }
+        ],
+      },
     },
   });
 
