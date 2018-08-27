@@ -47,7 +47,7 @@ class POLine extends React.Component {
         Physical: false,
         Renewal: false,
         Adjustments: false,
-        License: true
+        License: false
       }
     };
     this.handleExpandAll = this.handleExpandAll.bind(this);
@@ -151,8 +151,8 @@ class POLine extends React.Component {
           </Accordion>
         </AccordionSet>
         <LayerPOLine
+          getInitialValues={initialValues}
           location={location}
-          initialValues={initialValues}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}
           parentResources={this.props.parentResources}

@@ -181,7 +181,7 @@ class PO extends Component {
           assignToName={this.state.assignToName}
         />
         <LayerPOLine
-          poInitialValues={initialValues}
+          getInitialValues={initialValues}
           location={location}
           onBacktoEdit={this.onBacktoEdit}
           stripes={this.props.stripes}

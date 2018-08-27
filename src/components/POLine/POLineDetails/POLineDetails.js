@@ -6,7 +6,7 @@ import Pane from '@folio/stripes-components/lib/Pane';
 import queryString from 'query-string';
 import { AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
-import FormatDate from '../../Utils/FormatDate';
+// import labelLookup from '../../Utils/labelLookup';
 import css from './POLineDetails.css';
 
 class LineDetailsView extends React.Component {
@@ -14,12 +14,32 @@ class LineDetailsView extends React.Component {
     initialValues: PropTypes.object
   }
 
+  static getDerivedStateFromProps(props, state) {
+    const { parentResources } = this.props;
+    const acquisitionMethodDD = (parentResources.dropdown || {}).acquisitionMethodDD || [];
+    const orderFormatDD = (parentResources.dropdown || {}).orderFormatDD || [];
+    const statusDD = (parentResources.dropdown || {}).statusDD || [];
+    const orderTypeDD = (parentResources.dropdown || {}).orderTypeDD || [];
+    const sourceDD = (parentResources.dropdown || {}).sourceDD || [];
+    // return {
+    //    ...prevState,
+    //    ...props
+    // };
+    return null;
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   render() {
     const { initialValues } = this.props;
+
     return (
       <Row>
         <Col xs={3}>
-          <KeyValue label="Po Line ID" value={_.get(initialValues, 'po_line_id')} />
+          <KeyValue label="Po Line ID" value={_.get(initialValues, 'id')} />
         </Col>
         <Col xs={3}>
           <KeyValue label="Acquisition Method" value={_.get(initialValues, 'acquisition_method')} />
@@ -28,16 +48,13 @@ class LineDetailsView extends React.Component {
           <KeyValue label="Owner" value={_.get(initialValues, 'owner')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Order Format" value={_.get(initialValues, 'format')} />
+          <KeyValue label="Order Format" value={_.get(initialValues, 'order_format')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Status" value={_.get(initialValues, 'status')} />
+          <KeyValue label="Status" value={_.get(initialValues, 'receipt_status')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Order Type" value={_.get(initialValues, 'type')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Created on" value={_.get(initialValues, 'recorded')} />
+          <KeyValue label="Order Type" value={_.get(initialValues, 'order_type')} />
         </Col>
         <Col xs={3}>
           <KeyValue label="Receipt Date" value={_.get(initialValues, 'receipt_date')} />
@@ -58,19 +75,13 @@ class LineDetailsView extends React.Component {
           <KeyValue label="Cancellation Restriction" value={_.get(initialValues, 'cancellation_restriction')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Rush" value={_.get(initialValues, 'rush')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Manual Batching" value={_.get(initialValues, 'manual_batching')} />
-        </Col>
-        <Col xs={3}>
           <KeyValue label="Collection" value={_.get(initialValues, 'collection')} />
         </Col>
         <Col xs={6}>
           <KeyValue label="Cancellation Description" value={_.get(initialValues, 'cancellation_description')} />
         </Col>
         <Col xs={6}>
-          <KeyValue label="Line Description" value={_.get(initialValues, 'line_description')} />
+          <KeyValue label="PO Line Description" value={_.get(initialValues, 'po_line_description')} />
         </Col>
       </Row>
     );
