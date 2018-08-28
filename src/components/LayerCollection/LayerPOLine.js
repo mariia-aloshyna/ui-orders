@@ -21,15 +21,16 @@ class LayerPOLine extends Component {
     this.connectedPOLineForm = props.stripes.connect(POLineForm);
   }
 
-  postPOLine(data) {
-    console.log(data);
+  submitPOLine(data) {
     this.props.parentMutator.poLine.POST(data).then(() => {
       this.props.onCancel();
     });
   }
 
   updatePOLine(data) {
-    console.log(data);
+    this.props.parentMutator.poLine.PUT(data).then(() => {
+      this.props.onCancel();
+    });
   }
 
   getCreatePOLIneInitialValues() {

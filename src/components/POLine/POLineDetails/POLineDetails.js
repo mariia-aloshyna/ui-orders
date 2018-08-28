@@ -6,7 +6,6 @@ import Pane from '@folio/stripes-components/lib/Pane';
 import queryString from 'query-string';
 import { AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
-// import labelLookup from '../../Utils/labelLookup';
 import css from './POLineDetails.css';
 
 class LineDetailsView extends React.Component {
@@ -15,16 +14,31 @@ class LineDetailsView extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { parentResources } = this.props;
-    const acquisitionMethodDD = (parentResources.dropdown || {}).acquisitionMethodDD || [];
-    const orderFormatDD = (parentResources.dropdown || {}).orderFormatDD || [];
-    const statusDD = (parentResources.dropdown || {}).statusDD || [];
-    const orderTypeDD = (parentResources.dropdown || {}).orderTypeDD || [];
-    const sourceDD = (parentResources.dropdown || {}).sourceDD || [];
-    // return {
-    //    ...prevState,
-    //    ...props
-    // };
+    const { initialValues, parentResources } = props;
+    // Label Lookup
+    function labelLookup(id, res, stateName) {
+      const resObj = (parentResources.dropdown || {})[res] || [];
+      const item = _.find(resObj, { value: id });
+      const label = _.isEmpty(item) ? '' : item.label;
+      console.log('label look up');
+      return { [`${stateName}_id`]: id, [`${stateName}_label`]: label };
+    }
+
+    const orderID = _.get(initialValues, 'order_format');
+    const acquisitionID = _.get(initialValues, 'acquisition_method');
+    const statusID = _.get(initialValues, 'receipt_status');
+    const orderTypeID = _.get(initialValues, 'order_type');
+    const sourceID = _.get(initialValues, 'source');
+    if ((orderID !== state.order_format_id) || (acquisitionID !== state.acquisition_id) || (statusID !== state.status_id)) {
+      const orderFormat = labelLookup(orderID, 'orderFormatDD', 'order_format') || {};
+      const acquisition = labelLookup(acquisitionID, 'acquisitionMethodDD', 'acquisition') || {};
+      const status = labelLookup(statusID, 'statusDD', 'status');
+      const orderType = labelLookup(orderTypeID, 'orderTypeDD', 'order_type');
+      const source = labelLookup(sourceID, 'sourceDD', 'source');
+      const newState = Object.assign({}, orderFormat, acquisition, status, orderType, source);
+
+      return newState;
+    }
     return null;
   }
 
@@ -35,32 +49,31 @@ class LineDetailsView extends React.Component {
 
   render() {
     const { initialValues } = this.props;
-
     return (
       <Row>
         <Col xs={3}>
           <KeyValue label="Po Line ID" value={_.get(initialValues, 'id')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Acquisition Method" value={_.get(initialValues, 'acquisition_method')} />
+          <KeyValue label="Acquisition Method" value={this.state.acquisition_label} />
         </Col>
         <Col xs={3}>
           <KeyValue label="Owner" value={_.get(initialValues, 'owner')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Order Format" value={_.get(initialValues, 'order_format')} />
+          <KeyValue label="Order Format" value={this.state.order_format_label} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Status" value={_.get(initialValues, 'receipt_status')} />
+          <KeyValue label="Status" value={this.state.status_label} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Order Type" value={_.get(initialValues, 'order_type')} />
+          <KeyValue label="Order Type" value={this.state.order_type_label} />
         </Col>
         <Col xs={3}>
           <KeyValue label="Receipt Date" value={_.get(initialValues, 'receipt_date')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Source" value={_.get(initialValues, 'source')} />
+          <KeyValue label="Source" value={this.state.source_label} />
         </Col>
         <Col xs={3}>
           <KeyValue label="Donor" value={_.get(initialValues, 'donor')} />

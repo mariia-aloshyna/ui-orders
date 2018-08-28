@@ -90,10 +90,10 @@ class POForm extends Component {
   render() {
     const { initialValues, onCancel } = this.props;
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues.id, ['id'], '')} </span> : 'Create Order';
+    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Create Purchase Order';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-update-purchase-order', 'Update Order') :
-      this.getLastMenu('clickable-create-new-purchase-order', 'Create Order');
+      this.getLastMenu('clickable-create-new-purchase-order', 'Create Purchase Order');
     const showDeleteButton = initialValues.id || false;
 
     if (!initialValues) {
