@@ -115,50 +115,50 @@ class POLine extends React.Component {
 
     return (
       <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" firstMenu={firstMenu} lastMenu={lastMenu}>
-          <POLineDetails initialValues={initialValues} {...this.props} />
-          <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
-          <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-            <Accordion label="Cost" id="Cost">
-              <CostView initialValues={initialValues} {...this.props} />
-            </Accordion>
-            <Accordion label="Po Line Tags" id="Tags">
-              <TagView initialValues={initialValues} {...this.props} />
-            </Accordion>
-            <Accordion label="Locations" id="Locations">
-              <LocationView initialValues={initialValues} {...this.props} />
-              <br />
-            </Accordion>
-            <Accordion label="Vendor" id="Vendor">
-              <VendorView initialValues={initialValues} {...this.props} />
-            </Accordion>
-            <Accordion label="Item Details" id="Item">
-              <ItemView initialValues={initialValues} {...this.props} />
-            </Accordion>
-            <Accordion label="E-resources Details" id="Eresources">
-              <EresourcesView initialValues={initialValues} {...this.props} />
-            </Accordion>
-            <Accordion label="Physical Record Details" id="Physical">
-              <PhysicalView initialValues={initialValues} {...this.props} />
-            </Accordion>
-            <Accordion label="Renewals" id="Renewal">
-              <RenewalView initialValues={initialValues} {...this.props} />
-            </Accordion>
-            <Accordion label="Adjustments" id="Adjustments">
-              <AdjustmentsView initialValues={initialValues} {...this.props} />
-            </Accordion>
-            <Accordion label="License" id="License">
-              <LicenseView initialValues={initialValues} {...this.props} />
-            </Accordion>
-          </AccordionSet>
-          <LayerPOLine
-            getInitialValues={initialValues}
-            location={location}
-            stripes={this.props.stripes}
-            onCancel={this.props.onCloseEdit}
-            parentResources={this.props.parentResources}
-            parentMutator={this.props.parentMutator}
-          />
-        </Pane>
+        <POLineDetails initialValues={initialValues} {...this.props} />
+        <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
+        <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
+          <Accordion label="Cost" id="Cost">
+            <CostView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Po Line Tags" id="Tags">
+            <TagView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Locations" id="Locations">
+            <LocationView initialValues={initialValues} {...this.props} />
+            <br />
+          </Accordion>
+          <Accordion label="Vendor" id="Vendor">
+            <VendorView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Item Details" id="Item">
+            <ItemView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="E-resources Details" id="Eresources">
+            <EresourcesView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Physical Record Details" id="Physical">
+            <PhysicalView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Renewals" id="Renewal">
+            <RenewalView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Adjustments" id="Adjustments">
+            <AdjustmentsView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="License" id="License">
+            <LicenseView initialValues={initialValues} {...this.props} />
+          </Accordion>
+        </AccordionSet>
+        <LayerPOLine
+          getInitialValues={initialValues}
+          location={location}
+          stripes={this.props.stripes}
+          onCancel={this.props.onCloseEdit}
+          parentResources={this.props.parentResources}
+          parentMutator={this.props.parentMutator}
+        />
+      </Pane>
     );
   }
 }

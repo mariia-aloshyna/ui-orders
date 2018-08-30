@@ -114,7 +114,7 @@ class POLineForm extends Component {
   render() {
     const { initialValues, location, onCancel } = this.props;
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Create Order';
+    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Add PO Line';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-updatePoLine', 'Update PO Line') :
       this.getLastMenu('clickable-createnewPoLine', 'Create PO Line');

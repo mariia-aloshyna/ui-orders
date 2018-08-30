@@ -142,6 +142,21 @@ class Main extends Component {
         ],
       },
     },
+    workflowStatus: {
+      type: 'okapi',
+      path: 'workflow_status?query=cql.allRecords=1 sortby desc',
+      records: 'workflow_statuses',
+    },
+    receiptStatus: {
+      type: 'okapi',
+      path: 'receipt_status?query=cql.allRecords=1 sortby desc',
+      records: 'receipt_statuses',
+    },
+    source: {
+      type: 'okapi',
+      path: 'source?query=cql.allRecords=1 sortby desc',
+      records: 'sources',
+    },
   });
 
   static propTypes = {

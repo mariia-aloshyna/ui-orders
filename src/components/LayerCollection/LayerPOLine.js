@@ -28,8 +28,12 @@ class LayerPOLine extends Component {
   }
 
   updatePOLine(data) {
-    this.props.parentMutator.poLine.PUT(data).then(() => {
-      this.props.onCancel();
+    const { parentMutator, location: { pathname } } = this.props;
+    parentMutator.poLine.PUT(data).then(newData => {
+      parentMutator.query.update({
+        _path: `${pathname}`,
+        layer: null
+      });
     });
   }
 
@@ -44,7 +48,6 @@ class LayerPOLine extends Component {
     }
     return newObj;
   }
-
   render() {
     const { location } = this.props;
     const query = location.search ? queryString.parse(location.search) : {};

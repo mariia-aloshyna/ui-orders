@@ -36,7 +36,6 @@ class LineDetailsView extends React.Component {
       const orderType = labelLookup(orderTypeID, 'orderTypeDD', 'order_type');
       const source = labelLookup(sourceID, 'sourceDD', 'source');
       const newState = Object.assign({}, orderFormat, acquisition, status, orderType, source);
-
       return newState;
     }
     return null;
@@ -59,6 +58,9 @@ class LineDetailsView extends React.Component {
         </Col>
         <Col xs={3}>
           <KeyValue label="Owner" value={_.get(initialValues, 'owner')} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Barcode" value={_.get(initialValues, 'barcode')} />
         </Col>
         <Col xs={3}>
           <KeyValue label="Order Format" value={this.state.order_format_label} />
