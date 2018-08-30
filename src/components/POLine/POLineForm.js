@@ -4,18 +4,18 @@ import _ from 'lodash';
 import queryString from 'query-string';
 import { IfPermission, Pane, PaneMenu, Button, Icon, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/';
 import stripesForm from '@folio/stripes-form';
-import { POLineDetailsForm } from '../POLineDetails';
-import { CostForm } from '../Cost';
-import { ClaimForm } from '../Claim';
-import { TagForm } from '../Tags';
-import { LocationForm } from '../Location';
-import { VendorForm } from '../Vendor';
-import { EresourcesForm } from '../Eresources';
-import { ItemForm } from '../Item';
-import { PhysicalForm } from '../Physical';
-import { RenewalForm } from '../Renewal';
-import { AdjustmentsForm } from '../Adjustments';
-import { LicenseForm } from '../License';
+import { POLineDetailsForm } from './POLineDetails';
+import { CostForm } from './Cost';
+import { ClaimForm } from './Claim';
+import { TagForm } from './Tags';
+import { LocationForm } from './Location';
+import { VendorForm } from './Vendor';
+import { EresourcesForm } from './Eresources';
+import { ItemForm } from './Item';
+import { PhysicalForm } from './Physical';
+import { RenewalForm } from './Renewal';
+import { AdjustmentsForm } from './Adjustments';
+import { LicenseForm } from './License';
 
 class POLineForm extends Component {
   static propTypes = {
@@ -69,16 +69,18 @@ class POLineForm extends Component {
     const { pristine, submitting, handleSubmit } = this.props;
     return (
       <PaneMenu>
-        <Button
-          id={id}
-          type="submit"
-          title={label}
-          disabled={pristine || submitting}
-          onClick={handleSubmit}
-          style={{ marginBottom: '0' }}
-        >
-          {label}
-        </Button>
+        <IfPermission perm="po_line.item.post, login.item.post, po_line.item.put, login.item.put">
+          <Button
+            id={id}
+            type="submit"
+            title={label}
+            disabled={pristine || submitting}
+            onClick={handleSubmit}
+            style={{ marginBottom: '0' }}
+          >
+            {label}
+          </Button>
+        </IfPermission>
       </PaneMenu>
     );
   }
@@ -112,13 +114,13 @@ class POLineForm extends Component {
   render() {
     const { initialValues, location, onCancel } = this.props;
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Create Order';
+    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Add PO Line';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-updatePoLine', 'Update PO Line') :
       this.getLastMenu('clickable-createnewPoLine', 'Create PO Line');
     const showDeleteButton = initialValues.id || false;
 
-    if (!initialValues) {  
+    if (!initialValues) {
       return (
         <Pane id="pane-podetails" defaultWidth="fill" paneTitle="Details" fistMenu={firstMenu} lastMenu={lastMenu} dismissible>
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
@@ -144,7 +146,7 @@ class POLineForm extends Component {
                     <Accordion label="PO Line Details" id="LineDetails">
                       <POLineDetailsForm {...this.props} />
                     </Accordion>
-                    <Accordion label="Cost" id="Cost">
+                    {/* <Accordion label="Cost" id="Cost">
                       <CostForm {...this.props} />
                     </Accordion>
                     <Accordion label="Claim" id="Claim">
@@ -178,9 +180,9 @@ class POLineForm extends Component {
                     </Accordion>
                     <Accordion label="License" id="License">
                       <LicenseForm {...this.props} />
-                    </Accordion>
+                    </Accordion> */}
                   </AccordionSet>
-                  <IfPermission perm="vendor.item.delete">
+                  <IfPermission perm="po_line.item.delete">
                     <Row end="xs">
                       <Col xs={12}>
                         {

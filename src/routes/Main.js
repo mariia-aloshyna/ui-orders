@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
-import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import packageInfo from '../../package';
-import { PO, POForm } from '../components/PurchaseOrder/PO';
-import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
+import Panes from '../components/Panes/';
+import { PO, POForm } from '../components/PurchaseOrder/';
+import { Filters } from '../components/Utils/FilterConfig';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 const filterConfig = Filters();
-const searchableIndexes = SearchableIndexes;
 
 class Main extends Component {
   static manifest = Object.freeze({
@@ -18,155 +18,145 @@ class Main extends Component {
       initialValue: {
         query: '',
         filters: '',
-        sort: 'po_number'
-      },
+        sort: 'id',
+      }
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
+      path: 'purchase_order',
       records: 'purchase_orders',
       recordsRequired: '%{resultCount}',
-      path: 'purchase_order',
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {
         params: {
-          query: (...args) => {
-            const resourceData = args[2];
-            const sortMap = {
-              id: 'id',
-              po_number: 'po_number',
-              created: 'created',
-              comments: 'comments',
-              assigned_to: 'assigned_to',
-            };
-
-            const index = resourceData.query.qindex ? resourceData.query.qindex : 'all';
-            const searchableIndex = searchableIndexes.find(idx => idx.value === index);
-
-            let cql = resourceData.query.query ? searchableIndex.makeQuery(resourceData.query.query) : '(id="*")';
-            const filterCql = filters2cql(filterConfig, resourceData.query.filters);
-            if (filterCql) {
-              if (cql) {
-                cql = `(${cql}) and ${filterCql}`;
-              } else {
-                cql = filterCql;
-              }
-            }
-
-            const { sort } = resourceData.query;
-            if (sort) {
-              const sortIndexes = sort.split(',').map((sort1) => {
-                let reverse = false;
-                if (sort1.startsWith('-')) {
-                  // eslint-disable-next-line no-param-reassign
-                  sort1 = sort1.substr(1);
-                  reverse = true;
-                }
-                let sortIndex = sortMap[sort1] || sort1;
-                if (reverse) {
-                  sortIndex = `${sortIndex.replace(' ', '/sort.descending ')}/sort.descending`;
-                }
-                return sortIndex;
-              });
-
-              cql += ` sortby ${sortIndexes.join(' ')}`;
-            }
-            return cql;
-          },
+          query: makeQueryFunction(
+            'cql.allRecords=1',
+            '(id="%{query.query}*" or po_number="%{query.query}*" or create_by="%{query.query}*" or comments="%{query.query}*" or assigned_to="%{query.query}*")',
+            {
+              'ID': 'id',
+              'PO Number': 'po_number',
+              'Created By': 'created_by',
+              'Comments': 'comments',
+              'Assigned To': 'assigned_to'
+            },
+            filterConfig,
+            0,
+          ),
         },
         staticFallback: { params: {} },
       },
     },
-    // Vendor
-    vendorQuery: { initialValue: { query: '' } },
-    vendorResultCount: { initialValue: INITIAL_RESULT_COUNT },
-    vendor: {
-      type: 'okapi',
-      clear: true,
-      records: 'vendors',
-      recordsRequired: '%{vendorResultCount}',
-      path: 'vendor',
-      perRequest: RESULT_COUNT_INCREMENT,
-      GET: {
-        params: {
-          query: (...args) => {
-            const resourceData = args[2];
-            const cql = `(name="${resourceData.vendorQuery.query}*")`;
-            return cql;
-          },
-        },
-        staticFallback: { params: {} },
-      },
-    },  
     // Po Line
-    poLineQuery: { initialValue: { query: '' } },
-    poLineResultCount: { initialValue: INITIAL_RESULT_COUNT },
+    queryII: {
+      initialValue: {
+        poLine: '',
+        vendorID: '',
+        userID: ''
+      }
+    },
     poLine: {
       type: 'okapi',
       clear: true,
-      records: 'po_lines',
-      recordsRequired: '%{poLineResultCount}',
       path: 'po_line',
-      perRequest: RESULT_COUNT_INCREMENT,
+      records: 'po_lines',
       GET: {
         params: {
           query: (...args) => {
             const resourceData = args[2];
-            let cql = `(id="${resourceData.poLineQuery.query}*")`;
+            let cql = `(purchase_order_id="${resourceData.queryII.poLine}*")`;
             return cql;
           },
         },
         staticFallback: { params: {} },
       },
     },
-    // Users
-    userQuery: { initialValue: { query: '*' } },
-    userResultCount: { initialValue: INITIAL_RESULT_COUNT },
-    user: {
+    vendor: {
       type: 'okapi',
-      clear: true,
-      records: 'users',
-      recordsRequired: '%{userResultCount}',
-      path: 'users',
-      perRequest: RESULT_COUNT_INCREMENT,
+      path: 'vendor',
+      records: 'vendors',
       GET: {
         params: {
           query: (...args) => {
             const resourceData = args[2];
-            let cql = `(username="${resourceData.userQuery.query}*" or personal.firstName="${resourceData.userQuery.query}*" or personal.lastName="${resourceData.userQuery.query}*" or personal.email="${resourceData.userQuery.query}*" or barcode="${resourceData.userQuery.query}*" or externalSystemId="${resourceData.userQuery.query}*")`;
+            let cql = `(id="${resourceData.queryII.vendorID}")`;
             return cql;
           }
         },
+        limit: 1,
+        staticFallback: { params: {} },
+      },
+    },
+    user: {
+      type: 'okapi',
+      path: 'users',
+      records: 'users',
+      GET: {
+        params: {
+          query: (...args) => {
+            const resourceData = args[2];
+            let cql = `(id="${resourceData.queryII.userID}")`;
+            return cql;
+          }
+        },
+        limit: 1,
         staticFallback: { params: {} },
       },
     },
     // DropDown
-    dropdown: { initialValue: {
-      acquisitionMethodDD: [
-        { value: 'Purchase', label: 'Purchase' },
-        { value: 'vendor System', label: 'Vendor System' },
-        { value: 'approval', label: 'Approval' },
-        { value: 'Depository', label: 'Depository' },
-        { value: 'Exchange', label: 'Gift' },
-        { value: 'Technical', label: 'Technical '}
-      ],
-      orderFormatDD: [
-        { value: 'Physical Resource', label: 'Physical Resource' },
-        { value: 'Electronic Resource', label: 'Electronic Resource' }
-      ],
-      statusDD: [
-        { value: 'Pending', label: 'Pending' },
-        { value: 'In Review', label: 'In Review' },
-        { value: 'Not Approved Update Required', label: 'Not Approved Update Required' },
-        { value: 'Declined', label: 'Declined' },
-        { value: 'Cancelled', label: 'Cancelled ' }
-      ],
-      orderTypeDD: [
-        { value: 'One-Time', label: 'One-Time' },
-        { value: 'On-Going', label: 'On-Going' },
-        { value: 'On-Going Re-encumber', label: 'On-Going Re-encumber' }
-      ],
-    }}
+    dropdown: {
+      initialValue: {
+        acquisitionMethodDD: [
+          { value: '', label: '--- Select ---' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b1', label: 'Purchase' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b2', label: 'Vendor System' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b3', label: 'Approval' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b4', label: 'Depository' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b5', label: 'Gift' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b6', label: 'Technical ' }
+        ],
+        orderFormatDD: [
+          { value: '', label: '--- Select ---' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b7', label: 'Physical Resource' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b8', label: 'Electronic Resource' }
+        ],
+        statusDD: [
+          { value: '', label: '--- Select ---' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b9', label: 'Pending' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552910', label: 'In Review' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552911', label: 'Not Approved Update Required' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552912', label: 'Declined' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552913', label: 'Cancelled ' }
+        ],
+        orderTypeDD: [
+          { value: '', label: '--- Select ---' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552914', label: 'One-Time' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552915', label: 'On-Going' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552916', label: 'On-Going Re-encumber' }
+        ],
+        sourceDD: [
+          { value: '', label: '--- Select ---' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552917', label: 'Source 1' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552918', label: 'Source 2' },
+          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552919', label: 'Source 3' }
+        ],
+      },
+    },
+    workflowStatus: {
+      type: 'okapi',
+      path: 'workflow_status?query=cql.allRecords=1 sortby desc',
+      records: 'workflow_statuses',
+    },
+    receiptStatus: {
+      type: 'okapi',
+      path: 'receipt_status?query=cql.allRecords=1 sortby desc',
+      records: 'receipt_statuses',
+    },
+    source: {
+      type: 'okapi',
+      path: 'source?query=cql.allRecords=1 sortby desc',
+      records: 'sources',
+    },
   });
 
   static propTypes = {
@@ -185,15 +175,20 @@ class Main extends Component {
     disableRecordCreation: PropTypes.bool
   }
 
+  static defaultProps = {
+    showSingleResult: true,
+    browseOnly: false,
+  }
+
   create = (data) => {
     const { mutator } = this.props;
     const deep = _.cloneDeep(data);
     delete deep.created_by_name;
     delete deep.assigned_to_user;
     delete deep.vendor_name;
-    
+
     mutator.records.POST(deep).then(newOrder => {
-      mutator.vendorQuery.update({
+      mutator.query.update({
         _path: `/orders/view/${newOrder.id}`,
         layer: null
       });
@@ -219,7 +214,7 @@ class Main extends Component {
         filterConfig={filterConfig}
         visibleColumns={['po_number', 'created', 'comments', 'assigned_to']}
         resultsFormatter={resultsFormatter}
-        viewRecordComponent={PO}
+        viewRecordComponent={Panes}
         editRecordComponent={POForm}
         onCreate={this.create}
         newRecordInitialValues={{ created_by: getUserID, created_by_name: getUserName }}
@@ -239,7 +234,6 @@ class Main extends Component {
       />
     );
   }
-
 }
 
 export default Main;

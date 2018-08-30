@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Icon, IconButton, AccordionSet, Accordion, ExpandAllButton, Pane, PaneMenu, Row, Col, Button, IfPermission, Layer } from '@folio/stripes-components';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
-import FundDistribution from '../FundDistribution';
-import LineListing from '../LineListing';
-import { PODetailsView } from '../PODetails';
-import { SummaryView } from '../Summary';
-import { LayerPO } from '../LayerCollection';
+import FundDistribution from './FundDistribution';
+import LineListing from './LineListing';
+import { PODetailsView } from './PODetails';
+import { SummaryView } from './Summary';
+import { LayerPO, LayerPOLine } from '../LayerCollection';
 
 class PO extends Component {
   static propTypes = {
@@ -23,7 +23,39 @@ class PO extends Component {
     parentResources: PropTypes.object.isRequired,
     parentMutator: PropTypes.object.isRequired,
     editLink: PropTypes.string,
-    paneWidth: PropTypes.string.isRequired,
+    paneWidth: PropTypes.string.isRequired
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    const { parentMutator, parentResources, match: { params: { id } } } = props;
+    const po = (parentResources.records || {}).records || [];
+    const initialValues = (po || po.length > 0 || id) ? po.find(u => u.id === id) : false;
+    // Set initialValues
+    if (initialValues) {
+      if (!_.isEqual(initialValues, state.initialValues)) {
+        return { initialValues };
+      }
+    }
+    // Check if initialValues STATE before updating child;
+    if (!_.isEmpty(state.initialValues)) {
+      const vendor = (parentResources.vendor || {}).records || [];
+      const user = (parentResources.user || {}).records || [];      
+      if ((vendor || vendor.length > 0) || (user || user.length > 0)) {
+        const initData = state.initialValues;
+        const vendorName = vendor[0] && vendor[0].name ? `${vendor[0].name}` : '';
+        const assignToName = user[0] && user[0].personal ? `${user[0].personal.firstName} ${user[0].personal.lastName}` : '';
+        if (vendorName !== initData.vendor_name || assignToName !== initData.assigned_to_user) {
+          parentMutator.queryII.update({ 
+            vendorID: initData.vendor,
+            userID: initData.assigned_to
+          });
+          initData.vendor_name = vendorName;
+          initData.assigned_to_user = assignToName;
+          return { initialValues: initData };
+        }
+      }
+    }
+    return null;
   }
 
   constructor(props) {
@@ -33,12 +65,21 @@ class PO extends Component {
         purchaseOrder: true,
         POSummary: true,
         POListing: true
-      }
+      },
+      initialValues: {}
     };
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
     this.onAddPOLine = this.onAddPOLine.bind(this);
     this.transitionToParams = transitionToParams.bind(this);
+  }
+
+  updateVendor(data) {
+    this.props.parentMutator.vendor.update({ vendorID: data });
+  }
+
+  updateUser(data) {
+    this.props.parentMutator.user.update({ userID: data });
   }
 
   getData() {
@@ -88,7 +129,7 @@ class PO extends Component {
 
   render() {
     const { location, history, match } = this.props;
-    const initialValues = this.getData();
+    const initialValues = this.state.initialValues || {};
     const lastMenu = (<PaneMenu>
       <IfPermission perm="vendor.item.put">
         <IconButton
@@ -111,8 +152,8 @@ class PO extends Component {
     }
 
     return (
-      <Pane id="pane-podetails" defaultWidth="fill" paneTitle={_.get(initialValues, ['name'], '')} lastMenu={lastMenu} dismissible onClose={this.props.onClose}>
-        <FundDistribution openReceiveItem={this.openReceiveItem} openReceived={this.openReceived} />
+      <Pane id="pane-podetails" defaultWidth="fill" paneTitle={'Purchase Order ID: ' + _.get(initialValues, ['id'], '')} lastMenu={lastMenu} dismissible onClose={this.props.onClose}>
+        {/* <FundDistribution openReceiveItem={this.openReceiveItem} openReceived={this.openReceived} /> */}
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
           <Accordion label="Purchase Order" id="purchaseOrder">
@@ -126,8 +167,22 @@ class PO extends Component {
           </Accordion>
         </AccordionSet>
         <LayerPO
-          location={location}
           initialValues={initialValues}
+          location={location}
+          onBacktoEdit={this.onBacktoEdit}
+          stripes={this.props.stripes}
+          onCancel={this.props.onCloseEdit}
+          history={history}
+          match={match}
+          parentResources={this.props.parentResources}
+          parentMutator={this.props.parentMutator}
+          // States
+          vendorName={this.state.vendorName}
+          assignToName={this.state.assignToName}
+        />
+        <LayerPOLine
+          getInitialValues={initialValues}
+          location={location}
           onBacktoEdit={this.onBacktoEdit}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}

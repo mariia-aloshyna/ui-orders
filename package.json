@@ -11,30 +11,34 @@
     "stripes": {
         "type": "app",
         "displayName": "ui-orders.meta.title",
-        "moduleName": "Orders",
         "route": "/orders",
         "home": "/orders",
         "hasSettings": true,
+        "moduleName": "mod-order-storage",
         "okapiInterfaces": {
-            "adjustment": "1.0",
-            "alert": "1.0",
-            "claim": "1.0",
-            "cost": "1.0",
-            "details": "1.0",
-            "eresource": "1.0",
-            "fund_distribution": "1.0",
-            "license": "1.0",
-            "location": "1.0",
-            "order_format": "1.0",
-            "order_type": "1.0",
-            "physical": "1.0",
-            "po_line": "1.0",
-            "purchase_order": "1.0",
-            "receipt_status": "1.0",
-            "renewal": "1.0",
-            "source": "1.0",
-            "vendor": "1.0",
-            "workflow_status": "1.0"
+          "acquisition_method": "1.0",
+          "activation_status": "1.0",
+          "adjustment": "1.0",
+          "alert": "1.0",
+          "claim": "1.0",
+          "cost": "1.0",
+          "currency": "1.0",
+          "details": "1.0",
+          "eresource": "1.0",
+          "license": "1.0",
+          "location": "1.0",
+          "order_format": "1.0",
+          "order_type": "1.0",
+          "payment_status": "1.0",
+          "physical": "1.0",
+          "po_line": "1.0",
+          "purchase_order": "1.0",
+          "receipt_status": "1.0",
+          "renewal": "1.0",
+          "reporting_code": "1.0",
+          "source": "1.0",
+          "vendor_detail": "1.0",
+          "workflow_status": "1.0"
         },
         "queryResource": "query",
         "icons": [
@@ -638,6 +642,43 @@
             ]
           },
           {
+            "permissionName" : "vendor_detail.collection.get",
+            "displayName" : "vendor_detail-collection get",
+            "description" : "Get a collection of vendor_details"
+          },
+          {
+            "permissionName" : "vendor_detail.item.post",
+            "displayName" : "vendor_detail-item post",
+            "description" : "Create a new vendor_detail"
+          },
+          {
+            "permissionName" : "vendor_detail.item.get",
+            "displayName" : "vendor_detail-item get",
+            "description" : "Fetch a vendor_detail"
+          },
+          {
+            "permissionName" : "vendor_detail.item.put",
+            "displayName" : "vendor_detail-item put",
+            "description" : "Update a vendor_detail"
+          },
+          {
+            "permissionName" : "vendor_detail.item.delete",
+            "displayName" : "vendor_detail-item delete",
+            "description" : "Delete a vendor_detail"
+          },
+          {
+            "permissionName" : "vendor_detail.all",
+            "displayName" : "All vendor_detail perms",
+            "description" : "All permissions for the vendor_detail",
+            "subPermissions" : [
+              "vendor_detail.collection.get",
+              "vendor_detail.item.post",
+              "vendor_detail.item.get",
+              "vendor_detail.item.put",
+              "vendor_detail.item.delete"
+            ]
+          },
+          {
             "permissionName" : "workflow_status.collection.get",
             "displayName" : "workflow_status-collection get",
             "description" : "Get a collection of workflow statuses"
@@ -695,6 +736,7 @@
               "receipt_status.all",
               "renewal.all",
               "source.all",
+              "vendor_detail.all",
               "workflow_status.all"
             ]
           }

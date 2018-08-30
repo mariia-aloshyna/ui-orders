@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Pane, PaneMenu, Icon, IconButton, IfPermission, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
-import { POLineDetails } from '../POLineDetails';
-import CostView from '../Cost/CostView';
-import TagView from '../Tags/TagView';
-import LocationView from '../Location/LocationView';
-import VendorView from '../Vendor/VendorView';
-import EresourcesView from '../Eresources/EresourcesView';
-import ItemView from '../Item/ItemView';
-import PhysicalView from '../Physical/PhysicalView';
-import RenewalView from '../Renewal/RenewalView';
-import AdjustmentsView from '../Adjustments/AdjustmentsView';
-import LicenseView from '../License/LicenseView';
+import { POLineDetails } from './POLineDetails';
+import CostView from './Cost/CostView';
+import TagView from './Tags/TagView';
+import LocationView from './Location/LocationView';
+import VendorView from './Vendor/VendorView';
+import EresourcesView from './Eresources/EresourcesView';
+import ItemView from './Item/ItemView';
+import PhysicalView from './Physical/PhysicalView';
+import RenewalView from './Renewal/RenewalView';
+import AdjustmentsView from './Adjustments/AdjustmentsView';
+import LicenseView from './License/LicenseView';
 import { LayerPOLine } from '../LayerCollection';
 
 class POLine extends React.Component {
@@ -47,7 +47,7 @@ class POLine extends React.Component {
         Physical: false,
         Renewal: false,
         Adjustments: false,
-        License: true
+        License: false
       }
     };
     this.handleExpandAll = this.handleExpandAll.bind(this);
@@ -151,8 +151,8 @@ class POLine extends React.Component {
           </Accordion>
         </AccordionSet>
         <LayerPOLine
+          getInitialValues={initialValues}
           location={location}
-          initialValues={initialValues}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}
           parentResources={this.props.parentResources}
