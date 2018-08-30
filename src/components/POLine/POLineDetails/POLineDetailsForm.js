@@ -25,9 +25,6 @@ class LineDetailsForm extends Component {
     return (
       <Row>
         <Col xs={6}>
-          <Field label="PO Line ID" name="po_line_id" id="po_line_id" type="text" component={TextField} fullWidth readOnly />
-        </Col>
-        <Col xs={6}>
           <Field label="PO Number" name="purchase_order_id" id="purchase_order_id" type="text" component={TextField} validate={[Required]} fullWidth readOnly />
         </Col>
         <Col xs={6}>
