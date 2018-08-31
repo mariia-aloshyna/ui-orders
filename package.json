@@ -14,7 +14,6 @@
       "route": "/orders",
       "home": "/orders",
       "hasSettings": true,
-      "moduleName": "mod-order-storage",
       "okapiInterfaces": {
         "acquisition_method": "1.0",
         "activation_status": "1.0",
@@ -42,11 +41,91 @@
       },
       "queryResource": "query",
       "icons": [
-          {
-              "name": "app",
-              "alt": "Create, view and manage orders",
-              "title": "Orders"
-          }
+        {
+          "name": "app",
+          "alt": "Create, view and manage orders",
+          "title": "Orders"
+        }
+      ],
+      "permissionSets": [
+        {
+          "permissionName": "module.orders.enabled",
+          "displayName": "UI: Orders module is enabled"
+        },
+        {
+          "permissionName" : "po_line.collection.get",
+          "displayName" : "po_line-collection get",
+          "description" : "Get a collection of po_lines"
+        },
+        {
+          "permissionName" : "po_line.item.post",
+          "displayName" : "po_line-item post",
+          "description" : "Create a new po_line"
+        },
+        {
+          "permissionName" : "po_line.item.get",
+          "displayName" : "po_line-item get",
+          "description" : "Fetch a po_line"
+        },
+        {
+          "permissionName" : "po_line.item.put",
+          "displayName" : "po_line-item put",
+          "description" : "Update a purchase order line"
+        },
+        {
+          "permissionName" : "po_line.item.delete",
+          "displayName" : "po_line-item delete",
+          "description" : "Delete a po line"
+        },
+        {
+          "permissionName" : "po_line.all",
+          "displayName" : "All po line perms",
+          "description" : "All permissions for the po line",
+          "subPermissions" : [
+            "po_line.collection.get",
+            "po_line.item.post",
+            "po_line.item.get",
+            "po_line.item.put",
+            "po_line.item.delete"
+          ]
+        },
+        {
+          "permissionName" : "purchase_order.collection.get",
+          "displayName" : "purchase_order-collection get",
+          "description" : "Get a collection of purchase orders"
+        },
+        {
+          "permissionName" : "purchase_order.item.post",
+          "displayName" : "purchase_order-item post",
+          "description" : "Create a new purchase_order"
+        },
+        {
+          "permissionName" : "purchase_order.item.get",
+          "displayName" : "purchase_order-item get",
+          "description" : "Fetch a purchase_order"
+        },
+        {
+          "permissionName" : "purchase_order.item.put",
+          "displayName" : "purchase_order-item put",
+          "description" : "Update a purchase order"
+        },
+        {
+          "permissionName" : "purchase_order.item.delete",
+          "displayName" : "purchase_order-item delete",
+          "description" : "Delete a purchase order"
+        },
+        {
+          "permissionName" : "purchase_order.all",
+          "displayName" : "All purchase order perms",
+          "description" : "All permissions for the purchase order",
+          "subPermissions" : [
+            "purchase_order.collection.get",
+            "purchase_order.item.post",
+            "purchase_order.item.get",
+            "purchase_order.item.put",
+            "purchase_order.item.delete"
+          ]
+        }
       ]
     },
     "scripts": {
