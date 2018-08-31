@@ -11,7 +11,7 @@
     "stripes": {
       "type": "app",
       "displayName": "ui-orders.meta.title",
-      "moduleName": "mod-order-storage",
+      "moduleName": "mod-orders",
       "route": "/orders",
       "home": "/orders",
       "hasSettings": true,
