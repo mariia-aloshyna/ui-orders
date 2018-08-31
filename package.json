@@ -11,7 +11,6 @@
     "stripes": {
       "type": "app",
       "displayName": "ui-orders.meta.title",
-      "moduleName": "mod-orders",
       "route": "/orders",
       "home": "/orders",
       "hasSettings": true,
@@ -46,6 +45,12 @@
           "name": "app",
           "alt": "Create, view and manage orders",
           "title": "Orders"
+        }
+      ],
+      "permissionSets": [
+        {
+          "permissionName": "module.orders.enabled",
+          "displayName": "UI: Orders module is enabled"
         },
         {
           "permissionName" : "po_line.collection.get",
@@ -120,12 +125,6 @@
             "purchase_order.item.put",
             "purchase_order.item.delete"
           ]
-        }
-      ],
-      "permissionSets": [
-        {
-          "permissionName": "module.orders.enabled",
-          "displayName": "UI: Orders module is enabled"
         }
       ]
     },
