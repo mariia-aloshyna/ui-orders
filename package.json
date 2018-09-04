@@ -58,7 +58,24 @@
           "description" : "Entire set of permissions needed to use Orders",
           "visible": true,
           "subPermissions" : [
-            "orders.module.all"
+            "adjustment.all",
+            "alert.all",
+            "claim.all",
+            "cost.all",
+            "details.all",
+            "eresource.all",
+            "license.all",
+            "location.all",
+            "order_format.all",
+            "order_type.all",
+            "physical.all",
+            "po_line.all",
+            "purchase_order.all",
+            "receipt_status.all",
+            "renewal.all",
+            "source.all",
+            "vendor_detail.all",
+            "workflow_status.all"
           ]
         },
         {
