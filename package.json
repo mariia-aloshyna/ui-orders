@@ -53,7 +53,7 @@
           "displayName": "UI: Orders module is enabled"
         },
         {
-          "permissionName" : "ui-orders.all",
+          "permissionName" : "orders.module.all",
           "displayName" : "Orders: all permissions",
           "description" : "Entire set of permissions needed to use Orders",
           "visible": true,
