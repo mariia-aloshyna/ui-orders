@@ -134,7 +134,7 @@ class POLineForm extends Component {
     const { sectionErrors } = this.state;
     const arr = [];
     // console.log(sectionErrors);
-    sectionErrors.map(parent => console.log(parent));
+    // sectionErrors.map(parent => console.log(parent));
   }
 
   render() {
