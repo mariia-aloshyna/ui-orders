@@ -53,7 +53,7 @@ class POLineForm extends Component {
       sectionErrors: {
         POLineDetailsErr: {
           purchase_order_id: false,
-          barcode: true
+          barcode: false
         },
         CostErr: {
           list_price: false
@@ -85,7 +85,7 @@ class POLineForm extends Component {
     const { pristine, submitting, handleSubmit } = this.props;
     return (
       <PaneMenu>
-        <IfPermission perm="po_line.item.post, po_line.item.put">
+        <IfPermission perm="po_line.item.post, login.item.post, po_line.item.put, login.item.put">
           <Button
             id={id}
             type="submit"
@@ -132,16 +132,6 @@ class POLineForm extends Component {
     return Object.keys(sectionErrors) || [];
   }
 
-  getSectionError(POLineDetailsErr) {
-    const { sectionErrors } = this.state;
-    const obj = sectionErrors['POLineDetailsErr'];
-    const isError = false;
-    Object.keys(obj).forEach((key) => {
-      if (obj[key] !== true) return false;
-      return true;
-    });
-  }
-
   render() {
     const { initialValues, location, onCancel } = this.props;
     const firstMenu = this.getAddFirstMenu();
@@ -152,9 +142,9 @@ class POLineForm extends Component {
     const showDeleteButton = initialValues.id || false;
     // Section Error Handling
     const { sectionErrors } = this.state;
-    const message = <em /* className={css.requiredIcon color: 'red', alignItems: 'center' }}><Icon icon="validation-error" size="medium" />Required fields!</em>;
-    const POLineDetailsErr = this.getSectionError() ? message : null;
-    const CostErr = sectionErrors.CostErr ? message : null;
+    const message = <em /* className={css.requiredIcon} */ style={{ color: 'red', display: 'flex', alignItems: 'center' }}><Icon icon="validation-error" size="medium" />Required fields!</em>;
+    const POLineDetailsErr = _.includes(sectionErrors.POLineDetailsErr, true) ? message : null;
+    const CostErr = _.includes(sectionErrors.CostErr, true) ? message : null;
 
     if (!initialValues) {
       return (
@@ -182,7 +172,7 @@ class POLineForm extends Component {
                 </Col>
                 <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                   <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-                    <Accordion label="PO Line Details" id="LineDetails" displayWhenClosed={this.getSectionError()} displayWhenOpen={this.getSectionError()}>
+                    <Accordion label="PO Line Details" id="LineDetails" displayWhenClosed={POLineDetailsErr} displayWhenOpen={POLineDetailsErr}>
                       <POLineDetailsForm {...this.props} />
                     </Accordion>
                     <Accordion label="Cost" id="Cost" displayWhenClosed={CostErr} displayWhenOpen={CostErr}>
