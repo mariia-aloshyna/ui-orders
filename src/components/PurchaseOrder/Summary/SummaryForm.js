@@ -13,10 +13,10 @@ class SummaryForm extends Component {
       let receiptStatusArr = [];
       const obj = { label: '--- Select ---', value: '' };
       workflowStatusArr = workflowStatus.map((item) => {
-        return { value: item.id, label: item.code };
+        return { value: item.id, label: item.description };
       });
       receiptStatusArr = receiptStatus.map((item) => {
-        return { value: item.id, label: item.code };
+        return { value: item.id, label: item.description };
       });
       workflowStatusArr.unshift(obj);
       receiptStatusArr.unshift(obj);
