@@ -90,6 +90,43 @@
           ]
         },
         {
+          "permissionName" : "po_line.collection.get",
+          "displayName" : "po_line-collection get",
+          "description" : "Get a collection of po_lines"
+        },
+        {
+          "permissionName" : "po_line.item.post",
+          "displayName" : "po_line-item post",
+          "description" : "Create a new po_line"
+        },
+        {
+          "permissionName" : "po_line.item.get",
+          "displayName" : "po_line-item get",
+          "description" : "Fetch a po_line"
+        },
+        {
+          "permissionName" : "po_line.item.put",
+          "displayName" : "po_line-item put",
+          "description" : "Update a purchase order line"
+        },
+        {
+          "permissionName" : "po_line.item.delete",
+          "displayName" : "po_line-item delete",
+          "description" : "Delete a po line"
+        },
+        {
+          "permissionName" : "po_line.all",
+          "displayName" : "All po line perms",
+          "description" : "All permissions for the po line",
+          "subPermissions" : [
+            "po_line.collection.get",
+            "po_line.item.post",
+            "po_line.item.get",
+            "po_line.item.put",
+            "po_line.item.delete"
+          ]
+        },
+        {
           "permissionName" : "orders.module.all",
           "displayName" : "Orders: all permissions",
           "description" : "Entire set of permissions needed to use Orders",
@@ -106,7 +143,6 @@
             "order_format.all",
             "order_type.all",
             "physical.all",
-            "po_line.all",
             "receipt_status.all",
             "renewal.all",
             "source.all",
