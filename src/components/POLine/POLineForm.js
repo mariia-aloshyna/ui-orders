@@ -138,7 +138,7 @@ class POLineForm extends Component {
       return false;
     });
 
-    return [newArr];
+    return newArr;
   }
 
   render() {
@@ -184,11 +184,10 @@ class POLineForm extends Component {
                     <Accordion label="PO Line Details" id="LineDetails" displayWhenClosed={POLineDetailsErr} displayWhenOpen={POLineDetailsErr}>
                       <POLineDetailsForm {...this.props} />
                     </Accordion>
-                    {/*
                     <Accordion label="Cost" id="Cost" displayWhenClosed={CostErr} displayWhenOpen={CostErr}>
                       <CostForm {...this.props} />
                     </Accordion>
-                    <Accordion label="Claim" id="Claim">
+                    {/* <Accordion label="Claim" id="Claim">
                       <ClaimForm {...this.props} />
                       <br />
                     </Accordion>
