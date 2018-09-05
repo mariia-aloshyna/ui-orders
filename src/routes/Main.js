@@ -205,7 +205,7 @@ class Main extends Component {
     };
     const getUserID = id || '';
     const getUserName = `${firstName} ${lastName}` || '';
-    console.info("permission set update II");
+    console.info("PS III");
 
     return (
       <SearchAndSort
@@ -225,7 +225,7 @@ class Main extends Component {
         disableRecordCreation={disableRecordCreation}
         finishedResourceName="perms"
         viewRecordPerms="purchase_order.item.get"
-        newRecordPerms="purchase_order.item.post, login.item.post"
+        newRecordPerms="purchase_order.item.post"
         parentResources={resources}
         parentMutator={mutator}
         detailProps={Object.assign({ onUpdateAssignedTo: this.onUpdateAssignedTo }, stripes)}

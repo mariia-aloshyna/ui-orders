@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { Fields } from 'redux-form';
 import queryString from 'query-string';
 import { IfPermission, Pane, PaneMenu, Button, Icon, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/';
 import stripesForm from '@folio/stripes-form';
@@ -16,6 +17,7 @@ import { PhysicalForm } from './Physical';
 import { RenewalForm } from './Renewal';
 import { AdjustmentsForm } from './Adjustments';
 import { LicenseForm } from './License';
+import HandleErrors from '../Utils/HandleErrors';
 
 class POLineForm extends Component {
   static propTypes = {
@@ -47,11 +49,28 @@ class POLineForm extends Component {
         Renewal: false,
         Adjustments: false,
         License: false
+      },
+      sectionErrors: {
+        POLineDetailsErr: {
+          purchase_order_id: false,
+          barcode: false
+        },
+        CostErr: {
+          list_price: false
+        }
+        // contactPeopleErr: false,
+        // agreementsErr: false,
+        // accountsErr: false,
       }
     };
     this.deletePOLine = this.deletePOLine.bind(this);
-    this.handleExpandAll = this.handleExpandAll.bind(this);
+    this.handleExpandAll = this.handleExpandAll .bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
+    this.updateSectionErrors = this.updateSectionErrors.bind(this);
+  }
+
+  updateSectionErrors(obj) {
+    this.setState({ sectionErrors: obj });
   }
 
   getAddFirstMenu() {
@@ -111,6 +130,13 @@ class POLineForm extends Component {
     });
   }
 
+  grabFieldNames() {
+    const { sectionErrors } = this.state;
+    const arr = [];
+    // console.log(sectionErrors);
+    // sectionErrors.map(parent => console.log(parent));
+  }
+
   render() {
     const { initialValues, location, onCancel } = this.props;
     const firstMenu = this.getAddFirstMenu();
@@ -119,6 +145,13 @@ class POLineForm extends Component {
       this.getLastMenu('clickable-updatePoLine', 'Update PO Line') :
       this.getLastMenu('clickable-createnewPoLine', 'Create PO Line');
     const showDeleteButton = initialValues.id || false;
+    // Section Error Handling
+    const { sectionErrors } = this.state;
+    const message = <em /* className={css.requiredIcon} */ style={{ color: 'red', display: 'flex', alignItems: 'center' }}><Icon icon="validation-error" size="medium" />Required fields!</em>;
+    const POLineDetailsErr = sectionErrors.POLineDetailsErr ? message : null;
+    const CostErr = sectionErrors.CostErr ? message : null;
+    const arrSections = ['purchase_order_id', 'barcode', 'list_price'];
+    console.log(this.grabFieldNames());
 
     if (!initialValues) {
       return (
@@ -132,6 +165,9 @@ class POLineForm extends Component {
       <Pane id="pane-poLineForm" defaultWidth="fill" paneTitle={paneTitle} lastMenu={lastMenu} onClose={onCancel} dismissible>
         <form id="form-po-line">
           <Row>
+            <Col xs={12} md={8}>
+              <Fields names={arrSections} component={HandleErrors} sectionErrors={sectionErrors} updateSectionErrors={this.updateSectionErrors} />
+            </Col>
             <Col xs={12}>
               <Row center="xs">
                 <Col xs={12} md={8}>
@@ -143,10 +179,10 @@ class POLineForm extends Component {
                 </Col>
                 <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                   <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-                    <Accordion label="PO Line Details" id="LineDetails">
+                    <Accordion label="PO Line Details" id="LineDetails" displayWhenClosed={POLineDetailsErr} displayWhenOpen={POLineDetailsErr}>
                       <POLineDetailsForm {...this.props} />
                     </Accordion>
-                    {/* <Accordion label="Cost" id="Cost">
+                    <Accordion label="Cost" id="Cost" displayWhenClosed={CostErr} displayWhenOpen={CostErr}>
                       <CostForm {...this.props} />
                     </Accordion>
                     <Accordion label="Claim" id="Claim">
@@ -180,7 +216,7 @@ class POLineForm extends Component {
                     </Accordion>
                     <Accordion label="License" id="License">
                       <LicenseForm {...this.props} />
-                    </Accordion> */}
+                    </Accordion>
                   </AccordionSet>
                   <IfPermission perm="po_line.item.delete">
                     <Row end="xs">
