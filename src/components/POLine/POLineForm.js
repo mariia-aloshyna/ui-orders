@@ -53,14 +53,11 @@ class POLineForm extends Component {
       sectionErrors: {
         POLineDetailsErr: {
           purchase_order_id: false,
-          barcode: false
+          barcode: true
         },
         CostErr: {
           list_price: false
         }
-        // contactPeopleErr: false,
-        // agreementsErr: false,
-        // accountsErr: false,
       }
     };
     this.deletePOLine = this.deletePOLine.bind(this);
@@ -88,7 +85,7 @@ class POLineForm extends Component {
     const { pristine, submitting, handleSubmit } = this.props;
     return (
       <PaneMenu>
-        <IfPermission perm="po_line.item.post, login.item.post, po_line.item.put, login.item.put">
+        <IfPermission perm="po_line.item.post, po_line.item.put">
           <Button
             id={id}
             type="submit"
@@ -132,9 +129,17 @@ class POLineForm extends Component {
 
   grabFieldNames() {
     const { sectionErrors } = this.state;
-    const arr = [];
-    // console.log(sectionErrors);
-    // sectionErrors.map(parent => console.log(parent));
+    return Object.keys(sectionErrors) || [];
+  }
+
+  getSectionError(POLineDetailsErr) {
+    const { sectionErrors } = this.state;
+    const obj = sectionErrors['POLineDetailsErr'];
+    const isError = false;
+    Object.keys(obj).forEach((key) => {
+      if (obj[key] !== true) return false;
+      return true;
+    });
   }
 
   render() {
@@ -147,11 +152,9 @@ class POLineForm extends Component {
     const showDeleteButton = initialValues.id || false;
     // Section Error Handling
     const { sectionErrors } = this.state;
-    const message = <em /* className={css.requiredIcon} */ style={{ color: 'red', display: 'flex', alignItems: 'center' }}><Icon icon="validation-error" size="medium" />Required fields!</em>;
-    const POLineDetailsErr = sectionErrors.POLineDetailsErr ? message : null;
+    const message = <em /* className={css.requiredIcon color: 'red', alignItems: 'center' }}><Icon icon="validation-error" size="medium" />Required fields!</em>;
+    const POLineDetailsErr = this.getSectionError() ? message : null;
     const CostErr = sectionErrors.CostErr ? message : null;
-    const arrSections = ['purchase_order_id', 'barcode', 'list_price'];
-    console.log(this.grabFieldNames());
 
     if (!initialValues) {
       return (
@@ -166,7 +169,7 @@ class POLineForm extends Component {
         <form id="form-po-line">
           <Row>
             <Col xs={12} md={8}>
-              <Fields names={arrSections} component={HandleErrors} sectionErrors={sectionErrors} updateSectionErrors={this.updateSectionErrors} />
+              <Fields names={this.grabFieldNames()} component={HandleErrors} sectionErrors={sectionErrors} updateSectionErrors={this.updateSectionErrors} />
             </Col>
             <Col xs={12}>
               <Row center="xs">
@@ -179,7 +182,7 @@ class POLineForm extends Component {
                 </Col>
                 <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                   <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-                    <Accordion label="PO Line Details" id="LineDetails" displayWhenClosed={POLineDetailsErr} displayWhenOpen={POLineDetailsErr}>
+                    <Accordion label="PO Line Details" id="LineDetails" displayWhenClosed={this.getSectionError()} displayWhenOpen={this.getSectionError()}>
                       <POLineDetailsForm {...this.props} />
                     </Accordion>
                     <Accordion label="Cost" id="Cost" displayWhenClosed={CostErr} displayWhenOpen={CostErr}>
