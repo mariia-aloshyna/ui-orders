@@ -2,7 +2,19 @@ import { Component } from 'react';
 
 class HandleErrors extends Component {
   static getDerivedStateFromProps(props, state) {
-    // const { names, sectionErr } = props;
+    const { names, sectionErr } = props;
+    console.log(props);
+    if (names && names.length > 0) {
+      // Loop
+      Object.keys(names).map(key => {
+        const indexName = names[key];
+        const input = props[`${indexName}`].input;
+        const meta = props[`${indexName}`].meta;
+        console.log(indexName);
+        console.log(input);
+        console.log(meta);
+      });
+    }
     // const isAllFalse = item => item === false;
     // if (names && names.length > 0) {
     //   // Declase error arrays
@@ -39,12 +51,13 @@ class HandleErrors extends Component {
     //     return sectionErr;
     //   });
     // }
-    // Update state
+    // // Update state
     // if (sectionErr !== state) {
     //   props.updateSectionErrors(sectionErr);
     //   return { ...sectionErr };
     // }
     // return false;
+    return null;
   }
 
   constructor(props) {
@@ -53,7 +66,6 @@ class HandleErrors extends Component {
   }
 
   render() {
-    console.log(this.props);
     return false;
   }
 }
