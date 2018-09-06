@@ -15,13 +15,13 @@ class ClaimView extends React.Component {
     return (
       <Row>
         <Col xs={3}>
-          <KeyValue label="Claim" value={_.get(dataVal, 'claim')} />
+          <KeyValue label="Claim" value={_.get(initialValues, 'claim')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Claim Sent" value={_.get(dataVal, 'sent')} />
+          <KeyValue label="Claim Sent" value={_.get(initialValues, 'sent')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Claim Grace" value={_.get(dataVal, 'grace')} />
+          <KeyValue label="Claim Grace" value={_.get(initialValues, 'grace')} />
         </Col>
       </Row>
     );

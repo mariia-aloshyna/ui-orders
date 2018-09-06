@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Fields } from 'redux-form';
-import queryString from 'query-string';
 import { IfPermission, Pane, PaneMenu, Button, Icon, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/';
 import stripesForm from '@folio/stripes-form';
 import { POLineDetailsForm } from './POLineDetails';
@@ -18,6 +17,7 @@ import { RenewalForm } from './Renewal';
 import { AdjustmentsForm } from './Adjustments';
 import { LicenseForm } from './License';
 import HandleErrors from '../Utils/HandleErrors';
+import css from './css/POLineForm.css';
 
 class POLineForm extends Component {
   static propTypes = {
@@ -61,7 +61,7 @@ class POLineForm extends Component {
       }
     };
     this.deletePOLine = this.deletePOLine.bind(this);
-    this.handleExpandAll = this.handleExpandAll .bind(this);
+    this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
     this.updateSectionErrors = this.updateSectionErrors.bind(this);
   }
@@ -75,7 +75,7 @@ class POLineForm extends Component {
     return (
       <PaneMenu>
         <button id="clickable-close-new-purchase-order-dialog" onClick={onCancel} title="close" aria-label="Close New Purchase Order Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
+          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times</span>
         </button>
       </PaneMenu>
     );
@@ -142,7 +142,7 @@ class POLineForm extends Component {
   }
 
   render() {
-    const { initialValues, location, onCancel } = this.props;
+    const { initialValues, onCancel } = this.props;
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Add PO Line';
     const lastMenu = initialValues.id ?
@@ -151,7 +151,7 @@ class POLineForm extends Component {
     const showDeleteButton = initialValues.id || false;
     // Section Error Handling
     const { sectionErrors } = this.state;
-    const message = <em /* className={css.requiredIcon} */ style={{ color: 'red', display: 'flex', alignItems: 'center' }}><Icon icon="validation-error" size="medium" />Required fields!</em>;
+    const message = <em className={css.requiredIcon} style={{ color: 'red', display: 'flex', alignItems: 'center' }}><Icon icon="validation-error" size="medium" />Required fields!</em>;
     const POLineDetailsErr = _.includes(sectionErrors.POLineDetailsErr, true) ? message : null;
     const CostErr = _.includes(sectionErrors.CostErr, true) ? message : null;
 
@@ -187,7 +187,7 @@ class POLineForm extends Component {
                     <Accordion label="Cost" id="Cost" displayWhenClosed={CostErr} displayWhenOpen={CostErr}>
                       <CostForm {...this.props} />
                     </Accordion>
-                    {/* <Accordion label="Claim" id="Claim">
+                    <Accordion label="Claim" id="Claim">
                       <ClaimForm {...this.props} />
                       <br />
                     </Accordion>
@@ -218,7 +218,7 @@ class POLineForm extends Component {
                     </Accordion>
                     <Accordion label="License" id="License">
                       <LicenseForm {...this.props} />
-                    </Accordion>*/}
+                    </Accordion>
                   </AccordionSet>
                   <IfPermission perm="po_line.item.delete">
                     <Row end="xs">

@@ -29,7 +29,7 @@ class LayerPOLine extends Component {
 
   updatePOLine(data) {
     const { parentMutator, location: { pathname } } = this.props;
-    parentMutator.poLine.PUT(data).then(newData => {
+    parentMutator.poLine.PUT(data).then(() => {
       parentMutator.query.update({
         _path: `${pathname}`,
         layer: null
