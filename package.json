@@ -233,6 +233,6 @@
     "react": "*"
   },
   "optionalDependencies": {
-    "@folio/plugin-find-vendor": "^1.0.0"
+    "@folio/plugin-find-vendor": "^1.0.0" 
   }
 }
