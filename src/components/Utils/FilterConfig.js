@@ -1,16 +1,16 @@
 const Filters = () => {
   return [
     {
-      label: 'Status',
-      name: 'status',
-      cql: 'status',
-      values: ['Active', 'Inactive', 'Pending']
+      label: 'Approval Status',
+      name: 'approval_status',
+      cql: 'approval_status',
+      values: ['Approved', 'Pending', 'On hold', 'Not approved']
     },
   ];
 };
 
 const SearchableIndexes = [
-  { label: 'All', value: 'all', makeQuery: term => `(id="${term}*" or po_number="${term}*" or create="${term}*" or comments="${term}*" or assined_to="${term}*")` },
+  { label: 'All', value: 'all', makeQuery: term => `(id="${term}*" or po_number="${term}*" or create="${term}*" or comments="${term}*" or assigned_to="${term}*")` },
   { label: 'ID', value: 'id', makeQuery: term => `(id="${term}*")` },
   { label: 'PO Number', value: 'po_number', makeQuery: term => `(po_number="${term}*")` },
   { label: 'Created', value: 'created', makeQuery: term => `(created="${term}*")` },
