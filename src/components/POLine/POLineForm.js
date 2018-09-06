@@ -185,7 +185,7 @@ class POLineForm extends Component {
                     <Accordion label="PO Line Details" id="LineDetails" displayWhenClosed={POLineDetailsErr} displayWhenOpen={POLineDetailsErr}>
                       <POLineDetailsForm {...this.props} />
                     </Accordion>
-                    <Accordion label="Cost" id="Cost" displayWhenClosed={CostErr} displayWhenOpen={CostErr}>
+                    {/* <Accordion label="Cost" id="Cost" displayWhenClosed={CostErr} displayWhenOpen={CostErr}>
                       <CostForm {...this.props} />
                     </Accordion>
                     <Accordion label="Claim" id="Claim">
@@ -219,7 +219,7 @@ class POLineForm extends Component {
                     </Accordion>
                     <Accordion label="License" id="License">
                       <LicenseForm {...this.props} />
-                    </Accordion>
+                    </Accordion> */}
                   </AccordionSet>
                   <IfPermission perm="po_line.item.delete">
                     <Row end="xs">
