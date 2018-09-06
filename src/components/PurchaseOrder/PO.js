@@ -45,7 +45,7 @@ class PO extends Component {
         const vendorName = vendor[0] && vendor[0].name ? `${vendor[0].name}` : '';
         const assignToName = user[0] && user[0].personal ? `${user[0].personal.firstName} ${user[0].personal.lastName}` : '';
         if (vendorName !== initData.vendor_name || assignToName !== initData.assigned_to_user) {
-          parentMutator.queryII.update({ 
+          parentMutator.queryII.update({
             vendorID: initData.vendor,
             userID: initData.assigned_to
           });

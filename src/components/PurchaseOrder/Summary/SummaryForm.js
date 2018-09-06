@@ -42,12 +42,12 @@ class SummaryForm extends Component {
         <Col xs={6} md={3}>
           <Field label="Total Estimated Price" name="total_estimated_price" id="total_estimated_price" type="number" component={TextField} fullWidth />
         </Col>
-        <Col xs={6} md={3}>
+        {/* <Col xs={6} md={3}>
           <Field label="Transmission Date" name="transmission_date" id="transmission_date" dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} fullWidth />
         </Col>
         <Col xs={6} md={3}>
           <Field label="Transmission Method" name="transmission_method" id="transmission_method" dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} fullWidth />
-        </Col>
+        </Col> */}
         <Col xs={6} md={3}>
           <Field label="Workflow Status" name="po_workflow_status_id" id="po_workflow_status_id" component={Select} dataOptions={this.state.workflowStatus} fullWidth />
         </Col>
