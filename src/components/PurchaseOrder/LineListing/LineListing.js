@@ -5,13 +5,14 @@ import MultiColumnList from '@folio/stripes-components/lib/MultiColumnList';
 
 class LineListing extends React.Component {
   static propTypes = {
-    initialValues: PropTypes.object,
     parentResources: PropTypes.object.isRequired,
     parentMutator: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { parentMutator, initialValues, parentResources, match: { params: { id } } } = props;
+    const { parentMutator, parentResources, match: { params: { id } } } = props;
     const ID = id;
     const poLineData = (parentResources.poLine || {}).records || [];
     if (ID !== state.ID || !_.isEqual(poLineData, state.poLineData)) {

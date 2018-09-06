@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import KeyValue from '@folio/stripes-components/lib/KeyValue';
-import Button from '@folio/stripes-components/lib/Button';
+import { Button, Row, Col } from '@folio/stripes-components/';
 
 class LicenseView extends React.Component {
   static propTypes = {
-    initialValues: PropTypes.object
+    openReceiveItem: PropTypes.object,
+    openReceived: PropTypes.object
   }
 
   render() {

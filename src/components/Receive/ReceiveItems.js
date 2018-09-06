@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
 import _ from 'lodash';
-import { TextField, MultiColumnList, Row, Col, Button, Pane, Layer } from '@folio/stripes-components';
+import { TextField, MultiColumnList, Row, Col, Button, Pane } from '@folio/stripes-components';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import TableDropdownMenu from './TableDropdownMenu';
 
@@ -48,8 +47,6 @@ const fundDistribution = [
 class ReceiveItems extends React.Component {
   static propTypes = {
     onCancel: PropTypes.func,
-    location: PropTypes.object.isRequired,
-    stripes: PropTypes.object.isRequired
   }
 
   constructor(props) {
@@ -64,8 +61,7 @@ class ReceiveItems extends React.Component {
   }
 
   render() {
-    const { onCancel, location, openReceived } = this.props;
-    const query = location.search ? queryString.parse(location.search) : {};
+    const { onCancel } = this.props;
     const resultsFormatter = {
       'title': data => _.toString(_.get(data, ['title'], '')),
       'polline': data => _.toString(_.get(data, ['polline'], '')),
@@ -74,7 +70,7 @@ class ReceiveItems extends React.Component {
     };
 
     const formatter = {
-      receiving: data => {
+      receiving: () => {
         return (
           <span style={{ width: '100%' }}>
             <TextField style={{ background: 'white' }} />
@@ -102,7 +98,7 @@ class ReceiveItems extends React.Component {
             <div style={{ float: 'right', paddingTop: '10px', display: 'flex' }}>
               <Button buttonStyle="primary">Cancel</Button>
               <Button buttonStyle="primary">Receive All</Button>
-              <Button buttonStyle="primary" onClick={openReceived}>Receive</Button>
+              <Button buttonStyle="primary" onClick={this.openReceive}>Receive</Button>
             </div>
             <h3>Receive Items</h3>
             <MultiColumnList
@@ -111,14 +107,14 @@ class ReceiveItems extends React.Component {
               columnMapping={columnMapping}
               formatter={formatter}
               resultsFormatter={resultsFormatter}
-              interactive={false} 
+              interactive={false}
               visibleColumns={['title', 'polline', 'received', 'date_ordered', 'receiving', 'receiving_note', 'status', 'menu']}
             />
           </Col>
         </Row>
       </Pane>
     );
-  }      
+  }
 }
 
 export default ReceiveItems;

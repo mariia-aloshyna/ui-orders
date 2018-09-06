@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Select, Datepicker, TextArea, TextField, Button, Row, Col } from '@folio/stripes-components/';
-import { Field, FieldArray } from 'redux-form';
-import { Required } from '../../Utils/Validate';
+import { Select, TextArea, TextField, Row, Col } from '@folio/stripes-components/';
+import { Field } from 'redux-form';
+// import { Required } from '../../Utils/Validate';
 
 class SummaryForm extends Component {
   static getDerivedStateFromProps(props, state) {

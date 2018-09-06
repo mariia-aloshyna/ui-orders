@@ -25,6 +25,7 @@ class POLine extends React.Component {
     editLink: PropTypes.object,
     parentResources: PropTypes.object,
     parentMutator: PropTypes.object,
+    poURL: PropTypes.string,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -85,14 +86,15 @@ class POLine extends React.Component {
 
   render() {
     const { poURL } = this.props;
-    const firstMenu = (<PaneMenu>
-      <IconButton
-        icon="left-arrow"
-        id="clickable-backToPO"
-        href={`${poURL}`}
-        title="Back to PO"
-      />
-    </PaneMenu>);
+    const firstMenu = (
+      <PaneMenu>
+        <IconButton
+          icon="left-arrow"
+          id="clickable-backToPO"
+          href={`${poURL}`}
+          title="Back to PO"
+        />
+      </PaneMenu>);
     const lastMenu = (<PaneMenu>
       <IfPermission perm="po_line.item.put">
         <IconButton

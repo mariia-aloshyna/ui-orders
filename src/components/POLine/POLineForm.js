@@ -30,6 +30,7 @@ class POLineForm extends Component {
     submitting: PropTypes.bool,
     parentResources: PropTypes.object,
     parentMutator: PropTypes.object,
+    poURL: PropTypes.string,
     location: PropTypes.object.isRequired,
   }
 

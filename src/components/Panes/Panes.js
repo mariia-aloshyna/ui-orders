@@ -8,7 +8,11 @@ import { POLine } from '../POLine';
 
 class Panes extends Component {
   static propTypes = {
-    initialValues: PropTypes.object
+    initialValues: PropTypes.object,
+    stripes: PropTypes.object,
+    match: PropTypes.object,
+    path: PropTypes.object,
+    url: PropTypes.object
   }
 
   constructor(props) {

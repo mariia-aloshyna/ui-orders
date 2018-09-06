@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import Pane from '@folio/stripes-components/lib/Pane';
-import queryString from 'query-string';
-import { AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/lib/Accordion';
-import KeyValue from '@folio/stripes-components/lib/KeyValue';
-import css from './POLineDetails.css';
+import { KeyValue, Row, Col } from '@folio/stripes-components/';
 
 class LineDetailsView extends React.Component {
   static propTypes = {
@@ -20,7 +15,6 @@ class LineDetailsView extends React.Component {
       const resObj = (parentResources.dropdown || {})[res] || [];
       const item = _.find(resObj, { value: id });
       const label = _.isEmpty(item) ? '' : item.label;
-      console.log('label look up');
       return { [`${stateName}_id`]: id, [`${stateName}_label`]: label };
     }
 

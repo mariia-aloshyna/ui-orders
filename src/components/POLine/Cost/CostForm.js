@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import { Row, Col } from '@folio/stripes-components/';
-import Button from '@folio/stripes-components/lib/Button';
-import TextField from '@folio/stripes-components/lib/TextField';
-import TextArea from '@folio/stripes-components/lib/TextArea';
-import Checkbox from '@folio/stripes-components/lib/Checkbox';
-import Select from '@folio/stripes-components/lib/Select';
+import { TextField, Row, Col } from '@folio/stripes-components/';
 import { Required } from '../../Utils/Validate';
 
 class CostForm extends Component {
-  
   render() {
     return (
       <Row>

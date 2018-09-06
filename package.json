@@ -1,198 +1,235 @@
 {
-    "name": "@folio/orders",
-    "version": "0.1.0",
-    "description": "Description for orders",
-    "main": "src/index.js",
-    "repository": "",
-    "license": "Apache-2.0",
-    "engines": {
-        "node": ">=6.0.0"
+  "name": "@folio/orders",
+  "version": "0.1.0",
+  "description": "Description for orders",
+  "main": "src/index.js",
+  "repository": "",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "stripes": {
+    "type": "app",
+    "displayName": "ui-orders.meta.title",
+    "route": "/orders",
+    "home": "/orders",
+    "hasSettings": true,
+    "okapiInterfaces": {
+      "acquisition_method": "1.0",
+      "activation_status": "1.0",
+      "adjustment": "1.0",
+      "alert": "1.0",
+      "claim": "1.0",
+      "cost": "1.0",
+      "currency": "1.0",
+      "details": "1.0",
+      "eresource": "1.0",
+      "license": "1.0",
+      "location": "1.0",
+      "order_format": "1.0",
+      "order_type": "1.0",
+      "payment_status": "1.0",
+      "physical": "1.0",
+      "po_line": "1.0",
+      "purchase_order": "1.0",
+      "receipt_status": "1.0",
+      "renewal": "1.0",
+      "reporting_code": "1.0",
+      "source": "1.0",
+      "vendor_detail": "1.0",
+      "workflow_status": "1.0"
     },
-    "stripes": {
-      "type": "app",
-      "displayName": "ui-orders.meta.title",
-      "route": "/orders",
-      "home": "/orders",
-      "hasSettings": true,
-      "okapiInterfaces": {
-        "acquisition_method": "1.0",
-        "activation_status": "1.0",
-        "adjustment": "1.0",
-        "alert": "1.0",
-        "claim": "1.0",
-        "cost": "1.0",
-        "currency": "1.0",
-        "details": "1.0",
-        "eresource": "1.0",
-        "license": "1.0",
-        "location": "1.0",
-        "order_format": "1.0",
-        "order_type": "1.0",
-        "payment_status": "1.0",
-        "physical": "1.0",
-        "po_line": "1.0",
-        "purchase_order": "1.0",
-        "receipt_status": "1.0",
-        "renewal": "1.0",
-        "reporting_code": "1.0",
-        "source": "1.0",
-        "vendor_detail": "1.0",
-        "workflow_status": "1.0"
+    "queryResource": "query",
+    "icons": [
+      {
+        "name": "app",
+        "alt": "Create, view and manage orders",
+        "title": "Orders"
+      }
+    ],
+    "permissionSets": [
+      {
+        "permissionName": "module.orders.enabled",
+        "displayName": "UI: Orders module is enabled"
       },
-      "queryResource": "query",
-      "icons": [
-        {
-          "name": "app",
-          "alt": "Create, view and manage orders",
-          "title": "Orders"
-        }
-      ],
-      "permissionSets": [
-        {
-          "permissionName": "module.orders.enabled",
-          "displayName": "UI: Orders module is enabled"
-        },
-        {
-          "permissionName" : "purchase_order.collection.get",
-          "displayName" : "purchase_order-collection get",
-          "description" : "Get a collection of purchase orders"
-        },
-        {
-          "permissionName" : "purchase_order.item.post",
-          "displayName" : "purchase_order-item post",
-          "description" : "Create a new purchase_order"
-        },
-        {
-          "permissionName" : "purchase_order.item.get",
-          "displayName" : "purchase_order-item get",
-          "description" : "Fetch a purchase_order"
-        },
-        {
-          "permissionName" : "purchase_order.item.put",
-          "displayName" : "purchase_order-item put",
-          "description" : "Update a purchase order"
-        },
-        {
-          "permissionName" : "purchase_order.item.delete",
-          "displayName" : "purchase_order-item delete",
-          "description" : "Delete a purchase order"
-        },
-        {
-          "permissionName" : "purchase_order.all",
-          "displayName" : "All purchase order perms",
-          "description" : "All permissions for the purchase order",
-          "subPermissions" : [
-            "purchase_order.collection.get",
-            "purchase_order.item.post",
-            "purchase_order.item.get",
-            "purchase_order.item.put",
-            "purchase_order.item.delete"
-          ]
-        },
-        {
-          "permissionName" : "po_line.collection.get",
-          "displayName" : "po_line-collection get",
-          "description" : "Get a collection of po_lines"
-        },
-        {
-          "permissionName" : "po_line.item.post",
-          "displayName" : "po_line-item post",
-          "description" : "Create a new po_line"
-        },
-        {
-          "permissionName" : "po_line.item.get",
-          "displayName" : "po_line-item get",
-          "description" : "Fetch a po_line"
-        },
-        {
-          "permissionName" : "po_line.item.put",
-          "displayName" : "po_line-item put",
-          "description" : "Update a purchase order line"
-        },
-        {
-          "permissionName" : "po_line.item.delete",
-          "displayName" : "po_line-item delete",
-          "description" : "Delete a po line"
-        },
-        {
-          "permissionName" : "po_line.all",
-          "displayName" : "All po line perms",
-          "description" : "All permissions for the po line",
-          "subPermissions" : [
-            "po_line.collection.get",
-            "po_line.item.post",
-            "po_line.item.get",
-            "po_line.item.put",
-            "po_line.item.delete"
-          ]
-        },
-        {
-          "permissionName" : "orders.module.all",
-          "displayName" : "Orders: all permissions",
-          "description" : "Entire set of permissions needed to use Orders",
-          "visible": true,
-          "subPermissions" : [
-            "adjustment.all",
-            "alert.all",
-            "claim.all",
-            "cost.all",
-            "details.all",
-            "eresource.all",
-            "license.all",
-            "location.all",
-            "order_format.all",
-            "order_type.all",
-            "physical.all",
-            "receipt_status.all",
-            "renewal.all",
-            "source.all",
-            "vendor_detail.all",
-            "workflow_status.all"
-          ]
-        },
-        {
-          "permissionName": "settings.orders.enabled",
-          "displayName": "Settings (Orders): Display list of settings for Orders",
-          "visible": true,
-          "subPermissions": [
-            "settings.enabled"
-          ]
-        }
-      ]
-    },
-    "scripts": {
-        "start": "stripes serve",
-        "build": "stripes build --output ./output",
-        "test": "stripes test nightmare --run demo --show",
-        "lint": "eslint src"
-    },
-    "devDependencies": {
-        "@folio/eslint-config-stripes": "^1.1.0",
-        "babel-core": "^6.17.0",
-        "babel-eslint": "^8.0.0",
-        "babel-preset-es2015": "^6.18.0",
-        "babel-preset-react": "^6.16.0",
-        "babel-preset-stage-0": "^6.16.0",
-        "babel-register": "^6.18.0",
-        "eslint": "^4.8.0"
-    },
-    "dependencies": {
-        "@folio/stripes-components": "^3.0.0",
-        "@folio/stripes-form": "^0.8.2",
-        "@folio/stripes-smart-components": "^1.4.0",
-        "eslint": "^4.8.0",
-        "lodash": "^4.17.5",
-        "prop-types": "^15.5.10",
-        "query-string": "^5.0.0",
-        "react-router-dom": "^4.1.1",
-        "redux-form": "^7.3.0",
-        "style-loader": "^0.20.1",
-        "uuid": "^3.1.0"
-    },
-    "peerDependencies": {
-        "@folio/stripes-connect": "^3.1.1",
-        "@folio/stripes-core": "^2.9.0",
-        "@folio/stripes-logger": "^0.0.2",
-        "react": "*"
-    }
+      {
+        "permissionName": "purchase_order.collection.get",
+        "displayName": "purchase_order-collection get",
+        "description": "Get a collection of purchase orders"
+      },
+      {
+        "permissionName": "purchase_order.item.post",
+        "displayName": "purchase_order-item post",
+        "description": "Create a new purchase_order"
+      },
+      {
+        "permissionName": "purchase_order.item.get",
+        "displayName": "purchase_order-item get",
+        "description": "Fetch a purchase_order"
+      },
+      {
+        "permissionName": "purchase_order.item.put",
+        "displayName": "purchase_order-item put",
+        "description": "Update a purchase order"
+      },
+      {
+        "permissionName": "purchase_order.item.delete",
+        "displayName": "purchase_order-item delete",
+        "description": "Delete a purchase order"
+      },
+      {
+        "permissionName": "purchase_order.all",
+        "displayName": "All purchase order perms",
+        "description": "All permissions for the purchase order",
+        "subPermissions": [
+          "purchase_order.collection.get",
+          "purchase_order.item.post",
+          "purchase_order.item.get",
+          "purchase_order.item.put",
+          "purchase_order.item.delete"
+        ]
+      },
+      {
+        "permissionName": "po_line.collection.get",
+        "displayName": "po_line-collection get",
+        "description": "Get a collection of po_lines"
+      },
+      {
+        "permissionName": "po_line.item.post",
+        "displayName": "po_line-item post",
+        "description": "Create a new po_line"
+      },
+      {
+        "permissionName": "po_line.item.get",
+        "displayName": "po_line-item get",
+        "description": "Fetch a po_line"
+      },
+      {
+        "permissionName": "po_line.item.put",
+        "displayName": "po_line-item put",
+        "description": "Update a purchase order line"
+      },
+      {
+        "permissionName": "po_line.item.delete",
+        "displayName": "po_line-item delete",
+        "description": "Delete a po line"
+      },
+      {
+        "permissionName": "po_line.all",
+        "displayName": "All po line perms",
+        "description": "All permissions for the po line",
+        "subPermissions": [
+          "po_line.collection.get",
+          "po_line.item.post",
+          "po_line.item.get",
+          "po_line.item.put",
+          "po_line.item.delete"
+        ]
+      },
+      {
+        "permissionName" : "vendor_detail.collection.get",
+        "displayName" : "vendor_detail-collection get",
+        "description" : "Get a collection of vendor_details"
+      },
+      {
+        "permissionName" : "vendor_detail.item.post",
+        "displayName" : "vendor_detail-item post",
+        "description" : "Create a new vendor_detail"
+      },
+      {
+        "permissionName" : "vendor_detail.item.get",
+        "displayName" : "vendor_detail-item get",
+        "description" : "Fetch a vendor_detail"
+      },
+      {
+        "permissionName" : "vendor_detail.item.put",
+        "displayName" : "vendor_detail-item put",
+        "description" : "Update a vendor_detail"
+      },
+      {
+        "permissionName" : "vendor_detail.item.delete",
+        "displayName" : "vendor_detail-item delete",
+        "description" : "Delete a vendor_detail"
+      },
+      {
+        "permissionName" : "vendor_detail.all",
+        "displayName" : "All vendor_detail perms",
+        "description" : "All permissions for the vendor_detail",
+        "subPermissions" : [
+          "vendor_detail.collection.get",
+          "vendor_detail.item.post",
+          "vendor_detail.item.get",
+          "vendor_detail.item.put",
+          "vendor_detail.item.delete"
+        ]
+      },
+      {
+        "permissionName": "orders.module.all",
+        "displayName": "Orders: all permissions",
+        "description": "Entire set of permissions needed to use Orders",
+        "visible": true,
+        "subPermissions": [
+          "adjustment.all",
+          "alert.all",
+          "claim.all",
+          "cost.all",
+          "details.all",
+          "eresource.all",
+          "license.all",
+          "location.all",
+          "order_format.all",
+          "order_type.all",
+          "physical.all",
+          "receipt_status.all",
+          "renewal.all",
+          "source.all",
+          "workflow_status.all"
+        ]
+      },
+      {
+        "permissionName": "settings.orders.enabled",
+        "displayName": "Settings (Orders): Display list of settings for Orders",
+        "visible": true,
+        "subPermissions": [
+          "settings.enabled"
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "start": "stripes serve",
+    "build": "stripes build --output ./output",
+    "test": "stripes test nightmare --run demo --show",
+    "lint": "eslint src"
+  },
+  "devDependencies": {
+    "@folio/eslint-config-stripes": "^1.1.0",
+    "babel-core": "^6.17.0",
+    "babel-eslint": "^8.0.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-register": "^6.18.0",
+    "eslint": "^4.8.0"
+  },
+  "dependencies": {
+    "@folio/stripes-components": "^3.0.0",
+    "@folio/stripes-form": "^0.8.2",
+    "@folio/stripes-smart-components": "^1.4.0",
+    "eslint": "^4.8.0",
+    "lodash": "^4.17.5",
+    "prop-types": "^15.5.10",
+    "query-string": "^5.0.0",
+    "react-intl": "^2.4.0",
+    "react-router-dom": "^4.1.1",
+    "redux-form": "^7.3.0",
+    "style-loader": "^0.20.1",
+    "uuid": "^3.1.0"
+  },
+  "peerDependencies": {
+    "@folio/stripes-connect": "^3.1.1",
+    "@folio/stripes-core": "^2.9.0",
+    "@folio/stripes-logger": "^0.0.2",
+    "react": "*"
+  }
 }

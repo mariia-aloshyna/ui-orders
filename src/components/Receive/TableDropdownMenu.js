@@ -5,7 +5,7 @@ import css from './css/TableDropdownMenu.css';
 
 class TableDropdownMenu extends React.Component {
   static propTypes = {
-    // initialValues: PropTypes.object
+    rowIndex: PropTypes.number
   }
 
   constructor(props) {
@@ -17,7 +17,6 @@ class TableDropdownMenu extends React.Component {
   onToggleDropdown = () => {
     const { rowIndex } = this.props;
     const itemValue = this.state[`item-${rowIndex}`] || false;
-    console.log(itemValue);
     this.setState({ [`item-${rowIndex}`]: !itemValue });
   }
 
@@ -30,8 +29,8 @@ class TableDropdownMenu extends React.Component {
           <IconButton icon="ellipsis" onClick={() => this.onToggleDropdown()} />
           <DropdownMenu data-role="menu" aria-label="available permissions">
             <ul style={{ padding: '5px' }} className={css.menuItem}>
-              <li><a href="#">Link {rowIndex}</a></li>
-              <li><a href="#">Link {rowIndex}</a></li>
+              <li>Link {rowIndex}</li>
+              <li>Link {rowIndex}</li>
             </ul>
           </DropdownMenu>
         </Dropdown>

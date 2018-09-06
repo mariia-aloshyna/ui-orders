@@ -1,25 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
 import MultiColumnList from '@folio/stripes-components/lib/MultiColumnList';
 
 class LocationView extends React.Component {
-  static propTypes = {
-    initialValues: PropTypes.object
-  }
-
   render() {
-    const { initialValues } = this.props;
     const fundDistribution = [
       {
-        "name": 'History',
-        "quantity_physical": 1,
-        "quantity_electronic": 1.4
+        'name': 'History',
+        'quantity_physical': 1,
+        'quantity_electronic': 1.4
       },
       {
-        "name": 'History',
-        "quantity_physical": 2,
-        "quantity_electronic": 2.3
+        'name': 'History',
+        'quantity_physical': 2,
+        'quantity_electronic': 2.3
       }
     ];
 
