@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
 import KeyValue from '@folio/stripes-components/lib/KeyValue';
 import FormatDate from '../../Utils/FormatDate';
-import css from './css/PODetailsView.css';
+// import css from './css/PODetailsView.css';
 
 class DetailsView extends React.Component {
   static propTypes = {
@@ -25,7 +25,7 @@ class DetailsView extends React.Component {
         </Col>
         <Col xs={3}>
           {/* <KeyValue label="Assigned To" value={_.get(dataVal, 'assigned_to')} /> */}
-          <KeyValue label="Assigned To Name" value={_.get(dataVal, 'assigned_to_user')} /> 
+          <KeyValue label="Assigned To Name" value={_.get(dataVal, 'assigned_to_user')} />
         </Col>
         <Col xs={3}>
           <KeyValue label="Created On" value={FormatDate(_.toString(_.get(dataVal, 'created')))} />

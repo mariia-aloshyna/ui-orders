@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Select, MultiColumnList, Row, Col, Button, Pane, TextField } from '@folio/stripes-components';
-import TableDropdownMenu from './TableDropdownMenu';
+// import TableDropdownMenu from './TableDropdownMenu';
 import css from './css/Received.css';
 import imgBarcode from './img/Barcode.svg';
 
@@ -70,22 +70,22 @@ class Received extends React.Component {
     };
 
     const formatter = {
-      barcode: data => {
+      barcode: () => {
         return (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <TextField style={{ background: 'white' }} />
-            <img alt='barcode image' style={{ marginLeft: '4px' }} src={imgBarcode} width='24px' />
+            <img alt="barcode" style={{ marginLeft: '4px' }} src={imgBarcode} width="24px" />
           </div>
         );
       },
-      location: data => {
+      location: () => {
         return (
           <div style={{ width: '80%' }}>
             <Select style={{ background: 'white' }} dataOptions={this.locationDD()} />
           </div>
         );
       },
-      item_status: data => {
+      item_status: () => {
         return (
           <div style={{ width: '80%' }}>
             <Select style={{ background: 'white' }} dataOptions={this.itemStatusDD()} />

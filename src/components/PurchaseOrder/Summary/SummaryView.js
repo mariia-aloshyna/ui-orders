@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Datepicker, KeyValue, Row, Col } from '@folio/stripes-components/';
-import FormatDate from '../../Utils/FormatDate';
-import css from './SummaryView.css';
+import { KeyValue, Row, Col } from '@folio/stripes-components/';
+// import FormatDate from '../../Utils/FormatDate';
+// import css from './SummaryView.css';
 
 class SummaryView extends React.Component {
   static propTypes = {
@@ -15,7 +15,7 @@ class SummaryView extends React.Component {
     // Label Lookup
     function labelLookup(id, res, stateName) {
       const resObj = (parentResources[res] || {}).records || [];
-      const item = _.find(resObj, { id: id });
+      const item = _.find(resObj, { id });
       const label = _.isEmpty(item) ? '' : item.description;
       return { [`${stateName}_id`]: id, [`${stateName}_label`]: label };
     }
@@ -34,10 +34,7 @@ class SummaryView extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      poWorkflowStatus_id: null,
-      poReceiptStatus_id: null
-    };
+    this.state = {};
   }
 
   render() {

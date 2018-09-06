@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { Field, FieldArray } from 'redux-form';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
-import Button from '@folio/stripes-components/lib/Button';
-import TextField from '@folio/stripes-components/lib/TextField';
-import TextArea from '@folio/stripes-components/lib/TextArea';
-import { Required } from '../../Utils/Validate';
+import { Field } from 'redux-form';
+import { TextArea, TextField, Row, Col } from '@folio/stripes-components/';
+// import { Required } from '../../Utils/Validate';
 
 class VendorForm extends Component {
   render() {

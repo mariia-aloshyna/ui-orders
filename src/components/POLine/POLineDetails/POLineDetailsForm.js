@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form'
-import { Select, Checkbox, TextArea, Button, Row, Col, TextField } from '@folio/stripes-components';
+import { Field } from 'redux-form';
+import { Select, Checkbox, TextArea, Row, Col, TextField } from '@folio/stripes-components';
 import { Required } from '../../Utils/Validate';
 
 class LineDetailsForm extends Component {
   static propTypes = {
     parentResources: PropTypes.shape({
       dropdown: PropTypes.shape({
-        acquisitionMethodDD: PropTypes.Object,
-        orderFormatDD: PropTypes.Object,
-        status_dd: PropTypes.Object,
-        order_type_dd: PropTypes.Object
+        acquisitionMethodDD: PropTypes.object,
+        orderFormatDD: PropTypes.object,
+        status_dd: PropTypes.object,
+        order_type_dd: PropTypes.object
       })
     })
   }
@@ -67,7 +67,7 @@ class LineDetailsForm extends Component {
           <Field label="Cancellation Restriction" name="cancellation_restriction" id="cancellation_restriction" component={Checkbox} fullWidth />
         </Col>
         <Col xs={12}>
-          <br/>
+          <br />
           <Field label="Line Description" name="po_line_description" id="po_line_description" component={TextArea} fullWidth />
         </Col>
         <Col xs={12}>

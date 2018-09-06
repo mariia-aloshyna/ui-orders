@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Settings from '@folio/stripes-components/lib/Settings';
 import GeneralSettings from './general-settings';
 import SomeFeatureSettings from './some-feature-settings';
@@ -10,6 +11,10 @@ import SomeFeatureSettings from './some-feature-settings';
 */
 
 export default class OrdersSettings extends React.Component {
+  static propTypes = {
+    stripes: PropTypes.object,
+  }
+
   pages = [
     {
       route: 'general',

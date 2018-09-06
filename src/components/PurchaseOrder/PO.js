@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Icon, IconButton, AccordionSet, Accordion, ExpandAllButton, Pane, PaneMenu, Row, Col, Button, IfPermission, Layer } from '@folio/stripes-components';
+import { Icon, IconButton, AccordionSet, Accordion, ExpandAllButton, Pane, PaneMenu, Row, Col, Button, IfPermission } from '@folio/stripes-components';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
-import FundDistribution from './FundDistribution';
+// import FundDistribution from './FundDistribution';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
@@ -39,7 +39,7 @@ class PO extends Component {
     // Check if initialValues STATE before updating child;
     if (!_.isEmpty(state.initialValues)) {
       const vendor = (parentResources.vendor || {}).records || [];
-      const user = (parentResources.user || {}).records || [];      
+      const user = (parentResources.user || {}).records || [];
       if ((vendor || vendor.length > 0) || (user || user.length > 0)) {
         const initData = state.initialValues;
         const vendorName = vendor[0] && vendor[0].name ? `${vendor[0].name}` : '';

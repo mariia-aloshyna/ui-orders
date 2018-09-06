@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, getFormValues } from 'redux-form';
 import { TextField, Row, Col, Datepicker, Pluggable, IconButton } from '@folio/stripes-components';
-import { Required } from '../../Utils/Validate';
+// import { Required } from '../../Utils/Validate';
 
 class PODetailsForm extends Component {
   static propTypes = {
     showPaneUsers: PropTypes.func,
+    stripes: PropTypes.object,
+    dispatch: PropTypes.func,
+    change: PropTypes.func,
   }
 
   static getDerivedStateFromProps(props, state) {

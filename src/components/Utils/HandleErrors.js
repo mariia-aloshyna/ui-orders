@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import _ from 'lodash';
+// import _ from 'lodash';
 
 class HandleErrors extends Component {
   static getDerivedStateFromProps(props, state) {
@@ -9,9 +9,9 @@ class HandleErrors extends Component {
     if (names && names.length > 0) {
       Object.keys(names).map(key => {
         const indexName = names[key];
-        const input = props[`${indexName}`].input;
+        // const input = props[`${indexName}`].input;
         const meta = props[`${indexName}`].meta;
-        const isError = ((meta.error) && meta.error.length > 0) ? true : false;
+        const isError = ((meta.error) && meta.error.length > 0) || false;
 
         for (const propName in newSectionErrors) {
           if (newSectionErrors) {
