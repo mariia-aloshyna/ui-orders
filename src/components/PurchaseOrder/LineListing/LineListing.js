@@ -5,8 +5,6 @@ import MultiColumnList from '@folio/stripes-components/lib/MultiColumnList';
 
 class LineListing extends React.Component {
   static propTypes = {
-    parentResources: PropTypes.object.isRequired,
-    parentMutator: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired
   }
