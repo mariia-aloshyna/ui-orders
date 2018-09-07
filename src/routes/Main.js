@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import makeQueryFunction from '@folio/stripes-components/util/makeQueryFunction';
+import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
 import packageInfo from '../../package';
 import Panes from '../components/Panes/';
 import { POForm } from '../components/PurchaseOrder/';
-import { Filters } from '../components/Utils/FilterConfig';
+import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 const filterConfig = Filters();
+const searchableIndexes = SearchableIndexes;
 
 class Main extends Component {
   static manifest = Object.freeze({
+    initializedFilterConfig: { initialValue: false },
     query: {
       initialValue: {
         query: '',
@@ -30,19 +32,56 @@ class Main extends Component {
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {
         params: {
-          query: makeQueryFunction(
-            'cql.allRecords=1',
-            '(id="%{query.query}*" or po_number="%{query.query}*" or create_by="%{query.query}*" or comments="%{query.query}*" or assigned_to="%{query.query}*")',
-            {
+          query: (...args) => {
+            /*
+              This code is not DRY as it is copied from makeQueryFunction in stripes-components.
+              This is necessary, as makeQueryFunction only referneces query paramaters as a data source.
+              STRIPES-480 is intended to correct this and allow this query function to be replace with a call
+              to makeQueryFunction.
+              https://issues.folio.org/browse/STRIPES-480
+            */
+            const resourceData = args[2];
+            const sortMap = {
               'ID': 'id',
               'PO Number': 'po_number',
               'Created By': 'created_by',
               'Comments': 'comments',
               'Assigned To': 'assigned_to'
-            },
-            filterConfig,
-            0,
-          ),
+            };
+
+            const index = resourceData.query.qindex ? resourceData.query.qindex : 'all';
+            const searchableIndex = searchableIndexes.find(idx => idx.value === index);
+
+            let cql = searchableIndex.makeQuery(resourceData.query.query);
+            const filterCql = filters2cql(filterConfig, resourceData.query.filters);
+            if (filterCql) {
+              if (cql) {
+                cql = `(${cql}) and ${filterCql}`;
+              } else {
+                cql = filterCql;
+              }
+            }
+
+            const { sort } = resourceData.query;
+            if (sort) {
+              const sortIndexes = sort.split(',').map((sort1) => {
+                let reverse = false;
+                if (sort1.startsWith('-')) {
+                  // eslint-disable-next-line no-param-reassign
+                  sort1 = sort1.substr(1);
+                  reverse = true;
+                }
+                let sortIndex = sortMap[sort1] || sort1;
+                if (reverse) {
+                  sortIndex = `${sortIndex.replace(' ', '/sort.descending ')}/sort.descending`;
+                }
+                return sortIndex;
+              });
+
+              cql += ` sortby ${sortIndexes.join(' ')}`;
+            }
+            return cql;
+          }
         },
         staticFallback: { params: {} },
       },
@@ -178,6 +217,18 @@ class Main extends Component {
   static defaultProps = {
     showSingleResult: true,
     browseOnly: false,
+  }
+
+  static getDerivedStateFromProps(props) {
+    const assignedTo = filterConfig.find(group => group.name === 'assigned_to');
+    if (assignedTo.values.length === 0) {
+      const user = props.stripes.user.user;
+      assignedTo.values.push({
+        name: `${user.firstName} ${user.lastName}`,
+        cql: `${user.id}`,
+      });
+      props.mutator.initializedFilterConfig.replace(true);
+    }
   }
 
   create = (data) => {
