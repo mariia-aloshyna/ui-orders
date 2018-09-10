@@ -231,5 +231,8 @@
     "@folio/stripes-core": "^2.9.0",
     "@folio/stripes-logger": "^0.0.2",
     "react": "*"
+  },
+  "optionalDependencies": {
+    "@folio/plugin-find-vendor": "^1.0.0" 
   }
 }
