@@ -29,8 +29,12 @@ class TableDropdownMenu extends React.Component {
           <IconButton icon="ellipsis" onClick={() => this.onToggleDropdown()} />
           <DropdownMenu data-role="menu" aria-label="available permissions">
             <ul style={{ padding: '5px' }} className={css.menuItem}>
-              <li>Link {rowIndex}</li>
-              <li>Link {rowIndex}</li>
+              <li>
+                {`Link ${rowIndex}`}
+              </li>
+              <li>
+                {`Link ${rowIndex}`}
+              </li>
             </ul>
           </DropdownMenu>
         </Dropdown>
@@ -40,4 +44,3 @@ class TableDropdownMenu extends React.Component {
 }
 
 export default TableDropdownMenu;
-

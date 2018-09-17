@@ -4,8 +4,8 @@ import _ from 'lodash';
 import { filters2cql } from '@folio/stripes-components/lib/FilterGroups';
 import SearchAndSort from '@folio/stripes-smart-components/lib/SearchAndSort';
 import packageInfo from '../../package';
-import Panes from '../components/Panes/';
-import { POForm } from '../components/PurchaseOrder/';
+import Panes from '../components/Panes';
+import { POForm } from '../components/PurchaseOrder';
 import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
 
 const INITIAL_RESULT_COUNT = 30;

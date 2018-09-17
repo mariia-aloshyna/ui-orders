@@ -48,6 +48,7 @@ class LayerPOLine extends Component {
     }
     return newObj;
   }
+
   render() {
     const { location } = this.props;
     const query = location.search ? queryString.parse(location.search) : {};
