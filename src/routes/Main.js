@@ -229,6 +229,8 @@ class Main extends Component {
       });
       props.mutator.initializedFilterConfig.replace(true);
     }
+
+    return null;
   }
 
   create = (data) => {
