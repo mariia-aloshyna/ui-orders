@@ -45,10 +45,10 @@ class LineDetailsView extends React.Component {
     return (
       <Row>
         <Col xs={3}>
-          <KeyValue label="Po Line ID" value={_.get(initialValues, 'id')} />
+          <KeyValue label="PO Line ID" value={_.get(initialValues, 'id')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Po Line Number" value={_.get(initialValues, 'po_line_number')} />
+          <KeyValue label="PO Line Number" value={_.get(initialValues, 'po_line_number')} />
         </Col>
         <Col xs={3}>
           <KeyValue label="Acquisition Method" value={this.state.acquisition_label} />
