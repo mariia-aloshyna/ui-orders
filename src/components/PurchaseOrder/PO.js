@@ -130,17 +130,20 @@ class PO extends Component {
   render() {
     const { location, history, match } = this.props;
     const initialValues = this.state.initialValues || {};
-    const lastMenu = (<PaneMenu>
-      <IfPermission perm="vendor.item.put">
-        <IconButton
-          icon="edit"
-          id="clickable-editvendor"
-          style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
-          onClick={this.props.onEdit}
-          href={this.props.editLink}
-          title="Edit Vendor"
-        />
-      </IfPermission> </PaneMenu>);
+    const lastMenu = (
+      <PaneMenu>
+        <IfPermission perm="vendor.item.put">
+          <IconButton
+            icon="edit"
+            id="clickable-editvendor"
+            style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
+            onClick={this.props.onEdit}
+            href={this.props.editLink}
+            title="Edit Vendor"
+          />
+        </IfPermission>
+      </PaneMenu>
+    );
     const addPOLineButton = (<Button onClick={this.onAddPOLine}>Add PO Line</Button>);
 
     if (!initialValues) {
