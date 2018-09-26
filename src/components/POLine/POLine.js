@@ -95,15 +95,18 @@ class POLine extends React.Component {
           title="Back to PO"
         />
       </PaneMenu>);
-    const lastMenu = (<PaneMenu>
-      <IfPermission perm="po_line.item.put">
-        <IconButton
-          icon="edit"
-          id="clickable-edit-po-line"
-          onClick={this.onEditPOLine}
-          title="Edit PO Line"
-        />
-      </IfPermission> </PaneMenu>);
+    const lastMenu = (
+      <PaneMenu>
+        <IfPermission perm="po_line.item.put">
+          <IconButton
+            icon="edit"
+            id="clickable-edit-po-line"
+            onClick={this.onEditPOLine}
+            title="Edit PO Line"
+          />
+        </IfPermission>
+      </PaneMenu>
+    );
     const { location } = this.props;
     const initialValues = this.getData();
 
