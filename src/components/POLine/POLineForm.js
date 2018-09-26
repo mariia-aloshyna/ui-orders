@@ -5,17 +5,6 @@ import { Fields } from 'redux-form';
 import { IfPermission, Pane, PaneMenu, Button, Icon, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes-components/';
 import stripesForm from '@folio/stripes-form';
 import { POLineDetailsForm } from './POLineDetails';
-import { CostForm } from './Cost';
-import { ClaimForm } from './Claim';
-import { TagForm } from './Tags';
-import { LocationForm } from './Location';
-import { VendorForm } from './Vendor';
-import { EresourcesForm } from './Eresources';
-import { ItemForm } from './Item';
-import { PhysicalForm } from './Physical';
-import { RenewalForm } from './Renewal';
-import { AdjustmentsForm } from './Adjustments';
-import { LicenseForm } from './License';
 import HandleErrors from '../Utils/HandleErrors';
 import css from './css/POLineForm.css';
 
@@ -75,7 +64,7 @@ class POLineForm extends Component {
     const { onCancel } = this.props;
     return (
       <PaneMenu>
-        <button id="clickable-close-new-purchase-order-dialog" onClick={onCancel} title="close" aria-label="Close New Purchase Order Dialog">
+        <button type="button" id="clickable-close-new-purchase-order-dialog" onClick={onCancel} title="close" aria-label="Close New Purchase Order Dialog">
           <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times</span>
         </button>
       </PaneMenu>
@@ -145,16 +134,24 @@ class POLineForm extends Component {
   render() {
     const { initialValues, onCancel } = this.props;
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Add PO Line';
+    const paneTitle = initialValues.id ? (
+      <span>
+        {`Edit: ${_.get(initialValues, ['id'], '')}`}
+      </span>
+    ) : 'Add PO Line';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-updatePoLine', 'Update PO Line') :
       this.getLastMenu('clickable-createnewPoLine', 'Create PO Line');
     const showDeleteButton = initialValues.id || false;
     // Section Error Handling
     const { sectionErrors } = this.state;
-    const message = <em className={css.requiredIcon} style={{ color: 'red', display: 'flex', alignItems: 'center' }}><Icon icon="validation-error" size="medium" />Required fields!</em>;
+    const message = (
+      <em className={css.requiredIcon} style={{ color: 'red', display: 'flex', alignItems: 'center' }}>
+        <Icon icon="validation-error" size="medium" />
+        Required fields!
+      </em>
+    );
     const POLineDetailsErr = _.includes(sectionErrors.POLineDetailsErr, true) ? message : null;
-    const CostErr = _.includes(sectionErrors.CostErr, true) ? message : null;
 
     if (!initialValues) {
       return (
@@ -226,7 +223,9 @@ class POLineForm extends Component {
                       <Col xs={12}>
                         {
                           showDeleteButton &&
-                          <Button type="button" buttonStyle="danger" onClick={() => { this.deletePOLine(this.props.initialValues.id); }}>Delete - {this.props.initialValues.id}</Button>
+                          <Button type="button" buttonStyle="danger" onClick={() => { this.deletePOLine(this.props.initialValues.id); }}>
+                            {`Delete - ${this.props.initialValues.id}`}
+                          </Button>
                         }
                       </Col>
                     </Row>
@@ -246,4 +245,3 @@ export default stripesForm({
   navigationCheck: true,
   enableReinitialize: true
 })(POLineForm);
-

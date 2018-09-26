@@ -36,8 +36,8 @@ class POForm extends Component {
     const { onCancel } = this.props;
     return (
       <PaneMenu>
-        <button id="clickable-close-new-purchase-order-dialog" onClick={onCancel} title="close" aria-label="Close New Purchase Order Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }} >&times;</span>
+        <button type="button" id="clickable-close-new-purchase-order-dialog" onClick={onCancel} title="close" aria-label="Close New Purchase Order Dialog">
+          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times;</span>
         </button>
       </PaneMenu>
     );
@@ -90,7 +90,11 @@ class POForm extends Component {
   render() {
     const { initialValues, onCancel } = this.props;
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? <span>Edit: {_.get(initialValues, ['id'], '')} </span> : 'Create Purchase Order';
+    const paneTitle = initialValues.id ? (
+      <span>
+        {`Edit: ${_.get(initialValues, ['id'], '')}`}
+      </span>
+    ) : 'Create Purchase Order';
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-update-purchase-order', 'Update Order') :
       this.getLastMenu('clickable-create-new-purchase-order', 'Create Purchase Order');
@@ -155,4 +159,3 @@ export default stripesForm({
   navigationCheck: true,
   enableReinitialize: true,
 })(POForm);
-
