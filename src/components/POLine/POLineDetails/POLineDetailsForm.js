@@ -28,6 +28,9 @@ class LineDetailsForm extends Component {
           <Field label="PO Number" name="purchase_order_id" id="purchase_order_id" type="text" component={TextField} validate={[Required]} fullWidth readOnly />
         </Col>
         <Col xs={6}>
+          <Field label="PO Line Number" name="po_line_number" id="po_line_number" type="text" component={TextField} validate={[Required]} fullWidth />
+        </Col>
+        <Col xs={6}>
           <Field label="Acquisition Method" name="acquisition_method" id="acquisition_method" type="select" component={Select} dataOptions={acquisitionMethodDD} fullWidth />
         </Col>
         <Col xs={6}>
