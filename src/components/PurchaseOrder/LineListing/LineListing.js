@@ -34,6 +34,7 @@ class LineListing extends React.Component {
 
   render() {
     const resultsFormatter = {
+      'po_line_number': item => _.toString(_.get(item, ['po_line_number'], '')),
       'barcode': item => _.toString(_.get(item, ['barcode'], '')),
       'acquisition_method': item => _.toString(_.get(item, ['acquisition_method'], '')),
       'owner': item => _.toString(_.get(item, ['owner'], '')),
@@ -45,8 +46,9 @@ class LineListing extends React.Component {
           contentData={this.state.poLineData}
           formatter={resultsFormatter}
           onRowClick={this.onSelectRow}
-          visibleColumns={['barcode', 'acquisition_method', 'owner', 'po_line_description']}
+          visibleColumns={['po_line_number', 'barcode', 'acquisition_method', 'owner', 'po_line_description']}
           columnMapping={{
+            po_line_number: 'PO Line Number',
             barcode: 'Barcode',
             acquisition_method: 'Acquisition Method',
             owner: 'Owner',
