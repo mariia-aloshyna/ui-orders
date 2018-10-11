@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import MultiColumnList from '@folio/stripes-components/lib/MultiColumnList';
+import { MultiColumnList } from '@folio/stripes/components';
 
 class LocationView extends React.Component {
   render() {

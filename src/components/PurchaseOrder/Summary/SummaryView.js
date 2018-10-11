@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { KeyValue, Row, Col } from '@folio/stripes-components/';
+import { KeyValue, Row, Col } from '@folio/stripes/components';
 // import FormatDate from '../../Utils/FormatDate';
 // import css from './SummaryView.css';
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, FieldArray } from 'redux-form';
-import { TextField, Button, Row, Col } from '@folio/stripes-components/';
+import { TextField, Button, Row, Col } from '@folio/stripes/components';
 
 class LocationForm extends Component {
   constructor(props) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import { TextField, TextArea, Row, Col } from '@folio/stripes-components/';
+import { TextField, TextArea, Row, Col } from '@folio/stripes/components';
 
 class FundForm extends Component {
   render() {
