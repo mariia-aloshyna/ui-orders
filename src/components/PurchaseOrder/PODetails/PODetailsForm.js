@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, getFormValues } from 'redux-form';
-import { TextField, Row, Col, Datepicker, IconButton } from '@folio/stripes-components';
-import { Pluggable } from '@folio/stripes-core';
+import { TextField, Row, Col, Datepicker, IconButton } from '@folio/stripes/components';
+import { Pluggable } from '@folio/stripes/core';
 // import { Required } from '../../Utils/Validate';
 
 class PODetailsForm extends Component {

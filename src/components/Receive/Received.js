@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Select, MultiColumnList, Row, Col, Button, Pane, TextField } from '@folio/stripes-components';
+import { Select, MultiColumnList, Row, Col, Button, Pane, TextField } from '@folio/stripes/components';
 // import TableDropdownMenu from './TableDropdownMenu';
 import css from './css/Received.css';
 import imgBarcode from './img/Barcode.svg';

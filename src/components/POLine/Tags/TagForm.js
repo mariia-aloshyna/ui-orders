@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import { TextArea, Row, Col } from '@folio/stripes-components/';
+import { TextArea, Row, Col } from '@folio/stripes/components';
 
 class TagForm extends Component {
   render() {

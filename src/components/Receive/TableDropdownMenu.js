@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, DropdownMenu, IconButton } from '@folio/stripes-components';
+import { Dropdown, DropdownMenu, IconButton } from '@folio/stripes/components';
 import css from './css/TableDropdownMenu.css';
 
 class TableDropdownMenu extends React.Component {

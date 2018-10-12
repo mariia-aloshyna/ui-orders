@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Select, TextArea, TextField, Row, Col } from '@folio/stripes-components/';
+import { Select, TextArea, TextField, Row, Col } from '@folio/stripes/components';
 import { Field } from 'redux-form';
 // import { Required } from '../../Utils/Validate';
 

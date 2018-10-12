@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import { TextField, Row, Col, Checkbox } from '@folio/stripes-components/';
+import { TextField, Row, Col, Checkbox } from '@folio/stripes/components';
 // import { Required } from '../../Utils/Validate';
 
 class FundForm extends Component {

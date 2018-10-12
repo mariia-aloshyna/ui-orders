@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import { Select, Checkbox, TextArea, Row, Col, TextField } from '@folio/stripes-components';
+import { Select, Checkbox, TextArea, Row, Col, TextField } from '@folio/stripes/components';
 import { Required } from '../../Utils/Validate';
 
 class LineDetailsForm extends Component {

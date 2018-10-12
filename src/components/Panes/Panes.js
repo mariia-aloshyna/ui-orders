@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Switch from 'react-router-dom/Switch';
 import Route from 'react-router-dom/Route';
 import PropTypes from 'prop-types';
-import { IfPermission } from '@folio/stripes-components';
+import { IfPermission } from '@folio/stripes/components';
 import { PO } from '../PurchaseOrder';
 import { POLine } from '../POLine';
 

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import KeyValue from '@folio/stripes-components/lib/KeyValue';
-import { Row, Col } from '@folio/stripes-components/lib/LayoutGrid';
+import { KeyValue, Row, Col } from '@folio/stripes/components';
 
 class ItemView extends React.Component {
   static propTypes = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Row, Col } from '@folio/stripes-components/';
+import { Button, Row, Col } from '@folio/stripes/components';
 
 class LicenseView extends React.Component {
   static propTypes = {

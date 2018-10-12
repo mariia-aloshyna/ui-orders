@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { KeyValue, Row, Col } from '@folio/stripes-components/';
+import { KeyValue, Row, Col } from '@folio/stripes/components';
 
 class VendorView extends React.Component {
   static propTypes = {

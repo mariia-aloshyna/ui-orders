@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import MultiColumnList from '@folio/stripes-components/lib/MultiColumnList';
+import { MultiColumnList } from '@folio/stripes/components';
 
 class LineListing extends React.Component {
   static propTypes = {
