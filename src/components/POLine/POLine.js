@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Pane, PaneMenu, Icon, IconButton, IfPermission, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
-import transitionToParams from '@folio/stripes-components/util/transitionToParams';
+import transitionToParams from '../Utils/transitionToParams';
 import { POLineDetails } from './POLineDetails';
 import CostView from './Cost/CostView';
 import TagView from './Tags/TagView';

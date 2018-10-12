@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import _ from 'lodash';
-import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 import { Layer } from '@folio/stripes/components';
+import transitionToParams from '../Utils/transitionToParams';
 import { ReceiveItems, Received } from '../Receive';
 import { POForm } from '../PurchaseOrder';
 
