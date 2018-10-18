@@ -26,8 +26,8 @@ class Main extends Component {
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
-      path: 'purchase_order',
-      records: 'purchase_orders',
+      path: 'orders',
+      records: 'composite_purchase_orders',
       recordsRequired: '%{resultCount}',
       perRequest: RESULT_COUNT_INCREMENT,
       GET: {
@@ -251,10 +251,10 @@ class Main extends Component {
   render() {
     const { resources, mutator, stripes, browseOnly, showSingleResult, disableRecordCreation, onComponentWillUnmount, stripes: { user: { user: { id, firstName, lastName } } } } = this.props;
     const resultsFormatter = {
-      'po_number': data => _.toString(_.get(data, ['po_number'], '')),
-      'created': data => _.toString(_.get(data, ['created'], '')),
-      'comments': data => _.toString(_.get(data, ['comments'], '')),
-      'assigned_to': data => _.toString(_.get(data, ['assigned_to'], '')),
+      'po_number': data => _.toString(_.get(data, ['purchase_order', 'po_number'], '')),
+      'created': data => _.toString(_.get(data, ['purchase_order', 'created'], '')),
+      'comments': data => _.toString(_.get(data, ['purchase_order', 'comments'], '')),
+      'assigned_to': data => _.toString(_.get(data, ['purchase_order', 'assigned_to'], '')),
     };
     const getUserID = id || '';
     const getUserName = `${firstName} ${lastName}` || '';
