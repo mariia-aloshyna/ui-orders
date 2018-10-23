@@ -18,5 +18,4 @@ describe('Orders', () => {
   it('create new order button', () => {
     expect(orders.hasCreateOrderButton).to.be.true;
   });
-
 });

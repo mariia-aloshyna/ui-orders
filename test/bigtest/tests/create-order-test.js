@@ -26,5 +26,4 @@ describe('Create order', () => {
   it('has a created by field', () => {
     expect(orders.hasCreatedByField).to.be.true;
   });
-
 });
