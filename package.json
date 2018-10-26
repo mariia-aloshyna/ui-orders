@@ -27,18 +27,13 @@
       "eresource": "1.0",
       "license": "1.0",
       "location": "1.0",
-      "order_format": "1.0",
-      "order_type": "1.0",
-      "payment_status": "1.0",
       "physical": "1.0",
       "po_line": "1.0",
       "purchase_order": "1.0",
-      "receipt_status": "1.0",
       "renewal": "1.0",
       "reporting_code": "1.0",
       "source": "1.0",
-      "vendor_detail": "1.0",
-      "workflow_status": "1.0"
+      "vendor_detail": "1.0"
     },
     "queryResource": "query",
     "icons": [
@@ -57,6 +52,11 @@
         "permissionName": "purchase_order.collection.get",
         "displayName": "purchase_order-collection get",
         "description": "Get a collection of purchase orders"
+      },
+      {
+        "permissionName": "orders.collection.get",
+        "displayName": "orders-collection get",
+        "description": "Get a collection of composite purchase orders"
       },
       {
         "permissionName": "purchase_order.item.post",
@@ -178,13 +178,9 @@
           "eresource.all",
           "license.all",
           "location.all",
-          "order_format.all",
-          "order_type.all",
           "physical.all",
-          "receipt_status.all",
           "renewal.all",
-          "source.all",
-          "workflow_status.all"
+          "source.all"
         ]
       },
       {
