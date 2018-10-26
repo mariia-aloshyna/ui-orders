@@ -251,10 +251,10 @@ class Main extends Component {
   render() {
     const { resources, mutator, stripes, browseOnly, showSingleResult, disableRecordCreation, onComponentWillUnmount, stripes: { user: { user: { id, firstName, lastName } } } } = this.props;
     const resultsFormatter = {
-      'po_number': data => _.toString(_.get(data, ['purchase_order', 'po_number'], '')),
-      'created': data => _.toString(_.get(data, ['purchase_order', 'created'], '')),
-      'comments': data => _.toString(_.get(data, ['purchase_order', 'comments'], '')),
-      'assigned_to': data => _.toString(_.get(data, ['purchase_order', 'assigned_to'], '')),
+      'po_number': data => _.toString(_.get(data, ['po_number'], '')),
+      'created': data => _.toString(_.get(data, ['created'], '')),
+      'notes': data => _.toString(_.get(data, ['notes'], '')),
+      'assigned_to': data => _.toString(_.get(data, ['assigned_to'], '')),
     };
     const getUserID = id || '';
     const getUserName = `${firstName} ${lastName}` || '';
@@ -265,7 +265,7 @@ class Main extends Component {
         objectName="orders"
         baseRoute={packageInfo.stripes.route}
         filterConfig={filterConfig}
-        visibleColumns={['po_number', 'created', 'comments', 'assigned_to']}
+        visibleColumns={['po_number', 'created', 'notes', 'assigned_to']}
         resultsFormatter={resultsFormatter}
         viewRecordComponent={Panes}
         editRecordComponent={POForm}
