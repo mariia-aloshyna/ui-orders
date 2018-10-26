@@ -16,15 +16,13 @@ class DetailsView extends React.Component {
     return (
       <Row>
         <Col xs={3}>
-          {/* <KeyValue label="Vendor" value={_.get(dataVal, 'vendor')} /> */}
-          <KeyValue label="Vendor Name" value={_.get(dataVal, 'vendor_name')} />
+          <KeyValue label="Vendor" value={_.get(dataVal, 'vendor')} />
         </Col>
         <Col xs={3}>
           <KeyValue label="PO Number" value={_.get(dataVal, 'po_number')} />
         </Col>
         <Col xs={3}>
-          {/* <KeyValue label="Assigned To" value={_.get(dataVal, 'assigned_to')} /> */}
-          <KeyValue label="Assigned To Name" value={_.get(dataVal, 'assigned_to_user')} />
+          <KeyValue label="Assigned To Name" value={_.get(dataVal, 'assigned_to')} />
         </Col>
         <Col xs={3}>
           <KeyValue label="Created On" value={FormatDate(_.toString(_.get(dataVal, 'created')))} />

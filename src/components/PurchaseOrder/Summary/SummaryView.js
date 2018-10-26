@@ -45,28 +45,49 @@ class SummaryView extends React.Component {
           <KeyValue label="Total Items" value={_.get(initialValues, 'total_items')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Adjustments" value={_.get(initialValues, 'adjustments')} />
-        </Col>
-        <Col xs={3}>
           <KeyValue label="Total Estimated Price" value={_.get(initialValues, 'total_estimated_price')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Transmission Date" value={_.get(initialValues, 'transmission_date')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Transmission Method" value={_.get(initialValues, 'transmission_method')} />
         </Col>
         <Col xs={3}>
           <KeyValue label="Workflow Status" value={this.state.poWorkflowStatus_label} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="PO Receipt Status" value={this.state.poReceiptStatus_label} />
+          <KeyValue label="Approved" value={_.get(initialValues, 'approved')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="PO Payment Status" value={_.get(initialValues, 'po_payment_status')} />
+          <KeyValue label="Order Type" value={_.get(initialValues, 'order_type')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Comments" value={_.get(initialValues, 'comments')} />
+          <KeyValue label="Re Encumber" value={_.get(initialValues, 're_encumber')} />
+        </Col>
+        <Col xs={12}>
+          <div>Adjustment</div>
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Credit" value={_.get(initialValues.credit, 'credit')} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Discount" value={_.get(initialValues.discount, 'discount')} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Insurance" value={_.get(initialValues.insurance, 'insurance')} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Overhead" value={_.get(initialValues.overhead, 'overhead')} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Shipment" value={_.get(initialValues.shipment, 'shipment')} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Tax 1" value={_.get(initialValues.tax_1, 'tax_1')} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Tax 2" value={_.get(initialValues.tax_2, 'tax_2')} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Use Pro Rate" value={_.get(initialValues.use_pro_rate, 'use_pro_rate ')} />
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Notes" value={_.toString(_.get(initialValues, 'notes'))} />
         </Col>
       </Row>
     );
