@@ -156,8 +156,11 @@ class Main extends Component {
         ],
         orderFormatDD: [
           { value: '', label: '--- Select ---' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b7', label: 'Physical Resource' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b8', label: 'Electronic Resource' }
+          { value: 'Container', label: 'Container' },
+          { value: 'Electronic Resource', label: 'Electronic Resource' },
+          { value: 'P/E Mix', label: 'P/E Mix' },
+          { value: 'Physical Resource', label: 'Physical Resource' },
+          { value: 'Service', label: 'Service' },
         ],
         statusDD: [
           { value: '', label: '--- Select ---' },
@@ -169,15 +172,38 @@ class Main extends Component {
         ],
         orderTypeDD: [
           { value: '', label: '--- Select ---' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552914', label: 'One-Time' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552915', label: 'On-Going' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552916', label: 'On-Going Re-encumber' }
+          { value: 'One-Time', label: 'One-Time' },
+          { value: 'Ongoing', label: 'Ongoing' },
         ],
         sourceDD: [
           { value: '', label: '--- Select ---' },
           { value: '5e62ebaf-bb56-495e-a5ae-dda48d552917', label: 'Source 1' },
           { value: '5e62ebaf-bb56-495e-a5ae-dda48d552918', label: 'Source 2' },
           { value: '5e62ebaf-bb56-495e-a5ae-dda48d552919', label: 'Source 3' }
+        ],
+        receiptStatusDD: [
+          { value: '', label: '--- Select ---' },
+          { value: 'Awaiting Receipt', label: 'Awaiting Receipt' },
+          { value: 'Cancelled', label: 'Cancelled' },
+          { value: 'Fully Received', label: 'Fully Received' },
+          { value: 'Partially Received', label: 'Partially Received' },
+          { value: 'Pending', label: 'Pending' },
+          { value: 'Receipt Not Required', label: 'Receipt Not Required' }
+        ],
+        workflowStatusDD: [
+          { value: '', label: '--- Select ---' },
+          { value: 'Closed', label: 'Closed' },
+          { value: 'Open', label: 'Open' },
+          { value: 'Pending', label: 'Pending' },
+        ],
+        paymentStatusDD: [
+          { value: '', label: '--- Select ---' },
+          { value: 'Awaiting Payment', label: 'Awaiting Payment' },
+          { value: 'Cancelled', label: 'Cancelled' },
+          { value: 'Fully Paid', label: 'Fully Paid' },
+          { value: 'Partially Paid', label: 'Partially Paid' },
+          { value: 'Payment Not Required', label: 'Payment Not Required' },
+          { value: 'Pending', label: 'Pending' },
         ],
       },
     },
