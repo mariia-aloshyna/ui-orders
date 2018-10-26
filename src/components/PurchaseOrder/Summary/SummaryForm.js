@@ -6,21 +6,10 @@ import { Field } from 'redux-form';
 class SummaryForm extends Component {
   static getDerivedStateFromProps(props, state) {
     const { parentResources } = props;
-    const workflowStatus = (parentResources.workflowStatus || {}).records || [];
-    const receiptStatus = (parentResources.receiptStatus || {}).records || [];
+    const workflowStatus = (parentResources.dropdown || {}).workflowStatusDD || [];
+    const receiptStatus = (parentResources.dropdown || {}).receiptStatusDD || [];
     if ((workflowStatus !== state.workflowStatus) || (receiptStatus !== state.receiptStatus)) {
-      let workflowStatusArr = [];
-      let receiptStatusArr = [];
-      const obj = { label: '--- Select ---', value: '' };
-      workflowStatusArr = workflowStatus.map((item) => {
-        return { value: item.id, label: item.description };
-      });
-      receiptStatusArr = receiptStatus.map((item) => {
-        return { value: item.id, label: item.description };
-      });
-      workflowStatusArr.unshift(obj);
-      receiptStatusArr.unshift(obj);
-      return { workflowStatus: workflowStatusArr, receiptStatus: receiptStatusArr };
+      return { workflowStatus, receiptStatus };
     }
     return null;
   }
