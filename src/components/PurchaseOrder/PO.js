@@ -10,6 +10,13 @@ import { SummaryView } from './Summary';
 import { LayerPO, LayerPOLine } from '../LayerCollection';
 
 class PO extends Component {
+  static manifest = Object.freeze({
+    order: {
+      type: 'okapi',
+      path: 'orders/:{id}',
+    },
+  })
+
   static propTypes = {
     initialValues: PropTypes.object,
     location: PropTypes.object.isRequired,
@@ -23,13 +30,13 @@ class PO extends Component {
     parentResources: PropTypes.object.isRequired,
     parentMutator: PropTypes.object.isRequired,
     editLink: PropTypes.string,
-    paneWidth: PropTypes.string.isRequired
+    paneWidth: PropTypes.string.isRequired,
+    resources: PropTypes.object.isRequired
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { parentMutator, parentResources, match: { params: { id } } } = props;
-    const po = (parentResources.records || {}).records || [];
-    const initialValues = (po || po.length > 0 || id) ? po.find(u => u.id === id) : false;
+    const { parentMutator, parentResources } = props;
+    const initialValues = _.get(props, ['resources', 'order', 'records', 0]);
     // Set initialValues
     if (initialValues) {
       if (!_.isEqual(initialValues, state.initialValues)) {
@@ -83,10 +90,7 @@ class PO extends Component {
   }
 
   getData() {
-    const { parentResources, match: { params: { id } } } = this.props;
-    const po = (parentResources.records || {}).records || [];
-    if (!po || po.length === 0 || !id) return null;
-    return po.find(u => u.id === id);
+    return _.get(this.props, ['resources', 'order', 'records', 0], null);
   }
 
   onToggleSection({ id }) {
