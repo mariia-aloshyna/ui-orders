@@ -10,9 +10,9 @@ class LineListing extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { parentMutator, parentResources, match: { params: { id } } } = props;
+    const { parentMutator, match: { params: { id } } } = props;
     const ID = id;
-    const poLineData = (parentResources.poLine || {}).records || [];
+    const poLineData = _.get(props, ['resources', 'order', 'records', 0, 'po_lines'], []);
     if (ID !== state.ID || !_.isEqual(poLineData, state.poLineData)) {
       parentMutator.queryII.update({ poLine: ID });
       return { poLineData, ID };
