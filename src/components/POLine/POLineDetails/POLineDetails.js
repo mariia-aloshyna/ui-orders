@@ -19,17 +19,15 @@ class LineDetailsView extends React.Component {
     }
 
     const orderID = _.get(initialValues, 'order_format');
-    const acquisitionID = _.get(initialValues, 'acquisition_method');
     const statusID = _.get(initialValues, 'receipt_status');
     const orderTypeID = _.get(initialValues, 'order_type');
     const sourceID = _.get(initialValues, 'source');
-    if ((orderID !== state.order_format_id) || (acquisitionID !== state.acquisition_id) || (statusID !== state.status_id)) {
+    if ((orderID !== state.order_format_id) || (statusID !== state.status_id)) {
       const orderFormat = labelLookup(orderID, 'orderFormatDD', 'order_format') || {};
-      const acquisition = labelLookup(acquisitionID, 'acquisitionMethodDD', 'acquisition') || {};
       const status = labelLookup(statusID, 'statusDD', 'status');
       const orderType = labelLookup(orderTypeID, 'orderTypeDD', 'order_type');
       const source = labelLookup(sourceID, 'sourceDD', 'source');
-      const newState = Object.assign({}, orderFormat, acquisition, status, orderType, source);
+      const newState = Object.assign({}, orderFormat, status, orderType, source);
       return newState;
     }
     return null;
@@ -51,7 +49,7 @@ class LineDetailsView extends React.Component {
           <KeyValue label="PO Line Number" value={_.get(initialValues, 'po_line_number')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Acquisition Method" value={this.state.acquisition_label} />
+          <KeyValue label="Acquisition Method" value={_.get(initialValues, 'acquisition_method')} />
         </Col>
         <Col xs={3}>
           <KeyValue label="Owner" value={_.get(initialValues, 'owner')} />

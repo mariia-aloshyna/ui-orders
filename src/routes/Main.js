@@ -147,12 +147,15 @@ class Main extends Component {
       initialValue: {
         acquisitionMethodDD: [
           { value: '', label: '--- Select ---' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b1', label: 'Purchase' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b2', label: 'Vendor System' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b3', label: 'Approval' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b4', label: 'Depository' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b5', label: 'Gift' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b6', label: 'Technical ' }
+          { value: 'Approval Plan', label: 'Approval Plan' },
+          { value: 'Demand Driven Acquisitions (DDA)', label: 'Demand Driven Acquisitions (DDA)' },
+          { value: 'Depository', label: 'Depository' },
+          { value: 'Evidence Based Acquisitions (EBA)', label: 'Evidence Based Acquisitions (EBA)' },
+          { value: 'Exchange', label: 'Exchange' },
+          { value: 'Gift', label: 'Gift ' },
+          { value: 'Purchase At Vendor System', label: 'Purchase At Vendor System ' },
+          { value: 'Purchase', label: 'Purchase ' },
+          { value: 'Technical', label: 'Technical ' }
         ],
         orderFormatDD: [
           { value: '', label: '--- Select ---' },
