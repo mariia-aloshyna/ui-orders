@@ -8,10 +8,10 @@ class LineDetailsForm extends Component {
   static propTypes = {
     parentResources: PropTypes.shape({
       dropdown: PropTypes.shape({
-        acquisitionMethodDD: PropTypes.object,
-        orderFormatDD: PropTypes.object,
-        status_dd: PropTypes.object,
-        order_type_dd: PropTypes.object
+        acquisitionMethodDD: PropTypes.array,
+        orderFormatDD: PropTypes.array,
+        status_dd: PropTypes.array,
+        order_type_dd: PropTypes.array
       })
     })
   }

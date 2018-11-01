@@ -16,7 +16,6 @@
     "hasSettings": true,
     "okapiInterfaces": {
       "orders": "1.0",
-      "acquisition_method": "1.0",
       "activation_status": "1.0",
       "adjustment": "1.0",
       "alert": "1.0",
