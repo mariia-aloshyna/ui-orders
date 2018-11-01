@@ -19,7 +19,7 @@ class LineDetailsForm extends Component {
   render() {
     const acquisitionMethodDD = (this.props.parentResources.dropdown || {}).acquisitionMethodDD || [];
     const orderFormatDD = (this.props.parentResources.dropdown || {}).orderFormatDD || [];
-    const statusDD = (this.props.parentResources.dropdown || {}).statusDD || [];
+    const receiptStatusDD = (this.props.parentResources.dropdown || {}).receiptStatusDD || [];
     const orderTypeDD = (this.props.parentResources.dropdown || {}).orderTypeDD || [];
     const sourceDD = (this.props.parentResources.dropdown || {}).sourceDD || [];
     return (
@@ -43,7 +43,7 @@ class LineDetailsForm extends Component {
           <Field label="Order Format" name="order_format" id="order_format" type="select" component={Select} dataOptions={orderFormatDD} fullWidth />
         </Col>
         <Col xs={6}>
-          <Field label="Receipt Status" name="receipt_status" id="receipt_status" type="select" component={Select} dataOptions={statusDD} fullWidth />
+          <Field label="Receipt Status" name="receipt_status" id="receipt_status" type="select" component={Select} dataOptions={receiptStatusDD} fullWidth />
         </Col>
         <Col xs={6}>
           <Field label="Order Type" name="order_type" id="order_type" type="select" component={Select} dataOptions={orderTypeDD} fullWidth />
