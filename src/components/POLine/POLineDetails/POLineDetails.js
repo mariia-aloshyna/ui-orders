@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { KeyValue, Row, Col } from '@folio/stripes/components';
+import { Checkbox, KeyValue, Row, Col } from '@folio/stripes/components';
 
 class LineDetailsView extends React.Component {
   static propTypes = {
@@ -20,14 +20,10 @@ class LineDetailsView extends React.Component {
 
     const orderID = _.get(initialValues, 'order_format');
     const statusID = _.get(initialValues, 'receipt_status');
-    const orderTypeID = _.get(initialValues, 'order_type');
-    const sourceID = _.get(initialValues, 'source');
     if ((orderID !== state.order_format_id) || (statusID !== state.status_id)) {
       const orderFormat = labelLookup(orderID, 'orderFormatDD', 'order_format') || {};
       const status = labelLookup(statusID, 'statusDD', 'status');
-      const orderType = labelLookup(orderTypeID, 'orderTypeDD', 'order_type');
-      const source = labelLookup(sourceID, 'sourceDD', 'source');
-      const newState = Object.assign({}, orderFormat, status, orderType, source);
+      const newState = Object.assign({}, orderFormat, status);
       return newState;
     }
     return null;
@@ -42,56 +38,53 @@ class LineDetailsView extends React.Component {
     const { initialValues } = this.props;
     return (
       <Row>
-        <Col xs={3}>
-          <KeyValue label="PO Line ID" value={_.get(initialValues, 'id')} />
+        <Col xs={6}>
+          <KeyValue label="PO Line ID" value={_.get(initialValues, 'po_line_id')} />
         </Col>
-        <Col xs={3}>
-          <KeyValue label="PO Line Number" value={_.get(initialValues, 'po_line_number')} />
-        </Col>
-        <Col xs={3}>
+        <Col xs={6}>
           <KeyValue label="Acquisition Method" value={_.get(initialValues, 'acquisition_method')} />
         </Col>
-        <Col xs={3}>
+        <Col xs={6}>
           <KeyValue label="Owner" value={_.get(initialValues, 'owner')} />
         </Col>
-        <Col xs={3}>
-          <KeyValue label="Barcode" value={_.get(initialValues, 'barcode')} />
-        </Col>
-        <Col xs={3}>
+        <Col xs={6}>
           <KeyValue label="Order Format" value={this.state.order_format_label} />
         </Col>
-        <Col xs={3}>
+        <Col xs={6}>
           <KeyValue label="Status" value={this.state.status_label} />
         </Col>
-        <Col xs={3}>
-          <KeyValue label="Order Type" value={this.state.order_type_label} />
-        </Col>
-        <Col xs={3}>
+        <Col xs={6}>
           <KeyValue label="Receipt Date" value={_.get(initialValues, 'receipt_date')} />
         </Col>
-        <Col xs={3}>
-          <KeyValue label="Source" value={this.state.source_label} />
-        </Col>
-        <Col xs={3}>
+        <Col xs={6}>
           <KeyValue label="Donor" value={_.get(initialValues, 'donor')} />
         </Col>
+        <Col xs={6} />
         <Col xs={3}>
+          <KeyValue label="Cancellation Restriction">
+            <Checkbox checked={_.get(initialValues, ['cancellation_restriction'])} disabled />
+          </KeyValue>
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Rush">
+            <Checkbox checked={_.get(initialValues, ['rush'])} disabled />
+          </KeyValue>
+        </Col>
+        <Col xs={3}>
+          <KeyValue label="Collection">
+            <Checkbox checked={_.get(initialValues, ['collection'])} disabled />
+          </KeyValue>
+        </Col>
+        <Col xs={6}>
+          <br />
           <KeyValue label="Selector" value={_.get(initialValues, 'selector')} />
         </Col>
-        <Col xs={3}>
+        <Col xs={6}>
+          <br />
           <KeyValue label="Requester" value={_.get(initialValues, 'requester')} />
         </Col>
-        <Col xs={3}>
-          <KeyValue label="Cancellation Restriction" value={_.get(initialValues, 'cancellation_restriction')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Collection" value={_.get(initialValues, 'collection')} />
-        </Col>
-        <Col xs={6}>
-          <KeyValue label="Cancellation Description" value={_.get(initialValues, 'cancellation_description')} />
-        </Col>
-        <Col xs={6}>
-          <KeyValue label="PO Line Description" value={_.get(initialValues, 'po_line_description')} />
+        <Col xs={12}>
+          <KeyValue label="Comments" value={_.get(initialValues, 'po_line_description')} />
         </Col>
       </Row>
     );
