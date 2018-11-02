@@ -164,10 +164,10 @@ class PO extends Component {
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
           <Accordion label="Purchase Order" id="purchaseOrder">
-            <PODetailsView initialValues={initialValues} {...this.props} />
+            <PODetailsView order={initialValues} {...this.props} />
           </Accordion>
           <Accordion label="PO Summary" id="POSummary">
-            <SummaryView initialValues={initialValues} {...this.props} />
+            <SummaryView order={initialValues} {...this.props} />
           </Accordion>
           <Accordion label="PO Listing" id="POListing" displayWhenOpen={addPOLineButton}>
             <LineListing initialValues={initialValues} {...this.props} />
