@@ -20,61 +20,49 @@ class LineDetailsForm extends Component {
     const acquisitionMethodDD = (this.props.parentResources.dropdown || {}).acquisitionMethodDD || [];
     const orderFormatDD = (this.props.parentResources.dropdown || {}).orderFormatDD || [];
     const receiptStatusDD = (this.props.parentResources.dropdown || {}).receiptStatusDD || [];
-    const orderTypeDD = (this.props.parentResources.dropdown || {}).orderTypeDD || [];
-    const sourceDD = (this.props.parentResources.dropdown || {}).sourceDD || [];
     return (
       <Row>
         <Col xs={6}>
-          <Field label="PO Number" name="purchase_order_id" id="purchase_order_id" type="text" component={TextField} validate={[Required]} fullWidth readOnly />
+          <Field label="PO Line ID" name="po_line_id" id="po_line_id" type="text" component={TextField} fullWidth />
         </Col>
         <Col xs={6}>
-          <Field label="PO Line Number" name="po_line_number" id="po_line_number" type="text" component={TextField} validate={[Required]} fullWidth />
-        </Col>
-        <Col xs={6}>
-          <Field label="Acquisition Method" name="acquisition_method" id="acquisition_method" type="select" component={Select} dataOptions={acquisitionMethodDD} fullWidth />
-        </Col>
-        <Col xs={6}>
-          <Field label="Barcode" name="barcode" id="barcode" component={TextField} validate={[Required]} fullWidth />
+          <Field label="Acquisition Method&#42;" name="acquisition_method" id="acquisition_method" type="select" component={Select} dataOptions={acquisitionMethodDD} validate={[Required]} fullWidth />
         </Col>
         <Col xs={6}>
           <Field label="Owner" name="owner" id="owner" component={TextField} fullWidth />
         </Col>
         <Col xs={6}>
-          <Field label="Order Format" name="order_format" id="order_format" type="select" component={Select} dataOptions={orderFormatDD} fullWidth />
+          <Field label="Order Format&#42;" name="order_format" id="order_format" type="select" component={Select} dataOptions={orderFormatDD} validate={[Required]} fullWidth />
         </Col>
         <Col xs={6}>
-          <Field label="Receipt Status" name="receipt_status" id="receipt_status" type="select" component={Select} dataOptions={receiptStatusDD} fullWidth />
-        </Col>
-        <Col xs={6}>
-          <Field label="Order Type" name="order_type" id="order_type" type="select" component={Select} dataOptions={orderTypeDD} fullWidth />
+          <Field label="Status" name="receipt_status" id="receipt_status" type="select" component={Select} dataOptions={receiptStatusDD} fullWidth />
         </Col>
         <Col xs={6}>
           <Field label="Receipt Date" name="receipt_date" id="receipt_date" type="date" component={TextField} fullWidth />
         </Col>
         <Col xs={6}>
-          <Field label="Source" name="source" id="source" type="select" component={Select} dataOptions={sourceDD} fullWidth />
-        </Col>
-        <Col xs={6}>
           <Field label="Donor" name="donor" id="donor" type="text" component={TextField} fullWidth />
         </Col>
-        <Col xs={6}>
-          <Field label="Selector" name="selector" id="selector" type="text" component={TextField} fullWidth />
+        <Col xs={6} />
+        <Col xs={3}>
+          <Field label="Cancellation Restriction" name="cancellation_restriction" id="cancellation_restriction" component={Checkbox} fullWidth />
         </Col>
-        <Col xs={6}>
-          <Field label="Requester" name="requester" id="requester" type="text" component={TextField} fullWidth />
+        <Col xs={3}>
+          <Field label="Rush" name="rush" id="rush" component={Checkbox} fullWidth />
         </Col>
-        <Col xs={6}>
+        <Col xs={3}>
           <Field label="Collection" name="collection" id="collection" component={Checkbox} fullWidth />
         </Col>
         <Col xs={6}>
-          <Field label="Cancellation Restriction" name="cancellation_restriction" id="cancellation_restriction" component={Checkbox} fullWidth />
-        </Col>
-        <Col xs={12}>
           <br />
-          <Field label="Line Description" name="po_line_description" id="po_line_description" component={TextArea} fullWidth />
+          <Field label="Selector" name="selector" id="selector" type="text" component={TextField} fullWidth />
+        </Col>
+        <Col xs={6}>
+          <br />
+          <Field label="Requester" name="requester" id="requester" type="text" component={TextField} fullWidth />
         </Col>
         <Col xs={12}>
-          <Field label="Cancellation Restriction Comment" name="cancellation_restriction_comment" id="cancellation_restriction_comment" component={TextArea} fullWidth />
+          <Field label="Comments" name="po_line_description" id="po_line_description" component={TextArea} fullWidth />
         </Col>
       </Row>
     );
