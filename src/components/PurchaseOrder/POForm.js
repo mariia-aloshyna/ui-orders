@@ -5,6 +5,7 @@ import stripesForm from '@folio/stripes/form';
 import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, IfPermission, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
+import { AdjustmentForm } from './Adjustment';
 
 class POForm extends Component {
   static propTypes = {
@@ -25,6 +26,7 @@ class POForm extends Component {
       sections: {
         purchaseOrder: true,
         POSummary: true,
+        Adjustment: true,
       }
     };
     this.deletePO = this.deletePO.bind(this);
@@ -130,6 +132,9 @@ class POForm extends Component {
                         </Accordion>
                         <Accordion label="PO Summary" id="POSummary">
                           <SummaryForm {...this.props} />
+                        </Accordion>
+                        <Accordion label="Adjustment" id="Adjustment">
+                          <AdjustmentForm {...this.props} />
                         </Accordion>
                       </AccordionSet>
                       <IfPermission perm="purchase_order.item.delete">
