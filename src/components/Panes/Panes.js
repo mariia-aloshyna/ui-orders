@@ -35,7 +35,7 @@ class Panes extends Component {
         <IfPermission perm="po_line.item.get">
           <Route
             exact
-            path={`${this.props.match.path}/po-line/view/:id`}
+            path={`${this.props.match.path}/po-line/view/:lineId`}
             render={props => <this.connectedPOLine
               poURL={`${this.props.match.url}`}
               {...this.props}

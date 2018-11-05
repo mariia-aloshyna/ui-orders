@@ -39,7 +39,7 @@ class LineDetailsView extends React.Component {
     return (
       <Row>
         <Col xs={6}>
-          <KeyValue label="PO Line ID" value={_.get(initialValues, 'po_line_id')} />
+          <KeyValue label="PO Line ID" value={_.get(initialValues, 'id')} />
         </Col>
         <Col xs={6}>
           <KeyValue label="Acquisition Method" value={_.get(initialValues, 'acquisition_method')} />
