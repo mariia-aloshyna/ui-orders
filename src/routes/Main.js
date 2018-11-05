@@ -89,26 +89,9 @@ class Main extends Component {
     // Po Line
     queryII: {
       initialValue: {
-        poLine: '',
         vendorID: '',
         userID: ''
       }
-    },
-    poLine: {
-      type: 'okapi',
-      clear: true,
-      path: 'po_line',
-      records: 'po_lines',
-      GET: {
-        params: {
-          query: (...args) => {
-            const resourceData = args[2];
-            const cql = `(purchase_order_id="${resourceData.queryII.poLine}*")`;
-            return cql;
-          },
-        },
-        staticFallback: { params: {} },
-      },
     },
     vendor: {
       type: 'okapi',

@@ -17,20 +17,29 @@ import LicenseView from './License/LicenseView';
 import { LayerPOLine } from '../LayerCollection';
 
 class POLine extends React.Component {
+  static manifest = Object.freeze({
+    order: {
+      type: 'okapi',
+      path: 'orders/:{id}',
+    },
+  });
+
   static propTypes = {
     initialValues: PropTypes.object,
     location: PropTypes.object,
     stripes: PropTypes.object.isRequired,
     onCloseEdit: PropTypes.func,
-    editLink: PropTypes.object,
+    editLink: PropTypes.string,
     parentResources: PropTypes.object,
     parentMutator: PropTypes.object,
     poURL: PropTypes.string,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
+        lineId: PropTypes.string,
       }),
     }).isRequired,
+    resources: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -73,10 +82,9 @@ class POLine extends React.Component {
   }
 
   getData() {
-    const { parentResources, match: { params: { id } } } = this.props;
-    const poLine = (parentResources.poLine || {}).records || [];
-    if (!poLine || poLine.length === 0 || !id) return null;
-    return poLine.find(u => u.id === id);
+    const { match: { params: { lineId } }, resources } = this.props;
+    const lines = _.get(resources, ['order', 'records', 0, 'po_lines'], []);
+    return lines.find(u => u.id === lineId);
   }
 
   onEditPOLine = (e) => {
