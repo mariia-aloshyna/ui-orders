@@ -90,6 +90,7 @@ class Main extends Component {
     queryII: {
       initialValue: {
         vendorID: '',
+        createdByID: '',
         userID: ''
       }
     },
@@ -118,6 +119,22 @@ class Main extends Component {
           query: (...args) => {
             const resourceData = args[2];
             const cql = `(id="${resourceData.queryII.userID}")`;
+            return cql;
+          }
+        },
+        limit: 1,
+        staticFallback: { params: {} },
+      },
+    },
+    createdBy: {
+      type: 'okapi',
+      path: 'users',
+      records: 'users',
+      GET: {
+        params: {
+          query: (...args) => {
+            const resourceData = args[2];
+            const cql = `(id="${resourceData.queryII.createdByID}")`;
             return cql;
           }
         },
@@ -245,6 +262,11 @@ class Main extends Component {
     }
 
     return null;
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
 
   create = (data) => {

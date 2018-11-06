@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 import { Icon, IconButton, AccordionSet, Accordion, ExpandAllButton, Pane, PaneMenu, Row, Col, Button, IfPermission } from '@folio/stripes/components';
 import transitionToParams from '../Utils/transitionToParams';
 // import FundDistribution from './FundDistribution';
@@ -37,28 +39,39 @@ class PO extends Component {
 
   static getDerivedStateFromProps(props, state) {
     const { parentMutator, parentResources } = props;
-    const initialValues = _.get(props, ['resources', 'order', 'records', 0]);
+    const initialValues = get(props, ['resources', 'order', 'records', 0]);
+
     // Set initialValues
     if (initialValues) {
-      if (!_.isEqual(initialValues, state.initialValues)) {
+      if (!isEqual(initialValues, state.initialValues)) {
         return { initialValues };
       }
     }
     // Check if initialValues STATE before updating child;
-    if (!_.isEmpty(state.initialValues)) {
-      const vendor = (parentResources.vendor || {}).records || [];
-      const user = (parentResources.user || {}).records || [];
-      if ((vendor || vendor.length > 0) || (user || user.length > 0)) {
+    if (!isEmpty(state.initialValues)) {
+      const createdBy = get(parentResources, 'createdBy.records', []);
+      const vendor = get(parentResources, 'vendor.records', []);
+      const user = get(parentResources, 'user.records', []);
+      const isAnyDataLoaded = vendor.length > 0 || user.length > 0 || createdBy.length > 0;
+
+      if (isAnyDataLoaded) {
         const initData = state.initialValues;
         const vendorName = vendor[0] && vendor[0].name ? `${vendor[0].name}` : '';
         const assignToName = user[0] && user[0].personal ? `${user[0].personal.firstName} ${user[0].personal.lastName}` : '';
-        if (vendorName !== initData.vendor_name || assignToName !== initData.assigned_to_user) {
+        const createdByPersonal = get(createdBy, '0.personal');
+        const createdByName = createdByPersonal ? `${createdByPersonal.firstName} ${createdByPersonal.lastName}` : '';
+        const isDataChanged = vendorName !== initData.vendor_name || assignToName !== initData.assigned_to_user || createdByName !== initData.created_by_name;
+
+        if (isDataChanged) {
           parentMutator.queryII.update({
+            createdByID: initData.created_by,
             vendorID: initData.vendor,
             userID: initData.assigned_to
           });
           initData.vendor_name = vendorName;
           initData.assigned_to_user = assignToName;
+          initData.created_by_name = createdByName;
+
           return { initialValues: initData };
         }
       }
@@ -91,23 +104,23 @@ class PO extends Component {
   }
 
   getData() {
-    return _.get(this.props, ['resources', 'order', 'records', 0], null);
+    return get(this.props, ['resources', 'order', 'records', 0], null);
   }
 
   onToggleSection({ id }) {
-    this.setState((curState) => {
-      const newState = _.cloneDeep(curState);
-      newState.sections[id] = !curState.sections[id];
-      return newState;
+    this.setState(({ sections }) => {
+      const isSectionOpened = sections[id];
+      return {
+        sections: {
+          ...sections,
+          [id]: !isSectionOpened,
+        }
+      };
     });
   }
 
-  handleExpandAll(obj) {
-    this.setState((curState) => {
-      const newState = _.cloneDeep(curState);
-      newState.sections = obj;
-      return newState;
-    });
+  handleExpandAll(sections) {
+    this.setState({ sections });
   }
 
   openReceiveItem = (e) => {
@@ -160,7 +173,14 @@ class PO extends Component {
     }
 
     return (
-      <Pane id="pane-podetails" defaultWidth="fill" paneTitle={'Purchase Order ID: ' + _.get(initialValues, ['id'], '')} lastMenu={lastMenu} dismissible onClose={this.props.onClose}>
+      <Pane
+        id="pane-podetails"
+        defaultWidth="fill"
+        paneTitle={'Purchase Order ID: ' + get(initialValues, ['id'], '')}
+        lastMenu={lastMenu}
+        dismissible
+        onClose={this.props.onClose}
+      >
         {/* <FundDistribution openReceiveItem={this.openReceiveItem} openReceived={this.openReceived} /> */}
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>

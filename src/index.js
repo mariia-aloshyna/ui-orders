@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Switch from 'react-router-dom/Switch';
 import Route from 'react-router-dom/Route';
+import { hot } from 'react-hot-loader';
 import Main from './routes/Main';
 import Settings from './settings';
 
@@ -40,4 +41,4 @@ class Orders extends React.Component {
   }
 }
 
-export default Orders;
+export default hot(module)(Orders);
