@@ -5,6 +5,7 @@ import { Fields } from 'redux-form';
 import { IfPermission, Pane, PaneMenu, Button, Icon, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
 import { POLineDetailsForm } from './POLineDetails';
+import { VendorForm } from './Vendor';
 import HandleErrors from '../Utils/HandleErrors';
 import css from './css/POLineForm.css';
 
@@ -182,6 +183,9 @@ class POLineForm extends Component {
                     <Accordion label="PO Line Details" id="LineDetails" displayWhenClosed={POLineDetailsErr} displayWhenOpen={POLineDetailsErr}>
                       <POLineDetailsForm {...this.props} />
                     </Accordion>
+                    <Accordion label="Vendor" id="Vendor">
+                      <VendorForm {...this.props} />
+                    </Accordion>
                     {/* <Accordion label="Cost" id="Cost" displayWhenClosed={CostErr} displayWhenOpen={CostErr}>
                       <CostForm {...this.props} />
                     </Accordion>
@@ -195,9 +199,6 @@ class POLineForm extends Component {
                     <Accordion label="Locations" id="Locations">
                       <LocationForm {...this.props} />
                       <br />
-                    </Accordion>
-                    <Accordion label="Vendor" id="Vendor">
-                      <VendorForm {...this.props} />
                     </Accordion>
                     <Accordion label="Item Details" id="Item">
                       <ItemForm {...this.props} />

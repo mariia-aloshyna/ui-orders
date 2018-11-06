@@ -191,6 +191,14 @@ class Main extends Component {
           { value: 'Payment Not Required', label: 'Payment Not Required' },
           { value: 'Pending', label: 'Pending' },
         ],
+        refNumberTypeDD: [
+          { value: '', label: '--- Select ---' },
+          { value: "Supplier's continuation order", label: "Supplier's continuation order" },
+          { value: "Supplier's unique order line reference number", label: "Supplier's unique order line reference number" },
+          { value: "Agent's unique subscription reference number", label: "Agent's unique subscription reference number" },
+          { value: "Library's continuation order number", label: "Library's continuation order number" },
+          { value: 'Internal vendor number', label: 'Internal vendor number' },
+        ],
       },
     },
     source: {

@@ -13,20 +13,18 @@ class VendorView extends React.Component {
 
     return (
       <Row>
-        <Col xs={3}>
-          <KeyValue label="Vendor Ref Number" value={_.get(initialValues, 'ref_number')} />
+        <Col xs={6}>
+          <KeyValue label="Vendor Ref Number" value={_.get(initialValues, ['vendor_detail', 'ref_number'])} />
         </Col>
-        <Col xs={3}>
-          <KeyValue label="Vendor Ref Type" value={_.get(initialValues, 'ref_no_type')} />
+        <Col xs={6}>
+          <KeyValue label="Vendor Ref Type" value={_.get(initialValues, ['vendor_detail', 'ref_number_type'])} />
         </Col>
-        <Col xs={3}>
-          <KeyValue label="Instructions to Vendor" value={_.get(initialValues, 'instructions')} />
+        <Col xs={6}>
+          <KeyValue label="Instructions To Vendor" value={_.get(initialValues, ['vendor_detail', 'instructions'])} />
         </Col>
-        <Col xs={3}>
-          <KeyValue label="Vendor Account" value={_.get(initialValues, 'vendor_account')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Note from vendor" value={_.get(initialValues, 'note_from_vendor')} />
+        <Col xs={6}>
+          <KeyValue label="Vendor Account" value={_.get(initialValues, ['vendor_detail', 'vendor_account'])} />
+          <KeyValue label="Note From Vendor" value={_.get(initialValues, ['vendor_detail', 'note_from_vendor'])} />
         </Col>
       </Row>
     );
