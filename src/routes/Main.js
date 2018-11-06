@@ -191,6 +191,10 @@ class Main extends Component {
           { value: 'Payment Not Required', label: 'Payment Not Required' },
           { value: 'Pending', label: 'Pending' },
         ],
+        currencyDD: [
+          { value: '', label: '--- Select ---' },
+          { value: 'USD', label: 'USD' },
+        ],
       },
     },
     source: {

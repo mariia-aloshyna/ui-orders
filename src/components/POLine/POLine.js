@@ -131,7 +131,7 @@ class POLine extends React.Component {
         <POLineDetails initialValues={initialValues} {...this.props} />
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-          <Accordion label="Cost" id="Cost">
+          <Accordion label="Cost Details" id="CostDetails">
             <CostView initialValues={initialValues} {...this.props} />
           </Accordion>
           <Accordion label="Po Line Tags" id="Tags">
