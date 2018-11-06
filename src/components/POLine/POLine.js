@@ -46,7 +46,7 @@ class POLine extends React.Component {
     super(props);
     this.state = {
       sections: {
-        Cost: false,
+        CostDetails: false,
         POSummary: false,
         POListing: false,
         Tags: false,

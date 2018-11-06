@@ -29,7 +29,7 @@ class POLineForm extends Component {
     this.state = {
       sections: {
         LineDetails: true,
-        Cost: false,
+        CostDetails: false,
         Claim: false,
         Tags: false,
         Locations: false,
