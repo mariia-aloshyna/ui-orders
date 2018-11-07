@@ -202,6 +202,7 @@ class Main extends Component {
           { value: "Agent's unique subscription reference number", label: "Agent's unique subscription reference number" },
           { value: "Library's continuation order number", label: "Library's continuation order number" },
           { value: 'Internal vendor number', label: 'Internal vendor number' },
+        ]
       },
     },
     source: {
