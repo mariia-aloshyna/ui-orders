@@ -23,7 +23,7 @@ class LineDetailsForm extends Component {
     return (
       <Row>
         <Col xs={6}>
-          <Field label="PO Line ID" name="id" id="id" type="text" component={TextField} fullWidth />
+          <Field label="PO Line ID" name="po_line_number" id="po_line_number" type="text" component={TextField} fullWidth />
         </Col>
         <Col xs={6}>
           <Field label="Acquisition Method&#42;" name="acquisition_method" id="acquisition_method" type="select" component={Select} dataOptions={acquisitionMethodDD} validate={[Required]} fullWidth />

@@ -5,6 +5,7 @@ import { Fields } from 'redux-form';
 import { IfPermission, Pane, PaneMenu, Button, Icon, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
 import { POLineDetailsForm } from './POLineDetails';
+import { CostForm } from './Cost';
 import HandleErrors from '../Utils/HandleErrors';
 import css from './css/POLineForm.css';
 
@@ -28,7 +29,7 @@ class POLineForm extends Component {
     this.state = {
       sections: {
         LineDetails: true,
-        Cost: false,
+        CostDetails: false,
         Claim: false,
         Tags: false,
         Locations: false,
@@ -152,6 +153,7 @@ class POLineForm extends Component {
       </em>
     );
     const POLineDetailsErr = _.includes(sectionErrors.POLineDetailsErr, true) ? message : null;
+    const CostErr = _.includes(sectionErrors.CostErr, true) ? message : null;
 
     if (!initialValues) {
       return (
@@ -182,10 +184,10 @@ class POLineForm extends Component {
                     <Accordion label="PO Line Details" id="LineDetails" displayWhenClosed={POLineDetailsErr} displayWhenOpen={POLineDetailsErr}>
                       <POLineDetailsForm {...this.props} />
                     </Accordion>
-                    {/* <Accordion label="Cost" id="Cost" displayWhenClosed={CostErr} displayWhenOpen={CostErr}>
+                    <Accordion label="Cost Details" id="CostDetails" displayWhenClosed={CostErr} displayWhenOpen={CostErr}>
                       <CostForm {...this.props} />
                     </Accordion>
-                    <Accordion label="Claim" id="Claim">
+                    {/* <Accordion label="Claim" id="Claim">
                       <ClaimForm {...this.props} />
                       <br />
                     </Accordion>
