@@ -8,6 +8,7 @@ import CostView from './Cost/CostView';
 import TagView from './Tags/TagView';
 import LocationView from './Location/LocationView';
 import VendorView from './Vendor/VendorView';
+import FundDistributionView from './FundDistribution/FundDistributionView';
 import EresourcesView from './Eresources/EresourcesView';
 import ItemView from './Item/ItemView';
 import PhysicalView from './Physical/PhysicalView';
@@ -52,6 +53,7 @@ class POLine extends React.Component {
         Tags: false,
         Locations: false,
         Vendor: false,
+        FundDistribution: false,
         Eresources: false,
         Item: false,
         Physical: false,
@@ -143,6 +145,9 @@ class POLine extends React.Component {
           </Accordion>
           <Accordion label="Vendor" id="Vendor">
             <VendorView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Fund Distribution" id="FundDistribution">
+            <FundDistributionView initialValues={initialValues} {...this.props} />
           </Accordion>
           <Accordion label="Item Details" id="Item">
             <ItemView initialValues={initialValues} {...this.props} />
