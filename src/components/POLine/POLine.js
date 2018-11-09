@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
 import { Pane, PaneMenu, Icon, IconButton, IfPermission, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
 import transitionToParams from '../Utils/transitionToParams';
 import { POLineDetails } from './POLineDetails';
@@ -8,6 +9,7 @@ import CostView from './Cost/CostView';
 import TagView from './Tags/TagView';
 import LocationView from './Location/LocationView';
 import VendorView from './Vendor/VendorView';
+import FundDistributionView from './FundDistribution/FundDistributionView';
 import EresourcesView from './Eresources/EresourcesView';
 import ItemView from './Item/ItemView';
 import PhysicalView from './Physical/PhysicalView';
@@ -52,6 +54,7 @@ class POLine extends React.Component {
         Tags: false,
         Locations: false,
         Vendor: false,
+        FundDistribution: false,
         Eresources: false,
         Item: false,
         Physical: false,
@@ -67,7 +70,7 @@ class POLine extends React.Component {
 
   onToggleSection({ id }) {
     this.setState((curState) => {
-      const newState = _.cloneDeep(curState);
+      const newState = cloneDeep(curState);
       newState.sections[id] = !curState.sections[id];
       return newState;
     });
@@ -75,7 +78,7 @@ class POLine extends React.Component {
 
   handleExpandAll(obj) {
     this.setState((curState) => {
-      const newState = _.cloneDeep(curState);
+      const newState = cloneDeep(curState);
       newState.sections = obj;
       return newState;
     });
@@ -83,7 +86,7 @@ class POLine extends React.Component {
 
   getData() {
     const { match: { params: { lineId } }, resources } = this.props;
-    const lines = _.get(resources, ['order', 'records', 0, 'po_lines'], []);
+    const lines = get(resources, ['order', 'records', 0, 'po_lines'], []);
     return lines.find(u => u.id === lineId);
   }
 
@@ -143,6 +146,9 @@ class POLine extends React.Component {
           </Accordion>
           <Accordion label="Vendor" id="Vendor">
             <VendorView initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Fund Distribution" id="FundDistribution">
+            <FundDistributionView initialValues={initialValues} {...this.props} />
           </Accordion>
           <Accordion label="Item Details" id="Item">
             <ItemView initialValues={initialValues} {...this.props} />
