@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { Icon, IconButton, AccordionSet, Accordion, ExpandAllButton, Pane, PaneMenu, Row, Col, Button, IfPermission } from '@folio/stripes/components';
 import transitionToParams from '../Utils/transitionToParams';
 // import FundDistribution from './FundDistribution';
+import { AdjustmentView } from './Adjustment';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
@@ -171,6 +172,9 @@ class PO extends Component {
           </Accordion>
           <Accordion label="PO Listing" id="POListing" displayWhenOpen={addPOLineButton}>
             <LineListing initialValues={initialValues} {...this.props} />
+          </Accordion>
+          <Accordion label="Adjustment" id="Adjustment">
+            <AdjustmentView order={initialValues} {...this.props} />
           </Accordion>
         </AccordionSet>
         <LayerPO
