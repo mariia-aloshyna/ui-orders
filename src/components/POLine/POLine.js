@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
 import { Pane, PaneMenu, Icon, IconButton, IfPermission, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
 import transitionToParams from '../Utils/transitionToParams';
 import { POLineDetails } from './POLineDetails';
@@ -69,7 +70,7 @@ class POLine extends React.Component {
 
   onToggleSection({ id }) {
     this.setState((curState) => {
-      const newState = _.cloneDeep(curState);
+      const newState = cloneDeep(curState);
       newState.sections[id] = !curState.sections[id];
       return newState;
     });
@@ -77,7 +78,7 @@ class POLine extends React.Component {
 
   handleExpandAll(obj) {
     this.setState((curState) => {
-      const newState = _.cloneDeep(curState);
+      const newState = cloneDeep(curState);
       newState.sections = obj;
       return newState;
     });
@@ -85,7 +86,7 @@ class POLine extends React.Component {
 
   getData() {
     const { match: { params: { lineId } }, resources } = this.props;
-    const lines = _.get(resources, ['order', 'records', 0, 'po_lines'], []);
+    const lines = get(resources, ['order', 'records', 0, 'po_lines'], []);
     return lines.find(u => u.id === lineId);
   }
 

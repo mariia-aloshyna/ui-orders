@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import toString from 'lodash/toString';
+import get from 'lodash/get';
 import { KeyValue, Row, Col } from '@folio/stripes/components';
 
 class FundDistributionView extends React.Component {
@@ -12,12 +13,12 @@ class FundDistributionView extends React.Component {
 
   render() {
     const { initialValues } = this.props;
-    const ids = _.toString(initialValues.fund_distribution.map(val => val.id));
-    const codes = _.toString(initialValues.fund_distribution.map(val => val.code));
-    const percentes = _.toString(initialValues.fund_distribution.map(val => `${val.percentage}%`));
-    const encumbrances = _.toString(initialValues.fund_distribution.map(val => val.encumbrance));
-    const estimatedPrice = _.get(initialValues, ['cost', 'po_line_estimated_price']);
-    const amount = _.toString(initialValues.fund_distribution.map(val => ((val.percentage / 100) * estimatedPrice)));
+    const ids = toString(initialValues.fund_distribution.map(val => val.id));
+    const codes = toString(initialValues.fund_distribution.map(val => val.code));
+    const percentes = toString(initialValues.fund_distribution.map(val => `${val.percentage}%`));
+    const encumbrances = toString(initialValues.fund_distribution.map(val => val.encumbrance));
+    const estimatedPrice = get(initialValues, ['cost', 'po_line_estimated_price']);
+    const amount = toString(initialValues.fund_distribution.map(val => ((val.percentage / 100) * estimatedPrice)));
 
     return (
       <Row>
