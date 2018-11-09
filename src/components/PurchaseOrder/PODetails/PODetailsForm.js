@@ -14,12 +14,17 @@ class PODetailsForm extends Component {
     change: PropTypes.func,
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props, { assignToName, createdByName, vendorName }) {
     const { dispatch, change } = props;
-    if (props.vendorName !== state.vendorName || props.assignToName !== state.assignToName) {
+    const isDataChanged = props.vendorName !== vendorName || props.assignToName !== assignToName || props.createdByName !== createdByName;
+
+    if (isDataChanged) {
+      dispatch(change('created_by_name', props.createdByName));
       dispatch(change('assigned_to_user', props.assignToName));
       dispatch(change('vendor_name', props.vendorName));
+
       return {
+        createdByName: props.createdByName,
         vendorName: props.vendorName,
         assignToName: props.assignToName
       };
