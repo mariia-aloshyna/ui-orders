@@ -1,8 +1,13 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import toString from 'lodash/toString';
 import get from 'lodash/get';
-import { KeyValue, Row, Col } from '@folio/stripes/components';
+import {
+  Col,
+  KeyValue,
+  Row,
+} from '@folio/stripes/components';
 
 class FundDistributionView extends React.Component {
   static propTypes = {
@@ -23,19 +28,34 @@ class FundDistributionView extends React.Component {
     return (
       <Row>
         <Col xs={6}>
-          <KeyValue label="Fund ID" value={ids} />
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.fundDistribution.id" />}
+            value={ids}
+          />
         </Col>
         <Col xs={6}>
-          <KeyValue label="Percent" value={percentes} />
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.fundDistribution.percent" />}
+            value={percentes}
+          />
         </Col>
         <Col xs={6}>
-          <KeyValue label="Code" value={codes} />
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.fundDistribution.code" />}
+            value={codes}
+          />
         </Col>
         <Col xs={6}>
-          <KeyValue label="Encumbrance" value={encumbrances} />
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.fundDistribution.encumbrance" />}
+            value={encumbrances}
+          />
         </Col>
         <Col xs={6}>
-          <KeyValue label="Amount" value={amount} />
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.fundDistribution.amount" />}
+            value={amount}
+          />
         </Col>
       </Row>
     );
