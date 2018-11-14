@@ -110,6 +110,12 @@ class Main extends Component {
         staticFallback: { params: {} },
       },
     },
+    vendors: {
+      type: 'okapi',
+      path: 'vendor',
+      records: 'vendors',
+      perRequest: 1000,
+    },
     user: {
       type: 'okapi',
       path: 'users',

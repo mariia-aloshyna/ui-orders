@@ -38,4 +38,6 @@ AdjustmentView.propTypes = {
   order: PropTypes.object,
 };
 
+AdjustmentView.displayName = 'AdjustmentView';
+
 export default AdjustmentView;

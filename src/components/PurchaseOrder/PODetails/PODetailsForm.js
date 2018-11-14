@@ -113,9 +113,7 @@ class PODetailsForm extends Component {
     const disableRecordCreation = true;
     const columnMapping = {
       name: 'name',
-      patronGroup: 'patronGroup',
-      username: 'username',
-      barcode: 'barcode',
+      vendor_status: 'vendor_status'
     };
     return (
       <Pluggable
@@ -125,7 +123,7 @@ class PODetailsForm extends Component {
         searchLabel="+"
         searchButtonStyle="default"
         selectVendor={vendor => this.onAddVendor(vendor)}
-        visibleColumns={['name', 'patronGroup', 'username', 'barcode']}
+        visibleColumns={['name', 'vendor_status']}
         columnMapping={columnMapping}
         disableRecordCreation={disableRecordCreation}
         {...this.props}

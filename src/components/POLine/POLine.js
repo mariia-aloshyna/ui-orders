@@ -16,6 +16,7 @@ import PhysicalView from './Physical/PhysicalView';
 import RenewalView from './Renewal/RenewalView';
 import AdjustmentsView from './Adjustments/AdjustmentsView';
 import LicenseView from './License/LicenseView';
+import { ERESOURCES } from './const';
 import { LayerPOLine } from '../LayerCollection';
 
 class POLine extends React.Component {
@@ -129,6 +130,8 @@ class POLine extends React.Component {
       );
     }
 
+    const showEresources = ERESOURCES.includes(initialValues.order_format);
+
     return (
       <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" firstMenu={firstMenu} lastMenu={lastMenu}>
         <POLineDetails initialValues={initialValues} {...this.props} />
@@ -153,9 +156,11 @@ class POLine extends React.Component {
           <Accordion label="Item Details" id="Item">
             <ItemView initialValues={initialValues} {...this.props} />
           </Accordion>
-          <Accordion label="E-resources Details" id="Eresources">
-            <EresourcesView initialValues={initialValues} {...this.props} />
-          </Accordion>
+          {showEresources && (
+            <Accordion label="E-resources Details" id="Eresources">
+              <EresourcesView initialValues={initialValues} {...this.props} />
+            </Accordion>
+          )}
           <Accordion label="Physical Record Details" id="Physical">
             <PhysicalView initialValues={initialValues} {...this.props} />
           </Accordion>
