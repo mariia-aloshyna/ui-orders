@@ -40,4 +40,6 @@ SummaryView.propTypes = {
   order: PropTypes.object,
 };
 
+SummaryView.displayName = 'SummaryView';
+
 export default SummaryView;

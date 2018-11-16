@@ -4,9 +4,11 @@ import _ from 'lodash';
 import { Fields } from 'redux-form';
 import { IfPermission, Pane, PaneMenu, Button, Icon, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
+import { EresourcesForm } from './Eresources';
 import { POLineDetailsForm } from './POLineDetails';
 import { VendorForm } from './Vendor';
 import { CostForm } from './Cost';
+import { ERESOURCES } from './const';
 import HandleErrors from '../Utils/HandleErrors';
 import css from './css/POLineForm.css';
 
@@ -164,6 +166,8 @@ class POLineForm extends Component {
       );
     }
 
+    const showEresourcesForm = ERESOURCES.includes(initialValues.order_format);
+
     return (
       <Pane id="pane-poLineForm" defaultWidth="fill" paneTitle={paneTitle} lastMenu={lastMenu} onClose={onCancel} dismissible>
         <form id="form-po-line">
@@ -191,6 +195,11 @@ class POLineForm extends Component {
                     <Accordion label="Vendor" id="Vendor">
                       <VendorForm {...this.props} />
                     </Accordion>
+                    {showEresourcesForm && (
+                      <Accordion label="E-resources Details" id="Eresources">
+                        <EresourcesForm {...this.props} />
+                      </Accordion>
+                    )}
                     {/* <Accordion label="Claim" id="Claim">
                       <ClaimForm {...this.props} />
                       <br />
@@ -204,9 +213,6 @@ class POLineForm extends Component {
                     </Accordion>
                     <Accordion label="Item Details" id="Item">
                       <ItemForm {...this.props} />
-                    </Accordion>
-                    <Accordion label="E-resources Details" id="Eresources">
-                      <EresourcesForm {...this.props} />
                     </Accordion>
                     <Accordion label="Physical Record Details" id="Physical">
                       <PhysicalForm {...this.props} />

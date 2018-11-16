@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import { KeyValue, Row, Col } from '@folio/stripes/components';
+import get from 'lodash/get';
+import toString from 'lodash/toString';
+import { KeyValue, Row, Col, Checkbox } from '@folio/stripes/components';
+import FormatDate from '../../Utils/FormatDate';
 
 class EresourcesView extends React.Component {
   static propTypes = {
@@ -9,33 +11,36 @@ class EresourcesView extends React.Component {
   }
 
   render() {
-    const { initialValues } = this.props;
+    const eresource = this.props.initialValues.eresource;
 
     return (
       <Row>
         <Col xs={3}>
-          <KeyValue label="Access Provider" value={_.get(initialValues, 'access_provider')} />
+          <KeyValue label="Access Provider" value={get(eresource, 'access_provider')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Activation Status" value={_.get(initialValues, 'activation_status')} />
+          <KeyValue label="Activation Status">
+            <Checkbox checked={get(eresource, 'activated')} disabled />
+          </KeyValue>
         </Col>
         <Col xs={3}>
-          <KeyValue label="Activation Due" value={_.get(initialValues, 'activation_due')} />
+          <KeyValue label="Activation Due" value={get(eresource, 'activation_due')} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="Create Inventory" value={_.get(initialValues, 'create_inventory')} />
+          <KeyValue label="Create Item">
+            <Checkbox checked={get(eresource, 'create_inventory')} disabled />
+          </KeyValue>
         </Col>
         <Col xs={3}>
-          <KeyValue label="Trial" value={_.get(initialValues, 'trial')} />
+          <KeyValue label="Trial">
+            <Checkbox checked={get(eresource, 'trial')} disabled />
+          </KeyValue>
         </Col>
         <Col xs={3}>
-          <KeyValue label="Expected Activation" value={_.get(initialValues, 'expected_activation')} />
+          <KeyValue label="Expected Activation" value={FormatDate(toString(get(eresource, 'expected_activation')))} />
         </Col>
         <Col xs={3}>
-          <KeyValue label="User Limit" value={_.get(initialValues, 'user_limit')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Material ID" value={_.get(initialValues, 'material_id')} />
+          <KeyValue label="User Limit" value={get(eresource, 'user_limit')} />
         </Col>
       </Row>
     );
