@@ -1,70 +1,186 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import { Select, Checkbox, TextArea, Row, Col, TextField } from '@folio/stripes/components';
-import { Required } from '../../Utils/Validate';
+import {
+  FormattedMessage,
+} from 'react-intl';
+import {
+  Checkbox,
+  Col,
+  KeyValue,
+  Row,
+  TextArea,
+  TextField,
+} from '@folio/stripes/components';
+import FieldPaymentStatus from './FieldPaymentStatus';
+import FieldReceiptStatus from './FieldReceiptStatus';
+import FieldWorkflowStatus from './FieldWorkflowStatus';
+import FieldOrderFormat from './FieldOrderFormat';
+import FieldAcquisitionMethod from './FieldAcquisitionMethod';
 
 class LineDetailsForm extends Component {
   static propTypes = {
-    parentResources: PropTypes.shape({
-      dropdown: PropTypes.shape({
-        acquisitionMethodDD: PropTypes.array,
-        orderFormatDD: PropTypes.array,
-        status_dd: PropTypes.array,
-        order_type_dd: PropTypes.array
-      })
-    })
+    initialValues: PropTypes.object,
   }
 
   render() {
-    const acquisitionMethodDD = (this.props.parentResources.dropdown || {}).acquisitionMethodDD || [];
-    const orderFormatDD = (this.props.parentResources.dropdown || {}).orderFormatDD || [];
-    const receiptStatusDD = (this.props.parentResources.dropdown || {}).receiptStatusDD || [];
+    const { initialValues: poLine } = this.props;
+
     return (
-      <Row>
-        <Col xs={6}>
-          <Field label="PO Line ID" name="po_line_number" id="po_line_number" type="text" component={TextField} fullWidth />
-        </Col>
-        <Col xs={6}>
-          <Field label="Acquisition Method&#42;" name="acquisition_method" id="acquisition_method" type="select" component={Select} dataOptions={acquisitionMethodDD} validate={[Required]} fullWidth />
-        </Col>
-        <Col xs={6}>
-          <Field label="Owner" name="owner" id="owner" component={TextField} fullWidth />
-        </Col>
-        <Col xs={6}>
-          <Field label="Order Format&#42;" name="order_format" id="order_format" type="select" component={Select} dataOptions={orderFormatDD} validate={[Required]} fullWidth />
-        </Col>
-        <Col xs={6}>
-          <Field label="Status" name="receipt_status" id="receipt_status" type="select" component={Select} dataOptions={receiptStatusDD} fullWidth />
-        </Col>
-        <Col xs={6}>
-          <Field label="Receipt Date" name="receipt_date" id="receipt_date" type="date" component={TextField} fullWidth />
-        </Col>
-        <Col xs={6}>
-          <Field label="Donor" name="donor" id="donor" type="text" component={TextField} fullWidth />
-        </Col>
-        <Col xs={6} />
-        <Col xs={3}>
-          <Field label="Cancellation Restriction" name="cancellation_restriction" id="cancellation_restriction" component={Checkbox} fullWidth />
-        </Col>
-        <Col xs={3}>
-          <Field label="Rush" name="rush" id="rush" component={Checkbox} fullWidth />
-        </Col>
-        <Col xs={3}>
-          <Field label="Collection" name="collection" id="collection" component={Checkbox} fullWidth />
-        </Col>
-        <Col xs={6}>
-          <br />
-          <Field label="Selector" name="selector" id="selector" type="text" component={TextField} fullWidth />
-        </Col>
-        <Col xs={6}>
-          <br />
-          <Field label="Requester" name="requester" id="requester" type="text" component={TextField} fullWidth />
-        </Col>
-        <Col xs={12}>
-          <Field label="Comments" name="po_line_description" id="po_line_description" component={TextArea} fullWidth />
-        </Col>
-      </Row>
+      <Fragment>
+        <Row>
+          <Col xs={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              id="po_line_number"
+              label={<FormattedMessage id="ui-orders.poLine.poLineNumber" />}
+              name="po_line_number"
+              type="text"
+            />
+          </Col>
+          <Col xs={6}>
+            <FieldAcquisitionMethod />
+          </Col>
+          <Col xs={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              id="owner"
+              label={<FormattedMessage id="ui-orders.poLine.owner" />}
+              name="owner"
+            />
+          </Col>
+          <Col xs={6}>
+            <FieldOrderFormat />
+          </Col>
+          <Col xs={6}>
+            <FieldWorkflowStatus />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              id="created"
+              label={<FormattedMessage id="ui-orders.poLine.createdOn" />}
+              name="created"
+              type="date"
+            />
+          </Col>
+          <Col xs={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              id="receipt_date"
+              label={<FormattedMessage id="ui-orders.poLine.receiptDate" />}
+              name="receipt_date"
+              type="date"
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.source" />}
+              value={poLine.source.description}
+            />
+          </Col>
+          <Col xs={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              id="donor"
+              label={<FormattedMessage id="ui-orders.poLine.donor" />}
+              name="donor"
+              type="text"
+            />
+          </Col>
+          <Col xs={6}>
+            <FieldPaymentStatus />
+          </Col>
+          <Col xs={6}>
+            <FieldReceiptStatus />
+          </Col>
+          <Col xs={6}>
+            <br />
+            <Field
+              component={TextField}
+              fullWidth
+              id="selector"
+              label={<FormattedMessage id="ui-orders.poLine.selector" />}
+              name="selector"
+              type="text"
+            />
+          </Col>
+          <Col xs={6}>
+            <br />
+            <Field
+              component={TextField}
+              fullWidth
+              id="requester"
+              label={<FormattedMessage id="ui-orders.poLine.requester" />}
+              name="requester"
+              type="text"
+            />
+          </Col>
+          <Col xs={3}>
+            <Field
+              component={Checkbox}
+              fullWidth
+              id="cancellation_restriction"
+              label={<FormattedMessage id="ui-orders.poLine.cancellationRestriction" />}
+              name="cancellation_restriction"
+            />
+          </Col>
+          <Col xs={3}>
+            <Field
+              component={Checkbox}
+              fullWidth
+              id="rush"
+              label={<FormattedMessage id="ui-orders.poLine.rush" />}
+              name="rush"
+            />
+          </Col>
+          <Col xs={3}>
+            <Field
+              component={Checkbox}
+              fullWidth
+              id="collection"
+              label={<FormattedMessage id="ui-orders.poLine.сollection" />}
+              name="collection"
+            />
+          </Col>
+          <Col xs={3}>
+            <Field
+              component={Checkbox}
+              fullWidth
+              id="checkin_items"
+              label={<FormattedMessage id="ui-orders.poLine.checkinItems" />}
+              name="checkin_items"
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <Field
+              component={TextArea}
+              fullWidth
+              id="cancellation_restriction_note"
+              label={<FormattedMessage id="ui-orders.poLine.cancellationRestrictionNote" />}
+              name="cancellation_restriction_note"
+            />
+          </Col>
+          <Col xs={12}>
+            <Field
+              component={TextArea}
+              fullWidth
+              id="po_line_description"
+              label={<FormattedMessage id="ui-orders.poLine.poLineDescription" />}
+              name="po_line_description"
+            />
+          </Col>
+        </Row>
+      </Fragment>
     );
   }
 }

@@ -1,94 +1,138 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import get from 'lodash/get';
+import {
+  FormattedMessage,
+} from 'react-intl';
 import { Checkbox, KeyValue, Row, Col } from '@folio/stripes/components';
 
-class LineDetailsView extends React.Component {
+class POLineDetails extends Component {
   static propTypes = {
-    initialValues: PropTypes.object
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    const { initialValues, parentResources } = props;
-    // Label Lookup
-    function labelLookup(id, res, stateName) {
-      const resObj = (parentResources.dropdown || {})[res] || [];
-      const item = _.find(resObj, { value: id });
-      const label = _.isEmpty(item) ? '' : item.label;
-      return { [`${stateName}_id`]: id, [`${stateName}_label`]: label };
-    }
-
-    const orderID = _.get(initialValues, 'order_format');
-    const statusID = _.get(initialValues, 'receipt_status');
-    if ((orderID !== state.order_format_id) || (statusID !== state.status_id)) {
-      const orderFormat = labelLookup(orderID, 'orderFormatDD', 'order_format') || {};
-      const status = labelLookup(statusID, 'statusDD', 'status');
-      const newState = Object.assign({}, orderFormat, status);
-      return newState;
-    }
-    return null;
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {};
+    initialValues: PropTypes.object,
   }
 
   render() {
     const { initialValues } = this.props;
+
     return (
-      <Row>
-        <Col xs={6}>
-          <KeyValue label="PO Line ID" value={_.get(initialValues, 'po_line_number')} />
-        </Col>
-        <Col xs={6}>
-          <KeyValue label="Acquisition Method" value={_.get(initialValues, 'acquisition_method')} />
-        </Col>
-        <Col xs={6}>
-          <KeyValue label="Owner" value={_.get(initialValues, 'owner')} />
-        </Col>
-        <Col xs={6}>
-          <KeyValue label="Order Format" value={this.state.order_format_label} />
-        </Col>
-        <Col xs={6}>
-          <KeyValue label="Status" value={this.state.status_label} />
-        </Col>
-        <Col xs={6}>
-          <KeyValue label="Receipt Date" value={_.get(initialValues, 'receipt_date')} />
-        </Col>
-        <Col xs={6}>
-          <KeyValue label="Donor" value={_.get(initialValues, 'donor')} />
-        </Col>
-        <Col xs={6} />
-        <Col xs={3}>
-          <KeyValue label="Cancellation Restriction">
-            <Checkbox checked={_.get(initialValues, ['cancellation_restriction'])} disabled />
-          </KeyValue>
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Rush">
-            <Checkbox checked={_.get(initialValues, ['rush'])} disabled />
-          </KeyValue>
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Collection">
-            <Checkbox checked={_.get(initialValues, ['collection'])} disabled />
-          </KeyValue>
-        </Col>
-        <Col xs={6}>
-          <br />
-          <KeyValue label="Selector" value={_.get(initialValues, 'selector')} />
-        </Col>
-        <Col xs={6}>
-          <br />
-          <KeyValue label="Requester" value={_.get(initialValues, 'requester')} />
-        </Col>
-        <Col xs={12}>
-          <KeyValue label="Comments" value={_.get(initialValues, 'po_line_description')} />
-        </Col>
-      </Row>
+      <Fragment>
+        <Row>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.poLineNumber" />}
+              value={get(initialValues, 'po_line_number')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
+              value={get(initialValues, 'acquisition_method')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.owner" />}
+              value={get(initialValues, 'owner')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.orderFormat" />}
+              value={get(initialValues, 'order_format')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.poLineWorkflowStatus" />}
+              value={get(initialValues, 'po_line_workflow_status')}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.createdOn" />}
+              value={get(initialValues, 'created')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.receiptDate" />}
+              value={get(initialValues, 'receipt_date')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.source" />}
+              value={get(initialValues, 'source.description')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.donor" />}
+              value={get(initialValues, 'donor')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.paymentStatus" />}
+              value={get(initialValues, 'payment_status')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.receiptStatus" />}
+              value={get(initialValues, 'receipt_status')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.selector" />}
+              value={get(initialValues, 'selector')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.requester" />}
+              value={get(initialValues, 'requester')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue label={<FormattedMessage id="ui-orders.poLine.cancellationRestriction" />}>
+              <Checkbox checked={get(initialValues, 'cancellation_restriction')} disabled />
+            </KeyValue>
+          </Col>
+          <Col xs={6}>
+            <KeyValue label={<FormattedMessage id="ui-orders.poLine.rush" />}>
+              <Checkbox checked={get(initialValues, 'rush')} disabled />
+            </KeyValue>
+          </Col>
+          <Col xs={6}>
+            <KeyValue label={<FormattedMessage id="ui-orders.poLine.сollection" />}>
+              <Checkbox checked={get(initialValues, 'collection')} disabled />
+            </KeyValue>
+          </Col>
+          <Col xs={6}>
+            <KeyValue label={<FormattedMessage id="ui-orders.poLine.checkinItems" />}>
+              <Checkbox checked={get(initialValues, 'checkin_items')} disabled />
+            </KeyValue>
+          </Col>
+          <Col xs={12}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.cancellationRestrictionNote" />}
+              value={get(initialValues, 'cancellation_restriction_note')}
+            />
+          </Col>
+          <Col xs={12}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.poLine.poLineDescription" />}
+              value={get(initialValues, 'po_line_description')}
+            />
+          </Col>
+        </Row>
+      </Fragment>
     );
   }
 }
 
-export default LineDetailsView;
+export default POLineDetails;
