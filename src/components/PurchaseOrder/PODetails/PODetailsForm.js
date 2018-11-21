@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { Field, getFormValues } from 'redux-form';
-import { TextField, Row, Col, Datepicker, IconButton, Select } from '@folio/stripes/components';
+import {
+  Col,
+  Datepicker,
+  IconButton,
+  Row,
+  TextField,
+} from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
-import { Required } from '../../Utils/Validate';
-// import { Required } from '../../Utils/Validate';
+import FieldOrderType from './FieldOrderType';
 
 class PODetailsForm extends Component {
   static propTypes = {
@@ -84,12 +90,11 @@ class PODetailsForm extends Component {
   }
 
   userModal() {
-    const disableRecordCreation = true;
     const columnMapping = {
-      name: 'name',
-      patronGroup: 'patronGroup',
-      username: 'username',
-      barcode: 'barcode',
+      name: <FormattedMessage id="ui-orders.user.name" />,
+      patronGroup: <FormattedMessage id="ui-orders.user.patronGroup" />,
+      username: <FormattedMessage id="ui-orders.user.username" />,
+      barcode: <FormattedMessage id="ui-orders.user.barcode" />,
     };
     return (
       <Pluggable
@@ -101,7 +106,7 @@ class PODetailsForm extends Component {
         selectUser={user => this.onAddUser(user)}
         visibleColumns={['name', 'patronGroup', 'username', 'barcode']}
         columnMapping={columnMapping}
-        disableRecordCreation={disableRecordCreation}
+        disableRecordCreation
         {...this.props}
       >
         <span>[no user-selection plugin]</span>
@@ -110,10 +115,9 @@ class PODetailsForm extends Component {
   }
 
   userVendor() {
-    const disableRecordCreation = true;
     const columnMapping = {
-      name: 'name',
-      vendor_status: 'vendor_status'
+      name: <FormattedMessage id="ui-orders.vendor.name" />,
+      vendor_status: <FormattedMessage id="ui-orders.vendor.vendor_status" />,
     };
     return (
       <Pluggable
@@ -125,7 +129,7 @@ class PODetailsForm extends Component {
         selectVendor={vendor => this.onAddVendor(vendor)}
         visibleColumns={['name', 'vendor_status']}
         columnMapping={columnMapping}
-        disableRecordCreation={disableRecordCreation}
+        disableRecordCreation
         {...this.props}
       >
         <span>[no vendor-selection plugin]</span>
@@ -134,50 +138,121 @@ class PODetailsForm extends Component {
   }
 
   render() {
-    const orderTypeDD = (this.props.parentResources.dropdown || {}).orderTypeDD || [];
     return (
       <Row>
-        <Col xs={6} md={3} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-          <Field label="Vendor name" name="vendor_name" id="vendor_name" component={TextField} endControl={this.vendorClearButton()} fullWidth readOnly />
+        <Col
+          xs={6}
+          md={3}
+          style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}
+        >
+          <Field
+            component={TextField}
+            endControl={this.vendorClearButton()}
+            fullWidth
+            id="vendor_name"
+            label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
+            name="vendor_name"
+            readOnly
+          />
           <div style={{ marginLeft: '10px', top: '2px', position: 'relative' }}>
             {this.userVendor()}
           </div>
         </Col>
         <Col xs={6} md={3}>
-          <Field label="Created By" name="created_by_name" id="created_by_name" component={TextField} fullWidth readOnly />
+          <Field
+            component={TextField}
+            fullWidth
+            id="created_by_name"
+            label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}
+            name="created_by_name"
+            readOnly
+          />
         </Col>
         <Col xs={6} md={3}>
-          <Field label="PO Number" name="po_number" id="po_number" component={TextField} fullWidth />
+          <Field
+            component={TextField}
+            fullWidth
+            id="po_number"
+            label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
+            name="po_number"
+          />
         </Col>
         <Col xs={6} md={3}>
-          <Field label="Created On" name="created" id="created" dateFormat="YYYY-MM-DD" timeZone="UTC" backendDateStandard="YYYY-MM-DD" component={Datepicker} fullWidth />
+          <Field
+            backendDateStandard="YYYY-MM-DD"
+            component={Datepicker}
+            dateFormat="YYYY-MM-DD"
+            fullWidth
+            id="created"
+            label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}
+            name="created"
+            timeZone="UTC"
+          />
         </Col>
         <Col xs={6} md={3} style={{ display: 'none' }}>
           <p>This is hidden</p>
-          <Field label="Vendor" name="vendor" id="vendor" component={TextField} fullWidth readOnly />
+          <Field
+            component={TextField}
+            fullWidth
+            id="vendor"
+            name="vendor"
+            readOnly
+          />
         </Col>
         <Col xs={6} md={3} style={{ display: 'none' }}>
           <p>This is hidden</p>
-          <Field label="Created By" name="created_by" id="created_by" component={TextField} fullWidth readOnly />
+          <Field
+            component={TextField}
+            fullWidth
+            id="created_by"
+            name="created_by"
+            readOnly
+          />
         </Col>
         <Col xs={6} md={3} style={{ display: 'none' }}>
           <p>This is hidden</p>
-          <Field label="Assigned To" name="assigned_to" id="assigned_to" component={TextField} fullWidth readOnly />
+          <Field
+            component={TextField}
+            fullWidth
+            id="assigned_to"
+            name="assigned_to"
+            readOnly
+          />
         </Col>
         <Col xs={6} md={3} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-          <Field label="Assigned To Name" name="assigned_to_user" id="assigned_to_user" component={TextField} endControl={this.userClearButton()} fullWidth readOnly />
+          <Field
+            component={TextField}
+            endControl={this.userClearButton()}
+            fullWidth
+            id="assigned_to_user"
+            label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
+            name="assigned_to_user"
+            readOnly
+          />
           <div style={{ marginLeft: '10px', top: '2px', position: 'relative' }}>
             {this.userModal()}
           </div>
         </Col>
         <Col xs={6} md={3}>
-          <Field label="Bill To" name="bill_to" id="bill_to" component={TextField} fullWidth />
+          <Field
+            component={TextField}
+            fullWidth
+            id="bill_to"
+            label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
+            name="bill_to"
+          />
         </Col>
         <Col xs={6} md={3}>
-          <Field label="Ship To" name="ship_to" id="ship_to" component={TextField} fullWidth />
+          <Field
+            component={TextField}
+            fullWidth
+            id="ship_to"
+            label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
+            name="ship_to"
+          />
         </Col>
         <Col xs={6} md={3}>
-          <Field label="Order Type&#42;" name="order_type" id="order_type" type="select" component={Select} dataOptions={orderTypeDD} validate={[Required]} fullWidth />
+          <FieldOrderType />
         </Col>
       </Row>
     );
