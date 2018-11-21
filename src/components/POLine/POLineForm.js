@@ -160,7 +160,7 @@ class POLineForm extends Component {
 
     if (!initialValues) {
       return (
-        <Pane id="pane-podetails" defaultWidth="fill" paneTitle="Details" fistMenu={firstMenu} lastMenu={lastMenu} dismissible>
+        <Pane id="pane-podetails" defaultWidth="fill" paneTitle="Details" firstMenu={firstMenu} lastMenu={lastMenu} dismissible>
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
         </Pane>
       );
