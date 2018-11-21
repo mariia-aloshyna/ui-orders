@@ -189,9 +189,8 @@ class POLineForm extends Component {
           id="pane-podetails"
           defaultWidth="fill"
           paneTitle="Details"
-          fistMenu={firstMenu}
+          firstMenu={firstMenu}
           lastMenu={lastMenu}
-          dismissible
         >
           <div style={{ paddingTop: '1rem' }}>
             <Icon

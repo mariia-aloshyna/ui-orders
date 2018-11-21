@@ -107,7 +107,6 @@ class POForm extends Component {
       return (
         <Pane
           defaultWidth="fill"
-          dismissible
           firstMenu={firstMenu}
           id="pane-podetails"
           lastMenu={lastMenu}
@@ -124,7 +123,6 @@ class POForm extends Component {
         <Paneset>
           <Pane
             defaultWidth="100%"
-            dismissible
             firstMenu={firstMenu}
             id="pane-poForm"
             lastMenu={lastMenu}
