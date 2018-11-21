@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
-import { Pane, PaneMenu, Icon, IconButton, IfPermission, Row, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
+import {
+  Accordion,
+  AccordionSet,
+  Col,
+  ExpandAllButton,
+  Icon,
+  IconButton,
+  IfPermission,
+  Pane,
+  PaneMenu,
+  Row,
+} from '@folio/stripes/components';
 import transitionToParams from '../Utils/transitionToParams';
 import { POLineDetails } from './POLineDetails';
 import CostView from './Cost/CostView';
@@ -16,10 +27,13 @@ import PhysicalView from './Physical/PhysicalView';
 import RenewalView from './Renewal/RenewalView';
 import AdjustmentsView from './Adjustments/AdjustmentsView';
 import LicenseView from './License/LicenseView';
-import { ERESOURCES } from './const';
+import {
+  ERESOURCES,
+  PHRESOURCES,
+} from './const';
 import { LayerPOLine } from '../LayerCollection';
 
-class POLine extends React.Component {
+class POLine extends Component {
   static manifest = Object.freeze({
     order: {
       type: 'okapi',
@@ -130,7 +144,9 @@ class POLine extends React.Component {
       );
     }
 
-    const showEresources = ERESOURCES.includes(initialValues.order_format);
+    const orderFormat = get(initialValues, 'order_format');
+    const showEresources = ERESOURCES.includes(orderFormat);
+    const showPhresources = PHRESOURCES.includes(orderFormat);
 
     return (
       <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" firstMenu={firstMenu} lastMenu={lastMenu}>
@@ -161,9 +177,11 @@ class POLine extends React.Component {
               <EresourcesView initialValues={initialValues} {...this.props} />
             </Accordion>
           )}
-          <Accordion label="Physical Record Details" id="Physical">
-            <PhysicalView initialValues={initialValues} {...this.props} />
-          </Accordion>
+          {showPhresources && (
+            <Accordion label="Physical Resource Details" id="Physical">
+              <PhysicalView initialValues={initialValues} {...this.props} />
+            </Accordion>
+          )}
           <Accordion label="Renewals" id="Renewal">
             <RenewalView initialValues={initialValues} {...this.props} />
           </Accordion>
