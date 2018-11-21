@@ -9,6 +9,7 @@ import { POLineDetailsForm } from './POLineDetails';
 import { VendorForm } from './Vendor';
 import { CostForm } from './Cost';
 import { ERESOURCES } from './const';
+import { FundDistributionForm } from './FundDistribution';
 import HandleErrors from '../Utils/HandleErrors';
 import css from './css/POLineForm.css';
 
@@ -42,7 +43,8 @@ class POLineForm extends Component {
         Physical: false,
         Renewal: false,
         Adjustments: false,
-        License: false
+        License: false,
+        FundDistribution: false
       },
       sectionErrors: {
         POLineDetailsErr: {
@@ -137,6 +139,7 @@ class POLineForm extends Component {
 
   render() {
     const { initialValues, onCancel } = this.props;
+    const { initialValues: order, ...rest } = this.props;
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? (
       <span>
@@ -200,6 +203,12 @@ class POLineForm extends Component {
                         <EresourcesForm {...this.props} />
                       </Accordion>
                     )}
+                    <Accordion label="Fund Distribution" id="FundDistribution">
+                      <FundDistributionForm
+                        order={order}
+                        {...rest}
+                      />
+                    </Accordion>
                     {/* <Accordion label="Claim" id="Claim">
                       <ClaimForm {...this.props} />
                       <br />
