@@ -57,7 +57,7 @@ class POLine extends React.Component {
         Vendor: false,
         FundDistribution: false,
         Eresources: false,
-        Item: false,
+        ItemDetails: false,
         Physical: false,
         Renewal: false,
         Adjustments: false,
@@ -153,8 +153,8 @@ class POLine extends React.Component {
           <Accordion label="Fund Distribution" id="FundDistribution">
             <FundDistributionView initialValues={initialValues} {...this.props} />
           </Accordion>
-          <Accordion label="Item Details" id="Item">
-            <ItemView initialValues={initialValues} {...this.props} />
+          <Accordion label="Item Details" id="ItemDetails">
+            <ItemView itemDetails={initialValues.details} {...this.props} />
           </Accordion>
           {showEresources && (
             <Accordion label="E-resources Details" id="Eresources">

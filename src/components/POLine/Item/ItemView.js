@@ -1,43 +1,61 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import { KeyValue, Row, Col } from '@folio/stripes/components';
+import get from 'lodash/get';
+import toString from 'lodash/toString';
+import {
+  Col,
+  KeyValue,
+  Row,
+} from '@folio/stripes/components';
+import ProductIdDetails from './ProductIdDetails';
 
-class ItemView extends React.Component {
+class ItemView extends Component {
   static propTypes = {
-    initialValues: PropTypes.object
+    itemDetails: PropTypes.object.isRequired
   }
 
   render() {
-    const { initialValues } = this.props;
+    const { itemDetails } = this.props;
 
     return (
-      <Row>
-        <Col xs={3}>
-          <KeyValue label="Title" value={_.get(initialValues, 'title')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Receiving Note" value={_.get(initialValues, 'receiving_note')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Product ID" value={_.get(initialValues, 'product_id')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Subscription From" value={_.toString(_.get(initialValues, 'subscription_from'))} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Material Type" value={_.get(initialValues, 'material_type')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Subscription Interval" value={_.get(initialValues, 'subscription_interval')} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Subscription To" value={_.toString(_.get(initialValues, 'subscription_to'))} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label="Description" value={_.get(initialValues, 'description')} />
-        </Col>
-      </Row>
+      <Fragment>
+        <Row>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
+              value={get(itemDetails, 'receiving_note')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
+              value={toString(get(itemDetails, 'subscription_from'))}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
+              value={get(itemDetails, 'subscription_interval')}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
+              value={toString(get(itemDetails, 'subscription_to'))}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.materialTypes" />}
+              value={toString(get(itemDetails, 'material_types'))}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <ProductIdDetails itemIdDetails={itemDetails.product_ids} />
+        </Row>
+      </Fragment>
     );
   }
 }

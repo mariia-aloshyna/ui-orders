@@ -10,6 +10,7 @@ import { VendorForm } from './Vendor';
 import { CostForm } from './Cost';
 import { ERESOURCES } from './const';
 import { FundDistributionForm } from './FundDistribution';
+import { ItemForm } from './Item';
 import HandleErrors from '../Utils/HandleErrors';
 import css from './css/POLineForm.css';
 
@@ -39,7 +40,7 @@ class POLineForm extends Component {
         Locations: false,
         Vendor: false,
         Eresources: false,
-        Item: false,
+        ItemDetails: false,
         Physical: false,
         Renewal: false,
         Adjustments: false,
@@ -209,6 +210,9 @@ class POLineForm extends Component {
                         {...rest}
                       />
                     </Accordion>
+                    <Accordion label="Item Details" id="ItemDetails">
+                      <ItemForm {...this.props} />
+                    </Accordion>
                     {/* <Accordion label="Claim" id="Claim">
                       <ClaimForm {...this.props} />
                       <br />
@@ -219,9 +223,6 @@ class POLineForm extends Component {
                     <Accordion label="Locations" id="Locations">
                       <LocationForm {...this.props} />
                       <br />
-                    </Accordion>
-                    <Accordion label="Item Details" id="Item">
-                      <ItemForm {...this.props} />
                     </Accordion>
                     <Accordion label="Physical Record Details" id="Physical">
                       <PhysicalForm {...this.props} />
