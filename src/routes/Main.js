@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { FormattedMessage } from 'react-intl';
 import { filters2cql } from '@folio/stripes/components';
 import { SearchAndSort } from '@folio/stripes/smart-components';
 import packageInfo from '../../package';
@@ -151,69 +152,6 @@ class Main extends Component {
     // DropDown
     dropdown: {
       initialValue: {
-        acquisitionMethodDD: [
-          { value: '', label: '--- Select ---' },
-          { value: 'Approval Plan', label: 'Approval Plan' },
-          { value: 'Demand Driven Acquisitions (DDA)', label: 'Demand Driven Acquisitions (DDA)' },
-          { value: 'Depository', label: 'Depository' },
-          { value: 'Evidence Based Acquisitions (EBA)', label: 'Evidence Based Acquisitions (EBA)' },
-          { value: 'Exchange', label: 'Exchange' },
-          { value: 'Gift', label: 'Gift ' },
-          { value: 'Purchase At Vendor System', label: 'Purchase At Vendor System ' },
-          { value: 'Purchase', label: 'Purchase ' },
-          { value: 'Technical', label: 'Technical ' }
-        ],
-        orderFormatDD: [
-          { value: '', label: '--- Select ---' },
-          { value: 'Container', label: 'Container' },
-          { value: 'Electronic Resource', label: 'Electronic Resource' },
-          { value: 'P/E Mix', label: 'P/E Mix' },
-          { value: 'Physical Resource', label: 'Physical Resource' },
-          { value: 'Service', label: 'Service' },
-        ],
-        statusDD: [
-          { value: '', label: '--- Select ---' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d5529b9', label: 'Pending' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552910', label: 'In Review' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552911', label: 'Not Approved Update Required' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552912', label: 'Declined' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552913', label: 'Cancelled ' }
-        ],
-        orderTypeDD: [
-          { value: '', label: '--- Select ---' },
-          { value: 'One-Time', label: 'One-Time' },
-          { value: 'Ongoing', label: 'Ongoing' },
-        ],
-        sourceDD: [
-          { value: '', label: '--- Select ---' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552917', label: 'Source 1' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552918', label: 'Source 2' },
-          { value: '5e62ebaf-bb56-495e-a5ae-dda48d552919', label: 'Source 3' }
-        ],
-        receiptStatusDD: [
-          { value: '', label: '--- Select ---' },
-          { value: 'Awaiting Receipt', label: 'Awaiting Receipt' },
-          { value: 'Cancelled', label: 'Cancelled' },
-          { value: 'Fully Received', label: 'Fully Received' },
-          { value: 'Partially Received', label: 'Partially Received' },
-          { value: 'Pending', label: 'Pending' },
-          { value: 'Receipt Not Required', label: 'Receipt Not Required' }
-        ],
-        workflowStatusDD: [
-          { value: '', label: '--- Select ---' },
-          { value: 'Closed', label: 'Closed' },
-          { value: 'Open', label: 'Open' },
-          { value: 'Pending', label: 'Pending' },
-        ],
-        paymentStatusDD: [
-          { value: '', label: '--- Select ---' },
-          { value: 'Awaiting Payment', label: 'Awaiting Payment' },
-          { value: 'Cancelled', label: 'Cancelled' },
-          { value: 'Fully Paid', label: 'Fully Paid' },
-          { value: 'Partially Paid', label: 'Partially Paid' },
-          { value: 'Payment Not Required', label: 'Payment Not Required' },
-          { value: 'Pending', label: 'Pending' },
-        ],
         currencyDD: [
           { value: '', label: '--- Select ---' },
           { value: 'USD', label: 'USD' },
@@ -291,7 +229,24 @@ class Main extends Component {
   }
 
   render() {
-    const { resources, mutator, stripes, browseOnly, showSingleResult, disableRecordCreation, onComponentWillUnmount, stripes: { user: { user: { id, firstName, lastName } } } } = this.props;
+    const {
+      browseOnly,
+      disableRecordCreation,
+      mutator,
+      onComponentWillUnmount,
+      resources,
+      showSingleResult,
+      stripes,
+      stripes: {
+        user: {
+          user: {
+            id,
+            firstName,
+            lastName,
+          },
+        },
+      },
+    } = this.props;
     const resultsFormatter = {
       'po_number': data => _.toString(_.get(data, ['po_number'], '')),
       'created': data => _.toString(_.get(data, ['created'], '')),
@@ -326,6 +281,12 @@ class Main extends Component {
         stripes={stripes}
         showSingleResult={showSingleResult}
         browseOnly={browseOnly}
+        columnMapping={{
+          po_number: <FormattedMessage id="ui-orders.order.po_number" />,
+          created: <FormattedMessage id="ui-orders.order.created" />,
+          notes: <FormattedMessage id="ui-orders.order.notes" />,
+          assigned_to: <FormattedMessage id="ui-orders.order.assigned_to" />,
+        }}
       />
     );
   }

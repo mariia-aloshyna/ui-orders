@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import {
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
@@ -34,6 +39,7 @@ class PO extends Component {
     parentMutator: PropTypes.object.isRequired,
     editLink: PropTypes.string,
     paneWidth: PropTypes.string.isRequired,
+    intl: intlShape.isRequired,
     resources: PropTypes.object.isRequired
   }
 
@@ -146,7 +152,7 @@ class PO extends Component {
   }
 
   render() {
-    const { location, history, match } = this.props;
+    const { location, history, match, intl } = this.props;
     const initialValues = this.state.initialValues || {};
     const lastMenu = (
       <PaneMenu>
@@ -157,7 +163,7 @@ class PO extends Component {
             style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
             onClick={this.props.onEdit}
             href={this.props.editLink}
-            title="Edit Vendor"
+            title={intl.formatMessage({ id: 'ui-orders.paneMenu.editVendor' })}
           />
         </IfPermission>
       </PaneMenu>
@@ -166,7 +172,14 @@ class PO extends Component {
 
     if (!initialValues) {
       return (
-        <Pane id="pane-podetails" defaultWidth="fill" paneTitle="Details" lastMenu={lastMenu} dismissible onClose={this.props.onClose}>
+        <Pane
+          defaultWidth="fill"
+          dismissible
+          id="pane-podetails"
+          lastMenu={lastMenu}
+          onClose={this.props.onClose}
+          paneTitle={<FormattedMessage id="ui-orders.paneTitle.details" />}
+        >
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
         </Pane>
       );
@@ -184,16 +197,29 @@ class PO extends Component {
         {/* <FundDistribution openReceiveItem={this.openReceiveItem} openReceived={this.openReceived} /> */}
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-          <Accordion label="Purchase Order" id="purchaseOrder">
+          <Accordion
+            id="purchaseOrder"
+            label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
+          >
             <PODetailsView order={initialValues} {...this.props} />
           </Accordion>
-          <Accordion label="PO Summary" id="POSummary">
+          <Accordion
+            id="POSummary"
+            label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
+          >
             <SummaryView order={initialValues} {...this.props} />
           </Accordion>
-          <Accordion label="PO Listing" id="POListing" displayWhenOpen={addPOLineButton}>
+          <Accordion
+            displayWhenOpen={addPOLineButton}
+            id="POListing"
+            label={<FormattedMessage id="ui-orders.paneBlock.POListing" />}
+          >
             <LineListing initialValues={initialValues} {...this.props} />
           </Accordion>
-          <Accordion label="Adjustment" id="Adjustment">
+          <Accordion
+            id="Adjustment"
+            label={<FormattedMessage id="ui-orders.paneBlock.adjustment" />}
+          >
             <AdjustmentView order={initialValues} {...this.props} />
           </Accordion>
         </AccordionSet>
@@ -227,4 +253,4 @@ class PO extends Component {
   }
 }
 
-export default PO;
+export default injectIntl(PO);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import { cloneDeep, get } from 'lodash';
 import stripesForm from '@folio/stripes/form';
 import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, IfPermission, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
 import { PODetailsForm } from './PODetails';
@@ -65,7 +66,7 @@ class POForm extends Component {
 
   onToggleSection({ id }) {
     this.setState((curState) => {
-      const newState = _.cloneDeep(curState);
+      const newState = cloneDeep(curState);
       newState.sections[id] = !curState.sections[id];
       return newState;
     });
@@ -73,7 +74,7 @@ class POForm extends Component {
 
   handleExpandAll(obj) {
     this.setState((curState) => {
-      const newState = _.cloneDeep(curState);
+      const newState = cloneDeep(curState);
       newState.sections = obj;
       return newState;
     });
@@ -94,17 +95,25 @@ class POForm extends Component {
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? (
       <span>
-        {`Edit: ${_.get(initialValues, ['id'], '')}`}
+        {`Edit: ${get(initialValues, ['id'], '')}`}
       </span>
-    ) : 'Create Purchase Order';
+    ) : <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />;
     const lastMenu = initialValues.id ?
-      this.getLastMenu('clickable-update-purchase-order', 'Update Order') :
-      this.getLastMenu('clickable-create-new-purchase-order', 'Create Purchase Order');
+      this.getLastMenu('clickable-update-purchase-order', <FormattedMessage id="ui-orders.paneMenu.updateOrder" />) :
+      this.getLastMenu('clickable-create-new-purchase-order', <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />);
     const showDeleteButton = initialValues.id || false;
 
     if (!initialValues) {
       return (
-        <Pane id="pane-podetails" defaultWidth="fill" paneTitle="Details" fistMenu={firstMenu} onClose={onCancel} lastMenu={lastMenu} dismissible>
+        <Pane
+          defaultWidth="fill"
+          dismissible
+          firstMenu={firstMenu}
+          id="pane-podetails"
+          lastMenu={lastMenu}
+          onClose={onCancel}
+          paneTitle={<FormattedMessage id="ui-orders.paneTitle.details" />}
+        >
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
         </Pane>
       );
@@ -113,7 +122,15 @@ class POForm extends Component {
     return (
       <div style={{ height: '100vh' }}>
         <Paneset>
-          <Pane id="pane-poForm" defaultWidth="100%" paneTitle={paneTitle} fistMenu={firstMenu} onClose={onCancel} lastMenu={lastMenu} dismissible>
+          <Pane
+            defaultWidth="100%"
+            dismissible
+            firstMenu={firstMenu}
+            id="pane-poForm"
+            lastMenu={lastMenu}
+            onClose={onCancel}
+            paneTitle={paneTitle}
+          >
             <form id="form-po">
               <Row>
                 <Col xs={12}>
@@ -127,13 +144,22 @@ class POForm extends Component {
                     </Col>
                     <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                       <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-                        <Accordion label="Purchase Order" id="purchaseOrder">
+                        <Accordion
+                          id="purchaseOrder"
+                          label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
+                        >
                           <PODetailsForm showPaneVendors={this.showPaneVendors} showPaneUsers={this.showPaneUsers} {...this.props} />
                         </Accordion>
-                        <Accordion label="PO Summary" id="POSummary">
+                        <Accordion
+                          id="POSummary"
+                          label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
+                        >
                           <SummaryForm {...this.props} />
                         </Accordion>
-                        <Accordion label="Adjustment" id="Adjustment">
+                        <Accordion
+                          id="Adjustment"
+                          label={<FormattedMessage id="ui-orders.paneBlock.adjustment" />}
+                        >
                           <AdjustmentForm {...this.props} />
                         </Accordion>
                       </AccordionSet>
@@ -142,7 +168,13 @@ class POForm extends Component {
                           <Col xs={12}>
                             {
                               showDeleteButton &&
-                              <Button type="button" buttonStyle="danger" onClick={() => { this.deletePO(this.props.initialValues.id); }}>Remove</Button>
+                              <Button
+                                type="button"
+                                buttonStyle="danger"
+                                onClick={() => { this.deletePO(this.props.initialValues.id); }}
+                              >
+                                <FormattedMessage id="ui-orders.button.remove" />
+                              </Button>
                             }
                           </Col>
                         </Row>
