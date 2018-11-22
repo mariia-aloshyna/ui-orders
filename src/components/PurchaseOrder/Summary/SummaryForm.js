@@ -21,9 +21,9 @@ class SummaryForm extends Component {
         <Col xs={6} md={3}>
           <Field
             component={Checkbox}
-            id="approved"
             label={<FormattedMessage id="ui-orders.orderSummary.approved" />}
             name="approved"
+            type="checkbox"
           />
         </Col>
         <Col xs={6} md={3}>

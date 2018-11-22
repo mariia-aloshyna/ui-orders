@@ -32,12 +32,14 @@ import {
   PHRESOURCES,
 } from './const';
 import { LayerPOLine } from '../LayerCollection';
+import mockedOrders from '../Utils/mockedOrders';
 
 class POLine extends Component {
   static manifest = Object.freeze({
     order: {
       type: 'okapi',
       path: 'orders/:{id}',
+      throwErrors: false,
     },
   });
 
@@ -100,8 +102,10 @@ class POLine extends Component {
   }
 
   getData() {
-    const { match: { params: { lineId } }, resources } = this.props;
-    const lines = get(resources, ['order', 'records', 0, 'po_lines'], []);
+    const { match: { params: { id, lineId } }, resources } = this.props;
+    const mockedOrder = mockedOrders[id];
+    const defaultLines = get(mockedOrder, 'po_lines', []);
+    const lines = get(resources, ['order', 'records', 0, 'po_lines'], defaultLines);
     return lines.find(u => u.id === lineId);
   }
 

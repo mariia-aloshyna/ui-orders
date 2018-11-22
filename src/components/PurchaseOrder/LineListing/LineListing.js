@@ -1,23 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import { get, toString } from 'lodash';
 import { MultiColumnList } from '@folio/stripes/components';
 
-class LineListing extends React.Component {
+class LineListing extends Component {
   static propTypes = {
+    history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    const { parentMutator, match: { params: { id } } } = props;
-    const ID = id;
-    const poLineData = _.get(props, ['resources', 'order', 'records', 0, 'po_lines'], []);
-    if (ID !== state.ID || !_.isEqual(poLineData, state.poLineData)) {
-      parentMutator.queryII.update({ poLine: ID });
-      return { poLineData, ID };
-    }
-    return null;
+    poLines: PropTypes.array.isRequired,
   }
 
   constructor(props) {
@@ -33,24 +24,25 @@ class LineListing extends React.Component {
   }
 
   render() {
+    const { poLines } = this.props;
     const resultsFormatter = {
-      'po_line_number': item => _.toString(_.get(item, ['po_line_number'], '')),
-      'acquisition_method': item => _.toString(_.get(item, ['acquisition_method'], '')),
-      'owner': item => _.toString(_.get(item, ['owner'], '')),
-      'po_line_description': item => _.toString(_.get(item, ['po_line_description'], '')),
+      'po_line_number': item => toString(get(item, ['po_line_number'], '')),
+      'acquisition_method': item => toString(get(item, ['acquisition_method'], '')),
+      'owner': item => toString(get(item, ['owner'], '')),
+      'po_line_description': item => toString(get(item, ['po_line_description'], '')),
     };
     return (
       <div>
         <MultiColumnList
-          contentData={this.state.poLineData}
+          contentData={poLines}
           formatter={resultsFormatter}
           onRowClick={this.onSelectRow}
           visibleColumns={['po_line_number', 'acquisition_method', 'owner', 'po_line_description']}
           columnMapping={{
-            po_line_number: 'PO Line Number',
-            acquisition_method: 'Acquisition Method',
-            owner: 'Owner',
-            po_line_description: 'PO Line Description'
+            po_line_number: <FormattedMessage id="ui-orders.lineListing.lineNumber" />,
+            acquisition_method: <FormattedMessage id="ui-orders.lineListing.acquisitionMethod" />,
+            owner: <FormattedMessage id="ui-orders.lineListing.owner" />,
+            po_line_description: <FormattedMessage id="ui-orders.lineListing.lineDescription" />,
           }}
         />
       </div>
