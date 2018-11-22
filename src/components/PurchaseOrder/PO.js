@@ -5,9 +5,7 @@ import {
   intlShape,
 } from 'react-intl';
 import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
-import isEqual from 'lodash/isEqual';
+import { get, isEmpty, isEqual } from 'lodash';
 import { Icon, IconButton, AccordionSet, Accordion, ExpandAllButton, Pane, PaneMenu, Row, Col, Button, IfPermission } from '@folio/stripes/components';
 import transitionToParams from '../Utils/transitionToParams';
 // import FundDistribution from './FundDistribution';
@@ -16,12 +14,14 @@ import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
 import { LayerPO, LayerPOLine } from '../LayerCollection';
+import mockedOrders from '../Utils/mockedOrders';
 
 class PO extends Component {
   static manifest = Object.freeze({
     order: {
       type: 'okapi',
       path: 'orders/:{id}',
+      throwErrors: false,
     },
   })
 
@@ -44,8 +44,8 @@ class PO extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { parentMutator, parentResources } = props;
-    const initialValues = get(props, ['resources', 'order', 'records', 0]);
+    const { match: { params: { id } }, parentMutator, parentResources, resources } = props;
+    const initialValues = get(resources, ['order', 'records', 0], mockedOrders[id]);
 
     // Set initialValues
     if (initialValues) {
@@ -109,10 +109,6 @@ class PO extends Component {
     this.props.parentMutator.user.update({ userID: data });
   }
 
-  getData() {
-    return get(this.props, ['resources', 'order', 'records', 0], null);
-  }
-
   onToggleSection({ id }) {
     this.setState(({ sections }) => {
       const isSectionOpened = sections[id];
@@ -154,6 +150,7 @@ class PO extends Component {
   render() {
     const { location, history, match, intl } = this.props;
     const initialValues = this.state.initialValues || {};
+    const poLines = get(initialValues, 'po_lines', []);
     const lastMenu = (
       <PaneMenu>
         <IfPermission perm="vendor.item.put">
@@ -214,7 +211,7 @@ class PO extends Component {
             id="POListing"
             label={<FormattedMessage id="ui-orders.paneBlock.POListing" />}
           >
-            <LineListing initialValues={initialValues} {...this.props} />
+            <LineListing poLines={poLines} {...this.props} />
           </Accordion>
           <Accordion
             id="Adjustment"
