@@ -1,30 +1,50 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import { KeyValue, Row, Col } from '@folio/stripes/components';
+import { get } from 'lodash';
+import {
+  Col,
+  KeyValue,
+  Row,
+} from '@folio/stripes/components';
 
-class VendorView extends React.Component {
+class VendorView extends Component {
   static propTypes = {
-    initialValues: PropTypes.object
+    vendorDetail: PropTypes.object
   }
 
   render() {
-    const { initialValues } = this.props;
+    const { vendorDetail } = this.props;
 
     return (
       <Row>
         <Col xs={6}>
-          <KeyValue label="Vendor Ref Number" value={_.get(initialValues, ['vendor_detail', 'ref_number'])} />
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.vendor.refNumber" />}
+            value={get(vendorDetail, 'ref_number')}
+          />
         </Col>
         <Col xs={6}>
-          <KeyValue label="Vendor Ref Type" value={_.get(initialValues, ['vendor_detail', 'ref_number_type'])} />
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.vendor.refNumberType" />}
+            value={get(vendorDetail, 'ref_number_type')}
+          />
         </Col>
         <Col xs={6}>
-          <KeyValue label="Instructions To Vendor" value={_.get(initialValues, ['vendor_detail', 'instructions'])} />
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.vendor.instructions" />}
+            value={get(vendorDetail, 'instructions')}
+          />
         </Col>
         <Col xs={6}>
-          <KeyValue label="Vendor Account" value={_.get(initialValues, ['vendor_detail', 'vendor_account'])} />
-          <KeyValue label="Note From Vendor" value={_.get(initialValues, ['vendor_detail', 'note_from_vendor'])} />
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.vendor.vendorAccount" />}
+            value={get(vendorDetail, 'vendor_account')}
+          />
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.vendor.noteFromVendor" />}
+            value={get(vendorDetail, 'note_from_vendor')}
+          />
         </Col>
       </Row>
     );

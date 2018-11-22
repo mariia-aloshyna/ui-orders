@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
-import get from 'lodash/get';
+import { get } from 'lodash';
 import {
   Accordion,
   AccordionSet,
@@ -164,7 +164,7 @@ class POLine extends Component {
             <br />
           </Accordion>
           <Accordion label="Vendor" id="Vendor">
-            <VendorView initialValues={initialValues} {...this.props} />
+            <VendorView vendorDetail={initialValues.vendor_detail} {...this.props} />
           </Accordion>
           <Accordion label="Fund Distribution" id="FundDistribution">
             <FundDistributionView initialValues={initialValues} {...this.props} />
