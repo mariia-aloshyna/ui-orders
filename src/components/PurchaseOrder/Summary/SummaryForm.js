@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { TextArea, TextField, Row, Col, Checkbox } from '@folio/stripes/components';
+import { TextField, Row, Col, Checkbox } from '@folio/stripes/components';
 import { Field } from 'redux-form';
 import FieldWorkflowStatus from './FieldWorkflowStatus';
+import { required } from '../../Utils/Validate';
 
 class SummaryForm extends Component {
   render() {
     return (
       <Row>
-        <Col xs={12}>
+        <Col xs={6} md={3}>
           <Field
             component={TextField}
             fullWidth
@@ -16,6 +17,7 @@ class SummaryForm extends Component {
             label={<FormattedMessage id="ui-orders.orderSummary.totalUnits" />}
             name="total_items"
             type="number"
+            validate={required}
           />
         </Col>
         <Col xs={6} md={3}>
@@ -34,20 +36,11 @@ class SummaryForm extends Component {
             label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}
             name="total_estimated_price"
             type="number"
+            validate={required}
           />
         </Col>
         <Col xs={6} md={3}>
           <FieldWorkflowStatus />
-        </Col>
-        <Col xs={12}>
-          <Field
-            component={TextArea}
-            fullWidth
-            id="notes"
-            label={<FormattedMessage id="ui-orders.orderSummary.notes" />}
-            name="notes"
-            type="text"
-          />
         </Col>
       </Row>
     );

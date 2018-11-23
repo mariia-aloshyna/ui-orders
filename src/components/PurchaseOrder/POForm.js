@@ -6,7 +6,7 @@ import stripesForm from '@folio/stripes/form';
 import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, IfPermission, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
-import { AdjustmentForm } from './Adjustment';
+import { AdjustmentView } from './Adjustment';
 
 class POForm extends Component {
   static propTypes = {
@@ -158,7 +158,7 @@ class POForm extends Component {
                           id="Adjustment"
                           label={<FormattedMessage id="ui-orders.paneBlock.adjustment" />}
                         >
-                          <AdjustmentForm {...this.props} />
+                          <AdjustmentView order={initialValues} />
                         </Accordion>
                       </AccordionSet>
                       <IfPermission perm="purchase_order.item.delete">

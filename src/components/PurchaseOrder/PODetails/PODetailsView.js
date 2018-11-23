@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get, toString } from 'lodash';
-import { Row, Col, KeyValue } from '@folio/stripes/components';
+import {
+  Checkbox,
+  Col,
+  KeyValue,
+  Row,
+} from '@folio/stripes/components';
 import FormatDate from '../../Utils/FormatDate';
 // import css from './css/PODetailsView.css';
 
@@ -58,10 +63,29 @@ class PODetailsView extends Component {
           />
         </Col>
         <Col xs={6}>
+          <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}>
+            <Checkbox checked={get(order, 'manual_po')} disabled />
+          </KeyValue>
+        </Col>
+        <Col xs={6}>
+          <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.re_encumber" />}>
+            <Checkbox checked={get(order, 're_encumber')} disabled />
+          </KeyValue>
+        </Col>
+        <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
             value={get(order, 'order_type')}
           />
+        </Col>
+        <Col xs={12}>
+          {get(order, 'notes', []).map((note, index) => (
+            <KeyValue
+              key={index}
+              label={<FormattedMessage id="ui-orders.orderDetails.note" />}
+              value={note}
+            />
+          ))}
         </Col>
       </Row>
     );
