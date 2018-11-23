@@ -13,4 +13,11 @@ export const requiredRefNumber = (value, allValues) => {
     : undefined;
 };
 
+// Validation for Fields with type 'number' requires positive integer
+export const requiredPositiveNumber = (value) => {
+  return value > 0
+    ? undefined
+    : REQUIRED;
+};
+
 export { required as Required };
