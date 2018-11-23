@@ -9,9 +9,24 @@ import {
   Col,
   Button,
   TextField,
-  Select
+  Select,
 } from '@folio/stripes/components';
 import { Required } from '../../Utils/Validate';
+
+const PRODUCTIDTYPE = {
+  ISBN: 'ISBN',
+  ISSN: 'ISSN',
+  ISMN: 'ISMN',
+  EAN: 'EAN',
+  otherStandartId: 'Other Standard Identifier',
+  standartTechReport: 'Standard Technical Report Number',
+  publisherNumber: 'Publisher Number',
+  CODEN: 'CODEN',
+  GPO: 'GPO Item Number',
+  locallyId: 'Locally-defined identifiers',
+  vendorTitle: 'Vendor Title Number',
+  vendorItem: 'Vendor Item Number',
+};
 
 class ProductIdDetailsForm extends Component {
   constructor(props) {
@@ -74,7 +89,19 @@ class ProductIdDetailsForm extends Component {
             component={Select}
             validate={[Required]}
             fullWidth
-          />
+          >
+            <FormattedMessage id="ui-orders.dropdown.select">
+              {(message) => <option value="">{message}</option>}
+            </FormattedMessage>
+            {Object.keys(PRODUCTIDTYPE).map((key) => (
+              <FormattedMessage
+                id={`ui-orders.itemDetails.productIdType.${key}`}
+                key={key}
+              >
+                {(message) => <option value={PRODUCTIDTYPE[key]}>{message}</option>}
+              </FormattedMessage>
+            ))}
+          </Field>
         </Col>
         <Col xs={2} style={{ paddingTop: '4px' }}>
           <br />
