@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field, getFormValues } from 'redux-form';
 import {
+  Field,
+  FieldArray,
+  getFormValues,
+} from 'redux-form';
+import {
+  Checkbox,
   Col,
   Datepicker,
   IconButton,
@@ -11,6 +16,8 @@ import {
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 import FieldOrderType from './FieldOrderType';
+import NotesForm from '../../NotesForm';
+import { required } from '../../Utils/Validate';
 
 class PODetailsForm extends Component {
   static propTypes = {
@@ -175,6 +182,7 @@ class PODetailsForm extends Component {
             id="po_number"
             label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
             name="po_number"
+            validate={required}
           />
         </Col>
         <Col xs={6} md={3}>
@@ -187,6 +195,7 @@ class PODetailsForm extends Component {
             label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}
             name="created"
             timeZone="UTC"
+            validate={required}
           />
         </Col>
         <Col xs={6} md={3} style={{ display: 'none' }}>
@@ -235,6 +244,24 @@ class PODetailsForm extends Component {
         </Col>
         <Col xs={6} md={3}>
           <Field
+            component={Checkbox}
+            fullWidth
+            label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
+            name="manual_po"
+            type="checkbox"
+          />
+        </Col>
+        <Col xs={6} md={3}>
+          <Field
+            component={Checkbox}
+            fullWidth
+            label={<FormattedMessage id="ui-orders.orderDetails.re_encumber" />}
+            name="re_encumber"
+            type="checkbox"
+          />
+        </Col>
+        <Col xs={6} md={3}>
+          <Field
             component={TextField}
             fullWidth
             id="bill_to"
@@ -253,6 +280,12 @@ class PODetailsForm extends Component {
         </Col>
         <Col xs={6} md={3}>
           <FieldOrderType />
+        </Col>
+        <Col xs={12}>
+          <FieldArray
+            name="notes"
+            component={NotesForm}
+          />
         </Col>
       </Row>
     );

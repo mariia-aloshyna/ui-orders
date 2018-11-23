@@ -40,12 +40,7 @@ const SummaryView = ({ order }) => (
         value={get(order, 'workflow_status')}
       />
     </Col>
-    <Col xs={12}>
-      <KeyValue
-        label={<FormattedMessage id="ui-orders.orderSummary.notes" />}
-        value={toString(get(order, 'notes'))}
-      />
-    </Col>
+
   </Row>
 );
 
