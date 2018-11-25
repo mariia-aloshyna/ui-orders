@@ -10,12 +10,6 @@ const SummaryView = ({ order }) => (
   <Row>
     <Col xs={6}>
       <KeyValue
-        label={<FormattedMessage id="ui-orders.orderSummary.adjustments" />}
-        value={null}
-      />
-    </Col>
-    <Col xs={6}>
-      <KeyValue
         label={<FormattedMessage id="ui-orders.orderSummary.totalUnits" />}
         value={get(order, 'total_items')}
       />
