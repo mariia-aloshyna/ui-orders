@@ -197,7 +197,7 @@ class POLine extends Component {
           </Accordion>
         </AccordionSet>
         <LayerPOLine
-          getInitialValues={initialValues}
+          order={initialValues}
           location={location}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}
