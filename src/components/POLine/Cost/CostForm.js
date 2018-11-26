@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 import {
   Field,
   getFormValues,
@@ -18,7 +17,10 @@ import { requiredPositiveNumber } from '../../Utils/Validate';
 import {
   ERESOURCES,
   PHRESOURCES,
+  OTHER,
 } from '../const';
+
+const disabled = true;
 
 class CostForm extends Component {
   static propTypes = {
@@ -44,18 +46,23 @@ class CostForm extends Component {
   calculateEstimatedPrice() {
     const { stripes: { store } } = this.props;
     const formValues = getFormValues('POLineForm')(store.getState());
-    const listPrice = parseFloat(formValues.cost.list_price).toFixed(2);
-    const quantityPhysical = parseInt(formValues.cost.quantity_physical, 10);
-    const quantityElectronic = parseInt(formValues.cost.quantity_electronic, 10);
+    const listPrice = parseFloat(formValues.cost.list_price) || 0;
+    const quantityPhysical = parseInt(formValues.cost.quantity_physical, 10) || 0;
+    const quantityElectronic = parseInt(formValues.cost.quantity_electronic, 10) || 0;
     const estimatedPrice = listPrice * (quantityPhysical + quantityElectronic);
-    return estimatedPrice || '';
+    return estimatedPrice;
   }
 
   render() {
-    const { initialValues } = this.props;
-    const orderFormat = get(initialValues, 'order_format');
-    const validateEresources = ERESOURCES.includes(orderFormat);
-    const validatePhresources = PHRESOURCES.includes(orderFormat);
+    const { stripes: { store } } = this.props;
+    const formValues = getFormValues('POLineForm')(store.getState());
+    const orderFormat = formValues.order_format;
+    const validateEresources = ERESOURCES.includes(orderFormat)
+      ? { validate: requiredPositiveNumber }
+      : { disabled };
+    const validatePhresources = PHRESOURCES.includes(orderFormat) || orderFormat === OTHER
+      ? { validate: requiredPositiveNumber }
+      : { disabled };
 
     return (
       <Row>
@@ -81,7 +88,7 @@ class CostForm extends Component {
             label={<FormattedMessage id="ui-orders.cost.quantityPhysical" />}
             name="cost.quantity_physical"
             type="number"
-            validate={validatePhresources ? [requiredPositiveNumber] : []}
+            {...validatePhresources}
           />
         </Col>
         <Col xs={6}>
@@ -92,7 +99,7 @@ class CostForm extends Component {
             label={<FormattedMessage id="ui-orders.cost.quantityElectronic" />}
             name="cost.quantity_electronic"
             type="number"
-            validate={validateEresources ? [requiredPositiveNumber] : []}
+            {...validateEresources}
           />
         </Col>
         <Col xs={6}>
