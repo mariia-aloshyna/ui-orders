@@ -174,7 +174,7 @@ class POLine extends Component {
             <FundDistributionView initialValues={initialValues} {...this.props} />
           </Accordion>
           <Accordion label="Item Details" id="ItemDetails">
-            <ItemView itemDetails={initialValues.details} {...this.props} />
+            <ItemView poLineDetails={initialValues} {...this.props} />
           </Accordion>
           {showEresources && (
             <Accordion label="E-resources Details" id="Eresources">
