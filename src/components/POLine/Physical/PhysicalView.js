@@ -34,6 +34,12 @@ class PhysicalView extends Component {
         </Col>
         <Col xs={6}>
           <KeyValue
+            label={<FormattedMessage id="ui-orders.physical.receiptDate" />}
+            value={FormatDate(toString(get(physical, 'receipt_date')))}
+          />
+        </Col>
+        <Col xs={6}>
+          <KeyValue
             label={<FormattedMessage id="ui-orders.physical.volumes" />}
             value={toString(get(physical, 'volumes'))}
           />

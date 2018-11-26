@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
-import get from 'lodash/get';
+import { get } from 'lodash';
 import {
   Col,
   Datepicker,
@@ -9,6 +9,10 @@ import {
   Select,
   TextField,
 } from '@folio/stripes/components';
+import {
+  DATE_FORMAT,
+  TIMEZONE,
+} from '../../Utils/const';
 
 class PhysicalForm extends Component {
   render() {
@@ -23,27 +27,36 @@ class PhysicalForm extends Component {
           <Field
             component={Select}
             dataOptions={vendors}
-            id="material_supplier"
+            fullWidth
             label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
             name="physical.material_supplier"
-            fullWidth
           />
         </Col>
         <Col xs={6}>
           <Field
+            backendDateStandard={DATE_FORMAT}
             component={Datepicker}
-            dateFormat="YYYY-MM-DD"
-            timeZone="UTC"
-            id="receipt_due"
+            dateFormat={DATE_FORMAT}
+            fullWidth
             label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
             name="physical.receipt_due"
+            timeZone={TIMEZONE}
+          />
+        </Col>
+        <Col xs={6}>
+          <Field
+            backendDateStandard={DATE_FORMAT}
+            component={Datepicker}
+            dateFormat={DATE_FORMAT}
             fullWidth
+            label={<FormattedMessage id="ui-orders.physical.receiptDate" />}
+            name="physical.receiptDate"
+            timeZone={TIMEZONE}
           />
         </Col>
         <Col xs={6}>
           <Field
             component={TextField}
-            id="volumes"
             label={<FormattedMessage id="ui-orders.physical.volumes" />}
             name="physical.volumes"
             type="number"
