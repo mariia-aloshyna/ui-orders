@@ -243,6 +243,7 @@ class PODetailsForm extends Component {
           </div>
         </Col>
         <Col xs={6} md={3}>
+          <br />
           <Field
             component={Checkbox}
             fullWidth
@@ -252,6 +253,7 @@ class PODetailsForm extends Component {
           />
         </Col>
         <Col xs={6} md={3}>
+          <br />
           <Field
             component={Checkbox}
             fullWidth

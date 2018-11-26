@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get, toString } from 'lodash';
+import { get } from 'lodash';
 import { Checkbox, KeyValue, Row, Col } from '@folio/stripes/components';
 // import FormatDate from '../../Utils/FormatDate';
 // import css from './SummaryView.css';
