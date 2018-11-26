@@ -366,7 +366,7 @@
   "orderSummary.totalUnits": "Total Units*",
   "orderSummary.workflowStatus": "Workflow Status",
   "paneBlock.adjustment": "Adjustment",
-  "paneBlock.POListing": "PO Listing",
+  "paneBlock.POLines": "PO Lines",
   "paneBlock.POSummary": "PO Summary",
   "paneBlock.purchaseOrder": "Purchase Order",
   "paneMenu.createPurchaseOrder": "Create Purchase Order",
