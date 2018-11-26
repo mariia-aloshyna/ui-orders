@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { TextField, Row, Col, Checkbox } from '@folio/stripes/components';
+import PropTypes from 'prop-types';
+import {
+  Row,
+  Col,
+  Checkbox,
+  KeyValue,
+} from '@folio/stripes/components';
 import { Field } from 'redux-form';
 import FieldWorkflowStatus from './FieldWorkflowStatus';
-import { required } from '../../Utils/Validate';
 
 class SummaryForm extends Component {
   render() {
+    const { initialValues: order } = this.props;
     return (
       <Row>
         <Col xs={6} md={3}>
-          <Field
-            component={TextField}
-            fullWidth
-            id="total_items"
+          <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.totalUnits" />}
-            name="total_items"
-            type="number"
-            validate={required}
+            value={order.total_items}
           />
         </Col>
         <Col xs={6} md={3}>
+          <br />
           <Field
             component={Checkbox}
             label={<FormattedMessage id="ui-orders.orderSummary.approved" />}
@@ -29,14 +31,9 @@ class SummaryForm extends Component {
           />
         </Col>
         <Col xs={6} md={3}>
-          <Field
-            component={TextField}
-            fullWidth
-            id="total_estimated_price"
+          <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}
-            name="total_estimated_price"
-            type="number"
-            validate={required}
+            value={order.total_estimated_price}
           />
         </Col>
         <Col xs={6} md={3}>
@@ -46,5 +43,9 @@ class SummaryForm extends Component {
     );
   }
 }
+
+SummaryForm.propTypes = {
+  initialValues: PropTypes.object.isRequired,
+};
 
 export default SummaryForm;
