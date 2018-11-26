@@ -11,7 +11,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-class MaterialTypesForm extends Component {
+class ContributorForm extends Component {
   constructor(props) {
     super(props);
     this.addFields = this.addFields.bind(this);
@@ -36,7 +36,7 @@ class MaterialTypesForm extends Component {
             <Col xs={12}>
               <div>
                 <em>
-                  <FormattedMessage id="ui-orders.itemDetails.addMaterialTypes" />
+                  <FormattedMessage id="ui-orders.itemDetails.addContributor" />
                 </em>
               </div>
             </Col>
@@ -45,7 +45,7 @@ class MaterialTypesForm extends Component {
         </Col>
         <Col xs={12} style={{ paddingTop: '10px' }}>
           <Button onClick={() => this.addFields(fields)}>
-            <FormattedMessage id="ui-orders.itemDetails.addMaterialTypesBtn" />
+            <FormattedMessage id="ui-orders.itemDetails.addContributorBtn" />
           </Button>
         </Col>
       </Row>
@@ -57,11 +57,10 @@ class MaterialTypesForm extends Component {
       <Row key={index}>
         <Col xs={10}>
           <Field
-            label={<FormattedMessage id="ui-orders.itemDetails.materialTypes" />}
-            name={elem}
-            id={elem}
             component={TextField}
             fullWidth
+            label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
+            name={`${elem}.contributor`}
           />
         </Col>
         <Col xs={2} style={{ paddingTop: '4px' }}>
@@ -80,13 +79,12 @@ class MaterialTypesForm extends Component {
   render() {
     return (
       <FieldArray
-        label="details.material_types"
-        name="details.material_types"
-        id="details.material_types"
         component={this.renderForm}
+        label="contributors"
+        name="contributors"
       />
     );
   }
 }
 
-export default MaterialTypesForm;
+export default ContributorForm;

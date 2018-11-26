@@ -1,59 +1,95 @@
 import React, { Component, Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import toString from 'lodash/toString';
+import { get, toString } from 'lodash';
 import {
   Col,
   KeyValue,
   Row,
 } from '@folio/stripes/components';
+import FormatDate from '../../Utils/FormatDate';
+import ContributorView from './ContributorView';
 import ProductIdDetails from './ProductIdDetails';
 
 class ItemView extends Component {
   static propTypes = {
-    itemDetails: PropTypes.object.isRequired
+    poLineDetails: PropTypes.object.isRequired
   }
 
   render() {
-    const { itemDetails } = this.props;
+    const { poLineDetails } = this.props;
 
     return (
       <Fragment>
         <Row>
           <Col xs={6}>
             <KeyValue
-              label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
-              value={get(itemDetails, 'receiving_note')}
+              label={<FormattedMessage id="ui-orders.itemDetails.title" />}
+              value={get(poLineDetails, 'title')}
             />
           </Col>
           <Col xs={6}>
             <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
+              value={get(poLineDetails, ['details', 'receiving_note'])}
+            />
+          </Col>
+          <Col xs={6}>
+            <ContributorView contributors={poLineDetails.contributors} />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
-              value={toString(get(itemDetails, 'subscription_from'))}
+              value={FormatDate(toString(get(poLineDetails, ['details', 'subscription_from'])))}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
+              value={get(poLineDetails, 'publisher')}
             />
           </Col>
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
-              value={get(itemDetails, 'subscription_interval')}
+              value={get(poLineDetails, ['details', 'subscription_interval'])}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
+              value={FormatDate(toString(get(poLineDetails, 'publication_date')))}
             />
           </Col>
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
-              value={toString(get(itemDetails, 'subscription_to'))}
+              value={FormatDate(toString(get(poLineDetails, ['details', 'subscription_to'])))}
             />
           </Col>
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.materialTypes" />}
-              value={toString(get(itemDetails, 'material_types'))}
+              value={toString(get(poLineDetails, ['details', 'material_types']))}
+            />
+          </Col>
+          <Col xs={6}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
+              value={toString(get(poLineDetails, 'edition'))}
             />
           </Col>
         </Row>
         <Row>
-          <ProductIdDetails itemIdDetails={itemDetails.product_ids} />
+          <ProductIdDetails itemIdDetails={poLineDetails.details.product_ids} />
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.description" />}
+              value={toString(get(poLineDetails, 'description'))}
+            />
+          </Col>
         </Row>
       </Fragment>
     );

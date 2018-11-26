@@ -72,23 +72,21 @@ class ProductIdDetailsForm extends Component {
   renderSubForm(elem, index, fields) {
     return (
       <Row key={index}>
-        <Col xs={5}>
+        <Col xs={6}>
           <Field
-            label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
-            name={`${elem}.product_id`}
-            id={`${elem}.product_id`}
             component={TextField}
             fullWidth
+            label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
+            name={`${elem}.product_id`}
           />
         </Col>
         <Col xs={5}>
           <Field
+            component={Select}
+            fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.productIdType" />}
             name={`${elem}.product_id_type`}
-            id={`${elem}.product_id_type`}
-            component={Select}
             validate={[Required]}
-            fullWidth
           >
             <FormattedMessage id="ui-orders.dropdown.select">
               {(message) => <option value="">{message}</option>}
@@ -103,7 +101,7 @@ class ProductIdDetailsForm extends Component {
             ))}
           </Field>
         </Col>
-        <Col xs={2} style={{ paddingTop: '4px' }}>
+        <Col xs={1} style={{ paddingTop: '4px' }}>
           <br />
           <Button
             onClick={() => this.removeFields(fields, index)}
@@ -119,10 +117,9 @@ class ProductIdDetailsForm extends Component {
   render() {
     return (
       <FieldArray
+        component={this.renderForm}
         label="details.product_ids"
         name="details.product_ids"
-        id="details.product_ids"
-        component={this.renderForm}
       />
     );
   }
