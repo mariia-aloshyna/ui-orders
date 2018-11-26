@@ -209,7 +209,7 @@ class PO extends Component {
           <Accordion
             displayWhenOpen={addPOLineButton}
             id="POListing"
-            label={<FormattedMessage id="ui-orders.paneBlock.POListing" />}
+            label={<FormattedMessage id="ui-orders.paneBlock.POLines" />}
           >
             <LineListing poLines={poLines} {...this.props} />
           </Accordion>
