@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { Layer } from '@folio/stripes/components';
+import { DATE_FORMAT } from '../Utils/const';
 import transitionToParams from '../Utils/transitionToParams';
 import { POLineForm } from '../POLine';
 
 class LayerPOLine extends Component {
   static propTypes = {
-    getInitialValues: PropTypes.object,
     location: PropTypes.object.isRequired,
-    stripes: PropTypes.object.isRequired,
     onCancel: PropTypes.func,
-    parentResources: PropTypes.object.isRequired,
+    order: PropTypes.object,
     parentMutator: PropTypes.object.isRequired,
+    parentResources: PropTypes.object.isRequired,
+    stripes: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -38,13 +40,15 @@ class LayerPOLine extends Component {
   }
 
   getCreatePOLIneInitialValues() {
-    const { getInitialValues } = this.props;
-    let newObj = {};
-    if (getInitialValues && getInitialValues.id) {
-      newObj = Object.assign({
-        purchase_order_id: getInitialValues.id,
-        // vendor_name: poInitialValues.vendor_name,
-      });
+    const { order } = this.props;
+    const newObj = {
+      cost: {},
+      created: moment.utc().format(DATE_FORMAT),
+      source: {},
+      vendor_detail: {},
+    };
+    if (order && order.id) {
+      newObj.purchase_order_id = order.id;
     }
     return newObj;
   }
@@ -58,7 +62,7 @@ class LayerPOLine extends Component {
           <this.connectedPOLineForm initialValues={this.getCreatePOLIneInitialValues()} onSubmit={(record) => { this.submitPOLine(record); }} {...this.props} />
         </Layer>
         <Layer isOpen={query.layer ? query.layer === 'edit-po-line' : false} label="Edit PO Line Dialog">
-          <this.connectedPOLineForm initialValues={this.props.getInitialValues} onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />
+          <this.connectedPOLineForm initialValues={this.props.order} onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />
         </Layer>
       </div>
     );

@@ -18,7 +18,7 @@ import FieldWorkflowStatus from './FieldWorkflowStatus';
 import FieldOrderFormat from './FieldOrderFormat';
 import FieldAcquisitionMethod from './FieldAcquisitionMethod';
 
-class LineDetailsForm extends Component {
+class POLineDetailsForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
   }
@@ -60,13 +60,9 @@ class LineDetailsForm extends Component {
         </Row>
         <Row>
           <Col xs={6}>
-            <Field
-              component={TextField}
-              fullWidth
-              id="created"
+            <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.createdOn" />}
-              name="created"
-              type="date"
+              value={poLine.created}
             />
           </Col>
           <Col xs={6}>
@@ -102,7 +98,6 @@ class LineDetailsForm extends Component {
             <FieldReceiptStatus />
           </Col>
           <Col xs={6}>
-            <br />
             <Field
               component={TextField}
               fullWidth
@@ -113,7 +108,6 @@ class LineDetailsForm extends Component {
             />
           </Col>
           <Col xs={6}>
-            <br />
             <Field
               component={TextField}
               fullWidth
@@ -185,4 +179,4 @@ class LineDetailsForm extends Component {
   }
 }
 
-export default LineDetailsForm;
+export default POLineDetailsForm;
