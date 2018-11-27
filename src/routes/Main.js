@@ -117,6 +117,12 @@ class Main extends Component {
       records: 'vendors',
       perRequest: 1000,
     },
+    fund: {
+      type: 'okapi',
+      path: 'fund',
+      records: 'funds',
+      perRequest: 1000,
+    },
     user: {
       type: 'okapi',
       path: 'users',

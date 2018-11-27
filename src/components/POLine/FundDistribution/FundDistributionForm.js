@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import {
   Field,
   FieldArray,
+  getFormValues,
 } from 'redux-form';
-import get from 'lodash/get';
+import { get } from 'lodash';
 import {
   Button,
   Col,
@@ -18,7 +19,14 @@ import { Required } from '../../Utils/Validate';
 
 class FundDistributionForm extends Component {
   static propTypes = {
-    order: PropTypes.object,
+    parentResources: PropTypes.shape({
+      fund: PropTypes.arrayOf(PropTypes.object)
+    }),
+    stripes: PropTypes.shape({
+      store: PropTypes.object
+    }),
+    dispatch: PropTypes.func,
+    change: PropTypes.func
   }
 
   constructor(props) {
@@ -27,6 +35,8 @@ class FundDistributionForm extends Component {
     this.removeFields = this.removeFields.bind(this);
     this.renderForm = this.renderForm.bind(this);
     this.renderSubForm = this.renderSubForm.bind(this);
+    this.onChangeInput = this.onChangeInput.bind(this);
+    this.calculateAmount = this.calculateAmount.bind(this);
   }
 
   addFields(fields) {
@@ -35,6 +45,23 @@ class FundDistributionForm extends Component {
 
   removeFields(fields, index) {
     fields.remove(index);
+  }
+
+  onChangeInput(e, propertyName) {
+    const { dispatch, change } = this.props;
+    dispatch(change(propertyName, e));
+  }
+
+  calculateAmount(index) {
+    const { stripes: { store } } = this.props;
+    const formValues = getFormValues('POLineForm')(store.getState());
+    const listPrice = parseFloat(formValues.cost.list_price);
+    const quantityPhysical = parseInt(formValues.cost.quantity_physical, 10) || 0;
+    const quantityElectronic = parseInt(formValues.cost.quantity_electronic, 10) || 0;
+    const estimatedPrice = listPrice * (quantityPhysical + quantityElectronic);
+    const fundDistributionPercentage = parseInt(formValues.fund_distribution[index].percentage, 10) || 0;
+    const amount = parseFloat((fundDistributionPercentage / 100) * estimatedPrice).toFixed(2);
+    return amount;
   }
 
   renderForm({ fields }) {
@@ -62,18 +89,19 @@ class FundDistributionForm extends Component {
   }
 
   renderSubForm(elem, index, fields) {
-    const { order } = this.props;
-    const fundDistributionPercentage = get(order, ['fund_distribution', index, 'percentage'], 0);
-    const estimatedPrice = get(order, ['cost', 'po_line_estimated_price'], 0);
-    const amount = (fundDistributionPercentage / 100) * estimatedPrice;
+    const { parentResources } = this.props;
+    const funds = get(parentResources, ['fund', 'records'], []).map((fund) => ({
+      label: fund.name,
+      value: fund.name,
+    }));
 
     return (
       <Row key={index}>
         <Col xs={6}>
           <Field
             component={Select}
+            dataOptions={funds}
             fullWidth
-            id={`${elem}.id`}
             label={<FormattedMessage id="ui-orders.fundDistribution.id" />}
             name={`${elem}.id`}
             validate={[Required]}
@@ -83,35 +111,24 @@ class FundDistributionForm extends Component {
           <Field
             component={TextField}
             fullWidth
-            id={`${elem}.percentage`}
             label={<FormattedMessage id="ui-orders.fundDistribution.percent" />}
             name={`${elem}.percentage`}
             type="number"
+            onChange={e => this.onChangeInput(e.target.value, 'fund_distribution.percentage')}
           />
         </Col>
         <Col xs={6}>
           <Field
             component={TextField}
             fullWidth
-            id={`${elem}.code`}
             label={<FormattedMessage id="ui-orders.fundDistribution.code" />}
             name={`${elem}.code`}
           />
         </Col>
         <Col xs={6}>
-          <Field
-            component={TextField}
-            fullWidth
-            id={`${elem}.encumbrance`}
-            label={<FormattedMessage id="ui-orders.fundDistribution.encumbrance" />}
-            name={`${elem}.encumbrance`}
-            readOnly
-          />
-        </Col>
-        <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.fundDistribution.amount" />}
-            value={amount}
+            value={this.calculateAmount(index)}
           />
         </Col>
         <Col
@@ -137,7 +154,6 @@ class FundDistributionForm extends Component {
           <FieldArray
             label="fund_distribution"
             name="fund_distribution"
-            id="fund_distribution"
             component={this.renderForm}
           />
         </Col>

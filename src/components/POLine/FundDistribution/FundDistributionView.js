@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import toString from 'lodash/toString';
-import get from 'lodash/get';
+import { get } from 'lodash';
 import {
   Col,
   KeyValue,
   Row,
 } from '@folio/stripes/components';
 
-class FundDistributionView extends React.Component {
+class FundDistributionView extends Component {
   static propTypes = {
     initialValues: PropTypes.shape({
       fund_distribution: PropTypes.arrayOf(PropTypes.object)
@@ -21,7 +21,6 @@ class FundDistributionView extends React.Component {
     const ids = toString(initialValues.fund_distribution.map(val => val.id));
     const codes = toString(initialValues.fund_distribution.map(val => val.code));
     const percentes = toString(initialValues.fund_distribution.map(val => `${val.percentage}%`));
-    const encumbrances = toString(initialValues.fund_distribution.map(val => val.encumbrance));
     const estimatedPrice = get(initialValues, ['cost', 'po_line_estimated_price']);
     const amount = toString(initialValues.fund_distribution.map(val => ((val.percentage / 100) * estimatedPrice)));
 
@@ -43,12 +42,6 @@ class FundDistributionView extends React.Component {
           <KeyValue
             label={<FormattedMessage id="ui-orders.fundDistribution.code" />}
             value={codes}
-          />
-        </Col>
-        <Col xs={6}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.fundDistribution.encumbrance" />}
-            value={encumbrances}
           />
         </Col>
         <Col xs={6}>
