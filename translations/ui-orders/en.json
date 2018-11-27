@@ -370,7 +370,7 @@
   "orderDetails.note": "Note",
   "orderDetails.orderType": "Order Type*",
   "orderDetails.poNumber": "PO Number*",
-  "orderDetails.removeNoteBtn": "Remove Note",
+  "orderDetails.removeNoteBtn": "Remove",
   "orderDetails.shipTo": "Ship To",
   "orderDetails.vendor": "Vendor",
   "orderSummary.adjustments": "Adjustments",

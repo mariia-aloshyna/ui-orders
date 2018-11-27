@@ -108,7 +108,7 @@ export default {
         'id': '5ee243f9-72e5-4464-bdbc-43a21873d648',
         'material_supplier': '',
         'receipt_due': '2018-09-29T00:00:00.000+0000',
-        'volumes': 1,
+        'volumes': ['vol 1', 'vol 2', 'vol 3'],
         'po_line_id': '50fb4bfa-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -220,7 +220,7 @@ export default {
         'id': '5ee243f9-72e5-4464-bd6c-43a21873d648',
         'material_supplier': '',
         'receipt_due': '2018-09-29T00:00:00.000+0000',
-        'volumes': 1,
+        'volumes': ['vol 1'],
         'po_line_id': '50fb4e66-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -332,7 +332,7 @@ export default {
         'id': '5ee243f9-72e5-b464-bdbc-43a21873d648',
         'material_supplier': '',
         'receipt_due': '2018-09-29T00:00:00.000+0000',
-        'volumes': 1,
+        'volumes': ['vol 1'],
         'po_line_id': '50fb5168-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -472,7 +472,7 @@ export default {
       'physical': {
         'id': '50fb81ec-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': 'GOBI Library Solutions',
-        'volumes': 0,
+        'volumes': [],
         'po_line_id': '50fb63b0-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -624,7 +624,7 @@ export default {
       'physical': {
         'id': '50fb6de2-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': '',
-        'volumes': 0,
+        'volumes': [],
         'po_line_id': '50fb6ae0-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -749,7 +749,7 @@ export default {
       'physical': {
         'id': '50fb6ca2-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': '',
-        'volumes': 0,
+        'volumes': [],
         'po_line_id': '50fb4a7e-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -901,7 +901,7 @@ export default {
       'physical': {
         'id': '50fb7332-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': '',
-        'volumes': 0,
+        'volumes': [],
         'po_line_id': '50fb5514-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -1049,7 +1049,7 @@ export default {
       'physical': {
         'id': '50fb832c-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': '',
-        'volumes': 0,
+        'volumes': [],
         'po_line_id': '50fb64dc-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -1198,7 +1198,7 @@ export default {
       'physical': {
         'id': '50fb8458-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': 'EBSCO SUBSCRIPTION SERVICES',
-        'volumes': 0,
+        'volumes': [],
         'po_line_id': '50fb6608-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -1345,7 +1345,7 @@ export default {
       'physical': {
         'id': '50fb745e-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': 'Otto Harrassowitz GmbH & Co. KG',
-        'volumes': 0,
+        'volumes': [],
         'po_line_id': '50fb580c-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -1497,7 +1497,7 @@ export default {
         'id': '50fb71e8-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': 'Ro*Co films',
         'receipt_due': '2018-08-19T00:00:00.000+0000',
-        'volumes': 1,
+        'volumes': ['1'],
         'po_line_id': '50fb53f2-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -1646,7 +1646,7 @@ export default {
       'physical': {
         'id': '50fb857a-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': '',
-        'volumes': 0,
+        'volumes': [],
         'po_line_id': '50fb695a-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -1794,7 +1794,7 @@ export default {
       'physical': {
         'id': '50fb7be8-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': '',
-        'volumes': 1,
+        'volumes': ['1'],
         'po_line_id': '50fb5df2-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -1946,7 +1946,7 @@ export default {
         'id': '50fb78be-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': 'EBSCO SUBSCRIPTION SERVICES',
         'receipt_due': '2018-07-31T00:00:00.000+0000',
-        'volumes': 0,
+        'volumes': [],
         'po_line_id': '50fb5aa0-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -2095,7 +2095,7 @@ export default {
         'id': '50fb765c-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': 'Otto Harrassowitz GmbH & Co. KG',
         'receipt_due': '2018-08-31T00:00:00.000+0000',
-        'volumes': 6,
+        'volumes': ['1', '2', '3', '4', '5', '6'],
         'po_line_id': '50fb5956-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -2243,7 +2243,7 @@ export default {
         'id': '50fb7d28-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': 'Amazon.com',
         'receipt_due': '2018-07-31T00:00:00.000+0000',
-        'volumes': 0,
+        'volumes': [],
         'po_line_id': '50fb6130-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -2390,7 +2390,7 @@ export default {
         'id': '50fb6f0e-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': 'Amazon.com',
         'receipt_due': '2018-06-01T00:00:00.000+0000',
-        'volumes': 4,
+        'volumes': ['1', '2', '3', '4'],
         'po_line_id': '50fb52bc-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',
@@ -2535,7 +2535,7 @@ export default {
       'physical': {
         'id': '50fb7f80-cdf1-11e8-a8d5-f2801f1b9fd1',
         'material_supplier': 'GOBI Library Solutions',
-        'volumes': 0,
+        'volumes': [],
         'po_line_id': '50fb627a-cdf1-11e8-a8d5-f2801f1b9fd1'
       },
       'po_line_description': '',

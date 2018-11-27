@@ -7,12 +7,12 @@ import {
   Datepicker,
   Row,
   Select,
-  TextField,
 } from '@folio/stripes/components';
 import {
   DATE_FORMAT,
   TIMEZONE,
 } from '../../Utils/const';
+import VolumesForm from './VolumesForm';
 
 class PhysicalForm extends Component {
   render() {
@@ -55,13 +55,7 @@ class PhysicalForm extends Component {
           />
         </Col>
         <Col xs={6}>
-          <Field
-            component={TextField}
-            label={<FormattedMessage id="ui-orders.physical.volumes" />}
-            name="physical.volumes"
-            type="number"
-            fullWidth
-          />
+          <VolumesForm />
         </Col>
       </Row>
     );
