@@ -6,7 +6,7 @@
   "repository": "",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.9.4"
   },
   "stripes": {
     "type": "app",
@@ -22,9 +22,10 @@
       "cost": "1.0",
       "details": "1.0",
       "eresource": "1.0",
+      "fund": "1.0",
       "license": "1.0",
       "location": "1.0",
-      "material-types": "1.0",
+      "material-type": "2.2",
       "physical": "1.0",
       "po_line": "1.0",
       "purchase_order": "1.0",
