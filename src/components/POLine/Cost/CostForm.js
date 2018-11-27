@@ -49,7 +49,7 @@ class CostForm extends Component {
     const listPrice = parseFloat(formValues.cost.list_price) || 0;
     const quantityPhysical = parseInt(formValues.cost.quantity_physical, 10) || 0;
     const quantityElectronic = parseInt(formValues.cost.quantity_electronic, 10) || 0;
-    const estimatedPrice = listPrice * (quantityPhysical + quantityElectronic);
+    const estimatedPrice = parseFloat(listPrice * (quantityPhysical + quantityElectronic)).toFixed(2);
     return estimatedPrice;
   }
 
