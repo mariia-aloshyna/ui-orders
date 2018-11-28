@@ -434,5 +434,9 @@
     "itemDetails.description": "Description",
     "itemDetails.publicationDate": "Publication Date",
     "itemDetails.addContributor": "Please Add Contributor",
-    "itemDetails.addContributorBtn": "Add Contributor"
+    "itemDetails.addContributorBtn": "Add Contributor",
+    "physical.addVolumes": "Please Add Volumes",
+    "physical.addVolumesBtn": "Add Volumes",
+    "physical.removeBtn": "Remove",
+    "physical.receiptDate": "Receipt Date"
 }
