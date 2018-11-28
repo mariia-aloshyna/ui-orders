@@ -25,7 +25,7 @@
       "fund": "1.0",
       "license": "1.0",
       "location": "1.0",
-      "material-type": "2.2",
+      "material-types": "2.2",
       "physical": "1.0",
       "po_line": "1.0",
       "purchase_order": "1.0",
