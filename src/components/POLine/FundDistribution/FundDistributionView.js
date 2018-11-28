@@ -8,17 +8,20 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
+import FundId from './FundId';
 
 class FundDistributionView extends Component {
   static propTypes = {
     initialValues: PropTypes.shape({
       fund_distribution: PropTypes.arrayOf(PropTypes.object)
+    }),
+    parentResources: PropTypes.shape({
+      fund: PropTypes.arrayOf(PropTypes.object)
     })
   }
 
   render() {
-    const { initialValues } = this.props;
-    const ids = toString(initialValues.fund_distribution.map(val => val.id));
+    const { initialValues, parentResources } = this.props;
     const codes = toString(initialValues.fund_distribution.map(val => val.code));
     const percentes = toString(initialValues.fund_distribution.map(val => `${val.percentage}%`));
     const estimatedPrice = get(initialValues, ['cost', 'po_line_estimated_price']);
@@ -27,9 +30,9 @@ class FundDistributionView extends Component {
     return (
       <Row>
         <Col xs={6}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.fundDistribution.id" />}
-            value={ids}
+          <FundId
+            funds={parentResources.fund}
+            fundId={get(initialValues, 'fund_distribution', [])}
           />
         </Col>
         <Col xs={6}>

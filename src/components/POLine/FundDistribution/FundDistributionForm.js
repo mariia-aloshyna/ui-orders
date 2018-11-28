@@ -92,7 +92,7 @@ class FundDistributionForm extends Component {
     const { parentResources } = this.props;
     const funds = get(parentResources, ['fund', 'records'], []).map((fund) => ({
       label: fund.name,
-      value: fund.name,
+      value: fund.id,
     }));
 
     return (
@@ -133,7 +133,6 @@ class FundDistributionForm extends Component {
         </Col>
         <Col
           xs={6}
-          style={{ textAlign: 'right' }}
         >
           <br />
           <Button
