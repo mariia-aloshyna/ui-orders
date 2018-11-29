@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import {
   Field,
   FieldArray,
   getFormValues,
 } from 'redux-form';
+
 import { get } from 'lodash';
+
 import {
   Button,
   Col,
@@ -15,44 +17,48 @@ import {
   Select,
   TextField,
 } from '@folio/stripes/components';
+
 import { Required } from '../../Utils/Validate';
 
 class FundDistributionForm extends Component {
   static propTypes = {
     parentResources: PropTypes.shape({
-      fund: PropTypes.object
+      fund: PropTypes.shape({
+        records: PropTypes.arrayOf(PropTypes.object).isRequired,
+      }),
     }),
     stripes: PropTypes.shape({
-      store: PropTypes.object
+      store: PropTypes.object.isRequired,
     }),
-    dispatch: PropTypes.func,
-    change: PropTypes.func
+    dispatch: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
+  };
+
+  render() {
+    return (
+      <Row>
+        <Col xs={12}>
+          <FieldArray
+            component={this.renderForm}
+            label="fund_distribution"
+            name="fund_distribution"
+          />
+        </Col>
+      </Row>
+    );
   }
 
-  constructor(props) {
-    super(props);
-    this.addFields = this.addFields.bind(this);
-    this.removeFields = this.removeFields.bind(this);
-    this.renderForm = this.renderForm.bind(this);
-    this.renderSubForm = this.renderSubForm.bind(this);
-    this.onChangeInput = this.onChangeInput.bind(this);
-    this.calculateAmount = this.calculateAmount.bind(this);
-  }
+  addFields = (fields) => fields.push({});
 
-  addFields(fields) {
-    fields.push({});
-  }
+  removeFields = (fields, index) => fields.remove(index);
 
-  removeFields(fields, index) {
-    fields.remove(index);
-  }
-
-  onChangeInput(e, propertyName) {
+  onChangeInput = (e, propertyName) => {
     const { dispatch, change } = this.props;
-    dispatch(change(propertyName, e));
-  }
 
-  calculateAmount(index) {
+    dispatch(change(propertyName, e));
+  };
+
+  calculateAmount = (index) => {
     const { stripes: { store } } = this.props;
     const formValues = getFormValues('POLineForm')(store.getState());
     const listPrice = parseFloat(formValues.cost.list_price);
@@ -61,10 +67,11 @@ class FundDistributionForm extends Component {
     const estimatedPrice = listPrice * (quantityPhysical + quantityElectronic);
     const fundDistributionPercentage = parseInt(formValues.fund_distribution[index].percentage, 10) || 0;
     const amount = parseFloat((fundDistributionPercentage / 100) * estimatedPrice).toFixed(2);
-    return amount;
-  }
 
-  renderForm({ fields }) {
+    return amount;
+  };
+
+  renderForm = ({ fields }) => {
     return (
       <Row>
         <Col xs={12}>
@@ -86,9 +93,9 @@ class FundDistributionForm extends Component {
         </Col>
       </Row>
     );
-  }
+  };
 
-  renderSubForm(elem, index, fields) {
+  renderSubForm = (elem, index, fields) => {
     const { parentResources } = this.props;
     const funds = get(parentResources, ['fund', 'records'], []).map((fund) => ({
       label: fund.name,
@@ -113,8 +120,8 @@ class FundDistributionForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.fundDistribution.percent" />}
             name={`${elem}.percentage`}
-            type="number"
             onChange={e => this.onChangeInput(e.target.value, 'fund_distribution.percentage')}
+            type="number"
           />
         </Col>
         <Col xs={6}>
@@ -136,25 +143,11 @@ class FundDistributionForm extends Component {
         >
           <br />
           <Button
-            onClick={() => this.removeFields(fields, index)}
             buttonStyle="danger"
+            onClick={() => this.removeFields(fields, index)}
           >
             <FormattedMessage id="ui-orders.fundDistribution.removeBtn" />
           </Button>
-        </Col>
-      </Row>
-    );
-  }
-
-  render() {
-    return (
-      <Row>
-        <Col xs={12}>
-          <FieldArray
-            label="fund_distribution"
-            name="fund_distribution"
-            component={this.renderForm}
-          />
         </Col>
       </Row>
     );

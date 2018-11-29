@@ -1,10 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+
 import {
   get,
   toString,
 } from 'lodash';
-import PropTypes from 'prop-types';
+
 import { KeyValue } from '@folio/stripes/components';
 
 const FundId = ({ funds, fundId }) => {
@@ -22,8 +24,10 @@ const FundId = ({ funds, fundId }) => {
 };
 
 FundId.propTypes = {
-  funds: PropTypes.object,
-  fundId: PropTypes.arrayOf(PropTypes.object),
+  funds: PropTypes.shape({
+    records: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }),
+  fundId: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default FundId;
