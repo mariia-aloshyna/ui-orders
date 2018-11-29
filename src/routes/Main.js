@@ -155,15 +155,6 @@ class Main extends Component {
         staticFallback: { params: {} },
       },
     },
-    // DropDown
-    dropdown: {
-      initialValue: {
-        currencyDD: [
-          { value: '', label: '--- Select ---' },
-          { value: 'USD', label: 'USD' },
-        ]
-      },
-    },
     source: {
       type: 'okapi',
       path: 'source?query=cql.allRecords=1 sortby desc',
