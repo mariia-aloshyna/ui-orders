@@ -16,7 +16,7 @@ class FundDistributionView extends Component {
       fund_distribution: PropTypes.arrayOf(PropTypes.object)
     }),
     parentResources: PropTypes.shape({
-      fund: PropTypes.arrayOf(PropTypes.object)
+      fund: PropTypes.object
     })
   }
 

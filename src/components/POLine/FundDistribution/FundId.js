@@ -22,8 +22,8 @@ const FundId = ({ funds, fundId }) => {
 };
 
 FundId.propTypes = {
-  funds: PropTypes.object.isRequired,
-  fundId: PropTypes.arrayOf(PropTypes.string).isRequired,
+  funds: PropTypes.object,
+  fundId: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default FundId;

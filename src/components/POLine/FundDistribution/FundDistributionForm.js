@@ -20,7 +20,7 @@ import { Required } from '../../Utils/Validate';
 class FundDistributionForm extends Component {
   static propTypes = {
     parentResources: PropTypes.shape({
-      fund: PropTypes.arrayOf(PropTypes.object)
+      fund: PropTypes.object
     }),
     stripes: PropTypes.shape({
       store: PropTypes.object
