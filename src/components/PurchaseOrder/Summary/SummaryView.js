@@ -2,8 +2,13 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { Checkbox, KeyValue, Row, Col } from '@folio/stripes/components';
-// import FormatDate from '../../Utils/FormatDate';
+
+import {
+  Checkbox,
+  Col,
+  KeyValue,
+  Row,
+} from '@folio/stripes/components';
 // import css from './SummaryView.css';
 
 const SummaryView = ({ order }) => (

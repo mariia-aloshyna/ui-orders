@@ -383,7 +383,7 @@
   "paneBlock.POSummary": "PO Summary",
   "paneBlock.purchaseOrder": "Purchase Order",
   "paneMenu.createPurchaseOrder": "Create Purchase Order",
-  "paneMenu.editVendor": "Edit Vendor",
+  "paneMenu.editOrder": "Edit Order",
   "paneMenu.updateOrder": "Update Order",
   "paneTitle.details": "Details",
   "payment_status.awaitingPayment": "Awaiting Payment",

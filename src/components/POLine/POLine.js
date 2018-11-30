@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 import { get } from 'lodash';
+import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -9,7 +10,6 @@ import {
   ExpandAllButton,
   Icon,
   IconButton,
-  IfPermission,
   Pane,
   PaneMenu,
   Row,
@@ -77,8 +77,8 @@ class POLine extends Component {
         Physical: false,
         Renewal: false,
         Adjustments: false,
-        License: false
-      }
+        License: false,
+      },
     };
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
@@ -88,7 +88,9 @@ class POLine extends Component {
   onToggleSection({ id }) {
     this.setState((curState) => {
       const newState = cloneDeep(curState);
+
       newState.sections[id] = !curState.sections[id];
+
       return newState;
     });
   }
@@ -96,7 +98,9 @@ class POLine extends Component {
   handleExpandAll(obj) {
     this.setState((curState) => {
       const newState = cloneDeep(curState);
+
       newState.sections = obj;
+
       return newState;
     });
   }
@@ -106,6 +110,7 @@ class POLine extends Component {
     const mockedOrder = mockedOrders[id];
     const defaultLines = get(mockedOrder, 'po_lines', []);
     const lines = get(resources, ['order', 'records', 0, 'po_lines'], defaultLines);
+
     return lines.find(u => u.id === lineId);
   }
 
@@ -119,7 +124,7 @@ class POLine extends Component {
     const firstMenu = (
       <PaneMenu>
         <IconButton
-          icon="left-arrow"
+          icon="arrow-left"
           id="clickable-backToPO"
           href={`${poURL}`}
           title="Back to PO"

@@ -4,7 +4,13 @@ import get from 'lodash/get';
 import {
   FormattedMessage,
 } from 'react-intl';
-import { Checkbox, KeyValue, Row, Col } from '@folio/stripes/components';
+
+import {
+  Checkbox,
+  Col,
+  KeyValue,
+  Row,
+} from '@folio/stripes/components';
 
 class POLineDetails extends Component {
   static propTypes = {

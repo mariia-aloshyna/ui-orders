@@ -9,8 +9,8 @@ import {
 import {
   Checkbox,
   Col,
-  Datepicker,
   IconButton,
+  KeyValue,
   Row,
   TextField,
 } from '@folio/stripes/components';
@@ -18,6 +18,7 @@ import { Pluggable } from '@folio/stripes/core';
 import FieldOrderType from './FieldOrderType';
 import NotesForm from '../../NotesForm';
 import { required } from '../../Utils/Validate';
+import formatDate from '../../Utils/formatDate';
 
 class PODetailsForm extends Component {
   static propTypes = {
@@ -39,9 +40,10 @@ class PODetailsForm extends Component {
       return {
         createdByName: props.createdByName,
         vendorName: props.vendorName,
-        assignToName: props.assignToName
+        assignToName: props.assignToName,
       };
     }
+
     return null;
   }
 
@@ -54,35 +56,47 @@ class PODetailsForm extends Component {
 
   onClearFieldUser() {
     const { dispatch, change } = this.props;
+
     dispatch(change('assigned_to_user', ''));
     dispatch(change('assigned_to', ''));
   }
 
   onClearFieldVendor() {
     const { dispatch, change } = this.props;
-    dispatch(change('vendor_id', ''));
+
+    dispatch(change('vendor', ''));
     dispatch(change('vendor_name', ''));
   }
 
   onAddUser(user) {
     const { dispatch, change } = this.props;
+
     dispatch(change('assigned_to_user', `${user.personal.firstName} ${user.personal.lastName}`));
     dispatch(change('assigned_to', `${user.id}`));
   }
 
   onAddVendor(vendor) {
     const { dispatch, change } = this.props;
+
     dispatch(change('vendor_name', `${vendor.name}`));
-    dispatch(change('vendor_id', `${vendor.id}`));
+    dispatch(change('vendor', `${vendor.id}`));
   }
 
   userClearButton() {
     const { stripes: { store } } = this.props;
     const formValues = getFormValues('FormPO')(store.getState());
     const isValues = formValues.assigned_to || formValues.assigned_to_user;
+
     if (isValues && isValues.length > 0) {
-      return (<IconButton onClick={this.onClearFieldUser} icon="clearX" size="small" />);
+      return (
+        <IconButton
+          onClick={this.onClearFieldUser}
+          icon="times-circle-solid"
+          size="small"
+        />
+      );
     }
+
     return null;
   }
 
@@ -90,9 +104,17 @@ class PODetailsForm extends Component {
     const { stripes: { store } } = this.props;
     const formValues = getFormValues('FormPO')(store.getState());
     const isValues = formValues.vendor_name || formValues.vendor;
+
     if (isValues && isValues.length > 0) {
-      return (<IconButton onClick={this.onClearFieldVendor} icon="clearX" size="small" />);
+      return (
+        <IconButton
+          onClick={this.onClearFieldVendor}
+          icon="times-circle-solid"
+          size="small"
+        />
+      );
     }
+
     return null;
   }
 
@@ -103,6 +125,7 @@ class PODetailsForm extends Component {
       username: <FormattedMessage id="ui-orders.user.username" />,
       barcode: <FormattedMessage id="ui-orders.user.barcode" />,
     };
+
     return (
       <Pluggable
         aria-haspopup="true"
@@ -126,6 +149,7 @@ class PODetailsForm extends Component {
       name: <FormattedMessage id="ui-orders.vendor.name" />,
       vendor_status: <FormattedMessage id="ui-orders.vendor.vendor_status" />,
     };
+
     return (
       <Pluggable
         aria-haspopup="true"
@@ -145,6 +169,8 @@ class PODetailsForm extends Component {
   }
 
   render() {
+    const { initialValues: { created = '' } } = this.props;
+
     return (
       <Row>
         <Col
@@ -186,16 +212,9 @@ class PODetailsForm extends Component {
           />
         </Col>
         <Col xs={6} md={3}>
-          <Field
-            backendDateStandard="YYYY-MM-DD"
-            component={Datepicker}
-            dateFormat="YYYY-MM-DD"
-            fullWidth
-            id="created"
+          <KeyValue
             label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}
-            name="created"
-            timeZone="UTC"
-            validate={required}
+            value={formatDate(created)}
           />
         </Col>
         <Col xs={6} md={3} style={{ display: 'none' }}>

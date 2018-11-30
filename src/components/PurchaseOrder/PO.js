@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import {
-  FormattedMessage,
-  injectIntl,
-  intlShape,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get, isEmpty, isEqual } from 'lodash';
-import { Icon, IconButton, AccordionSet, Accordion, ExpandAllButton, Pane, PaneMenu, Row, Col, Button, IfPermission } from '@folio/stripes/components';
+
+import { IfPermission } from '@folio/stripes/core';
+import { Icon, IconButton, AccordionSet, Accordion, ExpandAllButton, Pane, PaneMenu, Row, Col, Button } from '@folio/stripes/components';
 import transitionToParams from '../Utils/transitionToParams';
-// import FundDistribution from './FundDistribution';
 import { AdjustmentView } from './Adjustment';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
@@ -39,8 +36,7 @@ class PO extends Component {
     parentMutator: PropTypes.object.isRequired,
     editLink: PropTypes.string,
     paneWidth: PropTypes.string.isRequired,
-    intl: intlShape.isRequired,
-    resources: PropTypes.object.isRequired
+    resources: PropTypes.object.isRequired,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -72,7 +68,7 @@ class PO extends Component {
           parentMutator.queryII.update({
             createdByID: initData.created_by,
             vendorID: initData.vendor,
-            userID: initData.assigned_to
+            userID: initData.assigned_to,
           });
           initData.vendor_name = vendorName;
           initData.assigned_to_user = assignToName;
@@ -82,6 +78,7 @@ class PO extends Component {
         }
       }
     }
+
     return null;
   }
 
@@ -91,9 +88,9 @@ class PO extends Component {
       sections: {
         purchaseOrder: true,
         POSummary: true,
-        POListing: true
+        POListing: true,
       },
-      initialValues: {}
+      initialValues: {},
     };
     this.handleExpandAll = this.handleExpandAll.bind(this);
     this.onToggleSection = this.onToggleSection.bind(this);
@@ -112,11 +109,12 @@ class PO extends Component {
   onToggleSection({ id }) {
     this.setState(({ sections }) => {
       const isSectionOpened = sections[id];
+
       return {
         sections: {
           ...sections,
           [id]: !isSectionOpened,
-        }
+        },
       };
     });
   }
@@ -144,24 +142,29 @@ class PO extends Component {
     if (e) e.preventDefault();
     await this.transitionToParams({ layer: null });
     await this.transitionToParams({ layer: 'edit' });
+
     return false;
   }
 
   render() {
-    const { location, history, match, intl } = this.props;
+    const { location, history, match } = this.props;
     const initialValues = this.state.initialValues || {};
     const poLines = get(initialValues, 'po_lines', []);
     const lastMenu = (
       <PaneMenu>
-        <IfPermission perm="vendor.item.put">
-          <IconButton
-            icon="edit"
-            id="clickable-editvendor"
-            style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
-            onClick={this.props.onEdit}
-            href={this.props.editLink}
-            title={intl.formatMessage({ id: 'ui-orders.paneMenu.editVendor' })}
-          />
+        <IfPermission perm="purchase_order.item.put">
+          <FormattedMessage id="ui-orders.paneMenu.editOrder">
+            {ariaLabel => (
+              <IconButton
+                ariaLabel={ariaLabel}
+                icon="edit"
+                style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
+                onClick={this.props.onEdit}
+                href={this.props.editLink}
+                title={ariaLabel}
+              />
+            )}
+          </FormattedMessage>
         </IfPermission>
       </PaneMenu>
     );
@@ -191,7 +194,6 @@ class PO extends Component {
         dismissible
         onClose={this.props.onClose}
       >
-        {/* <FundDistribution openReceiveItem={this.openReceiveItem} openReceived={this.openReceived} /> */}
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
           <Accordion
@@ -250,4 +252,4 @@ class PO extends Component {
   }
 }
 
-export default injectIntl(PO);
+export default PO;
