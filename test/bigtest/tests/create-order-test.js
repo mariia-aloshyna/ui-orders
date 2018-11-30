@@ -20,7 +20,7 @@ describe('Create order', () => {
   });
 
   it('has a created on field', () => {
-    expect(orders.hasCreatedOnField).to.be.true;
+    expect(orders.hasVendorNameField).to.be.true;
   });
 
   it('has a created by field', () => {

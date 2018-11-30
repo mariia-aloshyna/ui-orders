@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import { get, toString } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { filters2cql } from '@folio/stripes/components';
 import { SearchAndSort } from '@folio/stripes/smart-components';
@@ -22,7 +22,7 @@ class Main extends Component {
         query: '',
         filters: '',
         sort: 'id',
-      }
+      },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
     records: {
@@ -31,6 +31,10 @@ class Main extends Component {
       records: 'composite_purchase_orders',
       recordsRequired: '%{resultCount}',
       perRequest: RESULT_COUNT_INCREMENT,
+      POST: {
+        path: 'purchase_order',
+        records: 'purchase_orders',
+      },
       GET: {
         params: {
           query: (...args) => {
@@ -47,7 +51,7 @@ class Main extends Component {
               'PO Number': 'po_number',
               'Created By': 'created_by',
               'Comments': 'comments',
-              'Assigned To': 'assigned_to'
+              'Assigned To': 'assigned_to',
             };
 
             const index = resourceData.query.qindex ? resourceData.query.qindex : 'all';
@@ -55,6 +59,7 @@ class Main extends Component {
 
             let cql = searchableIndex.makeQuery(resourceData.query.query);
             const filterCql = filters2cql(filterConfig, resourceData.query.filters);
+
             if (filterCql) {
               if (cql) {
                 cql = `(${cql}) and ${filterCql}`;
@@ -64,25 +69,30 @@ class Main extends Component {
             }
 
             const { sort } = resourceData.query;
+
             if (sort) {
               const sortIndexes = sort.split(',').map((sort1) => {
                 let reverse = false;
+
                 if (sort1.startsWith('-')) {
                   // eslint-disable-next-line no-param-reassign
                   sort1 = sort1.substr(1);
                   reverse = true;
                 }
                 let sortIndex = sortMap[sort1] || sort1;
+
                 if (reverse) {
                   sortIndex = `${sortIndex.replace(' ', '/sort.descending ')}/sort.descending`;
                 }
+
                 return sortIndex;
               });
 
               cql += ` sortby ${sortIndexes.join(' ')}`;
             }
+
             return cql;
-          }
+          },
         },
         staticFallback: { params: {} },
       },
@@ -92,8 +102,8 @@ class Main extends Component {
       initialValue: {
         vendorID: '',
         createdByID: '',
-        userID: ''
-      }
+        userID: '',
+      },
     },
     vendor: {
       type: 'okapi',
@@ -104,8 +114,9 @@ class Main extends Component {
           query: (...args) => {
             const resourceData = args[2];
             const cql = `(id="${resourceData.queryII.vendorID}")`;
+
             return cql;
-          }
+          },
         },
         limit: 1,
         staticFallback: { params: {} },
@@ -132,8 +143,9 @@ class Main extends Component {
           query: (...args) => {
             const resourceData = args[2];
             const cql = `(id="${resourceData.queryII.userID}")`;
+
             return cql;
-          }
+          },
         },
         limit: 1,
         staticFallback: { params: {} },
@@ -148,8 +160,9 @@ class Main extends Component {
           query: (...args) => {
             const resourceData = args[2];
             const cql = `(id="${resourceData.queryII.createdByID}")`;
+
             return cql;
-          }
+          },
         },
         limit: 1,
         staticFallback: { params: {} },
@@ -169,19 +182,26 @@ class Main extends Component {
   });
 
   static propTypes = {
-    mutator: PropTypes.object.isRequired,
+    mutator: PropTypes.shape({
+      initializedFilterConfig: PropTypes.shape({
+        replace: PropTypes.func.isRequired,
+      }),
+      records: PropTypes.shape({
+        POST: PropTypes.func.isRequired,
+      }),
+    }).isRequired,
     resources: PropTypes.object.isRequired,
     stripes: PropTypes.shape({
       user: PropTypes.shape({
         user: PropTypes.shape({
           id: PropTypes.string,
         }),
-      })
+      }),
     }),
     showSingleResult: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
     browseOnly: PropTypes.bool,
     onComponentWillUnmount: PropTypes.func,
-    disableRecordCreation: PropTypes.bool
+    disableRecordCreation: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -191,8 +211,10 @@ class Main extends Component {
 
   static getDerivedStateFromProps(props) {
     const assignedTo = filterConfig.find(group => group.name === 'assigned_to');
+
     if (assignedTo.values.length === 0) {
       const user = props.stripes.user.user;
+
       assignedTo.values.push({
         name: `${user.firstName} ${user.lastName}`,
         cql: `${user.id}`,
@@ -206,21 +228,6 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-  create = (data) => {
-    const { mutator } = this.props;
-    const deep = _.cloneDeep(data);
-    delete deep.created_by_name;
-    delete deep.assigned_to_user;
-    delete deep.vendor_name;
-
-    mutator.records.POST(deep).then(newOrder => {
-      mutator.query.update({
-        _path: `/orders/view/${newOrder.id}`,
-        layer: null
-      });
-    });
   }
 
   render() {
@@ -243,10 +250,10 @@ class Main extends Component {
       },
     } = this.props;
     const resultsFormatter = {
-      'po_number': data => _.toString(_.get(data, ['po_number'], '')),
-      'created': data => _.toString(_.get(data, ['created'], '')),
-      'notes': data => _.toString(_.get(data, ['notes'], '')),
-      'assigned_to': data => _.toString(_.get(data, ['assigned_to'], '')),
+      'po_number': data => toString(get(data, ['po_number'], '')),
+      'created': data => toString(get(data, ['created'], '')),
+      'notes': data => toString(get(data, ['notes'], '')),
+      'assigned_to': data => toString(get(data, ['assigned_to'], '')),
     };
     const getUserID = id || '';
     const getUserName = `${firstName} ${lastName}` || '';
@@ -254,7 +261,7 @@ class Main extends Component {
     return (
       <SearchAndSort
         packageInfo={packageInfo}
-        objectName="orders"
+        objectName="order"
         baseRoute={packageInfo.stripes.route}
         filterConfig={filterConfig}
         visibleColumns={['po_number', 'created', 'notes', 'assigned_to']}
@@ -262,6 +269,7 @@ class Main extends Component {
         viewRecordComponent={Panes}
         editRecordComponent={POForm}
         onCreate={this.create}
+        massageNewRecord={this.massageNewRecord}
         newRecordInitialValues={{ created_by: getUserID, created_by_name: getUserName }}
         initialResultCount={INITIAL_RESULT_COUNT}
         resultCountIncrement={RESULT_COUNT_INCREMENT}
@@ -272,7 +280,7 @@ class Main extends Component {
         newRecordPerms="purchase_order.item.post"
         parentResources={resources}
         parentMutator={mutator}
-        detailProps={Object.assign({ onUpdateAssignedTo: this.onUpdateAssignedTo }, stripes)}
+        detailProps={{ onUpdateAssignedTo: this.onUpdateAssignedTo }}
         stripes={stripes}
         showSingleResult={showSingleResult}
         browseOnly={browseOnly}
@@ -284,6 +292,25 @@ class Main extends Component {
         }}
       />
     );
+  }
+
+  massageNewRecord = (orderData) => {
+    delete orderData.created_by_name;
+    delete orderData.assigned_to_user;
+    delete orderData.vendor_name;
+    delete orderData.bill_to;
+    delete orderData.ship_to;
+  }
+
+  create = (orderData) => {
+    const { mutator } = this.props;
+
+    mutator.records.POST(orderData).then(newOrder => {
+      mutator.query.update({
+        _path: `/orders/view/${newOrder.id}`,
+        layer: null,
+      });
+    });
   }
 }
 

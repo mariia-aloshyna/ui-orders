@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get, toString } from 'lodash';
+import { get } from 'lodash';
 import {
   Checkbox,
   Col,
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-import FormatDate from '../../Utils/FormatDate';
+import formatDate from '../../Utils/formatDate';
 // import css from './css/PODetailsView.css';
 
 class PODetailsView extends Component {
@@ -18,6 +18,7 @@ class PODetailsView extends Component {
 
   render() {
     const { order } = this.props;
+
     return (
       <Row>
         <Col xs={6}>
@@ -41,7 +42,7 @@ class PODetailsView extends Component {
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}
-            value={FormatDate(toString(get(order, 'created')))}
+            value={formatDate(get(order, 'created'))}
           />
         </Col>
         <Col xs={6}>

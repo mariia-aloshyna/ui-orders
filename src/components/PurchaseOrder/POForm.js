@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { cloneDeep, get } from 'lodash';
+import { IfPermission } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/form';
-import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, IfPermission, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
+import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { AdjustmentView } from './Adjustment';
@@ -18,7 +19,7 @@ class POForm extends Component {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     parentResources: PropTypes.object,
-    parentMutator: PropTypes.object
+    parentMutator: PropTypes.object,
   }
 
   constructor(props) {
@@ -28,7 +29,7 @@ class POForm extends Component {
         purchaseOrder: true,
         POSummary: true,
         Adjustment: true,
-      }
+      },
     };
     this.deletePO = this.deletePO.bind(this);
     this.handleExpandAll = this.handleExpandAll.bind(this);
@@ -37,6 +38,7 @@ class POForm extends Component {
 
   getAddFirstMenu() {
     const { onCancel } = this.props;
+
     return (
       <PaneMenu>
         <button type="button" id="clickable-close-new-purchase-order-dialog" onClick={onCancel} title="close" aria-label="Close New Purchase Order Dialog">
@@ -48,18 +50,23 @@ class POForm extends Component {
 
   getLastMenu(id, label) {
     const { pristine, submitting, handleSubmit } = this.props;
+
     return (
       <PaneMenu>
-        <Button
-          id={id}
-          type="submit"
-          title={label}
-          disabled={pristine || submitting}
-          onClick={handleSubmit}
-          style={{ marginBottom: '0', marginRight: '10px' }}
-        >
-          {label}
-        </Button>
+        <FormattedMessage id={label}>
+          {ariaLabel => (
+            <Button
+              id={id}
+              type="submit"
+              disabled={pristine || submitting}
+              onClick={handleSubmit}
+              style={{ marginBottom: '0', marginRight: '10px' }}
+            >
+              {ariaLabel}
+            </Button>
+          )}
+        </FormattedMessage>
+
       </PaneMenu>
     );
   }
@@ -67,7 +74,9 @@ class POForm extends Component {
   onToggleSection({ id }) {
     this.setState((curState) => {
       const newState = cloneDeep(curState);
+
       newState.sections[id] = !curState.sections[id];
+
       return newState;
     });
   }
@@ -75,17 +84,20 @@ class POForm extends Component {
   handleExpandAll(obj) {
     this.setState((curState) => {
       const newState = cloneDeep(curState);
+
       newState.sections = obj;
+
       return newState;
     });
   }
 
   deletePO(ID) {
     const { parentMutator } = this.props;
+
     parentMutator.records.DELETE({ id: ID }).then(() => {
       parentMutator.query.update({
         _path: '/orders',
-        layer: null
+        layer: null,
       });
     });
   }
@@ -99,8 +111,8 @@ class POForm extends Component {
       </span>
     ) : <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />;
     const lastMenu = initialValues.id ?
-      this.getLastMenu('clickable-update-purchase-order', <FormattedMessage id="ui-orders.paneMenu.updateOrder" />) :
-      this.getLastMenu('clickable-create-new-purchase-order', <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />);
+      this.getLastMenu('clickable-update-purchase-order', 'ui-orders.paneMenu.updateOrder') :
+      this.getLastMenu('clickable-create-new-purchase-order', 'ui-orders.paneMenu.createPurchaseOrder');
     const showDeleteButton = initialValues.id || false;
 
     if (!initialValues) {
@@ -146,7 +158,11 @@ class POForm extends Component {
                           id="purchaseOrder"
                           label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
                         >
-                          <PODetailsForm showPaneVendors={this.showPaneVendors} showPaneUsers={this.showPaneUsers} {...this.props} />
+                          <PODetailsForm
+                            showPaneVendors={this.showPaneVendors}
+                            showPaneUsers={this.showPaneUsers}
+                            {...this.props}
+                          />
                         </Accordion>
                         <Accordion
                           id="POSummary"

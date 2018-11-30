@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import includes from 'lodash/includes';
 import get from 'lodash/get';
 import { Fields } from 'redux-form';
+import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -11,7 +12,6 @@ import {
   Col,
   ExpandAllButton,
   Icon,
-  IfPermission,
   Pane,
   PaneMenu,
   Row,
@@ -62,17 +62,17 @@ class POLineForm extends Component {
         Renewal: false,
         Adjustments: false,
         License: false,
-        FundDistribution: false
+        FundDistribution: false,
       },
       sectionErrors: {
         POLineDetailsErr: {
           purchase_order_id: false,
-          barcode: false
+          barcode: false,
         },
         CostErr: {
-          list_price: false
-        }
-      }
+          list_price: false,
+        },
+      },
     };
     this.deletePOLine = this.deletePOLine.bind(this);
     this.handleExpandAll = this.handleExpandAll.bind(this);
@@ -86,6 +86,7 @@ class POLineForm extends Component {
 
   getAddFirstMenu() {
     const { onCancel } = this.props;
+
     return (
       <PaneMenu>
         <button type="button" id="clickable-close-new-purchase-order-dialog" onClick={onCancel} title="close" aria-label="Close New Purchase Order Dialog">
@@ -97,6 +98,7 @@ class POLineForm extends Component {
 
   getLastMenu(id, label) {
     const { pristine, submitting, handleSubmit } = this.props;
+
     return (
       <PaneMenu>
         <IfPermission perm="po_line.item.post, login.item.post, po_line.item.put, login.item.put">
@@ -118,7 +120,9 @@ class POLineForm extends Component {
   onToggleSection({ id }) {
     this.setState((curState) => {
       const newState = cloneDeep(curState);
+
       newState.sections[id] = !curState.sections[id];
+
       return newState;
     });
   }
@@ -126,17 +130,20 @@ class POLineForm extends Component {
   handleExpandAll(obj) {
     this.setState((curState) => {
       const newState = cloneDeep(curState);
+
       newState.sections = obj;
+
       return newState;
     });
   }
 
   deletePOLine(ID) {
     const { parentMutator } = this.props;
+
     parentMutator.poLine.DELETE({ id: ID }).then(() => {
       parentMutator.query.update({
         _path: '/orders',
-        layer: null
+        layer: null,
       });
     });
   }
@@ -144,11 +151,14 @@ class POLineForm extends Component {
   grabFieldNames() {
     const { sectionErrors } = this.state;
     const newArr = [];
+
     Object.keys(sectionErrors).map(key => {
       const name = sectionErrors[key];
+
       Object.keys(name).map(key2 => {
         return newArr.push(key2);
       });
+
       return false;
     });
 
@@ -339,5 +349,5 @@ class POLineForm extends Component {
 export default stripesForm({
   form: 'POLineForm',
   navigationCheck: true,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(POLineForm);

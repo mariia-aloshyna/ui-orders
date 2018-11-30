@@ -2,12 +2,13 @@ import React, { Component, Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get, toString } from 'lodash';
+
 import {
   Col,
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-import FormatDate from '../../Utils/FormatDate';
+import formatDate from '../../Utils/formatDate';
 import ContributorView from './ContributorView';
 import ProductIdDetails from './ProductIdDetails';
 import MaterialType from './MaterialType';
@@ -44,7 +45,7 @@ class ItemView extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
-              value={FormatDate(toString(get(poLineDetails, ['details', 'subscription_from'])))}
+              value={formatDate(get(poLineDetails, ['details', 'subscription_from']))}
             />
           </Col>
           <Col xs={6}>
@@ -62,13 +63,13 @@ class ItemView extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
-              value={FormatDate(toString(get(poLineDetails, 'publication_date')))}
+              value={formatDate(get(poLineDetails, 'publication_date'))}
             />
           </Col>
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
-              value={FormatDate(toString(get(poLineDetails, ['details', 'subscription_to'])))}
+              value={formatDate(get(poLineDetails, ['details', 'subscription_to']))}
             />
           </Col>
           <Col xs={6}>

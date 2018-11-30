@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import toString from 'lodash/toString';
+import { get, toString } from 'lodash';
+
 import {
   KeyValue,
   Row,
-  Col
+  Col,
 } from '@folio/stripes/components';
-import FormatDate from '../../Utils/FormatDate';
+import formatDate from '../../Utils/formatDate';
 
 class PhysicalView extends Component {
   static propTypes = {
-    initialValues: PropTypes.object
+    initialValues: PropTypes.object,
   }
 
   render() {
-    const physical = this.props.initialValues.physical;
+    const { initialValues: { physical } } = this.props;
 
     return (
       <Row>
@@ -29,13 +29,13 @@ class PhysicalView extends Component {
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
-            value={FormatDate(toString(get(physical, 'receipt_due')))}
+            value={formatDate(get(physical, 'receipt_due'))}
           />
         </Col>
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.physical.receiptDate" />}
-            value={FormatDate(toString(get(physical, 'receipt_date')))}
+            value={formatDate(get(physical, 'receipt_date'))}
           />
         </Col>
         <Col xs={6}>
