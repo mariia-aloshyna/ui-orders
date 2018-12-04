@@ -58,6 +58,15 @@ class FundDistributionForm extends Component {
     dispatch(change(propertyName, e));
   };
 
+  updateCode = (funds, index) => {
+    const { stripes: { store } } = this.props;
+    const formValues = getFormValues('POLineForm')(store.getState());
+    const fundId = formValues.fund_distribution[index].id;
+    const code = get(funds.find(fund => fund.value === fundId), 'code', '');
+
+    return code;
+  };
+
   calculateAmount = (index) => {
     const { stripes: { store } } = this.props;
     const formValues = getFormValues('POLineForm')(store.getState());
@@ -100,6 +109,7 @@ class FundDistributionForm extends Component {
     const funds = get(parentResources, ['fund', 'records'], []).map((fund) => ({
       label: fund.name,
       value: fund.id,
+      code: fund.code,
     }));
 
     return (
@@ -112,6 +122,7 @@ class FundDistributionForm extends Component {
             label={<FormattedMessage id="ui-orders.fundDistribution.id" />}
             name={`${elem}.id`}
             validate={[Required]}
+            onChange={e => this.onChangeInput(e.target.value, 'fund_distribution.id')}
           />
         </Col>
         <Col xs={6}>
@@ -125,11 +136,9 @@ class FundDistributionForm extends Component {
           />
         </Col>
         <Col xs={6}>
-          <Field
-            component={TextField}
-            fullWidth
+          <KeyValue
             label={<FormattedMessage id="ui-orders.fundDistribution.code" />}
-            name={`${elem}.code`}
+            value={this.updateCode(funds, index)}
           />
         </Col>
         <Col xs={6}>
