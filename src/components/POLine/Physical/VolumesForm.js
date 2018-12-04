@@ -36,7 +36,7 @@ class VolumesForm extends Component {
             <Col xs={12}>
               <div>
                 <em>
-                  <FormattedMessage id="ui-orders.physical.addVolumes" />
+                  <FormattedMessage id="ui-orders.physical.addVolume" />
                 </em>
               </div>
             </Col>
@@ -45,7 +45,7 @@ class VolumesForm extends Component {
         </Col>
         <Col xs={12} style={{ paddingTop: '10px' }}>
           <Button onClick={() => this.addFields(fields)}>
-            <FormattedMessage id="ui-orders.physical.addVolumesBtn" />
+            <FormattedMessage id="ui-orders.physical.addVolumeBtn" />
           </Button>
         </Col>
       </Row>
@@ -59,7 +59,7 @@ class VolumesForm extends Component {
           <Field
             component={TextField}
             fullWidth
-            label={<FormattedMessage id="ui-orders.physical.volumes" />}
+            label={<FormattedMessage id="ui-orders.physical.volume" />}
             name={elem}
           />
         </Col>
