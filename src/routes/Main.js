@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { get, toString } from 'lodash';
 import { FormattedMessage } from 'react-intl';
@@ -255,8 +256,10 @@ class Main extends Component {
       'notes': data => toString(get(data, ['notes'], '')),
       'assigned_to': data => toString(get(data, ['assigned_to'], '')),
     };
-    const getUserID = id || '';
-    const getUserName = `${firstName} ${lastName}` || '';
+    const newRecordInitialValues = {
+      created_by: id || '',
+      created_by_name: `${firstName} ${lastName}` || '',
+    };
 
     return (
       <SearchAndSort
@@ -270,7 +273,7 @@ class Main extends Component {
         editRecordComponent={POForm}
         onCreate={this.create}
         massageNewRecord={this.massageNewRecord}
-        newRecordInitialValues={{ created_by: getUserID, created_by_name: getUserName }}
+        newRecordInitialValues={newRecordInitialValues}
         initialResultCount={INITIAL_RESULT_COUNT}
         resultCountIncrement={RESULT_COUNT_INCREMENT}
         onComponentWillUnmount={onComponentWillUnmount}
@@ -295,6 +298,7 @@ class Main extends Component {
   }
 
   massageNewRecord = (orderData) => {
+    orderData.created = moment.utc().format();
     delete orderData.created_by_name;
     delete orderData.assigned_to_user;
     delete orderData.vendor_name;

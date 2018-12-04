@@ -8,7 +8,7 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
-import formatDate from '../../Utils/formatDate';
+import FolioFormattedTime from '../../FolioFormattedTime';
 // import css from './css/PODetailsView.css';
 
 class PODetailsView extends Component {
@@ -40,10 +40,9 @@ class PODetailsView extends Component {
           />
         </Col>
         <Col xs={6}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}
-            value={formatDate(get(order, 'created'))}
-          />
+          <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
+            <FolioFormattedTime dateString={get(order, 'created')} />
+          </KeyValue>
         </Col>
         <Col xs={6}>
           <KeyValue
