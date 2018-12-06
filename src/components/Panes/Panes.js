@@ -8,9 +8,22 @@ import { POLine } from '../POLine';
 
 class Panes extends Component {
   static propTypes = {
-    initialValues: PropTypes.object,
-    stripes: PropTypes.object,
-    match: PropTypes.object,
+    connectedSource: PropTypes.object.isRequired,
+    editLink: PropTypes.string.isRequired,
+    stripes: PropTypes.shape({
+      connect: PropTypes.func.isRequired,
+    }).isRequired,
+    parentMutator: PropTypes.object.isRequired,
+    parentResources: PropTypes.object.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onCloseEdit: PropTypes.func.isRequired,
+    tagsToggle: PropTypes.func.isRequired,
+    paneWidth: PropTypes.string.isRequired,
+    match: PropTypes.shape({
+      path: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    }).isRequired,
     path: PropTypes.object,
     url: PropTypes.object,
   }
@@ -22,11 +35,13 @@ class Panes extends Component {
   }
 
   render() {
+    const { match: { path, url } } = this.props;
+
     return (
       <Switch>
         <Route
           exact
-          path={`${this.props.match.path}`}
+          path={path}
           render={props => (
             <this.connectedPO
               {...this.props}
@@ -37,10 +52,10 @@ class Panes extends Component {
         <IfPermission perm="po_line.item.get">
           <Route
             exact
-            path={`${this.props.match.path}/po-line/view/:lineId`}
+            path={`${path}/po-line/view/:lineId`}
             render={props => (
               <this.connectedPOLine
-                poURL={`${this.props.match.url}`}
+                poURL={url}
                 {...this.props}
                 {...props}
               />

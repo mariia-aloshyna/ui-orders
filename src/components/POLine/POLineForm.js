@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import cloneDeep from 'lodash/cloneDeep';
 import includes from 'lodash/includes';
 import get from 'lodash/get';
 import { Fields } from 'redux-form';
@@ -51,7 +50,7 @@ class POLineForm extends Component {
     this.state = {
       sections: {
         LineDetails: true,
-        CostDetails: false,
+        CostDetails: true,
         Claim: false,
         Tags: false,
         Locations: false,
@@ -75,8 +74,6 @@ class POLineForm extends Component {
       },
     };
     this.deletePOLine = this.deletePOLine.bind(this);
-    this.handleExpandAll = this.handleExpandAll.bind(this);
-    this.onToggleSection = this.onToggleSection.bind(this);
     this.updateSectionErrors = this.updateSectionErrors.bind(this);
   }
 
@@ -89,8 +86,14 @@ class POLineForm extends Component {
 
     return (
       <PaneMenu>
-        <button type="button" id="clickable-close-new-purchase-order-dialog" onClick={onCancel} title="close" aria-label="Close New Purchase Order Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times</span>
+        <button
+          aria-label="Close New Line Dialog"
+          id="clickable-close-new-line-dialog"
+          onClick={onCancel}
+          title="close"
+          type="button"
+        >
+          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times;</span>
         </button>
       </PaneMenu>
     );
@@ -101,14 +104,14 @@ class POLineForm extends Component {
 
     return (
       <PaneMenu>
-        <IfPermission perm="po_line.item.post, login.item.post, po_line.item.put, login.item.put">
+        <IfPermission perm="po_line.item.post">
           <Button
             id={id}
             type="submit"
             title={label}
             disabled={pristine || submitting}
             onClick={handleSubmit}
-            style={{ marginBottom: '0' }}
+            style={{ marginBottom: '0', marginRight: '10px' }}
           >
             {label}
           </Button>
@@ -117,24 +120,21 @@ class POLineForm extends Component {
     );
   }
 
-  onToggleSection({ id }) {
-    this.setState((curState) => {
-      const newState = cloneDeep(curState);
+  onToggleSection = ({ id }) => {
+    this.setState(({ sections }) => {
+      const isSectionOpened = sections[id];
 
-      newState.sections[id] = !curState.sections[id];
-
-      return newState;
+      return {
+        sections: {
+          ...sections,
+          [id]: !isSectionOpened,
+        },
+      };
     });
   }
 
-  handleExpandAll(obj) {
-    this.setState((curState) => {
-      const newState = cloneDeep(curState);
-
-      newState.sections = obj;
-
-      return newState;
-    });
+  handleExpandAll = (sections) => {
+    this.setState({ sections });
   }
 
   deletePOLine(ID) {
@@ -167,7 +167,6 @@ class POLineForm extends Component {
 
   render() {
     const { initialValues, onCancel } = this.props;
-    const { initialValues: order, ...rest } = this.props;
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? (
       <span>
@@ -223,7 +222,7 @@ class POLineForm extends Component {
         paneTitle={paneTitle}
         lastMenu={lastMenu}
         onClose={onCancel}
-        dismissible
+        firstMenu={firstMenu}
       >
         <form id="form-po-line">
           <Row>
@@ -292,8 +291,8 @@ class POLineForm extends Component {
                     )}
                     <Accordion label="Fund Distribution" id="FundDistribution">
                       <FundDistributionForm
-                        order={order}
-                        {...rest}
+                        order={initialValues}
+                        {...this.props}
                       />
                     </Accordion>
                     <Accordion label="Item Details" id="ItemDetails">

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import _ from 'lodash';
+import { cloneDeep } from 'lodash';
 import { Layer } from '@folio/stripes/components';
 import transitionToParams from '../Utils/transitionToParams';
 import { ReceiveItems, Received } from '../Receive';
@@ -26,10 +26,12 @@ class LayerPO extends Component {
   }
 
   updatePO(data) {
-    const deep = _.cloneDeep(data);
+    const deep = cloneDeep(data);
+
     delete deep.created_by_name;
     delete deep.assigned_to_user;
     delete deep.vendor_name;
+    delete deep.po_lines;
     this.props.parentMutator.records.PUT(deep).then(() => {
       this.props.onCancel();
     });
@@ -47,13 +49,26 @@ class LayerPO extends Component {
 
     return (
       <div>
-        <Layer isOpen={query.layer ? query.layer === 'edit' : false} label="Edit Order Dialog">
-          <this.connectedPOForm initialValues={initialValues} onSubmit={(record) => { this.updatePO(record); }} {...this.props} />
+        <Layer
+          isOpen={query.layer ? query.layer === 'edit' : false}
+          contentLabel="Edit Order Dialog"
+        >
+          <this.connectedPOForm
+            initialValues={initialValues}
+            onSubmit={(record) => { this.updatePO(record); }}
+            {...this.props}
+          />
         </Layer>
-        <Layer isOpen={query.layer ? query.layer === 'receive-items' : false} label="Receive Items">
+        <Layer
+          isOpen={query.layer ? query.layer === 'receive-items' : false}
+          contentLabel="Receive Items"
+        >
           <this.connectedReceiveItems openReceived={this.openReceived} {...this.props} />
         </Layer>
-        <Layer isOpen={query.layer ? query.layer === 'received' : false} label="Received">
+        <Layer
+          isOpen={query.layer ? query.layer === 'received' : false}
+          contentLabel="Received"
+        >
           <this.connectedReceived {...this.props} />
         </Layer>
       </div>

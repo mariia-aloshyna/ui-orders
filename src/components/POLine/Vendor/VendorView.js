@@ -10,7 +10,7 @@ import {
 
 class VendorView extends Component {
   static propTypes = {
-    vendorDetail: PropTypes.object
+    vendorDetail: PropTypes.object,
   }
 
   render() {

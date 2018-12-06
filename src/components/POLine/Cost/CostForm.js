@@ -5,6 +5,8 @@ import {
   Field,
   getFormValues,
 } from 'redux-form';
+import { get } from 'lodash';
+
 import {
   Col,
   InfoPopover,
@@ -26,7 +28,7 @@ class CostForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
     stripes: PropTypes.shape({
-      store: PropTypes.object
+      store: PropTypes.object,
     }),
     dispatch: PropTypes.func,
     change: PropTypes.func,
@@ -40,16 +42,18 @@ class CostForm extends Component {
 
   onChangeInput(e, propertyName) {
     const { dispatch, change } = this.props;
+
     dispatch(change(propertyName, e));
   }
 
   calculateEstimatedPrice() {
     const { stripes: { store } } = this.props;
     const formValues = getFormValues('POLineForm')(store.getState());
-    const listPrice = parseFloat(formValues.cost.list_price) || 0;
-    const quantityPhysical = parseInt(formValues.cost.quantity_physical, 10) || 0;
-    const quantityElectronic = parseInt(formValues.cost.quantity_electronic, 10) || 0;
+    const listPrice = parseFloat(get(formValues, 'cost.list_price', 0)) || 0;
+    const quantityPhysical = parseInt(get(formValues, 'cost.quantity_physical', 0), 10) || 0;
+    const quantityElectronic = parseInt(get(formValues, 'cost.quantity_electronic', 0), 10) || 0;
     const estimatedPrice = parseFloat(listPrice * (quantityPhysical + quantityElectronic)).toFixed(2);
+
     return estimatedPrice;
   }
 
