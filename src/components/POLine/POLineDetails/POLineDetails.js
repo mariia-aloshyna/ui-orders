@@ -12,6 +12,8 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+import FolioFormattedTime from '../../FolioFormattedTime';
+
 class POLineDetails extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
@@ -56,10 +58,9 @@ class POLineDetails extends Component {
         </Row>
         <Row>
           <Col xs={6}>
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.poLine.createdOn" />}
-              value={get(initialValues, 'created')}
-            />
+            <KeyValue label={<FormattedMessage id="ui-orders.poLine.createdOn" />}>
+              <FolioFormattedTime dateString={get(initialValues, 'created')} />
+            </KeyValue>
           </Col>
           <Col xs={6}>
             <KeyValue
