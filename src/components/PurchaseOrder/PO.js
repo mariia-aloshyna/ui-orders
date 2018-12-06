@@ -1,16 +1,37 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get, isEmpty, isEqual } from 'lodash';
+
+import {
+  get,
+  isEmpty,
+  isEqual,
+} from 'lodash';
 
 import { IfPermission } from '@folio/stripes/core';
-import { Icon, IconButton, AccordionSet, Accordion, ExpandAllButton, Pane, PaneMenu, Row, Col, Button } from '@folio/stripes/components';
+import {
+  Accordion,
+  AccordionSet,
+  Button,
+  Col,
+  ExpandAllButton,
+  Icon,
+  IconButton,
+  Pane,
+  PaneMenu,
+  Row,
+} from '@folio/stripes/components';
+
+import {
+  LayerPO,
+  LayerPOLine,
+} from '../LayerCollection';
 import transitionToParams from '../Utils/transitionToParams';
+import ClosePOModal from '../Modal/ClosePOModal';
 import { AdjustmentView } from './Adjustment';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
-import { LayerPO, LayerPOLine } from '../LayerCollection';
 
 class PO extends Component {
   static manifest = Object.freeze({
@@ -166,6 +187,7 @@ class PO extends Component {
     const lastMenu = (
       <PaneMenu>
         <IfPermission perm="purchase_order.item.put">
+          <ClosePOModal orderId={get(initialValues, 'id', '')} />
           <FormattedMessage id="ui-orders.paneMenu.editOrder">
             {ariaLabel => (
               <IconButton
