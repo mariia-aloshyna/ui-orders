@@ -13,9 +13,9 @@ import {
   TextArea,
 } from '@folio/stripes/components';
 
-const ClosePOModalForm = ({ close, open, orderId }) => {
-  const cancelBtn = <FormattedMessage id="ui-orders.closePOModal.cancel" />;
-  const submitBtn = <FormattedMessage id="ui-orders.closePOModal.submit" />;
+const CloseOrderModalForm = ({ close, open, orderId }) => {
+  const cancelBtn = <FormattedMessage id="ui-orders.closeOrderModal.cancel" />;
+  const submitBtn = <FormattedMessage id="ui-orders.closeOrderModal.submit" />;
   const footer = (
     <ModalFooter
       secondaryButton={{
@@ -32,19 +32,19 @@ const ClosePOModalForm = ({ close, open, orderId }) => {
   return (
     <Modal
       footer={footer}
-      label={<FormattedMessage id="ui-orders.closePOModal.title" values={{ orderId }} />}
+      label={<FormattedMessage id="ui-orders.closeOrderModal.title" values={{ orderId }} />}
       open={open}
     >
       <Row>
         <Col xs={12}>
           <Field
             component={Select}
-            label={<FormattedMessage id="ui-orders.closePOModal.reason" />}
+            label={<FormattedMessage id="ui-orders.closeOrderModal.reason" />}
             name="reason"
           />
           <Field
             component={TextArea}
-            label={<FormattedMessage id="ui-orders.closePOModal.notes" />}
+            label={<FormattedMessage id="ui-orders.closeOrderModal.notes" />}
             name="notes"
           />
         </Col>
@@ -53,14 +53,14 @@ const ClosePOModalForm = ({ close, open, orderId }) => {
   );
 };
 
-ClosePOModalForm.propTypes = {
+CloseOrderModalForm.propTypes = {
   close: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   orderId: PropTypes.string.isRequired,
 };
 
 export default stripesForm({
-  form: 'closePOModalForm',
+  form: 'closeOrderModalForm',
   navigationCheck: true,
   enableReinitialize: true,
-})(ClosePOModalForm);
+})(CloseOrderModalForm);

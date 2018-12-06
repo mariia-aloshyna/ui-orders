@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import { Button } from '@folio/stripes/components';
 
-import ClosePOModalForm from './ClosePOModalForm';
+import CloseOrderModalForm from './CloseOrderModalForm';
 
-class ClosePOModal extends Component {
+class CloseOrderModal extends Component {
   static propTypes = {
     orderId: PropTypes.string.isRequired,
   };
@@ -44,7 +44,7 @@ class ClosePOModal extends Component {
         >
           <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
         </Button>
-        <ClosePOModalForm
+        <CloseOrderModalForm
           close={this.closeModal}
           orderId={orderId}
           open={this.state.openModal}
@@ -54,4 +54,4 @@ class ClosePOModal extends Component {
   }
 }
 
-export default ClosePOModal;
+export default CloseOrderModal;

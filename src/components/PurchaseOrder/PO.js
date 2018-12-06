@@ -27,7 +27,7 @@ import {
   LayerPOLine,
 } from '../LayerCollection';
 import transitionToParams from '../Utils/transitionToParams';
-import ClosePOModal from '../Modal/ClosePOModal';
+import { CloseOrderModal } from './CloseOrder';
 import { AdjustmentView } from './Adjustment';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
@@ -187,7 +187,7 @@ class PO extends Component {
     const lastMenu = (
       <PaneMenu>
         <IfPermission perm="purchase_order.item.put">
-          <ClosePOModal orderId={get(initialValues, 'id', '')} />
+          <CloseOrderModal orderId={get(initialValues, 'id', '')} />
           <FormattedMessage id="ui-orders.paneMenu.editOrder">
             {ariaLabel => (
               <IconButton
