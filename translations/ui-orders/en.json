@@ -379,6 +379,7 @@
   "orderSummary.totalEstimatedPrice": "Total Estimated Price",
   "orderSummary.totalUnits": "Total Units",
   "orderSummary.workflowStatus": "Workflow Status",
+  "paneBlock.closeBtn": "Close Order",
   "paneBlock.adjustment": "Adjustment",
   "paneBlock.POLines": "PO Lines",
   "paneBlock.POSummary": "PO Summary",
@@ -443,6 +444,11 @@
   "settings.setPOLInesLimit": "Set Purchase Order Lines Limit",
   "settings.setPOLInesLimit.changed": "The Limit of Purchase Order Lines has been successfully saved",
   "settings.setPOLInesLimit.validatation": "Please enter a whole number greater than 0 and less than 1000 to continue",
+  "closeOrderModal.reason": "Reason",
+  "closeOrderModal.notes": "Notes",
+  "closeOrderModal.cancel": "Cancel",
+  "closeOrderModal.submit": "Submit",
+  "closeOrderModal.title": "Close - Purchase Order #{orderId}",
 
   "errors.noMatch.oops": "Uh-oh!",
   "errors.noMatch.how": "How did you get to {location}?"
