@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -6,6 +7,7 @@ import {
   FieldArray,
   getFormValues,
 } from 'redux-form';
+
 import {
   Checkbox,
   Col,
@@ -15,15 +17,11 @@ import {
   TextField,
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
+
 import FieldOrderType from './FieldOrderType';
 import NotesForm from '../../NotesForm';
 import { required } from '../../Utils/Validate';
-import formatDate from '../../Utils/formatDate';
-
-const ORDER_ID_REGEXP = RegExp('^[a-zA-Z0-9]{5,16}$');
-const isValidPONumber = (value) => {
-  return ORDER_ID_REGEXP.test(value) ? undefined : 'must match "^[a-zA-Z0-9]{5,16}$"';
-};
+import FolioFormattedTime from '../../FolioFormattedTime';
 
 class PODetailsForm extends Component {
   static propTypes = {
@@ -174,7 +172,7 @@ class PODetailsForm extends Component {
   }
 
   render() {
-    const { initialValues: { created = '' } } = this.props;
+    const { initialValues } = this.props;
 
     return (
       <Row>
@@ -214,14 +212,13 @@ class PODetailsForm extends Component {
             id="po_number"
             label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
             name="po_number"
-            validate={[required, isValidPONumber]}
+            disabled
           />
         </Col>
         <Col xs={6} md={3}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}
-            value={formatDate(created)}
-          />
+          <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
+            <FolioFormattedTime dateString={get(initialValues, 'created')} />
+          </KeyValue>
         </Col>
         <Col xs={6} md={3} style={{ display: 'none' }}>
           <p>This is hidden</p>

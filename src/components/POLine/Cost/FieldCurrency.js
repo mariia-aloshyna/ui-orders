@@ -4,7 +4,7 @@ import { Field } from 'redux-form';
 import { Select } from '@folio/stripes/components';
 import { Required } from '../../Utils/Validate';
 
-const CURRENCY = {
+export const CURRENCY = {
   usd: 'USD',
 };
 

@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
-import { cloneDeep, get } from 'lodash';
-import moment from 'moment';
+import {
+  cloneDeep,
+  get,
+} from 'lodash';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
+
 import { Layer } from '@folio/stripes/components';
-import { DATE_FORMAT } from '../Utils/const';
+
 import transitionToParams from '../Utils/transitionToParams';
 import { POLineForm } from '../POLine';
+import { CURRENCY } from '../POLine/Cost/FieldCurrency';
 
 class LayerPOLine extends Component {
   static propTypes = {
@@ -52,8 +56,9 @@ class LayerPOLine extends Component {
     const orderId = get(match, 'params.id');
 
     const newObj = {
-      cost: {},
-      created: moment.utc().format(DATE_FORMAT),
+      cost: {
+        currency: CURRENCY.usd,
+      },
       source: {},
       vendor_detail: {},
     };

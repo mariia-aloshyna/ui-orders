@@ -79,6 +79,7 @@ class CostForm extends Component {
             name="cost.list_price"
             onChange={e => this.onChangeInput(e.target.value, 'cost.list_price')}
             type="number"
+            validate={requiredPositiveNumber}
           />
         </Col>
         <Col xs={6}>
