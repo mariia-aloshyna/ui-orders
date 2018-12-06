@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { get, toString } from 'lodash';
+import {
+  cloneDeep,
+  get,
+  toString,
+} from 'lodash';
 import { FormattedMessage } from 'react-intl';
+
 import { filters2cql } from '@folio/stripes/components';
 import { SearchAndSort } from '@folio/stripes/smart-components';
+
 import packageInfo from '../../package';
 import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
 import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
+import FolioFormattedTime from '../components/FolioFormattedTime';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -29,13 +36,9 @@ class Main extends Component {
     records: {
       type: 'okapi',
       path: 'orders',
-      records: 'composite_purchase_orders',
+      records: 'purchase_orders',
       recordsRequired: '%{resultCount}',
       perRequest: RESULT_COUNT_INCREMENT,
-      POST: {
-        path: 'purchase_order',
-        records: 'purchase_orders',
-      },
       GET: {
         params: {
           query: (...args) => {
@@ -99,6 +102,12 @@ class Main extends Component {
       },
     },
     // Po Line
+    poLine: {
+      type: 'okapi',
+      fetch: false,
+      path: 'po_line',
+      records: 'po_lines',
+    },
     queryII: {
       initialValue: {
         vendorID: '',
@@ -190,6 +199,9 @@ class Main extends Component {
       records: PropTypes.shape({
         POST: PropTypes.func.isRequired,
       }),
+      poLine: PropTypes.shape({
+        POST: PropTypes.func.isRequired,
+      }),
     }).isRequired,
     resources: PropTypes.object.isRequired,
     stripes: PropTypes.shape({
@@ -231,19 +243,18 @@ class Main extends Component {
     this.state = {};
   }
 
-  massageNewRecord = (orderData) => {
-    orderData.created = moment.utc().format();
-    delete orderData.created_by_name;
-    delete orderData.assigned_to_user;
-    delete orderData.vendor_name;
-    delete orderData.bill_to;
-    delete orderData.ship_to;
-  }
-
   create = (orderData) => {
     const { mutator } = this.props;
+    const order = cloneDeep(orderData);
 
-    mutator.records.POST(orderData).then(newOrder => {
+    order.created = moment.utc().format();
+    delete order.created_by_name;
+    delete order.assigned_to_user;
+    delete order.vendor_name;
+    delete order.bill_to;
+    delete order.ship_to;
+
+    mutator.records.POST(order).then(newOrder => {
       mutator.query.update({
         _path: `/orders/view/${newOrder.id}`,
         layer: null,
@@ -272,7 +283,7 @@ class Main extends Component {
     } = this.props;
     const resultsFormatter = {
       'po_number': data => toString(get(data, ['po_number'], '')),
-      'created': data => toString(get(data, ['created'], '')),
+      'created': data => <FolioFormattedTime dateString={get(data, 'created')} />,
       'notes': data => toString(get(data, ['notes'], '')),
       'assigned_to': data => toString(get(data, ['assigned_to'], '')),
     };

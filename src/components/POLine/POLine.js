@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import cloneDeep from 'lodash/cloneDeep';
 import { get } from 'lodash';
 import { IfPermission } from '@folio/stripes/core';
 import {
@@ -32,7 +31,6 @@ import {
   PHRESOURCES,
 } from './const';
 import { LayerPOLine } from '../LayerCollection';
-import mockedOrders from '../Utils/mockedOrders';
 
 class POLine extends Component {
   static manifest = Object.freeze({
@@ -80,36 +78,29 @@ class POLine extends Component {
         License: false,
       },
     };
-    this.handleExpandAll = this.handleExpandAll.bind(this);
-    this.onToggleSection = this.onToggleSection.bind(this);
     this.transitionToParams = transitionToParams.bind(this);
   }
 
-  onToggleSection({ id }) {
-    this.setState((curState) => {
-      const newState = cloneDeep(curState);
+  onToggleSection = ({ id }) => {
+    this.setState(({ sections }) => {
+      const isSectionOpened = sections[id];
 
-      newState.sections[id] = !curState.sections[id];
-
-      return newState;
+      return {
+        sections: {
+          ...sections,
+          [id]: !isSectionOpened,
+        },
+      };
     });
   }
 
-  handleExpandAll(obj) {
-    this.setState((curState) => {
-      const newState = cloneDeep(curState);
-
-      newState.sections = obj;
-
-      return newState;
-    });
+  handleExpandAll = (sections) => {
+    this.setState({ sections });
   }
 
   getData() {
-    const { match: { params: { id, lineId } }, resources } = this.props;
-    const mockedOrder = mockedOrders[id];
-    const defaultLines = get(mockedOrder, 'po_lines', []);
-    const lines = get(resources, ['order', 'records', 0, 'po_lines'], defaultLines);
+    const { match: { params: { lineId } }, resources } = this.props;
+    const lines = get(resources, ['order', 'records', 0, 'po_lines'], []);
 
     return lines.find(u => u.id === lineId);
   }
@@ -202,7 +193,7 @@ class POLine extends Component {
           </Accordion>
         </AccordionSet>
         <LayerPOLine
-          order={initialValues}
+          initialValues={initialValues}
           location={location}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}

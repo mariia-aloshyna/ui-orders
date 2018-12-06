@@ -4,6 +4,8 @@ import { Field } from 'redux-form';
 import {
   FormattedMessage,
 } from 'react-intl';
+import { get } from 'lodash';
+
 import {
   Checkbox,
   Col,
@@ -78,7 +80,7 @@ class POLineDetailsForm extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.source" />}
-              value={poLine.source.description}
+              value={get(poLine, 'source.description')}
             />
           </Col>
           <Col xs={6}>

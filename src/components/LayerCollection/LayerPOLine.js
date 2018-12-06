@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { cloneDeep, get } from 'lodash';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
@@ -10,11 +11,11 @@ import { POLineForm } from '../POLine';
 class LayerPOLine extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
-    onCancel: PropTypes.func,
-    order: PropTypes.object,
     parentMutator: PropTypes.object.isRequired,
     parentResources: PropTypes.object.isRequired,
     stripes: PropTypes.object.isRequired,
+    initialValues: PropTypes.object,
+    onCancel: PropTypes.func,
   }
 
   constructor(props) {
@@ -24,45 +25,71 @@ class LayerPOLine extends Component {
   }
 
   submitPOLine(data) {
-    this.props.parentMutator.poLine.POST(data).then(() => {
+    const newLine = cloneDeep(data);
+
+    delete newLine.cost;
+    delete newLine.created;
+    delete newLine.source;
+    delete newLine.vendor_detail;
+    this.props.parentMutator.poLine.POST(newLine).then(() => {
       this.props.onCancel();
     });
   }
 
   updatePOLine(data) {
     const { parentMutator, location: { pathname } } = this.props;
+
     parentMutator.poLine.PUT(data).then(() => {
       parentMutator.query.update({
         _path: `${pathname}`,
-        layer: null
+        layer: null,
       });
     });
   }
 
   getCreatePOLIneInitialValues() {
-    const { order } = this.props;
+    const { match } = this.props;
+    const orderId = get(match, 'params.id');
+
     const newObj = {
       cost: {},
       created: moment.utc().format(DATE_FORMAT),
       source: {},
       vendor_detail: {},
     };
-    if (order && order.id) {
-      newObj.purchase_order_id = order.id;
+
+    if (orderId) {
+      newObj.purchase_order_id = orderId;
     }
+
     return newObj;
   }
 
   render() {
-    const { location } = this.props;
+    const { initialValues, location } = this.props;
     const query = location.search ? queryString.parse(location.search) : {};
+
     return (
       <div>
-        <Layer isOpen={query.layer ? query.layer === 'create-po-line' : false} label="Create PO Line Dialog">
-          <this.connectedPOLineForm initialValues={this.getCreatePOLIneInitialValues()} onSubmit={(record) => { this.submitPOLine(record); }} {...this.props} />
+        <Layer
+          isOpen={query.layer ? query.layer === 'create-po-line' : false}
+          contentLabel="Create PO Line Dialog"
+        >
+          <this.connectedPOLineForm
+            initialValues={this.getCreatePOLIneInitialValues()}
+            onSubmit={(record) => { this.submitPOLine(record); }}
+            {...this.props}
+          />
         </Layer>
-        <Layer isOpen={query.layer ? query.layer === 'edit-po-line' : false} label="Edit PO Line Dialog">
-          <this.connectedPOLineForm initialValues={this.props.order} onSubmit={(record) => { this.updatePOLine(record); }} {...this.props} />
+        <Layer
+          isOpen={query.layer ? query.layer === 'edit-po-line' : false}
+          contentLabel="Edit PO Line Dialog"
+        >
+          <this.connectedPOLineForm
+            initialValues={initialValues}
+            onSubmit={(record) => { this.updatePOLine(record); }}
+            {...this.props}
+          />
         </Layer>
       </div>
     );

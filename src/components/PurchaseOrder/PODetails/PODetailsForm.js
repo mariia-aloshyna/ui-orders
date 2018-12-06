@@ -20,6 +20,11 @@ import NotesForm from '../../NotesForm';
 import { required } from '../../Utils/Validate';
 import formatDate from '../../Utils/formatDate';
 
+const ORDER_ID_REGEXP = RegExp('^[a-zA-Z0-9]{5,16}$');
+const isValidPONumber = (value) => {
+  return ORDER_ID_REGEXP.test(value) ? undefined : 'must match "^[a-zA-Z0-9]{5,16}$"';
+};
+
 class PODetailsForm extends Component {
   static propTypes = {
     showPaneUsers: PropTypes.func,
@@ -185,9 +190,10 @@ class PODetailsForm extends Component {
             id="vendor_name"
             label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
             name="vendor_name"
-            readOnly
+            disabled
+            validate={required}
           />
-          <div style={{ marginLeft: '10px', top: '2px', position: 'relative' }}>
+          <div style={{ marginLeft: '10px', top: '0', position: 'relative' }}>
             {this.userVendor()}
           </div>
         </Col>
@@ -198,7 +204,7 @@ class PODetailsForm extends Component {
             id="created_by_name"
             label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}
             name="created_by_name"
-            readOnly
+            disabled
           />
         </Col>
         <Col xs={6} md={3}>
@@ -208,7 +214,7 @@ class PODetailsForm extends Component {
             id="po_number"
             label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
             name="po_number"
-            validate={required}
+            validate={[required, isValidPONumber]}
           />
         </Col>
         <Col xs={6} md={3}>
@@ -224,7 +230,6 @@ class PODetailsForm extends Component {
             fullWidth
             id="vendor"
             name="vendor"
-            readOnly
           />
         </Col>
         <Col xs={6} md={3} style={{ display: 'none' }}>
@@ -255,9 +260,9 @@ class PODetailsForm extends Component {
             id="assigned_to_user"
             label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
             name="assigned_to_user"
-            readOnly
+            disabled
           />
-          <div style={{ marginLeft: '10px', top: '2px', position: 'relative' }}>
+          <div style={{ marginLeft: '10px', top: '0', position: 'relative' }}>
             {this.userModal()}
           </div>
         </Col>

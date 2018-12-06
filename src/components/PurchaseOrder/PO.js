@@ -11,14 +11,29 @@ import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
 import { LayerPO, LayerPOLine } from '../LayerCollection';
-import mockedOrders from '../Utils/mockedOrders';
 
 class PO extends Component {
   static manifest = Object.freeze({
     order: {
       type: 'okapi',
       path: 'orders/:{id}',
-      throwErrors: false,
+    },
+    poLine: {
+      type: 'okapi',
+      clear: true,
+      path: 'po_line',
+      records: 'po_lines',
+      GET: {
+        params: {
+          query: (...args) => {
+            const params = args[1];
+            const cql = `(purchase_order_id="${params.id}*")`;
+
+            return cql;
+          },
+        },
+        staticFallback: { params: {} },
+      },
     },
   })
 
@@ -40,8 +55,8 @@ class PO extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { match: { params: { id } }, parentMutator, parentResources, resources } = props;
-    const initialValues = get(resources, ['order', 'records', 0], mockedOrders[id]);
+    const { parentMutator, parentResources, resources } = props;
+    const initialValues = get(resources, ['order', 'records', 0]);
 
     // Set initialValues
     if (initialValues) {
@@ -92,8 +107,6 @@ class PO extends Component {
       },
       initialValues: {},
     };
-    this.handleExpandAll = this.handleExpandAll.bind(this);
-    this.onToggleSection = this.onToggleSection.bind(this);
     this.onAddPOLine = this.onAddPOLine.bind(this);
     this.transitionToParams = transitionToParams.bind(this);
   }
@@ -106,7 +119,7 @@ class PO extends Component {
     this.props.parentMutator.user.update({ userID: data });
   }
 
-  onToggleSection({ id }) {
+  onToggleSection = ({ id }) => {
     this.setState(({ sections }) => {
       const isSectionOpened = sections[id];
 
@@ -119,7 +132,7 @@ class PO extends Component {
     });
   }
 
-  handleExpandAll(sections) {
+  handleExpandAll = (sections) => {
     this.setState({ sections });
   }
 
@@ -147,9 +160,9 @@ class PO extends Component {
   }
 
   render() {
-    const { location, history, match } = this.props;
+    const { location, history, match, resources } = this.props;
     const initialValues = this.state.initialValues || {};
-    const poLines = get(initialValues, 'po_lines', []);
+    const poLines = get(resources, ['poLine', 'records'], []);
     const lastMenu = (
       <PaneMenu>
         <IfPermission perm="purchase_order.item.put">

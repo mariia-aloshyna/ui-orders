@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { cloneDeep, get } from 'lodash';
+import { get } from 'lodash';
 import { IfPermission } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/form';
 import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
@@ -32,8 +32,6 @@ class POForm extends Component {
       },
     };
     this.deletePO = this.deletePO.bind(this);
-    this.handleExpandAll = this.handleExpandAll.bind(this);
-    this.onToggleSection = this.onToggleSection.bind(this);
   }
 
   getAddFirstMenu() {
@@ -71,24 +69,21 @@ class POForm extends Component {
     );
   }
 
-  onToggleSection({ id }) {
-    this.setState((curState) => {
-      const newState = cloneDeep(curState);
+  onToggleSection = ({ id }) => {
+    this.setState(({ sections }) => {
+      const isSectionOpened = sections[id];
 
-      newState.sections[id] = !curState.sections[id];
-
-      return newState;
+      return {
+        sections: {
+          ...sections,
+          [id]: !isSectionOpened,
+        },
+      };
     });
   }
 
-  handleExpandAll(obj) {
-    this.setState((curState) => {
-      const newState = cloneDeep(curState);
-
-      newState.sections = obj;
-
-      return newState;
-    });
+  handleExpandAll = (sections) => {
+    this.setState({ sections });
   }
 
   deletePO(ID) {
