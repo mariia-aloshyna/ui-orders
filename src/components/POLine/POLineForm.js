@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import includes from 'lodash/includes';
-import get from 'lodash/get';
+import {
+  get,
+  includes,
+} from 'lodash';
 import { Fields } from 'redux-form';
+
 import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
@@ -16,6 +19,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
+
 import { EresourcesForm } from './Eresources';
 import { PhysicalForm } from './Physical';
 import { POLineDetailsForm } from './POLineDetails';
@@ -28,6 +32,7 @@ import {
   PHRESOURCES,
 } from './const';
 import HandleErrors from '../Utils/HandleErrors';
+
 import css from './css/POLineForm.css';
 
 class POLineForm extends Component {
@@ -182,7 +187,7 @@ class POLineForm extends Component {
     const message = (
       <em className={css.requiredIcon} style={{ color: 'red', display: 'flex', alignItems: 'center' }}>
         <Icon
-          icon="validation-error"
+          icon="exclamation-circle"
           size="medium"
         />
         Required fields!

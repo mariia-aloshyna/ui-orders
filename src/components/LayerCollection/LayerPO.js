@@ -45,12 +45,12 @@ class LayerPO extends Component {
 
   render() {
     const { initialValues, location } = this.props;
-    const query = location.search ? queryString.parse(location.search) : {};
+    const { layer } = location.search ? queryString.parse(location.search) : {};
 
-    return (
-      <div>
+    if (layer === 'edit') {
+      return (
         <Layer
-          isOpen={query.layer ? query.layer === 'edit' : false}
+          isOpen
           contentLabel="Edit Order Dialog"
         >
           <this.connectedPOForm
@@ -59,20 +59,28 @@ class LayerPO extends Component {
             {...this.props}
           />
         </Layer>
+      );
+    } else if (layer === 'receive-items') {
+      return (
         <Layer
-          isOpen={query.layer ? query.layer === 'receive-items' : false}
+          isOpen
           contentLabel="Receive Items"
         >
           <this.connectedReceiveItems openReceived={this.openReceived} {...this.props} />
         </Layer>
+      );
+    } else if (layer === 'received') {
+      return (
         <Layer
-          isOpen={query.layer ? query.layer === 'received' : false}
+          isOpen
           contentLabel="Received"
         >
           <this.connectedReceived {...this.props} />
         </Layer>
-      </div>
-    );
+      );
+    }
+
+    return null;
   }
 }
 

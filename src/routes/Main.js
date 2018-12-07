@@ -108,34 +108,16 @@ class Main extends Component {
       path: 'po_line',
       records: 'po_lines',
     },
-    queryII: {
-      initialValue: {
-        vendorID: '',
-        createdByID: '',
-        userID: '',
-      },
-    },
-    vendor: {
-      type: 'okapi',
-      path: 'vendor',
-      records: 'vendors',
-      GET: {
-        params: {
-          query: (...args) => {
-            const resourceData = args[2];
-            const cql = `(id="${resourceData.queryII.vendorID}")`;
-
-            return cql;
-          },
-        },
-        limit: 1,
-        staticFallback: { params: {} },
-      },
-    },
     vendors: {
       type: 'okapi',
       path: 'vendor',
       records: 'vendors',
+      perRequest: 1000,
+    },
+    users: {
+      type: 'okapi',
+      path: 'users',
+      records: 'users',
       perRequest: 1000,
     },
     fund: {
@@ -143,45 +125,6 @@ class Main extends Component {
       path: 'fund',
       records: 'funds',
       perRequest: 1000,
-    },
-    user: {
-      type: 'okapi',
-      path: 'users',
-      records: 'users',
-      GET: {
-        params: {
-          query: (...args) => {
-            const resourceData = args[2];
-            const cql = `(id="${resourceData.queryII.userID}")`;
-
-            return cql;
-          },
-        },
-        limit: 1,
-        staticFallback: { params: {} },
-      },
-    },
-    createdBy: {
-      type: 'okapi',
-      path: 'users',
-      records: 'users',
-      GET: {
-        params: {
-          query: (...args) => {
-            const resourceData = args[2];
-            const cql = `(id="${resourceData.queryII.createdByID}")`;
-
-            return cql;
-          },
-        },
-        limit: 1,
-        staticFallback: { params: {} },
-      },
-    },
-    source: {
-      type: 'okapi',
-      path: 'source?query=cql.allRecords=1 sortby desc',
-      records: 'sources',
     },
     materialTypes: {
       type: 'okapi',
@@ -281,11 +224,19 @@ class Main extends Component {
         },
       },
     } = this.props;
+    const users = get(resources, 'users.records', []);
     const resultsFormatter = {
       'po_number': data => toString(get(data, ['po_number'], '')),
       'created': data => <FolioFormattedTime dateString={get(data, 'created')} />,
-      'notes': data => toString(get(data, ['notes'], '')),
-      'assigned_to': data => toString(get(data, ['assigned_to'], '')),
+      'notes': data => get(data, 'notes', []).join(', '),
+      'assigned_to': data => {
+        const assignedToId = get(data, 'assigned_to', '');
+        const assignedTo = users.find(d => d.id === assignedToId);
+
+        return assignedTo && assignedTo.personal
+          ? `${assignedTo.personal.firstName} ${assignedTo.personal.lastName}`
+          : '';
+      },
     };
     const newRecordInitialValues = {
       created_by: id || '',

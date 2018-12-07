@@ -72,12 +72,12 @@ class LayerPOLine extends Component {
 
   render() {
     const { initialValues, location } = this.props;
-    const query = location.search ? queryString.parse(location.search) : {};
+    const { layer } = location.search ? queryString.parse(location.search) : {};
 
-    return (
-      <div>
+    if (layer === 'create-po-line') {
+      return (
         <Layer
-          isOpen={query.layer ? query.layer === 'create-po-line' : false}
+          isOpen
           contentLabel="Create PO Line Dialog"
         >
           <this.connectedPOLineForm
@@ -86,8 +86,11 @@ class LayerPOLine extends Component {
             {...this.props}
           />
         </Layer>
+      );
+    } else if (layer === 'edit-po-line') {
+      return (
         <Layer
-          isOpen={query.layer ? query.layer === 'edit-po-line' : false}
+          isOpen
           contentLabel="Edit PO Line Dialog"
         >
           <this.connectedPOLineForm
@@ -96,8 +99,10 @@ class LayerPOLine extends Component {
             {...this.props}
           />
         </Layer>
-      </div>
-    );
+      );
+    }
+
+    return null;
   }
 }
 

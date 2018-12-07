@@ -125,6 +125,7 @@ class POLine extends Component {
       <PaneMenu>
         <IfPermission perm="po_line.item.put">
           <IconButton
+            disabled
             icon="edit"
             id="clickable-edit-po-line"
             onClick={this.onEditPOLine}
