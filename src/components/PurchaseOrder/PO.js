@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-
-import {
-  get,
-  isEmpty,
-  isEqual,
-} from 'lodash';
+import { get } from 'lodash';
 
 import { IfPermission } from '@folio/stripes/core';
 import {
@@ -75,49 +70,6 @@ class PO extends Component {
     resources: PropTypes.object.isRequired,
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const { parentMutator, parentResources, resources } = props;
-    const initialValues = get(resources, ['order', 'records', 0]);
-
-    // Set initialValues
-    if (initialValues) {
-      if (!isEqual(initialValues, state.initialValues)) {
-        return { initialValues };
-      }
-    }
-    // Check if initialValues STATE before updating child;
-    if (!isEmpty(state.initialValues)) {
-      const createdBy = get(parentResources, 'createdBy.records', []);
-      const vendor = get(parentResources, 'vendor.records', []);
-      const user = get(parentResources, 'user.records', []);
-      const isAnyDataLoaded = vendor.length > 0 || user.length > 0 || createdBy.length > 0;
-
-      if (isAnyDataLoaded) {
-        const initData = state.initialValues;
-        const vendorName = vendor[0] && vendor[0].name ? `${vendor[0].name}` : '';
-        const assignToName = user[0] && user[0].personal ? `${user[0].personal.firstName} ${user[0].personal.lastName}` : '';
-        const createdByPersonal = get(createdBy, '0.personal');
-        const createdByName = createdByPersonal ? `${createdByPersonal.firstName} ${createdByPersonal.lastName}` : '';
-        const isDataChanged = vendorName !== initData.vendor_name || assignToName !== initData.assigned_to_user || createdByName !== initData.created_by_name;
-
-        if (isDataChanged) {
-          parentMutator.queryII.update({
-            createdByID: initData.created_by,
-            vendorID: initData.vendor,
-            userID: initData.assigned_to,
-          });
-          initData.vendor_name = vendorName;
-          initData.assigned_to_user = assignToName;
-          initData.created_by_name = createdByName;
-
-          return { initialValues: initData };
-        }
-      }
-    }
-
-    return null;
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -126,7 +78,6 @@ class PO extends Component {
         POSummary: true,
         POListing: true,
       },
-      initialValues: {},
     };
     this.onAddPOLine = this.onAddPOLine.bind(this);
     this.transitionToParams = transitionToParams.bind(this);
@@ -181,8 +132,8 @@ class PO extends Component {
   }
 
   render() {
-    const { location, history, match, resources } = this.props;
-    const initialValues = this.state.initialValues || {};
+    const { location, history, match, resources, parentResources } = this.props;
+    const initialValues = get(resources, ['order', 'records', 0]);
     const poLines = get(resources, ['poLine', 'records'], []);
     const lastMenu = (
       <PaneMenu>
@@ -196,7 +147,6 @@ class PO extends Component {
                 style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
                 onClick={this.props.onEdit}
                 href={this.props.editLink}
-                title={ariaLabel}
               />
             )}
           </FormattedMessage>
@@ -219,6 +169,18 @@ class PO extends Component {
         </Pane>
       );
     }
+
+    const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === initialValues.vendor);
+    const assignedTo = get(parentResources, 'users.records', []).find(d => d.id === initialValues.assigned_to);
+    const createdBy = get(parentResources, 'users.records', []).find(d => d.id === initialValues.created_by);
+
+    initialValues.vendor_name = get(vendor, 'name');
+    initialValues.assigned_to_user = assignedTo && assignedTo.personal
+      ? `${assignedTo.personal.firstName} ${assignedTo.personal.lastName}`
+      : '';
+    initialValues.created_by_name = createdBy && createdBy.personal
+      ? `${createdBy.personal.firstName} ${createdBy.personal.lastName}`
+      : '';
 
     return (
       <Pane
