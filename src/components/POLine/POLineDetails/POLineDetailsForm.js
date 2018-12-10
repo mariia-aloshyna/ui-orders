@@ -29,11 +29,13 @@ const isValidLineNumber = (value) => {
 
 class POLineDetailsForm extends Component {
   static propTypes = {
-    initialValues: PropTypes.object,
+    initialValues: PropTypes.object.isRequired,
+    change: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
 
   render() {
-    const { initialValues: poLine } = this.props;
+    const { change, dispatch, initialValues: poLine } = this.props;
 
     return (
       <Fragment>
@@ -62,7 +64,10 @@ class POLineDetailsForm extends Component {
             />
           </Col>
           <Col xs={6}>
-            <FieldOrderFormat />
+            <FieldOrderFormat
+              change={change}
+              dispatch={dispatch}
+            />
           </Col>
           <Col xs={6}>
             <FieldWorkflowStatus />
