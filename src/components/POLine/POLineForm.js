@@ -4,7 +4,10 @@ import {
   get,
   includes,
 } from 'lodash';
-import { Fields } from 'redux-form';
+import {
+  Fields,
+  getFormValues,
+} from 'redux-form';
 
 import { IfPermission } from '@folio/stripes/core';
 import {
@@ -171,7 +174,7 @@ class POLineForm extends Component {
   }
 
   render() {
-    const { initialValues, onCancel } = this.props;
+    const { initialValues, onCancel, stripes: { store } } = this.props;
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? (
       <span>
@@ -216,7 +219,8 @@ class POLineForm extends Component {
       );
     }
 
-    const orderFormat = get(initialValues, 'order_format');
+    const formValues = getFormValues('POLineForm')(store.getState());
+    const orderFormat = get(formValues, 'order_format');
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
 
