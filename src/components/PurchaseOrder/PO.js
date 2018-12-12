@@ -138,7 +138,10 @@ class PO extends Component {
     const lastMenu = (
       <PaneMenu>
         <IfPermission perm="purchase_order.item.put">
-          <CloseOrderModal orderId={get(initialValues, 'id', '')} />
+          <CloseOrderModal
+            orderId={get(initialValues, 'id')}
+            workflowStatus={get(initialValues, 'workflow_status')}
+          />
           <FormattedMessage id="ui-orders.paneMenu.editOrder">
             {ariaLabel => (
               <IconButton

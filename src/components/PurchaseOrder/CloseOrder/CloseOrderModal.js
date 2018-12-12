@@ -4,11 +4,13 @@ import PropTypes from 'prop-types';
 
 import { Button } from '@folio/stripes/components';
 
+import { WORKFLOW_STATUS } from '../../POLine/POLineDetails/FieldWorkflowStatus';
 import CloseOrderModalForm from './CloseOrderModalForm';
 
 class CloseOrderModal extends Component {
   static propTypes = {
-    orderId: PropTypes.string.isRequired,
+    orderId: PropTypes.string,
+    workflowStatus: PropTypes.string,
   };
 
   constructor(props) {
@@ -32,18 +34,21 @@ class CloseOrderModal extends Component {
   }
 
   render() {
-    const { orderId } = this.props;
+    const { orderId, workflowStatus } = this.props;
+    const isVisible = orderId && workflowStatus === WORKFLOW_STATUS.open;
 
     return (
       <Fragment>
-        <Button
-          buttonStyle="primary"
-          marginBottom0
-          onClick={this.openModal}
-          style={{ marginRight: '10px' }}
-        >
-          <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
-        </Button>
+        {isVisible && (
+          <Button
+            buttonStyle="primary"
+            marginBottom0
+            onClick={this.openModal}
+            style={{ marginRight: '10px' }}
+          >
+            <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
+          </Button>
+        )}
         <CloseOrderModalForm
           close={this.closeModal}
           orderId={orderId}

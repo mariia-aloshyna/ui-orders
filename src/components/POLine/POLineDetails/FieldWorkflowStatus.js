@@ -4,7 +4,7 @@ import { Field } from 'redux-form';
 
 import { Select } from '@folio/stripes/components';
 
-const WORKFLOW_STATUS = {
+export const WORKFLOW_STATUS = {
   closed: 'Closed',
   open: 'Open',
   pending: 'Pending',
