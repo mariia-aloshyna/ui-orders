@@ -74,7 +74,7 @@ class POLinesLimit extends Component {
       setPOLinesLimit
         .POST({
           module: 'ORDERS',
-          config_name: 'poLines-limit',
+          configName: 'poLines-limit',
           value: polinesLimit,
         })
         .then(() => {
