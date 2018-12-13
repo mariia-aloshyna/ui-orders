@@ -26,9 +26,10 @@ class FieldOrderFormat extends Component {
     change: PropTypes.func.isRequired,
   }
 
-  onChangeSelect = () => {
+  onChangeSelect = (value) => {
     const { dispatch, change } = this.props;
 
+    dispatch(change('order_format', value));
     dispatch(change('cost.quantity_physical', ''));
     dispatch(change('cost.quantity_electronic', ''));
   }
@@ -40,7 +41,7 @@ class FieldOrderFormat extends Component {
         label={<FormattedMessage id="ui-orders.poLine.orderFormat" />}
         name="order_format"
         validate={[Required]}
-        onChange={this.onChangeSelect()}
+        onChange={e => this.onChangeSelect(e.target.value)}
       >
         <FormattedMessage id="ui-orders.dropdown.select">
           {(message) => <option value="">{message}</option>}
