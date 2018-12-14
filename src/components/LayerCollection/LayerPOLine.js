@@ -20,6 +20,7 @@ class LayerPOLine extends Component {
     stripes: PropTypes.object.isRequired,
     initialValues: PropTypes.object,
     onCancel: PropTypes.func,
+    order: PropTypes.object,
   }
 
   constructor(props) {
@@ -35,6 +36,7 @@ class LayerPOLine extends Component {
     delete newLine.created;
     delete newLine.source;
     delete newLine.vendor_detail;
+    delete newLine.eresource;
     this.props.parentMutator.poLine.POST(newLine).then(() => {
       this.props.onCancel();
     });
@@ -61,6 +63,7 @@ class LayerPOLine extends Component {
       },
       source: {},
       vendor_detail: {},
+      eresource: {},
     };
 
     if (orderId) {

@@ -134,8 +134,10 @@ class POLine extends Component {
         </IfPermission>
       </PaneMenu>
     );
-    const { location } = this.props;
-    const initialValues = this.getData();
+    const { location, match: { params: { lineId } }, resources } = this.props;
+    const order = get(resources, ['order', 'records', 0]);
+    const lines = get(order, 'po_lines', []);
+    const initialValues = lines.find(u => u.id === lineId);
 
     if (!initialValues) {
       return (
@@ -200,6 +202,7 @@ class POLine extends Component {
           onCancel={this.props.onCloseEdit}
           parentResources={this.props.parentResources}
           parentMutator={this.props.parentMutator}
+          order={order}
         />
       </Pane>
     );
