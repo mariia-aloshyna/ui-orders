@@ -246,6 +246,7 @@ class PO extends Component {
           match={match}
           parentResources={this.props.parentResources}
           parentMutator={this.props.parentMutator}
+          order={initialValues}
         />
       </Pane>
     );

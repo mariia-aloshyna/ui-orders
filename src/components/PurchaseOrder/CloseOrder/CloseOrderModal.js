@@ -37,18 +37,20 @@ class CloseOrderModal extends Component {
     const { orderId, workflowStatus } = this.props;
     const isVisible = orderId && workflowStatus === WORKFLOW_STATUS.open;
 
+    if (!isVisible) {
+      return null;
+    }
+
     return (
       <Fragment>
-        {isVisible && (
-          <Button
-            buttonStyle="primary"
-            marginBottom0
-            onClick={this.openModal}
-            style={{ marginRight: '10px' }}
-          >
-            <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
-          </Button>
-        )}
+        <Button
+          buttonStyle="primary"
+          marginBottom0
+          onClick={this.openModal}
+          style={{ marginRight: '10px' }}
+        >
+          <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
+        </Button>
         <CloseOrderModalForm
           close={this.closeModal}
           orderId={orderId}
