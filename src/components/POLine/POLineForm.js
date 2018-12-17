@@ -51,6 +51,7 @@ class POLineForm extends Component {
     parentMutator: PropTypes.object,
     poURL: PropTypes.string,
     location: PropTypes.object.isRequired,
+    deletePOLine: PropTypes.func,
   }
 
   constructor(props) {
@@ -81,7 +82,6 @@ class POLineForm extends Component {
         },
       },
     };
-    this.deletePOLine = this.deletePOLine.bind(this);
     this.updateSectionErrors = this.updateSectionErrors.bind(this);
   }
 
@@ -145,17 +145,6 @@ class POLineForm extends Component {
     this.setState({ sections });
   }
 
-  deletePOLine(ID) {
-    const { parentMutator } = this.props;
-
-    parentMutator.poLine.DELETE({ id: ID }).then(() => {
-      parentMutator.query.update({
-        _path: '/orders',
-        layer: null,
-      });
-    });
-  }
-
   grabFieldNames() {
     const { sectionErrors } = this.state;
     const newArr = [];
@@ -174,17 +163,18 @@ class POLineForm extends Component {
   }
 
   render() {
-    const { initialValues, onCancel, stripes: { store } } = this.props;
+    const { initialValues, onCancel, deletePOLine, stripes: { store } } = this.props;
+    const lineId = get(initialValues, 'id');
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? (
+    const paneTitle = lineId ? (
       <span>
-        {`Edit: ${get(initialValues, ['id'], '')}`}
+        {`Edit: ${lineId || ''}`}
       </span>
     ) : 'Add PO Line';
-    const lastMenu = initialValues.id ?
+    const lastMenu = lineId ?
       this.getLastMenu('clickable-updatePoLine', 'Update PO Line') :
       this.getLastMenu('clickable-createnewPoLine', 'Create PO Line');
-    const showDeleteButton = initialValues.id || false;
+    const showDeleteButton = lineId || false;
     // Section Error Handling
     const { sectionErrors } = this.state;
     const message = (
@@ -336,9 +326,9 @@ class POLineForm extends Component {
                           <Button
                             type="button"
                             buttonStyle="danger"
-                            onClick={() => { this.deletePOLine(this.props.initialValues.id); }}
+                            onClick={() => { deletePOLine(lineId); }}
                           >
-                            {`Delete - ${this.props.initialValues.id}`}
+                            {`Delete - ${lineId}`}
                           </Button>
                         }
                       </Col>

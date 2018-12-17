@@ -21,6 +21,11 @@ class LayerPOLine extends Component {
     initialValues: PropTypes.object,
     onCancel: PropTypes.func,
     order: PropTypes.object,
+    lineMutator: PropTypes.shape({
+      POST: PropTypes.func,
+      PUT: PropTypes.func,
+      DELETE: PropTypes.func,
+    }).isRequired,
   }
 
   constructor(props) {
@@ -31,23 +36,41 @@ class LayerPOLine extends Component {
 
   submitPOLine(data) {
     const newLine = cloneDeep(data);
+    const { lineMutator, onCancel } = this.props;
+    const volumes = get(newLine, 'physical.volumes');
 
-    delete newLine.cost;
-    delete newLine.created;
-    delete newLine.source;
-    delete newLine.vendor_detail;
-    delete newLine.eresource;
-    this.props.parentMutator.poLine.POST(newLine).then(() => {
-      this.props.onCancel();
+    if (volumes) {
+      newLine.physical.volumes = 0;
+    }
+
+    lineMutator.POST(newLine).then(() => {
+      onCancel();
     });
   }
 
   updatePOLine(data) {
-    const { parentMutator, location: { pathname } } = this.props;
+    const line = cloneDeep(data);
+    const { lineMutator, parentMutator, location: { pathname } } = this.props;
+    const volumes = get(line, 'physical.volumes');
 
-    parentMutator.poLine.PUT(data).then(() => {
+    if (volumes) {
+      line.physical.volumes = 0;
+    }
+
+    lineMutator.PUT(line).then(() => {
       parentMutator.query.update({
         _path: `${pathname}`,
+        layer: null,
+      });
+    });
+  }
+
+  deletePOLine = (lineId) => {
+    const { lineMutator, order, parentMutator } = this.props;
+
+    lineMutator.DELETE({ id: lineId }).then(() => {
+      parentMutator.query.update({
+        _path: `/orders/view/${order.id}`,
         layer: null,
       });
     });
@@ -61,8 +84,9 @@ class LayerPOLine extends Component {
       cost: {
         currency: CURRENCY.usd,
       },
-      source: {},
-      vendor_detail: {},
+      vendor_detail: {
+        instructions: '',
+      },
       eresource: {},
     };
 
@@ -99,6 +123,7 @@ class LayerPOLine extends Component {
           <this.connectedPOLineForm
             initialValues={initialValues}
             onSubmit={(record) => { this.updatePOLine(record); }}
+            deletePOLine={this.deletePOLine}
             {...this.props}
           />
         </Layer>

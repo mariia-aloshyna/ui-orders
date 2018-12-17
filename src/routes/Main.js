@@ -101,13 +101,6 @@ class Main extends Component {
         staticFallback: { params: {} },
       },
     },
-    // Po Line
-    poLine: {
-      type: 'okapi',
-      fetch: false,
-      path: 'po_line',
-      records: 'po_lines',
-    },
     vendors: {
       type: 'okapi',
       path: 'vendor',
@@ -132,6 +125,12 @@ class Main extends Component {
       records: 'mtypes',
       perRequest: 1000,
     },
+    // source: {
+    //   type: 'okapi',
+    //   path: 'source',
+    //   records: 'sources',
+    //   perRequest: 1000,
+    // },
   });
 
   static propTypes = {
@@ -140,9 +139,6 @@ class Main extends Component {
         replace: PropTypes.func.isRequired,
       }),
       records: PropTypes.shape({
-        POST: PropTypes.func.isRequired,
-      }),
-      poLine: PropTypes.shape({
         POST: PropTypes.func.isRequired,
       }),
     }).isRequired,
