@@ -1,21 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Field } from 'redux-form';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
+  Col,
   Pane,
+  Row,
+  TextField,
 } from '@folio/stripes/components';
 
 import stripesForm from '@folio/stripes/form';
 
+const validateLimit = value => {
+  return value === '' || ((value > 0) && (Number.isInteger(+value)) && (value < 1000))
+    ? undefined
+    : <FormattedMessage id="ui-orders.settings.setPOLInesLimit.validation" />;
+};
+
 const POLinesLimitForm = props => {
   const {
-    children,
     handleSubmit,
     pristine,
-    saveButtonText,
     submitting,
-    title,
+    paneTitle,
   } = props;
 
   const lastMenu = (
@@ -26,7 +35,7 @@ const POLinesLimitForm = props => {
       marginBottom0
       type="submit"
     >
-      {saveButtonText}
+      <FormattedMessage id="ui-orders.settings.saveBtn" />
     </Button>
   );
 
@@ -36,9 +45,22 @@ const POLinesLimitForm = props => {
         defaultWidth="100%"
         fluidContentWidth
         lastMenu={lastMenu}
-        paneTitle={title}
+        paneTitle={paneTitle}
       >
-        {children}
+        <Row>
+          <Col xs={6}>
+            <div>
+              <Field
+                component={TextField}
+                label={<FormattedMessage id="ui-orders.settings.setPOLInesLimit" />}
+                name="value"
+                placeholder="999"
+                type="number"
+                validate={validateLimit}
+              />
+            </div>
+          </Col>
+        </Row>
       </Pane>
     </form>
   );
@@ -48,9 +70,7 @@ POLinesLimitForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
-  title: PropTypes.object,
-  saveButtonText: PropTypes.object,
-  children: PropTypes.node,
+  paneTitle: PropTypes.node,
 };
 
 export default stripesForm({

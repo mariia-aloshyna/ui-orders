@@ -443,7 +443,7 @@
   "settings.saveBtn": "Save",
   "settings.setPOLInesLimit": "Set Purchase Order Lines Limit",
   "settings.setPOLInesLimit.changed": "The Limit of Purchase Order Lines has been successfully saved",
-  "settings.setPOLInesLimit.validatation": "Please enter a whole number greater than 0 and less than 1000 to continue",
+  "settings.setPOLInesLimit.validation": "Please enter a whole number greater than 0 and less than 1000 to continue",
   "closeOrderModal.reason": "Reason",
   "closeOrderModal.notes": "Notes",
   "closeOrderModal.cancel": "Cancel",
