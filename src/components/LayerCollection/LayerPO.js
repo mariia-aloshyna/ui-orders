@@ -37,12 +37,6 @@ class LayerPO extends Component {
     });
   }
 
-  updatePOLine(data) {
-    this.props.parentMutator.poLine.PUT(data).then(() => {
-      this.props.onCancel();
-    });
-  }
-
   render() {
     const { initialValues, location } = this.props;
     const { layer } = location.search ? queryString.parse(location.search) : {};

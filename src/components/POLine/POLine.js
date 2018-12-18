@@ -39,6 +39,11 @@ class POLine extends Component {
       path: 'orders/:{id}',
       throwErrors: false,
     },
+    poLine: {
+      type: 'okapi',
+      path: 'orders/:{id}/lines',
+      fetch: false,
+    },
   });
 
   static propTypes = {
@@ -57,6 +62,12 @@ class POLine extends Component {
       }),
     }).isRequired,
     resources: PropTypes.object.isRequired,
+    mutator: PropTypes.shape({
+      poLine: PropTypes.shape({
+        DELETE: PropTypes.func.isRequired,
+        PUT: PropTypes.func.isRequired,
+      }),
+    }).isRequired,
   }
 
   constructor(props) {
@@ -111,7 +122,7 @@ class POLine extends Component {
   }
 
   render() {
-    const { poURL } = this.props;
+    const { poURL, mutator } = this.props;
     const firstMenu = (
       <PaneMenu>
         <IconButton
@@ -125,7 +136,6 @@ class POLine extends Component {
       <PaneMenu>
         <IfPermission perm="po_line.item.put">
           <IconButton
-            disabled
             icon="edit"
             id="clickable-edit-po-line"
             onClick={this.onEditPOLine}
@@ -196,6 +206,7 @@ class POLine extends Component {
           </Accordion>
         </AccordionSet>
         <LayerPOLine
+          lineMutator={mutator.poLine}
           initialValues={initialValues}
           location={location}
           stripes={this.props.stripes}

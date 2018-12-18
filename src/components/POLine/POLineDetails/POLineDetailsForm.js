@@ -1,9 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import {
-  FormattedMessage,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { get } from 'lodash';
 
 import {
@@ -21,6 +19,7 @@ import FieldReceiptStatus from './FieldReceiptStatus';
 import FieldWorkflowStatus from './FieldWorkflowStatus';
 import FieldOrderFormat from './FieldOrderFormat';
 import FieldAcquisitionMethod from './FieldAcquisitionMethod';
+// import FieldSource from './FieldSource';
 
 const LINE_NUMBER_REGEXP = RegExp('^[a-zA-Z0-9]{5,16}-[0-9]{1,3}$');
 const isValidLineNumber = (value) => {
@@ -32,6 +31,11 @@ class POLineDetailsForm extends Component {
     initialValues: PropTypes.object.isRequired,
     change: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
+    // parentResources: PropTypes.shape({
+    //   source: PropTypes.shape({
+    //     records: PropTypes.arrayOf(PropTypes.object).isRequired,
+    //   }).isRequired,
+    // }).isRequired,
   }
 
   render() {
@@ -90,6 +94,7 @@ class POLineDetailsForm extends Component {
             />
           </Col>
           <Col xs={6}>
+            {/* <FieldSource sources={parentResources.source.records} /> */}
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.source" />}
               value={get(poLine, 'source.description')}

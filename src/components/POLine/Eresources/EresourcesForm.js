@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-  FormattedMessage,
-  injectIntl,
-  intlShape,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { get } from 'lodash';
@@ -27,7 +23,6 @@ import css from './EresourcesForm.css';
 
 class EresourcesForm extends Component {
   static propTypes = {
-    intl: intlShape,
     dispatch: PropTypes.func,
     change: PropTypes.func,
     parentResources: PropTypes.shape({
@@ -36,10 +31,10 @@ class EresourcesForm extends Component {
     order: PropTypes.object,
   }
 
-  providerChanged = (vendorName) => {
+  providerChanged = (vendorId) => {
     const { dispatch, change, parentResources } = this.props;
     const vendors = get(parentResources, 'vendors.records', []);
-    const vendor = vendors.find(v => v.name === vendorName);
+    const vendor = vendors.find(v => v.id === vendorId);
 
     if (vendor && vendor.expected_activation_interval) {
       dispatch(change('eresource.activation_due', vendor.expected_activation_interval));
@@ -47,31 +42,31 @@ class EresourcesForm extends Component {
   }
 
   render() {
-    const { intl, parentResources, order } = this.props;
+    const { parentResources, order } = this.props;
     const created = get(order, 'created', '');
     const vendors = get(parentResources, 'vendors.records', []);
     const vendorOptions = vendors.map((v) => ({
       label: v.name,
-      value: v.name,
+      value: v.id,
     }));
-
-    vendorOptions.unshift({
-      label: intl.formatMessage({ id: 'ui-orders.dropdown.select' }),
-      value: '',
-    });
 
     return (
       <Row>
         <Col xs={6} md={3}>
-          <Field
-            component={Select}
-            dataOptions={vendorOptions}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.eresource.accessProvider" />}
-            onChange={(event, newValue) => this.providerChanged(newValue)}
-            name="eresource.access_provider"
-            validate={[Required]}
-          />
+          <FormattedMessage id="ui-orders.dropdown.select">
+            {(placeholder) => (
+              <Field
+                component={Select}
+                dataOptions={vendorOptions}
+                fullWidth
+                label={<FormattedMessage id="ui-orders.eresource.accessProvider" />}
+                placeholder={placeholder}
+                onChange={(event, newValue) => this.providerChanged(newValue)}
+                name="eresource.access_provider"
+                validate={[Required]}
+              />
+            )}
+          </FormattedMessage>
         </Col>
         <Col xs={6} md={3}>
           <Field
@@ -146,4 +141,4 @@ class EresourcesForm extends Component {
   }
 }
 
-export default injectIntl(EresourcesForm);
+export default EresourcesForm;

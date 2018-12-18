@@ -36,25 +36,18 @@ class PO extends Component {
     },
     poLine: {
       type: 'okapi',
-      clear: true,
-      path: 'po_line',
-      records: 'po_lines',
-      GET: {
-        params: {
-          query: (...args) => {
-            const params = args[1];
-            const cql = `(purchase_order_id="${params.id}*")`;
-
-            return cql;
-          },
-        },
-        staticFallback: { params: {} },
-      },
+      path: 'orders/:{id}/lines',
+      fetch: false,
     },
   })
 
   static propTypes = {
     initialValues: PropTypes.object,
+    mutator: PropTypes.shape({
+      poLine: PropTypes.shape({
+        POST: PropTypes.func.isRequired,
+      }),
+    }).isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
@@ -132,9 +125,9 @@ class PO extends Component {
   }
 
   render() {
-    const { location, history, match, resources, parentResources } = this.props;
+    const { location, history, match, mutator, resources, parentResources } = this.props;
     const initialValues = get(resources, ['order', 'records', 0]);
-    const poLines = get(resources, ['poLine', 'records'], []);
+    const poLines = get(initialValues, 'po_lines', []);
     const lastMenu = (
       <PaneMenu>
         <IfPermission perm="purchase_order.item.put">
@@ -237,6 +230,7 @@ class PO extends Component {
           assignToName={this.state.assignToName}
         />
         <LayerPOLine
+          lineMutator={mutator.poLine}
           getInitialValues={initialValues}
           location={location}
           onBacktoEdit={this.onBacktoEdit}
