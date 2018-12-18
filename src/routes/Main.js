@@ -125,6 +125,16 @@ class Main extends Component {
       records: 'mtypes',
       perRequest: 1000,
     },
+    closingReasons: {
+      type: 'okapi',
+      path: 'configurations/entries',
+      GET: {
+        params: {
+          query: '(module=ORDERS and configName=closing-reasons)',
+        },
+      },
+      records: 'configs',
+    },
     // source: {
     //   type: 'okapi',
     //   path: 'source',

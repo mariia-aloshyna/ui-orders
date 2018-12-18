@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { cloneDeep } from 'lodash';
+
 import { Layer } from '@folio/stripes/components';
+
 import transitionToParams from '../Utils/transitionToParams';
+import updateOrderResource from '../Utils/updateOrderResource';
 import { ReceiveItems, Received } from '../Receive';
 import { POForm } from '../PurchaseOrder';
 
@@ -25,16 +27,15 @@ class LayerPO extends Component {
     this.connectedReceived = props.stripes.connect(Received);
   }
 
-  updatePO(data) {
-    const deep = cloneDeep(data);
+  async updatePO(order) {
+    const { parentMutator, onCancel } = this.props;
 
-    delete deep.created_by_name;
-    delete deep.assigned_to_user;
-    delete deep.vendor_name;
-    delete deep.po_lines;
-    this.props.parentMutator.records.PUT(deep).then(() => {
-      this.props.onCancel();
-    });
+    try {
+      await updateOrderResource(order, parentMutator.records);
+      onCancel();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   render() {
