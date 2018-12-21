@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Settings } from '@folio/stripes/smart-components';
 
 import POLinesLimit from './POLinesLimit';
+import ClosingReasons from './ClosingReasons';
 
 class OrdersSettings extends Component {
   constructor(props) {
@@ -14,6 +15,11 @@ class OrdersSettings extends Component {
         component: POLinesLimit,
         label: <FormattedMessage id="ui-orders.settings.polines-limit" />,
         route: 'polines-limit',
+      },
+      {
+        component: ClosingReasons,
+        label: <FormattedMessage id="ui-orders.settings.closingReasons" />,
+        route: 'closing-reasons',
       },
     ];
   }

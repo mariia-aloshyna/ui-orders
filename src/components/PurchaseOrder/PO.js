@@ -22,7 +22,8 @@ import {
   LayerPOLine,
 } from '../LayerCollection';
 import transitionToParams from '../Utils/transitionToParams';
-import { CloseOrderModal } from './CloseOrder';
+import updateOrderResource from '../Utils/updateOrderResource';
+import CloseOrderModal from './CloseOrder';
 import { AdjustmentView } from './Adjustment';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
@@ -39,11 +40,24 @@ class PO extends Component {
       path: 'orders/:{id}/lines',
       fetch: false,
     },
+    closingReasons: {
+      type: 'okapi',
+      records: 'configs',
+      path: 'configurations/entries',
+      GET: {
+        params: {
+          query: '(module=ORDERS and configName=closing-reasons)',
+        },
+      },
+    },
   })
 
   static propTypes = {
     initialValues: PropTypes.object,
     mutator: PropTypes.shape({
+      order: PropTypes.shape({
+        PUT: PropTypes.func.isRequired,
+      }),
       poLine: PropTypes.shape({
         POST: PropTypes.func.isRequired,
       }),
@@ -56,6 +70,7 @@ class PO extends Component {
     onCloseEdit: PropTypes.func,
     onClose: PropTypes.func,
     onEdit: PropTypes.func,
+    onCancel: PropTypes.func,
     parentResources: PropTypes.object.isRequired,
     parentMutator: PropTypes.object.isRequired,
     editLink: PropTypes.string,
@@ -124,6 +139,21 @@ class PO extends Component {
     return false;
   }
 
+  closeOrder = ({ reason, note }) => {
+    const { mutator, resources } = this.props;
+    const order = get(resources, ['order', 'records', 0]);
+    const closeOrderProps = {
+      workflow_status: 'Closed',
+      close_reason: {
+        reason,
+        note,
+      }
+    };
+
+    updateOrderResource(order, mutator.order, closeOrderProps);
+  }
+
+
   render() {
     const { location, history, match, mutator, resources, parentResources } = this.props;
     const initialValues = get(resources, ['order', 'records', 0]);
@@ -132,6 +162,8 @@ class PO extends Component {
       <PaneMenu>
         <IfPermission perm="purchase_order.item.put">
           <CloseOrderModal
+            closeOrderSubmit={this.closeOrder}
+            closingReasons={resources.closingReasons.records}
             orderId={get(initialValues, 'id')}
             workflowStatus={get(initialValues, 'workflow_status')}
           />
