@@ -37,11 +37,6 @@ class LayerPOLine extends Component {
   submitPOLine(data) {
     const newLine = cloneDeep(data);
     const { lineMutator, onCancel } = this.props;
-    const volumes = get(newLine, 'physical.volumes');
-
-    if (volumes) {
-      newLine.physical.volumes = 0;
-    }
 
     lineMutator.POST(newLine).then(() => {
       onCancel();
@@ -51,11 +46,6 @@ class LayerPOLine extends Component {
   updatePOLine(data) {
     const line = cloneDeep(data);
     const { lineMutator, parentMutator, location: { pathname } } = this.props;
-    const volumes = get(line, 'physical.volumes');
-
-    if (volumes) {
-      line.physical.volumes = 0;
-    }
 
     lineMutator.PUT(line).then(() => {
       parentMutator.query.update({
