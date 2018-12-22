@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   cloneDeep,
   get,
 } from 'lodash';
-import PropTypes from 'prop-types';
+import moment from 'moment';
 import queryString from 'query-string';
 
 import { Layer } from '@folio/stripes/components';
@@ -11,6 +12,7 @@ import { Layer } from '@folio/stripes/components';
 import transitionToParams from '../Utils/transitionToParams';
 import { POLineForm } from '../POLine';
 import { CURRENCY } from '../POLine/Cost/FieldCurrency';
+import LinesLimit from '../PurchaseOrder/LinesLimit';
 
 class LayerPOLine extends Component {
   static propTypes = {
@@ -30,16 +32,56 @@ class LayerPOLine extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      openModal: false,
+    };
     this.transitionToParams = transitionToParams.bind(this);
     this.connectedPOLineForm = props.stripes.connect(POLineForm);
   }
 
-  submitPOLine(data) {
+  openModal = () => {
+    this.setState({
+      openModal: true,
+    });
+  }
+
+  closeModal = () => {
+    this.setState({
+      openModal: false,
+    });
+  }
+
+  submitPOLine = async (data) => {
     const newLine = cloneDeep(data);
     const { lineMutator, onCancel } = this.props;
 
-    lineMutator.POST(newLine).then(() => {
+    try {
+      const response = await lineMutator.POST(newLine);
+      if (!response.id) throw new Error(response);
       onCancel();
+    } catch (e) {
+      const errors = await e.json();
+      if (errors.errors.find(el => el.code === 'lines_limit')) this.openModal();
+    }
+  }
+
+  createOrder = async () => {
+    const { order, parentMutator } = this.props;
+    const newOrder = cloneDeep(order);
+
+    newOrder.created = moment.utc().format();
+    delete newOrder.adjustment;
+    delete newOrder.assigned_to_user;
+    delete newOrder.created_by_name;
+    delete newOrder.id;
+    delete newOrder.po_lines;
+    delete newOrder.vendor_name;
+
+    const postedOrder = await parentMutator.records.POST(newOrder);
+    parentMutator.query.update({
+      _path: `/orders/view/${postedOrder.id}`,
+      layer: null,
     });
   }
 
@@ -101,6 +143,11 @@ class LayerPOLine extends Component {
             initialValues={this.getCreatePOLIneInitialValues()}
             onSubmit={(record) => { this.submitPOLine(record); }}
             {...this.props}
+          />
+          <LinesLimit
+            open={this.state.openModal}
+            close={this.closeModal}
+            createOrder={this.createOrder}
           />
         </Layer>
       );

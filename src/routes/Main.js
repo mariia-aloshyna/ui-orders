@@ -135,6 +135,16 @@ class Main extends Component {
       },
       records: 'configs',
     },
+    linesLimit: {
+      type: 'okapi',
+      records: 'configs',
+      path: 'configurations/entries',
+      GET: {
+        params: {
+          query: '(module=ORDERS and configName=poLines-limit)',
+        },
+      },
+    },
     // source: {
     //   type: 'okapi',
     //   path: 'source',
