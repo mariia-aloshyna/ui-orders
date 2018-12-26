@@ -11,10 +11,10 @@ import {
 
 import css from './LinesLimit.css';
 
-const LinesLimit = ({ open, close, createOrder }) => (
+const LinesLimit = ({ isOpen, closeModal, createOrder }) => (
   <Modal
     label={<FormattedMessage id="ui-orders.linesLimit.label" />}
-    open={open}
+    open={isOpen}
   >
     <Row>
       <Col xs={12}>
@@ -32,7 +32,7 @@ const LinesLimit = ({ open, close, createOrder }) => (
         xs={12}
       >
         <Button
-          onClick={close}
+          onClick={closeModal}
           buttonStyle="primary"
         >
           <FormattedMessage id="ui-orders.linesLimit.okBtn" />
@@ -40,7 +40,7 @@ const LinesLimit = ({ open, close, createOrder }) => (
         <Button
           onClick={() => {
             createOrder();
-            close();
+            closeModal();
           }}
         >
           <FormattedMessage id="ui-orders.linesLimit.createBtn" />
@@ -51,8 +51,8 @@ const LinesLimit = ({ open, close, createOrder }) => (
 );
 
 LinesLimit.propTypes = {
-  close: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
   createOrder: PropTypes.func.isRequired,
 };
 

@@ -4,12 +4,12 @@ import {
   cloneDeep,
   get,
 } from 'lodash';
-import moment from 'moment';
 import queryString from 'query-string';
 
 import { Layer } from '@folio/stripes/components';
 
 import transitionToParams from '../Utils/transitionToParams';
+import createOrder from '../Utils/createOrder';
 import { POLineForm } from '../POLine';
 import { CURRENCY } from '../POLine/Cost/FieldCurrency';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
@@ -57,32 +57,30 @@ class LayerPOLine extends Component {
     const { lineMutator, onCancel } = this.props;
 
     try {
-      const response = await lineMutator.POST(newLine);
-      if (!response.id) throw new Error(response);
+      await lineMutator.POST(newLine);
       onCancel();
     } catch (e) {
       const errors = await e.json();
-      if (errors.errors.find(el => el.code === 'lines_limit')) this.openModal();
+      if (errors.errors.find(el => el.code === 'lines_limit')) {
+        this.openModal();
+      } else {
+        console.error(e);
+      }
     }
   }
 
-  createOrder = async () => {
+  createNewOrder = async () => {
     const { order, parentMutator } = this.props;
-    const newOrder = cloneDeep(order);
 
-    newOrder.created = moment.utc().format();
-    delete newOrder.adjustment;
-    delete newOrder.assigned_to_user;
-    delete newOrder.created_by_name;
-    delete newOrder.id;
-    delete newOrder.po_lines;
-    delete newOrder.vendor_name;
-
-    const postedOrder = await parentMutator.records.POST(newOrder);
-    parentMutator.query.update({
-      _path: `/orders/view/${postedOrder.id}`,
-      layer: null,
-    });
+    try {
+      const newOrder = await createOrder(order, parentMutator.records);
+      parentMutator.query.update({
+        _path: `/orders/view/${newOrder.id}`,
+        layer: null,
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   updatePOLine(data) {
@@ -145,9 +143,9 @@ class LayerPOLine extends Component {
             {...this.props}
           />
           <LinesLimit
-            open={this.state.openModal}
-            close={this.closeModal}
-            createOrder={this.createOrder}
+            isOpen={this.state.openModal}
+            closeModal={this.closeModal}
+            createOrder={this.createNewOrder}
           />
         </Layer>
       );

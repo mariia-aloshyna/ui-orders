@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import {
-  cloneDeep,
   get,
   toString,
 } from 'lodash';
@@ -16,6 +14,7 @@ import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
 import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
 import FolioFormattedTime from '../components/FolioFormattedTime';
+import createOrder from '../components/Utils/createOrder';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -135,16 +134,6 @@ class Main extends Component {
       },
       records: 'configs',
     },
-    linesLimit: {
-      type: 'okapi',
-      records: 'configs',
-      path: 'configurations/entries',
-      GET: {
-        params: {
-          query: '(module=ORDERS and configName=poLines-limit)',
-        },
-      },
-    },
     // source: {
     //   type: 'okapi',
     //   path: 'source',
@@ -202,23 +191,18 @@ class Main extends Component {
     this.state = {};
   }
 
-  create = (orderData) => {
+  create = async (order) => {
     const { mutator } = this.props;
-    const order = cloneDeep(orderData);
 
-    order.created = moment.utc().format();
-    delete order.created_by_name;
-    delete order.assigned_to_user;
-    delete order.vendor_name;
-    delete order.bill_to;
-    delete order.ship_to;
-
-    mutator.records.POST(order).then(newOrder => {
+    try {
+      const newOrder = await createOrder(order, mutator.records);
       mutator.query.update({
         _path: `/orders/view/${newOrder.id}`,
         layer: null,
       });
-    });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   render() {
