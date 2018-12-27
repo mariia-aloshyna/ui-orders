@@ -15,11 +15,11 @@
     "home": "/orders",
     "hasSettings": true,
     "okapiInterfaces": {
-      "config": "1.0",
+      "configuration": "2.0",
       "fund": "1.0",
       "material-types": "2.2",
       "orders": "1.0",
-      "users": "1.0",
+      "users": "15.0",
       "vendor": "1.0"
     },
     "queryResource": "query",
