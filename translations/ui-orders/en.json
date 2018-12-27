@@ -459,7 +459,13 @@
   "closeOrderModal.cancel": "Cancel",
   "closeOrderModal.submit": "Submit",
   "closeOrderModal.title": "Close - Purchase Order #{orderId}",
+  "linesLimit.label": "Purchase Order Line Limit Reached",
+  "linesLimit.reasonText": "This would exceed the maximum number of purchase order lines permitted by system settings.",
+  "linesLimit.adviceText": "For more information contact your system administrator.",
+  "linesLimit.okBtn": "Ok",
+  "linesLimit.createBtn": "Create new purchase order",
 
+  "errors.noCreatedOrder": "Purchase Order has not been created",
   "errors.noMatch.oops": "Uh-oh!",
   "errors.noMatch.how": "How did you get to {location}?"
 }

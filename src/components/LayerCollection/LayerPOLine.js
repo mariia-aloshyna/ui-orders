@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import {
   cloneDeep,
   get,
 } from 'lodash';
-import PropTypes from 'prop-types';
 import queryString from 'query-string';
 
-import { Layer } from '@folio/stripes/components';
+import {
+  Callout,
+  Layer,
+} from '@folio/stripes/components';
 
 import transitionToParams from '../Utils/transitionToParams';
+import { cloneOrder } from '../Utils/orderResource';
 import { POLineForm } from '../POLine';
 import { CURRENCY } from '../POLine/Cost/FieldCurrency';
+import LinesLimit from '../PurchaseOrder/LinesLimit';
 
 class LayerPOLine extends Component {
   static propTypes = {
@@ -30,17 +36,59 @@ class LayerPOLine extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      openModal: false,
+      line: null,
+    };
     this.transitionToParams = transitionToParams.bind(this);
     this.connectedPOLineForm = props.stripes.connect(POLineForm);
   }
 
-  submitPOLine(data) {
-    const newLine = cloneDeep(data);
+  openLineLimitExceededModal = (line) => {
+    this.setState({
+      openModal: true,
+      line,
+    });
+  }
+
+  closeLineLimitExceededModal = () => {
+    this.setState({
+      openModal: false,
+      line: null,
+    });
+  }
+
+  submitPOLine = async (line) => {
+    const newLine = cloneDeep(line);
     const { lineMutator, onCancel } = this.props;
 
-    lineMutator.POST(newLine).then(() => {
+    try {
+      await lineMutator.POST(newLine);
       onCancel();
-    });
+    } catch (e) {
+      const response = await e.json();
+      if (response.errors && response.errors.find(el => el.code === 'lines_limit')) {
+        this.openLineLimitExceededModal(line);
+      }
+    }
+  }
+
+  createNewOrder = async () => {
+    const { order, parentMutator } = this.props;
+
+    try {
+      const newOrder = await cloneOrder(order, parentMutator.records, this.state.line);
+      parentMutator.query.update({
+        _path: `/orders/view/${newOrder.id}`,
+        layer: null,
+      });
+    } catch (e) {
+      this.callout.sendCallout({
+        message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
+        type: 'error',
+      });
+    }
   }
 
   updatePOLine(data) {
@@ -87,6 +135,10 @@ class LayerPOLine extends Component {
     return newObj;
   }
 
+  createCalloutRef = ref => {
+    this.callout = ref;
+  };
+
   render() {
     const { initialValues, location } = this.props;
     const { layer } = location.search ? queryString.parse(location.search) : {};
@@ -102,6 +154,12 @@ class LayerPOLine extends Component {
             onSubmit={(record) => { this.submitPOLine(record); }}
             {...this.props}
           />
+          <LinesLimit
+            isOpen={this.state.openModal}
+            closeModal={this.closeLineLimitExceededModal}
+            createOrder={this.createNewOrder}
+          />
+          <Callout ref={this.createCalloutRef} />
         </Layer>
       );
     } else if (layer === 'edit-po-line') {
