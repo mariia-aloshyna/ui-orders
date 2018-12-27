@@ -5,6 +5,7 @@ import {
   cloneDeep,
   get,
 } from 'lodash';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import queryString from 'query-string';
 
 import {
@@ -20,12 +21,16 @@ import LinesLimit from '../PurchaseOrder/LinesLimit';
 
 class LayerPOLine extends Component {
   static propTypes = {
-    location: PropTypes.object.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
+    history: ReactRouterPropTypes.history,
+    match: ReactRouterPropTypes.match,
     parentMutator: PropTypes.object.isRequired,
     parentResources: PropTypes.object.isRequired,
-    stripes: PropTypes.object.isRequired,
-    initialValues: PropTypes.object,
-    onCancel: PropTypes.func,
+    stripes: PropTypes.shape({
+      store: PropTypes.object.isRequired,
+    }).isRequired,
+    line: PropTypes.object,
+    onCancel: PropTypes.func.isRequired,
     order: PropTypes.object,
     lineMutator: PropTypes.shape({
       POST: PropTypes.func,
@@ -91,7 +96,7 @@ class LayerPOLine extends Component {
     }
   }
 
-  updatePOLine(data) {
+  updatePOLine = (data) => {
     const line = cloneDeep(data);
     const { lineMutator, parentMutator, location: { pathname } } = this.props;
 
@@ -125,7 +130,6 @@ class LayerPOLine extends Component {
       vendor_detail: {
         instructions: '',
       },
-      eresource: {},
     };
 
     if (orderId) {
@@ -140,7 +144,7 @@ class LayerPOLine extends Component {
   };
 
   render() {
-    const { initialValues, location } = this.props;
+    const { line, location } = this.props;
     const { layer } = location.search ? queryString.parse(location.search) : {};
 
     if (layer === 'create-po-line') {
@@ -150,9 +154,9 @@ class LayerPOLine extends Component {
           contentLabel="Create PO Line Dialog"
         >
           <this.connectedPOLineForm
-            initialValues={this.getCreatePOLIneInitialValues()}
-            onSubmit={(record) => { this.submitPOLine(record); }}
             {...this.props}
+            initialValues={this.getCreatePOLIneInitialValues()}
+            onSubmit={this.submitPOLine}
           />
           <LinesLimit
             isOpen={this.state.openModal}
@@ -169,10 +173,10 @@ class LayerPOLine extends Component {
           contentLabel="Edit PO Line Dialog"
         >
           <this.connectedPOLineForm
-            initialValues={initialValues}
-            onSubmit={(record) => { this.updatePOLine(record); }}
-            deletePOLine={this.deletePOLine}
             {...this.props}
+            initialValues={line}
+            onSubmit={this.updatePOLine}
+            deletePOLine={this.deletePOLine}
           />
         </Layer>
       );

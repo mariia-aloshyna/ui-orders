@@ -289,10 +289,7 @@ class POLineForm extends Component {
                       </Accordion>
                     )}
                     <Accordion label="Fund Distribution" id="FundDistribution">
-                      <FundDistributionForm
-                        order={initialValues}
-                        {...this.props}
-                      />
+                      <FundDistributionForm {...this.props} />
                     </Accordion>
                     <Accordion label="Item Details" id="ItemDetails">
                       <ItemForm {...this.props} />

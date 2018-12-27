@@ -24,13 +24,18 @@ class PhysicalForm extends Component {
     return (
       <Row>
         <Col xs={6}>
-          <Field
-            component={Select}
-            dataOptions={vendors}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
-            name="physical.material_supplier"
-          />
+          <FormattedMessage id="ui-orders.dropdown.select">
+            {(placeholder) => (
+              <Field
+                component={Select}
+                dataOptions={vendors}
+                fullWidth
+                label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
+                name="physical.material_supplier"
+                placeholder={placeholder}
+              />
+            )}
+          </FormattedMessage>
         </Col>
         <Col xs={6}>
           <Field

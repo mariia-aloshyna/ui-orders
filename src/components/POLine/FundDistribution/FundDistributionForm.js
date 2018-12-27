@@ -101,15 +101,20 @@ class FundDistributionForm extends Component {
     return (
       <Row key={index}>
         <Col xs={6}>
-          <Field
-            component={Select}
-            dataOptions={funds}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.fundDistribution.id" />}
-            name={`${elem}.id`}
-            validate={[Required]}
-            onChange={e => this.onChangeInput(e.target.value, 'fund_distribution.id')}
-          />
+          <FormattedMessage id="ui-orders.dropdown.select">
+            {(placeholder) => (
+              <Field
+                component={Select}
+                dataOptions={funds}
+                fullWidth
+                label={<FormattedMessage id="ui-orders.fundDistribution.id" />}
+                name={`${elem}.id`}
+                onChange={e => this.onChangeInput(e.target.value, 'fund_distribution.id')}
+                placeholder={placeholder}
+                validate={[Required]}
+              />
+            )}
+          </FormattedMessage>
         </Col>
         <Col xs={6}>
           <Field
