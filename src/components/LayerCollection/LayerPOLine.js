@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import {
   cloneDeep,
   get,
 } from 'lodash';
 import queryString from 'query-string';
 
-import { Layer } from '@folio/stripes/components';
+import {
+  Callout,
+  Layer,
+} from '@folio/stripes/components';
 
 import transitionToParams from '../Utils/transitionToParams';
-import createOrder from '../Utils/createOrder';
+import { cloneOrder } from '../Utils/orderResource';
 import { POLineForm } from '../POLine';
 import { CURRENCY } from '../POLine/Cost/FieldCurrency';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
@@ -40,31 +44,30 @@ class LayerPOLine extends Component {
     this.connectedPOLineForm = props.stripes.connect(POLineForm);
   }
 
-  openModal = () => {
+  openLineLimitExceededModal = (line) => {
     this.setState({
       openModal: true,
+      line,
     });
   }
 
-  closeModal = () => {
+  closeLineLimitExceededModal = () => {
     this.setState({
       openModal: false,
     });
   }
 
-  submitPOLine = async (data) => {
-    const newLine = cloneDeep(data);
+  submitPOLine = async (line) => {
+    const newLine = cloneDeep(line);
     const { lineMutator, onCancel } = this.props;
 
     try {
       await lineMutator.POST(newLine);
       onCancel();
     } catch (e) {
-      const errors = await e.json();
-      if (errors.errors.find(el => el.code === 'lines_limit')) {
-        this.openModal();
-      } else {
-        console.error(e);
+      const response = await e.json();
+      if (response.errors && response.errors.find(el => el.code === 'lines_limit')) {
+        this.openLineLimitExceededModal(line);
       }
     }
   }
@@ -73,13 +76,16 @@ class LayerPOLine extends Component {
     const { order, parentMutator } = this.props;
 
     try {
-      const newOrder = await createOrder(order, parentMutator.records);
+      const newOrder = await cloneOrder(order, parentMutator.records, this.state.line);
       parentMutator.query.update({
         _path: `/orders/view/${newOrder.id}`,
         layer: null,
       });
     } catch (e) {
-      console.error(e);
+      this.callout.sendCallout({
+        message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
+        type: 'error',
+      });
     }
   }
 
@@ -127,6 +133,10 @@ class LayerPOLine extends Component {
     return newObj;
   }
 
+  createCalloutRef = ref => {
+    this.callout = ref;
+  };
+
   render() {
     const { initialValues, location } = this.props;
     const { layer } = location.search ? queryString.parse(location.search) : {};
@@ -144,9 +154,10 @@ class LayerPOLine extends Component {
           />
           <LinesLimit
             isOpen={this.state.openModal}
-            closeModal={this.closeModal}
+            closeModal={this.closeLineLimitExceededModal}
             createOrder={this.createNewOrder}
           />
+          <Callout ref={this.createCalloutRef} />
         </Layer>
       );
     } else if (layer === 'edit-po-line') {

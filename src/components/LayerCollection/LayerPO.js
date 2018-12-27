@@ -5,7 +5,7 @@ import queryString from 'query-string';
 import { Layer } from '@folio/stripes/components';
 
 import transitionToParams from '../Utils/transitionToParams';
-import updateOrderResource from '../Utils/updateOrderResource';
+import { updateOrderResource } from '../Utils/orderResource';
 import { ReceiveItems, Received } from '../Receive';
 import { POForm } from '../PurchaseOrder';
 

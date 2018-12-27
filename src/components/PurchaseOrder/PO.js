@@ -22,7 +22,7 @@ import {
   LayerPOLine,
 } from '../LayerCollection';
 import transitionToParams from '../Utils/transitionToParams';
-import updateOrderResource from '../Utils/updateOrderResource';
+import { updateOrderResource } from '../Utils/orderResource';
 import CloseOrderModal from './CloseOrder';
 import { AdjustmentView } from './Adjustment';
 import LineListing from './LineListing';

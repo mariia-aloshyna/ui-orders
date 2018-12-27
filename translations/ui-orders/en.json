@@ -465,6 +465,7 @@
   "linesLimit.okBtn": "Ok",
   "linesLimit.createBtn": "Create new purchase order",
 
+  "errors.noCreatedOrder": "Purchase Order has not been created",
   "errors.noMatch.oops": "Uh-oh!",
   "errors.noMatch.how": "How did you get to {location}?"
 }

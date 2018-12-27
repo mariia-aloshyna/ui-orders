@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   get,
@@ -6,7 +6,10 @@ import {
 } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
-import { filters2cql } from '@folio/stripes/components';
+import {
+  filters2cql,
+  Callout,
+} from '@folio/stripes/components';
 import { SearchAndSort } from '@folio/stripes/smart-components';
 
 import packageInfo from '../../package';
@@ -14,7 +17,7 @@ import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
 import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
 import FolioFormattedTime from '../components/FolioFormattedTime';
-import createOrder from '../components/Utils/createOrder';
+import { createOrderResource } from '../components/Utils/orderResource';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -195,15 +198,22 @@ class Main extends Component {
     const { mutator } = this.props;
 
     try {
-      const newOrder = await createOrder(order, mutator.records);
+      const newOrder = await createOrderResource(order, mutator.records);
       mutator.query.update({
         _path: `/orders/view/${newOrder.id}`,
         layer: null,
       });
     } catch (e) {
-      console.error(e);
+      this.callout.sendCallout({
+        message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
+        type: 'error',
+      });
     }
   }
+
+  createCalloutRef = ref => {
+    this.callout = ref;
+  };
 
   render() {
     const {
@@ -244,38 +254,41 @@ class Main extends Component {
     };
 
     return (
-      <SearchAndSort
-        packageInfo={packageInfo}
-        objectName="order"
-        baseRoute={packageInfo.stripes.route}
-        filterConfig={filterConfig}
-        visibleColumns={['po_number', 'created', 'notes', 'assigned_to']}
-        resultsFormatter={resultsFormatter}
-        viewRecordComponent={Panes}
-        editRecordComponent={POForm}
-        onCreate={this.create}
-        massageNewRecord={this.massageNewRecord}
-        newRecordInitialValues={newRecordInitialValues}
-        initialResultCount={INITIAL_RESULT_COUNT}
-        resultCountIncrement={RESULT_COUNT_INCREMENT}
-        onComponentWillUnmount={onComponentWillUnmount}
-        disableRecordCreation={disableRecordCreation}
-        finishedResourceName="perms"
-        viewRecordPerms="purchase_order.item.get"
-        newRecordPerms="purchase_order.item.post"
-        parentResources={resources}
-        parentMutator={mutator}
-        detailProps={{ onUpdateAssignedTo: this.onUpdateAssignedTo }}
-        stripes={stripes}
-        showSingleResult={showSingleResult}
-        browseOnly={browseOnly}
-        columnMapping={{
-          po_number: <FormattedMessage id="ui-orders.order.po_number" />,
-          created: <FormattedMessage id="ui-orders.order.created" />,
-          notes: <FormattedMessage id="ui-orders.order.notes" />,
-          assigned_to: <FormattedMessage id="ui-orders.order.assigned_to" />,
-        }}
-      />
+      <Fragment>
+        <SearchAndSort
+          packageInfo={packageInfo}
+          objectName="order"
+          baseRoute={packageInfo.stripes.route}
+          filterConfig={filterConfig}
+          visibleColumns={['po_number', 'created', 'notes', 'assigned_to']}
+          resultsFormatter={resultsFormatter}
+          viewRecordComponent={Panes}
+          editRecordComponent={POForm}
+          onCreate={this.create}
+          massageNewRecord={this.massageNewRecord}
+          newRecordInitialValues={newRecordInitialValues}
+          initialResultCount={INITIAL_RESULT_COUNT}
+          resultCountIncrement={RESULT_COUNT_INCREMENT}
+          onComponentWillUnmount={onComponentWillUnmount}
+          disableRecordCreation={disableRecordCreation}
+          finishedResourceName="perms"
+          viewRecordPerms="purchase_order.item.get"
+          newRecordPerms="purchase_order.item.post"
+          parentResources={resources}
+          parentMutator={mutator}
+          detailProps={{ onUpdateAssignedTo: this.onUpdateAssignedTo }}
+          stripes={stripes}
+          showSingleResult={showSingleResult}
+          browseOnly={browseOnly}
+          columnMapping={{
+            po_number: <FormattedMessage id="ui-orders.order.po_number" />,
+            created: <FormattedMessage id="ui-orders.order.created" />,
+            notes: <FormattedMessage id="ui-orders.order.notes" />,
+            assigned_to: <FormattedMessage id="ui-orders.order.assigned_to" />,
+          }}
+        />
+        <Callout ref={this.createCalloutRef} />
+      </Fragment>
     );
   }
 }
