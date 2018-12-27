@@ -47,13 +47,14 @@ class LayerPOLine extends Component {
   openLineLimitExceededModal = (line) => {
     this.setState({
       openModal: true,
-      line,
+      line: null,
     });
   }
 
   closeLineLimitExceededModal = () => {
     this.setState({
       openModal: false,
+      line: null,
     });
   }
 
