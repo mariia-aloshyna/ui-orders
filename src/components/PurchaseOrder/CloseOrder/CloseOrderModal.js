@@ -14,6 +14,25 @@ import {
 import { WORKFLOW_STATUS } from '../../POLine/POLineDetails/FieldWorkflowStatus';
 import css from './CloseOrderModal.css';
 
+const DEFAULT_REASONS = {
+  ceased: 'Ceased',
+  transferred: 'Transferred to another publisher',
+  merged: 'Merged with another title',
+  split: 'Split into other titles',
+  lackOfFunds: 'Lack of funds',
+  lackOfUse: 'Lack of use',
+  dublication: 'Duplication',
+  unresponsiveVendor: 'Unresponsive vendor',
+  licensingTerms: 'Licensing terms (unacceptable)',
+  lowQuality: 'Low quality',
+  unpreferredFormat: 'Unpreferred format',
+  error: 'Error',
+  titleWontBePublishedThisYear: 'Title won’t be published this year',
+  titleWontBePublished: 'Title won’t be published',
+  titleOutOtPrint: 'Title is out of print',
+  titleRecievedAsGift: 'Title received as a gift',
+};
+
 class CloseOrderModal extends Component {
   static propTypes = {
     orderId: PropTypes.string,
@@ -77,7 +96,16 @@ class CloseOrderModal extends Component {
                 label={<FormattedMessage id="ui-orders.closeOrderModal.reason" />}
                 onChange={e => this.setState({ reason: e.target.value })}
                 required
-              />
+              >
+                {Object.keys(DEFAULT_REASONS).map((key) => (
+                  <FormattedMessage
+                    id={`ui-orders.closeOrderModal.closingReasons.${key}`}
+                    key={key}
+                  >
+                    {(message) => <option value={DEFAULT_REASONS[key]}>{message}</option>}
+                  </FormattedMessage>
+                ))}
+              </Select>
               <TextArea
                 label={<FormattedMessage id="ui-orders.closeOrderModal.notes" />}
                 onChange={e => this.setState({ note: e.target.value })}
