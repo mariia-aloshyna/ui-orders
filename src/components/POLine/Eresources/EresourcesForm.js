@@ -23,22 +23,10 @@ import css from './EresourcesForm.css';
 
 class EresourcesForm extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
-    change: PropTypes.func,
     parentResources: PropTypes.shape({
       vendors: PropTypes.object,
     }),
     order: PropTypes.object,
-  }
-
-  providerChanged = (vendorId) => {
-    const { dispatch, change, parentResources } = this.props;
-    const vendors = get(parentResources, 'vendors.records', []);
-    const vendor = vendors.find(v => v.id === vendorId);
-
-    if (vendor && vendor.expected_activation_interval) {
-      dispatch(change('eresource.activation_due', vendor.expected_activation_interval));
-    }
   }
 
   render() {
@@ -61,7 +49,6 @@ class EresourcesForm extends Component {
                 fullWidth
                 label={<FormattedMessage id="ui-orders.eresource.accessProvider" />}
                 placeholder={placeholder}
-                onChange={(event, newValue) => this.providerChanged(newValue)}
                 name="eresource.access_provider"
                 validate={[Required]}
               />

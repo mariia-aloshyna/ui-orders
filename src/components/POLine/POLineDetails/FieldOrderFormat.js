@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
+import {
+  Field,
+  getFormValues,
+} from 'redux-form';
+import { get } from 'lodash';
 
 import { Select } from '@folio/stripes/components';
 
 import { Required } from '../../Utils/Validate';
 import {
   ERESOURCE,
-  PHYSICAL,
-  PE_MIX,
+  ERESOURCES,
   OTHER,
+  PE_MIX,
+  PHYSICAL,
 } from '../const';
 
 const ORDER_FORMAT = {
@@ -22,16 +27,28 @@ const ORDER_FORMAT = {
 
 class FieldOrderFormat extends Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    orderVendorId: PropTypes.string.isRequired,
+    store: PropTypes.object.isRequired,
+    vendors: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   onChangeSelect = (value) => {
-    const { dispatch, change } = this.props;
+    const { dispatch, change, store, vendors, orderVendorId } = this.props;
 
-    dispatch(change('order_format', value));
     dispatch(change('cost.quantity_physical', ''));
     dispatch(change('cost.quantity_electronic', ''));
+
+    if (ERESOURCES.includes(value)) {
+      const formValues = getFormValues('POLineForm')(store.getState());
+      const activationDue = get(formValues, 'eresource.activation_due');
+      const vendor = vendors.find(v => v.id === orderVendorId);
+
+      if (activationDue === undefined && vendor && vendor.expected_activation_interval) {
+        dispatch(change('eresource.activation_due', vendor.expected_activation_interval));
+      }
+    }
   }
 
   render() {

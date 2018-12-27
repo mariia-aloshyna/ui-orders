@@ -131,14 +131,6 @@ class PO extends Component {
     this.transitionToParams({ layer: 'create-po-line' });
   }
 
-  onBacktoEdit = async (e) => {
-    if (e) e.preventDefault();
-    await this.transitionToParams({ layer: null });
-    await this.transitionToParams({ layer: 'edit' });
-
-    return false;
-  }
-
   closeOrder = ({ reason, note }) => {
     const { mutator, resources } = this.props;
     const order = get(resources, ['order', 'records', 0]);
@@ -250,7 +242,6 @@ class PO extends Component {
         <LayerPO
           initialValues={initialValues}
           location={location}
-          onBacktoEdit={this.onBacktoEdit}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}
           history={history}
@@ -261,11 +252,9 @@ class PO extends Component {
           vendorName={this.state.vendorName}
           assignToName={this.state.assignToName}
         />
-        <LayerPOLine
+        <LayerPOLine  // used for new Line form
           lineMutator={mutator.poLine}
-          getInitialValues={initialValues}
           location={location}
-          onBacktoEdit={this.onBacktoEdit}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}
           history={history}

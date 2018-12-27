@@ -31,15 +31,23 @@ class POLineDetailsForm extends Component {
     initialValues: PropTypes.object.isRequired,
     change: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
-    // parentResources: PropTypes.shape({
-    //   source: PropTypes.shape({
-    //     records: PropTypes.arrayOf(PropTypes.object).isRequired,
-    //   }).isRequired,
-    // }).isRequired,
+    stripes: PropTypes.shape({
+      store: PropTypes.object.isRequired,
+    }).isRequired,
+    order: PropTypes.object,
+    parentResources: PropTypes.shape({
+      vendors: PropTypes.shape({
+        records: PropTypes.arrayOf(PropTypes.object).isRequired,
+      }).isRequired,
+      //   source: PropTypes.shape({
+      //     records: PropTypes.arrayOf(PropTypes.object).isRequired,
+      //   }).isRequired,
+    }).isRequired,
   }
 
   render() {
-    const { change, dispatch, initialValues: poLine } = this.props;
+    const { change, dispatch, initialValues: poLine, stripes: { store }, parentResources, order } = this.props;
+    const vendors = get(parentResources, 'vendors.records', []);
 
     return (
       <Fragment>
@@ -71,6 +79,9 @@ class POLineDetailsForm extends Component {
             <FieldOrderFormat
               change={change}
               dispatch={dispatch}
+              store={store}
+              vendors={vendors}
+              orderVendorId={order.vendor}
             />
           </Col>
           <Col xs={6}>
