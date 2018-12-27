@@ -39,6 +39,7 @@ class LayerPOLine extends Component {
 
     this.state = {
       openModal: false,
+      line: null,
     };
     this.transitionToParams = transitionToParams.bind(this);
     this.connectedPOLineForm = props.stripes.connect(POLineForm);
@@ -47,7 +48,7 @@ class LayerPOLine extends Component {
   openLineLimitExceededModal = (line) => {
     this.setState({
       openModal: true,
-      line: null,
+      line,
     });
   }
 
