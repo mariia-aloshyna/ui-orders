@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   get,
@@ -199,6 +199,7 @@ class Main extends Component {
 
     try {
       const newOrder = await createOrderResource(order, mutator.records);
+
       mutator.query.update({
         _path: `/orders/view/${newOrder.id}`,
         layer: null,
@@ -227,7 +228,6 @@ class Main extends Component {
       stripes: {
         user: {
           user: {
-            id,
             firstName,
             lastName,
           },
@@ -249,12 +249,11 @@ class Main extends Component {
       },
     };
     const newRecordInitialValues = {
-      created_by: id || '',
       created_by_name: `${firstName} ${lastName}` || '',
     };
 
     return (
-      <Fragment>
+      <div data-test-order-instances>
         <SearchAndSort
           packageInfo={packageInfo}
           objectName="order"
@@ -288,7 +287,7 @@ class Main extends Component {
           }}
         />
         <Callout ref={this.createCalloutRef} />
-      </Fragment>
+      </div>
     );
   }
 }
