@@ -98,7 +98,7 @@ class POForm extends Component {
   }
 
   render() {
-    const { initialValues, onCancel } = this.props;
+    const { change, dispatch, initialValues, onCancel, stripes } = this.props;
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? (
       <span>
@@ -154,9 +154,10 @@ class POForm extends Component {
                           label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
                         >
                           <PODetailsForm
-                            showPaneVendors={this.showPaneVendors}
-                            showPaneUsers={this.showPaneUsers}
-                            {...this.props}
+                            change={change}
+                            dispatch={dispatch}
+                            order={initialValues}
+                            stripes={stripes}
                           />
                         </Accordion>
                         <Accordion

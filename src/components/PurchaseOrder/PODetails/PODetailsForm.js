@@ -25,46 +25,20 @@ import FolioFormattedTime from '../../FolioFormattedTime';
 
 class PODetailsForm extends Component {
   static propTypes = {
-    showPaneUsers: PropTypes.func,
+    initialValues: PropTypes.object,
     stripes: PropTypes.object,
     dispatch: PropTypes.func,
     change: PropTypes.func,
   }
 
-  static getDerivedStateFromProps(props, { assignToName, createdByName, vendorName }) {
-    const { dispatch, change } = props;
-    const isDataChanged = props.vendorName !== vendorName || props.assignToName !== assignToName || props.createdByName !== createdByName;
-
-    if (isDataChanged) {
-      dispatch(change('created_by_name', props.createdByName));
-      dispatch(change('assigned_to_user', props.assignToName));
-      dispatch(change('vendor_name', props.vendorName));
-
-      return {
-        createdByName: props.createdByName,
-        vendorName: props.vendorName,
-        assignToName: props.assignToName,
-      };
-    }
-
-    return null;
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.onClearFieldVendor = this.onClearFieldVendor.bind(this);
-    this.onClearFieldUser = this.onClearFieldUser.bind(this);
-  }
-
-  onClearFieldUser() {
+  onClearFieldUser = () => {
     const { dispatch, change } = this.props;
 
     dispatch(change('assigned_to_user', ''));
-    dispatch(change('assigned_to', ''));
+    dispatch(change('assigned_to', null));
   }
 
-  onClearFieldVendor() {
+  onClearFieldVendor = () => {
     const { dispatch, change } = this.props;
 
     dispatch(change('vendor', ''));
@@ -85,7 +59,7 @@ class PODetailsForm extends Component {
     dispatch(change('vendor', `${vendor.id}`));
   }
 
-  userClearButton() {
+  userClearButton = () => {
     const { stripes: { store } } = this.props;
     const formValues = getFormValues('FormPO')(store.getState());
     const isValues = formValues.assigned_to || formValues.assigned_to_user;
@@ -103,7 +77,7 @@ class PODetailsForm extends Component {
     return null;
   }
 
-  vendorClearButton() {
+  vendorClearButton = () => {
     const { stripes: { store } } = this.props;
     const formValues = getFormValues('FormPO')(store.getState());
     const isValues = formValues.vendor_name || formValues.vendor;
@@ -128,6 +102,7 @@ class PODetailsForm extends Component {
       username: <FormattedMessage id="ui-orders.user.username" />,
       barcode: <FormattedMessage id="ui-orders.user.barcode" />,
     };
+    const { stripes } = this.props;
 
     return (
       <Pluggable
@@ -140,7 +115,7 @@ class PODetailsForm extends Component {
         visibleColumns={['name', 'patronGroup', 'username', 'barcode']}
         columnMapping={columnMapping}
         disableRecordCreation
-        {...this.props}
+        stripes={stripes}
       >
         <span>[no user-selection plugin]</span>
       </Pluggable>
@@ -152,6 +127,7 @@ class PODetailsForm extends Component {
       name: <FormattedMessage id="ui-orders.vendor.name" />,
       vendor_status: <FormattedMessage id="ui-orders.vendor.vendor_status" />,
     };
+    const { stripes } = this.props;
 
     return (
       <Pluggable
@@ -164,7 +140,7 @@ class PODetailsForm extends Component {
         visibleColumns={['name', 'vendor_status']}
         columnMapping={columnMapping}
         disableRecordCreation
-        {...this.props}
+        stripes={stripes}
       >
         <span>[no vendor-selection plugin]</span>
       </Pluggable>
@@ -219,35 +195,6 @@ class PODetailsForm extends Component {
           <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
             <FolioFormattedTime dateString={get(initialValues, 'created')} />
           </KeyValue>
-        </Col>
-        <Col xs={6} md={3} style={{ display: 'none' }}>
-          <p>This is hidden</p>
-          <Field
-            component={TextField}
-            fullWidth
-            id="vendor"
-            name="vendor"
-          />
-        </Col>
-        <Col xs={6} md={3} style={{ display: 'none' }}>
-          <p>This is hidden</p>
-          <Field
-            component={TextField}
-            fullWidth
-            id="created_by"
-            name="created_by"
-            readOnly
-          />
-        </Col>
-        <Col xs={6} md={3} style={{ display: 'none' }}>
-          <p>This is hidden</p>
-          <Field
-            component={TextField}
-            fullWidth
-            id="assigned_to"
-            name="assigned_to"
-            readOnly
-          />
         </Col>
         <Col xs={6} md={3} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
           <Field
