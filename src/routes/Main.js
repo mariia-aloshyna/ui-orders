@@ -236,11 +236,11 @@ class Main extends Component {
     } = this.props;
     const users = get(resources, 'users.records', []);
     const resultsFormatter = {
-      'po_number': data => toString(get(data, ['po_number'], '')),
-      'created': data => <FolioFormattedTime dateString={get(data, 'created')} />,
-      'notes': data => get(data, 'notes', []).join(', '),
-      'assigned_to': data => {
-        const assignedToId = get(data, 'assigned_to', '');
+      'po_number': order => toString(get(order, 'po_number', '')),
+      'created': order => <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />,
+      'notes': order => get(order, 'notes', []).join(', '),
+      'assigned_to': order => {
+        const assignedToId = get(order, 'assigned_to', '');
         const assignedTo = users.find(d => d.id === assignedToId);
 
         return assignedTo && assignedTo.personal
