@@ -91,7 +91,7 @@ class POLineDetailsForm extends Component {
         <Row>
           <Col xs={6}>
             <KeyValue label={<FormattedMessage id="ui-orders.poLine.createdOn" />}>
-              <FolioFormattedTime dateString={poLine.created} />
+              <FolioFormattedTime dateString={get(poLine, 'metadata.createdDate')} />
             </KeyValue>
           </Col>
           <Col xs={6}>

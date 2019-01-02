@@ -139,12 +139,11 @@ class PO extends Component {
       close_reason: {
         reason,
         note,
-      }
+      },
     };
 
     updateOrderResource(order, mutator.order, closeOrderProps);
   }
-
 
   render() {
     const { location, history, match, mutator, resources, parentResources } = this.props;
@@ -192,7 +191,8 @@ class PO extends Component {
 
     const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === initialValues.vendor);
     const assignedTo = get(parentResources, 'users.records', []).find(d => d.id === initialValues.assigned_to);
-    const createdBy = get(parentResources, 'users.records', []).find(d => d.id === initialValues.created_by);
+    const createdByUserId = get(initialValues, 'metadata.createdByUserId');
+    const createdBy = get(parentResources, 'users.records', []).find(d => d.id === createdByUserId);
 
     initialValues.vendor_name = get(vendor, 'name');
     initialValues.assigned_to_user = assignedTo && assignedTo.personal
@@ -204,9 +204,13 @@ class PO extends Component {
 
     return (
       <Pane
-        id="pane-podetails"
+        data-test-order-details
         defaultWidth="fill"
-        paneTitle={'Purchase Order ID: ' + get(initialValues, ['id'], '')}
+        paneTitle={(
+          <span data-test-header-title>
+            {'Purchase Order ID: ' + get(initialValues, ['id'], '')}
+          </span>
+        )}
         lastMenu={lastMenu}
         dismissible
         onClose={this.props.onClose}

@@ -41,7 +41,7 @@ class PODetailsView extends Component {
         </Col>
         <Col xs={6}>
           <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
-            <FolioFormattedTime dateString={get(order, 'created')} />
+            <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />
           </KeyValue>
         </Col>
         <Col xs={6}>
