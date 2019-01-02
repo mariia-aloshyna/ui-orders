@@ -1,0 +1,9 @@
+.titleWrapper {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.addButton {
+  margin-left: 20px;
+}

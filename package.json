@@ -225,6 +225,7 @@
   },
   "optionalDependencies": {
     "@folio/plugin-find-user": "^1.1.0",
-    "@folio/plugin-find-vendor": "^1.1.0"
+    "@folio/plugin-find-vendor": "^1.1.0",
+    "@folio/plugin-find-instance": "^1.1.0"
   }
 }

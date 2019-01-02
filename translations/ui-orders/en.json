@@ -480,6 +480,9 @@
   "linesLimit.adviceText": "For more information contact your system administrator.",
   "linesLimit.okBtn": "Ok",
   "linesLimit.createBtn": "Create new purchase order",
+  "instance.title": "Title",
+  "instance.contributors": "Contributors",
+  "instance.publishers": "Publishers",
 
   "errors.noCreatedOrder": "Purchase Order has not been created",
   "errors.noMatch.oops": "Uh-oh!",
