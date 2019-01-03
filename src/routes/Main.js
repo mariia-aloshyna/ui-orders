@@ -236,7 +236,7 @@ class Main extends Component {
     } = this.props;
     const users = get(resources, 'users.records', []);
     const resultsFormatter = {
-      'po_number': order => toString(get(order, 'po_number', '')),
+      'po_number': order => get(order, 'po_number', ''),
       'created': order => <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />,
       'notes': order => get(order, 'notes', []).join(', '),
       'assigned_to': order => {
