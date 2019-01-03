@@ -19,7 +19,7 @@ describe('Create order', () => {
     expect(orders.hasPONumberField).to.be.true;
   });
 
-  it('has a created on field', () => {
+  it('has a vendor field', () => {
     expect(orders.hasVendorNameField).to.be.true;
   });
 

@@ -17,7 +17,7 @@ import {
 export default function EresourcesView({ initialValues: { eresource }, resources }) {
   const expectedActivation = get(eresource, 'expected_activation');
   const activationDue = get(eresource, 'activation_due');
-  const created = get(resources, 'order.records.0.created', '');
+  const created = get(resources, 'order.records.0.metadata.createdDate', '');
   const activationDueDate = activationDue && moment.utc(created).add(activationDue, 'days').format();
 
   return (
