@@ -31,7 +31,7 @@ class EresourcesForm extends Component {
 
   render() {
     const { parentResources, order } = this.props;
-    const created = get(order, 'created', '');
+    const created = get(order, 'metadata.createdDate', '');
     const vendors = get(parentResources, 'vendors.records', []);
     const vendorOptions = vendors.map((v) => ({
       label: v.name,
