@@ -97,7 +97,10 @@ class POLinesLimit extends Component {
     const initialValues = get(resources, ['linesLimit', 'records', 0], {});
 
     return (
-      <div style={this.styles.poLineLimitFormWrapper}>
+      <div
+        data-test-order-settings-lines-limit
+        style={this.styles.poLineLimitFormWrapper}
+      >
         <POLinesLimitForm
           initialValues={initialValues}
           onSubmit={this.onChangePOLinesLimitFormSubmit}

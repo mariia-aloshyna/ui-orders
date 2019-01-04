@@ -136,7 +136,10 @@ class POForm extends Component {
             onClose={onCancel}
             paneTitle={paneTitle}
           >
-            <form id="form-po">
+            <form
+              id="form-po"
+              data-test-form-page
+            >
               <Row>
                 <Col xs={12}>
                   <Row center="xs">
