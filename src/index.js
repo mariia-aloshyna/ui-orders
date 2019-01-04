@@ -29,7 +29,11 @@ class Orders extends Component {
 
   render() {
     if (this.props.showSettings) {
-      return <OrdersSettings {...this.props} />;
+      return (
+        <div data-test-order-settings>
+          <OrdersSettings {...this.props} />
+        </div>
+      );
     }
 
     return (

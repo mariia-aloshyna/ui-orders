@@ -217,6 +217,7 @@ class POLineForm extends Component {
     return (
       <Pane
         id="pane-poLineForm"
+        data-test-line-edit
         defaultWidth="fill"
         paneTitle={paneTitle}
         lastMenu={lastMenu}

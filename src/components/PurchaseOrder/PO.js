@@ -145,6 +145,15 @@ class PO extends Component {
     updateOrderResource(order, mutator.order, closeOrderProps);
   }
 
+  addPOLineButton = (
+    <Button
+      data-test-add-line-button
+      onClick={this.onAddPOLine}
+    >
+      Add PO Line
+    </Button>
+  );
+
   render() {
     const { location, history, match, mutator, resources, parentResources } = this.props;
     const initialValues = get(resources, ['order', 'records', 0]);
@@ -172,7 +181,6 @@ class PO extends Component {
         </IfPermission>
       </PaneMenu>
     );
-    const addPOLineButton = (<Button onClick={this.onAddPOLine}>Add PO Line</Button>);
 
     if (!initialValues) {
       return (
@@ -230,7 +238,7 @@ class PO extends Component {
             <SummaryView order={initialValues} {...this.props} />
           </Accordion>
           <Accordion
-            displayWhenOpen={addPOLineButton}
+            displayWhenOpen={this.addPOLineButton}
             id="POListing"
             label={<FormattedMessage id="ui-orders.paneBlock.POLines" />}
           >
