@@ -4,9 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import SettingsInteractor from '../interactors/settings';
 
-const SETTINGS_COUNT = 2;
-
-describe('Settings', () => {
+describe('Settings', function () {
   const settings = new SettingsInteractor();
 
   setupApplication();
@@ -15,15 +13,15 @@ describe('Settings', () => {
     this.visit('/settings/orders');
   });
 
-  it('renders', () => {
+  it('renders', function () {
     expect(settings.isPresent).to.be.true;
   });
 
-  it('renders each setting', () => {
-    expect(settings.orderSettings().length).to.be.equal(SETTINGS_COUNT);
+  it('renders each setting', function () {
+    expect(settings.orderSettings().length).to.be.gt(0);
   });
 
-  it('clicks each setting', () => {
-    settings.orderSettings().map((setting, i) => setting.click());
+  it('clicks each setting', function () {
+    settings.orderSettings().map((setting) => setting.click());
   });
 });
