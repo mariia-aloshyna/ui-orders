@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+import { Field } from 'redux-form';
 
 import { ConfigManager } from '@folio/stripes/smart-components';
+import {
+  Accordion,
+  Checkbox,
+  Col,
+  Headline,
+  Row,
+} from '@folio/stripes/components';
 
-import OrderNumberForm from './OrderNumberForm';
+import { ORDERS } from '../components/Utils/const';
 
 class OrderNumber extends Component {
   static propTypes = {
@@ -17,31 +26,40 @@ class OrderNumber extends Component {
   }
 
   getInitialValues = (settings) => {
-    const value = settings.length === 0 ? '' : settings[0].value;
-    const defaultConfig = { isEditPONumber: false };
-    let config;
+    const value = settings.length && settings[0].value === 'true';
 
-    try {
-      config = { ...defaultConfig, ...JSON.parse(value) };
-    } catch (e) {
-      config = defaultConfig;
-    }
-
-    return config;
+    return { poNumber: value };
   }
 
   render() {
-    const { label, stripes } = this.props;
+    const { label } = this.props;
 
     return (
       <this.configManager
-        label={label}
-        moduleName="ORDERS"
         configName="poNumber"
         getInitialValues={this.getInitialValues}
-        configFormComponent={OrderNumberForm}
-        stripes={stripes}
-      />
+        label={label}
+        moduleName={ORDERS}
+      >
+        <Accordion
+          label={<FormattedMessage id="ui-orders.settings.poNumber" />}
+          separator={false}
+        >
+          <Row>
+            <Col xs={12}>
+              <Headline margin="none">
+                <FormattedMessage id="ui-orders.settings.poNumber" />
+              </Headline>
+              <Field
+                component={Checkbox}
+                label={<FormattedMessage id="ui-orders.settings.poNumber.editPONumber" />}
+                name="poNumber"
+                type="checkbox"
+              />
+            </Col>
+          </Row>
+        </Accordion>
+      </this.configManager>
     );
   }
 }

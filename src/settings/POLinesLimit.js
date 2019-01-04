@@ -8,6 +8,7 @@ import {
   Callout,
 } from '@folio/stripes/components';
 
+import { ORDERS } from '../components/Utils/const';
 import POLinesLimitForm from './POLinesLimitForm';
 
 class POLinesLimit extends Component {
@@ -18,7 +19,7 @@ class POLinesLimit extends Component {
       path: 'configurations/entries',
       GET: {
         params: {
-          query: '(module=ORDERS and configName=poLines-limit)',
+          query: `(module=${ORDERS} and configName=poLines-limit)`,
         },
       },
     },
@@ -70,7 +71,7 @@ class POLinesLimit extends Component {
     } else {
       linesLimit
         .POST({
-          module: 'ORDERS',
+          module: ORDERS,
           configName: 'poLines-limit',
           value: values.value,
         })
