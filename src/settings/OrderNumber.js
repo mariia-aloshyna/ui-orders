@@ -12,7 +12,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import { ORDERS } from '../components/Utils/const';
+import { MODULE_ORDERS } from '../components/Utils/const';
 
 class OrderNumber extends Component {
   static propTypes = {
@@ -28,7 +28,7 @@ class OrderNumber extends Component {
   getInitialValues = (settings) => {
     const value = settings.length && settings[0].value === 'true';
 
-    return { poNumber: value };
+    return { orderNumber: value };
   }
 
   render() {
@@ -36,10 +36,10 @@ class OrderNumber extends Component {
 
     return (
       <this.configManager
-        configName="poNumber"
+        configName="orderNumber"
         getInitialValues={this.getInitialValues}
         label={label}
-        moduleName={ORDERS}
+        moduleName={MODULE_ORDERS}
       >
         <Accordion
           label={<FormattedMessage id="ui-orders.settings.poNumber" />}
@@ -53,7 +53,7 @@ class OrderNumber extends Component {
               <Field
                 component={Checkbox}
                 label={<FormattedMessage id="ui-orders.settings.poNumber.editPONumber" />}
-                name="poNumber"
+                name="orderNumber"
                 type="checkbox"
               />
             </Col>

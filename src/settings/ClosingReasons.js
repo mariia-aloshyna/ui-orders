@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { Callout } from '@folio/stripes/components';
 
-import { ORDERS } from '../components/Utils/const';
+import { MODULE_ORDERS } from '../components/Utils/const';
 import ClosingReasonsForm from './ClosingReasonsForm';
 
 class ClosingReasons extends Component {
@@ -16,7 +16,7 @@ class ClosingReasons extends Component {
       path: 'configurations/entries',
       GET: {
         params: {
-          query: `(module=${ORDERS} and configName=closing-reasons)`,
+          query: `(module=${MODULE_ORDERS} and configName=closing-reasons)`,
         },
       },
     },
