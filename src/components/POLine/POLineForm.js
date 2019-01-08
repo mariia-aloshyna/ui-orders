@@ -35,6 +35,7 @@ import {
   PHRESOURCES,
 } from './const';
 import HandleErrors from '../Utils/HandleErrors';
+import getVendorsForSelect from '../Utils/getVendorsForSelect';
 
 import css from './css/POLineForm.css';
 
@@ -213,6 +214,7 @@ class POLineForm extends Component {
     const orderFormat = get(formValues, 'order_format');
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
+    const vendors = getVendorsForSelect(this.props.parentResources);
 
     return (
       <Pane
@@ -286,7 +288,10 @@ class POLineForm extends Component {
                         label="Physical Resource Details"
                         id="Physical"
                       >
-                        <PhysicalForm {...this.props} />
+                        <PhysicalForm
+                          {...this.props}
+                          vendors={vendors}
+                        />
                       </Accordion>
                     )}
                     <Accordion label="Fund Distribution" id="FundDistribution">

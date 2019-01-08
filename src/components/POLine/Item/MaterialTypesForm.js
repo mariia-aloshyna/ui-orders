@@ -64,13 +64,18 @@ class MaterialTypesForm extends Component {
     return (
       <Row key={index}>
         <Col xs={10}>
-          <Field
-            label={<FormattedMessage id="ui-orders.itemDetails.materialTypes" />}
-            name={elem}
-            component={Select}
-            dataOptions={typesOptions}
-            fullWidth
-          />
+          <FormattedMessage id="ui-orders.dropdown.select">
+            {(placeholder) => (
+              <Field
+                component={Select}
+                dataOptions={typesOptions}
+                fullWidth
+                label={<FormattedMessage id="ui-orders.itemDetails.materialTypes" />}
+                name={elem}
+                placeholder={placeholder}
+              />
+            )}
+          </FormattedMessage>
         </Col>
         <Col xs={2} style={{ paddingTop: '4px' }}>
           <br />

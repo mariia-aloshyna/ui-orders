@@ -159,7 +159,6 @@ class FundDistributionForm extends Component {
         <Col xs={12}>
           <FieldArray
             component={this.renderForm}
-            label="fund_distribution"
             name="fund_distribution"
           />
         </Col>

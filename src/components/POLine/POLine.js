@@ -122,7 +122,7 @@ class POLine extends Component {
   }
 
   render() {
-    const { poURL, mutator } = this.props;
+    const { poURL, mutator, parentResources } = this.props;
     const firstMenu = (
       <PaneMenu>
         <IconButton
@@ -160,6 +160,7 @@ class POLine extends Component {
     const orderFormat = get(initialValues, 'order_format');
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
+    const vendors = get(parentResources, 'vendors.records', []);
 
     return (
       <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" firstMenu={firstMenu} lastMenu={lastMenu}>
@@ -192,7 +193,10 @@ class POLine extends Component {
           )}
           {showPhresources && (
             <Accordion label="Physical Resource Details" id="Physical">
-              <PhysicalView initialValues={initialValues} {...this.props} />
+              <PhysicalView
+                physical={get(initialValues, 'physical', {})}
+                vendors={vendors}
+              />
             </Accordion>
           )}
           <Accordion label="Renewals" id="Renewal">

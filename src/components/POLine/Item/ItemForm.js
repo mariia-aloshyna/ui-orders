@@ -86,7 +86,7 @@ class ItemForm extends Component {
             component={TextArea}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
-            name="receiving_note"
+            name="details.receiving_note"
           />
         </Col>
         <Col xs={6}>
@@ -99,7 +99,7 @@ class ItemForm extends Component {
             dateFormat={DATE_FORMAT}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
-            name="subscription_from"
+            name="details.subscription_from"
             timeZone={TIMEZONE}
           />
         </Col>
@@ -114,7 +114,7 @@ class ItemForm extends Component {
         <Col xs={6}>
           <Field
             label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
-            name="subscription_interval"
+            name="details.subscription_interval"
             component={TextField}
             type="number"
             fullWidth
@@ -138,7 +138,7 @@ class ItemForm extends Component {
             dateFormat={DATE_FORMAT}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
-            name="subscription_to"
+            name="details.subscription_to"
             timeZone={TIMEZONE}
           />
         </Col>
