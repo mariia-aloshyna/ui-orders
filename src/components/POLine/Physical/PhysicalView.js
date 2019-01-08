@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get, toString } from 'lodash';
@@ -10,43 +10,46 @@ import {
 } from '@folio/stripes/components';
 import formatDate from '../../Utils/formatDate';
 
-class PhysicalView extends Component {
-  static propTypes = {
-    initialValues: PropTypes.object,
-  }
+const PhysicalView = ({ physical, vendors }) => {
+  const materialSupplierId = get(physical, 'material_supplier');
+  const materialSupplier = vendors.find((v => v.id === materialSupplierId));
 
-  render() {
-    const { initialValues: { physical } } = this.props;
+  return (
+    <Row>
+      <Col xs={6}>
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
+          value={get(materialSupplier, 'name', '')}
+        />
+      </Col>
+      <Col xs={6}>
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
+          value={formatDate(get(physical, 'receipt_due'))}
+        />
+      </Col>
+      <Col xs={6}>
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.physical.receiptDate" />}
+          value={formatDate(get(physical, 'receipt_date'))}
+        />
+      </Col>
+      <Col xs={6}>
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.physical.volumes" />}
+          value={toString(get(physical, 'volumes'))}
+        />
+      </Col>
+    </Row>
+  );
+};
 
-    return (
-      <Row>
-        <Col xs={6}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
-            value={get(physical, 'material_supplier')}
-          />
-        </Col>
-        <Col xs={6}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
-            value={formatDate(get(physical, 'receipt_due'))}
-          />
-        </Col>
-        <Col xs={6}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.physical.receiptDate" />}
-            value={formatDate(get(physical, 'receipt_date'))}
-          />
-        </Col>
-        <Col xs={6}>
-          <KeyValue
-            label={<FormattedMessage id="ui-orders.physical.volumes" />}
-            value={toString(get(physical, 'volumes'))}
-          />
-        </Col>
-      </Row>
-    );
-  }
-}
+PhysicalView.propTypes = {
+  physical: PropTypes.object.isRequired,
+  vendors: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  })).isRequired,
+};
 
 export default PhysicalView;
