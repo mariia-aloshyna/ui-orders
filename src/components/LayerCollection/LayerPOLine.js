@@ -72,9 +72,20 @@ class LayerPOLine extends Component {
       await lineMutator.POST(newLine);
       onCancel();
     } catch (e) {
-      const response = await e.json();
+      let response;
+
+      try {
+        response = await e.json();
+      } catch (parsingException) {
+        response = e;
+      }
       if (response.errors && response.errors.find(el => el.code === 'lines_limit')) {
         this.openLineLimitExceededModal(line);
+      } else {
+        this.callout.sendCallout({
+          message: <FormattedMessage id="ui-orders.errors.lineWasNotCreated" />,
+          type: 'error',
+        });
       }
     }
   }
@@ -99,6 +110,27 @@ class LayerPOLine extends Component {
   updatePOLine = (data) => {
     const line = cloneDeep(data);
     const { lineMutator, parentMutator, location: { pathname } } = this.props;
+
+    // remove sample data from payload to prevent errors on saving sample lines
+    delete line.agreement_id;
+    delete line.instance_id;
+    delete line.location;
+    if (line.eresource) {
+      delete line.eresource.license;
+    }
+    if (line.adjustment) {
+      delete line.adjustment.invoice_id;
+    }
+
+    const materialSupplier = get(line, 'physical.material_supplier');
+    const accessProvider = get(line, 'eresource.access_provider');
+
+    if (materialSupplier === '') {
+      line.physical.material_supplier = null;
+    }
+    if (accessProvider === '') {
+      line.eresource.access_provider = null;
+    }
 
     lineMutator.PUT(line).then(() => {
       parentMutator.query.update({
