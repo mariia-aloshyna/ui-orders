@@ -23,11 +23,15 @@ const PhysicalForm = ({ vendors }) => (
         {(placeholder) => (
           <Field
             component={Select}
-            dataOptions={vendors}
+            dataOptions={[{ label: placeholder, value: '' }, ...vendors]}
             fullWidth
             label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
             name="physical.material_supplier"
-            placeholder={placeholder}
+            normalize={(value) => {
+              return value === ''
+                ? null
+                : value;
+            }}
           />
         )}
       </FormattedMessage>
@@ -40,17 +44,6 @@ const PhysicalForm = ({ vendors }) => (
         fullWidth
         label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
         name="physical.receipt_due"
-        timeZone={TIMEZONE}
-      />
-    </Col>
-    <Col xs={6}>
-      <Field
-        backendDateStandard={DATE_FORMAT}
-        component={Datepicker}
-        dateFormat={DATE_FORMAT}
-        fullWidth
-        label={<FormattedMessage id="ui-orders.physical.receiptDate" />}
-        name="physical.receiptDate"
         timeZone={TIMEZONE}
       />
     </Col>
