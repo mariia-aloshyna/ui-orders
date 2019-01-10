@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+
+import { get } from 'lodash';
 
 import { ConfigManager } from '@folio/stripes/smart-components';
-import {
-  Accordion,
-  Checkbox,
-  Col,
-  Headline,
-  Row,
-} from '@folio/stripes/components';
 
 import { MODULE_ORDERS } from '../components/Utils/const';
+import OrderNumberForm from './OrderNumberForm';
 
 class OrderNumber extends Component {
   static propTypes = {
@@ -22,17 +16,55 @@ class OrderNumber extends Component {
 
   constructor(props) {
     super(props);
+
     this.configManager = props.stripes.connect(ConfigManager);
   }
 
   getInitialValues = (settings) => {
-    const value = settings.length && settings[0].value === 'true';
+    let orderNumberSetting = get(settings, [0, 'value'], '{}');
+    const config = {
+      canUserEditOrderNumber: false,
+      selectedPrefixes: [],
+      prefixes: [],
+      selectedSuffixes: [],
+      suffixes: [],
+    };
 
-    return { orderNumber: value };
+    try {
+      orderNumberSetting = JSON.parse(orderNumberSetting);
+    } catch (e) {
+      orderNumberSetting = {};
+    }
+
+    Object.assign(config, orderNumberSetting);
+    config.selectedPrefixes = config.selectedPrefixes.map(item => ({ label: item, value: item }));
+    config.prefixes = config.prefixes.map(item => ({ label: item, value: item }));
+    config.selectedSuffixes = config.selectedSuffixes.map(item => ({ label: item, value: item }));
+    config.suffixes = config.suffixes.map(item => ({ label: item, value: item }));
+
+    return config;
+  }
+
+  beforeSave = (data) => {
+    const {
+      canUserEditOrderNumber,
+      selectedPrefixes,
+      prefixes,
+      selectedSuffixes,
+      suffixes,
+    } = data;
+
+    return JSON.stringify({
+      canUserEditOrderNumber,
+      selectedPrefixes: selectedPrefixes.map(item => item.value),
+      prefixes: prefixes.map(item => item.value),
+      selectedSuffixes: selectedSuffixes.map(item => item.value),
+      suffixes: suffixes.map(item => item.value),
+    });
   }
 
   render() {
-    const { label } = this.props;
+    const { label, stripes } = this.props;
 
     return (
       <this.configManager
@@ -40,25 +72,9 @@ class OrderNumber extends Component {
         getInitialValues={this.getInitialValues}
         label={label}
         moduleName={MODULE_ORDERS}
+        onBeforeSave={this.beforeSave}
       >
-        <Accordion
-          label={<FormattedMessage id="ui-orders.settings.poNumber" />}
-          separator={false}
-        >
-          <Row>
-            <Col xs={12}>
-              <Headline margin="none">
-                <FormattedMessage id="ui-orders.settings.poNumber" />
-              </Headline>
-              <Field
-                component={Checkbox}
-                label={<FormattedMessage id="ui-orders.settings.poNumber.editPONumber" />}
-                name="orderNumber"
-                type="checkbox"
-              />
-            </Col>
-          </Row>
-        </Accordion>
+        <OrderNumberForm stripes={stripes} />
       </this.configManager>
     );
   }
