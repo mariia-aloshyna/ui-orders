@@ -14,18 +14,20 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-export default function EresourcesView({ initialValues: { eresource }, resources }) {
+export default function EresourcesView({ line: { eresource }, order, vendors }) {
   const expectedActivation = get(eresource, 'expected_activation');
   const activationDue = get(eresource, 'activation_due');
-  const created = get(resources, 'order.records.0.metadata.createdDate', '');
+  const created = get(order, 'metadata.createdDate', '');
   const activationDueDate = activationDue && moment.utc(created).add(activationDue, 'days').format();
+  const accessProviderId = get(eresource, 'access_provider');
+  const accessProvider = vendors.find((v => v.id === accessProviderId));
 
   return (
     <Row>
       <Col xs={3}>
         <KeyValue
           label={<FormattedMessage id="ui-orders.eresource.accessProvider" />}
-          value={get(eresource, 'access_provider')}
+          value={get(accessProvider, 'name', '')}
         />
       </Col>
       <Col xs={3}>
@@ -64,10 +66,12 @@ export default function EresourcesView({ initialValues: { eresource }, resources
 }
 
 EresourcesView.propTypes = {
-  initialValues: PropTypes.shape({
+  line: PropTypes.shape({
     eresource: PropTypes.object,
   }).isRequired,
-  resources: PropTypes.shape({
-    order: PropTypes.object,
-  }),
+  order: PropTypes.object.isRequired,
+  vendors: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  })).isRequired,
 };

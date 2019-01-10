@@ -10,7 +10,7 @@ import { POForm } from '../PurchaseOrder';
 
 class LayerPO extends Component {
   static propTypes = {
-    initialValues: PropTypes.object,
+    order: PropTypes.object,
     location: PropTypes.object.isRequired,
     stripes: PropTypes.object.isRequired,
     onCancel: PropTypes.func,
@@ -36,7 +36,7 @@ class LayerPO extends Component {
   }
 
   render() {
-    const { initialValues, location } = this.props;
+    const { order, location } = this.props;
     const { layer } = location.search ? queryString.parse(location.search) : {};
 
     if (layer === 'edit') {
@@ -46,9 +46,9 @@ class LayerPO extends Component {
           contentLabel="Edit Order Dialog"
         >
           <this.connectedPOForm
-            initialValues={initialValues}
-            onSubmit={(record) => { this.updatePO(record); }}
             {...this.props}
+            initialValues={order}
+            onSubmit={(record) => { this.updatePO(record); }}
           />
         </Layer>
       );
