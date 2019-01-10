@@ -493,5 +493,6 @@
     "instance.publishers": "Editoras",
     "settings.poNumber": "Número do pedido",
     "settings.poNumber.editPONumber": "Usuário pode editar",
-    "settings.poNumber.saveBtn": "Salvar"
+    "settings.poNumber.saveBtn": "Salvar",
+    "errors.lineWasNotCreated": "Linha de pedido de compra não foi criada"
 }
