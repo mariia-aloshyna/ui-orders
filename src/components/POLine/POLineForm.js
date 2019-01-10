@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import {
-  get,
-  includes,
-} from 'lodash';
-import {
-  Fields,
+  getFormSyncErrors,
   getFormValues,
 } from 'redux-form';
 
@@ -31,18 +28,20 @@ import { CostForm } from './Cost';
 import { FundDistributionForm } from './FundDistribution';
 import { ItemForm } from './Item';
 import {
+  ACCORDION_ID,
   ERESOURCES,
+  MAP_FIELD_ACCORDION,
   PHRESOURCES,
 } from './const';
-import HandleErrors from '../Utils/HandleErrors';
 import getVendorsForSelect from '../Utils/getVendorsForSelect';
-
-import css from './css/POLineForm.css';
 
 class POLineForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
+    stripes: PropTypes.shape({
+      store: PropTypes.object.isRequired,
+    }).isRequired,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
     onRemove: PropTypes.func,
@@ -59,38 +58,38 @@ class POLineForm extends Component {
     super(props);
     this.state = {
       sections: {
-        LineDetails: true,
-        CostDetails: true,
-        Claim: false,
-        Tags: false,
-        Locations: false,
-        Vendor: false,
-        Eresources: false,
-        ItemDetails: false,
-        Physical: false,
-        Renewal: false,
-        Adjustments: false,
-        License: false,
-        FundDistribution: false,
-      },
-      sectionErrors: {
-        POLineDetailsErr: {
-          purchase_order_id: false,
-          barcode: false,
-        },
-        CostErr: {
-          list_price: false,
-        },
+        [ACCORDION_ID.lineDetails]: true,
+        [ACCORDION_ID.costDetails]: true,
+        [ACCORDION_ID.vendor]: false,
+        [ACCORDION_ID.eresources]: false,
+        [ACCORDION_ID.itemDetails]: false,
+        [ACCORDION_ID.physical]: false,
+        [ACCORDION_ID.fundDistribution]: false,
       },
     };
-    this.updateSectionErrors = this.updateSectionErrors.bind(this);
   }
 
-  updateSectionErrors(obj) {
-    this.setState({ sectionErrors: obj });
+  static getDerivedStateFromProps({ stripes: { store } }, { sections }) {
+    const errorKeys = Object.keys(getFormSyncErrors('POLineForm')(store.getState()));
+
+    if (errorKeys.length > 0) {
+      const newSections = { ...sections };
+
+      errorKeys.forEach(key => {
+        const accordionName = MAP_FIELD_ACCORDION[key];
+
+        if (accordionName) {
+          newSections[accordionName] = true;
+        }
+      });
+
+      return { sections: newSections };
+    }
+
+    return null;
   }
 
-  getAddFirstMenu() {
+  getAddFirstMenu = () => {
     const { onCancel } = this.props;
 
     return (
@@ -108,7 +107,7 @@ class POLineForm extends Component {
     );
   }
 
-  getLastMenu(id, label) {
+  getLastMenu = (id, label) => {
     const { pristine, submitting, handleSubmit } = this.props;
 
     return (
@@ -146,23 +145,6 @@ class POLineForm extends Component {
     this.setState({ sections });
   }
 
-  grabFieldNames() {
-    const { sectionErrors } = this.state;
-    const newArr = [];
-
-    Object.keys(sectionErrors).map(key => {
-      const name = sectionErrors[key];
-
-      Object.keys(name).map(key2 => {
-        return newArr.push(key2);
-      });
-
-      return false;
-    });
-
-    return newArr;
-  }
-
   render() {
     const { initialValues, onCancel, deletePOLine, stripes: { store } } = this.props;
     const lineId = get(initialValues, 'id');
@@ -176,19 +158,6 @@ class POLineForm extends Component {
       this.getLastMenu('clickable-updatePoLine', 'Update PO Line') :
       this.getLastMenu('clickable-createnewPoLine', 'Create PO Line');
     const showDeleteButton = lineId || false;
-    // Section Error Handling
-    const { sectionErrors } = this.state;
-    const message = (
-      <em className={css.requiredIcon} style={{ color: 'red', display: 'flex', alignItems: 'center' }}>
-        <Icon
-          icon="exclamation-circle"
-          size="medium"
-        />
-        Required fields!
-      </em>
-    );
-    const POLineDetailsErr = includes(sectionErrors.POLineDetailsErr, true) ? message : null;
-    const CostErr = includes(sectionErrors.CostErr, true) ? message : null;
 
     if (!initialValues) {
       return (
@@ -228,14 +197,6 @@ class POLineForm extends Component {
       >
         <form id="form-po-line">
           <Row>
-            <Col xs={12} md={8}>
-              <Fields
-                names={this.grabFieldNames()}
-                component={HandleErrors}
-                sectionErrors={sectionErrors}
-                updateSectionErrors={this.updateSectionErrors}
-              />
-            </Col>
             <Col xs={12}>
               <Row center="xs">
                 <Col xs={12} md={8}>
@@ -255,30 +216,26 @@ class POLineForm extends Component {
                   >
                     <Accordion
                       label="PO Line Details"
-                      id="LineDetails"
-                      displayWhenClosed={POLineDetailsErr}
-                      displayWhenOpen={POLineDetailsErr}
+                      id={ACCORDION_ID.lineDetails}
                     >
                       <POLineDetailsForm {...this.props} />
                     </Accordion>
                     <Accordion
                       label="Cost Details"
-                      id="CostDetails"
-                      displayWhenClosed={CostErr}
-                      displayWhenOpen={CostErr}
+                      id={ACCORDION_ID.costDetails}
                     >
                       <CostForm {...this.props} />
                     </Accordion>
                     <Accordion
                       label="Vendor"
-                      id="Vendor"
+                      id={ACCORDION_ID.vendor}
                     >
                       <VendorForm {...this.props} />
                     </Accordion>
                     {showEresources && (
                       <Accordion
                         label="E-resources Details"
-                        id="Eresources"
+                        id={ACCORDION_ID.eresources}
                       >
                         <EresourcesForm {...this.props} />
                       </Accordion>
@@ -286,7 +243,7 @@ class POLineForm extends Component {
                     {showPhresources && (
                       <Accordion
                         label="Physical Resource Details"
-                        id="Physical"
+                        id={ACCORDION_ID.physical}
                       >
                         <PhysicalForm
                           {...this.props}
@@ -294,32 +251,18 @@ class POLineForm extends Component {
                         />
                       </Accordion>
                     )}
-                    <Accordion label="Fund Distribution" id="FundDistribution">
+                    <Accordion
+                      label="Fund Distribution"
+                      id={ACCORDION_ID.fundDistribution}
+                    >
                       <FundDistributionForm {...this.props} />
                     </Accordion>
-                    <Accordion label="Item Details" id="ItemDetails">
+                    <Accordion
+                      label="Item Details"
+                      id={ACCORDION_ID.itemDetails}
+                    >
                       <ItemForm {...this.props} />
                     </Accordion>
-                    {/* <Accordion label="Claim" id="Claim">
-                      <ClaimForm {...this.props} />
-                      <br />
-                    </Accordion>
-                    <Accordion label="Po Line Tags" id="Tags">
-                      <TagForm {...this.props} />
-                    </Accordion>
-                    <Accordion label="Locations" id="Locations">
-                      <LocationForm {...this.props} />
-                      <br />
-                    </Accordion>
-                    <Accordion label="Renewals" id="Renewal">
-                      <RenewalForm {...this.props} />
-                    </Accordion>
-                    <Accordion label="Adjustments" id="Adjustments">
-                      <AdjustmentsForm {...this.props} />
-                    </Accordion>
-                    <Accordion label="License" id="License">
-                      <LicenseForm {...this.props} />
-                    </Accordion> */}
                   </AccordionSet>
                   <IfPermission perm="po_line.item.delete">
                     <Row end="xs">
