@@ -63,7 +63,7 @@ class ItemView extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
-              value={formatDate(get(poLineDetails, 'publication_date'))}
+              value={get(poLineDetails, 'publication_date')}
             />
           </Col>
           <Col xs={6}>

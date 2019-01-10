@@ -16,11 +16,13 @@ export const ACCORDION_ID = {
   vendor: 'vendor',
 };
 
+// Mapping between attribute (field) in form and id of accordion
 export const MAP_FIELD_ACCORDION = {
   cost: ACCORDION_ID.costDetails,
   details: ACCORDION_ID.itemDetails,
   eresource: ACCORDION_ID.eresources,
   fund_distribution: ACCORDION_ID.fundDistribution,
   po_line_number: ACCORDION_ID.lineDetails,
+  publication_date: ACCORDION_ID.itemDetails,
   vendor_detail: ACCORDION_ID.vendor,
 };
