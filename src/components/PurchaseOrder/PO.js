@@ -39,6 +39,7 @@ class PO extends Component {
       type: 'okapi',
       path: 'orders/:{id}/lines',
       fetch: false,
+      throwErrors: false,
     },
     closingReasons: {
       type: 'okapi',
@@ -53,7 +54,6 @@ class PO extends Component {
   })
 
   static propTypes = {
-    initialValues: PropTypes.object,
     mutator: PropTypes.shape({
       order: PropTypes.shape({
         PUT: PropTypes.func.isRequired,
@@ -156,23 +156,24 @@ class PO extends Component {
 
   render() {
     const { location, history, match, mutator, resources, parentResources } = this.props;
-    const initialValues = get(resources, ['order', 'records', 0]);
-    const poLines = get(initialValues, 'po_lines', []);
+    const order = get(resources, ['order', 'records', 0]);
+    const orderId = get(order, 'id');
+    const poLines = get(order, 'po_lines', []);
     const lastMenu = (
       <PaneMenu>
         <IfPermission perm="purchase_order.item.put">
           <CloseOrderModal
             closeOrderSubmit={this.closeOrder}
             closingReasons={resources.closingReasons.records}
-            orderId={get(initialValues, 'id')}
-            workflowStatus={get(initialValues, 'workflow_status')}
+            orderId={orderId}
+            workflowStatus={get(order, 'workflow_status')}
           />
           <FormattedMessage id="ui-orders.paneMenu.editOrder">
             {ariaLabel => (
               <IconButton
                 ariaLabel={ariaLabel}
                 icon="edit"
-                style={{ visibility: !initialValues ? 'hidden' : 'visible' }}
+                style={{ visibility: !order ? 'hidden' : 'visible' }}
                 onClick={this.props.onEdit}
                 href={this.props.editLink}
               />
@@ -182,7 +183,7 @@ class PO extends Component {
       </PaneMenu>
     );
 
-    if (!initialValues) {
+    if (!order) {
       return (
         <Pane
           defaultWidth="fill"
@@ -197,16 +198,16 @@ class PO extends Component {
       );
     }
 
-    const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === initialValues.vendor);
-    const assignedTo = get(parentResources, 'users.records', []).find(d => d.id === initialValues.assigned_to);
-    const createdByUserId = get(initialValues, 'metadata.createdByUserId');
+    const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === order.vendor);
+    const assignedTo = get(parentResources, 'users.records', []).find(d => d.id === order.assigned_to);
+    const createdByUserId = get(order, 'metadata.createdByUserId');
     const createdBy = get(parentResources, 'users.records', []).find(d => d.id === createdByUserId);
 
-    initialValues.vendor_name = get(vendor, 'name');
-    initialValues.assigned_to_user = assignedTo && assignedTo.personal
+    order.vendor_name = get(vendor, 'name');
+    order.assigned_to_user = assignedTo && assignedTo.personal
       ? `${assignedTo.personal.firstName} ${assignedTo.personal.lastName}`
       : '';
-    initialValues.created_by_name = createdBy && createdBy.personal
+    order.created_by_name = createdBy && createdBy.personal
       ? `${createdBy.personal.firstName} ${createdBy.personal.lastName}`
       : '';
 
@@ -216,7 +217,7 @@ class PO extends Component {
         defaultWidth="fill"
         paneTitle={(
           <span data-test-header-title>
-            {'Purchase Order ID: ' + get(initialValues, ['id'], '')}
+            {`Purchase Order ID: ${orderId}`}
           </span>
         )}
         lastMenu={lastMenu}
@@ -229,13 +230,13 @@ class PO extends Component {
             id="purchaseOrder"
             label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
           >
-            <PODetailsView order={initialValues} {...this.props} />
+            <PODetailsView order={order} {...this.props} />
           </Accordion>
           <Accordion
             id="POSummary"
             label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
           >
-            <SummaryView order={initialValues} {...this.props} />
+            <SummaryView order={order} {...this.props} />
           </Accordion>
           <Accordion
             displayWhenOpen={this.addPOLineButton}
@@ -248,11 +249,11 @@ class PO extends Component {
             id="Adjustment"
             label={<FormattedMessage id="ui-orders.paneBlock.adjustment" />}
           >
-            <AdjustmentView order={initialValues} {...this.props} />
+            <AdjustmentView order={order} {...this.props} />
           </Accordion>
         </AccordionSet>
         <LayerPO
-          initialValues={initialValues}
+          order={order}
           location={location}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}
@@ -273,7 +274,7 @@ class PO extends Component {
           match={match}
           parentResources={this.props.parentResources}
           parentMutator={this.props.parentMutator}
-          order={initialValues}
+          order={order}
         />
       </Pane>
     );

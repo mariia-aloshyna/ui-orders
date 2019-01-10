@@ -47,7 +47,6 @@ class POLine extends Component {
   });
 
   static propTypes = {
-    initialValues: PropTypes.object,
     location: PropTypes.object,
     stripes: PropTypes.object.isRequired,
     onCloseEdit: PropTypes.func,
@@ -147,9 +146,9 @@ class POLine extends Component {
     const { location, match: { params: { lineId } }, resources } = this.props;
     const order = get(resources, ['order', 'records', 0]);
     const lines = get(order, 'po_lines', []);
-    const initialValues = lines.find(u => u.id === lineId);
+    const line = lines.find(u => u.id === lineId);
 
-    if (!initialValues) {
+    if (!line) {
       return (
         <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" lastMenu={lastMenu} dismissible>
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
@@ -157,61 +156,65 @@ class POLine extends Component {
       );
     }
 
-    const orderFormat = get(initialValues, 'order_format');
+    const orderFormat = get(line, 'order_format');
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const vendors = get(parentResources, 'vendors.records', []);
 
     return (
       <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" firstMenu={firstMenu} lastMenu={lastMenu}>
-        <POLineDetails initialValues={initialValues} {...this.props} />
+        <POLineDetails initialValues={line} {...this.props} />
         <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
           <Accordion label="Cost Details" id="CostDetails">
-            <CostView cost={initialValues.cost} {...this.props} />
+            <CostView cost={line.cost} {...this.props} />
           </Accordion>
           <Accordion label="Po Line Tags" id="Tags">
-            <TagView initialValues={initialValues} {...this.props} />
+            <TagView initialValues={line} {...this.props} />
           </Accordion>
           <Accordion label="Locations" id="Locations">
-            <LocationView initialValues={initialValues} {...this.props} />
+            <LocationView initialValues={line} {...this.props} />
             <br />
           </Accordion>
           <Accordion label="Vendor" id="Vendor">
-            <VendorView vendorDetail={initialValues.vendor_detail} {...this.props} />
+            <VendorView vendorDetail={line.vendor_detail} {...this.props} />
           </Accordion>
           <Accordion label="Fund Distribution" id="FundDistribution">
-            <FundDistributionView initialValues={initialValues} {...this.props} />
+            <FundDistributionView initialValues={line} {...this.props} />
           </Accordion>
           <Accordion label="Item Details" id="ItemDetails">
-            <ItemView poLineDetails={initialValues} {...this.props} />
+            <ItemView poLineDetails={line} {...this.props} />
           </Accordion>
           {showEresources && (
             <Accordion label="E-resources Details" id="Eresources">
-              <EresourcesView initialValues={initialValues} {...this.props} />
+              <EresourcesView
+                line={line}
+                order={order}
+                vendors={vendors}
+              />
             </Accordion>
           )}
           {showPhresources && (
             <Accordion label="Physical Resource Details" id="Physical">
               <PhysicalView
-                physical={get(initialValues, 'physical', {})}
+                physical={get(line, 'physical', {})}
                 vendors={vendors}
               />
             </Accordion>
           )}
           <Accordion label="Renewals" id="Renewal">
-            <RenewalView initialValues={initialValues} {...this.props} />
+            <RenewalView initialValues={line} {...this.props} />
           </Accordion>
           <Accordion label="Adjustments" id="Adjustments">
-            <AdjustmentsView initialValues={initialValues} {...this.props} />
+            <AdjustmentsView initialValues={line} {...this.props} />
           </Accordion>
           <Accordion label="License" id="License">
-            <LicenseView initialValues={initialValues} {...this.props} />
+            <LicenseView initialValues={line} {...this.props} />
           </Accordion>
         </AccordionSet>
         <LayerPOLine
           lineMutator={mutator.poLine}
-          line={initialValues}
+          line={line}
           location={location}
           stripes={this.props.stripes}
           onCancel={this.props.onCloseEdit}

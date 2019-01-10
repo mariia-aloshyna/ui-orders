@@ -64,30 +64,29 @@ class LayerPOLine extends Component {
     });
   }
 
-  submitPOLine = async (line) => {
+  submitPOLine = (line) => {
     const newLine = cloneDeep(line);
     const { lineMutator, onCancel } = this.props;
 
-    try {
-      await lineMutator.POST(newLine);
-      onCancel();
-    } catch (e) {
-      let response;
+    lineMutator.POST(newLine)
+      .then(() => onCancel())
+      .catch(async e => {
+        let response;
 
-      try {
-        response = await e.json();
-      } catch (parsingException) {
-        response = e;
-      }
-      if (response.errors && response.errors.find(el => el.code === 'lines_limit')) {
-        this.openLineLimitExceededModal(line);
-      } else {
-        this.callout.sendCallout({
-          message: <FormattedMessage id="ui-orders.errors.lineWasNotCreated" />,
-          type: 'error',
-        });
-      }
-    }
+        try {
+          response = await e.json();
+        } catch (parsingException) {
+          response = e;
+        }
+        if (response.errors && response.errors.find(el => el.code === 'lines_limit')) {
+          this.openLineLimitExceededModal(line);
+        } else {
+          this.callout.sendCallout({
+            message: <FormattedMessage id="ui-orders.errors.lineWasNotCreated" />,
+            type: 'error',
+          });
+        }
+      });
   }
 
   createNewOrder = async () => {
@@ -95,6 +94,7 @@ class LayerPOLine extends Component {
 
     try {
       const newOrder = await cloneOrder(order, parentMutator.records, this.state.line);
+
       parentMutator.query.update({
         _path: `/orders/view/${newOrder.id}`,
         layer: null,
