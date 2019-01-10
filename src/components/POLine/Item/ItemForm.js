@@ -16,9 +16,11 @@ import {
   DATE_FORMAT,
   TIMEZONE,
 } from '../../Utils/const';
+import { validateYearIsPast } from '../../Utils/Validate';
 import MaterialTypesForm from './MaterialTypesForm';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
 import ContributorForm from './ContributorForm';
+
 import css from './ItemForm.css';
 
 class ItemForm extends Component {
@@ -122,13 +124,11 @@ class ItemForm extends Component {
         </Col>
         <Col xs={6}>
           <Field
-            backendDateStandard={DATE_FORMAT}
-            component={Datepicker}
-            dateFormat={DATE_FORMAT}
+            component={TextField}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
             name="publication_date"
-            timeZone={TIMEZONE}
+            validate={validateYearIsPast}
           />
         </Col>
         <Col xs={6}>
