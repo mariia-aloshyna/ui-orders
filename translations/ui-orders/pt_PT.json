@@ -493,5 +493,6 @@
     "instance.publishers": "Publishers",
     "settings.poNumber": "Purchase Order Number",
     "settings.poNumber.editPONumber": "User Can Edit",
-    "settings.poNumber.saveBtn": "Save"
+    "settings.poNumber.saveBtn": "Save",
+    "errors.lineWasNotCreated": "Purchase Order Line has not been created"
 }

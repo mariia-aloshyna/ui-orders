@@ -493,5 +493,6 @@
     "instance.publishers": "出版者",
     "settings.poNumber": "采购订单号",
     "settings.poNumber.editPONumber": "用户可编辑",
-    "settings.poNumber.saveBtn": "保存"
+    "settings.poNumber.saveBtn": "保存",
+    "errors.lineWasNotCreated": "尚未创建采购订单行"
 }
