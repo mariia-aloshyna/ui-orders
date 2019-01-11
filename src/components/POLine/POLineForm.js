@@ -5,6 +5,7 @@ import {
   getFormSyncErrors,
   getFormValues,
 } from 'redux-form';
+import { FormattedMessage } from 'react-intl';
 
 import { IfPermission } from '@folio/stripes/core';
 import {
@@ -94,15 +95,19 @@ class POLineForm extends Component {
 
     return (
       <PaneMenu>
-        <button
-          aria-label="Close New Line Dialog"
-          id="clickable-close-new-line-dialog"
-          onClick={onCancel}
-          title="close"
-          type="button"
-        >
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times;</span>
-        </button>
+        <FormattedMessage id="ui-orders.buttons.line.close">
+          {(title) => (
+            <button
+              aria-label={<FormattedMessage id="ui-orders.buttons.line.closeDialog" />}
+              id="clickable-close-new-line-dialog"
+              onClick={onCancel}
+              title={title}
+              type="button"
+            >
+              <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times;</span>
+            </button>
+          )}
+        </FormattedMessage>
       </PaneMenu>
     );
   }
@@ -116,7 +121,6 @@ class POLineForm extends Component {
           <Button
             id={id}
             type="submit"
-            title={label}
             disabled={pristine || submitting}
             onClick={handleSubmit}
             style={{ marginBottom: '0', marginRight: '10px' }}
@@ -148,15 +152,14 @@ class POLineForm extends Component {
   render() {
     const { initialValues, onCancel, deletePOLine, stripes: { store } } = this.props;
     const lineId = get(initialValues, 'id');
+    const lineNumber = get(initialValues, 'po_line_number', '');
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = lineId ? (
-      <span>
-        {`Edit: ${lineId || ''}`}
-      </span>
-    ) : 'Add PO Line';
+    const paneTitle = lineId
+      ? <FormattedMessage id="ui-orders.line.paneTitle.edit" values={{ lineNumber }} />
+      : <FormattedMessage id="ui-orders.line.paneTitle.new" />;
     const lastMenu = lineId ?
-      this.getLastMenu('clickable-updatePoLine', 'Update PO Line') :
-      this.getLastMenu('clickable-createnewPoLine', 'Create PO Line');
+      this.getLastMenu('clickable-updatePoLine', <FormattedMessage id="ui-orders.buttons.line.update" />) :
+      this.getLastMenu('clickable-createnewPoLine', <FormattedMessage id="ui-orders.buttons.line.create" />);
     const showDeleteButton = lineId || false;
 
     if (!initialValues) {
@@ -165,7 +168,7 @@ class POLineForm extends Component {
         <Pane
           id="pane-podetails"
           defaultWidth="fill"
-          paneTitle="Details"
+          paneTitle={<FormattedMessage id="ui-orders.line.paneTitle.details" />}
           firstMenu={firstMenu}
           lastMenu={lastMenu}
         >
@@ -215,26 +218,26 @@ class POLineForm extends Component {
                     onToggle={this.onToggleSection}
                   >
                     <Accordion
-                      label="PO Line Details"
+                      label={<FormattedMessage id="ui-orders.line.accordion.details" />}
                       id={ACCORDION_ID.lineDetails}
                     >
                       <POLineDetailsForm {...this.props} />
                     </Accordion>
                     <Accordion
-                      label="Cost Details"
+                      label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
                       id={ACCORDION_ID.costDetails}
                     >
                       <CostForm {...this.props} />
                     </Accordion>
                     <Accordion
-                      label="Vendor"
+                      label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
                       id={ACCORDION_ID.vendor}
                     >
                       <VendorForm {...this.props} />
                     </Accordion>
                     {showEresources && (
                       <Accordion
-                        label="E-resources Details"
+                        label={<FormattedMessage id="ui-orders.line.accordion.eresource" />}
                         id={ACCORDION_ID.eresources}
                       >
                         <EresourcesForm {...this.props} />
@@ -242,7 +245,7 @@ class POLineForm extends Component {
                     )}
                     {showPhresources && (
                       <Accordion
-                        label="Physical Resource Details"
+                        label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
                         id={ACCORDION_ID.physical}
                       >
                         <PhysicalForm
@@ -252,13 +255,13 @@ class POLineForm extends Component {
                       </Accordion>
                     )}
                     <Accordion
-                      label="Fund Distribution"
+                      label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
                       id={ACCORDION_ID.fundDistribution}
                     >
                       <FundDistributionForm {...this.props} />
                     </Accordion>
                     <Accordion
-                      label="Item Details"
+                      label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
                       id={ACCORDION_ID.itemDetails}
                     >
                       <ItemForm {...this.props} />
@@ -274,7 +277,7 @@ class POLineForm extends Component {
                             buttonStyle="danger"
                             onClick={() => { deletePOLine(lineId); }}
                           >
-                            {`Delete - ${lineId}`}
+                            <FormattedMessage id="ui-orders.buttons.line.delete" values={{ lineNumber }} />
                           </Button>
                         }
                       </Col>
