@@ -4,12 +4,15 @@ import PropTypes from 'prop-types';
 import {
   Field,
 } from 'redux-form';
+
 import {
   Button,
   Col,
   Row,
   TextArea,
 } from '@folio/stripes/components';
+
+import { required } from '../Utils/Validate';
 
 const renderNotesField = ({ input, label }) => (
   <Field
@@ -28,6 +31,7 @@ const NotesForm = ({ fields }) => (
             name={note}
             type="text"
             component={renderNotesField}
+            validate={required}
           />
         </Col>
         <Col xs={1}>
@@ -41,7 +45,7 @@ const NotesForm = ({ fields }) => (
       </Fragment>
     ))}
     <Col xs={12}>
-      <Button onClick={() => fields.push()}>
+      <Button onClick={() => fields.push('')}>
         <FormattedMessage id="ui-orders.orderDetails.addNoteBtn" />
       </Button>
     </Col>
