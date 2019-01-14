@@ -7,6 +7,7 @@ import {
   TextArea,
   TextField,
 } from '@folio/stripes/components';
+import { requiredRefNumberType } from '../../Utils/Validate';
 import FieldRefNumberType from './FieldRefNumberType';
 
 class VendorForm extends Component {
@@ -20,6 +21,7 @@ class VendorForm extends Component {
             id="vendor_detail.ref_number"
             label={<FormattedMessage id="ui-orders.vendor.refNumber" />}
             name="vendor_detail.ref_number"
+            validate={[requiredRefNumberType]}
           />
         </Col>
         <Col xs={6}>

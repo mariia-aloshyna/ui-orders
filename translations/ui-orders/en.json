@@ -503,7 +503,7 @@
   "vendor.refNumberType.librarysContinuation": "Library's continuation order number",
   "vendor.refNumberType.suppliersContinuation": "Supplier's continuation order",
   "vendor.refNumberType.suppliersUnique": "Supplier's unique order line reference number",
-  "vendor.refNumberType": "Vendor Ref Type*",
+  "vendor.refNumberType": "Vendor Ref Type",
   "vendor.vendor_status": "Status",
   "vendor.vendorAccount": "Vendor Account",
   "workflowStatus.closed": "Closed",
