@@ -16,7 +16,6 @@ import {
 import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldPaymentStatus from './FieldPaymentStatus';
 import FieldReceiptStatus from './FieldReceiptStatus';
-import FieldWorkflowStatus from './FieldWorkflowStatus';
 import FieldOrderFormat from './FieldOrderFormat';
 import FieldAcquisitionMethod from './FieldAcquisitionMethod';
 // import FieldSource from './FieldSource';
@@ -83,9 +82,6 @@ class POLineDetailsForm extends Component {
               vendors={vendors}
               orderVendorId={order.vendor}
             />
-          </Col>
-          <Col xs={6}>
-            <FieldWorkflowStatus />
           </Col>
         </Row>
         <Row>

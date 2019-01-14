@@ -11,7 +11,7 @@ import {
   TextArea,
 } from '@folio/stripes/components';
 
-import { WORKFLOW_STATUS } from '../../POLine/POLineDetails/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../Summary/FieldWorkflowStatus';
 import css from './CloseOrderModal.css';
 
 const DEFAULT_REASONS = {
