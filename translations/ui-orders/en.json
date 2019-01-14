@@ -23,6 +23,7 @@
   "brd.itemSuccessfullyRenewed": "<strong>{count}</strong> {count, plural, one {item} other {items}} <b>successfully</b> renewed",
   "brd.renewConfirmation": "Renew Confirmation",
   "brd.successfulRenewal": "Item successfully renewed",
+  "button.addLine": "Add PO Line",
   "button.remove": "Remove",
   "buttons.line.close": "Close",
   "buttons.line.closeDialog": "Close New Line Dialog",

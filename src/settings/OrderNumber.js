@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { get } from 'lodash';
-
 import { ConfigManager } from '@folio/stripes/smart-components';
 
 import { MODULE_ORDERS } from '../components/Utils/const';
+import getOrderNumberSetting from '../components/Utils/getOrderNumberSetting';
 import OrderNumberForm from './OrderNumberForm';
 
 class OrderNumber extends Component {
@@ -18,31 +17,6 @@ class OrderNumber extends Component {
     super(props);
 
     this.configManager = props.stripes.connect(ConfigManager);
-  }
-
-  getInitialValues = (settings) => {
-    let orderNumberSetting = get(settings, [0, 'value'], '{}');
-    const config = {
-      canUserEditOrderNumber: false,
-      selectedPrefixes: [],
-      prefixes: [],
-      selectedSuffixes: [],
-      suffixes: [],
-    };
-
-    try {
-      orderNumberSetting = JSON.parse(orderNumberSetting);
-    } catch (e) {
-      orderNumberSetting = {};
-    }
-
-    Object.assign(config, orderNumberSetting);
-    config.selectedPrefixes = config.selectedPrefixes.map(item => ({ label: item, value: item }));
-    config.prefixes = config.prefixes.map(item => ({ label: item, value: item }));
-    config.selectedSuffixes = config.selectedSuffixes.map(item => ({ label: item, value: item }));
-    config.suffixes = config.suffixes.map(item => ({ label: item, value: item }));
-
-    return config;
   }
 
   beforeSave = (data) => {
@@ -69,7 +43,7 @@ class OrderNumber extends Component {
     return (
       <this.configManager
         configName="orderNumber"
-        getInitialValues={this.getInitialValues}
+        getInitialValues={getOrderNumberSetting}
         label={label}
         moduleName={MODULE_ORDERS}
         onBeforeSave={this.beforeSave}

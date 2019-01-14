@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  get,
-  toString,
-} from 'lodash';
+import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -13,6 +10,7 @@ import {
 import { SearchAndSort } from '@folio/stripes/smart-components';
 
 import packageInfo from '../../package';
+import { MODULE_ORDERS } from '../components/Utils/const';
 import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
 import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
@@ -136,6 +134,16 @@ class Main extends Component {
         },
       },
       records: 'configs',
+    },
+    orderNumberSetting: {
+      type: 'okapi',
+      records: 'configs',
+      path: 'configurations/entries',
+      GET: {
+        params: {
+          query: `(module=${MODULE_ORDERS} and configName=orderNumber)`,
+        },
+      },
     },
     // source: {
     //   type: 'okapi',
