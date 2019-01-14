@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
+  change,
   Field,
   getFormValues,
 } from 'redux-form';
@@ -18,25 +19,25 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+const ORDER_NUMBER_FORM_NAME = 'configForm';
+
 class OrderNumberForm extends Component {
   static propTypes = {
     stripes: PropTypes.shape({
-      store: PropTypes.object.isRequired,
+      store: PropTypes.shape({ dispatch: PropTypes.func.isRequired }).isRequired,
     }).isRequired,
-    dispatch: PropTypes.func.isRequired,
-    change: PropTypes.func.isRequired,
   };
 
   addValue = (inputValue, fieldName) => {
-    const { dispatch, change } = this.props;
     const newOption = {
       label: inputValue,
       value: inputValue,
     };
     const list = this.getOptionsList(fieldName);
     const newList = [...list, newOption];
+    const { stripes: { store: { dispatch } } } = this.props;
 
-    dispatch(change(fieldName, newList));
+    dispatch(change(ORDER_NUMBER_FORM_NAME, fieldName, newList));
   }
 
   addPrefix = ({ inputValue }) => this.addValue(inputValue, 'prefixes');
@@ -60,7 +61,7 @@ class OrderNumberForm extends Component {
 
   getOptionsList = (option) => {
     const { stripes: { store } } = this.props;
-    const formValues = getFormValues('configForm')(store.getState());
+    const formValues = getFormValues(ORDER_NUMBER_FORM_NAME)(store.getState());
     const optionsList = get(formValues, option, []);
 
     return optionsList;
