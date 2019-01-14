@@ -15,6 +15,15 @@ export const requiredRefNumber = (value, allValues) => {
     : undefined;
 };
 
+// Field is required only if 'vendor_detail.ref_number_type' isn't empty
+export const requiredRefNumberType = (value, allValues) => {
+  const refNumberType = allValues.vendor_detail.ref_number_type;
+
+  return refNumberType && !value
+    ? REQUIRED
+    : undefined;
+};
+
 // Validation for Fields with type 'number' requires positive integer
 export const requiredPositiveNumber = (value) => {
   return value > 0
