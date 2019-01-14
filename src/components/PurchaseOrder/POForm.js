@@ -103,11 +103,10 @@ class POForm extends Component {
   render() {
     const { change, dispatch, initialValues, onCancel, stripes, parentResources } = this.props;
     const firstMenu = this.getAddFirstMenu();
-    const paneTitle = initialValues.id ? (
-      <span>
-        {`Edit: ${get(initialValues, ['id'], '')}`}
-      </span>
-    ) : <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />;
+    const orderNumber = get(initialValues, 'po_number', '');
+    const paneTitle = initialValues.id
+      ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
+      : <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />;
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-update-purchase-order', 'ui-orders.paneMenu.updateOrder') :
       this.getLastMenu('clickable-create-new-purchase-order', 'ui-orders.paneMenu.createPurchaseOrder');
@@ -122,7 +121,7 @@ class POForm extends Component {
           id="pane-podetails"
           lastMenu={lastMenu}
           onClose={onCancel}
-          paneTitle={<FormattedMessage id="ui-orders.paneTitle.details" />}
+          paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.detailsLoading" />}
         >
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
         </Pane>
