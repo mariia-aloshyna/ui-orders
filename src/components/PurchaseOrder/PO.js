@@ -23,6 +23,7 @@ import {
 } from '../LayerCollection';
 import transitionToParams from '../Utils/transitionToParams';
 import { updateOrderResource } from '../Utils/orderResource';
+import { MODULE_ORDERS } from '../Utils/const';
 import CloseOrderModal from './CloseOrder';
 import { AdjustmentView } from './Adjustment';
 import LineListing from './LineListing';
@@ -47,7 +48,7 @@ class PO extends Component {
       path: 'configurations/entries',
       GET: {
         params: {
-          query: '(module=ORDERS and configName=closing-reasons)',
+          query: `(module=${MODULE_ORDERS} and configName=closing-reasons)`,
         },
       },
     },
@@ -150,7 +151,7 @@ class PO extends Component {
       data-test-add-line-button
       onClick={this.onAddPOLine}
     >
-      Add PO Line
+      <FormattedMessage id="ui-orders.button.addLine" />
     </Button>
   );
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -15,6 +15,7 @@ import {
   KeyValue,
   Row,
   TextField,
+  Select,
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
@@ -25,6 +26,7 @@ import FolioFormattedTime from '../../FolioFormattedTime';
 
 class PODetailsForm extends Component {
   static propTypes = {
+    orderNumberSetting: PropTypes.object.isRequired,
     initialValues: PropTypes.object,
     stripes: PropTypes.object,
     dispatch: PropTypes.func,
@@ -148,116 +150,140 @@ class PODetailsForm extends Component {
   }
 
   render() {
-    const { initialValues } = this.props;
+    const {
+      initialValues,
+      orderNumberSetting: { selectedPrefixes, selectedSuffixes, canUserEditOrderNumber },
+    } = this.props;
 
     return (
-      <Row>
-        <Col
-          xs={6}
-          md={3}
-          style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}
-        >
-          <Field
-            component={TextField}
-            endControl={this.vendorClearButton()}
-            fullWidth
-            id="vendor_name"
-            label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
-            name="vendor_name"
-            disabled
-            validate={required}
-          />
-          <div style={{ marginLeft: '10px', top: '0', position: 'relative' }}>
-            {this.userVendor()}
-          </div>
-        </Col>
-        <Col xs={6} md={3}>
-          <Field
-            component={TextField}
-            fullWidth
-            id="created_by_name"
-            label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}
-            name="created_by_name"
-            disabled
-          />
-        </Col>
-        <Col xs={6} md={3}>
-          <Field
-            component={TextField}
-            fullWidth
-            id="po_number"
-            label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
-            name="po_number"
-            disabled
-          />
-        </Col>
-        <Col xs={6} md={3}>
-          <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
-            <FolioFormattedTime dateString={get(initialValues, 'metadata.createdDate')} />
-          </KeyValue>
-        </Col>
-        <Col xs={6} md={3} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-          <Field
-            component={TextField}
-            endControl={this.userClearButton()}
-            fullWidth
-            id="assigned_to_user"
-            label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
-            name="assigned_to_user"
-            disabled
-          />
-          <div style={{ marginLeft: '10px', top: '0', position: 'relative' }}>
-            {this.userModal()}
-          </div>
-        </Col>
-        <Col xs={6} md={3}>
-          <br />
-          <Field
-            component={Checkbox}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
-            name="manual_po"
-            type="checkbox"
-          />
-        </Col>
-        <Col xs={6} md={3}>
-          <br />
-          <Field
-            component={Checkbox}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.orderDetails.re_encumber" />}
-            name="re_encumber"
-            type="checkbox"
-          />
-        </Col>
-        <Col xs={6} md={3}>
-          <Field
-            component={TextField}
-            fullWidth
-            id="bill_to"
-            label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
-            name="bill_to"
-          />
-        </Col>
-        <Col xs={6} md={3}>
-          <Field
-            component={TextField}
-            fullWidth
-            id="ship_to"
-            label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
-            name="ship_to"
-          />
-        </Col>
-        <Col xs={6} md={3}>
-          <FieldOrderType />
-        </Col>
-        <Col xs={12}>
-          <FieldArray
-            name="notes"
-            component={NotesForm}
-          />
-        </Col>
-      </Row>
+      <Fragment>
+        <Row>
+          <Col xs={4}>
+            <Field
+              component={Select}
+              label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
+              name="po_number_prefix"
+              placeholder=" "
+              dataOptions={selectedPrefixes}
+            />
+          </Col>
+          <Col xs={4}>
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
+              name="po_number"
+              disabled={!canUserEditOrderNumber}
+            />
+          </Col>
+          <Col xs={4}>
+            <Field
+              component={Select}
+              label={<FormattedMessage id="ui-orders.orderDetails.orderNumberSuffix" />}
+              name="po_number_suffix"
+              placeholder=" "
+              dataOptions={selectedSuffixes}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col
+            xs={6}
+            md={3}
+            style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}
+          >
+            <Field
+              component={TextField}
+              endControl={this.vendorClearButton()}
+              fullWidth
+              id="vendor_name"
+              label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
+              name="vendor_name"
+              disabled
+              validate={required}
+            />
+            <div style={{ marginLeft: '10px', top: '0', position: 'relative' }}>
+              {this.userVendor()}
+            </div>
+          </Col>
+          <Col xs={6} md={3}>
+            <Field
+              component={TextField}
+              fullWidth
+              id="created_by_name"
+              label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}
+              name="created_by_name"
+              disabled
+            />
+          </Col>
+          <Col xs={6} md={3}>
+            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
+              <FolioFormattedTime dateString={get(initialValues, 'metadata.createdDate')} />
+            </KeyValue>
+          </Col>
+          <Col xs={6} md={3} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+            <Field
+              component={TextField}
+              endControl={this.userClearButton()}
+              fullWidth
+              id="assigned_to_user"
+              label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
+              name="assigned_to_user"
+              disabled
+            />
+            <div style={{ marginLeft: '10px', top: '0', position: 'relative' }}>
+              {this.userModal()}
+            </div>
+          </Col>
+          <Col xs={6} md={3}>
+            <br />
+            <Field
+              component={Checkbox}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
+              name="manual_po"
+              type="checkbox"
+            />
+          </Col>
+          <Col xs={6} md={3}>
+            <br />
+            <Field
+              component={Checkbox}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.orderDetails.re_encumber" />}
+              name="re_encumber"
+              type="checkbox"
+            />
+          </Col>
+          <Col xs={6} md={3}>
+            <Field
+              component={TextField}
+              fullWidth
+              id="bill_to"
+              label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
+              name="bill_to"
+            />
+          </Col>
+          <Col xs={6} md={3}>
+            <Field
+              component={TextField}
+              fullWidth
+              id="ship_to"
+              label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
+              name="ship_to"
+            />
+          </Col>
+          <Col xs={6} md={3}>
+            <FieldOrderType />
+          </Col>
+          <Col xs={12}>
+            <FieldArray
+              name="notes"
+              component={NotesForm}
+            />
+          </Col>
+        </Row>
+      </Fragment>
     );
   }
 }

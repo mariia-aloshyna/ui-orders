@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
+
 import { IfPermission } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/form';
 import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
+
+import getOrderNumberSetting from '../Utils/getOrderNumberSetting';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { AdjustmentView } from './Adjustment';
@@ -98,7 +101,7 @@ class POForm extends Component {
   }
 
   render() {
-    const { change, dispatch, initialValues, onCancel, stripes } = this.props;
+    const { change, dispatch, initialValues, onCancel, stripes, parentResources } = this.props;
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = initialValues.id ? (
       <span>
@@ -109,6 +112,7 @@ class POForm extends Component {
       this.getLastMenu('clickable-update-purchase-order', 'ui-orders.paneMenu.updateOrder') :
       this.getLastMenu('clickable-create-new-purchase-order', 'ui-orders.paneMenu.createPurchaseOrder');
     const showDeleteButton = initialValues.id || false;
+    const orderNumberSetting = getOrderNumberSetting(get(parentResources, 'orderNumberSetting.records', []));
 
     if (!initialValues) {
       return (
@@ -160,6 +164,7 @@ class POForm extends Component {
                             change={change}
                             dispatch={dispatch}
                             order={initialValues}
+                            orderNumberSetting={orderNumberSetting}
                             stripes={stripes}
                           />
                         </Accordion>
