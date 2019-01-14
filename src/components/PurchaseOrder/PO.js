@@ -159,6 +159,7 @@ class PO extends Component {
     const { location, history, match, mutator, resources, parentResources } = this.props;
     const order = get(resources, ['order', 'records', 0]);
     const orderId = get(order, 'id');
+    const orderNumber = get(order, 'po_number', '');
     const poLines = get(order, 'po_lines', []);
     const lastMenu = (
       <PaneMenu>
@@ -192,7 +193,7 @@ class PO extends Component {
           id="pane-podetails"
           lastMenu={lastMenu}
           onClose={this.props.onClose}
-          paneTitle={<FormattedMessage id="ui-orders.paneTitle.details" />}
+          paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.detailsLoading" />}
         >
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
         </Pane>
@@ -216,11 +217,7 @@ class PO extends Component {
       <Pane
         data-test-order-details
         defaultWidth="fill"
-        paneTitle={(
-          <span data-test-header-title>
-            {`Purchase Order ID: ${orderId}`}
-          </span>
-        )}
+        paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.details" values={{ orderNumber }} />}
         lastMenu={lastMenu}
         dismissible
         onClose={this.props.onClose}

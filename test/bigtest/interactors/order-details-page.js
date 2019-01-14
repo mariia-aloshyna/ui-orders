@@ -9,7 +9,7 @@ import {
 }
 
 @interactor class OrderDetailsPage {
-  title = text('[data-test-header-title]');
+  title = text('[class*=paneTitleLabel---]');
   headerDropdown = new HeaderDropdown('[class*=paneContentLastArea---]');
   addLineButton = clickable('[data-test-add-line-button]');
 }

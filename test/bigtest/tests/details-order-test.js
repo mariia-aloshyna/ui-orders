@@ -20,8 +20,8 @@ describe('OrderDetailsPage', () => {
     return this.visit(`/orders/view/${order.id}`);
   });
 
-  it('displays the order id in the pane header', () => {
-    expect(OrderDetailsPage.title).to.include(order.id);
+  it('displays the order number in the pane header', () => {
+    expect(OrderDetailsPage.title).to.include(order.po_number);
   });
 
   describe('clicking on edit', () => {
