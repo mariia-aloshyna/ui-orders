@@ -34,22 +34,23 @@ const renderReasons = ({ fields, removeReason, saveReason, meta: { pristine } })
   <Fragment>
     {fields.map((reason, index) => (
       <Row key={index}>
-        <Col xs={8}>
+        <Col xs={5}>
           <Field
             name={`${reason}.value`}
             type="text"
             component={TextField}
           />
         </Col>
-        <Col xs={1}>
+        <Col
+          xs={7}
+          lg={3}
+        >
           <Button
             disabled={pristine}
             onClick={() => saveReason(fields.get(index))}
           >
             <FormattedMessage id="ui-orders.settings.closingReasons.saveBtn" />
           </Button>
-        </Col>
-        <Col xs={1}>
           <Button
             buttonStyle="danger"
             onClick={() => {
