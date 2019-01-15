@@ -1,5 +1,19 @@
 # Change history for ui-orders
 
+## [1.1.0](https://github.com/folio-org/ui-orders/tree/v1.1.0) (2019-01-15)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.0.0...v1.1.0)
+* UIOR-46 Close order
+* UIOR-70 PO: identify a reason for closure
+* UIOR-66 PO Line Item Details: Type new Title or select a Title from inventory instances
+* UIOR-9, UIOR-13 Unit tests (BigTest Mirage config) /orders API
+* UIOR-59 Integrate PO Line Edit and Details with back-end API
+* UIOR-60 PO Line: Update Activation Due field view properties
+* UIOR-52 PO Line Details: Update possible "Order Formats"
+* fix UIOR-79 Setting for PO Line Limit not actually being saved
+* fix UIOR-90 Edit Order: Unable to clear Assigned To field
+* fix UIOR-82 Indicate empty required field within accordions while creating Purchase Order Lines
+* fix UIOR-85 Create/Edit Purchase Order -> Empty Notes
+
 ## [1.0.0](https://github.com/folio-org/ui-orders/tree/v1.0.0) (2018-12-07)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v0.1.0...v1.0.0)
 
