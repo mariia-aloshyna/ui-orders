@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
@@ -11,7 +11,6 @@ import {
   TextArea,
 } from '@folio/stripes/components';
 
-import { WORKFLOW_STATUS } from '../Summary/FieldWorkflowStatus';
 import css from './CloseOrderModal.css';
 
 const DEFAULT_REASONS = {
@@ -35,104 +34,84 @@ const DEFAULT_REASONS = {
 
 class CloseOrderModal extends Component {
   static propTypes = {
-    orderId: PropTypes.string,
-    workflowStatus: PropTypes.string,
+    orderNumber: PropTypes.string,
     closingReasons: PropTypes.arrayOf(PropTypes.object),
-    closeOrderSubmit: PropTypes.func.isRequired,
+    closeOrder: PropTypes.func.isRequired,
+    cancel: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props);
 
     this.state = {
-      openModal: false,
       reason: '',
       note: '',
     };
   }
 
-  openModal = () => {
-    this.setState({
-      openModal: true,
-    });
+  reasonChanged = (e) => {
+    this.setState({ reason: e.target.value });
   }
 
-  closeModal = () => {
-    this.setState({
-      openModal: false,
-    });
+  noteChanged = (e) => {
+    this.setState({ note: e.target.value });
   }
 
   render() {
-    const { orderId, workflowStatus, closingReasons, closeOrderSubmit } = this.props;
-    const isVisible = orderId && workflowStatus === WORKFLOW_STATUS.open;
+    const { orderNumber, closingReasons, closeOrder, cancel } = this.props;
     const reasons = closingReasons.map((reason) => ({
       label: reason.value,
       value: reason.value,
     }));
 
-    if (!isVisible) {
-      return null;
-    }
-
     return (
-      <Fragment>
-        <Button
-          buttonStyle="primary"
-          marginBottom0
-          onClick={this.openModal}
-          style={{ marginRight: '10px' }}
-        >
-          <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
-        </Button>
-        <Modal
-          label={<FormattedMessage id="ui-orders.closeOrderModal.title" values={{ orderId }} />}
-          open={this.state.openModal}
-        >
-          <Row>
-            <Col xs={12}>
-              <Select
-                dataOptions={reasons}
-                label={<FormattedMessage id="ui-orders.closeOrderModal.reason" />}
-                onChange={e => this.setState({ reason: e.target.value })}
-                required
-              >
-                {Object.keys(DEFAULT_REASONS).map((key) => (
-                  <FormattedMessage
-                    id={`ui-orders.closeOrderModal.closingReasons.${key}`}
-                    key={key}
-                  >
-                    {(message) => <option value={DEFAULT_REASONS[key]}>{message}</option>}
-                  </FormattedMessage>
-                ))}
-              </Select>
-              <TextArea
-                label={<FormattedMessage id="ui-orders.closeOrderModal.notes" />}
-                onChange={e => this.setState({ note: e.target.value })}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col
-              className={css.buttonsLine}
-              xs={12}
+      <Modal
+        label={<FormattedMessage id="ui-orders.closeOrderModal.title" values={{ orderNumber }} />}
+        open
+      >
+        <Row>
+          <Col xs={12}>
+            <Select
+              autoFocus
+              label={<FormattedMessage id="ui-orders.closeOrderModal.reason" />}
+              dataOptions={reasons}
+              onChange={this.reasonChanged}
+              placeholder=" "
+              defaultValue=""
             >
-              <Button
-                buttonStyle="primary"
-                onClick={() => {
-                  closeOrderSubmit(this.state);
-                  this.closeModal();
-                }}
-              >
-                <FormattedMessage id="ui-orders.closeOrderModal.submit" />
-              </Button>
-              <Button onClick={() => this.closeModal()}>
-                <FormattedMessage id="ui-orders.closeOrderModal.cancel" />
-              </Button>
-            </Col>
-          </Row>
-        </Modal>
-      </Fragment>
+              {Object.keys(DEFAULT_REASONS).map((key) => (
+                <FormattedMessage
+                  id={`ui-orders.closeOrderModal.closingReasons.${key}`}
+                  key={key}
+                >
+                  {(message) => <option value={DEFAULT_REASONS[key]}>{message}</option>}
+                </FormattedMessage>
+              ))}
+            </Select>
+            <TextArea
+              label={<FormattedMessage id="ui-orders.closeOrderModal.notes" />}
+              onChange={this.noteChanged}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col
+            className={css.buttonsLine}
+            xs={12}
+          >
+            <Button
+              buttonStyle="primary"
+              disabled={!this.state.reason}
+              onClick={() => closeOrder(this.state.reason, this.state.note)}
+            >
+              <FormattedMessage id="ui-orders.closeOrderModal.submit" />
+            </Button>
+            <Button onClick={cancel}>
+              <FormattedMessage id="ui-orders.closeOrderModal.cancel" />
+            </Button>
+          </Col>
+        </Row>
+      </Modal>
     );
   }
 }
