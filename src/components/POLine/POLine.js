@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-
 import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
@@ -14,12 +13,7 @@ import {
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
-
 import transitionToParams from '../Utils/transitionToParams';
-import {
-  LINES_API,
-  ORDER_DETAIL_API,
-} from '../Utils/api';
 import { POLineDetails } from './POLineDetails';
 import CostView from './Cost/CostView';
 import TagView from './Tags/TagView';
@@ -42,12 +36,12 @@ class POLine extends Component {
   static manifest = Object.freeze({
     order: {
       type: 'okapi',
-      path: ORDER_DETAIL_API,
+      path: 'orders/:{id}',
       throwErrors: false,
     },
     poLine: {
       type: 'okapi',
-      path: LINES_API,
+      path: 'orders/:{id}/lines',
       fetch: false,
     },
   });
