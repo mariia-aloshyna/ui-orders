@@ -1,7 +1,5 @@
 import {
   interactor,
-  isPresent,
-  scoped,
 } from '@bigtest/interactor';
 
 export default interactor(class SettingLineLimitInteractor {
