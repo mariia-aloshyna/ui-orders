@@ -206,7 +206,6 @@
     "react-dom": "^16.5.1",
     "react-hot-loader": "^4.3.12",
     "react-redux": "^5.0.7",
-    "react-router-prop-types": "^1.0.4",
     "redux": "^4.0.0",
     "sinon": "^7.0.0"
   },
@@ -217,6 +216,7 @@
     "query-string": "^5.0.0",
     "react-intl": "^2.4.0",
     "react-router-dom": "^4.1.1",
+    "react-router-prop-types": "^1.0.4",
     "redux-form": "^7.3.0"
   },
   "peerDependencies": {
@@ -224,8 +224,8 @@
     "react": "*"
   },
   "optionalDependencies": {
+    "@folio/plugin-find-instance": "^1.1.0",
     "@folio/plugin-find-user": "^1.1.0",
-    "@folio/plugin-find-vendor": "^1.1.0",
-    "@folio/plugin-find-instance": "^1.1.0"
+    "@folio/plugin-find-vendor": "^1.1.0"
   }
 }
