@@ -49,12 +49,6 @@ class POLineDetails extends Component {
               value={get(initialValues, 'order_format')}
             />
           </Col>
-          <Col xs={6}>
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.poLine.poLineWorkflowStatus" />}
-              value={get(initialValues, 'po_line_workflow_status')}
-            />
-          </Col>
         </Row>
         <Row>
           <Col xs={6}>
