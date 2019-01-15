@@ -23,7 +23,6 @@ import FundDistributionView from './FundDistribution/FundDistributionView';
 import EresourcesView from './Eresources/EresourcesView';
 import ItemView from './Item/ItemView';
 import PhysicalView from './Physical/PhysicalView';
-import RenewalView from './Renewal/RenewalView';
 import AdjustmentsView from './Adjustments/AdjustmentsView';
 import LicenseView from './License/LicenseView';
 import {
@@ -202,9 +201,6 @@ class POLine extends Component {
               />
             </Accordion>
           )}
-          <Accordion label="Renewals" id="Renewal">
-            <RenewalView initialValues={line} {...this.props} />
-          </Accordion>
           <Accordion label="Adjustments" id="Adjustments">
             <AdjustmentsView initialValues={line} {...this.props} />
           </Accordion>
