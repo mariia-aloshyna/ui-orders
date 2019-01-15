@@ -16,7 +16,6 @@ import { POForm } from '../components/PurchaseOrder';
 import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
 import FolioFormattedTime from '../components/FolioFormattedTime';
 import { createOrderResource } from '../components/Utils/orderResource';
-import { ORDERS_API } from '../components/Utils/api';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -36,7 +35,7 @@ class Main extends Component {
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
-      path: ORDERS_API,
+      path: 'orders',
       records: 'purchase_orders',
       recordsRequired: '%{resultCount}',
       perRequest: RESULT_COUNT_INCREMENT,
