@@ -1,7 +1,14 @@
 # Change history for ui-orders
 
+## [1.1.1](https://github.com/folio-org/ui-orders/tree/v1.1.1) (2019-01-16)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.1.0...v1.1.1)
+
+* UIOR-101 bumped up version of OKAPI mod-orders to 2.0.1
+* UIOR-84 Edit PO Line -> Labels for header and Delete button
+
 ## [1.1.0](https://github.com/folio-org/ui-orders/tree/v1.1.0) (2019-01-15)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.0.0...v1.1.0)
+
 * UIOR-46 Close order
 * UIOR-70 PO: identify a reason for closure
 * UIOR-66 PO Line Item Details: Type new Title or select a Title from inventory instances
