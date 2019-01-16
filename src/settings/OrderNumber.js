@@ -6,6 +6,7 @@ import { ConfigManager } from '@folio/stripes/smart-components';
 import { MODULE_ORDERS } from '../components/Utils/const';
 import getOrderNumberSetting from '../components/Utils/getOrderNumberSetting';
 import OrderNumberForm from './OrderNumberForm';
+import css from './OrderNumber.css';
 
 class OrderNumber extends Component {
   static propTypes = {
@@ -41,15 +42,17 @@ class OrderNumber extends Component {
     const { label, stripes } = this.props;
 
     return (
-      <this.configManager
-        configName="orderNumber"
-        getInitialValues={getOrderNumberSetting}
-        label={label}
-        moduleName={MODULE_ORDERS}
-        onBeforeSave={this.beforeSave}
-      >
-        <OrderNumberForm stripes={stripes} />
-      </this.configManager>
+      <div className={css.formWrapper}>
+        <this.configManager
+          configName="orderNumber"
+          getInitialValues={getOrderNumberSetting}
+          label={label}
+          moduleName={MODULE_ORDERS}
+          onBeforeSave={this.beforeSave}
+        >
+          <OrderNumberForm stripes={stripes} />
+        </this.configManager>
+      </div>
     );
   }
 }
