@@ -25,6 +25,7 @@ import transitionToParams from '../Utils/transitionToParams';
 import { updateOrderResource } from '../Utils/orderResource';
 import { MODULE_ORDERS } from '../Utils/const';
 import CloseOrderModal from './CloseOrder';
+import { WORKFLOW_STATUS } from './Summary/FieldWorkflowStatus';
 import { AdjustmentView } from './Adjustment';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
@@ -87,6 +88,7 @@ class PO extends Component {
         POSummary: true,
         POListing: true,
       },
+      isCloseOrderModalOpened: false,
     };
     this.onAddPOLine = this.onAddPOLine.bind(this);
     this.transitionToParams = transitionToParams.bind(this);
@@ -132,11 +134,11 @@ class PO extends Component {
     this.transitionToParams({ layer: 'create-po-line' });
   }
 
-  closeOrder = ({ reason, note }) => {
+  closeOrder = (reason, note) => {
     const { mutator, resources } = this.props;
     const order = get(resources, ['order', 'records', 0]);
     const closeOrderProps = {
-      workflow_status: 'Closed',
+      workflow_status: WORKFLOW_STATUS.closed,
       close_reason: {
         reason,
         note,
@@ -144,6 +146,7 @@ class PO extends Component {
     };
 
     updateOrderResource(order, mutator.order, closeOrderProps);
+    this.unmountModal();
   }
 
   addPOLineButton = (
@@ -155,21 +158,43 @@ class PO extends Component {
     </Button>
   );
 
+  mountModal = () => {
+    this.setState({ isCloseOrderModalOpened: true });
+  }
+
+  unmountModal = () => {
+    this.setState({ isCloseOrderModalOpened: false });
+  }
+
   render() {
     const { location, history, match, mutator, resources, parentResources } = this.props;
     const order = get(resources, ['order', 'records', 0]);
     const orderId = get(order, 'id');
     const orderNumber = get(order, 'po_number', '');
     const poLines = get(order, 'po_lines', []);
+    const workflowStatus = get(order, 'workflow_status');
+    const isCloseOrderButtonVisible = orderId && workflowStatus === WORKFLOW_STATUS.open;
     const lastMenu = (
       <PaneMenu>
         <IfPermission perm="purchase_order.item.put">
-          <CloseOrderModal
-            closeOrderSubmit={this.closeOrder}
-            closingReasons={resources.closingReasons.records}
-            orderId={orderId}
-            workflowStatus={get(order, 'workflow_status')}
-          />
+          {isCloseOrderButtonVisible && (
+            <Button
+              buttonStyle="primary"
+              marginBottom0
+              onClick={this.mountModal}
+              style={{ marginRight: '10px' }}
+            >
+              <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
+            </Button>
+          )}
+          {this.state.isCloseOrderModalOpened && (
+            <CloseOrderModal
+              cancel={this.unmountModal}
+              closeOrder={this.closeOrder}
+              closingReasons={resources.closingReasons.records}
+              orderNumber={orderNumber}
+            />
+          )}
           <FormattedMessage id="ui-orders.paneMenu.editOrder">
             {ariaLabel => (
               <IconButton
