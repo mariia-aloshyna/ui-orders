@@ -5,7 +5,7 @@ import { Field } from 'redux-form';
 import { Select } from '@folio/stripes/components';
 import { Required } from '../../Utils/Validate';
 
-const ORDER_TYPE = {
+export const ORDER_TYPE = {
   oneTime: 'One-Time',
   ongoing: 'Ongoing',
 };

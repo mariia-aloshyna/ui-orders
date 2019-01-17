@@ -24,12 +24,14 @@ import {
 import transitionToParams from '../Utils/transitionToParams';
 import { updateOrderResource } from '../Utils/orderResource';
 import { MODULE_ORDERS } from '../Utils/const';
+import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import CloseOrderModal from './CloseOrder';
 import { WORKFLOW_STATUS } from './Summary/FieldWorkflowStatus';
 import { AdjustmentView } from './Adjustment';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
+import { RenewalsView } from './renewals';
 
 class PO extends Component {
   static manifest = Object.freeze({
@@ -87,6 +89,7 @@ class PO extends Component {
         purchaseOrder: true,
         POSummary: true,
         POListing: true,
+        renewals: true,
       },
       isCloseOrderModalOpened: false,
     };
@@ -229,6 +232,7 @@ class PO extends Component {
     const assignedTo = get(parentResources, 'users.records', []).find(d => d.id === order.assigned_to);
     const createdByUserId = get(order, 'metadata.createdByUserId');
     const createdBy = get(parentResources, 'users.records', []).find(d => d.id === createdByUserId);
+    const isOngoing = get(order, 'order_type') === ORDER_TYPE.ongoing;
 
     order.vendor_name = get(vendor, 'name');
     order.assigned_to_user = assignedTo && assignedTo.personal
@@ -255,6 +259,14 @@ class PO extends Component {
           >
             <PODetailsView order={order} {...this.props} />
           </Accordion>
+          {isOngoing && (
+            <Accordion
+              id="renewals"
+              label={<FormattedMessage id="ui-orders.paneBlock.renewals" />}
+            >
+              <RenewalsView order={order} />
+            </Accordion>
+          )}
           <Accordion
             id="POSummary"
             label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
