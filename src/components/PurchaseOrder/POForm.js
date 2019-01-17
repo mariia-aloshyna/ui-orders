@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import { getFormValues } from 'redux-form';
 
 import { IfPermission } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/form';
 import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
 
 import getOrderNumberSetting from '../Utils/getOrderNumberSetting';
+import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { AdjustmentView } from './Adjustment';
+import { RenewalsForm } from './renewals';
 
 class POForm extends Component {
   static propTypes = {
@@ -32,6 +35,7 @@ class POForm extends Component {
         purchaseOrder: true,
         POSummary: true,
         Adjustment: true,
+        renewals: true,
       },
     };
     this.deletePO = this.deletePO.bind(this);
@@ -102,6 +106,8 @@ class POForm extends Component {
 
   render() {
     const { change, dispatch, initialValues, onCancel, stripes, parentResources } = this.props;
+    const formValues = getFormValues('FormPO')(stripes.store.getState());
+    const isOngoing = formValues.order_type === ORDER_TYPE.ongoing;
     const firstMenu = this.getAddFirstMenu();
     const orderNumber = get(initialValues, 'po_number', '');
     const paneTitle = initialValues.id
@@ -162,11 +168,20 @@ class POForm extends Component {
                           <PODetailsForm
                             change={change}
                             dispatch={dispatch}
+                            formValues={formValues}
                             order={initialValues}
                             orderNumberSetting={orderNumberSetting}
                             stripes={stripes}
                           />
                         </Accordion>
+                        {isOngoing && (
+                          <Accordion
+                            id="renewals"
+                            label={<FormattedMessage id="ui-orders.paneBlock.renewals" />}
+                          >
+                            <RenewalsForm />
+                          </Accordion>
+                        )}
                         <Accordion
                           id="POSummary"
                           label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}

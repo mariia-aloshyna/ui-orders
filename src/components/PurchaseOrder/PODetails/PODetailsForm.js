@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl';
 import {
   Field,
   FieldArray,
-  getFormValues,
 } from 'redux-form';
 
 import {
@@ -28,6 +27,7 @@ class PODetailsForm extends Component {
   static propTypes = {
     orderNumberSetting: PropTypes.object.isRequired,
     initialValues: PropTypes.object,
+    formValues: PropTypes.object,
     stripes: PropTypes.object,
     dispatch: PropTypes.func,
     change: PropTypes.func,
@@ -62,8 +62,7 @@ class PODetailsForm extends Component {
   }
 
   userClearButton = () => {
-    const { stripes: { store } } = this.props;
-    const formValues = getFormValues('FormPO')(store.getState());
+    const { formValues } = this.props;
     const isValues = formValues.assigned_to || formValues.assigned_to_user;
 
     if (isValues && isValues.length > 0) {
@@ -80,8 +79,7 @@ class PODetailsForm extends Component {
   }
 
   vendorClearButton = () => {
-    const { stripes: { store } } = this.props;
-    const formValues = getFormValues('FormPO')(store.getState());
+    const { formValues } = this.props;
     const isValues = formValues.vendor_name || formValues.vendor;
 
     if (isValues && isValues.length > 0) {
@@ -242,7 +240,6 @@ class PODetailsForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
               name="manual_po"
-              type="checkbox"
             />
           </Col>
           <Col xs={6} md={3}>
@@ -252,7 +249,6 @@ class PODetailsForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.orderDetails.re_encumber" />}
               name="re_encumber"
-              type="checkbox"
             />
           </Col>
           <Col xs={6} md={3}>
