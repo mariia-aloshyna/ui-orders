@@ -470,7 +470,7 @@
     "settings.closingReasons.save.error": "Reason has not been saved",
     "settings.closingReasons.save.success": "Reason has been successfully saved",
     "settings.closingReasons.saveBtn": "Save",
-    "settings.closingReasons": "Closing Purchase Order Reasons",
+    "settings.closingReasons": "Reasons for closing a purchase order",
     "linesLimit.label": "Purchase Order Line Limit Reached",
     "linesLimit.reasonText": "This would exceed the maximum number of purchase order lines permitted by system settings.",
     "linesLimit.adviceText": "For more information contact your system administrator.",

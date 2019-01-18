@@ -482,7 +482,7 @@
   "settings.closingReasons.save.error": "Reason has not been saved",
   "settings.closingReasons.save.success": "Reason has been successfully saved",
   "settings.closingReasons.saveBtn": "Save",
-  "settings.closingReasons": "Closing Purchase Order Reasons",
+  "settings.closingReasons": "Reasons for closing a purchase order",
   "settings.index.paneTitle": "Orders",
   "settings.polines-limit": "Purchase Order Lines Limit",
   "settings.poNumber.addOption": "Add: ",
