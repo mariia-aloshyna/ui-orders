@@ -1,9 +1,15 @@
 // typical mirage config export
 // http://www.ember-cli-mirage.com/docs/v0.4.x/configuration/
-export default function config() {
-  this.get('/orders');
+import {
+  ORDERS_API,
+} from '../../../src/components/Utils/api';
 
-  this.get('/orders/:id', (schema, request) => {
+export default function config() {
+  this.get(ORDERS_API, (schema, request) => {
+    return schema.orders.all();
+  });
+
+  this.get(`${ORDERS_API}/:id`, (schema, request) => {
     return schema.orders.find(request.params.id).attrs;
   });
 
