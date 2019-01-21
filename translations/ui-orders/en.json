@@ -438,6 +438,7 @@
   "payment_status.pending": "Pending",
   "physical.addVolume": "Please Add Volume",
   "physical.addVolumeBtn": "Add Volume",
+  "physical.expectedReceiptDate": "Expected Receipt Date",
   "physical.materialSupplier": "Material Supplier",
   "physical.receiptDue": "Receipt Due",
   "physical.removeBtn": "Remove",
