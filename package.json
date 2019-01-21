@@ -193,9 +193,9 @@
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^3.2.1",
     "@folio/react-intl-safe-html": "^1.0.1",
-    "@folio/stripes": "^1.0.0",
-    "@folio/stripes-cli": "^1.6.0",
-    "@folio/stripes-core": "^2.15.4",
+    "@folio/stripes": "^2.0.0",
+    "@folio/stripes-cli": "^1.8.0",
+    "@folio/stripes-core": "^3.0.1",
     "babel-eslint": "^9.0.0",
     "babel-polyfill": "^6.26.0",
     "chai": "^4.2.0",
@@ -213,15 +213,18 @@
     "lodash": "^4.17.5",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
-    "query-string": "^5.0.0",
+    "query-string": "^6.1.0",
     "react-intl": "^2.4.0",
     "react-router-dom": "^4.1.1",
     "react-router-prop-types": "^1.0.4",
     "redux-form": "^7.3.0"
   },
   "peerDependencies": {
-    "@folio/stripes": "^1.0.0",
-    "react": "*"
+    "@folio/stripes": "^2.0.0",
+    "react": "*",
+    "react-dom": "*",
+    "react-redux": "*",
+    "redux": "*"
   },
   "optionalDependencies": {
     "@folio/plugin-find-instance": "^1.1.0",
