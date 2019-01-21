@@ -21,6 +21,10 @@ import {
   LayerPO,
   LayerPOLine,
 } from '../LayerCollection';
+import {
+  LINES_API,
+  ORDER_DETAIL_API,
+} from '../Utils/api';
 import transitionToParams from '../Utils/transitionToParams';
 import { updateOrderResource } from '../Utils/orderResource';
 import { MODULE_ORDERS } from '../Utils/const';
@@ -37,11 +41,11 @@ class PO extends Component {
   static manifest = Object.freeze({
     order: {
       type: 'okapi',
-      path: 'orders/:{id}',
+      path: ORDER_DETAIL_API,
     },
     poLine: {
       type: 'okapi',
-      path: 'orders/:{id}/lines',
+      path: LINES_API,
       fetch: false,
       throwErrors: false,
     },
