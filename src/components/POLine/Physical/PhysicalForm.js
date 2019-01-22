@@ -48,6 +48,17 @@ const PhysicalForm = ({ vendors }) => (
       />
     </Col>
     <Col xs={6}>
+      <Field
+        backendDateStandard={DATE_FORMAT}
+        component={Datepicker}
+        dateFormat={DATE_FORMAT}
+        fullWidth
+        label={<FormattedMessage id="ui-orders.physical.receiptDate" />}
+        name="physical.expected_receipt_date"
+        timeZone={TIMEZONE}
+      />
+    </Col>
+    <Col xs={6}>
       <VolumesForm />
     </Col>
   </Row>
