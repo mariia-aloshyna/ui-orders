@@ -1,10 +1,11 @@
+/* eslint-disable filenames/match-exported */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Route from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
 
 import Main from './routes/Main';
-import OrdersSettings from './settings';
+import OrdersSettings from './settings/OrdersSettings';
 
 /*
   STRIPES-NEW-APP

@@ -5,7 +5,7 @@ import { KeyValue, Row, Col } from '@folio/stripes/components';
 
 class AdjustmentsView extends React.Component {
   static propTypes = {
-    initialValues: PropTypes.object
+    initialValues: PropTypes.object,
   }
 
   render() {

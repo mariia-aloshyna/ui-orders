@@ -10,7 +10,7 @@ import {
 
 class ProductIdDetails extends Component {
   static propTypes = {
-    itemIdDetails: PropTypes.arrayOf(PropTypes.object)
+    itemIdDetails: PropTypes.arrayOf(PropTypes.object),
   }
 
   constructor(props) {

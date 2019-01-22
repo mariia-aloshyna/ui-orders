@@ -9,7 +9,7 @@ import {
 const MaterialType = ({ materialTypes, materialTypesIds }) => {
   const typesOptions = get(materialTypes, 'records', []);
   const value = toString(
-    materialTypesIds.map((typeId) => get(typesOptions.find((o) => o.id === typeId), 'name', ''))
+    materialTypesIds.map((typeId) => get(typesOptions.find((o) => o.id === typeId), 'name', '')),
   );
 
   return (

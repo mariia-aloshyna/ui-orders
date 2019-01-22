@@ -1,3 +1,3 @@
-import CloseOrderModal from './CloseOrderModal';
+import CloseOrder from './CloseOrderModal';
 
-export default CloseOrderModal;
+export default CloseOrder;

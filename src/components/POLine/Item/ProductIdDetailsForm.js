@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
   Field,
-  FieldArray
+  FieldArray,
 } from 'redux-form';
 import {
   Row,

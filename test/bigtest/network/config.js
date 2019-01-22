@@ -5,7 +5,7 @@ import {
 } from '../../../src/components/Utils/api';
 
 export default function config() {
-  this.get(ORDERS_API, (schema, request) => {
+  this.get(ORDERS_API, (schema) => {
     return schema.orders.all();
   });
 

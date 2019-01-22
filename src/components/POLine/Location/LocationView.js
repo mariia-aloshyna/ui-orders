@@ -8,19 +8,19 @@ class LocationView extends React.Component {
       {
         'name': 'History',
         'quantity_physical': 1,
-        'quantity_electronic': 1.4
+        'quantity_electronic': 1.4,
       },
       {
         'name': 'History',
         'quantity_physical': 2,
-        'quantity_electronic': 2.3
-      }
+        'quantity_electronic': 2.3,
+      },
     ];
 
     const resultsFormatter = {
       'name': data => _.toString(_.get(data, ['name'], '')),
       'quantity_electronic': data => _.toString(_.get(data, ['quantity_electronic'], '')),
-      'quantity_physical': data => _.toString(_.get(data, ['quantity_physical'], ''))
+      'quantity_physical': data => _.toString(_.get(data, ['quantity_physical'], '')),
     };
 
     return (

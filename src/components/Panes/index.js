@@ -1,3 +1,3 @@
-import PanesView from './Panes';
+import Panes from './Panes';
 
-export default PanesView;
+export default Panes;

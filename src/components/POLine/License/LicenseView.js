@@ -5,7 +5,7 @@ import { KeyValue, Row, Col } from '@folio/stripes/components';
 
 class LicenseView extends React.Component {
   static propTypes = {
-    initialValues: PropTypes.object
+    initialValues: PropTypes.object,
   }
 
   render() {
