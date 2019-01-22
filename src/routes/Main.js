@@ -16,7 +16,10 @@ import { POForm } from '../components/PurchaseOrder';
 import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
 import FolioFormattedTime from '../components/FolioFormattedTime';
 import { createOrderResource } from '../components/Utils/orderResource';
-import { ORDERS_API } from '../components/Utils/api';
+import {
+  ORDER_NUMBER_API,
+  ORDERS_API,
+} from '../components/Utils/api';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -36,6 +39,7 @@ class Main extends Component {
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
+      throwErrors: false,
       path: ORDERS_API,
       records: 'purchase_orders',
       recordsRequired: '%{resultCount}',
@@ -146,6 +150,13 @@ class Main extends Component {
         },
       },
     },
+    orderNumber: {
+      accumulate: true,
+      fetch: false,
+      path: ORDER_NUMBER_API,
+      throwErrors: false,
+      type: 'okapi',
+    },
     // source: {
     //   type: 'okapi',
     //   path: 'source',
@@ -161,6 +172,10 @@ class Main extends Component {
       }),
       records: PropTypes.shape({
         POST: PropTypes.func.isRequired,
+      }),
+      orderNumber: PropTypes.shape({
+        GET: PropTypes.func,
+        reset: PropTypes.func,
       }),
     }).isRequired,
     resources: PropTypes.object.isRequired,

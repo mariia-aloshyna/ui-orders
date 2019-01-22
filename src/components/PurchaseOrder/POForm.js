@@ -93,15 +93,27 @@ class POForm extends Component {
     this.setState({ sections });
   }
 
-  deletePO(ID) {
-    const { parentMutator } = this.props;
+  deletePO = () => {
+    const { parentMutator, initialValues: { id } } = this.props;
 
-    parentMutator.records.DELETE({ id: ID }).then(() => {
+    parentMutator.records.DELETE({ id }).then(() => {
       parentMutator.query.update({
         _path: '/orders',
         layer: null,
       });
     });
+  }
+
+  componentDidMount() {
+    const { initialValues: { id } } = this.props;
+
+    if (!id) {
+      const { change, dispatch, parentMutator } = this.props;
+
+      parentMutator.orderNumber.reset();
+      parentMutator.orderNumber.GET()
+        .then(({ po_number: orderNumber }) => dispatch(change('po_number', orderNumber)));
+    }
   }
 
   render() {
@@ -203,7 +215,7 @@ class POForm extends Component {
                               <Button
                                 type="button"
                                 buttonStyle="danger"
-                                onClick={() => { this.deletePO(this.props.initialValues.id); }}
+                                onClick={this.deletePO}
                               >
                                 <FormattedMessage id="ui-orders.button.remove" />
                               </Button>

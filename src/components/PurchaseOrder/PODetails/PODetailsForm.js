@@ -160,7 +160,7 @@ class PODetailsForm extends Component {
             <Field
               component={Select}
               label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
-              name="po_number_prefix"
+              name="numberPrefix"
               placeholder=" "
               dataOptions={selectedPrefixes}
             />
@@ -178,7 +178,7 @@ class PODetailsForm extends Component {
             <Field
               component={Select}
               label={<FormattedMessage id="ui-orders.orderDetails.orderNumberSuffix" />}
-              name="po_number_suffix"
+              name="numberSuffix"
               placeholder=" "
               dataOptions={selectedSuffixes}
             />
