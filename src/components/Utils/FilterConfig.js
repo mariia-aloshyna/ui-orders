@@ -4,14 +4,14 @@ const Filters = () => {
       label: 'Assigned to me',
       name: 'assigned_to',
       cql: 'assigned_to',
-      values: []
+      values: [],
     },
     {
       label: 'Approval Status',
       name: 'approval_status',
       cql: 'approval_status',
-      values: ['Approved', 'Pending', 'On hold', 'Not approved']
-    }
+      values: ['Approved', 'Pending', 'On hold', 'Not approved'],
+    },
   ];
 };
 

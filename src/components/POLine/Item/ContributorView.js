@@ -10,7 +10,7 @@ import {
 
 class ContributorView extends Component {
   static propTypes = {
-    contributors: PropTypes.arrayOf(PropTypes.object)
+    contributors: PropTypes.arrayOf(PropTypes.object),
   }
 
   constructor(props) {

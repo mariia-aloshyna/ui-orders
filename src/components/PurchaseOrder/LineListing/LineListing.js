@@ -20,6 +20,7 @@ class LineListing extends Component {
   onSelectRow = (e, meta) => {
     const { match, history } = this.props;
     const url = match.url;
+
     history.push(`${url}/po-line/view/${meta.id}`);
   }
 
@@ -31,6 +32,7 @@ class LineListing extends Component {
       'owner': item => toString(get(item, ['owner'], '')),
       'po_line_description': item => toString(get(item, ['po_line_description'], '')),
     };
+
     return (
       <div>
         <MultiColumnList

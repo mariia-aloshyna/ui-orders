@@ -11,7 +11,7 @@ import {
 
 class CostView extends React.Component {
   static propTypes = {
-    cost: PropTypes.object
+    cost: PropTypes.object,
   }
 
   render() {
