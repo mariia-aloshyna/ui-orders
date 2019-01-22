@@ -43,7 +43,7 @@ class LayerPOLine extends Component {
     super(props);
 
     this.state = {
-      openModal: false,
+      isLinesLimitExceededModalOpened: false,
       line: null,
     };
     this.transitionToParams = transitionToParams.bind(this);
@@ -52,14 +52,14 @@ class LayerPOLine extends Component {
 
   openLineLimitExceededModal = (line) => {
     this.setState({
-      openModal: true,
+      isLinesLimitExceededModalOpened: true,
       line,
     });
   }
 
   closeLineLimitExceededModal = () => {
     this.setState({
-      openModal: false,
+      isLinesLimitExceededModalOpened: false,
       line: null,
     });
   }
@@ -104,6 +104,8 @@ class LayerPOLine extends Component {
         message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
         type: 'error',
       });
+    } finally {
+      this.closeLineLimitExceededModal();
     }
   }
 
@@ -190,11 +192,12 @@ class LayerPOLine extends Component {
             initialValues={this.getCreatePOLIneInitialValues()}
             onSubmit={this.submitPOLine}
           />
+          {this.state.isLinesLimitExceededModalOpened && (
           <LinesLimit
-            isOpen={this.state.openModal}
-            closeModal={this.closeLineLimitExceededModal}
+            cancel={this.closeLineLimitExceededModal}
             createOrder={this.createNewOrder}
           />
+          )}
           <Callout ref={this.createCalloutRef} />
         </Layer>
       );

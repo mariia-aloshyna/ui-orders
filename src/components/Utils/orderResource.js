@@ -1,13 +1,20 @@
 import { cloneDeep } from 'lodash';
 
 const saveOrder = (order, mutator) => {
+  let method = mutator.POST;
+
   delete order.created_by_name;
   delete order.assigned_to_user;
   delete order.vendor_name;
   delete order.bill_to;
   delete order.ship_to;
+  delete order.numberPrefix;
+  delete order.numberSuffix;
 
-  const method = order.id ? mutator.PUT : mutator.POST;
+  if (order.id) {
+    method = mutator.PUT;
+    delete order.po_lines;
+  }
 
   return method(order);
 };
@@ -22,6 +29,10 @@ export const updateOrderResource = (order, mutator, changedProps) => {
 
 export const createOrderResource = (order, mutator) => {
   const clonedOrder = cloneDeep(order);
+  const { numberPrefix = '', numberSuffix = '', po_number: orderNumber = '' } = clonedOrder;
+  const fullOrderNumber = `${numberPrefix}${orderNumber}${numberSuffix}`.trim();
+
+  clonedOrder.po_number = fullOrderNumber || undefined;
 
   return saveOrder(clonedOrder, mutator);
 };
@@ -31,7 +42,13 @@ export const cloneOrder = (order, mutator, line) => {
 
   delete clonedOrder.id;
   delete clonedOrder.adjustment;
-  clonedOrder.po_lines = [line];
+  delete clonedOrder.po_number;
+  if (line) {
+    delete line.purchase_order_id;
+    clonedOrder.po_lines = [line];
+  } else {
+    delete clonedOrder.po_lines;
+  }
 
   return saveOrder(clonedOrder, mutator);
 };

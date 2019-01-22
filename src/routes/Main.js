@@ -10,13 +10,21 @@ import {
 import { SearchAndSort } from '@folio/stripes/smart-components';
 
 import packageInfo from '../../package';
-import { MODULE_ORDERS } from '../components/Utils/const';
+import {
+  CONFIG_CLOSING_REASONS,
+  CONFIG_ORDER_NUMBER,
+  MODULE_ORDERS,
+} from '../components/Utils/const';
 import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
 import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
 import FolioFormattedTime from '../components/FolioFormattedTime';
 import { createOrderResource } from '../components/Utils/orderResource';
-import { ORDERS_API } from '../components/Utils/api';
+import {
+  CONFIG_API,
+  ORDER_NUMBER_API,
+  ORDERS_API,
+} from '../components/Utils/api';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -36,6 +44,7 @@ class Main extends Component {
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
     records: {
       type: 'okapi',
+      throwErrors: false,
       path: ORDERS_API,
       records: 'purchase_orders',
       recordsRequired: '%{resultCount}',
@@ -128,10 +137,10 @@ class Main extends Component {
     },
     closingReasons: {
       type: 'okapi',
-      path: 'configurations/entries',
+      path: CONFIG_API,
       GET: {
         params: {
-          query: '(module=ORDERS and configName=closing-reasons)',
+          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CLOSING_REASONS})`,
         },
       },
       records: 'configs',
@@ -139,12 +148,19 @@ class Main extends Component {
     orderNumberSetting: {
       type: 'okapi',
       records: 'configs',
-      path: 'configurations/entries',
+      path: CONFIG_API,
       GET: {
         params: {
-          query: `(module=${MODULE_ORDERS} and configName=orderNumber)`,
+          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_ORDER_NUMBER})`,
         },
       },
+    },
+    orderNumber: {
+      accumulate: true,
+      fetch: false,
+      path: ORDER_NUMBER_API,
+      throwErrors: false,
+      type: 'okapi',
     },
     // source: {
     //   type: 'okapi',
@@ -161,6 +177,10 @@ class Main extends Component {
       }),
       records: PropTypes.shape({
         POST: PropTypes.func.isRequired,
+      }),
+      orderNumber: PropTypes.shape({
+        GET: PropTypes.func,
+        reset: PropTypes.func,
       }),
     }).isRequired,
     resources: PropTypes.object.isRequired,

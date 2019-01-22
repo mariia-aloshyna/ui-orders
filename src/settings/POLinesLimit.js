@@ -8,7 +8,11 @@ import {
   Callout,
 } from '@folio/stripes/components';
 
-import { MODULE_ORDERS } from '../components/Utils/const';
+import {
+  CONFIG_LINES_LIMIT,
+  MODULE_ORDERS,
+} from '../components/Utils/const';
+import { CONFIG_API } from '../components/Utils/api';
 import POLinesLimitForm from './POLinesLimitForm';
 
 class POLinesLimit extends Component {
@@ -16,10 +20,10 @@ class POLinesLimit extends Component {
     linesLimit: {
       type: 'okapi',
       records: 'configs',
-      path: 'configurations/entries',
+      path: CONFIG_API,
       GET: {
         params: {
-          query: `(module=${MODULE_ORDERS} and configName=poLines-limit)`,
+          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_LINES_LIMIT})`,
         },
       },
     },
@@ -72,7 +76,7 @@ class POLinesLimit extends Component {
       linesLimit
         .POST({
           module: MODULE_ORDERS,
-          configName: 'poLines-limit',
+          configName: CONFIG_LINES_LIMIT,
           value: values.value,
         })
         .then(() => {

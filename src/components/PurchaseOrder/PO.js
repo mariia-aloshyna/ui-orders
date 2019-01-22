@@ -8,6 +8,7 @@ import {
   Accordion,
   AccordionSet,
   Button,
+  Callout,
   Col,
   ExpandAllButton,
   Icon,
@@ -22,12 +23,20 @@ import {
   LayerPOLine,
 } from '../LayerCollection';
 import {
+  CONFIG_API,
   LINES_API,
   ORDER_DETAIL_API,
 } from '../Utils/api';
 import transitionToParams from '../Utils/transitionToParams';
-import { updateOrderResource } from '../Utils/orderResource';
-import { MODULE_ORDERS } from '../Utils/const';
+import {
+  cloneOrder,
+  updateOrderResource,
+} from '../Utils/orderResource';
+import {
+  MODULE_ORDERS,
+  CONFIG_LINES_LIMIT,
+  CONFIG_CLOSING_REASONS,
+} from '../Utils/const';
 import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import CloseOrderModal from './CloseOrder';
 import { WORKFLOW_STATUS } from './Summary/FieldWorkflowStatus';
@@ -36,6 +45,7 @@ import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
 import { RenewalsView } from './renewals';
+import LinesLimit from './LinesLimit';
 
 class PO extends Component {
   static manifest = Object.freeze({
@@ -52,10 +62,20 @@ class PO extends Component {
     closingReasons: {
       type: 'okapi',
       records: 'configs',
-      path: 'configurations/entries',
+      path: CONFIG_API,
       GET: {
         params: {
-          query: `(module=${MODULE_ORDERS} and configName=closing-reasons)`,
+          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CLOSING_REASONS})`,
+        },
+      },
+    },
+    linesLimit: {
+      type: 'okapi',
+      records: 'configs',
+      path: CONFIG_API,
+      GET: {
+        params: {
+          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_LINES_LIMIT})`,
         },
       },
     },
@@ -96,6 +116,7 @@ class PO extends Component {
         renewals: true,
       },
       isCloseOrderModalOpened: false,
+      isLinesLimitExceededModalOpened: false,
     };
     this.onAddPOLine = this.onAddPOLine.bind(this);
     this.transitionToParams = transitionToParams.bind(this);
@@ -136,9 +157,16 @@ class PO extends Component {
     this.transitionToParams({ layer: 'received' });
   }
 
-  onAddPOLine = (e) => {
-    if (e) e.preventDefault();
-    this.transitionToParams({ layer: 'create-po-line' });
+  onAddPOLine = () => {
+    const { resources } = this.props;
+    const linesLimit = Number(get(resources, ['linesLimit', 'records', '0', 'value'], '1'));
+    const poLines = get(resources, ['order', 'records', '0', 'po_lines'], []);
+
+    if (linesLimit <= poLines.length) {
+      this.setState({ isLinesLimitExceededModalOpened: true });
+    } else {
+      this.transitionToParams({ layer: 'create-po-line' });
+    }
   }
 
   closeOrder = (reason, note) => {
@@ -153,7 +181,29 @@ class PO extends Component {
     };
 
     updateOrderResource(order, mutator.order, closeOrderProps);
-    this.unmountModal();
+    this.unmountCloseOrderModal();
+  }
+
+  createNewOrder = async () => {
+    const { resources, parentMutator } = this.props;
+    const order = get(resources, ['order', 'records', '0'], {});
+
+    try {
+      const newOrder = await cloneOrder(order, parentMutator.records);
+
+      parentMutator.query.update({
+        _path: `/orders/view/${newOrder.id}`,
+        layer: null,
+      });
+      this.transitionToParams({ layer: 'create-po-line' });
+    } catch (e) {
+      this.callout.sendCallout({
+        message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
+        type: 'error',
+      });
+    } finally {
+      this.unmountLinesLimitExceededModal();
+    }
   }
 
   addPOLineButton = (
@@ -165,13 +215,25 @@ class PO extends Component {
     </Button>
   );
 
-  mountModal = () => {
+  mountCloseOrderModal = () => {
     this.setState({ isCloseOrderModalOpened: true });
   }
 
-  unmountModal = () => {
+  unmountCloseOrderModal = () => {
     this.setState({ isCloseOrderModalOpened: false });
   }
+
+  mountLinesLimitExceededModal = () => {
+    this.setState({ isLinesLimitExceededModalOpened: true });
+  }
+
+  unmountLinesLimitExceededModal = () => {
+    this.setState({ isLinesLimitExceededModalOpened: false });
+  }
+
+  createCalloutRef = ref => {
+    this.callout = ref;
+  };
 
   render() {
     const { location, history, match, mutator, resources, parentResources } = this.props;
@@ -188,7 +250,7 @@ class PO extends Component {
             <Button
               buttonStyle="primary"
               marginBottom0
-              onClick={this.mountModal}
+              onClick={this.mountCloseOrderModal}
               style={{ marginRight: '10px' }}
             >
               <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
@@ -196,7 +258,7 @@ class PO extends Component {
           )}
           {this.state.isCloseOrderModalOpened && (
             <CloseOrderModal
-              cancel={this.unmountModal}
+              cancel={this.unmountCloseOrderModal}
               closeOrder={this.closeOrder}
               closingReasons={resources.closingReasons.records}
               orderNumber={orderNumber}
@@ -300,9 +362,6 @@ class PO extends Component {
           match={match}
           parentResources={this.props.parentResources}
           parentMutator={this.props.parentMutator}
-          // States
-          vendorName={this.state.vendorName}
-          assignToName={this.state.assignToName}
         />
         <LayerPOLine  // used for new Line form
           lineMutator={mutator.poLine}
@@ -315,6 +374,13 @@ class PO extends Component {
           parentMutator={this.props.parentMutator}
           order={order}
         />
+        {this.state.isLinesLimitExceededModalOpened && (
+          <LinesLimit
+            cancel={this.unmountLinesLimitExceededModal}
+            createOrder={this.createNewOrder}
+          />
+        )}
+        <Callout ref={this.createCalloutRef} />
       </Pane>
     );
   }
