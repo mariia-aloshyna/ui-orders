@@ -6,6 +6,8 @@ const saveOrder = (order, mutator) => {
   delete order.vendor_name;
   delete order.bill_to;
   delete order.ship_to;
+  delete order.numberPrefix;
+  delete order.numberSuffix;
 
   const method = order.id ? mutator.PUT : mutator.POST;
 
@@ -22,6 +24,10 @@ export const updateOrderResource = (order, mutator, changedProps) => {
 
 export const createOrderResource = (order, mutator) => {
   const clonedOrder = cloneDeep(order);
+  const { numberPrefix = '', numberSuffix = '', po_number: orderNumber = '' } = clonedOrder;
+  const fullOrderNumber = `${numberPrefix}${orderNumber}${numberSuffix}`.trim();
+
+  clonedOrder.po_number = fullOrderNumber || undefined;
 
   return saveOrder(clonedOrder, mutator);
 };

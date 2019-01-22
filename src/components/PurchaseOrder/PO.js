@@ -300,9 +300,6 @@ class PO extends Component {
           match={match}
           parentResources={this.props.parentResources}
           parentMutator={this.props.parentMutator}
-          // States
-          vendorName={this.state.vendorName}
-          assignToName={this.state.assignToName}
         />
         <LayerPOLine  // used for new Line form
           lineMutator={mutator.poLine}
