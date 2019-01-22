@@ -1,6 +1,8 @@
 import { cloneDeep } from 'lodash';
 
 const saveOrder = (order, mutator) => {
+  let method = mutator.POST;
+
   delete order.created_by_name;
   delete order.assigned_to_user;
   delete order.vendor_name;
@@ -9,7 +11,10 @@ const saveOrder = (order, mutator) => {
   delete order.numberPrefix;
   delete order.numberSuffix;
 
-  const method = order.id ? mutator.PUT : mutator.POST;
+  if (order.id) {
+    method = mutator.PUT;
+    delete order.po_lines;
+  }
 
   return method(order);
 };
