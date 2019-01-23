@@ -17,15 +17,16 @@ import { RenewalsForm } from './renewals';
 
 class POForm extends Component {
   static propTypes = {
-    initialValues: PropTypes.object,
+    initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    onSave: PropTypes.func,
-    onCancel: PropTypes.func,
-    onRemove: PropTypes.func,
-    pristine: PropTypes.bool,
-    submitting: PropTypes.bool,
-    parentResources: PropTypes.object,
-    parentMutator: PropTypes.object,
+    onCancel: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    parentResources: PropTypes.object.isRequired,
+    parentMutator: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
+    stripes: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -39,6 +40,18 @@ class POForm extends Component {
       },
     };
     this.deletePO = this.deletePO.bind(this);
+  }
+
+  componentDidMount() {
+    const { initialValues: { id } } = this.props;
+
+    if (!id) {
+      const { change, dispatch, parentMutator } = this.props;
+
+      parentMutator.orderNumber.reset();
+      parentMutator.orderNumber.GET()
+        .then(({ po_number: orderNumber }) => dispatch(change('po_number', orderNumber)));
+    }
   }
 
   getAddFirstMenu() {
@@ -102,18 +115,6 @@ class POForm extends Component {
         layer: null,
       });
     });
-  }
-
-  componentDidMount() {
-    const { initialValues: { id } } = this.props;
-
-    if (!id) {
-      const { change, dispatch, parentMutator } = this.props;
-
-      parentMutator.orderNumber.reset();
-      parentMutator.orderNumber.GET()
-        .then(({ po_number: orderNumber }) => dispatch(change('po_number', orderNumber)));
-    }
   }
 
   render() {

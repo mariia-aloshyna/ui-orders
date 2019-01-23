@@ -28,6 +28,7 @@ class LayerPOLine extends Component {
     parentResources: PropTypes.object.isRequired,
     stripes: PropTypes.shape({
       store: PropTypes.object.isRequired,
+      connect: PropTypes.func.isRequired,
     }).isRequired,
     line: PropTypes.object,
     onCancel: PropTypes.func.isRequired,
