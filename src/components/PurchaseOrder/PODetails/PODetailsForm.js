@@ -26,7 +26,6 @@ import FolioFormattedTime from '../../FolioFormattedTime';
 class PODetailsForm extends Component {
   static propTypes = {
     orderNumberSetting: PropTypes.object.isRequired,
-    initialValues: PropTypes.object,
     formValues: PropTypes.object,
     stripes: PropTypes.object,
     dispatch: PropTypes.func,
@@ -149,9 +148,10 @@ class PODetailsForm extends Component {
 
   render() {
     const {
-      initialValues,
+      formValues,
       orderNumberSetting: { selectedPrefixes, selectedSuffixes, canUserEditOrderNumber },
     } = this.props;
+    const isExistingOrder = Boolean(get(formValues, 'id'));
 
     return (
       <Fragment>
@@ -163,6 +163,7 @@ class PODetailsForm extends Component {
               name="numberPrefix"
               placeholder=" "
               dataOptions={selectedPrefixes}
+              disabled={isExistingOrder}
             />
           </Col>
           <Col xs={4}>
@@ -181,6 +182,7 @@ class PODetailsForm extends Component {
               name="numberSuffix"
               placeholder=" "
               dataOptions={selectedSuffixes}
+              disabled={isExistingOrder}
             />
           </Col>
         </Row>
@@ -216,7 +218,7 @@ class PODetailsForm extends Component {
           </Col>
           <Col xs={6} md={3}>
             <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
-              <FolioFormattedTime dateString={get(initialValues, 'metadata.createdDate')} />
+              <FolioFormattedTime dateString={get(formValues, 'metadata.createdDate')} />
             </KeyValue>
           </Col>
           <Col xs={6} md={3} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
