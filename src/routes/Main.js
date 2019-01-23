@@ -10,13 +10,18 @@ import {
 import { SearchAndSort } from '@folio/stripes/smart-components';
 
 import packageInfo from '../../package';
-import { MODULE_ORDERS } from '../components/Utils/const';
+import {
+  CONFIG_CLOSING_REASONS,
+  CONFIG_ORDER_NUMBER,
+  MODULE_ORDERS,
+} from '../components/Utils/const';
 import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
 import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
 import FolioFormattedTime from '../components/FolioFormattedTime';
 import { createOrderResource } from '../components/Utils/orderResource';
 import {
+  CONFIG_API,
   ORDER_NUMBER_API,
   ORDERS_API,
 } from '../components/Utils/api';
@@ -132,10 +137,10 @@ class Main extends Component {
     },
     closingReasons: {
       type: 'okapi',
-      path: 'configurations/entries',
+      path: CONFIG_API,
       GET: {
         params: {
-          query: '(module=ORDERS and configName=closing-reasons)',
+          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CLOSING_REASONS})`,
         },
       },
       records: 'configs',
@@ -143,10 +148,10 @@ class Main extends Component {
     orderNumberSetting: {
       type: 'okapi',
       records: 'configs',
-      path: 'configurations/entries',
+      path: CONFIG_API,
       GET: {
         params: {
-          query: `(module=${MODULE_ORDERS} and configName=orderNumber)`,
+          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_ORDER_NUMBER})`,
         },
       },
     },

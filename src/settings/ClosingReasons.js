@@ -5,7 +5,11 @@ import { FormattedMessage } from 'react-intl';
 
 import { Callout } from '@folio/stripes/components';
 
-import { MODULE_ORDERS } from '../components/Utils/const';
+import {
+  CONFIG_CLOSING_REASONS,
+  MODULE_ORDERS,
+} from '../components/Utils/const';
+import { CONFIG_API } from '../components/Utils/api';
 import ClosingReasonsForm from './ClosingReasonsForm';
 
 class ClosingReasons extends Component {
@@ -13,10 +17,10 @@ class ClosingReasons extends Component {
     closingReasons: {
       type: 'okapi',
       records: 'configs',
-      path: 'configurations/entries',
+      path: CONFIG_API,
       GET: {
         params: {
-          query: `(module=${MODULE_ORDERS} and configName=closing-reasons)`,
+          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CLOSING_REASONS})`,
         },
       },
     },

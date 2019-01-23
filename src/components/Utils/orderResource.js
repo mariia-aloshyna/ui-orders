@@ -42,7 +42,13 @@ export const cloneOrder = (order, mutator, line) => {
 
   delete clonedOrder.id;
   delete clonedOrder.adjustment;
-  clonedOrder.po_lines = [line];
+  delete clonedOrder.po_number;
+  if (line) {
+    delete line.purchase_order_id;
+    clonedOrder.po_lines = [line];
+  } else {
+    delete clonedOrder.po_lines;
+  }
 
   return saveOrder(clonedOrder, mutator);
 };
