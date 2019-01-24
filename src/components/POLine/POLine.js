@@ -20,22 +20,18 @@ import {
   LINES_API,
   ORDER_DETAIL_API,
 } from '../Utils/api';
+import { LayerPOLine } from '../LayerCollection';
 import { POLineDetails } from './POLineDetails';
 import CostView from './Cost/CostView';
-import TagView from './Tags/TagView';
-import LocationView from './Location/LocationView';
 import VendorView from './Vendor/VendorView';
 import FundDistributionView from './FundDistribution/FundDistributionView';
 import EresourcesView from './Eresources/EresourcesView';
 import ItemView from './Item/ItemView';
 import PhysicalView from './Physical/PhysicalView';
-import AdjustmentsView from './Adjustments/AdjustmentsView';
-import LicenseView from './License/LicenseView';
 import {
   ERESOURCES,
   PHRESOURCES,
 } from './const';
-import { LayerPOLine } from '../LayerCollection';
 
 class POLine extends Component {
   static manifest = Object.freeze({
@@ -79,18 +75,12 @@ class POLine extends Component {
     this.state = {
       sections: {
         CostDetails: false,
-        POSummary: false,
-        POListing: false,
-        Tags: false,
-        Locations: false,
         Vendor: false,
         FundDistribution: false,
         Eresources: false,
         ItemDetails: false,
         Physical: false,
         Renewal: false,
-        Adjustments: false,
-        License: false,
       },
     };
     this.transitionToParams = transitionToParams.bind(this);
@@ -167,31 +157,70 @@ class POLine extends Component {
     const vendors = get(parentResources, 'vendors.records', []);
 
     return (
-      <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" firstMenu={firstMenu} lastMenu={lastMenu}>
-        <POLineDetails initialValues={line} {...this.props} />
-        <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
-        <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
-          <Accordion label="Cost Details" id="CostDetails">
-            <CostView cost={line.cost} {...this.props} />
+      <Pane
+        defaultWidth="fill"
+        firstMenu={firstMenu}
+        id="pane-poLineDetails"
+        lastMenu={lastMenu}
+        paneTitle="PO Line Details"
+      >
+        <POLineDetails
+          initialValues={line}
+          {...this.props}
+        />
+        <Row end="xs">
+          <Col xs>
+            <ExpandAllButton
+              accordionStatus={this.state.sections}
+              onToggle={this.handleExpandAll}
+            />
+          </Col>
+        </Row>
+        <AccordionSet
+          accordionStatus={this.state.sections}
+          onToggle={this.onToggleSection}
+        >
+          <Accordion
+            label="Cost Details"
+            id="CostDetails"
+          >
+            <CostView
+              cost={line.cost}
+              {...this.props}
+            />
           </Accordion>
-          <Accordion label="Po Line Tags" id="Tags">
-            <TagView initialValues={line} {...this.props} />
+          <Accordion
+            label="Vendor"
+            id="Vendor"
+          >
+            <VendorView
+              vendorDetail={line.vendor_detail}
+              {...this.props}
+            />
           </Accordion>
-          <Accordion label="Locations" id="Locations">
-            <LocationView initialValues={line} {...this.props} />
-            <br />
+          <Accordion
+            label="Fund Distribution"
+            id="FundDistribution"
+          >
+            <FundDistributionView
+              initialValues={line}
+              {...this.props}
+            />
           </Accordion>
-          <Accordion label="Vendor" id="Vendor">
-            <VendorView vendorDetail={line.vendor_detail} {...this.props} />
-          </Accordion>
-          <Accordion label="Fund Distribution" id="FundDistribution">
-            <FundDistributionView initialValues={line} {...this.props} />
-          </Accordion>
-          <Accordion label="Item Details" id="ItemDetails">
-            <ItemView poLineDetails={line} {...this.props} />
+          <Accordion
+            label="Item Details"
+            id="ItemDetails"
+          >
+            <ItemView
+              poLineDetails={line}
+              {...this.props}
+            />
           </Accordion>
           {showEresources && (
-            <Accordion label="E-resources Details" id="Eresources">
+            <Accordion
+              label="E-resources Details"
+              id="Eresources"
+            >
               <EresourcesView
                 line={line}
                 order={order}
@@ -200,19 +229,16 @@ class POLine extends Component {
             </Accordion>
           )}
           {showPhresources && (
-            <Accordion label="Physical Resource Details" id="Physical">
+            <Accordion
+              label="Physical Resource Details"
+              id="Physical"
+            >
               <PhysicalView
                 physical={get(line, 'physical', {})}
                 vendors={vendors}
               />
             </Accordion>
           )}
-          <Accordion label="Adjustments" id="Adjustments">
-            <AdjustmentsView initialValues={line} {...this.props} />
-          </Accordion>
-          <Accordion label="License" id="License">
-            <LicenseView initialValues={line} {...this.props} />
-          </Accordion>
         </AccordionSet>
         <LayerPOLine
           lineMutator={mutator.poLine}
