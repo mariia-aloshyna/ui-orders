@@ -43,6 +43,7 @@ export const cloneOrder = (order, mutator, line) => {
   delete clonedOrder.id;
   delete clonedOrder.adjustment;
   delete clonedOrder.po_number;
+  delete clonedOrder.workflow_status;
   if (line) {
     delete line.purchase_order_id;
     clonedOrder.po_lines = [line];
