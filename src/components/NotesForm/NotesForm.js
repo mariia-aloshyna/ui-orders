@@ -8,7 +8,6 @@ import {
 import {
   Button,
   Col,
-  Row,
   TextArea,
 } from '@folio/stripes/components';
 
@@ -22,11 +21,21 @@ const renderNotesField = ({ input, label }) => (
   />
 );
 
+renderNotesField.propTypes = {
+  input: PropTypes.object,
+  label: PropTypes.object,
+};
+
 const NotesForm = ({ fields }) => (
-  <Row>
+  <Fragment>
     {fields.map((note, index) => (
       <Fragment>
-        <Col xs={11} key={index}>
+        <Col
+          xs={8}
+          md={10}
+          lg={11}
+          key={index}
+        >
           <Field
             name={note}
             type="text"
@@ -34,7 +43,11 @@ const NotesForm = ({ fields }) => (
             validate={required}
           />
         </Col>
-        <Col xs={1}>
+        <Col
+          xs={4}
+          md={2}
+          lg={1}
+        >
           <Button
             onClick={() => fields.remove(index)}
             buttonStyle="danger"
@@ -49,7 +62,7 @@ const NotesForm = ({ fields }) => (
         <FormattedMessage id="ui-orders.orderDetails.addNoteBtn" />
       </Button>
     </Col>
-  </Row>
+  </Fragment>
 );
 
 NotesForm.displayName = 'NotesForm';

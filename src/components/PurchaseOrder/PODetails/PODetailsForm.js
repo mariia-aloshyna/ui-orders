@@ -18,10 +18,11 @@ import {
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
-import FieldOrderType from './FieldOrderType';
 import NotesForm from '../../NotesForm';
 import { required } from '../../Utils/Validate';
 import FolioFormattedTime from '../../FolioFormattedTime';
+import FieldOrderType from './FieldOrderType';
+import css from './PODetailsForm.css';
 
 class PODetailsForm extends Component {
   static propTypes = {
@@ -46,14 +47,14 @@ class PODetailsForm extends Component {
     dispatch(change('vendor_name', ''));
   }
 
-  onAddUser(user) {
+  onAddUser = (user) => {
     const { dispatch, change } = this.props;
 
     dispatch(change('assigned_to_user', `${user.personal.firstName} ${user.personal.lastName}`));
     dispatch(change('assigned_to', `${user.id}`));
   }
 
-  onAddVendor(vendor) {
+  onAddVendor = (vendor) => {
     const { dispatch, change } = this.props;
 
     dispatch(change('vendor_name', `${vendor.name}`));
@@ -94,7 +95,7 @@ class PODetailsForm extends Component {
     return null;
   }
 
-  userModal() {
+  userModal = () => {
     const columnMapping = {
       name: <FormattedMessage id="ui-orders.user.name" />,
       patronGroup: <FormattedMessage id="ui-orders.user.patronGroup" />,
@@ -110,7 +111,7 @@ class PODetailsForm extends Component {
         dataKey="user"
         searchLabel="+"
         searchButtonStyle="default"
-        selectUser={user => this.onAddUser(user)}
+        selectUser={this.onAddUser}
         visibleColumns={['name', 'patronGroup', 'username', 'barcode']}
         columnMapping={columnMapping}
         disableRecordCreation
@@ -121,7 +122,7 @@ class PODetailsForm extends Component {
     );
   }
 
-  userVendor() {
+  userVendor = () => {
     const columnMapping = {
       name: <FormattedMessage id="ui-orders.vendor.name" />,
       vendor_status: <FormattedMessage id="ui-orders.vendor.vendor_status" />,
@@ -135,7 +136,7 @@ class PODetailsForm extends Component {
         dataKey="vendor"
         searchLabel="+"
         searchButtonStyle="default"
-        selectVendor={vendor => this.onAddVendor(vendor)}
+        selectVendor={this.onAddVendor}
         visibleColumns={['name', 'vendor_status']}
         columnMapping={columnMapping}
         disableRecordCreation
@@ -188,25 +189,29 @@ class PODetailsForm extends Component {
         </Row>
         <Row>
           <Col
-            xs={6}
-            md={3}
-            style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}
+            xs={12}
+            lg={3}
+            className={css.pluginFieldWrapper}
           >
             <Field
               component={TextField}
+              disabled
               endControl={this.vendorClearButton()}
               fullWidth
+              hasClearIcon={false}
               id="vendor_name"
               label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
               name="vendor_name"
-              disabled
               validate={required}
             />
-            <div style={{ marginLeft: '10px', top: '0', position: 'relative' }}>
+            <div className={css.pluginButtonWrapper}>
               {this.userVendor()}
             </div>
           </Col>
-          <Col xs={6} md={3}>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <Field
               component={TextField}
               fullWidth
@@ -216,26 +221,39 @@ class PODetailsForm extends Component {
               disabled
             />
           </Col>
-          <Col xs={6} md={3}>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.createdOn" />}>
               <FolioFormattedTime dateString={get(formValues, 'metadata.createdDate')} />
             </KeyValue>
           </Col>
-          <Col xs={6} md={3} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+          <Col
+            xs={12}
+            lg={3}
+            className={css.pluginFieldWrapper}
+          >
             <Field
               component={TextField}
+              disabled
               endControl={this.userClearButton()}
               fullWidth
+              hasClearIcon={false}
               id="assigned_to_user"
               label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
               name="assigned_to_user"
-              disabled
             />
-            <div style={{ marginLeft: '10px', top: '0', position: 'relative' }}>
+            <div className={css.pluginButtonWrapper}>
               {this.userModal()}
             </div>
           </Col>
-          <Col xs={6} md={3}>
+        </Row>
+        <Row>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <br />
             <Field
               component={Checkbox}
@@ -244,7 +262,10 @@ class PODetailsForm extends Component {
               name="manual_po"
             />
           </Col>
-          <Col xs={6} md={3}>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <br />
             <Field
               component={Checkbox}
@@ -253,7 +274,10 @@ class PODetailsForm extends Component {
               name="re_encumber"
             />
           </Col>
-          <Col xs={6} md={3}>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <Field
               component={TextField}
               fullWidth
@@ -262,7 +286,10 @@ class PODetailsForm extends Component {
               name="bill_to"
             />
           </Col>
-          <Col xs={6} md={3}>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <Field
               component={TextField}
               fullWidth
@@ -271,15 +298,20 @@ class PODetailsForm extends Component {
               name="ship_to"
             />
           </Col>
-          <Col xs={6} md={3}>
+        </Row>
+        <Row>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <FieldOrderType />
           </Col>
-          <Col xs={12}>
-            <FieldArray
-              name="notes"
-              component={NotesForm}
-            />
-          </Col>
+        </Row>
+        <Row>
+          <FieldArray
+            name="notes"
+            component={NotesForm}
+          />
         </Row>
       </Fragment>
     );
