@@ -31,7 +31,7 @@ const PhysicalView = ({ physical, vendors }) => {
       <Col xs={6}>
         <KeyValue
           label={<FormattedMessage id="ui-orders.physical.receiptDate" />}
-          value={formatDate(get(physical, 'expected_receipt_date'))}
+          value={formatDate(get(physical, 'expectedReceiptDate'))}
         />
       </Col>
       <Col xs={6}>

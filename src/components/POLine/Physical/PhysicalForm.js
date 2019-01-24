@@ -54,7 +54,7 @@ const PhysicalForm = ({ vendors }) => (
         dateFormat={DATE_FORMAT}
         fullWidth
         label={<FormattedMessage id="ui-orders.physical.receiptDate" />}
-        name="physical.expected_receipt_date"
+        name="physical.expectedReceiptDate"
         timeZone={TIMEZONE}
       />
     </Col>
