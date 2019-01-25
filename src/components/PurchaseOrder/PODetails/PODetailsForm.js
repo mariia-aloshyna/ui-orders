@@ -26,6 +26,7 @@ import css from './PODetailsForm.css';
 
 class PODetailsForm extends Component {
   static propTypes = {
+    generatedNumber: PropTypes.string.isRequired,
     orderNumberSetting: PropTypes.object.isRequired,
     formValues: PropTypes.object,
     stripes: PropTypes.object,
@@ -147,6 +148,15 @@ class PODetailsForm extends Component {
     );
   }
 
+  fillBackGeneratedNumber = (e, value) => {
+    const { change, dispatch, generatedNumber } = this.props;
+
+    if (value === '') {
+      // setTimeout is required due to async nature of redux-form CHANGE field value event.
+      window.setTimeout(() => dispatch(change('po_number', generatedNumber)));
+    }
+  }
+
   render() {
     const {
       formValues,
@@ -174,6 +184,7 @@ class PODetailsForm extends Component {
               label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
               name="po_number"
               disabled={!canUserEditOrderNumber}
+              onBlur={this.fillBackGeneratedNumber}
             />
           </Col>
           <Col xs={4}>
