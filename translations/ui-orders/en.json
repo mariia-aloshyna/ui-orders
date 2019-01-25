@@ -425,6 +425,7 @@
   "orderSummary.workflowStatus": "Workflow Status",
   "paneBlock.adjustment": "Adjustment",
   "paneBlock.closeBtn": "Close Order",
+  "paneBlock.receiveBtn": "Receive",
   "paneBlock.POLines": "PO Lines",
   "paneBlock.POSummary": "PO Summary",
   "paneBlock.purchaseOrder": "Purchase Order",

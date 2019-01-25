@@ -9,7 +9,6 @@ import {
   AccordionSet,
   Button,
   Callout,
-  Col,
   ExpandAllButton,
   Icon,
   IconButton,
@@ -47,6 +46,7 @@ import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
 import { RenewalsView } from './renewals';
 import LinesLimit from './LinesLimit';
+import css from './PO.css';
 
 class PO extends Component {
   static manifest = Object.freeze({
@@ -120,7 +120,6 @@ class PO extends Component {
       isCloseOrderModalOpened: false,
       isLinesLimitExceededModalOpened: false,
     };
-    this.onAddPOLine = this.onAddPOLine.bind(this);
     this.transitionToParams = transitionToParams.bind(this);
   }
 
@@ -244,28 +243,16 @@ class PO extends Component {
     const orderNumber = get(order, 'po_number', '');
     const poLines = get(order, 'po_lines', []);
     const workflowStatus = get(order, 'workflow_status');
-    const isCloseOrderButtonVisible = orderId && workflowStatus === WORKFLOW_STATUS.open;
+    const hasLineItemsToReceive = poLines.filter(
+      line => line.cost.quantity_physical || line.cost.quantity_electronic,
+    ).length > 0;
+    const isWorkflowStatusOpen = workflowStatus === WORKFLOW_STATUS.open;
+    const isCloseOrderButtonVisible = orderId && isWorkflowStatusOpen;
+    const isReceiveButtonVisible = orderId && isWorkflowStatusOpen && hasLineItemsToReceive;
+
     const lastMenu = (
       <PaneMenu>
         <IfPermission perm="orders.item.put">
-          {isCloseOrderButtonVisible && (
-            <Button
-              buttonStyle="primary"
-              marginBottom0
-              onClick={this.mountCloseOrderModal}
-              style={{ marginRight: '10px' }}
-            >
-              <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
-            </Button>
-          )}
-          {this.state.isCloseOrderModalOpened && (
-            <CloseOrderModal
-              cancel={this.unmountCloseOrderModal}
-              closeOrder={this.closeOrder}
-              closingReasons={resources.closingReasons.records}
-              orderNumber={orderNumber}
-            />
-          )}
           <FormattedMessage id="ui-orders.paneMenu.editOrder">
             {ariaLabel => (
               <IconButton
@@ -291,7 +278,7 @@ class PO extends Component {
           onClose={this.props.onClose}
           paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.detailsLoading" />}
         >
-          <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
+          <Icon icon="spinner-ellipsis" width="100px" />
         </Pane>
       );
     }
@@ -319,7 +306,43 @@ class PO extends Component {
         dismissible
         onClose={this.props.onClose}
       >
-        <Row end="xs"><Col xs><ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} /></Col></Row>
+        <Row end="xs">
+          {isReceiveButtonVisible && (
+            <div className={css.buttonWrapper}>
+              <Button
+                buttonStyle="primary"
+                className={css.button}
+              >
+                <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
+              </Button>
+            </div>
+          )}
+          {isCloseOrderButtonVisible && (
+            <div className={css.buttonWrapper}>
+              <Button
+                buttonStyle="primary"
+                className={css.button}
+                onClick={this.mountCloseOrderModal}
+              >
+                <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
+              </Button>
+            </div>
+          )}
+          {this.state.isCloseOrderModalOpened && (
+            <CloseOrderModal
+              cancel={this.unmountCloseOrderModal}
+              closeOrder={this.closeOrder}
+              closingReasons={resources.closingReasons.records}
+              orderNumber={orderNumber}
+            />
+          )}
+          <div>
+            <ExpandAllButton
+              accordionStatus={this.state.sections}
+              onToggle={this.handleExpandAll}
+            />
+          </div>
+        </Row>
         <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
           <Accordion
             id="purchaseOrder"
