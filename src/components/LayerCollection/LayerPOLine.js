@@ -14,6 +14,7 @@ import {
 } from '@folio/stripes/components';
 
 import transitionToParams from '../Utils/transitionToParams';
+import { SOURCE_FOLIO_CODE } from '../Utils/const';
 import { cloneOrder } from '../Utils/orderResource';
 import { POLineForm } from '../POLine';
 import { CURRENCY } from '../POLine/Cost/FieldCurrency';
@@ -159,6 +160,9 @@ class LayerPOLine extends Component {
     const orderId = get(match, 'params.id');
 
     const newObj = {
+      source: {
+        code: SOURCE_FOLIO_CODE,
+      },
       cost: {
         currency: CURRENCY.usd,
       },

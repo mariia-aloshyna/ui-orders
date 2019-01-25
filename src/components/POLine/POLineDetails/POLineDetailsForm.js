@@ -104,7 +104,7 @@ class POLineDetailsForm extends Component {
             {/* <FieldSource sources={parentResources.source.records} /> */}
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.source" />}
-              value={get(poLine, 'source.description')}
+              value={get(poLine, 'source.code')}
             />
           </Col>
           <Col xs={6}>
