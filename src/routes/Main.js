@@ -282,6 +282,7 @@ class Main extends Component {
           ? `${assignedTo.personal.firstName} ${assignedTo.personal.lastName}`
           : '';
       },
+      'workflow_status': order => get(order, 'workflow_status', ''),
     };
     const newRecordInitialValues = {
       created_by_name: `${firstName} ${lastName}` || '',
@@ -294,7 +295,7 @@ class Main extends Component {
           objectName="order"
           baseRoute={packageInfo.stripes.route}
           filterConfig={filterConfig}
-          visibleColumns={['po_number', 'created', 'notes', 'assigned_to']}
+          visibleColumns={['po_number', 'workflow_status', 'created', 'notes', 'assigned_to']}
           resultsFormatter={resultsFormatter}
           viewRecordComponent={Panes}
           editRecordComponent={POForm}
@@ -319,6 +320,7 @@ class Main extends Component {
             created: <FormattedMessage id="ui-orders.order.created" />,
             notes: <FormattedMessage id="ui-orders.order.notes" />,
             assigned_to: <FormattedMessage id="ui-orders.order.assigned_to" />,
+            workflow_status: <FormattedMessage id="ui-orders.order.workflow_status" />,
           }}
         />
         <Callout ref={this.createCalloutRef} />
