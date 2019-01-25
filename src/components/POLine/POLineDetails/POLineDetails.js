@@ -65,7 +65,7 @@ class POLineDetails extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.source" />}
-              value={get(initialValues, 'source.description')}
+              value={get(initialValues, 'source.code')}
             />
           </Col>
           <Col xs={6}>
