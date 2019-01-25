@@ -321,6 +321,7 @@
   "errors.noCreatedOrder": "Purchase Order has not been created",
   "errors.noMatch.how": "How did you get to {location}?",
   "errors.noMatch.oops": "Uh-oh!",
+  "errors.orderNumberIsNotValid": "Order Number is not valid",
   "fundDistribution.add": "Please Add Fund Distribution",
   "fundDistribution.addBtn": "Add",
   "fundDistribution.amount": "Amount",

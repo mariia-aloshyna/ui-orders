@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { getFormValues } from 'redux-form';
+import {
+  getFormValues,
+  isDirty,
+} from 'redux-form';
 
 import { IfPermission } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/form';
@@ -14,6 +17,26 @@ import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { AdjustmentView } from './Adjustment';
 import { RenewalsForm } from './renewals';
+
+const throwError = () => {
+  const errorInfo = { po_number: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
+
+  throw errorInfo;
+};
+
+const asyncValidate = (values, dispatchRedux, props) => {
+  const { po_number: poNumber, numberPrefix = '', numberSuffix = '' } = values;
+  const fullOrderNumber = `${numberPrefix}${poNumber}${numberSuffix}`.trim();
+  const { parentMutator: { orderNumber: validator }, stripes: { store } } = props;
+  const orderNumberFieldIsDirty = isDirty('FormPO')(store.getState(), ['po_number']);
+
+  return orderNumberFieldIsDirty && poNumber
+    ? validator.POST({ po_number: fullOrderNumber })
+      .catch(response => response.json()
+        .catch(() => throwError())
+        .then(() => throwError()))
+    : Promise.resolve();
+};
 
 class POForm extends Component {
   static propTypes = {
@@ -43,15 +66,14 @@ class POForm extends Component {
   }
 
   componentDidMount() {
-    const { initialValues: { id } } = this.props;
+    const { initialValues: { id }, change, dispatch, parentMutator } = this.props;
 
-    if (!id) {
-      const { change, dispatch, parentMutator } = this.props;
-
-      parentMutator.orderNumber.reset();
-      parentMutator.orderNumber.GET()
-        .then(({ po_number: orderNumber }) => dispatch(change('po_number', orderNumber)));
-    }
+    parentMutator.orderNumber.GET()
+      .then(({ po_number: orderNumber }) => {
+        if (!id) {
+          dispatch(change('po_number', orderNumber));
+        }
+      });
   }
 
   getAddFirstMenu() {
@@ -119,6 +141,8 @@ class POForm extends Component {
 
   render() {
     const { change, dispatch, initialValues, onCancel, stripes, parentResources } = this.props;
+    const { sections } = this.state;
+    const generatedNumber = get(parentResources, 'orderNumber.records.0.po_number');
     const formValues = getFormValues('FormPO')(stripes.store.getState());
     const isOngoing = formValues.order_type === ORDER_TYPE.ongoing;
     const firstMenu = this.getAddFirstMenu();
@@ -168,12 +192,12 @@ class POForm extends Component {
                     <Col xs={12} md={8}>
                       <Row end="xs">
                         <Col xs={12}>
-                          <ExpandAllButton accordionStatus={this.state.sections} onToggle={this.handleExpandAll} />
+                          <ExpandAllButton accordionStatus={sections} onToggle={this.handleExpandAll} />
                         </Col>
                       </Row>
                     </Col>
                     <Col xs={12} md={8} style={{ textAlign: 'left' }}>
-                      <AccordionSet accordionStatus={this.state.sections} onToggle={this.onToggleSection}>
+                      <AccordionSet accordionStatus={sections} onToggle={this.onToggleSection}>
                         <Accordion
                           id="purchaseOrder"
                           label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
@@ -182,6 +206,7 @@ class POForm extends Component {
                             change={change}
                             dispatch={dispatch}
                             formValues={formValues}
+                            generatedNumber={generatedNumber}
                             order={initialValues}
                             orderNumberSetting={orderNumberSetting}
                             stripes={stripes}
@@ -237,7 +262,9 @@ class POForm extends Component {
 }
 
 export default stripesForm({
+  asyncBlurFields: ['po_number'],
+  asyncValidate,
+  enableReinitialize: true,
   form: 'FormPO',
   navigationCheck: true,
-  enableReinitialize: true,
 })(POForm);

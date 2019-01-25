@@ -23,6 +23,7 @@ import { createOrderResource } from '../components/Utils/orderResource';
 import {
   CONFIG_API,
   ORDER_NUMBER_API,
+  ORDER_NUMBER_VALIDATE_API,
   ORDERS_API,
 } from '../components/Utils/api';
 
@@ -160,7 +161,11 @@ class Main extends Component {
       fetch: false,
       path: ORDER_NUMBER_API,
       throwErrors: false,
+      clientGeneratePk: false,
       type: 'okapi',
+      POST: {
+        path: ORDER_NUMBER_VALIDATE_API,
+      },
     },
     // source: {
     //   type: 'okapi',
@@ -180,6 +185,7 @@ class Main extends Component {
       }),
       orderNumber: PropTypes.shape({
         GET: PropTypes.func,
+        POST: PropTypes.func,
         reset: PropTypes.func,
       }),
     }).isRequired,
