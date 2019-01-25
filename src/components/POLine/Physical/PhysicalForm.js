@@ -53,7 +53,7 @@ const PhysicalForm = ({ vendors }) => (
         component={Datepicker}
         dateFormat={DATE_FORMAT}
         fullWidth
-        label={<FormattedMessage id="ui-orders.physical.receiptDate" />}
+        label={<FormattedMessage id="ui-orders.physical.expectedReceiptDate" />}
         name="physical.expectedReceiptDate"
         timeZone={TIMEZONE}
       />

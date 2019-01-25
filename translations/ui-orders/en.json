@@ -400,6 +400,7 @@
   "order.paneTitle.detailsLoading": "Details",
   "order.paneTitle.edit": "Edit - {orderNumber}",
   "order.po_number": "PO Number",
+  "order.workflow_status": "Status",
   "orderDetails.addNoteBtn": "Add Note",
   "orderDetails.assignedTo": "Assigned To",
   "orderDetails.billTo": "Bill To",
