@@ -25,6 +25,7 @@ import {
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,
   ORDERS_API,
+  VENDORS_API,
 } from '../components/Utils/api';
 
 const INITIAL_RESULT_COUNT = 30;
@@ -114,7 +115,7 @@ class Main extends Component {
     },
     vendors: {
       type: 'okapi',
-      path: 'vendor',
+      path: VENDORS_API,
       records: 'vendors',
       perRequest: 1000,
     },
