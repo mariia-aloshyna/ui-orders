@@ -128,7 +128,7 @@ class POLine extends Component {
       </PaneMenu>);
     const lastMenu = (
       <PaneMenu>
-        <IfPermission perm="po_line.item.put">
+        <IfPermission perm="orders.po-lines.item.put">
           <IconButton
             icon="edit"
             id="clickable-edit-po-line"

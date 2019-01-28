@@ -117,7 +117,7 @@ class POLineForm extends Component {
 
     return (
       <PaneMenu>
-        <IfPermission perm="po_line.item.post">
+        <IfPermission perm="orders.po-lines.item.post">
           <Button
             id={id}
             type="submit"
@@ -267,7 +267,7 @@ class POLineForm extends Component {
                       </Accordion>
                     )}
                   </AccordionSet>
-                  <IfPermission perm="po_line.item.delete">
+                  <IfPermission perm="orders.po-lines.item.delete">
                     <Row end="xs">
                       <Col xs={12}>
                         {

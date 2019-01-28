@@ -20,7 +20,7 @@
       "material-types": "2.2",
       "orders": "3.0",
       "users": "15.0",
-      "vendor": "1.0"
+      "vendor-storage.vendors": "1.0"
     },
     "queryResource": "query",
     "icons": [
@@ -36,138 +36,91 @@
         "displayName": "UI: Orders module is enabled"
       },
       {
-        "permissionName": "purchase_order.collection.get",
-        "displayName": "purchase_order-collection get",
-        "description": "Get a collection of purchase orders"
+        "permissionName": "vendor-storage.vendors.collection.get",
+        "displayName": "vendor collection get",
+        "description": "Get a collection of vendors"
       },
       {
         "permissionName": "orders.collection.get",
-        "displayName": "orders-collection get",
-        "description": "Get a collection of composite purchase orders"
+        "displayName": "orders - get orders collection",
+        "description": "Get orders collection"
       },
       {
-        "permissionName": "purchase_order.item.post",
-        "displayName": "purchase_order-item post",
-        "description": "Create a new purchase_order"
+        "permissionName": "users.collection.get",
+        "displayName": "users collection get",
+        "description": "Get a collection of user records"
       },
       {
-        "permissionName": "purchase_order.item.get",
-        "displayName": "purchase_order-item get",
-        "description": "Fetch a purchase_order"
+        "permissionName": "orders.item.post",
+        "displayName": "orders - create a new order",
+        "description": "Create a new order"
       },
       {
-        "permissionName": "purchase_order.item.put",
-        "displayName": "purchase_order-item put",
-        "description": "Update a purchase order"
+        "permissionName": "orders.item.get",
+        "displayName": "orders - get an existing order",
+        "description": "Get an existing order"
       },
       {
-        "permissionName": "purchase_order.item.delete",
-        "displayName": "purchase_order-item delete",
-        "description": "Delete a purchase order"
+        "permissionName": "orders.item.put",
+        "displayName": "orders - modify an existing order",
+        "description": "Modify an existing order"
       },
       {
-        "permissionName": "purchase_order.all",
-        "displayName": "All purchase order perms",
-        "description": "All permissions for the purchase order",
+        "permissionName": "orders.item.delete",
+        "displayName": "orders - delete an existing order",
+        "description": "Delete an existing order"
+      },
+      {
+        "permissionName": "orders.po-lines.item.post",
+        "displayName": "Orders - create a new PO line",
+        "description": "Create a new PO line"
+      },
+      {
+        "permissionName": "orders.po-lines.item.get",
+        "displayName": "Orders - get an existing PO line",
+        "description": "Get an existing PO line"
+      },
+      {
+        "permissionName": "orders.po-lines.item.put",
+        "displayName": "Orders - modify an existing PO line",
+        "description": "Modify an existing PO line"
+      },
+      {
+        "permissionName": "orders.po-lines.item.delete",
+        "displayName": "Orders - delete an existing PO line",
+        "description": "Delete an existing PO line"
+      },
+      {
+        "permissionName": "orders.po-number.item.get",
+        "displayName": "Orders - generate a PO Number",
+        "description": "Generate a PO Number"
+      },
+      {
+        "permissionName": "orders.po-number.item.post",
+        "displayName": "Orders - validate a PO Number",
+        "description": "Validate a PO Number"
+      },
+      {
+        "permissionName": "orders.receiving-history.collection.get",
+        "displayName": "Orders - Receiving history",
+        "description": "Get receiving history matching the provided criteria"
+      },
+      {
+        "permissionName": "orders.all",
+        "displayName": "orders - all permissions",
+        "description": "Entire set of permissions needed to use orders",
         "subPermissions": [
-          "purchase_order.collection.get",
-          "purchase_order.item.post",
-          "purchase_order.item.get",
-          "purchase_order.item.put",
-          "purchase_order.item.delete"
-        ]
-      },
-      {
-        "permissionName": "po_line.collection.get",
-        "displayName": "po_line-collection get",
-        "description": "Get a collection of po_lines"
-      },
-      {
-        "permissionName": "po_line.item.post",
-        "displayName": "po_line-item post",
-        "description": "Create a new po_line"
-      },
-      {
-        "permissionName": "po_line.item.get",
-        "displayName": "po_line-item get",
-        "description": "Fetch a po_line"
-      },
-      {
-        "permissionName": "po_line.item.put",
-        "displayName": "po_line-item put",
-        "description": "Update a purchase order line"
-      },
-      {
-        "permissionName": "po_line.item.delete",
-        "displayName": "po_line-item delete",
-        "description": "Delete a po line"
-      },
-      {
-        "permissionName": "po_line.all",
-        "displayName": "All po line perms",
-        "description": "All permissions for the po line",
-        "subPermissions": [
-          "po_line.collection.get",
-          "po_line.item.post",
-          "po_line.item.get",
-          "po_line.item.put",
-          "po_line.item.delete"
-        ]
-      },
-      {
-        "permissionName": "vendor_detail.collection.get",
-        "displayName": "vendor_detail-collection get",
-        "description": "Get a collection of vendor_details"
-      },
-      {
-        "permissionName": "vendor_detail.item.post",
-        "displayName": "vendor_detail-item post",
-        "description": "Create a new vendor_detail"
-      },
-      {
-        "permissionName": "vendor_detail.item.get",
-        "displayName": "vendor_detail-item get",
-        "description": "Fetch a vendor_detail"
-      },
-      {
-        "permissionName": "vendor_detail.item.put",
-        "displayName": "vendor_detail-item put",
-        "description": "Update a vendor_detail"
-      },
-      {
-        "permissionName": "vendor_detail.item.delete",
-        "displayName": "vendor_detail-item delete",
-        "description": "Delete a vendor_detail"
-      },
-      {
-        "permissionName": "vendor_detail.all",
-        "displayName": "All vendor_detail perms",
-        "description": "All permissions for the vendor_detail",
-        "subPermissions": [
-          "vendor_detail.collection.get",
-          "vendor_detail.item.post",
-          "vendor_detail.item.get",
-          "vendor_detail.item.put",
-          "vendor_detail.item.delete"
-        ]
-      },
-      {
-        "permissionName": "orders.module.all",
-        "displayName": "Orders: all permissions",
-        "description": "Entire set of permissions needed to use Orders",
-        "visible": true,
-        "subPermissions": [
-          "adjustment.all",
-          "alert.all",
-          "claim.all",
-          "cost.all",
-          "details.all",
-          "eresource.all",
-          "license.all",
-          "location.all",
-          "physical.all",
-          "renewal.all",
-          "source.all"
+          "orders.collection.get",
+          "orders.item.post",
+          "orders.item.get",
+          "orders.item.put",
+          "orders.item.delete",
+          "orders.po-lines.item.post",
+          "orders.po-lines.item.get",
+          "orders.po-lines.item.put",
+          "orders.po-lines.item.delete",
+          "orders.po-number.item.post",
+          "orders.receiving-history.collection.get"
         ]
       },
       {
