@@ -21,7 +21,7 @@ describe('OrderDetailsPage', () => {
   });
 
   it('displays the order number in the pane header', () => {
-    expect(OrderDetailsPage.title).to.include(order.po_number);
+    expect(OrderDetailsPage.title).to.include(order.poNumber);
   });
 
   describe('clicking on edit', () => {
