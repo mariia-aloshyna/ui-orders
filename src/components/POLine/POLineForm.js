@@ -235,6 +235,18 @@ class POLineForm extends Component {
                     >
                       <VendorForm {...this.props} />
                     </Accordion>
+                    <Accordion
+                      label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
+                      id={ACCORDION_ID.fundDistribution}
+                    >
+                      <FundDistributionForm {...this.props} />
+                    </Accordion>
+                    <Accordion
+                      label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
+                      id={ACCORDION_ID.itemDetails}
+                    >
+                      <ItemForm {...this.props} />
+                    </Accordion>
                     {showEresources && (
                       <Accordion
                         label={<FormattedMessage id="ui-orders.line.accordion.eresource" />}
@@ -254,18 +266,6 @@ class POLineForm extends Component {
                         />
                       </Accordion>
                     )}
-                    <Accordion
-                      label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
-                      id={ACCORDION_ID.fundDistribution}
-                    >
-                      <FundDistributionForm {...this.props} />
-                    </Accordion>
-                    <Accordion
-                      label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
-                      id={ACCORDION_ID.itemDetails}
-                    >
-                      <ItemForm {...this.props} />
-                    </Accordion>
                   </AccordionSet>
                   <IfPermission perm="po_line.item.delete">
                     <Row end="xs">
