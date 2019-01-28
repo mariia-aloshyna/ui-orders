@@ -234,7 +234,7 @@ class POForm extends Component {
                           <AdjustmentView order={initialValues} />
                         </Accordion>
                       </AccordionSet>
-                      <IfPermission perm="purchase_order.item.delete">
+                      <IfPermission perm="orders.item.delete">
                         <Row end="xs">
                           <Col xs={12}>
                             {

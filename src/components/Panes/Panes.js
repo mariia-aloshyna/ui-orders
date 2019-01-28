@@ -49,7 +49,7 @@ class Panes extends Component {
             />
           )}
         />
-        <IfPermission perm="po_line.item.get">
+        <IfPermission perm="orders.po-lines.item.get">
           <Route
             exact
             path={`${path}/po-line/view/:lineId`}

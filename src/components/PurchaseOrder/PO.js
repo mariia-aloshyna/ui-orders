@@ -247,7 +247,7 @@ class PO extends Component {
     const isCloseOrderButtonVisible = orderId && workflowStatus === WORKFLOW_STATUS.open;
     const lastMenu = (
       <PaneMenu>
-        <IfPermission perm="purchase_order.item.put">
+        <IfPermission perm="orders.item.put">
           {isCloseOrderButtonVisible && (
             <Button
               buttonStyle="primary"
