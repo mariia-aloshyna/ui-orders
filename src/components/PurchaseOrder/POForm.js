@@ -68,6 +68,7 @@ class POForm extends Component {
   componentDidMount() {
     const { initialValues: { id }, change, dispatch, parentMutator } = this.props;
 
+    parentMutator.orderNumber.reset();
     parentMutator.orderNumber.GET()
       .then(({ po_number: orderNumber }) => {
         if (!id) {

@@ -10,8 +10,9 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
-
 import stripesForm from '@folio/stripes/form';
+
+import { LINES_LIMIT_DEFAULT } from '../components/Utils/const';
 
 const validateLimit = value => {
   return value === '' || ((value > 0) && (Number.isInteger(+value)) && (value < 1000))
@@ -54,7 +55,7 @@ const POLinesLimitForm = props => {
                 component={TextField}
                 label={<FormattedMessage id="ui-orders.settings.setPOLInesLimit" />}
                 name="value"
-                placeholder="999"
+                placeholder={LINES_LIMIT_DEFAULT}
                 type="number"
                 validate={validateLimit}
               />

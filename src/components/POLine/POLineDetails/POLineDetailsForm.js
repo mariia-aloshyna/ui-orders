@@ -13,17 +13,13 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
+import { required } from '../../Utils/Validate';
 import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldPaymentStatus from './FieldPaymentStatus';
 import FieldReceiptStatus from './FieldReceiptStatus';
 import FieldOrderFormat from './FieldOrderFormat';
 import FieldAcquisitionMethod from './FieldAcquisitionMethod';
 // import FieldSource from './FieldSource';
-
-const LINE_NUMBER_REGEXP = RegExp('^[a-zA-Z0-9]{5,16}-[0-9]{1,3}$');
-const isValidLineNumber = (value) => {
-  return LINE_NUMBER_REGEXP.test(value) ? undefined : 'must match "^[a-zA-Z0-9]{5,16}-[0-9]{1,3}$"';
-};
 
 class POLineDetailsForm extends Component {
   static propTypes = {
@@ -59,7 +55,7 @@ class POLineDetailsForm extends Component {
               label={<FormattedMessage id="ui-orders.poLine.poLineNumber" />}
               name="po_line_number"
               type="text"
-              validate={isValidLineNumber}
+              validate={required}
             />
           </Col>
           <Col xs={6}>
