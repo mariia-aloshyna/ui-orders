@@ -33,9 +33,10 @@ import {
   updateOrderResource,
 } from '../Utils/orderResource';
 import {
-  MODULE_ORDERS,
-  CONFIG_LINES_LIMIT,
   CONFIG_CLOSING_REASONS,
+  CONFIG_LINES_LIMIT,
+  LINES_LIMIT_DEFAULT,
+  MODULE_ORDERS,
 } from '../Utils/const';
 import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import CloseOrderModal from './CloseOrder';
@@ -52,6 +53,7 @@ class PO extends Component {
     order: {
       type: 'okapi',
       path: ORDER_DETAIL_API,
+      throwErrors: false,
     },
     poLine: {
       type: 'okapi',
@@ -159,7 +161,7 @@ class PO extends Component {
 
   onAddPOLine = () => {
     const { resources } = this.props;
-    const linesLimit = Number(get(resources, ['linesLimit', 'records', '0', 'value'], '1'));
+    const linesLimit = Number(get(resources, ['linesLimit', 'records', '0', 'value'], LINES_LIMIT_DEFAULT));
     const poLines = get(resources, ['order', 'records', '0', 'po_lines'], []);
 
     if (linesLimit <= poLines.length) {

@@ -26,7 +26,7 @@ import css from './PODetailsForm.css';
 
 class PODetailsForm extends Component {
   static propTypes = {
-    generatedNumber: PropTypes.string.isRequired,
+    generatedNumber: PropTypes.string,
     orderNumberSetting: PropTypes.object.isRequired,
     formValues: PropTypes.object,
     stripes: PropTypes.object,

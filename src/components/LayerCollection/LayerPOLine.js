@@ -156,8 +156,9 @@ class LayerPOLine extends Component {
   }
 
   getCreatePOLIneInitialValues() {
-    const { match } = this.props;
+    const { match, order = {} } = this.props;
     const orderId = get(match, 'params.id');
+    const lineSuffix = get(order, 'po_lines', []).length + 1;
 
     const newObj = {
       source: {
@@ -171,8 +172,10 @@ class LayerPOLine extends Component {
       },
     };
 
+    // Due to not perfect component hierarchy, the 'real' new PO Line goes only if orderId is not falsy
     if (orderId) {
       newObj.purchase_order_id = orderId;
+      newObj.po_line_number = `${order.po_number}-${lineSuffix}`;
     }
 
     return newObj;

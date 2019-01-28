@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
-import {
-  filters2cql,
-  Callout,
-} from '@folio/stripes/components';
+import { Callout } from '@folio/stripes/components';
 import { SearchAndSort } from '@folio/stripes/smart-components';
 
 import packageInfo from '../../package';
@@ -17,7 +14,7 @@ import {
 } from '../components/Utils/const';
 import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
-import { Filters, SearchableIndexes } from '../components/Utils/FilterConfig';
+import { Filters } from '../components/Utils/FilterConfig';
 import FolioFormattedTime from '../components/FolioFormattedTime';
 import { createOrderResource } from '../components/Utils/orderResource';
 import {
@@ -31,7 +28,6 @@ import {
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 const filterConfig = Filters();
-const searchableIndexes = SearchableIndexes;
 
 class Main extends Component {
   static manifest = Object.freeze({
@@ -51,67 +47,6 @@ class Main extends Component {
       records: 'purchase_orders',
       recordsRequired: '%{resultCount}',
       perRequest: RESULT_COUNT_INCREMENT,
-      GET: {
-        params: {
-          query: (...args) => {
-            /*
-              This code is not DRY as it is copied from makeQueryFunction in stripes-components.
-              This is necessary, as makeQueryFunction only referneces query paramaters as a data source.
-              STRIPES-480 is intended to correct this and allow this query function to be replace with a call
-              to makeQueryFunction.
-              https://issues.folio.org/browse/STRIPES-480
-            */
-            const resourceData = args[2];
-            const sortMap = {
-              'ID': 'id',
-              'PO Number': 'po_number',
-              'Created By': 'created_by',
-              'Comments': 'comments',
-              'Assigned To': 'assigned_to',
-            };
-
-            const index = resourceData.query.qindex ? resourceData.query.qindex : 'all';
-            const searchableIndex = searchableIndexes.find(idx => idx.value === index);
-
-            let cql = searchableIndex.makeQuery(resourceData.query.query);
-            const filterCql = filters2cql(filterConfig, resourceData.query.filters);
-
-            if (filterCql) {
-              if (cql) {
-                cql = `(${cql}) and ${filterCql}`;
-              } else {
-                cql = filterCql;
-              }
-            }
-
-            const { sort } = resourceData.query;
-
-            if (sort) {
-              const sortIndexes = sort.split(',').map((sort1) => {
-                let reverse = false;
-
-                if (sort1.startsWith('-')) {
-                  // eslint-disable-next-line no-param-reassign
-                  sort1 = sort1.substr(1);
-                  reverse = true;
-                }
-                let sortIndex = sortMap[sort1] || sort1;
-
-                if (reverse) {
-                  sortIndex = `${sortIndex.replace(' ', '/sort.descending ')}/sort.descending`;
-                }
-
-                return sortIndex;
-              });
-
-              cql += ` sortby ${sortIndexes.join(' ')}`;
-            }
-
-            return cql;
-          },
-        },
-        staticFallback: { params: {} },
-      },
     },
     vendors: {
       type: 'okapi',
@@ -316,6 +251,7 @@ class Main extends Component {
           stripes={stripes}
           showSingleResult={showSingleResult}
           browseOnly={browseOnly}
+          columnWidths={{ po_number: '120px' }}
           columnMapping={{
             po_number: <FormattedMessage id="ui-orders.order.po_number" />,
             created: <FormattedMessage id="ui-orders.order.created" />,

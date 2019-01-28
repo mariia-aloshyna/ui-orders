@@ -24,6 +24,6 @@ export default function config() {
   this.get('/material-types');
 
   this.get(ORDER_NUMBER_API, () => {
-    return { po_number: 10001 };
+    return { po_number: '10001' };
   });
 }
