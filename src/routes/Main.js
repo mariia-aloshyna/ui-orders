@@ -243,8 +243,8 @@ class Main extends Component {
           onComponentWillUnmount={onComponentWillUnmount}
           disableRecordCreation={disableRecordCreation}
           finishedResourceName="perms"
-          viewRecordPerms="purchase_order.item.get"
-          newRecordPerms="purchase_order.item.post"
+          viewRecordPerms="orders.item.get"
+          newRecordPerms="orders.item.post"
           parentResources={resources}
           parentMutator={mutator}
           detailProps={{ onUpdateAssignedTo: this.onUpdateAssignedTo }}
