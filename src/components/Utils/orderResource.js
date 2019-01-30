@@ -29,10 +29,10 @@ export const updateOrderResource = (order, mutator, changedProps) => {
 
 export const createOrderResource = (order, mutator) => {
   const clonedOrder = cloneDeep(order);
-  const { numberPrefix = '', numberSuffix = '', po_number: orderNumber = '' } = clonedOrder;
-  const fullOrderNumber = `${numberPrefix}${orderNumber}${numberSuffix}`.trim();
+  const { numberPrefix = '', numberSuffix = '', poNumber = '' } = clonedOrder;
+  const fullOrderNumber = `${numberPrefix}${poNumber}${numberSuffix}`.trim();
 
-  clonedOrder.po_number = fullOrderNumber || undefined;
+  clonedOrder.poNumber = fullOrderNumber || undefined;
 
   return saveOrder(clonedOrder, mutator);
 };
@@ -42,7 +42,7 @@ export const cloneOrder = (order, mutator, line) => {
 
   delete clonedOrder.id;
   delete clonedOrder.adjustment;
-  delete clonedOrder.po_number;
+  delete clonedOrder.poNumber;
   delete clonedOrder.workflow_status;
   if (line) {
     delete line.purchase_order_id;
