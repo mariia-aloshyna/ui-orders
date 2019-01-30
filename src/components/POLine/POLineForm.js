@@ -15,6 +15,7 @@ import {
   Col,
   ExpandAllButton,
   Icon,
+  IconButton,
   Pane,
   PaneMenu,
   Row,
@@ -97,15 +98,13 @@ class POLineForm extends Component {
       <PaneMenu>
         <FormattedMessage id="ui-orders.buttons.line.close">
           {(title) => (
-            <button
+            <IconButton
               aria-label={<FormattedMessage id="ui-orders.buttons.line.closeDialog" />}
+              icon="times"
               id="clickable-close-new-line-dialog"
               onClick={onCancel}
               title={title}
-              type="button"
-            >
-              <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times;</span>
-            </button>
+            />
           )}
         </FormattedMessage>
       </PaneMenu>

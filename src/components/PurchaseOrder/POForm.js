@@ -9,7 +9,19 @@ import {
 
 import { IfPermission } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/form';
-import { Paneset, Pane, PaneMenu, Button, Row, Icon, Col, AccordionSet, Accordion, ExpandAllButton } from '@folio/stripes/components';
+import {
+  Accordion,
+  AccordionSet,
+  Button,
+  Col,
+  ExpandAllButton,
+  Icon,
+  IconButton,
+  Pane,
+  PaneMenu,
+  Paneset,
+  Row,
+} from '@folio/stripes/components';
 
 import getOrderNumberSetting from '../Utils/getOrderNumberSetting';
 import { ORDER_TYPE } from './PODetails/FieldOrderType';
@@ -82,9 +94,17 @@ class POForm extends Component {
 
     return (
       <PaneMenu>
-        <button type="button" id="clickable-close-new-purchase-order-dialog" onClick={onCancel} title="close" aria-label="Close New Purchase Order Dialog">
-          <span style={{ fontSize: '30px', color: '#999', lineHeight: '18px' }}>&times;</span>
-        </button>
+        <FormattedMessage id="ui-orders.buttons.line.close">
+          {(title) => (
+            <IconButton
+              aria-label={<FormattedMessage id="ui-orders.buttons.orderForm.ariaCloseDialog" />}
+              icon="times"
+              id="clickable-close-new-purchase-order-dialog"
+              onClick={onCancel}
+              title={title}
+            />
+          )}
+        </FormattedMessage>
       </PaneMenu>
     );
   }

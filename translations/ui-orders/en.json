@@ -30,6 +30,7 @@
   "buttons.line.create": "Create PO Line",
   "buttons.line.delete": "Delete - {lineNumber}",
   "buttons.line.update": "Update PO Line",
+  "buttons.orderForm.ariaCloseDialog": "Close New Purchase Order Dialog",
   "closedLoansCount": "{count, number} {count, plural, one {closed loan} other {closed loans}}",
   "closeOrderModal.cancel": "Cancel",
   "closeOrderModal.closingReasons.ceased": "Ceased",
