@@ -31,16 +31,16 @@ import { AdjustmentView } from './Adjustment';
 import { RenewalsForm } from './renewals';
 
 const throwError = () => {
-  const errorInfo = { poNumber: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
+  const errorInfo = { po_number: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
 
   throw errorInfo;
 };
 
 const asyncValidate = (values, dispatchRedux, props) => {
-  const { poNumber, numberPrefix = '', numberSuffix = '' } = values;
+  const { po_number: poNumber, numberPrefix = '', numberSuffix = '' } = values;
   const fullOrderNumber = `${numberPrefix}${poNumber}${numberSuffix}`.trim();
   const { parentMutator: { orderNumber: validator }, stripes: { store } } = props;
-  const orderNumberFieldIsDirty = isDirty('FormPO')(store.getState(), ['poNumber']);
+  const orderNumberFieldIsDirty = isDirty('FormPO')(store.getState(), ['po_number']);
 
   return orderNumberFieldIsDirty && poNumber
     ? validator.POST({ poNumber: fullOrderNumber })
@@ -84,7 +84,7 @@ class POForm extends Component {
     parentMutator.orderNumber.GET()
       .then(({ poNumber: orderNumber }) => {
         if (!id) {
-          dispatch(change('poNumber', orderNumber));
+          dispatch(change('po_number', orderNumber));
         }
       });
   }
@@ -167,7 +167,7 @@ class POForm extends Component {
     const formValues = getFormValues('FormPO')(stripes.store.getState());
     const isOngoing = formValues.order_type === ORDER_TYPE.ongoing;
     const firstMenu = this.getAddFirstMenu();
-    const orderNumber = get(initialValues, 'poNumber', '');
+    const orderNumber = get(initialValues, 'po_number', '');
     const paneTitle = initialValues.id
       ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
       : <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />;
@@ -283,7 +283,7 @@ class POForm extends Component {
 }
 
 export default stripesForm({
-  asyncBlurFields: ['poNumber'],
+  asyncBlurFields: ['po_number'],
   asyncValidate,
   enableReinitialize: true,
   form: 'FormPO',

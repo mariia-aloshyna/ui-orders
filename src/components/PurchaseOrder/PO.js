@@ -240,7 +240,7 @@ class PO extends Component {
     const { location, history, match, mutator, resources, parentResources } = this.props;
     const order = get(resources, ['order', 'records', 0]);
     const orderId = get(order, 'id');
-    const orderNumber = get(order, 'poNumber', '');
+    const orderNumber = get(order, 'po_number', '');
     const poLines = get(order, 'po_lines', []);
     const workflowStatus = get(order, 'workflow_status');
     const hasLineItemsToReceive = poLines.filter(

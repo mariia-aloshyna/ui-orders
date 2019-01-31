@@ -207,7 +207,7 @@ class Main extends Component {
     } = this.props;
     const users = get(resources, 'users.records', []);
     const resultsFormatter = {
-      'poNumber': order => get(order, 'poNumber', ''),
+      'po_number': order => get(order, 'po_number', ''),
       'created': order => <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />,
       'notes': order => get(order, 'notes', []).join(', '),
       'assigned_to': order => {
@@ -231,7 +231,7 @@ class Main extends Component {
           objectName="order"
           baseRoute={packageInfo.stripes.route}
           filterConfig={filterConfig}
-          visibleColumns={['poNumber', 'workflow_status', 'created', 'notes', 'assigned_to']}
+          visibleColumns={['po_number', 'workflow_status', 'created', 'notes', 'assigned_to']}
           resultsFormatter={resultsFormatter}
           viewRecordComponent={Panes}
           editRecordComponent={POForm}
@@ -251,9 +251,9 @@ class Main extends Component {
           stripes={stripes}
           showSingleResult={showSingleResult}
           browseOnly={browseOnly}
-          columnWidths={{ poNumber: '120px' }}
+          columnWidths={{ po_number: '120px' }}
           columnMapping={{
-            poNumber: <FormattedMessage id="ui-orders.order.po_number" />,
+            po_number: <FormattedMessage id="ui-orders.order.po_number" />,
             created: <FormattedMessage id="ui-orders.order.created" />,
             notes: <FormattedMessage id="ui-orders.order.notes" />,
             assigned_to: <FormattedMessage id="ui-orders.order.assigned_to" />,

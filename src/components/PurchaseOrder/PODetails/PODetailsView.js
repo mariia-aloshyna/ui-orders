@@ -36,7 +36,7 @@ class PODetailsView extends Component {
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
-            value={get(order, 'poNumber')}
+            value={get(order, 'po_number')}
           />
         </Col>
         <Col xs={6}>
