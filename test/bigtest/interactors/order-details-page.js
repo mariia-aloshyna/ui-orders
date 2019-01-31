@@ -12,6 +12,7 @@ import {
   title = text('[class*=paneTitleLabel---]');
   headerDropdown = new HeaderDropdown('[class*=paneContentLastArea---]');
   addLineButton = clickable('[data-test-add-line-button]');
+  receivingButton = clickable('[data-test-receiving-button]');
 }
 
 export default new OrderDetailsPage('[data-test-order-details]');

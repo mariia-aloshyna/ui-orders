@@ -9,6 +9,7 @@ import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import OrderEditPage from '../interactors/order-edit-page';
 import LineEditPage from '../interactors/line-edit-page';
+import LinesLimitModal from '../interactors/lines-limit-modal';
 
 describe('OrderDetailsPage', () => {
   setupApplication();
@@ -40,6 +41,10 @@ describe('OrderDetailsPage', () => {
     });
 
     it('should redirect to add line page', () => {
+      // expect(LinesLimitModal.$root).to.exist;
+      // LinesLimitModal.createOrder();
+
+      // should be fixed with new order creation test (POST)
       expect(LineEditPage.$root).to.exist;
     });
   });

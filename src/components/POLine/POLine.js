@@ -14,8 +14,8 @@ import {
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
+import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 
-import transitionToParams from '../Utils/transitionToParams';
 import {
   LINES_API,
   ORDER_DETAIL_API,

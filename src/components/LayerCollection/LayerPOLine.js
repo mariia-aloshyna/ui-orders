@@ -13,7 +13,6 @@ import {
   Layer,
 } from '@folio/stripes/components';
 
-import transitionToParams from '../Utils/transitionToParams';
 import { SOURCE_FOLIO_CODE } from '../Utils/const';
 import { cloneOrder } from '../Utils/orderResource';
 import { POLineForm } from '../POLine';
@@ -48,7 +47,6 @@ class LayerPOLine extends Component {
       isLinesLimitExceededModalOpened: false,
       line: null,
     };
-    this.transitionToParams = transitionToParams.bind(this);
     this.connectedPOLineForm = props.stripes.connect(POLineForm);
   }
 

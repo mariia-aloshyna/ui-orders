@@ -13,6 +13,7 @@ import css from './LinesLimit.css';
 
 const LinesLimit = ({ cancel, createOrder }) => (
   <Modal
+    data-test-lines-limit-modal
     label={<FormattedMessage id="ui-orders.linesLimit.label" />}
     open
   >
@@ -37,7 +38,10 @@ const LinesLimit = ({ cancel, createOrder }) => (
         >
           <FormattedMessage id="ui-orders.linesLimit.okBtn" />
         </Button>
-        <Button onClick={createOrder}>
+        <Button
+          data-test-clone-order-and-create-line
+          onClick={createOrder}
+        >
           <FormattedMessage id="ui-orders.linesLimit.createBtn" />
         </Button>
       </Col>

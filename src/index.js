@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Route from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
+import ReactRouterPropTypes from 'react-router-prop-types';
+
+import { stripesShape } from '@folio/stripes/core';
 
 import Main from './routes/Main';
 import OrdersSettings from './settings/OrdersSettings';
@@ -12,19 +15,24 @@ import OrdersSettings from './settings/OrdersSettings';
   This is the main entry point into your new app.
 */
 
+const Receiving = () => (
+  <div data-test-receiving>
+    Receivings List
+  </div>
+);
+
 class Orders extends Component {
   static propTypes = {
-    match: PropTypes.object.isRequired,
+    match: ReactRouterPropTypes.match,
     showSettings: PropTypes.bool,
-    stripes: PropTypes.shape({
-      connect: PropTypes.func.isRequired,
-    }).isRequired,
+    stripes: stripesShape.isRequired,
     location: PropTypes.object.isRequired,
   }
 
   constructor(props, context) {
     super(props, context);
     this.connectedApp = props.stripes.connect(Main);
+    this.connectedReceiving = props.stripes.connect(Receiving);
   }
 
   render() {
@@ -32,11 +40,18 @@ class Orders extends Component {
       return <OrdersSettings {...this.props} />;
     }
 
+    const { match: { path }, stripes } = this.props;
+
     return (
       <Switch>
         <Route
-          path={`${this.props.match.path}`}
-          render={props => <this.connectedApp {...props} {...this.props} />}
+          exact
+          path="/orders/view/:id/receiving"
+          render={props => <this.connectedReceiving {...props} stripes={stripes} />}
+        />
+        <Route
+          path={path}
+          render={props => <this.connectedApp {...props} stripes={stripes} />}
         />
       </Switch>
     );
