@@ -16,9 +16,9 @@ const Filters = () => {
 };
 
 const SearchableIndexes = [
-  { label: 'All', value: 'all', makeQuery: term => `(id="${term}*" or poNumber="${term}*" or vendor="${term}*" or assigned_to="${term}*")` },
+  { label: 'All', value: 'all', makeQuery: term => `(id="${term}*" or po_number="${term}*" or vendor="${term}*" or assigned_to="${term}*")` },
   { label: 'ID', value: 'id', makeQuery: term => `(id="${term}*")` },
-  { label: 'PO Number', value: 'poNumber', makeQuery: term => `(poNumber="${term}*")` },
+  { label: 'PO Number', value: 'po_number', makeQuery: term => `(po_number="${term}*")` },
   { label: 'Vendor', value: 'vendor', makeQuery: term => `(vendor="${term}*")` },
   { label: 'Assigned To', value: 'assigned_to', makeQuery: term => `(assigned_to="${term}*")` },
 ];

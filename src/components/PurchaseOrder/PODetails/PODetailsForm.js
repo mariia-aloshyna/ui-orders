@@ -153,7 +153,7 @@ class PODetailsForm extends Component {
 
     if (value === '') {
       // setTimeout is required due to async nature of redux-form CHANGE field value event.
-      window.setTimeout(() => dispatch(change('poNumber', generatedNumber)));
+      window.setTimeout(() => dispatch(change('po_number', generatedNumber)));
     }
   }
 
@@ -182,7 +182,7 @@ class PODetailsForm extends Component {
               component={TextField}
               fullWidth
               label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
-              name="poNumber"
+              name="po_number"
               disabled={!canUserEditOrderNumber}
               onBlur={this.fillBackGeneratedNumber}
             />
