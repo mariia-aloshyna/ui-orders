@@ -161,7 +161,7 @@ class PO extends Component {
   onAddPOLine = () => {
     const { resources } = this.props;
     const linesLimit = Number(get(resources, ['linesLimit', 'records', '0', 'value'], LINES_LIMIT_DEFAULT));
-    const poLines = get(resources, ['order', 'records', '0', 'po_lines'], []);
+    const poLines = get(resources, ['order', 'records', '0', 'compositePoLines'], []);
 
     if (linesLimit <= poLines.length) {
       this.setState({ isLinesLimitExceededModalOpened: true });
@@ -241,7 +241,7 @@ class PO extends Component {
     const order = get(resources, ['order', 'records', 0]);
     const orderId = get(order, 'id');
     const orderNumber = get(order, 'po_number', '');
-    const poLines = get(order, 'po_lines', []);
+    const poLines = get(order, 'compositePoLines', []);
     const workflowStatus = get(order, 'workflow_status');
     const hasLineItemsToReceive = poLines.filter(
       line => line.cost.quantity_physical || line.cost.quantity_electronic,

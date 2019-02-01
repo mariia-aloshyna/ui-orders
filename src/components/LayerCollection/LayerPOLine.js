@@ -158,7 +158,7 @@ class LayerPOLine extends Component {
   getCreatePOLIneInitialValues() {
     const { match, order = {} } = this.props;
     const orderId = get(match, 'params.id');
-    const lineSuffix = get(order, 'po_lines', []).length + 1;
+    const lineSuffix = get(order, 'compositePoLines', []).length + 1;
 
     const newObj = {
       source: {
