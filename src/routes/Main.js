@@ -247,7 +247,6 @@ class Main extends Component {
           newRecordPerms="orders.item.post"
           parentResources={resources}
           parentMutator={mutator}
-          detailProps={{ onUpdateAssignedTo: this.onUpdateAssignedTo }}
           stripes={stripes}
           showSingleResult={showSingleResult}
           browseOnly={browseOnly}

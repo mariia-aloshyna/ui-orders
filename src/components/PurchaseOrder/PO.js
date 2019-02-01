@@ -16,6 +16,7 @@ import {
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
+import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 
 import {
   LayerPO,
@@ -26,7 +27,6 @@ import {
   LINES_API,
   ORDER_DETAIL_API,
 } from '../Utils/api';
-import transitionToParams from '../Utils/transitionToParams';
 import {
   cloneOrder,
   updateOrderResource,
@@ -46,6 +46,7 @@ import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
 import { RenewalsView } from './renewals';
 import LinesLimit from './LinesLimit';
+
 import css from './PO.css';
 
 class PO extends Component {
@@ -121,14 +122,6 @@ class PO extends Component {
       isLinesLimitExceededModalOpened: false,
     };
     this.transitionToParams = transitionToParams.bind(this);
-  }
-
-  updateVendor(data) {
-    this.props.parentMutator.vendor.update({ vendorID: data });
-  }
-
-  updateUser(data) {
-    this.props.parentMutator.user.update({ userID: data });
   }
 
   onToggleSection = ({ id }) => {
@@ -236,6 +229,15 @@ class PO extends Component {
     this.callout = ref;
   };
 
+  goToReceiving = () => {
+    const { match: { params: { id } }, parentMutator: { query } } = this.props;
+
+    query.update({
+      _path: `/orders/view/${id}/receiving`,
+      layer: null,
+    });
+  }
+
   render() {
     const { location, history, match, mutator, resources, parentResources } = this.props;
     const order = get(resources, ['order', 'records', 0]);
@@ -312,6 +314,8 @@ class PO extends Component {
               <Button
                 buttonStyle="primary"
                 className={css.button}
+                data-test-receiving-button
+                onClick={this.goToReceiving}
               >
                 <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
               </Button>

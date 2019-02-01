@@ -33,7 +33,8 @@
     "permissionSets": [
       {
         "permissionName": "module.orders.enabled",
-        "displayName": "UI: Orders module is enabled"
+        "displayName": "UI: Orders module is enabled",
+        "visible": true
       },
       {
         "permissionName": "vendor-storage.vendors.collection.get",
@@ -149,6 +150,7 @@
     "@folio/stripes": "^2.0.0",
     "@folio/stripes-cli": "^1.8.0",
     "@folio/stripes-core": "^3.0.1",
+    "@folio/stripes-components": "^5.0.2",
     "babel-eslint": "^9.0.0",
     "babel-polyfill": "^6.26.0",
     "chai": "^4.2.0",

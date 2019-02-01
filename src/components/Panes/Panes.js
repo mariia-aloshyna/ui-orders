@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import Switch from 'react-router-dom/Switch';
 import Route from 'react-router-dom/Route';
 import PropTypes from 'prop-types';
-import { IfPermission } from '@folio/stripes/core';
+import ReactRouterPropTypes from 'react-router-prop-types';
+
+import {
+  IfPermission,
+  stripesShape,
+} from '@folio/stripes/core';
+
 import { PO } from '../PurchaseOrder';
 import { POLine } from '../POLine';
 
@@ -10,9 +16,7 @@ class Panes extends Component {
   static propTypes = {
     connectedSource: PropTypes.object.isRequired,
     editLink: PropTypes.string.isRequired,
-    stripes: PropTypes.shape({
-      connect: PropTypes.func.isRequired,
-    }).isRequired,
+    stripes: stripesShape.isRequired,
     parentMutator: PropTypes.object.isRequired,
     parentResources: PropTypes.object.isRequired,
     onEdit: PropTypes.func.isRequired,
@@ -20,12 +24,7 @@ class Panes extends Component {
     onCloseEdit: PropTypes.func.isRequired,
     tagsToggle: PropTypes.func.isRequired,
     paneWidth: PropTypes.string.isRequired,
-    match: PropTypes.shape({
-      path: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    }).isRequired,
-    path: PropTypes.object,
-    url: PropTypes.object,
+    match: ReactRouterPropTypes.match,
   }
 
   constructor(props) {
@@ -62,7 +61,6 @@ class Panes extends Component {
             )}
           />
         </IfPermission>
-        <Route render={props => <this.connectedPO {...this.props} {...props} />} />
       </Switch>
     );
   }

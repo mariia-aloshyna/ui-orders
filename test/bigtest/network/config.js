@@ -13,6 +13,10 @@ export default function config() {
 
   this.get(`${ORDERS_API}/:id`, (schema, request) => {
     return schema.orders.find(request.params.id).attrs;
+    // return {
+    //   ...schema.orders.find(request.params.id).attrs,
+    //   po_lines: [{ cost: { quantity_physical: 2 } }],
+    // };
   });
 
   this.get(VENDORS_API, (schema) => {
