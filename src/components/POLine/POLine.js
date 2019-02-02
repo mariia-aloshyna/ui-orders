@@ -105,7 +105,7 @@ class POLine extends Component {
 
   getData() {
     const { match: { params: { lineId } }, resources } = this.props;
-    const lines = get(resources, ['order', 'records', 0, 'po_lines'], []);
+    const lines = get(resources, ['order', 'records', 0, 'compositePoLines'], []);
 
     return lines.find(u => u.id === lineId);
   }
@@ -140,7 +140,7 @@ class POLine extends Component {
     );
     const { location, match: { params: { lineId } }, resources } = this.props;
     const order = get(resources, ['order', 'records', 0]);
-    const lines = get(order, 'po_lines', []);
+    const lines = get(order, 'compositePoLines', []);
     const line = lines.find(u => u.id === lineId);
 
     if (!line) {

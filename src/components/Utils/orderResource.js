@@ -13,7 +13,7 @@ const saveOrder = (order, mutator) => {
 
   if (order.id) {
     method = mutator.PUT;
-    delete order.po_lines;
+    delete order.compositePoLines;
   }
 
   return method(order);
@@ -46,9 +46,9 @@ export const cloneOrder = (order, mutator, line) => {
   delete clonedOrder.workflow_status;
   if (line) {
     delete line.purchase_order_id;
-    clonedOrder.po_lines = [line];
+    clonedOrder.compositePoLines = [line];
   } else {
-    delete clonedOrder.po_lines;
+    delete clonedOrder.compositePoLines;
   }
 
   return saveOrder(clonedOrder, mutator);
