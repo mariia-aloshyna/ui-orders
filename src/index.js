@@ -9,17 +9,12 @@ import { stripesShape } from '@folio/stripes/core';
 
 import Main from './routes/Main';
 import OrdersSettings from './settings/OrdersSettings';
+import Receiving from './components/Receiving';
 
 /*
   STRIPES-NEW-APP
   This is the main entry point into your new app.
 */
-
-const Receiving = () => (
-  <div data-test-receiving>
-    Receivings List
-  </div>
-);
 
 class Orders extends Component {
   static propTypes = {
