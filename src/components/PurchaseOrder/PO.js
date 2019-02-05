@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { IfPermission } from '@folio/stripes/core';
+import {
+  IfPermission,
+  stripesShape,
+} from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -24,7 +28,6 @@ import {
 } from '../LayerCollection';
 import {
   CONFIG_API,
-  LINES_API,
   ORDER_DETAIL_API,
 } from '../Utils/api';
 import {
@@ -56,12 +59,6 @@ class PO extends Component {
       path: ORDER_DETAIL_API,
       throwErrors: false,
     },
-    poLine: {
-      type: 'okapi',
-      path: LINES_API,
-      fetch: false,
-      throwErrors: false,
-    },
     closingReasons: {
       type: 'okapi',
       records: 'configs',
@@ -89,15 +86,12 @@ class PO extends Component {
       order: PropTypes.shape({
         PUT: PropTypes.func.isRequired,
       }),
-      poLine: PropTypes.shape({
-        POST: PropTypes.func.isRequired,
-      }),
     }).isRequired,
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
     dropdown: PropTypes.object,
-    stripes: PropTypes.object.isRequired,
+    stripes: stripesShape.isRequired,
     onCloseEdit: PropTypes.func,
     onClose: PropTypes.func,
     onEdit: PropTypes.func,
@@ -239,7 +233,19 @@ class PO extends Component {
   }
 
   render() {
-    const { location, history, match, mutator, resources, parentResources } = this.props;
+    const {
+      editLink,
+      history,
+      location,
+      match,
+      onClose,
+      onCloseEdit,
+      onEdit,
+      parentMutator,
+      parentResources,
+      resources,
+      stripes,
+    } = this.props;
     const order = get(resources, ['order', 'records', 0]);
     const orderId = get(order, 'id');
     const orderNumber = get(order, 'po_number', '');
@@ -261,8 +267,8 @@ class PO extends Component {
                 ariaLabel={ariaLabel}
                 icon="edit"
                 style={{ visibility: !order ? 'hidden' : 'visible' }}
-                onClick={this.props.onEdit}
-                href={this.props.editLink}
+                onClick={onEdit}
+                href={editLink}
               />
             )}
           </FormattedMessage>
@@ -277,7 +283,7 @@ class PO extends Component {
           dismissible
           id="pane-podetails"
           lastMenu={lastMenu}
-          onClose={this.props.onClose}
+          onClose={onClose}
           paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.detailsLoading" />}
         >
           <Icon icon="spinner-ellipsis" width="100px" />
@@ -306,7 +312,7 @@ class PO extends Component {
         paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.details" values={{ orderNumber }} />}
         lastMenu={lastMenu}
         dismissible
-        onClose={this.props.onClose}
+        onClose={onClose}
       >
         <Row end="xs">
           {isReceiveButtonVisible && (
@@ -385,22 +391,21 @@ class PO extends Component {
         <LayerPO
           order={order}
           location={location}
-          stripes={this.props.stripes}
-          onCancel={this.props.onCloseEdit}
+          stripes={stripes}
+          onCancel={onCloseEdit}
           history={history}
           match={match}
-          parentResources={this.props.parentResources}
-          parentMutator={this.props.parentMutator}
+          parentResources={parentResources}
+          parentMutator={parentMutator}
         />
         <LayerPOLine  // used for new Line form
-          lineMutator={mutator.poLine}
           location={location}
-          stripes={this.props.stripes}
-          onCancel={this.props.onCloseEdit}
+          stripes={stripes}
+          onCancel={onCloseEdit}
           history={history}
           match={match}
-          parentResources={this.props.parentResources}
-          parentMutator={this.props.parentMutator}
+          parentResources={parentResources}
+          parentMutator={parentMutator}
           order={order}
         />
         {this.state.isLinesLimitExceededModalOpened && (

@@ -1,4 +1,4 @@
-import { Factory, faker, association } from '@bigtest/mirage';
+import { Factory, faker } from '@bigtest/mirage';
 
 export default Factory.extend({
   id: () => faker.random.uuid(),
@@ -6,5 +6,4 @@ export default Factory.extend({
   metadata: () => ({
     createdDate: faker.date.past(),
   }),
-  purchase_order: association(),
 });
