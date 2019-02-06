@@ -13,13 +13,11 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-import { required } from '../../Utils/Validate';
 import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldPaymentStatus from './FieldPaymentStatus';
 import FieldReceiptStatus from './FieldReceiptStatus';
 import FieldOrderFormat from './FieldOrderFormat';
 import FieldAcquisitionMethod from './FieldAcquisitionMethod';
-// import FieldSource from './FieldSource';
 
 class POLineDetailsForm extends Component {
   static propTypes = {
@@ -34,9 +32,6 @@ class POLineDetailsForm extends Component {
       vendors: PropTypes.shape({
         records: PropTypes.arrayOf(PropTypes.object).isRequired,
       }).isRequired,
-      //   source: PropTypes.shape({
-      //     records: PropTypes.arrayOf(PropTypes.object).isRequired,
-      //   }).isRequired,
     }).isRequired,
   }
 
@@ -50,12 +45,12 @@ class POLineDetailsForm extends Component {
           <Col xs={6}>
             <Field
               component={TextField}
+              disabled
               fullWidth
               id="po_line_number"
               label={<FormattedMessage id="ui-orders.poLine.poLineNumber" />}
               name="po_line_number"
               type="text"
-              validate={required}
             />
           </Col>
           <Col xs={6}>
@@ -97,7 +92,6 @@ class POLineDetailsForm extends Component {
             />
           </Col>
           <Col xs={6}>
-            {/* <FieldSource sources={parentResources.source.records} /> */}
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.source" />}
               value={get(poLine, 'source.code')}
