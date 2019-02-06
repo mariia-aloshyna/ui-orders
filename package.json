@@ -42,14 +42,14 @@
         "description": "Get a collection of vendors"
       },
       {
-        "permissionName": "orders.collection.get",
-        "displayName": "orders - get orders collection",
-        "description": "Get orders collection"
-      },
-      {
         "permissionName": "users.collection.get",
         "displayName": "users collection get",
         "description": "Get a collection of user records"
+      },
+      {
+        "permissionName": "orders.collection.get",
+        "displayName": "orders - get orders collection",
+        "description": "Get orders collection"
       },
       {
         "permissionName": "orders.item.post",
@@ -70,6 +70,11 @@
         "permissionName": "orders.item.delete",
         "displayName": "orders - delete an existing order",
         "description": "Delete an existing order"
+      },
+      {
+        "permissionName": "orders.po-lines.collection.get",
+        "displayName": "Orders - get collection of PO lines",
+        "description": "Get collection of PO lines"
       },
       {
         "permissionName": "orders.po-lines.item.post",
@@ -102,6 +107,16 @@
         "description": "Validate a PO Number"
       },
       {
+        "permissionName": "orders.receiving.collection.post",
+        "displayName": "Orders - Receive items",
+        "description": "Receive items spanning one or more po_lines in this order"
+      },
+      {
+        "permissionName": "orders.check-in.collection.post",
+        "displayName": "Orders - Check-in items",
+        "description": "Check-in items spanning one or more po_lines in this order"
+      },
+      {
         "permissionName": "orders.receiving-history.collection.get",
         "displayName": "Orders - Receiving history",
         "description": "Get receiving history matching the provided criteria"
@@ -116,11 +131,14 @@
           "orders.item.get",
           "orders.item.put",
           "orders.item.delete",
+          "orders.po-lines.collection.get",
           "orders.po-lines.item.post",
           "orders.po-lines.item.get",
           "orders.po-lines.item.put",
           "orders.po-lines.item.delete",
           "orders.po-number.item.post",
+          "orders.receiving.collection.post",
+          "orders.check-in.collection.post",
           "orders.receiving-history.collection.get"
         ]
       },
