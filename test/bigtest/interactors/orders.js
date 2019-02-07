@@ -12,7 +12,6 @@ export default interactor(class OrdersInteractor {
   hasPONumberField = isPresent('[name="po_number"]');
   hasVendorNameField = isPresent('#vendor_name');
   hasCreatedByField = isPresent('#created_by_name');
-
-  orders = collection('[role=listitem] a');
+  orders = collection('[role=row] a');
   order = scoped('[data-test-order-details]');
 });

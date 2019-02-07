@@ -4,7 +4,8 @@ import {
   isPresent,
 } from '@bigtest/interactor';
 
-@interactor class OrderEditPage {
+export default interactor(class OrderEditPage {
+  static defaultScope = '[data-test-form-page]';
   isLoaded = isPresent('[class*=paneTitleLabel---]');
 
   whenLoaded() {
@@ -12,6 +13,4 @@ import {
   }
 
   title = text('[class*=paneTitleLabel---]');
-}
-
-export default new OrderEditPage('[data-test-form-page]');
+});

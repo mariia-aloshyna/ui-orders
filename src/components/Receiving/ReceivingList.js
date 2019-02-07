@@ -98,54 +98,56 @@ class ReceivingList extends Component {
     };
 
     return (
-      <Paneset>
-        <Pane
-          defaultWidth="fill"
-          paneTitle={<FormattedMessage id="ui-orders.receiving.paneTitle" />}
-          firstMenu={this.getFirstMenu()}
-        >
-          <Row
-            end="xs"
-            className={css.buttonsLineWrapper}
+      <div data-test-receiving>
+        <Paneset>
+          <Pane
+            defaultWidth="fill"
+            paneTitle={<FormattedMessage id="ui-orders.receiving.paneTitle" />}
+            firstMenu={this.getFirstMenu()}
           >
-            <div className={css.searchField}>
-              <SearchField />
-            </div>
-            <Button
-              buttonStyle="primary"
+            <Row
+              end="xs"
+              className={css.buttonsLineWrapper}
             >
-              <FormattedMessage id="ui-orders.receiving.cancelBtn" />
-            </Button>
-            <Button
-              buttonStyle="primary"
-            >
-              <FormattedMessage id="ui-orders.receiving.receiveAllBtn" />
-            </Button>
-            <Button
-              buttonStyle="primary"
-            >
-              <FormattedMessage id="ui-orders.receiving.receiveBtn" />
-            </Button>
-          </Row>
-          <MultiColumnList
-            contentData={uniqReceivingList}
-            formatter={resultsFormatter}
-            visibleColumns={['title', 'poLineNumber', 'received', 'dateOrdered', 'receivingItems', 'receivingNote', 'receivingStatus']}
-            columnMapping={{
-              title: <FormattedMessage id="ui-orders.receiving.title" />,
-              poLineNumber: <FormattedMessage id="ui-orders.receiving.poLine" />,
-              received: <FormattedMessage id="ui-orders.receiving.received" />,
-              dateOrdered: <FormattedMessage id="ui-orders.receiving.dateOrdered" />,
-              receivingItems: <FormattedMessage id="ui-orders.receiving.receivingItems" />,
-              receivingNote: <FormattedMessage id="ui-orders.receiving.note" />,
-              receivingStatus: <FormattedMessage id="ui-orders.receiving.status" />,
-            }}
-            columnWidths={{
-              receivingItems: '5%',
-            }}
-          />
-        </Pane>
-      </Paneset>
+              <div className={css.searchField}>
+                <SearchField />
+              </div>
+              <Button
+                buttonStyle="primary"
+              >
+                <FormattedMessage id="ui-orders.receiving.cancelBtn" />
+              </Button>
+              <Button
+                buttonStyle="primary"
+              >
+                <FormattedMessage id="ui-orders.receiving.receiveAllBtn" />
+              </Button>
+              <Button
+                buttonStyle="primary"
+              >
+                <FormattedMessage id="ui-orders.receiving.receiveBtn" />
+              </Button>
+            </Row>
+            <MultiColumnList
+              contentData={uniqReceivingList}
+              formatter={resultsFormatter}
+              visibleColumns={['title', 'poLineNumber', 'received', 'dateOrdered', 'receivingItems', 'receivingNote', 'receivingStatus']}
+              columnMapping={{
+                title: <FormattedMessage id="ui-orders.receiving.title" />,
+                poLineNumber: <FormattedMessage id="ui-orders.receiving.poLine" />,
+                received: <FormattedMessage id="ui-orders.receiving.received" />,
+                dateOrdered: <FormattedMessage id="ui-orders.receiving.dateOrdered" />,
+                receivingItems: <FormattedMessage id="ui-orders.receiving.receivingItems" />,
+                receivingNote: <FormattedMessage id="ui-orders.receiving.note" />,
+                receivingStatus: <FormattedMessage id="ui-orders.receiving.status" />,
+              }}
+              columnWidths={{
+                receivingItems: '5%',
+              }}
+            />
+          </Pane>
+        </Paneset>
+      </div>
     );
   }
 }

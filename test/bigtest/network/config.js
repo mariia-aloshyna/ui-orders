@@ -1,6 +1,7 @@
 // typical mirage config export
 // http://www.ember-cli-mirage.com/docs/v0.4.x/configuration/
 import {
+  LINES_API,
   ORDER_NUMBER_API,
   ORDERS_API,
   VENDORS_API,
@@ -29,5 +30,9 @@ export default function config() {
 
   this.get(ORDER_NUMBER_API, () => {
     return { poNumber: '10001' };
+  });
+
+  this.get(LINES_API, (schema) => {
+    return schema.lines.all();
   });
 }

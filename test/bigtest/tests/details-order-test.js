@@ -13,39 +13,43 @@ import LinesLimitModal from '../interactors/lines-limit-modal';
 
 describe('OrderDetailsPage', () => {
   setupApplication();
+  const lineEditPage = new LineEditPage();
+  const orderDetailsPage = new OrderDetailsPage();
+  const orderEditPage = new OrderEditPage();
+  const linesLimitModal = new LinesLimitModal();
   let order = null;
 
-  beforeEach(async function () {
-    order = await this.server.create('order');
+  beforeEach(function () {
+    order = this.server.create('order');
 
-    return this.visit(`/orders/view/${order.id}`);
+    this.visit(`/orders/view/${order.id}`);
   });
 
   it('displays the order number in the pane header', () => {
-    expect(OrderDetailsPage.title).to.include(order.po_number);
+    expect(orderDetailsPage.title).to.include(order.po_number);
   });
 
   describe('clicking on edit', () => {
     beforeEach(async () => {
-      await OrderDetailsPage.headerDropdown.click();
+      await orderDetailsPage.headerDropdown.click();
     });
 
     it('should redirect to order edit page', () => {
-      expect(OrderEditPage.$root).to.exist;
+      expect(orderEditPage.$root).to.exist;
     });
   });
 
   describe('clicking on add Line', () => {
     beforeEach(async () => {
-      await OrderDetailsPage.addLineButton();
+      await orderDetailsPage.addLineButton();
     });
 
     it('should redirect to add line page', () => {
-      // expect(LinesLimitModal.$root).to.exist;
-      // LinesLimitModal.createOrder();
+      // expect(linesLimitModal.$root).to.exist;
+      // linesLimitModal.createOrder();
 
       // should be fixed with new order creation test (POST)
-      expect(LineEditPage.$root).to.exist;
+      expect(lineEditPage.$root).to.exist;
     });
   });
 });

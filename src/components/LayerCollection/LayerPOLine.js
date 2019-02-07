@@ -15,6 +15,10 @@ import {
 
 import { SOURCE_FOLIO_CODE } from '../Utils/const';
 import { cloneOrder } from '../Utils/orderResource';
+import {
+  lineMutatorShape,
+  orderRecordsMutatorShape,
+} from '../Utils/mutators';
 import { POLineForm } from '../POLine';
 import { CURRENCY } from '../POLine/Cost/FieldCurrency';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
@@ -24,7 +28,10 @@ class LayerPOLine extends Component {
     location: ReactRouterPropTypes.location.isRequired,
     history: ReactRouterPropTypes.history,
     match: ReactRouterPropTypes.match,
-    parentMutator: PropTypes.object.isRequired,
+    parentMutator: PropTypes.shape({
+      poLine: lineMutatorShape,
+      records: orderRecordsMutatorShape,
+    }),
     parentResources: PropTypes.object.isRequired,
     stripes: PropTypes.shape({
       store: PropTypes.object.isRequired,
@@ -33,11 +40,6 @@ class LayerPOLine extends Component {
     line: PropTypes.object,
     onCancel: PropTypes.func.isRequired,
     order: PropTypes.object,
-    lineMutator: PropTypes.shape({
-      POST: PropTypes.func,
-      PUT: PropTypes.func,
-      DELETE: PropTypes.func,
-    }).isRequired,
   }
 
   constructor(props) {
@@ -66,9 +68,9 @@ class LayerPOLine extends Component {
 
   submitPOLine = (line) => {
     const newLine = cloneDeep(line);
-    const { lineMutator, onCancel } = this.props;
+    const { parentMutator: { poLine }, onCancel } = this.props;
 
-    lineMutator.POST(newLine)
+    poLine.POST(newLine)
       .then(() => onCancel())
       .catch(async e => {
         let response;
@@ -111,7 +113,7 @@ class LayerPOLine extends Component {
 
   updatePOLine = (data) => {
     const line = cloneDeep(data);
-    const { lineMutator, parentMutator, location: { pathname } } = this.props;
+    const { parentMutator, location: { pathname } } = this.props;
 
     // remove sample data from payload to prevent errors on saving sample lines
     delete line.agreement_id;
@@ -134,7 +136,7 @@ class LayerPOLine extends Component {
       line.eresource.access_provider = null;
     }
 
-    lineMutator.PUT(line).then(() => {
+    parentMutator.poLine.PUT(line).then(() => {
       parentMutator.query.update({
         _path: `${pathname}`,
         layer: null,
@@ -143,9 +145,9 @@ class LayerPOLine extends Component {
   }
 
   deletePOLine = (lineId) => {
-    const { lineMutator, order, parentMutator } = this.props;
+    const { order, parentMutator } = this.props;
 
-    lineMutator.DELETE({ id: lineId }).then(() => {
+    parentMutator.poLine.DELETE({ id: lineId }).then(() => {
       parentMutator.query.update({
         _path: `/orders/view/${order.id}`,
         layer: null,
@@ -199,10 +201,10 @@ class LayerPOLine extends Component {
             onSubmit={this.submitPOLine}
           />
           {this.state.isLinesLimitExceededModalOpened && (
-          <LinesLimit
-            cancel={this.closeLineLimitExceededModal}
-            createOrder={this.createNewOrder}
-          />
+            <LinesLimit
+              cancel={this.closeLineLimitExceededModal}
+              createOrder={this.createNewOrder}
+            />
           )}
           <Callout ref={this.createCalloutRef} />
         </Layer>

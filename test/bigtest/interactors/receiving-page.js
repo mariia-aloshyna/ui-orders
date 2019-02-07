@@ -3,8 +3,7 @@ import {
   text,
 } from '@bigtest/interactor';
 
-@interactor class ReceivingPage {
+export default interactor(class ReceivingPage {
+  static defaultScope = '[data-test-receiving]';
   textOnPage = text('Receivings List');
-}
-
-export default new ReceivingPage('[data-test-receiving]');
+});

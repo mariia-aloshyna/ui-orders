@@ -11,6 +11,7 @@ import OrderEditPage from '../interactors/order-edit-page';
 describe('OrderEditPage', () => {
   setupApplication();
   let order = null;
+  const orderEditPage = new OrderEditPage();
 
   beforeEach(async function () {
     order = await this.server.create('order');
@@ -19,6 +20,6 @@ describe('OrderEditPage', () => {
   });
 
   it('displays Edit Order form', () => {
-    expect(OrderEditPage.$root).to.exist;
+    expect(orderEditPage.$root).to.exist;
   });
 });
