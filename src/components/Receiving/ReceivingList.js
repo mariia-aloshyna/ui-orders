@@ -38,7 +38,7 @@ class ReceivingList extends Component {
       throwErrors: false,
       GET: {
         params: {
-          query: 'purchase_order_id==:{id}',
+          query: 'purchaseOrderId==:{id}',
         },
       },
     },
