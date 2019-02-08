@@ -17,9 +17,12 @@ import {
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 
 import {
-  LINES_API,
   ORDER_DETAIL_API,
 } from '../Utils/api';
+import {
+  lineMutatorShape,
+  orderRecordsMutatorShape,
+} from '../Utils/mutators';
 import { LayerPOLine } from '../LayerCollection';
 import { POLineDetails } from './POLineDetails';
 import CostView from './Cost/CostView';
@@ -40,11 +43,6 @@ class POLine extends Component {
       path: ORDER_DETAIL_API,
       throwErrors: false,
     },
-    poLine: {
-      type: 'okapi',
-      path: LINES_API,
-      fetch: false,
-    },
   });
 
   static propTypes = {
@@ -53,7 +51,10 @@ class POLine extends Component {
     onCloseEdit: PropTypes.func,
     editLink: PropTypes.string,
     parentResources: PropTypes.object,
-    parentMutator: PropTypes.object,
+    parentMutator: PropTypes.shape({
+      poLine: lineMutatorShape,
+      records: orderRecordsMutatorShape,
+    }),
     poURL: PropTypes.string,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -62,12 +63,6 @@ class POLine extends Component {
       }),
     }).isRequired,
     resources: PropTypes.object.isRequired,
-    mutator: PropTypes.shape({
-      poLine: PropTypes.shape({
-        DELETE: PropTypes.func.isRequired,
-        PUT: PropTypes.func.isRequired,
-      }),
-    }).isRequired,
   }
 
   constructor(props) {
@@ -116,7 +111,17 @@ class POLine extends Component {
   }
 
   render() {
-    const { poURL, mutator, parentResources } = this.props;
+    const {
+      location,
+      match: { params: { lineId } },
+      onCloseEdit,
+      parentMutator,
+      parentResources,
+      poURL,
+      resources,
+      stripes,
+    } = this.props;
+
     const firstMenu = (
       <PaneMenu>
         <IconButton
@@ -138,7 +143,7 @@ class POLine extends Component {
         </IfPermission>
       </PaneMenu>
     );
-    const { location, match: { params: { lineId } }, resources } = this.props;
+
     const order = get(resources, ['order', 'records', 0]);
     const lines = get(order, 'compositePoLines', []);
     const line = lines.find(u => u.id === lineId);
@@ -241,13 +246,12 @@ class POLine extends Component {
           )}
         </AccordionSet>
         <LayerPOLine
-          lineMutator={mutator.poLine}
           line={line}
           location={location}
-          stripes={this.props.stripes}
-          onCancel={this.props.onCloseEdit}
-          parentResources={this.props.parentResources}
-          parentMutator={this.props.parentMutator}
+          stripes={stripes}
+          onCancel={onCloseEdit}
+          parentResources={parentResources}
+          parentMutator={parentMutator}
           order={order}
         />
       </Pane>

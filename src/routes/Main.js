@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import { Callout } from '@folio/stripes/components';
+import { stripesShape } from '@folio/stripes/core';
 import { SearchAndSort } from '@folio/stripes/smart-components';
 
 import packageInfo from '../../package';
@@ -19,11 +20,17 @@ import FolioFormattedTime from '../components/FolioFormattedTime';
 import { createOrderResource } from '../components/Utils/orderResource';
 import {
   CONFIG_API,
+  LINES_API,
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,
   ORDERS_API,
   VENDORS_API,
 } from '../components/Utils/api';
+import {
+  lineMutatorShape,
+  orderNumberMutatorShape,
+  orderRecordsMutatorShape,
+} from '../components/Utils/mutators';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -103,6 +110,15 @@ class Main extends Component {
         path: ORDER_NUMBER_VALIDATE_API,
       },
     },
+    poLine: {
+      accumulate: true,
+      fetch: false,
+      path: LINES_API,
+      perRequest: 1000,
+      records: 'po_lines',
+      throwErrors: false,
+      type: 'okapi',
+    },
     // source: {
     //   type: 'okapi',
     //   path: 'source',
@@ -116,23 +132,12 @@ class Main extends Component {
       initializedFilterConfig: PropTypes.shape({
         replace: PropTypes.func.isRequired,
       }),
-      records: PropTypes.shape({
-        POST: PropTypes.func.isRequired,
-      }),
-      orderNumber: PropTypes.shape({
-        GET: PropTypes.func,
-        POST: PropTypes.func,
-        reset: PropTypes.func,
-      }),
+      records: orderRecordsMutatorShape,
+      orderNumber: orderNumberMutatorShape,
+      poLine: lineMutatorShape,
     }).isRequired,
     resources: PropTypes.object.isRequired,
-    stripes: PropTypes.shape({
-      user: PropTypes.shape({
-        user: PropTypes.shape({
-          id: PropTypes.string,
-        }),
-      }),
-    }),
+    stripes: stripesShape.isRequired,
     showSingleResult: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
     browseOnly: PropTypes.bool,
     onComponentWillUnmount: PropTypes.func,
