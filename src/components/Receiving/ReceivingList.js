@@ -22,6 +22,7 @@ import {
 
 import { RECEIVING_API } from '../Utils/api';
 import FolioFormattedTime from '../FolioFormattedTime';
+import ItemDetails from './ItemDetails';
 import css from './ReceivingList.css';
 
 class ReceivingList extends Component {
@@ -54,6 +55,15 @@ class ReceivingList extends Component {
     }).isRequired,
   }
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      itemDetails: [],
+      isItemDetailsModalOpened: false,
+    };
+  }
+
   onCloseReceiving = () => {
     const { location, mutator } = this.props;
 
@@ -78,6 +88,29 @@ class ReceivingList extends Component {
     </PaneMenu>
   );
 
+  receivingItemsChanged = (value, line, receivingList) => {
+    const itemList = receivingList.filter(el => ((el.poLineId === line.poLineId) && (el.receivingStatus === 'Expected')));
+
+    if (itemList.length > value) {
+      itemList.length = value;
+    }
+    if (this.state.itemDetails.length) {
+      const updatedList = this.state.itemDetails.filter(el => el.poLineId !== line.poLineId);
+
+      this.setState({ itemDetails: [...updatedList, ...itemList] });
+    } else {
+      this.setState({ itemDetails: itemList });
+    }
+  }
+
+  openItemDetailsModal = () => {
+    this.setState({ isItemDetailsModalOpened: true });
+  }
+
+  closeItemDetailsModal = () => {
+    this.setState({ isItemDetailsModalOpened: false });
+  }
+
   render() {
     const { resources } = this.props;
     const receivingList = get(resources, ['receiving_history', 'records'], []);
@@ -92,10 +125,19 @@ class ReceivingList extends Component {
         return `${receivedItems.length}/${itemsToReceive.length}`;
       },
       'dateOrdered': line => <FolioFormattedTime dateString={get(line, 'dateOrdered')} />,
-      'receivingItems': () => <TextField type="number" />,
+      'receivingItems': line => (
+        <TextField
+          className={css.receivingField}
+          type="number"
+          min="1"
+          max={receivingList.filter(el => el.poLineId === line.poLineId).length}
+          onChange={e => this.receivingItemsChanged(e.target.value, line, receivingList)}
+          onClearField={() => this.receivingItemsChanged(0, line, receivingList)}
+        />),
       'receivingNote': line => get(line, 'receivingNote', ''),
       'receivingStatus': line => get(line, 'receivingStatus', ''),
     };
+    const isReceiveButtonDisabled = this.state.itemDetails.length === 0;
 
     return (
       <div data-test-receiving>
@@ -114,6 +156,7 @@ class ReceivingList extends Component {
               </div>
               <Button
                 buttonStyle="primary"
+                onClick={this.onCloseReceiving}
               >
                 <FormattedMessage id="ui-orders.receiving.cancelBtn" />
               </Button>
@@ -124,6 +167,8 @@ class ReceivingList extends Component {
               </Button>
               <Button
                 buttonStyle="primary"
+                disabled={isReceiveButtonDisabled}
+                onClick={this.openItemDetailsModal}
               >
                 <FormattedMessage id="ui-orders.receiving.receiveBtn" />
               </Button>
@@ -145,6 +190,12 @@ class ReceivingList extends Component {
                 receivingItems: '5%',
               }}
             />
+            {this.state.isItemDetailsModalOpened && (
+              <ItemDetails
+                itemList={this.state.itemDetails}
+                close={this.closeItemDetailsModal}
+              />
+            )}
           </Pane>
         </Paneset>
       </div>
