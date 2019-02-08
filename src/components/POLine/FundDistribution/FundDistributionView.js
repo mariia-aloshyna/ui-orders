@@ -17,8 +17,9 @@ import FundId from './FundId';
 
 class FundDistributionView extends Component {
   static propTypes = {
-    initialValues: PropTypes.shape({
+    line: PropTypes.shape({
       fund_distribution: PropTypes.arrayOf(PropTypes.object).isRequired,
+      cost: PropTypes.arrayOf(PropTypes.object).isRequired,
     }),
     parentResources: PropTypes.shape({
       fund: PropTypes.shape({
@@ -28,18 +29,22 @@ class FundDistributionView extends Component {
   }
 
   render() {
-    const { initialValues, parentResources } = this.props;
-    const codes = toString(initialValues.fund_distribution.map(val => val.code));
-    const percentes = toString(initialValues.fund_distribution.map(val => `${val.percentage}%`));
-    const estimatedPrice = get(initialValues, ['cost', 'po_line_estimated_price']);
-    const amount = toString(initialValues.fund_distribution.map(val => ((val.percentage / 100) * estimatedPrice)));
+    const { line = {}, parentResources } = this.props;
+    const { cost, fund_distribution: fundDistribution = [] } = line;
+    const codes = toString(fundDistribution.map(val => val.code));
+    const percentes = toString(fundDistribution.map(val => `${val.percentage}%`));
+    const quantityPhysical = get(cost, 'quantity_physical', 0);
+    const quantityElectronic = get(cost, 'quantity_electronic', 0);
+    const listPrice = get(cost, 'list_price', 0);
+    const estimatedPrice = listPrice * (quantityPhysical + quantityElectronic);
+    const amount = toString(fundDistribution.map(d => parseFloat((d.percentage / 100) * estimatedPrice).toFixed(2)));
 
     return (
       <Row>
         <Col xs={6}>
           <FundId
             funds={parentResources.fund}
-            fundId={get(initialValues, 'fund_distribution', [])}
+            fundDistribution={fundDistribution}
           />
         </Col>
         <Col xs={6}>

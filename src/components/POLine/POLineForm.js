@@ -36,6 +36,7 @@ import {
   PHRESOURCES,
 } from './const';
 import getVendorsForSelect from '../Utils/getVendorsForSelect';
+import getFundsForSelect from '../Utils/getFundsForSelect';
 
 class POLineForm extends Component {
   static propTypes = {
@@ -149,7 +150,7 @@ class POLineForm extends Component {
   }
 
   render() {
-    const { initialValues, onCancel, deletePOLine, stripes: { store } } = this.props;
+    const { change, dispatch, initialValues, onCancel, deletePOLine, stripes: { store } } = this.props;
     const lineId = get(initialValues, 'id');
     const lineNumber = get(initialValues, 'po_line_number', '');
     const firstMenu = this.getAddFirstMenu();
@@ -186,6 +187,7 @@ class POLineForm extends Component {
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const vendors = getVendorsForSelect(this.props.parentResources);
+    const funds = getFundsForSelect(this.props.parentResources);
 
     return (
       <Pane
@@ -238,7 +240,12 @@ class POLineForm extends Component {
                       label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
                       id={ACCORDION_ID.fundDistribution}
                     >
-                      <FundDistributionForm {...this.props} />
+                      <FundDistributionForm
+                        change={change}
+                        dispatch={dispatch}
+                        funds={funds}
+                        store={store}
+                      />
                     </Accordion>
                     <Accordion
                       label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}

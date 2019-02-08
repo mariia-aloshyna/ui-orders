@@ -22,39 +22,25 @@ import { Required } from '../../Utils/Validate';
 
 class FundDistributionForm extends Component {
   static propTypes = {
-    parentResources: PropTypes.shape({
-      fund: PropTypes.shape({
-        records: PropTypes.arrayOf(PropTypes.object).isRequired,
-      }),
-    }),
-    stripes: PropTypes.shape({
-      store: PropTypes.object.isRequired,
-    }),
+    store: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
+    funds: PropTypes.arrayOf(PropTypes.object),
   };
 
   addFields = (fields) => fields.push({});
 
   removeFields = (fields, index) => fields.remove(index);
 
-  onChangeInput = (e, propertyName) => {
-    const { dispatch, change } = this.props;
+  updateCode = (fundId, formItemName) => {
+    const { change, dispatch, funds } = this.props;
+    const code = get(funds.find(({ value }) => value === fundId), 'code');
 
-    dispatch(change(propertyName, e));
-  };
-
-  updateCode = (funds, index) => {
-    const { stripes: { store } } = this.props;
-    const formValues = getFormValues('POLineForm')(store.getState());
-    const fundId = formValues.fund_distribution[index].id;
-    const code = get(funds.find(fund => fund.value === fundId), 'code', '');
-
-    return code;
+    dispatch(change(`${formItemName}.code`, code));
   };
 
   calculateAmount = (index) => {
-    const { stripes: { store } } = this.props;
+    const { store } = this.props;
     const formValues = getFormValues('POLineForm')(store.getState());
     const listPrice = parseFloat(formValues.cost.list_price);
     const quantityPhysical = parseInt(formValues.cost.quantity_physical, 10) || 0;
@@ -91,30 +77,22 @@ class FundDistributionForm extends Component {
   };
 
   renderSubForm = (elem, index, fields) => {
-    const { parentResources } = this.props;
-    const funds = get(parentResources, ['fund', 'records'], []).map((fund) => ({
-      label: fund.name,
-      value: fund.id,
-      code: fund.code,
-    }));
+    const { funds } = this.props;
+    const amount = this.calculateAmount(index);
 
     return (
       <Row key={index}>
         <Col xs={6}>
-          <FormattedMessage id="ui-orders.dropdown.select">
-            {(placeholder) => (
-              <Field
-                component={Select}
-                dataOptions={funds}
-                fullWidth
-                label={<FormattedMessage id="ui-orders.fundDistribution.id" />}
-                name={`${elem}.id`}
-                onChange={e => this.onChangeInput(e.target.value, 'fund_distribution.id')}
-                placeholder={placeholder}
-                validate={[Required]}
-              />
-            )}
-          </FormattedMessage>
+          <Field
+            component={Select}
+            dataOptions={funds}
+            fullWidth
+            label={<FormattedMessage id="ui-orders.fundDistribution.id" />}
+            name={`${elem}.id`}
+            onChange={e => this.updateCode(e.target.value, elem)}
+            placeholder=" "
+            validate={[Required]}
+          />
         </Col>
         <Col xs={6}>
           <Field
@@ -122,20 +100,23 @@ class FundDistributionForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.fundDistribution.percent" />}
             name={`${elem}.percentage`}
-            onChange={e => this.onChangeInput(e.target.value, 'fund_distribution.percentage')}
             type="number"
+            validate={[Required]}
           />
         </Col>
         <Col xs={6}>
-          <KeyValue
+          <Field
+            component={TextField}
+            disabled
+            fullWidth
             label={<FormattedMessage id="ui-orders.fundDistribution.code" />}
-            value={this.updateCode(funds, index)}
+            name={`${elem}.code`}
           />
         </Col>
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.fundDistribution.amount" />}
-            value={this.calculateAmount(index)}
+            value={amount}
           />
         </Col>
         <Col
