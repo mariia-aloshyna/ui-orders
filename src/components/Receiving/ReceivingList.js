@@ -127,6 +127,7 @@ class ReceivingList extends Component {
       'dateOrdered': line => <FolioFormattedTime dateString={get(line, 'dateOrdered')} />,
       'receivingItems': line => (
         <TextField
+          className={css.receivingField}
           type="number"
           min="1"
           max={receivingList.filter(el => el.poLineId === line.poLineId).length}
