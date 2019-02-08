@@ -208,8 +208,8 @@ class POLine extends Component {
             id="FundDistribution"
           >
             <FundDistributionView
-              initialValues={line}
-              {...this.props}
+              line={line}
+              parentResources={parentResources}
             />
           </Accordion>
           <Accordion

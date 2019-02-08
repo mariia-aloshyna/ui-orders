@@ -9,10 +9,10 @@ import {
 
 import { KeyValue } from '@folio/stripes/components';
 
-const FundId = ({ funds, fundId }) => {
+const FundId = ({ funds, fundDistribution }) => {
   const fundDetails = get(funds, 'records', []);
   const value = toString(
-    fundId.map((fundOpt) => get(fundDetails.find((fund) => fund.id === fundOpt.id), 'name', '')),
+    fundDistribution.map((fundOpt) => get(fundDetails.find((fund) => fund.id === fundOpt.id), 'name', '')),
   );
 
   return (
@@ -27,7 +27,7 @@ FundId.propTypes = {
   funds: PropTypes.shape({
     records: PropTypes.arrayOf(PropTypes.object).isRequired,
   }),
-  fundId: PropTypes.arrayOf(PropTypes.object).isRequired,
+  fundDistribution: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default FundId;
