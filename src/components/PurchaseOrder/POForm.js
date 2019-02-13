@@ -97,11 +97,10 @@ class POForm extends Component {
         <FormattedMessage id="ui-orders.buttons.line.close">
           {(title) => (
             <IconButton
-              aria-label={<FormattedMessage id="ui-orders.buttons.orderForm.ariaCloseDialog" />}
+              ariaLabel={title}
               icon="times"
               id="clickable-close-new-purchase-order-dialog"
               onClick={onCancel}
-              title={title}
             />
           )}
         </FormattedMessage>

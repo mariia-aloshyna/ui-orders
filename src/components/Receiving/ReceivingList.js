@@ -77,11 +77,10 @@ class ReceivingList extends Component {
       <FormattedMessage id="ui-orders.buttons.line.close">
         {(title) => (
           <IconButton
-            aria-label={<FormattedMessage id="ui-orders.buttons.line.closeDialog" />}
+            ariaLabel={title}
             icon="times"
             id="clickable-close-new-line-dialog"
             onClick={this.onCloseReceiving}
-            title={title}
           />
         )}
       </FormattedMessage>

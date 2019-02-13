@@ -24,6 +24,10 @@ import {
 
 const disabled = true;
 
+const parseNumber = (value) => {
+  return value && value.length > 0 ? Number(value) : value;
+};
+
 class CostForm extends Component {
   static propTypes = {
     initialValues: PropTypes.object,
@@ -93,6 +97,7 @@ class CostForm extends Component {
             label={<FormattedMessage id="ui-orders.cost.quantityPhysical" />}
             name="cost.quantity_physical"
             type="number"
+            parse={parseNumber}
             {...validatePhresources}
           />
         </Col>
@@ -104,6 +109,7 @@ class CostForm extends Component {
             label={<FormattedMessage id="ui-orders.cost.quantityElectronic" />}
             name="cost.quantity_electronic"
             type="number"
+            parse={parseNumber}
             {...validateEresources}
           />
         </Col>

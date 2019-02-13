@@ -119,12 +119,12 @@ class Main extends Component {
       throwErrors: false,
       type: 'okapi',
     },
-    // source: {
-    //   type: 'okapi',
-    //   path: 'source',
-    //   records: 'sources',
-    //   perRequest: 1000,
-    // },
+    locations: {
+      type: 'okapi',
+      path: 'locations',
+      records: 'locations',
+      perRequest: 1000,
+    },
   });
 
   static propTypes = {

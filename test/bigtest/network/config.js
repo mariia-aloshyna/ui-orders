@@ -35,4 +35,6 @@ export default function config() {
   this.get(LINES_API, (schema) => {
     return schema.lines.all();
   });
+
+  this.get('/locations');
 }

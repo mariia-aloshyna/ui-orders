@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import { FormattedMessage } from 'react-intl';
 
 import { IfPermission } from '@folio/stripes/core';
 import {
@@ -23,6 +24,7 @@ import {
   lineMutatorShape,
   orderRecordsMutatorShape,
 } from '../Utils/mutators';
+import LocationView from './Location/LocationView';
 import { LayerPOLine } from '../LayerCollection';
 import { POLineDetails } from './POLineDetails';
 import CostView from './Cost/CostView';
@@ -32,6 +34,7 @@ import EresourcesView from './Eresources/EresourcesView';
 import ItemView from './Item/ItemView';
 import PhysicalView from './Physical/PhysicalView';
 import {
+  ACCORDION_ID,
   ERESOURCES,
   PHRESOURCES,
 } from './const';
@@ -76,6 +79,7 @@ class POLine extends Component {
         ItemDetails: false,
         Physical: false,
         Renewal: false,
+        [ACCORDION_ID.location]: false,
       },
     };
     this.transitionToParams = transitionToParams.bind(this);
@@ -244,6 +248,15 @@ class POLine extends Component {
               />
             </Accordion>
           )}
+          <Accordion
+            label={<FormattedMessage id="ui-orders.line.accordion.location" />}
+            id={ACCORDION_ID.location}
+          >
+            <LocationView
+              locations={line.locations}
+              parentResources={parentResources}
+            />
+          </Accordion>
         </AccordionSet>
         <LayerPOLine
           line={line}

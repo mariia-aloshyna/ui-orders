@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+
 const REQUIRED = 'Required!';
 const currentYear = new Date().getFullYear();
 
@@ -8,7 +10,7 @@ export const required = (value) => {
 
 // Field is required only if 'vendor_detail.ref_number' isn't empty
 export const requiredRefNumber = (value, allValues) => {
-  const refNumber = allValues.vendor_detail.ref_number;
+  const refNumber = get(allValues, 'vendor_detail.ref_number');
 
   return refNumber && !value
     ? REQUIRED
@@ -17,7 +19,7 @@ export const requiredRefNumber = (value, allValues) => {
 
 // Field is required only if 'vendor_detail.ref_number_type' isn't empty
 export const requiredRefNumberType = (value, allValues) => {
-  const refNumberType = allValues.vendor_detail.ref_number_type;
+  const refNumberType = get(allValues, 'vendor_detail.ref_number_type');
 
   return refNumberType && !value
     ? REQUIRED
