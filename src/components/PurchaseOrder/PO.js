@@ -49,6 +49,7 @@ import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
 import { RenewalsView } from './renewals';
 import LinesLimit from './LinesLimit';
+import { isReceiveAvailableForOrder } from './util';
 
 import css from './PO.css';
 
@@ -247,16 +248,11 @@ class PO extends Component {
       stripes,
     } = this.props;
     const order = get(resources, ['order', 'records', 0]);
-    const orderId = get(order, 'id');
     const orderNumber = get(order, 'po_number', '');
     const poLines = get(order, 'compositePoLines', []);
     const workflowStatus = get(order, 'workflow_status');
-    const hasLineItemsToReceive = poLines.filter(
-      line => line.cost.quantity_physical || line.cost.quantity_electronic,
-    ).length > 0;
-    const isWorkflowStatusOpen = workflowStatus === WORKFLOW_STATUS.open;
-    const isCloseOrderButtonVisible = orderId && isWorkflowStatusOpen;
-    const isReceiveButtonVisible = orderId && isWorkflowStatusOpen && hasLineItemsToReceive;
+    const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
+    const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
 
     const lastMenu = (
       <PaneMenu>
