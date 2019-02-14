@@ -22,6 +22,7 @@ import {
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
 
+import LocationForm from './Location/LocationForm';
 import { EresourcesForm } from './Eresources';
 import { PhysicalForm } from './Physical';
 import { POLineDetailsForm } from './POLineDetails';
@@ -68,6 +69,7 @@ class POLineForm extends Component {
         [ACCORDION_ID.itemDetails]: false,
         [ACCORDION_ID.physical]: false,
         [ACCORDION_ID.fundDistribution]: false,
+        [ACCORDION_ID.location]: false,
       },
     };
   }
@@ -100,11 +102,10 @@ class POLineForm extends Component {
         <FormattedMessage id="ui-orders.buttons.line.close">
           {(title) => (
             <IconButton
-              aria-label={<FormattedMessage id="ui-orders.buttons.line.closeDialog" />}
+              ariaLabel={title}
               icon="times"
               id="clickable-close-new-line-dialog"
               onClick={onCancel}
-              title={title}
             />
           )}
         </FormattedMessage>
@@ -272,6 +273,12 @@ class POLineForm extends Component {
                         />
                       </Accordion>
                     )}
+                    <Accordion
+                      label={<FormattedMessage id="ui-orders.line.accordion.location" />}
+                      id={ACCORDION_ID.location}
+                    >
+                      <LocationForm {...this.props} />
+                    </Accordion>
                   </AccordionSet>
                   <IfPermission perm="orders.po-lines.item.delete">
                     <Row end="xs">

@@ -17,6 +17,7 @@
     "okapiInterfaces": {
       "configuration": "2.0",
       "fund": "1.0",
+      "locations": "3.0",
       "material-types": "2.2",
       "orders": "3.0",
       "users": "15.0",
@@ -37,15 +38,24 @@
         "visible": true
       },
       {
-        "permissionName": "ui-orders.view",
-        "displayName": "Orders: View orders and PO lines",
+        "permissionName": "ui-orders.third-party-services",
+        "displayName": "Orders: Permissions required to call services apart from mod-orders",
         "description": "",
-        "visible": true,
         "subPermissions": [
           "fund.collection.get",
           "vendor-storage.vendors.collection.get",
           "users.collection.get",
           "inventory-storage.material-types.collection.get",
+          "inventory-storage.locations.collection.get"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.view",
+        "displayName": "Orders: View orders and PO lines",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "ui-orders.third-party-services",
           "orders.collection.get",
           "orders.item.get",
           "orders.po-lines.collection.get",
@@ -59,10 +69,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "fund.collection.get",
-          "vendor-storage.vendors.collection.get",
-          "users.collection.get",
-          "inventory-storage.material-types.collection.get",
+          "ui-orders.third-party-services",
           "orders.all"
         ]
       },

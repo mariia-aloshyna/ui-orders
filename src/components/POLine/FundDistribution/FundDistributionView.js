@@ -19,7 +19,7 @@ class FundDistributionView extends Component {
   static propTypes = {
     line: PropTypes.shape({
       fund_distribution: PropTypes.arrayOf(PropTypes.object).isRequired,
-      cost: PropTypes.arrayOf(PropTypes.object).isRequired,
+      cost: PropTypes.object.isRequired,
     }),
     parentResources: PropTypes.shape({
       fund: PropTypes.shape({

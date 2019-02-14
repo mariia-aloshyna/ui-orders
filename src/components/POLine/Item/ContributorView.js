@@ -13,6 +13,10 @@ class ContributorView extends Component {
     contributors: PropTypes.arrayOf(PropTypes.object),
   }
 
+  static defaultProps = {
+    contributors: [],
+  }
+
   constructor(props) {
     super(props);
     this.getContributorName = this.getContributorName.bind(this);
