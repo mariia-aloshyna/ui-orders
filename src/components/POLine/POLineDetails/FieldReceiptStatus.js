@@ -4,7 +4,7 @@ import { Field } from 'redux-form';
 
 import { Select } from '@folio/stripes/components';
 
-const RECEIPT_STATUS = {
+export const RECEIPT_STATUS = {
   awaitingReceipt: 'Awaiting Receipt',
   cancelled: 'Cancelled',
   fullyReceived: 'Fully Received',
