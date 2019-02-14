@@ -65,7 +65,7 @@ describe('Line edit test', () => {
       await lineEditPage.addLocationButton.click();
     });
 
-    it.pause('Location is added', () => {
+    it('Location is added', () => {
       expect(lineEditPage.locationList.locations().length).to.be.equal(locations.length + 1);
     });
   });
