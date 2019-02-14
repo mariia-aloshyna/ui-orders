@@ -23,6 +23,11 @@ import {
 import { RECEIVING_API } from '../Utils/api';
 import FolioFormattedTime from '../FolioFormattedTime';
 import ItemDetails from './ItemDetails';
+import {
+  PIECE_STATUS_EXPECTED,
+  PIECE_STATUS_RECEIVED,
+} from './const';
+
 import css from './ReceivingList.css';
 
 class ReceivingList extends Component {
@@ -33,15 +38,12 @@ class ReceivingList extends Component {
       },
     },
     receiving_history: {
+      fetch: false,
+      accumulate: true,
       type: 'okapi',
       path: RECEIVING_API,
       records: 'receiving_history',
       throwErrors: false,
-      GET: {
-        params: {
-          query: 'purchaseOrderId==:{id}',
-        },
-      },
     },
   })
 
@@ -52,7 +54,12 @@ class ReceivingList extends Component {
       query: PropTypes.shape({
         update: PropTypes.func.isRequired,
       }),
+      receiving_history: PropTypes.shape({
+        reset: PropTypes.func.isRequired,
+        GET: PropTypes.func.isRequired,
+      }),
     }).isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
   }
 
   constructor(props) {
@@ -72,6 +79,16 @@ class ReceivingList extends Component {
     });
   }
 
+  componentDidMount() {
+    const { mutator, match: { params: { id, lineId } } } = this.props;
+    const params = {
+      query: `purchaseOrderId==${id}${lineId ? ` and poLineId==${lineId}` : ''}`,
+    };
+
+    mutator.receiving_history.reset();
+    mutator.receiving_history.GET({ params });
+  }
+
   getFirstMenu = () => (
     <PaneMenu>
       <FormattedMessage id="ui-orders.buttons.line.close">
@@ -88,7 +105,9 @@ class ReceivingList extends Component {
   );
 
   receivingItemsChanged = (value, line, receivingList) => {
-    const itemList = receivingList.filter(el => ((el.poLineId === line.poLineId) && (el.receivingStatus === 'Expected')));
+    const itemList = receivingList.filter(el => {
+      return (el.poLineId === line.poLineId) && (el.receivingStatus === PIECE_STATUS_EXPECTED);
+    });
 
     if (itemList.length > value) {
       itemList.length = value;
@@ -119,7 +138,7 @@ class ReceivingList extends Component {
       'poLineNumber': line => get(line, 'poLineNumber', ''),
       'received': line => {
         const itemsToReceive = receivingList.filter(el => el.poLineId === line.poLineId);
-        const receivedItems = itemsToReceive.filter(el => el.receivingStatus === 'Received');
+        const receivedItems = itemsToReceive.filter(el => el.receivingStatus === PIECE_STATUS_RECEIVED);
 
         return `${receivedItems.length}/${itemsToReceive.length}`;
       },
