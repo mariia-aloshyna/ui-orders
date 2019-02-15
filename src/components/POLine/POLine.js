@@ -7,6 +7,7 @@ import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
+  Button,
   Col,
   ExpandAllButton,
   Icon,
@@ -17,6 +18,7 @@ import {
 } from '@folio/stripes/components';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 
+import { isReceiveAvailableForLine } from '../PurchaseOrder/util';
 import {
   ORDER_DETAIL_API,
 } from '../Utils/api';
@@ -114,6 +116,16 @@ class POLine extends Component {
     this.transitionToParams({ layer: 'edit-po-line' });
   }
 
+  goToReceiving = () => {
+    const { match: { params: { id, lineId } }, parentMutator: { query } } = this.props;
+
+    query.update({
+      _path: `/orders/view/${id}/po-line/view/${lineId}/receiving`,
+      layer: null,
+      sort: null,
+    });
+  }
+
   render() {
     const {
       location,
@@ -164,6 +176,7 @@ class POLine extends Component {
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const vendors = get(parentResources, 'vendors.records', []);
+    const isReceiveButtonVisible = isReceiveAvailableForLine(line, order);
 
     return (
       <Pane
@@ -173,6 +186,21 @@ class POLine extends Component {
         lastMenu={lastMenu}
         paneTitle="PO Line Details"
       >
+        <Row end="xs">
+          <Col xs>
+            {isReceiveButtonVisible && (
+              <div>
+                <Button
+                  buttonStyle="primary"
+                  data-test-line-receive-button
+                  onClick={this.goToReceiving}
+                >
+                  <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
+                </Button>
+              </div>
+            )}
+          </Col>
+        </Row>
         <POLineDetails
           initialValues={line}
           {...this.props}

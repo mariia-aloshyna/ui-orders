@@ -41,6 +41,11 @@ class Orders extends Component {
       <Switch>
         <Route
           exact
+          path="/orders/view/:id/po-line/view/:lineId/receiving"
+          render={props => <this.connectedReceiving {...props} stripes={stripes} />}
+        />
+        <Route
+          exact
           path="/orders/view/:id/receiving"
           render={props => <this.connectedReceiving {...props} stripes={stripes} />}
         />
