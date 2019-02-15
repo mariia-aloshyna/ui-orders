@@ -35,8 +35,28 @@ class ItemForm extends Component {
 
   onAddInstance = (instance) => {
     const { dispatch, change } = this.props;
+    const { contributors, editions, publication, title } = instance;
 
-    dispatch(change('title', instance.title));
+    dispatch(change('title', title));
+    if (publication && publication.length) {
+      const { publisher, dateOfPublication } = publication[0];
+
+      dispatch(change('publisher', publisher));
+      dispatch(change('publication_date', dateOfPublication));
+    }
+    if (editions && editions.length) {
+      const edition = editions[0];
+
+      dispatch(change('edition', edition));
+    }
+    if (contributors && contributors.length) {
+      const lineContributors = contributors.map(({ name, contributorNameTypeId }) => ({
+        contributor: name,
+        contributor_type: contributorNameTypeId,
+      }));
+
+      dispatch(change('contributors', lineContributors));
+    }
   }
 
   selectInstanceModal = () => {
