@@ -3,6 +3,7 @@ import {
   interactor,
   is,
   property,
+  value,
 } from '@bigtest/interactor';
 
 import { ACCORDION_ID } from '../../../src/components/POLine/const';
@@ -34,4 +35,5 @@ export default interactor(class LineEditPage {
   locationList = new LocationList();
   locationAccordion = new LocationAccordion();
   updateLineButton = new UpdateLineButton();
+  lineNumberInputValue = value('input[name="po_line_number"]');
 });
