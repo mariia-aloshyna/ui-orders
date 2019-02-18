@@ -58,6 +58,11 @@ class Main extends Component {
     vendors: {
       type: 'okapi',
       path: VENDORS_API,
+      GET: {
+        params: {
+          query: 'id=="*" sortby name',
+        },
+      },
       records: 'vendors',
       perRequest: 1000,
     },
