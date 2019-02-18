@@ -31,6 +31,7 @@ const SummaryForm = ({ initialValues: order }) => (
         component={Checkbox}
         label={<FormattedMessage id="ui-orders.orderSummary.approved" />}
         name="approved"
+        type="checkbox"
       />
     </Col>
     <Col xs={6} md={3}>

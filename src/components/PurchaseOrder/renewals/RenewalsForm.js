@@ -68,6 +68,7 @@ const RenewalsForm = () => {
           fullWidth
           label={<FormattedMessage id="ui-orders.renewals.manualRenewal" />}
           name="renewal.manual_renewal"
+          type="checkbox"
         />
       </Col>
     </Row>
