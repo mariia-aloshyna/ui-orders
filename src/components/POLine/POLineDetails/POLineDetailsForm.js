@@ -140,6 +140,7 @@ class POLineDetailsForm extends Component {
               id="cancellation_restriction"
               label={<FormattedMessage id="ui-orders.poLine.cancellationRestriction" />}
               name="cancellation_restriction"
+              type="checkbox"
             />
           </Col>
           <Col xs={3}>
@@ -149,6 +150,7 @@ class POLineDetailsForm extends Component {
               id="rush"
               label={<FormattedMessage id="ui-orders.poLine.rush" />}
               name="rush"
+              type="checkbox"
             />
           </Col>
           <Col xs={3}>
@@ -158,6 +160,7 @@ class POLineDetailsForm extends Component {
               id="collection"
               label={<FormattedMessage id="ui-orders.poLine.сollection" />}
               name="collection"
+              type="checkbox"
             />
           </Col>
           <Col xs={3}>
@@ -167,6 +170,7 @@ class POLineDetailsForm extends Component {
               id="checkin_items"
               label={<FormattedMessage id="ui-orders.poLine.checkinItems" />}
               name="checkin_items"
+              type="checkbox"
             />
           </Col>
         </Row>

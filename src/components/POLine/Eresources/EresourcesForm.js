@@ -62,6 +62,7 @@ class EresourcesForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.eresource.activationStatus" />}
             name="eresource.activated"
+            type="checkbox"
           />
         </Col>
         <Col xs={6} md={3}>
@@ -92,6 +93,7 @@ class EresourcesForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.eresource.createItem" />}
             name="eresource.create_inventory"
+            type="checkbox"
           />
         </Col>
         <Col xs={6} md={3}>
@@ -101,6 +103,7 @@ class EresourcesForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.eresource.trial" />}
             name="eresource.trial"
+            type="checkbox"
           />
         </Col>
         <Col xs={6} md={3}>

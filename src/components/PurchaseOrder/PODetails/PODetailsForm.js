@@ -271,6 +271,7 @@ class PODetailsForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
               name="manual_po"
+              type="checkbox"
             />
           </Col>
           <Col
@@ -283,6 +284,7 @@ class PODetailsForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.orderDetails.re_encumber" />}
               name="re_encumber"
+              type="checkbox"
             />
           </Col>
           <Col
