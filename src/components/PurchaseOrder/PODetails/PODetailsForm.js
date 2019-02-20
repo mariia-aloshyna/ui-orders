@@ -22,6 +22,8 @@ import NotesForm from '../../NotesForm';
 import { required } from '../../Utils/Validate';
 import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldOrderType from './FieldOrderType';
+import { addEmptyOption } from '../util';
+
 import css from './PODetailsForm.css';
 
 class PODetailsForm extends Component {
@@ -172,8 +174,7 @@ class PODetailsForm extends Component {
               component={Select}
               label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
               name="numberPrefix"
-              placeholder=" "
-              dataOptions={selectedPrefixes}
+              dataOptions={addEmptyOption(selectedPrefixes)}
               disabled={isExistingOrder}
             />
           </Col>
@@ -192,8 +193,7 @@ class PODetailsForm extends Component {
               component={Select}
               label={<FormattedMessage id="ui-orders.orderDetails.orderNumberSuffix" />}
               name="numberSuffix"
-              placeholder=" "
-              dataOptions={selectedSuffixes}
+              dataOptions={addEmptyOption(selectedSuffixes)}
               disabled={isExistingOrder}
             />
           </Col>

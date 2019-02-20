@@ -32,3 +32,10 @@ export const isReceiveAvailableForOrder = (order = {}) => {
 
   return hasLineItemsToReceive && isWorkflowStatusOpen(order);
 };
+
+const EMPTY_OPTION = {
+  label: '',
+  value: '',
+};
+
+export const addEmptyOption = (options = []) => [EMPTY_OPTION, ...options];

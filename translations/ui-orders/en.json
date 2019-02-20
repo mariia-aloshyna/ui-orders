@@ -24,6 +24,7 @@
   "brd.renewConfirmation": "Renew Confirmation",
   "brd.successfulRenewal": "Item successfully renewed",
   "button.addLine": "Add PO Line",
+  "button.edit": "Edit",
   "button.remove": "Remove",
   "buttons.line.close": "Close",
   "buttons.line.closeDialog": "Close New Line Dialog",
