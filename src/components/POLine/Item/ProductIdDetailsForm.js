@@ -86,6 +86,7 @@ class ProductIdDetailsForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.productIdType" />}
             name={`${elem}.product_id_type`}
+            required
             validate={[Required]}
           >
             <FormattedMessage id="ui-orders.dropdown.select">

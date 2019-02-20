@@ -91,6 +91,7 @@ class FundDistributionForm extends Component {
             name={`${elem}.id`}
             onChange={e => this.updateCode(e.target.value, elem)}
             placeholder=" "
+            required
             validate={[Required]}
           />
         </Col>

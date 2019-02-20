@@ -17,6 +17,7 @@ class FieldOrderType extends Component {
         component={Select}
         label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
         name="order_type"
+        required
         validate={[Required]}
       >
         <FormattedMessage id="ui-orders.dropdown.select">

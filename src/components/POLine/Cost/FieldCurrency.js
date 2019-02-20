@@ -14,6 +14,7 @@ const FieldCurrency = () => (
     fullWidth
     label={<FormattedMessage id="ui-orders.cost.currency" />}
     name="cost.currency"
+    required
     validate={[Required]}
   >
     <FormattedMessage id="ui-orders.dropdown.select">

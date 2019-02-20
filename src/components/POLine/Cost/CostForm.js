@@ -82,6 +82,7 @@ class CostForm extends Component {
             label={<FormattedMessage id="ui-orders.cost.listPrice" />}
             name="cost.list_price"
             onChange={e => this.onChangeInput(e.target.value, 'cost.list_price')}
+            required
             type="number"
             validate={requiredPositiveNumber}
           />

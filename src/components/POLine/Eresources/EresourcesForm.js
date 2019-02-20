@@ -48,8 +48,9 @@ class EresourcesForm extends Component {
                 dataOptions={vendorOptions}
                 fullWidth
                 label={<FormattedMessage id="ui-orders.eresource.accessProvider" />}
-                placeholder={placeholder}
                 name="eresource.access_provider"
+                placeholder={placeholder}
+                required
                 validate={[Required]}
               />
             )}
