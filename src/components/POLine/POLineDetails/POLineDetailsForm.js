@@ -43,15 +43,17 @@ class POLineDetailsForm extends Component {
       <Fragment>
         <Row>
           <Col xs={6}>
-            <Field
-              component={TextField}
-              disabled
-              fullWidth
-              id="po_line_number"
-              label={<FormattedMessage id="ui-orders.poLine.poLineNumber" />}
-              name="po_line_number"
-              type="text"
-            />
+            {poLine.id && (
+              <Field
+                component={TextField}
+                disabled
+                fullWidth
+                id="po_line_number"
+                label={<FormattedMessage id="ui-orders.poLine.poLineNumber" />}
+                name="po_line_number"
+                type="text"
+              />
+            )}
           </Col>
           <Col xs={6}>
             <FieldAcquisitionMethod />
