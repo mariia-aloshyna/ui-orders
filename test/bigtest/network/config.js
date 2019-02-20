@@ -37,4 +37,17 @@ export default function config() {
   });
 
   this.get('/locations');
+
+  this.get('/configurations/entries', (_, { queryParams }) => {
+    return queryParams && queryParams.query === '(module=ORDERS and configName=orderNumber)'
+      ? {
+        configs: [{
+          id: '7c7c5a09-d465-4642-889a-8a0b351d7b15',
+          module: 'ORDERS',
+          configName: 'orderNumber',
+          enabled: true,
+          value: '{"canUserEditOrderNumber":false,"selectedPrefixes":["PP"],"prefixes":["PP1","PP2","PP3","PP"],"selectedSuffixes":["SS"],"suffixes":["SS1","SS2","SS"]}',
+        }],
+      } : { configs: [] };
+  });
 }
