@@ -213,6 +213,7 @@ class PODetailsForm extends Component {
               id="vendor_name"
               label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
               name="vendor_name"
+              required
               validate={required}
             />
             <div className={css.pluginButtonWrapper}>

@@ -24,6 +24,7 @@ class FieldAcquisitionMethod extends Component {
         component={Select}
         label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
         name="acquisition_method"
+        required
         validate={[Required]}
       >
         <FormattedMessage id="ui-orders.dropdown.select">

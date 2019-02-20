@@ -57,8 +57,9 @@ class FieldOrderFormat extends Component {
         component={Select}
         label={<FormattedMessage id="ui-orders.poLine.orderFormat" />}
         name="order_format"
-        validate={[Required]}
         onChange={e => this.onChangeSelect(e.target.value)}
+        required
+        validate={[Required]}
       >
         <FormattedMessage id="ui-orders.dropdown.select">
           {(message) => <option value="">{message}</option>}
