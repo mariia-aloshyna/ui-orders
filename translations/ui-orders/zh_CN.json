@@ -554,5 +554,6 @@
     "location.quantityElectronic.exceeds": "Quantity Electronic exceeds Cost Details quantity",
     "location.quantityElectronic": "电子数量",
     "location.quantityPhysical.exceeds": "Quantity Physical exceeds Cost Details quantity",
-    "location.quantityPhysical": "物理数量"
+    "location.quantityPhysical": "物理数量",
+    "button.edit": "Edit"
 }

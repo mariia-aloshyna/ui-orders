@@ -353,7 +353,7 @@
     "orderDetails.billTo": "Bill To",
     "orderDetails.createdBy": "Created By",
     "orderDetails.createdOn": "Created On",
-    "orderDetails.orderType": "Order Type*",
+    "orderDetails.orderType": "Order Type",
     "orderDetails.poNumber": "Número do pedido",
     "orderDetails.shipTo": "Ship To",
     "orderDetails.vendor": "Fornecedor*",
@@ -410,8 +410,8 @@
     "orderDetails.re_encumber": "Re-encumber",
     "orderDetails.note": "Note",
     "orderDetails.removeNoteBtn": "Remover",
-    "cost.listPrice": "List Unit Price*",
-    "cost.currency": "Currency*",
+    "cost.listPrice": "List Unit Price",
+    "cost.currency": "Currency",
     "cost.currency.usd": "USD",
     "cost.quantityPhysical": "Quantity Physical",
     "cost.quantityElectronic": "Quantity electronic",
@@ -420,7 +420,7 @@
     "cost.buttonLabel": "Read More",
     "paneBlock.POLines": "PO Lines",
     "order_format.other": "Other",
-    "eresource.accessProvider": "Access Provider*",
+    "eresource.accessProvider": "Access Provider",
     "eresource.activationDue": "Activation Due",
     "eresource.activationStatus": "Activation Status",
     "eresource.createItem": "Create Item",
@@ -554,5 +554,6 @@
     "location.quantityElectronic.exceeds": "Quantity Electronic exceeds Cost Details quantity",
     "location.quantityElectronic": "Quantity Electronic",
     "location.quantityPhysical.exceeds": "Quantity Physical exceeds Cost Details quantity",
-    "location.quantityPhysical": "Quantity Physical"
+    "location.quantityPhysical": "Quantity Physical",
+    "button.edit": "Edit"
 }
