@@ -554,5 +554,6 @@
     "location.quantityElectronic.exceeds": "تتجاوز الكمية الإلكترونية كمية تفاصيل التكلفة",
     "location.quantityElectronic": "الكمية الإلكترونية",
     "location.quantityPhysical.exceeds": "تتجاوز الكمية المادية كمية تفاصيل التكلفة",
-    "location.quantityPhysical": "الكمية المادية"
+    "location.quantityPhysical": "الكمية المادية",
+    "button.edit": "Edit"
 }
