@@ -1,5 +1,21 @@
 # Change history for ui-orders
 
+## [1.2.0](https://github.com/folio-org/ui-orders/tree/v1.2.0) (2019-02-22)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.1.1...v1.2.0)
+
+* UIOR-111 Adjustments to PO Line number field on create/edit PO Line forms
+* UIOR-121 PO Line: add "Locations" accordion and associated fields
+* UIOR-122 Create POL: Populate "Item Details" using Instance information when selecting an existing title
+* UIOR-116 ui-orders needs to be made compatible with updated mod-vendors interfaces
+* UIOR-71 Adjustments to po_number field on create/edit order forms
+* UIOR-75 Show PO line limit exceeded error message
+* UIREC-12 Receiving: Access Receiving items pane from Orders (PO Line pane)
+* UIREC-11 Create new component 'Update Item Details'
+* UIREC-1 Receiving: Access Receiving items pane from Orders
+* UIREC-2 Receiving: Receive items from a PO Line quantity
+* UIREC-7 Create Receive Button
+* FOLIO-1720 bump up to 3.0 orders OKAPI
+
 ## [1.1.1](https://github.com/folio-org/ui-orders/tree/v1.1.1) (2019-01-16)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.1.0...v1.1.1)
 
