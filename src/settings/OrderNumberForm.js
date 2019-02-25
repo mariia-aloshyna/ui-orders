@@ -40,9 +40,9 @@ class OrderNumberForm extends Component {
     dispatch(change(ORDER_NUMBER_FORM_NAME, fieldName, newList));
   }
 
-  addPrefix = ({ inputValue }) => this.addValue(inputValue, 'prefixes');
+  addPrefix = ({ inputValue }) => this.addValue(inputValue, 'selectedPrefixes');
 
-  addSuffix = ({ inputValue }) => this.addValue(inputValue, 'suffixes');
+  addSuffix = ({ inputValue }) => this.addValue(inputValue, 'selectedSuffixes');
 
   renderOption = ({ filterValue, exactMatch }) => {
     if (exactMatch || !filterValue) {
@@ -93,28 +93,34 @@ class OrderNumberForm extends Component {
         </Accordion>
         <Accordion label={<FormattedMessage id="ui-orders.settings.poNumber.prefixSuffix" />}>
           <Row>
-            <Col xs={12}>
+            <Col data-test-prefixes-list>
               <Headline>
                 <FormattedMessage id="ui-orders.settings.poNumber.prefix" />
               </Headline>
               <Field
                 actions={actionsPrefix}
                 component={MultiSelection}
-                dataOptions={this.getOptionsList('prefixes')}
+                dataOptions={this.getOptionsList('selectedPrefixes')}
                 emptyMessage=" "
                 fullWidth
                 name="selectedPrefixes"
+                onBlur={e => { e.preventDefault(); }}
               />
+            </Col>
+          </Row>
+          <Row>
+            <Col data-test-suffixes-list>
               <Headline>
                 <FormattedMessage id="ui-orders.settings.poNumber.suffix" />
               </Headline>
               <Field
                 actions={actionsSuffix}
                 component={MultiSelection}
-                dataOptions={this.getOptionsList('suffixes')}
+                dataOptions={this.getOptionsList('selectedSuffixes')}
                 emptyMessage=" "
                 fullWidth
                 name="selectedSuffixes"
+                onBlur={e => { e.preventDefault(); }}
               />
             </Col>
           </Row>
