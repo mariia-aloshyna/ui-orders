@@ -24,17 +24,13 @@ class OrderNumber extends Component {
     const {
       canUserEditOrderNumber,
       selectedPrefixes,
-      prefixes,
       selectedSuffixes,
-      suffixes,
     } = data;
 
     return JSON.stringify({
       canUserEditOrderNumber,
       selectedPrefixes: selectedPrefixes.map(item => item.value),
-      prefixes: prefixes.map(item => item.value),
       selectedSuffixes: selectedSuffixes.map(item => item.value),
-      suffixes: suffixes.map(item => item.value),
     });
   }
 
@@ -42,7 +38,10 @@ class OrderNumber extends Component {
     const { label, stripes } = this.props;
 
     return (
-      <div className={css.formWrapper}>
+      <div
+        data-test-order-settings-order-number
+        className={css.formWrapper}
+      >
         <this.configManager
           configName="orderNumber"
           getInitialValues={getOrderNumberSetting}
