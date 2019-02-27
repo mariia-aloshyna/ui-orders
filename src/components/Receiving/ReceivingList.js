@@ -21,12 +21,14 @@ import {
 } from '@folio/stripes/components';
 
 import { RECEIVING_API } from '../Utils/api';
+import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import FolioFormattedTime from '../FolioFormattedTime';
 import ItemDetails from './ItemDetails';
 import {
   PIECE_STATUS_EXPECTED,
   PIECE_STATUS_RECEIVED,
 } from './const';
+import ReceivingLinks from './ReceivingLinks';
 
 import css from './ReceivingList.css';
 
@@ -44,6 +46,11 @@ class ReceivingList extends Component {
       path: RECEIVING_API,
       records: 'receiving_history',
       throwErrors: false,
+    },
+    locations: {
+      type: 'okapi',
+      path: 'locations',
+      records: 'locations',
     },
   })
 
@@ -97,7 +104,6 @@ class ReceivingList extends Component {
             ariaLabel={title}
             data-test-close-button
             icon="times"
-            id="clickable-close-new-line-dialog"
             onClick={this.onCloseReceiving}
           />
         )}
@@ -131,7 +137,7 @@ class ReceivingList extends Component {
   }
 
   render() {
-    const { resources } = this.props;
+    const { resources, mutator, location } = this.props;
     const receivingList = get(resources, ['receiving_history', 'records'], []);
     const uniqReceivingList = uniqBy(receivingList, 'poLineId');
     const resultsFormatter = {
@@ -163,7 +169,12 @@ class ReceivingList extends Component {
         <Paneset>
           <Pane
             defaultWidth="fill"
-            paneTitle={<FormattedMessage id="ui-orders.receiving.paneTitle" />}
+            paneTitle={(
+              <ReceivingLinks
+                location={location}
+                mutator={mutator}
+              />
+            )}
             firstMenu={this.getFirstMenu()}
           >
             <Row
@@ -212,8 +223,9 @@ class ReceivingList extends Component {
             />
             {this.state.isItemDetailsModalOpened && (
               <ItemDetails
-                itemList={this.state.itemDetails}
+                linesItemList={this.state.itemDetails}
                 close={this.closeItemDetailsModal}
+                locationsOptions={getLocationsForSelect(resources)}
               />
             )}
           </Pane>
