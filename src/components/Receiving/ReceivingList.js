@@ -27,6 +27,7 @@ import {
   PIECE_STATUS_EXPECTED,
   PIECE_STATUS_RECEIVED,
 } from './const';
+import ReceivingLinks from './ReceivingLinks';
 
 import css from './ReceivingList.css';
 
@@ -97,7 +98,6 @@ class ReceivingList extends Component {
             ariaLabel={title}
             data-test-close-button
             icon="times"
-            id="clickable-close-new-line-dialog"
             onClick={this.onCloseReceiving}
           />
         )}
@@ -131,7 +131,7 @@ class ReceivingList extends Component {
   }
 
   render() {
-    const { resources } = this.props;
+    const { resources, mutator, location } = this.props;
     const receivingList = get(resources, ['receiving_history', 'records'], []);
     const uniqReceivingList = uniqBy(receivingList, 'poLineId');
     const resultsFormatter = {
@@ -163,7 +163,12 @@ class ReceivingList extends Component {
         <Paneset>
           <Pane
             defaultWidth="fill"
-            paneTitle={<FormattedMessage id="ui-orders.receiving.paneTitle" />}
+            paneTitle={(
+              <ReceivingLinks
+                location={location}
+                mutator={mutator}
+              />
+            )}
             firstMenu={this.getFirstMenu()}
           >
             <Row
