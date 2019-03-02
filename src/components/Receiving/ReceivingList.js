@@ -21,6 +21,7 @@ import {
 } from '@folio/stripes/components';
 
 import { RECEIVING_API } from '../Utils/api';
+import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import FolioFormattedTime from '../FolioFormattedTime';
 import ItemDetails from './ItemDetails';
 import {
@@ -45,6 +46,11 @@ class ReceivingList extends Component {
       path: RECEIVING_API,
       records: 'receiving_history',
       throwErrors: false,
+    },
+    locations: {
+      type: 'okapi',
+      path: 'locations',
+      records: 'locations',
     },
   })
 
@@ -217,8 +223,9 @@ class ReceivingList extends Component {
             />
             {this.state.isItemDetailsModalOpened && (
               <ItemDetails
-                itemList={this.state.itemDetails}
+                linesItemList={this.state.itemDetails}
                 close={this.closeItemDetailsModal}
+                locationsOptions={getLocationsForSelect(resources)}
               />
             )}
           </Pane>
