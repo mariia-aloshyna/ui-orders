@@ -20,8 +20,12 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-import { RECEIVING_API } from '../Utils/api';
+import { EXTENDED_MUTATOR } from '../Utils/mutators';
 import getLocationsForSelect from '../Utils/getLocationsForSelect';
+import {
+  LOCATIONS,
+  RECEIVING_HISTORY,
+} from '../Utils/resources';
 import FolioFormattedTime from '../FolioFormattedTime';
 import ItemDetails from './ItemDetails';
 import {
@@ -39,19 +43,8 @@ class ReceivingList extends Component {
         query: '',
       },
     },
-    receiving_history: {
-      fetch: false,
-      accumulate: true,
-      type: 'okapi',
-      path: RECEIVING_API,
-      records: 'receiving_history',
-      throwErrors: false,
-    },
-    locations: {
-      type: 'okapi',
-      path: 'locations',
-      records: 'locations',
-    },
+    receiving_history: RECEIVING_HISTORY,
+    locations: LOCATIONS,
   })
 
   static propTypes = {
@@ -61,10 +54,7 @@ class ReceivingList extends Component {
       query: PropTypes.shape({
         update: PropTypes.func.isRequired,
       }),
-      receiving_history: PropTypes.shape({
-        reset: PropTypes.func.isRequired,
-        GET: PropTypes.func.isRequired,
-      }),
+      receiving_history: EXTENDED_MUTATOR,
     }).isRequired,
     match: ReactRouterPropTypes.match.isRequired,
   }
