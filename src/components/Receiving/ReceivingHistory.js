@@ -6,8 +6,10 @@ import { get } from 'lodash';
 
 import {
   Button,
+  Callout,
   Checkbox,
   Col,
+  ConfirmationModal,
   IconButton,
   MultiColumnList,
   Pane,
@@ -19,27 +21,24 @@ import {
 
 import {
   ORDER,
+  RECEIVE,
   RECEIVING_HISTORY as RECEIVING_HISTORY_RESOURCE,
 } from '../Utils/resources';
+import { LIMIT_MAX } from '../Utils/const';
 import FolioFormattedTime from '../FolioFormattedTime';
 import ReceivingLinks, { RECEIVING_HISTORY } from './ReceivingLinks';
 import { PIECE_STATUS_RECEIVED } from './const';
-
-const reducePieces = (pieces, isSelect = false) => {
-  const pieceReducer = (accumulator, piece) => {
-    accumulator[piece.id] = isSelect ? piece : null;
-
-    return accumulator;
-  };
-
-  return pieces.reduce(pieceReducer, {});
-};
+import {
+  historyRemoveItems,
+  reducePieces,
+} from './util';
 
 class ReceivingHistory extends Component {
   static manifest = Object.freeze({
     query: {},
     receivingHistory: RECEIVING_HISTORY_RESOURCE,
     order: ORDER,
+    receive: RECEIVE,
   })
 
   static propTypes = {
@@ -49,8 +48,14 @@ class ReceivingHistory extends Component {
     match: ReactRouterPropTypes.match,
   }
 
+  constructor(props) {
+    super(props);
+    this.callout = React.createRef();
+  }
+
   state = {
     checkedPiecesMap: {},
+    confirming: false,
     isAllChecked: false,
     searchText: '',
   };
@@ -58,6 +63,7 @@ class ReceivingHistory extends Component {
   componentDidMount() {
     const { mutator: { receivingHistory }, match: { params: { id, lineId } } } = this.props;
     const params = {
+      limit: LIMIT_MAX,
       query: `receivingStatus==${PIECE_STATUS_RECEIVED} and purchaseOrderId==${id}${lineId ? ` and poLineId==${lineId}` : ''}`,
     };
 
@@ -131,8 +137,25 @@ class ReceivingHistory extends Component {
     this.setState({ searchText });
   }
 
+  showConfirm = () => this.setState({ confirming: true });
+
+  hideConfirm = () => this.setState({ confirming: false });
+
+  handleSubmit = () => {
+    this.hideConfirm();
+    historyRemoveItems(this.state.checkedPiecesMap, this.props.mutator.receive)
+      .then(() => this.callout.current.sendCallout({
+        type: 'success',
+        message: <FormattedMessage id="ui-orders.receivingHistory.remove.success" />,
+      }))
+      .catch(() => this.callout.current.sendCallout({
+        type: 'error',
+        message: <FormattedMessage id="ui-orders.receivingHistory.remove.error" />,
+      }));
+  }
+
   render() {
-    const { checkedPiecesMap, isAllChecked, searchText } = this.state;
+    const { checkedPiecesMap, confirming, isAllChecked, searchText } = this.state;
     const { mutator, location, resources } = this.props;
     const contentData = this.getData(resources);
     const orderNumber = get(resources, ['order', 'records', 0, 'po_number']);
@@ -186,6 +209,7 @@ class ReceivingHistory extends Component {
                     buttonStyle="primary"
                     data-test-receiving-remove
                     disabled={isRemoveButtonDisabled}
+                    onClick={this.showConfirm}
                   >
                     <FormattedMessage id="ui-orders.receiving.btn.remove" />
                   </Button>
@@ -212,6 +236,15 @@ class ReceivingHistory extends Component {
             />
           </Pane>
         </Paneset>
+        <ConfirmationModal
+          confirmLabel={<FormattedMessage id="ui-orders.receivingHistory.confirmation.confirm" />}
+          heading={<FormattedMessage id="ui-orders.receivingHistory.confirmation.heading" />}
+          message={<FormattedMessage id="ui-orders.receivingHistory.confirmation.message" />}
+          onCancel={this.hideConfirm}
+          onConfirm={this.handleSubmit}
+          open={confirming}
+        />
+        <Callout ref={this.callout} />
       </div>
     );
   }

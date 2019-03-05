@@ -6,3 +6,4 @@ export const CONFIG_LINES_LIMIT = 'poLines-limit';
 export const CONFIG_ORDER_NUMBER = 'orderNumber';
 export const SOURCE_FOLIO_CODE = 'FOLIO';
 export const LINES_LIMIT_DEFAULT = 1;
+export const LIMIT_MAX = 2147483647; // from https://s3.amazonaws.com/foliodocs/api/mod-orders-storage/location.html#orders_storage_locations_get
