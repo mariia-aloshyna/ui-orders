@@ -5,8 +5,9 @@ import {
   is,
 } from '@bigtest/interactor';
 
-@interactor class HeaderDropdown {
-  click = clickable('a');
+@interactor class EditOrderButton {
+  static defaultScope = '[data-test-order-edit]';
+  click = clickable();
 }
 
 @interactor class ReceiveButton {
@@ -17,7 +18,7 @@ import {
 export default interactor(class OrderDetailsPage {
   static defaultScope = '[data-test-order-details]';
   title = text('[class*=paneTitleLabel---]');
-  headerDropdown = new HeaderDropdown('[class*=paneContentLastArea---]');
+  editOrderButton = new EditOrderButton();
   addLineButton = clickable('[data-test-add-line-button]');
   receivingButton = new ReceiveButton();
 });

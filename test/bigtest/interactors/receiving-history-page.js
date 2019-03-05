@@ -18,6 +18,10 @@ import {
   isDisabled = property('disabled');
 }
 
+@interactor class ConfirmationModal {
+  static defaultScope = '[class*=modal---]';
+}
+
 @interactor class CloseButton {
   static defaultScope = '[data-test-close-button]';
   isButton = is('button');
@@ -29,4 +33,5 @@ export default interactor(class ReceivingHistoryPage {
   searchInput = new SearchInput();
   removeButton = new RemoveButton();
   pieces = collection('[class*=mclRow---]');
+  confirmationModal = new ConfirmationModal();
 });
