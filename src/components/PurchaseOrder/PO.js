@@ -227,9 +227,8 @@ class PO extends Component {
   goToReceiving = () => {
     const { match: { params: { id } }, parentMutator: { query } } = this.props;
 
-    query.update({
+    query.replace({
       _path: `/orders/view/${id}/receiving`,
-      layer: null,
     });
   }
 
