@@ -10,14 +10,14 @@ import {
 
 import {
   Button,
+  Checkbox,
+  Col,
   IconButton,
   MultiColumnList,
   Pane,
   PaneMenu,
   Paneset,
   Row,
-  SearchField,
-  TextField,
 } from '@folio/stripes/components';
 
 import { EXTENDED_MUTATOR } from '../Utils/mutators';
@@ -28,13 +28,8 @@ import {
 } from '../Utils/resources';
 import FolioFormattedTime from '../FolioFormattedTime';
 import ItemDetails from './ItemDetails';
-import {
-  PIECE_STATUS_EXPECTED,
-  PIECE_STATUS_RECEIVED,
-} from './const';
+import { PIECE_STATUS_RECEIVED } from './const';
 import ReceivingLinks from './ReceivingLinks';
-
-import css from './ReceivingList.css';
 
 class ReceivingList extends Component {
   static manifest = Object.freeze({
@@ -63,7 +58,8 @@ class ReceivingList extends Component {
     super(props);
 
     this.state = {
-      itemDetails: [],
+      isAllChecked: false,
+      itemDetails: {},
       isItemDetailsModalOpened: false,
     };
   }
@@ -101,21 +97,23 @@ class ReceivingList extends Component {
     </PaneMenu>
   );
 
-  receivingItemsChanged = (value, line, receivingList) => {
-    const itemList = receivingList.filter(el => {
-      return (el.poLineId === line.poLineId) && (el.receivingStatus === PIECE_STATUS_EXPECTED);
+  isLineChecked = (line) => (
+    this.state.itemDetails[line.poLineId]
+      ? Boolean(this.state.itemDetails[line.poLineId].length)
+      : false
+  )
+
+  toggleLine = (line, receivingList) => {
+    this.setState(({ itemDetails }) => {
+      itemDetails[line.poLineId] = this.isLineChecked(line)
+        ? []
+        : receivingList.filter(el => el.poLineId === line.poLineId);
+
+      return {
+        isAllChecked: false,
+        itemDetails,
+      };
     });
-
-    if (itemList.length > value) {
-      itemList.length = value;
-    }
-    if (this.state.itemDetails.length) {
-      const updatedList = this.state.itemDetails.filter(el => el.poLineId !== line.poLineId);
-
-      this.setState({ itemDetails: [...updatedList, ...itemList] });
-    } else {
-      this.setState({ itemDetails: itemList });
-    }
   }
 
   openItemDetailsModal = () => {
@@ -130,9 +128,17 @@ class ReceivingList extends Component {
     const { resources, mutator, location } = this.props;
     const receivingList = get(resources, ['receiving_history', 'records'], []);
     const uniqReceivingList = uniqBy(receivingList, 'poLineId');
+    const orderNumber = String(get(resources, ['receiving_history', 'records', 0, 'poLineNumber'])).split('-')[0];
     const resultsFormatter = {
-      'title': line => get(line, 'title', ''),
+      'isChecked': line => (
+        <Checkbox
+          type="checkbox"
+          checked={this.isLineChecked(line)}
+          onChange={() => this.toggleLine(line, receivingList)}
+        />
+      ),
       'poLineNumber': line => get(line, 'poLineNumber', ''),
+      'title': line => get(line, 'title', ''),
       'received': line => {
         const itemsToReceive = receivingList.filter(el => el.poLineId === line.poLineId);
         const receivedItems = itemsToReceive.filter(el => el.receivingStatus === PIECE_STATUS_RECEIVED);
@@ -140,19 +146,9 @@ class ReceivingList extends Component {
         return `${receivedItems.length}/${itemsToReceive.length}`;
       },
       'dateOrdered': line => <FolioFormattedTime dateString={get(line, 'dateOrdered')} />,
-      'receivingItems': line => (
-        <TextField
-          className={css.receivingField}
-          type="number"
-          min="1"
-          max={receivingList.filter(el => el.poLineId === line.poLineId).length}
-          onChange={e => this.receivingItemsChanged(e.target.value, line, receivingList)}
-          onClearField={() => this.receivingItemsChanged(0, line, receivingList)}
-        />),
       'receivingNote': line => get(line, 'receivingNote', ''),
-      'receivingStatus': line => get(line, 'receivingStatus', ''),
+      'receiptStatus': line => get(line, 'receivingStatus', ''),
     };
-    const isReceiveButtonDisabled = this.state.itemDetails.length === 0;
 
     return (
       <div data-test-receiving>
@@ -167,49 +163,36 @@ class ReceivingList extends Component {
             )}
             firstMenu={this.getFirstMenu()}
           >
-            <Row
-              end="xs"
-              className={css.buttonsLineWrapper}
-            >
-              <div className={css.searchField}>
-                <SearchField />
-              </div>
-              <Button
-                buttonStyle="primary"
-                onClick={this.onCloseReceiving}
-              >
-                <FormattedMessage id="ui-orders.receiving.cancelBtn" />
-              </Button>
-              <Button
-                buttonStyle="primary"
-              >
-                <FormattedMessage id="ui-orders.receiving.receiveAllBtn" />
-              </Button>
-              <Button
-                buttonStyle="primary"
-                disabled={isReceiveButtonDisabled}
-                onClick={this.openItemDetailsModal}
-                data-test-receive-pieces-button
-              >
-                <FormattedMessage id="ui-orders.receiving.receiveBtn" />
-              </Button>
+            <Row>
+              <Col xs>
+                <FormattedMessage id="ui-orders.receivingList.paneTitle" values={{ orderNumber }} />
+              </Col>
+            </Row>
+            <Row end="xs">
+              <Col xs>
+                <Button
+                  buttonStyle="primary"
+                  onClick={this.openItemDetailsModal}
+                  data-test-receive-pieces-button
+                >
+                  <FormattedMessage id="ui-orders.receiving.receiveBtn" />
+                </Button>
+              </Col>
             </Row>
             <MultiColumnList
               contentData={uniqReceivingList}
               formatter={resultsFormatter}
-              visibleColumns={['title', 'poLineNumber', 'received', 'dateOrdered', 'receivingItems', 'receivingNote', 'receivingStatus']}
+              visibleColumns={['isChecked', 'poLineNumber', 'title', 'received', 'dateOrdered', 'receivingNote', 'receiptStatus']}
               columnMapping={{
-                title: <FormattedMessage id="ui-orders.receiving.title" />,
+                isChecked: <Checkbox type="checkbox" checked={this.state.isAllChecked} />,
                 poLineNumber: <FormattedMessage id="ui-orders.receiving.poLine" />,
+                title: <FormattedMessage id="ui-orders.receiving.title" />,
                 received: <FormattedMessage id="ui-orders.receiving.received" />,
                 dateOrdered: <FormattedMessage id="ui-orders.receiving.dateOrdered" />,
-                receivingItems: <FormattedMessage id="ui-orders.receiving.receivingItems" />,
                 receivingNote: <FormattedMessage id="ui-orders.receiving.note" />,
-                receivingStatus: <FormattedMessage id="ui-orders.receiving.status" />,
+                receiptStatus: <FormattedMessage id="ui-orders.receiving.status" />,
               }}
-              columnWidths={{
-                receivingItems: '5%',
-              }}
+              columnWidths={{ isChecked: '35px' }}
             />
             {this.state.isItemDetailsModalOpened && (
               <ItemDetails
