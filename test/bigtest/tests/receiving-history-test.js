@@ -63,6 +63,17 @@ describe('Receiving', () => {
     });
   });
 
+  describe('Click Remove button', () => {
+    beforeEach(async () => {
+      await page.pieces(0).click();
+      await page.removeButton.click();
+    });
+
+    it('Confirmation is displayed', () => {
+      expect(page.confirmationModal.$root).to.exist;
+    });
+  });
+
   describe('go back from Receiving History page to Order Details pane', () => {
     beforeEach(async function () {
       await page.closeButton.click();

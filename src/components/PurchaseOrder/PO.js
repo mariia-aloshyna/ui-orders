@@ -260,6 +260,7 @@ class PO extends Component {
             {ariaLabel => (
               <IconButton
                 ariaLabel={ariaLabel}
+                data-test-order-edit
                 icon="edit"
                 style={{ visibility: !order ? 'hidden' : 'visible' }}
                 onClick={onEdit}
