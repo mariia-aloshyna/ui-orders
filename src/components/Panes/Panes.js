@@ -3,6 +3,7 @@ import Switch from 'react-router-dom/Switch';
 import Route from 'react-router-dom/Route';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import queryString from 'query-string';
 
 import {
   IfPermission,
@@ -11,6 +12,7 @@ import {
 
 import { PO } from '../PurchaseOrder';
 import { POLine } from '../POLine';
+import { LayerPOLine } from '../LayerCollection';
 
 class Panes extends Component {
   static propTypes = {
@@ -25,40 +27,71 @@ class Panes extends Component {
     tagsToggle: PropTypes.func.isRequired,
     paneWidth: PropTypes.string.isRequired,
     match: ReactRouterPropTypes.match,
+    location: ReactRouterPropTypes.location,
   }
 
   constructor(props) {
     super(props);
     this.connectedPO = props.stripes.connect(PO);
     this.connectedPOLine = props.stripes.connect(POLine);
+    this.connectedLayerPOLine = props.stripes.connect(LayerPOLine);
   }
 
   render() {
-    const { match: { path, url } } = this.props;
+    const { location, match: { path, url }, onCloseEdit } = this.props;
+    const { layer } = location.search ? queryString.parse(location.search) : {};
 
     return (
       <Switch>
         <Route
           exact
           path={path}
-          render={props => (
-            <this.connectedPO
-              {...this.props}
-              {...props}
-            />
-          )}
+          render={
+            props => {
+              if (layer === 'create-po-line') {
+                return (
+                  <this.connectedLayerPOLine
+                    {...this.props}
+                    {...props}
+                    onCancel={onCloseEdit}
+                  />
+                );
+              }
+
+              return (
+                <this.connectedPO
+                  {...this.props}
+                  {...props}
+                />
+              );
+            }
+          }
         />
         <IfPermission perm="orders.po-lines.item.get">
           <Route
             exact
             path={`${path}/po-line/view/:lineId`}
-            render={props => (
-              <this.connectedPOLine
-                poURL={url}
-                {...this.props}
-                {...props}
-              />
-            )}
+            render={
+              props => {
+                if (layer === 'edit-po-line' || layer === 'create-po-line') {
+                  return (
+                    <this.connectedLayerPOLine
+                      {...this.props}
+                      {...props}
+                      onCancel={onCloseEdit}
+                    />
+                  );
+                }
+
+                return (
+                  <this.connectedPOLine
+                    poURL={url}
+                    {...this.props}
+                    {...props}
+                  />
+                );
+              }
+            }
           />
         </IfPermission>
       </Switch>

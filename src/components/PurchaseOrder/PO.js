@@ -22,10 +22,7 @@ import {
 } from '@folio/stripes/components';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 
-import {
-  LayerPO,
-  LayerPOLine,
-} from '../LayerCollection';
+import { LayerPO } from '../LayerCollection';
 import {
   CONFIG_API,
   ORDER_DETAIL_API,
@@ -393,16 +390,6 @@ class PO extends Component {
           match={match}
           parentResources={parentResources}
           parentMutator={parentMutator}
-        />
-        <LayerPOLine  // used for new Line form
-          location={location}
-          stripes={stripes}
-          onCancel={onCloseEdit}
-          history={history}
-          match={match}
-          parentResources={parentResources}
-          parentMutator={parentMutator}
-          order={order}
         />
         {this.state.isLinesLimitExceededModalOpened && (
           <LinesLimit

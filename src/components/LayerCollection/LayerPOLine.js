@@ -19,11 +19,18 @@ import {
   lineMutatorShape,
   orderRecordsMutatorShape,
 } from '../Utils/mutators';
+import {
+  ORDER,
+} from '../Utils/resources';
 import { POLineForm } from '../POLine';
 import { CURRENCY } from '../POLine/Cost/FieldCurrency';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
 
 class LayerPOLine extends Component {
+  static manifest = Object.freeze({
+    order: ORDER,
+  });
+
   static propTypes = {
     location: ReactRouterPropTypes.location.isRequired,
     history: ReactRouterPropTypes.history,
@@ -37,9 +44,8 @@ class LayerPOLine extends Component {
       store: PropTypes.object.isRequired,
       connect: PropTypes.func.isRequired,
     }).isRequired,
-    line: PropTypes.object,
     onCancel: PropTypes.func.isRequired,
-    order: PropTypes.object,
+    resources: PropTypes.object,
   }
 
   constructor(props) {
@@ -91,8 +97,18 @@ class LayerPOLine extends Component {
       });
   }
 
+  getOrder = () => get(this.props, 'resources.order.records.0');
+
+  getLine = () => {
+    const { match: { params: { lineId } } } = this.props;
+    const lines = get(this.getOrder(), 'compositePoLines', []);
+
+    return lines.find(u => u.id === lineId);
+  }
+
   createNewOrder = async () => {
-    const { order, parentMutator } = this.props;
+    const { parentMutator } = this.props;
+    const order = this.getOrder();
 
     try {
       const newOrder = await cloneOrder(order, parentMutator.records, this.state.line);
@@ -145,11 +161,11 @@ class LayerPOLine extends Component {
   }
 
   deletePOLine = (lineId) => {
-    const { order, parentMutator } = this.props;
+    const { parentMutator, match: { params: { id } } } = this.props;
 
     parentMutator.poLine.DELETE({ id: lineId }).then(() => {
       parentMutator.query.update({
-        _path: `/orders/view/${order.id}`,
+        _path: `/orders/view/${id}`,
         layer: null,
       });
     });
@@ -184,8 +200,10 @@ class LayerPOLine extends Component {
   };
 
   render() {
-    const { line, location } = this.props;
+    const { location } = this.props;
     const { layer } = location.search ? queryString.parse(location.search) : {};
+    const { resources, ...restProps } = this.props;
+    const order = this.getOrder();
 
     if (layer === 'create-po-line') {
       return (
@@ -194,9 +212,10 @@ class LayerPOLine extends Component {
           contentLabel="Create PO Line Dialog"
         >
           <this.connectedPOLineForm
-            {...this.props}
+            {...restProps}
             initialValues={this.getCreatePOLIneInitialValues()}
             onSubmit={this.submitPOLine}
+            order={order}
           />
           {this.state.isLinesLimitExceededModalOpened && (
             <LinesLimit
@@ -214,10 +233,11 @@ class LayerPOLine extends Component {
           contentLabel="Edit PO Line Dialog"
         >
           <this.connectedPOLineForm
-            {...this.props}
-            initialValues={line}
+            {...restProps}
+            initialValues={this.getLine()}
             onSubmit={this.updatePOLine}
             deletePOLine={this.deletePOLine}
+            order={order}
           />
         </Layer>
       );
