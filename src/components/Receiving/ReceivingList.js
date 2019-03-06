@@ -5,6 +5,8 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   get,
+  some,
+  sortBy,
   uniqBy,
 } from 'lodash';
 
@@ -106,13 +108,39 @@ class ReceivingList extends Component {
   )
 
   toggleLine = (line, receivingList) => {
-    this.setState(({ itemDetails }) => {
-      itemDetails[line.poLineId] = this.isLineChecked(line)
-        ? []
-        : receivingList.filter(el => el.poLineId === line.poLineId);
+    this.setState(({ itemDetails }) => ({
+      isAllChecked: false,
+      itemDetails: {
+        ...itemDetails,
+        ...{
+          [line.poLineId]: this.isLineChecked(line)
+            ? []
+            : receivingList.filter(el => el.poLineId === line.poLineId),
+        },
+      },
+    }));
+  }
+
+  toggleAll = (receivingList) => {
+    this.setState((state) => {
+      const isAllChecked = !state.isAllChecked;
+      const itemDetails = {};
+
+      if (isAllChecked) {
+        receivingList.forEach((piece) => {
+          const poLineId = piece.poLineId;
+          const linePieces = itemDetails[poLineId];
+
+          if (linePieces) {
+            linePieces.push(piece);
+          } else {
+            itemDetails[poLineId] = [piece];
+          }
+        });
+      }
 
       return {
-        isAllChecked: false,
+        isAllChecked,
         itemDetails,
       };
     });
@@ -129,8 +157,8 @@ class ReceivingList extends Component {
   render() {
     const { resources, mutator, location } = this.props;
     const receivingList = get(resources, ['receivingHistory', 'records'], []);
-    const uniqReceivingList = uniqBy(receivingList, 'poLineId');
-    const orderNumber = String(get(resources, ['receiving_history', 'records', 0, 'poLineNumber'])).split('-')[0];
+    const uniqReceivingList = sortBy(uniqBy(receivingList, 'poLineId'), 'poLineNumber');
+    const orderNumber = String(get(resources, ['receivingHistory', 'records', 0, 'poLineNumber'])).split('-')[0];
     const resultsFormatter = {
       'isChecked': line => (
         <Checkbox
@@ -151,6 +179,7 @@ class ReceivingList extends Component {
       'receivingNote': line => get(line, 'receivingNote', ''),
       'receiptStatus': line => get(line, 'receivingStatus', ''),
     };
+    const isReceiveButtonDisabled = !some(Object.values(this.state.itemDetails), (line => line.length > 0));
 
     return (
       <div data-test-receiving>
@@ -174,6 +203,7 @@ class ReceivingList extends Component {
               <Col xs>
                 <Button
                   buttonStyle="primary"
+                  disabled={isReceiveButtonDisabled}
                   onClick={this.openItemDetailsModal}
                   data-test-receive-pieces-button
                 >
@@ -186,7 +216,7 @@ class ReceivingList extends Component {
               formatter={resultsFormatter}
               visibleColumns={['isChecked', 'poLineNumber', 'title', 'received', 'dateOrdered', 'receivingNote', 'receiptStatus']}
               columnMapping={{
-                isChecked: <Checkbox type="checkbox" checked={this.state.isAllChecked} />,
+                isChecked: <Checkbox type="checkbox" checked={this.state.isAllChecked} onChange={() => this.toggleAll(receivingList)} />,
                 poLineNumber: <FormattedMessage id="ui-orders.receiving.poLine" />,
                 title: <FormattedMessage id="ui-orders.receiving.title" />,
                 received: <FormattedMessage id="ui-orders.receiving.received" />,
