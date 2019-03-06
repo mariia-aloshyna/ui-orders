@@ -31,7 +31,7 @@ describe('OrderDetailsPage', () => {
 
   describe('clicking on edit', () => {
     beforeEach(async () => {
-      await orderDetailsPage.headerDropdown.click();
+      await orderDetailsPage.editOrderButton.click();
     });
 
     it('should redirect to order edit page', () => {

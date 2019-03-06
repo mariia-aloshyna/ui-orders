@@ -26,6 +26,7 @@ import {
   LOCATIONS,
   RECEIVING_HISTORY,
 } from '../Utils/resources';
+import { LIMIT_MAX } from '../Utils/const';
 import FolioFormattedTime from '../FolioFormattedTime';
 import ItemDetails from './ItemDetails';
 import { PIECE_STATUS_RECEIVED } from './const';
@@ -38,7 +39,7 @@ class ReceivingList extends Component {
         query: '',
       },
     },
-    receiving_history: RECEIVING_HISTORY,
+    receivingHistory: RECEIVING_HISTORY,
     locations: LOCATIONS,
   })
 
@@ -65,13 +66,14 @@ class ReceivingList extends Component {
   }
 
   componentDidMount() {
-    const { mutator, match: { params: { id, lineId } } } = this.props;
+    const { mutator: { receivingHistory }, match: { params: { id, lineId } } } = this.props;
     const params = {
+      limit: LIMIT_MAX,
       query: `purchaseOrderId==${id}${lineId ? ` and poLineId==${lineId}` : ''}`,
     };
 
-    mutator.receiving_history.reset();
-    mutator.receiving_history.GET({ params });
+    receivingHistory.reset();
+    receivingHistory.GET({ params });
   }
 
   onCloseReceiving = () => {
@@ -126,7 +128,7 @@ class ReceivingList extends Component {
 
   render() {
     const { resources, mutator, location } = this.props;
-    const receivingList = get(resources, ['receiving_history', 'records'], []);
+    const receivingList = get(resources, ['receivingHistory', 'records'], []);
     const uniqReceivingList = uniqBy(receivingList, 'poLineId');
     const orderNumber = String(get(resources, ['receiving_history', 'records', 0, 'poLineNumber'])).split('-')[0];
     const resultsFormatter = {
