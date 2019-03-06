@@ -27,7 +27,6 @@ import {
   orderRecordsMutatorShape,
 } from '../Utils/mutators';
 import LocationView from './Location/LocationView';
-import { LayerPOLine } from '../LayerCollection';
 import { POLineDetails } from './POLineDetails';
 import CostView from './Cost/CostView';
 import VendorView from './Vendor/VendorView';
@@ -128,14 +127,10 @@ class POLine extends Component {
 
   render() {
     const {
-      location,
       match: { params: { lineId } },
-      onCloseEdit,
-      parentMutator,
       parentResources,
       poURL,
       resources,
-      stripes,
     } = this.props;
 
     const firstMenu = (
@@ -286,15 +281,6 @@ class POLine extends Component {
             />
           </Accordion>
         </AccordionSet>
-        <LayerPOLine
-          line={line}
-          location={location}
-          stripes={stripes}
-          onCancel={onCloseEdit}
-          parentResources={parentResources}
-          parentMutator={parentMutator}
-          order={order}
-        />
       </Pane>
     );
   }
