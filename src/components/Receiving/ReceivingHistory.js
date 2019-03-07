@@ -159,7 +159,7 @@ class ReceivingHistory extends Component {
     const { mutator, location, resources } = this.props;
     const contentData = this.getData(resources);
     const orderNumber = get(resources, ['order', 'records', 0, 'po_number']);
-    const isRemoveButtonDisabled = Object.values(checkedPiecesMap).length === 0;
+    const isRemoveButtonDisabled = Object.values(checkedPiecesMap).filter(Boolean).length === 0;
     const resultsFormatter = {
       'isChecked': (piece) => (
         <Checkbox
@@ -236,14 +236,16 @@ class ReceivingHistory extends Component {
             />
           </Pane>
         </Paneset>
-        <ConfirmationModal
-          confirmLabel={<FormattedMessage id="ui-orders.receivingHistory.confirmation.confirm" />}
-          heading={<FormattedMessage id="ui-orders.receivingHistory.confirmation.heading" />}
-          message={<FormattedMessage id="ui-orders.receivingHistory.confirmation.message" />}
-          onCancel={this.hideConfirm}
-          onConfirm={this.handleSubmit}
-          open={confirming}
-        />
+        {confirming && (
+          <ConfirmationModal
+            confirmLabel={<FormattedMessage id="ui-orders.receivingHistory.confirmation.confirm" />}
+            heading={<FormattedMessage id="ui-orders.receivingHistory.confirmation.heading" />}
+            message={<FormattedMessage id="ui-orders.receivingHistory.confirmation.message" />}
+            onCancel={this.hideConfirm}
+            onConfirm={this.handleSubmit}
+            open
+          />
+        )}
         <Callout ref={this.callout} />
       </div>
     );
