@@ -516,7 +516,7 @@
   "receivingHistory.paneTitle": "Receiving History - PO {orderNumber}",
   "receivingHistory.remove.error": "Remove error",
   "receivingHistory.remove.success": "Remove success",
-  "receivingList.paneTitle": "Receive - PO - {orderNumber}",
+  "receivingList.paneTitle": "Receive - PO {orderNumber}",
   "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
   "search": "Search",
   "settings.closingReasons.add": "Add Reason",

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-
 import {
   get,
   some,
@@ -33,6 +32,26 @@ import FolioFormattedTime from '../FolioFormattedTime';
 import ItemDetails from './ItemDetails';
 import { PIECE_STATUS_RECEIVED } from './const';
 import ReceivingLinks from './ReceivingLinks';
+
+const getLinesRows = (receivingList) => {
+  let uniqReceivingList = sortBy(uniqBy(receivingList, 'poLineId'), 'poLineNumber');
+
+  uniqReceivingList = uniqReceivingList.map((line) => {
+    const itemsToReceive = receivingList.filter(el => el.poLineId === line.poLineId);
+    const receivedItemsCount = itemsToReceive.filter(el => el.receivingStatus === PIECE_STATUS_RECEIVED).length;
+    const itemsToReceiveCount = itemsToReceive.length;
+
+    if (receivedItemsCount === itemsToReceiveCount) {
+      return null;
+    }
+
+    line.received = `${receivedItemsCount}/${itemsToReceiveCount}`;
+
+    return line;
+  });
+
+  return uniqReceivingList.filter(Boolean);
+};
 
 class ReceivingList extends Component {
   static manifest = Object.freeze({
@@ -157,8 +176,8 @@ class ReceivingList extends Component {
   render() {
     const { resources, mutator, location } = this.props;
     const receivingList = get(resources, ['receivingHistory', 'records'], []);
-    const uniqReceivingList = sortBy(uniqBy(receivingList, 'poLineId'), 'poLineNumber');
-    const orderNumber = String(get(resources, ['receivingHistory', 'records', 0, 'poLineNumber'])).split('-')[0];
+    const uniqReceivingList = getLinesRows(receivingList);
+    const orderNumber = get(resources, ['receivingHistory', 'records', 0, 'poLineNumber'], '-').split('-')[0];
     const resultsFormatter = {
       'isChecked': line => (
         <Checkbox
@@ -169,12 +188,7 @@ class ReceivingList extends Component {
       ),
       'poLineNumber': line => get(line, 'poLineNumber', ''),
       'title': line => get(line, 'title', ''),
-      'received': line => {
-        const itemsToReceive = receivingList.filter(el => el.poLineId === line.poLineId);
-        const receivedItems = itemsToReceive.filter(el => el.receivingStatus === PIECE_STATUS_RECEIVED);
-
-        return `${receivedItems.length}/${itemsToReceive.length}`;
-      },
+      'received': line => line.received,
       'dateOrdered': line => <FolioFormattedTime dateString={get(line, 'dateOrdered')} />,
       'receivingNote': line => get(line, 'receivingNote', ''),
       'receiptStatus': line => get(line, 'receivingStatus', ''),
