@@ -109,7 +109,7 @@ class ItemDetails extends Component {
         />
       ),
       'barcode': (item) => (
-        <div className={css.editableFieldWrapper}>
+        <div className={css.fieldWrapper}>
           <TextField
             onChange={(e) => this.onChangeField(item, e.target.value, 'barcode')}
             type="number"
@@ -117,9 +117,13 @@ class ItemDetails extends Component {
           />
         </div>
       ),
-      'format': (item) => <KeyValue value={get(item, 'orderFormat', '')} />,
+      'format': (item) => (
+        <div className={css.fieldWrapper}>
+          <KeyValue value={get(item, 'poLineOrderFormat', '')} />
+        </div>
+      ),
       'location': (item) => (
-        <div className={css.editableFieldWrapper}>
+        <div className={css.fieldWrapper}>
           <Select
             dataOptions={locationsOptions}
             onChange={(e) => this.onChangeField(item, e.target.value, 'locationId')}
@@ -129,7 +133,7 @@ class ItemDetails extends Component {
         </div>
       ),
       'itemStatus': () => (
-        <div className={css.editableFieldWrapper}>
+        <div className={css.fieldWrapper}>
           <Select
             defaultValue={<FormattedMessage id="ui-orders.receiving.itemStatus.received" />}
             fullWidth
