@@ -1,3 +1,5 @@
+import { some } from 'lodash';
+
 import { ITEM_STATUS } from './const';
 
 export const reducePieces = (pieces, isSelect = false) => {
@@ -32,7 +34,17 @@ export const historyRemoveItems = (checkedPiecesMap, mutator) => {
       };
     }
   });
-  const postData = { toBeReceived: Object.values(linesMap) };
 
-  return mutator.POST(postData);
+  const postData = {
+    toBeReceived: Object.values(linesMap),
+    totalRecords: pieces.length,
+  };
+
+  return mutator.POST(postData).then(({ receivingResults }) => {
+    if (some(receivingResults, ({ processedWithError }) => processedWithError > 0)) {
+      return Promise.reject(receivingResults);
+    }
+
+    return receivingResults;
+  });
 };
