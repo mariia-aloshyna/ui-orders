@@ -170,7 +170,7 @@ class ReceivingHistory extends Component {
       'title': piece => get(piece, 'title', ''),
       'poLineNumber': piece => get(piece, 'poLineNumber', ''),
       'dateOrdered': piece => <FolioFormattedTime dateString={get(piece, 'dateOrdered')} />,
-      'dateReceived': piece => <FolioFormattedTime dateString={get(piece, 'dateReceived')} />,
+      'dateReceived': piece => <FolioFormattedTime dateString={get(piece, 'receivedDate')} />,
       'barcode': piece => get(piece, 'barcode', ''),
       'receivingNote': piece => get(piece, 'receivingNote', ''),
       'receivingStatus': piece => get(piece, 'receivingStatus', ''),
