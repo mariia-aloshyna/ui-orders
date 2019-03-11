@@ -30,7 +30,10 @@ import {
 import { LIMIT_MAX } from '../Utils/const';
 import FolioFormattedTime from '../FolioFormattedTime';
 import ItemDetails from './ItemDetails';
-import { PIECE_STATUS_RECEIVED } from './const';
+import {
+  PIECE_STATUS_RECEIVED,
+  PIECE_STATUS_EXPECTED,
+} from './const';
 import ReceivingLinks from './ReceivingLinks';
 
 const getLinesRows = (receivingList) => {
@@ -134,7 +137,9 @@ class ReceivingList extends Component {
         ...{
           [line.poLineId]: this.isLineChecked(line)
             ? []
-            : receivingList.filter(el => el.poLineId === line.poLineId),
+            : receivingList.filter(el => (
+              el.poLineId === line.poLineId && el.receivingStatus === PIECE_STATUS_EXPECTED
+            )),
         },
       },
     }));
@@ -150,10 +155,12 @@ class ReceivingList extends Component {
           const poLineId = piece.poLineId;
           const linePieces = itemDetails[poLineId];
 
-          if (linePieces) {
-            linePieces.push(piece);
-          } else {
-            itemDetails[poLineId] = [piece];
+          if (piece.receivingStatus === PIECE_STATUS_EXPECTED) {
+            if (linePieces) {
+              linePieces.push(piece);
+            } else {
+              itemDetails[poLineId] = [piece];
+            }
           }
         });
       }
@@ -191,7 +198,7 @@ class ReceivingList extends Component {
       'received': line => line.received,
       'dateOrdered': line => <FolioFormattedTime dateString={get(line, 'dateOrdered')} />,
       'receivingNote': line => get(line, 'receivingNote', ''),
-      'receiptStatus': line => get(line, 'receivingStatus', ''),
+      'receiptStatus': () => <FormattedMessage id="ui-orders.receiving.lineStatus.expected" />,
     };
     const isReceiveButtonDisabled = !some(Object.values(this.state.itemDetails), (line => line.length > 0));
 

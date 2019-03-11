@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { get } from 'lodash';
+import {
+  get,
+  uniq,
+} from 'lodash';
 
 import {
   Checkbox,
@@ -23,7 +26,7 @@ const ITEM_STATUS = {
 class ItemDetails extends Component {
   static propTypes = {
     close: PropTypes.func.isRequired,
-    linesItemList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    linesItemList: PropTypes.object.isRequired,
     locationsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
@@ -47,7 +50,7 @@ class ItemDetails extends Component {
       const allCheckedLine = !allChecked[poLineId];
       const itemsToRemove = lineItems[poLineId].map(el => el.id);
       const checkedLineItems = allCheckedLine
-        ? [...checkedItems, ...lineItems[poLineId].map(el => el.id)]
+        ? uniq([...checkedItems, ...lineItems[poLineId].map(el => el.id)])
         : [...checkedItems].filter(id => !itemsToRemove.includes(id));
 
       allChecked[poLineId] = allCheckedLine;
@@ -137,6 +140,7 @@ class ItemDetails extends Component {
           <Select
             defaultValue={<FormattedMessage id="ui-orders.receiving.itemStatus.received" />}
             fullWidth
+            selectClass={css.itemStatusField}
           >
             {Object.keys(ITEM_STATUS).map((key) => (
               <FormattedMessage
