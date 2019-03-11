@@ -182,39 +182,41 @@ class ReceivingHistory extends Component {
           <Pane
             defaultWidth="fill"
             paneTitle={(
-              <ReceivingLinks
-                location={location}
-                mutator={mutator}
+              <FormattedMessage
+                id="ui-orders.receivingHistory.paneTitle"
+                values={{ orderNumber }}
               />
             )}
             firstMenu={this.getFirstMenu()}
           >
-            <Row>
+            <Row center="xs">
               <Col xs>
-                <FormattedMessage id="ui-orders.receivingHistory.paneTitle" values={{ orderNumber }} />
+                <ReceivingLinks
+                  location={location}
+                  mutator={mutator}
+                />
               </Col>
-              <Row end="xs">
-                <Col
-                  data-test-receiving-history-search
-                  xs
+            </Row>
+            <Row end="xs">
+              <Col data-test-receiving-history-search>
+                <SearchField
+                  marginBottom0
+                  onChange={this.changeSearchText}
+                  onClear={this.changeSearchText}
+                  value={searchText}
+                />
+              </Col>
+              <Col>
+                <Button
+                  buttonStyle="primary"
+                  data-test-receiving-remove
+                  disabled={isRemoveButtonDisabled}
+                  marginBottom0
+                  onClick={this.showConfirm}
                 >
-                  <SearchField
-                    onClear={this.changeSearchText}
-                    onChange={this.changeSearchText}
-                    value={searchText}
-                  />
-                </Col>
-                <Col xs>
-                  <Button
-                    buttonStyle="primary"
-                    data-test-receiving-remove
-                    disabled={isRemoveButtonDisabled}
-                    onClick={this.showConfirm}
-                  >
-                    <FormattedMessage id="ui-orders.receiving.btn.remove" />
-                  </Button>
-                </Col>
-              </Row>
+                  <FormattedMessage id="ui-orders.receiving.btn.remove" />
+                </Button>
+              </Col>
             </Row>
             <MultiColumnList
               fullWidth
