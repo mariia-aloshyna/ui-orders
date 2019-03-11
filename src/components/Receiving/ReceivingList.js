@@ -208,16 +208,20 @@ class ReceivingList extends Component {
           <Pane
             defaultWidth="fill"
             paneTitle={(
-              <ReceivingLinks
-                location={location}
-                mutator={mutator}
+              <FormattedMessage
+                id="ui-orders.receivingList.paneTitle"
+                values={{ orderNumber }}
               />
+
             )}
             firstMenu={this.getFirstMenu()}
           >
-            <Row>
+            <Row center="xs">
               <Col xs>
-                <FormattedMessage id="ui-orders.receivingList.paneTitle" values={{ orderNumber }} />
+                <ReceivingLinks
+                  location={location}
+                  mutator={mutator}
+                />
               </Col>
             </Row>
             <Row end="xs">
