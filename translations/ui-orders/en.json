@@ -493,6 +493,7 @@
   "receiving.format": "Format",
   "receiving.itemStatus.received": "Received",
   "receiving.itemStatus": "Item Status",
+  "receiving.lineStatus.expected": "Expected",
   "receiving.location": "Location",
   "receiving.modalPaneTitle": "POL {poLineNumber} - Title {title}",
   "receiving.nextBtn": "Next",
