@@ -15,7 +15,7 @@ import { WORKFLOW_STATUS } from './FieldWorkflowStatus';
 // import css from './SummaryView.css';
 
 const SummaryView = ({ order }) => {
-  const workflowStatus = get(order, 'workflow_status');
+  const workflowStatus = get(order, 'workflowStatus');
 
   return (
     <Fragment>
@@ -23,7 +23,7 @@ const SummaryView = ({ order }) => {
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.totalUnits" />}
-            value={get(order, 'total_items')}
+            value={get(order, 'totalItems')}
           />
         </Col>
         <Col xs={6}>
@@ -37,7 +37,7 @@ const SummaryView = ({ order }) => {
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}
-            value={get(order, 'total_estimated_price')}
+            value={get(order, 'totalEstimatedPrice')}
           />
         </Col>
         <Col xs={6}>
@@ -52,13 +52,13 @@ const SummaryView = ({ order }) => {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderSummary.closingReason" />}
-              value={get(order, ['close_reason', 'reason'])}
+              value={get(order, ['closeReason', 'reason'])}
             />
           </Col>
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderSummary.closingNote" />}
-              value={get(order, ['close_reason', 'note'])}
+              value={get(order, ['closeReason', 'note'])}
             />
           </Col>
         </Row>

@@ -158,7 +158,7 @@ class ReceivingHistory extends Component {
     const { checkedPiecesMap, confirming, isAllChecked, searchText } = this.state;
     const { mutator, location, resources } = this.props;
     const contentData = this.getData(resources);
-    const orderNumber = get(resources, ['order', 'records', 0, 'po_number']);
+    const orderNumber = get(resources, ['order', 'records', 0, 'poNumber']);
     const isRemoveButtonDisabled = Object.values(checkedPiecesMap).filter(Boolean).length === 0;
     const resultsFormatter = {
       'isChecked': (piece) => (

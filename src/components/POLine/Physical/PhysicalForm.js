@@ -26,7 +26,7 @@ const PhysicalForm = ({ vendors }) => (
             dataOptions={[{ label: placeholder, value: '' }, ...vendors]}
             fullWidth
             label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
-            name="physical.material_supplier"
+            name="physical.materialSupplier"
             normalize={(value) => {
               return value === ''
                 ? null
@@ -43,7 +43,7 @@ const PhysicalForm = ({ vendors }) => (
         dateFormat={DATE_FORMAT}
         fullWidth
         label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
-        name="physical.receipt_due"
+        name="physical.receiptDue"
         timeZone={TIMEZONE}
       />
     </Col>

@@ -24,17 +24,17 @@ class AdjustmentForm extends Component {
           <Field label="Overhead" name="overhead" id="overhead" type="number" component={TextField} fullWidth />
         </Col>
         <Col xs={6}>
-          <Field label="Tax 1" name="tax_1" id="tax_1" type="number" component={TextField} fullWidth />
+          <Field label="Tax 1" name="tax1" type="number" component={TextField} fullWidth />
         </Col>
         <Col xs={6}>
           <Field label="Credit" name="credit" id="credit" type="number" component={TextField} fullWidth />
         </Col>
         <Col xs={6}>
-          <Field label="Tax 2" name="tax_2" id="tax_2" type="number" component={TextField} fullWidth />
+          <Field label="Tax 2" name="tax2" type="number" component={TextField} fullWidth />
         </Col>
         <Col xs={6}>
           <br />
-          <Field label="Use Pro Rate" name="use_pro_rate" id="use_pro_rate" component={Checkbox} fullWidth />
+          <Field label="Use Pro Rate" name="useProRate" component={Checkbox} fullWidth />
         </Col>
       </Row>
     );

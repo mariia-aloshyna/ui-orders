@@ -153,7 +153,7 @@ class POLineForm extends Component {
   render() {
     const { change, dispatch, initialValues, onCancel, deletePOLine, stripes: { store } } = this.props;
     const lineId = get(initialValues, 'id');
-    const lineNumber = get(initialValues, 'po_line_number', '');
+    const lineNumber = get(initialValues, 'poLineNumber', '');
     const firstMenu = this.getAddFirstMenu();
     const paneTitle = lineId
       ? <FormattedMessage id="ui-orders.line.paneTitle.edit" values={{ lineNumber }} />
@@ -184,7 +184,7 @@ class POLineForm extends Component {
     }
 
     const formValues = getFormValues('POLineForm')(store.getState());
-    const orderFormat = get(formValues, 'order_format');
+    const orderFormat = get(formValues, 'orderFormat');
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const vendors = getVendorsForSelect(this.props.parentResources);

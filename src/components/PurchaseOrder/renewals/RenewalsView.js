@@ -23,19 +23,19 @@ const RenewalsView = ({ order: { renewal = {} } }) => {
       </Col>
       <Col xs={6}>
         <KeyValue label={<FormattedMessage id="ui-orders.renewals.renewalDate" />}>
-          <FormattedDate value={renewal.renewal_date} />
+          <FormattedDate value={renewal.renewalDate} />
         </KeyValue>
       </Col>
       <Col xs={6}>
         <KeyValue
           label={<FormattedMessage id="ui-orders.renewals.reviewPeriod" />}
-          value={renewal.review_period}
+          value={renewal.reviewPeriod}
         />
       </Col>
       <Col xs={6}>
         <KeyValue label={<FormattedMessage id="ui-orders.renewals.manualRenewal" />}>
           <Checkbox
-            checked={renewal.manual_renewal}
+            checked={renewal.manualRenewal}
             disabled
           />
         </KeyValue>

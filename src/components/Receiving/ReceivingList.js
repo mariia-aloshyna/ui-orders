@@ -74,7 +74,7 @@ class ReceivingList extends Component {
       query: PropTypes.shape({
         update: PropTypes.func.isRequired,
       }),
-      receiving_history: EXTENDED_MUTATOR,
+      receivingHistory: EXTENDED_MUTATOR,
     }).isRequired,
     match: ReactRouterPropTypes.match.isRequired,
   }

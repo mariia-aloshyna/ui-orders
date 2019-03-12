@@ -48,9 +48,8 @@ class POLineDetailsForm extends Component {
                 component={TextField}
                 disabled
                 fullWidth
-                id="po_line_number"
                 label={<FormattedMessage id="ui-orders.poLine.poLineNumber" />}
-                name="po_line_number"
+                name="poLineNumber"
                 type="text"
               />
             )}
@@ -87,9 +86,8 @@ class POLineDetailsForm extends Component {
             <Field
               component={TextField}
               fullWidth
-              id="receipt_date"
               label={<FormattedMessage id="ui-orders.poLine.receiptDate" />}
-              name="receipt_date"
+              name="receiptDate"
               type="date"
             />
           </Col>
@@ -139,9 +137,8 @@ class POLineDetailsForm extends Component {
             <Field
               component={Checkbox}
               fullWidth
-              id="cancellation_restriction"
               label={<FormattedMessage id="ui-orders.poLine.cancellationRestriction" />}
-              name="cancellation_restriction"
+              name="cancellationRestriction"
               type="checkbox"
             />
           </Col>
@@ -169,9 +166,8 @@ class POLineDetailsForm extends Component {
             <Field
               component={Checkbox}
               fullWidth
-              id="checkin_items"
               label={<FormattedMessage id="ui-orders.poLine.checkinItems" />}
-              name="checkin_items"
+              name="checkinItems"
               type="checkbox"
             />
           </Col>
@@ -181,18 +177,16 @@ class POLineDetailsForm extends Component {
             <Field
               component={TextArea}
               fullWidth
-              id="cancellation_restriction_note"
               label={<FormattedMessage id="ui-orders.poLine.cancellationRestrictionNote" />}
-              name="cancellation_restriction_note"
+              name="cancellationRestrictionNote"
             />
           </Col>
           <Col xs={12}>
             <Field
               component={TextArea}
               fullWidth
-              id="po_line_description"
               label={<FormattedMessage id="ui-orders.poLine.poLineDescription" />}
-              name="po_line_description"
+              name="poLineDescription"
             />
           </Col>
         </Row>

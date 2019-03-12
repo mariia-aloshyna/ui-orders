@@ -8,7 +8,7 @@ export default ApplicationSerializer.extend({
 
     if (isArray(json.orders)) {
       return {
-        purchase_orders: json.orders,
+        purchaseOrders: json.orders,
         totalRecords: json.orders.length,
       };
     }

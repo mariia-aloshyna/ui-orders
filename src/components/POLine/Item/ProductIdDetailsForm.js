@@ -77,7 +77,7 @@ class ProductIdDetailsForm extends Component {
             component={TextField}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
-            name={`${elem}.product_id`}
+            name={`${elem}.productId`}
           />
         </Col>
         <Col xs={5}>
@@ -85,7 +85,7 @@ class ProductIdDetailsForm extends Component {
             component={Select}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.productIdType" />}
-            name={`${elem}.product_id_type`}
+            name={`${elem}.productIdType`}
             required
             validate={[Required]}
           >
@@ -119,8 +119,7 @@ class ProductIdDetailsForm extends Component {
     return (
       <FieldArray
         component={this.renderForm}
-        label="details.product_ids"
-        name="details.product_ids"
+        name="details.productIds"
       />
     );
   }

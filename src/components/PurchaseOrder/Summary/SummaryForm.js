@@ -16,13 +16,13 @@ const SummaryForm = ({ initialValues: order }) => (
     <Col xs={6} md={3}>
       <KeyValue
         label={<FormattedMessage id="ui-orders.orderSummary.totalUnits" />}
-        value={order.total_items}
+        value={order.totalItems}
       />
     </Col>
     <Col xs={6} md={3}>
       <KeyValue
         label={<FormattedMessage id="ui-orders.orderSummary.totalEstimatedPrice" />}
-        value={order.total_estimated_price}
+        value={order.totalEstimatedPrice}
       />
     </Col>
     <Col xs={6} md={3}>

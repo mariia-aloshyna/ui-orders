@@ -27,10 +27,10 @@ class LineListing extends Component {
   render() {
     const { poLines } = this.props;
     const resultsFormatter = {
-      'po_line_number': item => toString(get(item, ['po_line_number'], '')),
-      'acquisition_method': item => toString(get(item, ['acquisition_method'], '')),
+      'poLineNumber': item => toString(get(item, ['poLineNumber'], '')),
+      'acquisitionMethod': item => toString(get(item, ['acquisitionMethod'], '')),
       'owner': item => toString(get(item, ['owner'], '')),
-      'po_line_description': item => toString(get(item, ['po_line_description'], '')),
+      'poLineDescription': item => toString(get(item, ['poLineDescription'], '')),
     };
 
     return (
@@ -39,12 +39,12 @@ class LineListing extends Component {
           contentData={poLines}
           formatter={resultsFormatter}
           onRowClick={this.onSelectRow}
-          visibleColumns={['po_line_number', 'acquisition_method', 'owner', 'po_line_description']}
+          visibleColumns={['poLineNumber', 'acquisitionMethod', 'owner', 'poLineDescription']}
           columnMapping={{
-            po_line_number: <FormattedMessage id="ui-orders.lineListing.lineNumber" />,
-            acquisition_method: <FormattedMessage id="ui-orders.lineListing.acquisitionMethod" />,
+            poLineNumber: <FormattedMessage id="ui-orders.lineListing.lineNumber" />,
+            acquisitionMethod: <FormattedMessage id="ui-orders.lineListing.acquisitionMethod" />,
             owner: <FormattedMessage id="ui-orders.lineListing.owner" />,
-            po_line_description: <FormattedMessage id="ui-orders.lineListing.lineDescription" />,
+            poLineDescription: <FormattedMessage id="ui-orders.lineListing.lineDescription" />,
           }}
         />
       </div>

@@ -21,13 +21,13 @@ class VendorView extends Component {
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.vendor.refNumber" />}
-            value={get(vendorDetail, 'ref_number')}
+            value={get(vendorDetail, 'refNumber')}
           />
         </Col>
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.vendor.refNumberType" />}
-            value={get(vendorDetail, 'ref_number_type')}
+            value={get(vendorDetail, 'refNumberType')}
           />
         </Col>
         <Col xs={6}>
@@ -39,11 +39,11 @@ class VendorView extends Component {
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.vendor.vendorAccount" />}
-            value={get(vendorDetail, 'vendor_account')}
+            value={get(vendorDetail, 'vendorAccount')}
           />
           <KeyValue
             label={<FormattedMessage id="ui-orders.vendor.noteFromVendor" />}
-            value={get(vendorDetail, 'note_from_vendor')}
+            value={get(vendorDetail, 'noteFromVendor')}
           />
         </Col>
       </Row>

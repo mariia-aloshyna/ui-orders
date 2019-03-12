@@ -7,8 +7,6 @@ import {
   getFormValues,
 } from 'redux-form';
 
-import { get } from 'lodash';
-
 import {
   Button,
   Col,
@@ -23,8 +21,6 @@ import { Required } from '../../Utils/Validate';
 class FundDistributionForm extends Component {
   static propTypes = {
     store: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    change: PropTypes.func.isRequired,
     funds: PropTypes.arrayOf(PropTypes.object),
   };
 
@@ -32,21 +28,14 @@ class FundDistributionForm extends Component {
 
   removeFields = (fields, index) => fields.remove(index);
 
-  updateCode = (fundId, formItemName) => {
-    const { change, dispatch, funds } = this.props;
-    const code = get(funds.find(({ value }) => value === fundId), 'code');
-
-    dispatch(change(`${formItemName}.code`, code));
-  };
-
-  calculateAmount = (index) => {
+  calculateAmount = (fund) => {
     const { store } = this.props;
     const formValues = getFormValues('POLineForm')(store.getState());
-    const listPrice = parseFloat(formValues.cost.list_price);
-    const quantityPhysical = parseInt(formValues.cost.quantity_physical, 10) || 0;
-    const quantityElectronic = parseInt(formValues.cost.quantity_electronic, 10) || 0;
+    const listPrice = parseFloat(formValues.cost.listPrice);
+    const quantityPhysical = parseInt(formValues.cost.quantityPhysical, 10) || 0;
+    const quantityElectronic = parseInt(formValues.cost.quantityElectronic, 10) || 0;
     const estimatedPrice = listPrice * (quantityPhysical + quantityElectronic);
-    const fundDistributionPercentage = parseInt(formValues.fund_distribution[index].percentage, 10) || 0;
+    const fundDistributionPercentage = parseInt(fund.percentage, 10) || 0;
     const amount = parseFloat((fundDistributionPercentage / 100) * estimatedPrice).toFixed(2);
 
     return amount;
@@ -78,7 +67,8 @@ class FundDistributionForm extends Component {
 
   renderSubForm = (elem, index, fields) => {
     const { funds } = this.props;
-    const amount = this.calculateAmount(index);
+    const fund = fields.get(index);
+    const amount = this.calculateAmount(fund);
 
     return (
       <Row key={index}>
@@ -88,8 +78,7 @@ class FundDistributionForm extends Component {
             dataOptions={funds}
             fullWidth
             label={<FormattedMessage id="ui-orders.fundDistribution.id" />}
-            name={`${elem}.id`}
-            onChange={e => this.updateCode(e.target.value, elem)}
+            name={`${elem}.code`}
             placeholder=" "
             required
             validate={[Required]}
@@ -106,12 +95,9 @@ class FundDistributionForm extends Component {
           />
         </Col>
         <Col xs={6}>
-          <Field
-            component={TextField}
-            disabled
-            fullWidth
+          <KeyValue
             label={<FormattedMessage id="ui-orders.fundDistribution.code" />}
-            name={`${elem}.code`}
+            value={fund.code}
           />
         </Col>
         <Col xs={6}>
@@ -141,7 +127,7 @@ class FundDistributionForm extends Component {
         <Col xs={12}>
           <FieldArray
             component={this.renderForm}
-            name="fund_distribution"
+            name="fundDistribution"
           />
         </Col>
       </Row>

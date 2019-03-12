@@ -131,25 +131,14 @@ class LayerPOLine extends Component {
     const line = cloneDeep(data);
     const { parentMutator, location: { pathname } } = this.props;
 
-    // remove sample data from payload to prevent errors on saving sample lines
-    delete line.agreement_id;
-    delete line.instance_id;
-    delete line.location;
-    if (line.eresource) {
-      delete line.eresource.license;
-    }
-    if (line.adjustment) {
-      delete line.adjustment.invoice_id;
-    }
-
-    const materialSupplier = get(line, 'physical.material_supplier');
-    const accessProvider = get(line, 'eresource.access_provider');
+    const materialSupplier = get(line, 'physical.materialSupplier');
+    const accessProvider = get(line, 'eresource.accessProvider');
 
     if (materialSupplier === '') {
-      line.physical.material_supplier = null;
+      line.physical.materialSupplier = null;
     }
     if (accessProvider === '') {
-      line.eresource.access_provider = null;
+      line.eresource.accessProvider = null;
     }
 
     parentMutator.poLine.PUT(line).then(() => {
@@ -182,14 +171,14 @@ class LayerPOLine extends Component {
       cost: {
         currency: CURRENCY.usd,
       },
-      vendor_detail: {
+      vendorDetail: {
         instructions: '',
       },
     };
 
     // Due to not perfect component hierarchy, the 'real' new PO Line goes only if orderId is not falsy
     if (orderId) {
-      newObj.purchase_order_id = orderId;
+      newObj.purchaseOrderId = orderId;
     }
 
     return newObj;

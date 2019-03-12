@@ -23,7 +23,7 @@ class FieldAcquisitionMethod extends Component {
       <Field
         component={Select}
         label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
-        name="acquisition_method"
+        name="acquisitionMethod"
         required
         validate={[Required]}
       >

@@ -23,13 +23,13 @@ describe('Line details test', () => {
 
   beforeEach(async function () {
     order = await this.server.create('order', {
-      workflow_status: WORKFLOW_STATUS.open,
+      workflowStatus: WORKFLOW_STATUS.open,
     });
     line = await this.server.create('line', {
       order,
-      order_format: PHYSICAL,
+      orderFormat: PHYSICAL,
       cost: {
-        quantity_physical: 2,
+        quantityPhysical: 2,
       },
     });
 

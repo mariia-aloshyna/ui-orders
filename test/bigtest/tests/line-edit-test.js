@@ -25,17 +25,17 @@ describe('Line edit test', () => {
     location = await this.server.create('location');
     line = await this.server.create('line', {
       order,
-      order_format: PHYSICAL,
+      orderFormat: PHYSICAL,
       cost: {
-        quantity_physical: 2,
+        quantityPhysical: 2,
       },
     });
 
     locations = [
       {
-        location_id: location.attrs.id,
-        quantity_physical: 2,
-        quantity_electronic: 0,
+        locationId: location.attrs.id,
+        quantityPhysical: 2,
+        quantityElectronic: 0,
       },
     ];
 

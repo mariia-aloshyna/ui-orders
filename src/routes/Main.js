@@ -51,7 +51,7 @@ class Main extends Component {
       type: 'okapi',
       throwErrors: false,
       path: ORDERS_API,
-      records: 'purchase_orders',
+      records: 'purchaseOrders',
       recordsRequired: '%{resultCount}',
       perRequest: RESULT_COUNT_INCREMENT,
     },
@@ -120,7 +120,7 @@ class Main extends Component {
       fetch: false,
       path: LINES_API,
       perRequest: 1000,
-      records: 'po_lines',
+      records: 'poLines',
       throwErrors: false,
       type: 'okapi',
     },
@@ -155,7 +155,7 @@ class Main extends Component {
   }
 
   static getDerivedStateFromProps(props) {
-    const assignedTo = filterConfig.find(group => group.name === 'assigned_to');
+    const assignedTo = filterConfig.find(group => group.name === 'assignedTo');
 
     if (assignedTo.values.length === 0) {
       const user = props.stripes.user.user;
@@ -217,21 +217,21 @@ class Main extends Component {
     } = this.props;
     const users = get(resources, 'users.records', []);
     const resultsFormatter = {
-      'po_number': order => get(order, 'po_number', ''),
+      'poNumber': order => get(order, 'poNumber', ''),
       'created': order => <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />,
       'notes': order => get(order, 'notes', []).join(', '),
-      'assigned_to': order => {
-        const assignedToId = get(order, 'assigned_to', '');
+      'assignedTo': order => {
+        const assignedToId = get(order, 'assignedTo', '');
         const assignedTo = users.find(d => d.id === assignedToId);
 
         return assignedTo && assignedTo.personal
           ? `${assignedTo.personal.firstName} ${assignedTo.personal.lastName}`
           : '';
       },
-      'workflow_status': order => get(order, 'workflow_status', ''),
+      'workflowStatus': order => get(order, 'workflowStatus', ''),
     };
     const newRecordInitialValues = {
-      created_by_name: `${firstName} ${lastName}` || '',
+      createdByName: `${firstName} ${lastName}` || '',
     };
 
     return (
@@ -241,7 +241,7 @@ class Main extends Component {
           objectName="order"
           baseRoute={packageInfo.stripes.route}
           filterConfig={filterConfig}
-          visibleColumns={['po_number', 'workflow_status', 'created', 'notes', 'assigned_to']}
+          visibleColumns={['poNumber', 'workflowStatus', 'created', 'notes', 'assignedTo']}
           resultsFormatter={resultsFormatter}
           viewRecordComponent={Panes}
           editRecordComponent={POForm}
@@ -260,13 +260,13 @@ class Main extends Component {
           stripes={stripes}
           showSingleResult={showSingleResult}
           browseOnly={browseOnly}
-          columnWidths={{ po_number: '120px' }}
+          columnWidths={{ poNumber: '120px' }}
           columnMapping={{
-            po_number: <FormattedMessage id="ui-orders.order.po_number" />,
+            poNumber: <FormattedMessage id="ui-orders.order.po_number" />,
             created: <FormattedMessage id="ui-orders.order.created" />,
             notes: <FormattedMessage id="ui-orders.order.notes" />,
-            assigned_to: <FormattedMessage id="ui-orders.order.assigned_to" />,
-            workflow_status: <FormattedMessage id="ui-orders.order.workflow_status" />,
+            assignedTo: <FormattedMessage id="ui-orders.order.assigned_to" />,
+            workflowStatus: <FormattedMessage id="ui-orders.order.workflow_status" />,
           }}
         />
         <Callout ref={this.createCalloutRef} />

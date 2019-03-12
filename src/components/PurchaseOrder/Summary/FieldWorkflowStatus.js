@@ -16,7 +16,7 @@ class FieldWorkflowStatus extends Component {
       <Field
         component={Select}
         label={<FormattedMessage id="ui-orders.orderSummary.workflowStatus" />}
-        name="workflow_status"
+        name="workflowStatus"
       >
         <FormattedMessage id="ui-orders.dropdown.select">
           {(message) => <option value="">{message}</option>}

@@ -18,7 +18,7 @@ describe('Receiving', () => {
 
   beforeEach(async function () {
     order = await this.server.create('order', {
-      workflow_status: WORKFLOW_STATUS.open,
+      workflowStatus: WORKFLOW_STATUS.open,
     });
 
     this.server.createList('piece', RECEIVING_LIST_COUNT, { receivingStatus: PIECE_STATUS_RECEIVED });

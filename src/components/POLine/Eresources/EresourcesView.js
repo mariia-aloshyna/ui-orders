@@ -15,11 +15,11 @@ import {
 } from '@folio/stripes/components';
 
 export default function EresourcesView({ line: { eresource }, order, vendors }) {
-  const expectedActivation = get(eresource, 'expected_activation');
-  const activationDue = get(eresource, 'activation_due');
+  const expectedActivation = get(eresource, 'expectedActivation');
+  const activationDue = get(eresource, 'activationDue');
   const created = get(order, 'metadata.createdDate', '');
   const activationDueDate = activationDue && moment.utc(created).add(activationDue, 'days').format();
-  const accessProviderId = get(eresource, 'access_provider');
+  const accessProviderId = get(eresource, 'accessProvider');
   const accessProvider = vendors.find((v => v.id === accessProviderId));
 
   return (
@@ -42,7 +42,7 @@ export default function EresourcesView({ line: { eresource }, order, vendors }) 
       </Col>
       <Col xs={3}>
         <KeyValue label={<FormattedMessage id="ui-orders.eresource.createItem" />}>
-          <Checkbox checked={get(eresource, 'create_inventory')} disabled />
+          <Checkbox checked={get(eresource, 'createInventory')} disabled />
         </KeyValue>
       </Col>
       <Col xs={3}>
@@ -58,7 +58,7 @@ export default function EresourcesView({ line: { eresource }, order, vendors }) 
       <Col xs={3}>
         <KeyValue
           label={<FormattedMessage id="ui-orders.eresource.userLimit" />}
-          value={get(eresource, 'user_limit')}
+          value={get(eresource, 'userLimit')}
         />
       </Col>
     </Row>

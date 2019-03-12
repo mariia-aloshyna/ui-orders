@@ -159,8 +159,8 @@ class PO extends Component {
     const { mutator, resources } = this.props;
     const order = get(resources, ['order', 'records', 0]);
     const closeOrderProps = {
-      workflow_status: WORKFLOW_STATUS.closed,
-      close_reason: {
+      workflowStatus: WORKFLOW_STATUS.closed,
+      closeReason: {
         reason,
         note,
       },
@@ -244,9 +244,9 @@ class PO extends Component {
       stripes,
     } = this.props;
     const order = get(resources, ['order', 'records', 0]);
-    const orderNumber = get(order, 'po_number', '');
+    const orderNumber = get(order, 'poNumber', '');
     const poLines = get(order, 'compositePoLines', []);
-    const workflowStatus = get(order, 'workflow_status');
+    const workflowStatus = get(order, 'workflowStatus');
     const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
     const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
 
@@ -285,16 +285,16 @@ class PO extends Component {
     }
 
     const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === order.vendor);
-    const assignedTo = get(parentResources, 'users.records', []).find(d => d.id === order.assigned_to);
+    const assignedTo = get(parentResources, 'users.records', []).find(d => d.id === order.assignedTo);
     const createdByUserId = get(order, 'metadata.createdByUserId');
     const createdBy = get(parentResources, 'users.records', []).find(d => d.id === createdByUserId);
-    const isOngoing = get(order, 'order_type') === ORDER_TYPE.ongoing;
+    const isOngoing = get(order, 'orderType') === ORDER_TYPE.ongoing;
 
-    order.vendor_name = get(vendor, 'name');
-    order.assigned_to_user = assignedTo && assignedTo.personal
+    order.vendorName = get(vendor, 'name');
+    order.assignedToUser = assignedTo && assignedTo.personal
       ? `${assignedTo.personal.firstName} ${assignedTo.personal.lastName}`
       : '';
-    order.created_by_name = createdBy && createdBy.personal
+    order.createdByName = createdBy && createdBy.personal
       ? `${createdBy.personal.firstName} ${createdBy.personal.lastName}`
       : '';
 

@@ -19,7 +19,7 @@ class FieldReceiptStatus extends Component {
       <Field
         component={Select}
         label={<FormattedMessage id="ui-orders.poLine.receiptStatus" />}
-        name="receipt_status"
+        name="receiptStatus"
       >
         <FormattedMessage id="ui-orders.dropdown.select">
           {(message) => <option value="">{message}</option>}

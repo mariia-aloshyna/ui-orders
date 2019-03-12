@@ -18,9 +18,8 @@ class VendorForm extends Component {
           <Field
             component={TextField}
             fullWidth
-            id="vendor_detail.ref_number"
             label={<FormattedMessage id="ui-orders.vendor.refNumber" />}
-            name="vendor_detail.ref_number"
+            name="vendorDetail.refNumber"
             validate={[requiredRefNumberType]}
           />
         </Col>
@@ -31,9 +30,8 @@ class VendorForm extends Component {
           <Field
             component={TextArea}
             fullWidth
-            id="vendor_detail.instructions"
             label={<FormattedMessage id="ui-orders.vendor.instructions" />}
-            name="vendor_detail.instructions"
+            name="vendorDetail.instructions"
             style={{ height: '82px' }}
           />
         </Col>
@@ -41,16 +39,14 @@ class VendorForm extends Component {
           <Field
             component={TextField}
             fullWidth
-            id="vendor_detail.vendor_account"
             label={<FormattedMessage id="ui-orders.vendor.vendorAccount" />}
-            name="vendor_detail.vendor_account"
+            name="vendorDetail.vendorAccount"
           />
           <Field
             component={TextField}
             fullWidth
-            id="vendor_detail.note_from_vendor"
             label={<FormattedMessage id="ui-orders.vendor.noteFromVendor" />}
-            name="vendor_detail.note_from_vendor"
+            name="vendorDetail.noteFromVendor"
           />
         </Col>
       </Row>

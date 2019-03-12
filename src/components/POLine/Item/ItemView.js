@@ -36,7 +36,7 @@ class ItemView extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
-              value={get(poLineDetails, ['details', 'receiving_note'])}
+              value={get(poLineDetails, ['details', 'receivingNote'])}
             />
           </Col>
           <Col xs={6}>
@@ -45,7 +45,7 @@ class ItemView extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
-              value={formatDate(get(poLineDetails, ['details', 'subscription_from']))}
+              value={formatDate(get(poLineDetails, ['details', 'subscriptionFrom']))}
             />
           </Col>
           <Col xs={6}>
@@ -57,25 +57,25 @@ class ItemView extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
-              value={get(poLineDetails, ['details', 'subscription_interval'])}
+              value={get(poLineDetails, ['details', 'subscriptionInterval'])}
             />
           </Col>
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
-              value={get(poLineDetails, 'publication_date')}
+              value={get(poLineDetails, 'publicationDate')}
             />
           </Col>
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
-              value={formatDate(get(poLineDetails, ['details', 'subscription_to']))}
+              value={formatDate(get(poLineDetails, ['details', 'subscriptionTo']))}
             />
           </Col>
           <Col xs={6}>
             <MaterialType
               materialTypes={parentResources.materialTypes}
-              materialTypesIds={get(poLineDetails, ['details', 'material_types'], [])}
+              materialTypesIds={get(poLineDetails, ['details', 'materialTypes'], [])}
             />
           </Col>
           <Col xs={6}>
@@ -86,7 +86,7 @@ class ItemView extends Component {
           </Col>
         </Row>
         <Row>
-          <ProductIdDetails itemIdDetails={get(poLineDetails, 'product_ids', [])} />
+          <ProductIdDetails itemIdDetails={get(poLineDetails, 'productIds', [])} />
         </Row>
         <Row>
           <Col xs={12}>

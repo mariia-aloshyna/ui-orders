@@ -19,16 +19,16 @@ describe('Line number generation', () => {
 
   beforeEach(async function () {
     order = await this.server.create('order', {
-      po_number: ORDER_NUMBER,
-      workflow_status: WORKFLOW_STATUS.pending,
+      poNumber: ORDER_NUMBER,
+      workflowStatus: WORKFLOW_STATUS.pending,
     });
 
     line = await this.server.create('line', {
       order,
-      po_line_number: LINE_NUMBER,
-      order_format: PHYSICAL,
+      poLineNumber: LINE_NUMBER,
+      orderFormat: PHYSICAL,
       cost: {
-        quantity_physical: 2,
+        quantityPhysical: 2,
       },
     });
 
