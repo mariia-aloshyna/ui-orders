@@ -542,12 +542,12 @@
     "receiving.received": "Received",
     "receiving.dateOrdered": "Date Ordered",
     "receiving.receivingItems": "Receiving",
-    "receiving.note": "Receiving Note",
-    "receiving.status": "Receipt Status",
+    "receiving.note": "Nota di ricezione",
+    "receiving.status": "Status della ricevuta",
     "receiving.barcode": "Barcode",
     "receiving.location": "Location",
     "receiving.itemStatus": "Item Status",
-    "receiving.modalPaneTitle": "POL {poLineNumber} - Title {title}",
+    "receiving.modalPaneTitle": "POL {poLineNumber} - Titolo {title}",
     "line.accordion.location": "Location",
     "location.button.addLocation": "Add Location",
     "location.nameCode": "Name (Code)",
@@ -572,6 +572,6 @@
     "receivingHistory.remove.error": "Remove error",
     "receivingHistory.remove.success": "Remove success",
     "receiving.reviewDetails": "Review Details",
-    "receivingList.paneTitle": "Receive - PO {orderNumber}",
+    "receivingList.paneTitle": "Ricevi - PO {orderNumber}",
     "receiving.lineStatus.expected": "Expected"
 }
