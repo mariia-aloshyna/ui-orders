@@ -11,8 +11,10 @@ const ItemDetailsFooter = ({
   checkedItemsListLength,
   close,
   currentLine,
+  isReceiveButtonDisabled,
   onClickNext,
   onClickPrevious,
+  onClickReceive,
   poLineIdsListLenght,
 }) => (
   <Row end="xs">
@@ -23,8 +25,8 @@ const ItemDetailsFooter = ({
     </Button>
     <Button
       buttonStyle="primary"
-      onClick={onClickPrevious}
       disabled={!currentLine}
+      onClick={onClickPrevious}
     >
       <FormattedMessage id="ui-orders.receiving.previousBtn" />
     </Button>
@@ -32,7 +34,8 @@ const ItemDetailsFooter = ({
       ? (
         <Button
           buttonStyle="primary"
-          disabled
+          disabled={isReceiveButtonDisabled}
+          onClick={onClickReceive}
         >
           <FormattedMessage id="ui-orders.receiving.receiveBtn" />
         </Button>
@@ -40,8 +43,8 @@ const ItemDetailsFooter = ({
       : (
         <Button
           buttonStyle="primary"
-          onClick={onClickNext}
           disabled={!checkedItemsListLength}
+          onClick={() => onClickNext(poLineIdsListLenght)}
         >
           <FormattedMessage id="ui-orders.receiving.nextBtn" />
         </Button>
@@ -54,8 +57,10 @@ ItemDetailsFooter.propTypes = {
   checkedItemsListLength: PropTypes.number.isRequired,
   close: PropTypes.func.isRequired,
   currentLine: PropTypes.number.isRequired,
+  isReceiveButtonDisabled: PropTypes.bool.isRequired,
   onClickNext: PropTypes.func.isRequired,
   onClickPrevious: PropTypes.func.isRequired,
+  onClickReceive: PropTypes.func.isRequired,
   poLineIdsListLenght: PropTypes.number.isRequired,
 };
 

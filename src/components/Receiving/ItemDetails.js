@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 
 import {
   get,
+  some,
   uniq,
 } from 'lodash';
 
 import {
+  Callout,
   Checkbox,
   KeyValue,
   Modal,
@@ -16,7 +18,13 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
+import { receiveItems } from './util';
 import ItemDetailsFooter from './ItemDetailsFooter';
+import ReviewDetails from './ReviewDetails';
+import {
+  RECEIVING_HISTORY,
+  RECEIVING_ITEMS,
+} from './ReceivingLinks';
 import css from './ItemDetails.css';
 
 const ITEM_STATUS = {
@@ -27,16 +35,21 @@ class ItemDetails extends Component {
   static propTypes = {
     close: PropTypes.func.isRequired,
     linesItemList: PropTypes.object.isRequired,
+    location: PropTypes.object,
     locationsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    mutator: PropTypes.object,
   }
 
   constructor(props) {
     super(props);
+    this.callout = React.createRef();
 
     this.state = {
       allChecked: {},
       checkedItems: [],
       currentLine: 0,
+      finalCheckedItemList: [],
+      isFinalAllChecked: true,
       lineItems: this.props.linesItemList,
     };
   }
@@ -75,11 +88,78 @@ class ItemDetails extends Component {
     });
   }
 
-  onClickNext = () => (
-    this.setState(({ currentLine }) => ({
-      currentLine: currentLine + 1,
-    }))
-  );
+  finalToggleAll = () => (
+    this.setState(state => {
+      const isFinalAllChecked = !state.isFinalAllChecked;
+      const finalCheckedItemList = [...state.finalCheckedItemList];
+
+      if (state.isFinalAllChecked) {
+        const toggledItems = finalCheckedItemList.map(item => {
+          item.isSelected = false;
+
+          return item;
+        });
+
+        return {
+          isFinalAllChecked,
+          finalCheckedItemList: toggledItems,
+        };
+      } else {
+        const toggledItems = finalCheckedItemList.map(item => {
+          item.isSelected = true;
+
+          return item;
+        });
+
+        return {
+          isFinalAllChecked,
+          finalCheckedItemList: toggledItems,
+        };
+      }
+    })
+  )
+
+  finalToggleItem = (item) => {
+    this.setState(state => {
+      const finalCheckedItemList = [...state.finalCheckedItemList];
+      const toggledItem = finalCheckedItemList.filter(el => el.id === item.id)[0];
+
+      toggledItem.isSelected = !toggledItem.isSelected;
+
+      return {
+        finalCheckedItemList,
+        isFinalAllChecked: false,
+      };
+    });
+  }
+
+  isReceiveButtonDisabled = () => (
+    !some(this.state.finalCheckedItemList, { isSelected: true })
+  )
+
+  onClickNext = (linesCounter) => {
+    this.setState(state => {
+      if (state.currentLine + 1 === linesCounter) {
+        const checkedItems = [...state.checkedItems];
+        const checkedItemsList = checkedItems.map(item => {
+          const piece = Object.values(state.lineItems).flat().filter(el => el.id === item)[0];
+
+          piece.isSelected = true;
+
+          return piece;
+        });
+
+        return {
+          finalCheckedItemList: checkedItemsList,
+          currentLine: state.currentLine + 1,
+        };
+      } else {
+        return {
+          currentLine: state.currentLine + 1,
+        };
+      }
+    });
+  }
 
   onClickPrevious = () => (
     this.setState(({ currentLine }) => ({
@@ -106,9 +186,9 @@ class ItemDetails extends Component {
     return ({
       'isChecked': (item) => (
         <Checkbox
-          type="checkbox"
-          onChange={() => this.toggleItem(item)}
           checked={this.isItemChecked(item)}
+          onChange={() => this.toggleItem(item)}
+          type="checkbox"
         />
       ),
       'barcode': (item) => (
@@ -129,8 +209,8 @@ class ItemDetails extends Component {
         <div className={css.fieldWrapper}>
           <Select
             dataOptions={locationsOptions}
-            onChange={(e) => this.onChangeField(item, e.target.value, 'locationId')}
             fullWidth
+            onChange={(e) => this.onChangeField(item, e.target.value, 'locationId')}
             value={get(item, 'locationId', '')}
           />
         </div>
@@ -156,58 +236,88 @@ class ItemDetails extends Component {
     });
   }
 
+  onClickReceive = () => {
+    const { close, location, mutator } = this.props;
+
+    receiveItems(this.state.finalCheckedItemList, mutator.receive)
+      .then(() => this.callout.current.sendCallout({
+        type: 'success',
+        message: <FormattedMessage id="ui-orders.receivingList.receive.success" />,
+      }))
+      .then(() => close())
+      .then(() => mutator.query.update({
+        _path: location.pathname.replace(RECEIVING_ITEMS, RECEIVING_HISTORY),
+      }))
+      .catch(() => this.callout.current.sendCallout({
+        type: 'error',
+        message: <FormattedMessage id="ui-orders.receivingList.receive.error" />,
+      }));
+  }
+
   render() {
-    const { close } = this.props;
-    const { allChecked, checkedItems, currentLine, lineItems } = this.state;
+    const { close, locationsOptions } = this.props;
+    const { allChecked, checkedItems, currentLine, lineItems, finalCheckedItemList, isFinalAllChecked } = this.state;
     const poLineIdsList = Object.keys(lineItems);
     const poLineId = poLineIdsList[currentLine];
     const poLineNumber = get(lineItems, [poLineId, 0, 'poLineNumber'], '');
     const title = get(lineItems, [poLineId, 0, 'title'], '');
+    const isReviewScreen = currentLine >= poLineIdsList.length;
 
     return (
-      <Modal
-        label={
-          (currentLine >= poLineIdsList.length)
-            ? <FormattedMessage id="ui-orders.receiving.reviewDetails" />
-            : <FormattedMessage id="ui-orders.receiving.modalPaneTitle" values={{ poLineNumber, title }} />
-        }
-        footer={
-          <ItemDetailsFooter
-            close={close}
-            onClickNext={this.onClickNext}
-            onClickPrevious={this.onClickPrevious}
-            poLineIdsListLenght={poLineIdsList.length}
-            currentLine={currentLine}
-            checkedItemsListLength={checkedItems.length}
-          />
-        }
-        open
-      >
-        {(this.state.currentLine > poLineIdsList.length)
-          ? <div>Receive Details</div>
-          : (
-            <MultiColumnList
-              contentData={lineItems[poLineId]}
-              formatter={this.getResultsFormatter()}
-              visibleColumns={['isChecked', 'barcode', 'format', 'location', 'itemStatus']}
-              columnMapping={{
-                isChecked: <Checkbox type="checkbox" checked={allChecked[poLineId]} onChange={() => this.toggleAll(poLineId)} />,
-                barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
-                format: <FormattedMessage id="ui-orders.receiving.format" />,
-                location: <FormattedMessage id="ui-orders.receiving.location" />,
-                itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,
-              }}
-              columnWidths={{
-                isChecked: '5%',
-                barcode: '25%',
-                format: '20%',
-                location: '35%',
-                itemStatus: '15%',
-              }}
+      <div data-test-item-details>
+        <Modal
+          label={
+            isReviewScreen
+              ? <FormattedMessage id="ui-orders.receiving.reviewDetails" />
+              : <FormattedMessage id="ui-orders.receiving.modalPaneTitle" values={{ poLineNumber, title }} />
+          }
+          footer={
+            <ItemDetailsFooter
+              checkedItemsListLength={checkedItems.length}
+              close={close}
+              currentLine={currentLine}
+              isReceiveButtonDisabled={this.isReceiveButtonDisabled()}
+              onClickNext={this.onClickNext}
+              onClickPrevious={this.onClickPrevious}
+              onClickReceive={this.onClickReceive}
+              poLineIdsListLenght={poLineIdsList.length}
             />
-          )
-        }
-      </Modal>
+          }
+          open
+        >
+          {isReviewScreen
+            ? <ReviewDetails
+              checkedItemsList={finalCheckedItemList}
+              isAllChecked={isFinalAllChecked}
+              locationsOptions={locationsOptions}
+              toggleAll={this.finalToggleAll}
+              toggleItem={this.finalToggleItem}
+              />
+            : (
+              <MultiColumnList
+                contentData={lineItems[poLineId]}
+                formatter={this.getResultsFormatter()}
+                visibleColumns={['isChecked', 'barcode', 'format', 'location', 'itemStatus']}
+                columnMapping={{
+                  isChecked: <Checkbox type="checkbox" checked={allChecked[poLineId]} onChange={() => this.toggleAll(poLineId)} />,
+                  barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
+                  format: <FormattedMessage id="ui-orders.receiving.format" />,
+                  location: <FormattedMessage id="ui-orders.receiving.location" />,
+                  itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,
+                }}
+                columnWidths={{
+                  isChecked: '5%',
+                  barcode: '25%',
+                  format: '20%',
+                  location: '35%',
+                  itemStatus: '15%',
+                }}
+              />
+            )
+          }
+        </Modal>
+        <Callout ref={this.callout} />
+      </div>
     );
   }
 }

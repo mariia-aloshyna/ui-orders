@@ -518,6 +518,8 @@
   "receivingHistory.remove.error": "Remove error",
   "receivingHistory.remove.success": "Remove success",
   "receivingList.paneTitle": "Receive - PO {orderNumber}",
+  "receivingList.receive.error": "Receive error",
+  "receivingList.receive.success": "Receive success",
   "resultCount": "{count, number} {count, plural, one {Record found} other {Records found}}",
   "search": "Search",
   "settings.closingReasons.add": "Add Reason",

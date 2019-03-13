@@ -26,6 +26,7 @@ import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import {
   LOCATIONS,
   RECEIVING_HISTORY,
+  RECEIVE,
 } from '../Utils/resources';
 import { LIMIT_MAX } from '../Utils/const';
 import FolioFormattedTime from '../FolioFormattedTime';
@@ -63,6 +64,7 @@ class ReceivingList extends Component {
         query: '',
       },
     },
+    receive: RECEIVE,
     receivingHistory: RECEIVING_HISTORY,
     locations: LOCATIONS,
   })
@@ -253,9 +255,11 @@ class ReceivingList extends Component {
             />
             {this.state.isItemDetailsModalOpened && (
               <ItemDetails
-                linesItemList={this.state.itemDetails}
                 close={this.closeItemDetailsModal}
+                linesItemList={this.state.itemDetails}
+                location={location}
                 locationsOptions={getLocationsForSelect(resources)}
+                mutator={mutator}
               />
             )}
           </Pane>
