@@ -16,9 +16,8 @@ const FieldRefNumberType = () => (
   <Field
     component={Select}
     fullWidth
-    id="vendor_detail.ref_number_type"
     label={<FormattedMessage id="ui-orders.vendor.refNumberType" />}
-    name="vendor_detail.ref_number_type"
+    name="vendorDetail.refNumberType"
     validate={[requiredRefNumber]}
   >
     <FormattedMessage id="ui-orders.dropdown.select">

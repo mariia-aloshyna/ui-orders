@@ -10,7 +10,7 @@ import {
 } from '@folio/stripes/components';
 
 const Location = ({ location, parentResources }) => {
-  const filteredLocation = filter(get(parentResources, 'locations.records', []), { id: location.location_id });
+  const filteredLocation = filter(get(parentResources, 'locations.records', []), { id: location.locationId });
   const { name, code } = get(filteredLocation, '0', {});
 
   return (
@@ -24,13 +24,13 @@ const Location = ({ location, parentResources }) => {
       <Col md={3}>
         <KeyValue
           label={<FormattedMessage id="ui-orders.location.quantityPhysical" />}
-          value={location.quantity_physical}
+          value={location.quantityPhysical}
         />
       </Col>
       <Col md={3}>
         <KeyValue
           label={<FormattedMessage id="ui-orders.location.quantityElectronic" />}
-          value={location.quantity_electronic}
+          value={location.quantityElectronic}
         />
       </Col>
     </Row>

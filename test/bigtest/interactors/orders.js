@@ -9,9 +9,9 @@ export default interactor(class OrdersInteractor {
   static defaultScope = '[data-test-order-instances]';
 
   hasCreateOrderButton = isPresent('#clickable-neworder');
-  hasPONumberField = isPresent('[name="po_number"]');
-  hasVendorNameField = isPresent('#vendor_name');
-  hasCreatedByField = isPresent('#created_by_name');
+  hasPONumberField = isPresent('[name="poNumber"]');
+  hasVendorNameField = isPresent('[name="vendorName"]');
+  hasCreatedByField = isPresent('[name="createdByName"]');
   orders = collection('[role=row] a');
   order = scoped('[data-test-order-details]');
 });

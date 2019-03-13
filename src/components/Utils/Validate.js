@@ -8,18 +8,18 @@ export const required = (value) => {
   return value ? undefined : REQUIRED;
 };
 
-// Field is required only if 'vendor_detail.ref_number' isn't empty
+// Field is required only if 'vendorDetail.refNumber' isn't empty
 export const requiredRefNumber = (value, allValues) => {
-  const refNumber = get(allValues, 'vendor_detail.ref_number');
+  const refNumber = get(allValues, 'vendorDetail.refNumber');
 
   return refNumber && !value
     ? REQUIRED
     : undefined;
 };
 
-// Field is required only if 'vendor_detail.ref_number_type' isn't empty
+// Field is required only if 'vendorDetail.refNumberType' isn't empty
 export const requiredRefNumberType = (value, allValues) => {
-  const refNumberType = get(allValues, 'vendor_detail.ref_number_type');
+  const refNumberType = get(allValues, 'vendorDetail.refNumberType');
 
   return refNumberType && !value
     ? REQUIRED

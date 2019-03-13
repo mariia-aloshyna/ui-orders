@@ -12,7 +12,7 @@ import { KeyValue } from '@folio/stripes/components';
 const FundId = ({ funds, fundDistribution }) => {
   const fundDetails = get(funds, 'records', []);
   const value = toString(
-    fundDistribution.map((fundOpt) => get(fundDetails.find((fund) => fund.id === fundOpt.id), 'name', '')),
+    fundDistribution.map((fundOpt) => get(fundDetails.find((fund) => fund.code === fundOpt.code), 'name', '')),
   );
 
   return (

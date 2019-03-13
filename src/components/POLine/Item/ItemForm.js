@@ -42,7 +42,7 @@ class ItemForm extends Component {
       const { publisher, dateOfPublication } = publication[0];
 
       dispatch(change('publisher', publisher));
-      dispatch(change('publication_date', dateOfPublication));
+      dispatch(change('publicationDate', dateOfPublication));
     }
     if (editions && editions.length) {
       const edition = editions[0];
@@ -52,7 +52,7 @@ class ItemForm extends Component {
     if (contributors && contributors.length) {
       const lineContributors = contributors.map(({ name, contributorNameTypeId }) => ({
         contributor: name,
-        contributor_type: contributorNameTypeId,
+        contributorType: contributorNameTypeId,
       }));
 
       dispatch(change('contributors', lineContributors));
@@ -108,7 +108,7 @@ class ItemForm extends Component {
             component={TextArea}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
-            name="details.receiving_note"
+            name="details.receivingNote"
           />
         </Col>
         <Col xs={6}>
@@ -121,7 +121,7 @@ class ItemForm extends Component {
             dateFormat={DATE_FORMAT}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
-            name="details.subscription_from"
+            name="details.subscriptionFrom"
             timeZone={TIMEZONE}
           />
         </Col>
@@ -136,7 +136,7 @@ class ItemForm extends Component {
         <Col xs={6}>
           <Field
             label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
-            name="details.subscription_interval"
+            name="details.subscriptionInterval"
             component={TextField}
             type="number"
             fullWidth
@@ -147,7 +147,7 @@ class ItemForm extends Component {
             component={TextField}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
-            name="publication_date"
+            name="publicationDate"
             validate={validateYearIsPast}
           />
         </Col>
@@ -158,7 +158,7 @@ class ItemForm extends Component {
             dateFormat={DATE_FORMAT}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
-            name="details.subscription_to"
+            name="details.subscriptionTo"
             timeZone={TIMEZONE}
           />
         </Col>

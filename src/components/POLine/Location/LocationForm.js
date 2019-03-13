@@ -24,8 +24,8 @@ const reduceLocations = (locations, propName) => {
 };
 
 const validateQuantityPhysical = (value, { cost, locations = [] }) => {
-  const allLocationsQuantity = reduceLocations(locations, 'quantity_physical');
-  const overallLineQuantity = get(cost, 'quantity_physical', 0);
+  const allLocationsQuantity = reduceLocations(locations, 'quantityPhysical');
+  const overallLineQuantity = get(cost, 'quantityPhysical', 0);
 
   return allLocationsQuantity <= overallLineQuantity
     ? undefined
@@ -33,8 +33,8 @@ const validateQuantityPhysical = (value, { cost, locations = [] }) => {
 };
 
 const validateQuantityElectronic = (value, { cost, locations = [] }) => {
-  const allLocationsQuantity = reduceLocations(locations, 'quantity_electronic');
-  const overallLineQuantity = get(cost, 'quantity_electronic', 0);
+  const allLocationsQuantity = reduceLocations(locations, 'quantityElectronic');
+  const overallLineQuantity = get(cost, 'quantityElectronic', 0);
 
   return allLocationsQuantity <= overallLineQuantity
     ? undefined
@@ -58,7 +58,7 @@ const LocationForm = ({ parentResources }) => (
             dataOptions={getLocationsForSelect(parentResources)}
             fullWidth
             label={<FormattedMessage id="ui-orders.location.nameCode" />}
-            name={`${field}.location_id`}
+            name={`${field}.locationId`}
             placeholder=" "
             validate={required}
           />
@@ -67,7 +67,7 @@ const LocationForm = ({ parentResources }) => (
           <Field
             component={TextField}
             label={<FormattedMessage id="ui-orders.location.quantityPhysical" />}
-            name={`${field}.quantity_physical`}
+            name={`${field}.quantityPhysical`}
             parse={parseQuantity}
             type="number"
             validate={validateQuantityPhysical}
@@ -77,7 +77,7 @@ const LocationForm = ({ parentResources }) => (
           <Field
             component={TextField}
             label={<FormattedMessage id="ui-orders.location.quantityElectronic" />}
-            name={`${field}.quantity_electronic`}
+            name={`${field}.quantityElectronic`}
             parse={parseQuantity}
             type="number"
             validate={validateQuantityElectronic}

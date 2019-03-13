@@ -31,16 +31,16 @@ import { AdjustmentView } from './Adjustment';
 import { RenewalsForm } from './renewals';
 
 const throwError = () => {
-  const errorInfo = { po_number: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
+  const errorInfo = { poNumber: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
 
   throw errorInfo;
 };
 
 const asyncValidate = (values, dispatchRedux, props) => {
-  const { po_number: poNumber, numberPrefix = '', numberSuffix = '' } = values;
+  const { poNumber, numberPrefix = '', numberSuffix = '' } = values;
   const fullOrderNumber = `${numberPrefix}${poNumber}${numberSuffix}`.trim();
   const { parentMutator: { orderNumber: validator }, stripes: { store } } = props;
-  const orderNumberFieldIsDirty = isDirty('FormPO')(store.getState(), ['po_number']);
+  const orderNumberFieldIsDirty = isDirty('FormPO')(store.getState(), ['poNumber']);
 
   return orderNumberFieldIsDirty && poNumber
     ? validator.POST({ poNumber: fullOrderNumber })
@@ -84,7 +84,7 @@ class POForm extends Component {
     parentMutator.orderNumber.GET()
       .then(({ poNumber: orderNumber }) => {
         if (!id) {
-          dispatch(change('po_number', orderNumber));
+          dispatch(change('poNumber', orderNumber));
         }
       });
   }
@@ -164,9 +164,9 @@ class POForm extends Component {
     const { sections } = this.state;
     const generatedNumber = get(parentResources, 'orderNumber.records.0.poNumber');
     const formValues = getFormValues('FormPO')(stripes.store.getState());
-    const isOngoing = formValues.order_type === ORDER_TYPE.ongoing;
+    const isOngoing = formValues.orderType === ORDER_TYPE.ongoing;
     const firstMenu = this.getAddFirstMenu();
-    const orderNumber = get(initialValues, 'po_number', '');
+    const orderNumber = get(initialValues, 'poNumber', '');
     const paneTitle = initialValues.id
       ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
       : <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />;
@@ -282,7 +282,7 @@ class POForm extends Component {
 }
 
 export default stripesForm({
-  asyncBlurFields: ['po_number'],
+  asyncBlurFields: ['poNumber'],
   asyncValidate,
   enableReinitialize: true,
   form: 'FormPO',

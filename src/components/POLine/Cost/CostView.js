@@ -22,7 +22,7 @@ class CostView extends React.Component {
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.cost.listPrice" />}
-            value={get(cost, 'list_price')}
+            value={get(cost, 'listPrice')}
           />
         </Col>
         <Col xs={6}>
@@ -34,13 +34,13 @@ class CostView extends React.Component {
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.cost.quantityPhysical" />}
-            value={get(cost, 'quantity_physical')}
+            value={get(cost, 'quantityPhysical')}
           />
         </Col>
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.cost.quantityElectronic" />}
-            value={get(cost, 'quantity_electronic')}
+            value={get(cost, 'quantityElectronic')}
           />
         </Col>
         <Col xs={6}>
@@ -56,7 +56,7 @@ class CostView extends React.Component {
                 />
               </div>
             }
-            value={get(cost, 'po_line_estimated_price')}
+            value={get(cost, 'poLineEstimatedPrice')}
           />
         </Col>
       </Row>

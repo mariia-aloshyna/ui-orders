@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
+  FormattedDate,
   FormattedMessage,
 } from 'react-intl';
 
@@ -28,13 +29,13 @@ class POLineDetails extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.poLineNumber" />}
-              value={get(initialValues, 'po_line_number')}
+              value={get(initialValues, 'poLineNumber')}
             />
           </Col>
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
-              value={get(initialValues, 'acquisition_method')}
+              value={get(initialValues, 'acquisitionMethod')}
             />
           </Col>
           <Col xs={6}>
@@ -46,7 +47,7 @@ class POLineDetails extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.orderFormat" />}
-              value={get(initialValues, 'order_format')}
+              value={get(initialValues, 'orderFormat')}
             />
           </Col>
         </Row>
@@ -59,7 +60,7 @@ class POLineDetails extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.receiptDate" />}
-              value={get(initialValues, 'receipt_date')}
+              value={<FormattedDate value={get(initialValues, 'receiptDate')} />}
             />
           </Col>
           <Col xs={6}>
@@ -77,13 +78,13 @@ class POLineDetails extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.paymentStatus" />}
-              value={get(initialValues, 'payment_status')}
+              value={get(initialValues, 'paymentStatus')}
             />
           </Col>
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.receiptStatus" />}
-              value={get(initialValues, 'receipt_status')}
+              value={get(initialValues, 'receiptStatus')}
             />
           </Col>
           <Col xs={6}>
@@ -100,7 +101,7 @@ class POLineDetails extends Component {
           </Col>
           <Col xs={6}>
             <KeyValue label={<FormattedMessage id="ui-orders.poLine.cancellationRestriction" />}>
-              <Checkbox checked={get(initialValues, 'cancellation_restriction')} disabled />
+              <Checkbox checked={get(initialValues, 'cancellationRestriction')} disabled />
             </KeyValue>
           </Col>
           <Col xs={6}>
@@ -115,19 +116,19 @@ class POLineDetails extends Component {
           </Col>
           <Col xs={6}>
             <KeyValue label={<FormattedMessage id="ui-orders.poLine.checkinItems" />}>
-              <Checkbox checked={get(initialValues, 'checkin_items')} disabled />
+              <Checkbox checked={get(initialValues, 'checkinItems')} disabled />
             </KeyValue>
           </Col>
           <Col xs={12}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.cancellationRestrictionNote" />}
-              value={get(initialValues, 'cancellation_restriction_note')}
+              value={get(initialValues, 'cancellationRestrictionNote')}
             />
           </Col>
           <Col xs={12}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.poLineDescription" />}
-              value={get(initialValues, 'po_line_description')}
+              value={get(initialValues, 'poLineDescription')}
             />
           </Col>
         </Row>

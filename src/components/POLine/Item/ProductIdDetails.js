@@ -24,13 +24,13 @@ class ProductIdDetails extends Component {
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
-            value={get(val, 'product_id')}
+            value={get(val, 'productId')}
           />
         </Col>
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.itemDetails.productIdType" />}
-            value={get(val, 'product_id_type')}
+            value={get(val, 'productIdType')}
           />
         </Col>
       </Row>

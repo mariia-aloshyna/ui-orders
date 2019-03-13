@@ -11,7 +11,7 @@ export const RECEIVING_HISTORY = {
   accumulate: true,
   type: 'okapi',
   path: RECEIVING_API,
-  records: 'receiving_history',
+  records: 'receivingHistory',
   throwErrors: false,
 };
 

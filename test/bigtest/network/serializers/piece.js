@@ -8,7 +8,7 @@ export default ApplicationSerializer.extend({
 
     if (isArray(json.pieces)) {
       return {
-        receiving_history: json.pieces,
+        receivingHistory: json.pieces,
         totalRecords: json.pieces.length,
       };
     }

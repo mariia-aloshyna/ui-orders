@@ -53,9 +53,9 @@ class CostForm extends Component {
   calculateEstimatedPrice() {
     const { stripes: { store } } = this.props;
     const formValues = getFormValues('POLineForm')(store.getState());
-    const listPrice = parseFloat(get(formValues, 'cost.list_price', 0)) || 0;
-    const quantityPhysical = parseInt(get(formValues, 'cost.quantity_physical', 0), 10) || 0;
-    const quantityElectronic = parseInt(get(formValues, 'cost.quantity_electronic', 0), 10) || 0;
+    const listPrice = parseFloat(get(formValues, 'cost.listPrice', 0)) || 0;
+    const quantityPhysical = parseInt(get(formValues, 'cost.quantityPhysical', 0), 10) || 0;
+    const quantityElectronic = parseInt(get(formValues, 'cost.quantityElectronic', 0), 10) || 0;
     const estimatedPrice = parseFloat(listPrice * (quantityPhysical + quantityElectronic)).toFixed(2);
 
     return estimatedPrice;
@@ -64,7 +64,7 @@ class CostForm extends Component {
   render() {
     const { stripes: { store } } = this.props;
     const formValues = getFormValues('POLineForm')(store.getState());
-    const orderFormat = formValues.order_format;
+    const orderFormat = formValues.orderFormat;
     const validateEresources = ERESOURCES.includes(orderFormat)
       ? { validate: requiredPositiveNumber }
       : { disabled };
@@ -78,10 +78,9 @@ class CostForm extends Component {
           <Field
             component={TextField}
             fullWidth
-            id="cost.list_price"
             label={<FormattedMessage id="ui-orders.cost.listPrice" />}
-            name="cost.list_price"
-            onChange={e => this.onChangeInput(e.target.value, 'cost.list_price')}
+            name="cost.listPrice"
+            onChange={e => this.onChangeInput(e.target.value, 'cost.listPrice')}
             required
             type="number"
             validate={requiredPositiveNumber}
@@ -94,9 +93,8 @@ class CostForm extends Component {
           <Field
             component={TextField}
             fullWidth
-            id="cost.quantity_physical"
             label={<FormattedMessage id="ui-orders.cost.quantityPhysical" />}
-            name="cost.quantity_physical"
+            name="cost.quantityPhysical"
             type="number"
             parse={parseNumber}
             {...validatePhresources}
@@ -106,9 +104,8 @@ class CostForm extends Component {
           <Field
             component={TextField}
             fullWidth
-            id="cost.quantity_electronic"
             label={<FormattedMessage id="ui-orders.cost.quantityElectronic" />}
-            name="cost.quantity_electronic"
+            name="cost.quantityElectronic"
             type="number"
             parse={parseNumber}
             {...validateEresources}

@@ -37,16 +37,16 @@ class FieldOrderFormat extends Component {
   onChangeSelect = (value) => {
     const { dispatch, change, store, vendors, orderVendorId } = this.props;
 
-    dispatch(change('cost.quantity_physical', ''));
-    dispatch(change('cost.quantity_electronic', ''));
+    dispatch(change('cost.quantityPhysical', ''));
+    dispatch(change('cost.quantityElectronic', ''));
 
     if (ERESOURCES.includes(value)) {
       const formValues = getFormValues('POLineForm')(store.getState());
-      const activationDue = get(formValues, 'eresource.activation_due');
+      const activationDue = get(formValues, 'eresource.activationDue');
       const vendor = vendors.find(v => v.id === orderVendorId);
 
       if (activationDue === undefined && vendor && vendor.expected_activation_interval) {
-        dispatch(change('eresource.activation_due', vendor.expected_activation_interval));
+        dispatch(change('eresource.activationDue', vendor.expected_activation_interval));
       }
     }
   }
@@ -56,7 +56,7 @@ class FieldOrderFormat extends Component {
       <Field
         component={Select}
         label={<FormattedMessage id="ui-orders.poLine.orderFormat" />}
-        name="order_format"
+        name="orderFormat"
         onChange={e => this.onChangeSelect(e.target.value)}
         required
         validate={[Required]}

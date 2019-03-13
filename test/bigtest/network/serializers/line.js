@@ -8,7 +8,7 @@ export default ApplicationSerializer.extend({
 
     if (isArray(json.lines)) {
       return {
-        po_lines: json.lines,
+        poLines: json.lines,
         totalRecords: json.lines.length,
       };
     }

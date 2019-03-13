@@ -39,34 +39,34 @@ class PODetailsForm extends Component {
   onClearFieldUser = () => {
     const { dispatch, change } = this.props;
 
-    dispatch(change('assigned_to_user', ''));
-    dispatch(change('assigned_to', null));
+    dispatch(change('assignedToUser', ''));
+    dispatch(change('assignedTo', null));
   }
 
   onClearFieldVendor = () => {
     const { dispatch, change } = this.props;
 
     dispatch(change('vendor', ''));
-    dispatch(change('vendor_name', ''));
+    dispatch(change('vendorName', ''));
   }
 
   onAddUser = (user) => {
     const { dispatch, change } = this.props;
 
-    dispatch(change('assigned_to_user', `${user.personal.firstName} ${user.personal.lastName}`));
-    dispatch(change('assigned_to', `${user.id}`));
+    dispatch(change('assignedToUser', `${user.personal.firstName} ${user.personal.lastName}`));
+    dispatch(change('assignedTo', `${user.id}`));
   }
 
   onAddVendor = (vendor) => {
     const { dispatch, change } = this.props;
 
-    dispatch(change('vendor_name', `${vendor.name}`));
+    dispatch(change('vendorName', `${vendor.name}`));
     dispatch(change('vendor', `${vendor.id}`));
   }
 
   userClearButton = () => {
     const { formValues } = this.props;
-    const isValues = formValues.assigned_to || formValues.assigned_to_user;
+    const isValues = formValues.assignedTo || formValues.assignedToUser;
 
     if (isValues && isValues.length > 0) {
       return (
@@ -83,7 +83,7 @@ class PODetailsForm extends Component {
 
   vendorClearButton = () => {
     const { formValues } = this.props;
-    const isValues = formValues.vendor_name || formValues.vendor;
+    const isValues = formValues.vendorName || formValues.vendor;
 
     if (isValues && isValues.length > 0) {
       return (
@@ -155,7 +155,7 @@ class PODetailsForm extends Component {
 
     if (value === '') {
       // setTimeout is required due to async nature of redux-form CHANGE field value event.
-      window.setTimeout(() => dispatch(change('po_number', generatedNumber)));
+      window.setTimeout(() => dispatch(change('poNumber', generatedNumber)));
     }
   }
 
@@ -183,7 +183,7 @@ class PODetailsForm extends Component {
               component={TextField}
               fullWidth
               label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
-              name="po_number"
+              name="poNumber"
               disabled={!canUserEditOrderNumber}
               onBlur={this.fillBackGeneratedNumber}
             />
@@ -210,9 +210,8 @@ class PODetailsForm extends Component {
               endControl={this.vendorClearButton()}
               fullWidth
               hasClearIcon={false}
-              id="vendor_name"
               label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
-              name="vendor_name"
+              name="vendorName"
               required
               validate={required}
             />
@@ -227,9 +226,8 @@ class PODetailsForm extends Component {
             <Field
               component={TextField}
               fullWidth
-              id="created_by_name"
               label={<FormattedMessage id="ui-orders.orderDetails.createdBy" />}
-              name="created_by_name"
+              name="createdByName"
               disabled
             />
           </Col>
@@ -252,9 +250,8 @@ class PODetailsForm extends Component {
               endControl={this.userClearButton()}
               fullWidth
               hasClearIcon={false}
-              id="assigned_to_user"
               label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
-              name="assigned_to_user"
+              name="assignedToUser"
             />
             <div className={css.pluginButtonWrapper}>
               {this.userModal()}
@@ -271,7 +268,7 @@ class PODetailsForm extends Component {
               component={Checkbox}
               fullWidth
               label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
-              name="manual_po"
+              name="manualPo"
               type="checkbox"
             />
           </Col>
@@ -284,7 +281,7 @@ class PODetailsForm extends Component {
               component={Checkbox}
               fullWidth
               label={<FormattedMessage id="ui-orders.orderDetails.re_encumber" />}
-              name="re_encumber"
+              name="reEncumber"
               type="checkbox"
             />
           </Col>
@@ -295,9 +292,8 @@ class PODetailsForm extends Component {
             <Field
               component={TextField}
               fullWidth
-              id="bill_to"
               label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
-              name="bill_to"
+              name="billTo"
             />
           </Col>
           <Col
@@ -307,9 +303,8 @@ class PODetailsForm extends Component {
             <Field
               component={TextField}
               fullWidth
-              id="ship_to"
               label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
-              name="ship_to"
+              name="shipTo"
             />
           </Col>
         </Row>

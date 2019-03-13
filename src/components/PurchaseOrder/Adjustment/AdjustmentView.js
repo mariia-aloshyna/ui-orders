@@ -38,7 +38,7 @@ const AdjustmentView = ({ order }) => (
     <Col xs={6} md={3}>
       <KeyValue
         label={<FormattedMessage id="ui-orders.adjustment.tax_1" />}
-        value={get(order.adjustment, 'tax_1')}
+        value={get(order.adjustment, 'tax1')}
       />
     </Col>
     <Col xs={6} md={3}>
@@ -50,13 +50,13 @@ const AdjustmentView = ({ order }) => (
     <Col xs={6} md={3}>
       <KeyValue
         label={<FormattedMessage id="ui-orders.adjustment.tax_2" />}
-        value={get(order.adjustment, 'tax_2')}
+        value={get(order.adjustment, 'tax2')}
       />
     </Col>
     <Col xs={6} md={3}>
       <KeyValue label={<FormattedMessage id="ui-orders.adjustment.use_pro_rate" />}>
         <Checkbox
-          checked={get(order.adjustment, 'use_pro_rate')}
+          checked={get(order.adjustment, 'useProRate')}
           disabled
         />
       </KeyValue>

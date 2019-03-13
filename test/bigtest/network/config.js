@@ -17,7 +17,7 @@ export default function config() {
     return schema.orders.find(request.params.id).attrs;
     // return {
     //   ...schema.orders.find(request.params.id).attrs,
-    //   po_lines: [{ cost: { quantity_physical: 2 } }],
+    //   poLines: [{ cost: { quantityPhysical: 2 } }],
     // };
   });
 

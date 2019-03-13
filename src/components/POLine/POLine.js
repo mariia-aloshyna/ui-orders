@@ -167,7 +167,7 @@ class POLine extends Component {
       );
     }
 
-    const orderFormat = get(line, 'order_format');
+    const orderFormat = get(line, 'orderFormat');
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const vendors = get(parentResources, 'vendors.records', []);
@@ -226,7 +226,7 @@ class POLine extends Component {
             id="Vendor"
           >
             <VendorView
-              vendorDetail={line.vendor_detail}
+              vendorDetail={line.vendorDetail}
               {...this.props}
             />
           </Accordion>

@@ -11,7 +11,7 @@ import {
 import formatDate from '../../Utils/formatDate';
 
 const PhysicalView = ({ physical, vendors }) => {
-  const materialSupplierId = get(physical, 'material_supplier');
+  const materialSupplierId = get(physical, 'materialSupplier');
   const materialSupplier = vendors.find((v => v.id === materialSupplierId));
 
   return (
@@ -25,7 +25,7 @@ const PhysicalView = ({ physical, vendors }) => {
       <Col xs={6}>
         <KeyValue
           label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
-          value={formatDate(get(physical, 'receipt_due'))}
+          value={formatDate(get(physical, 'receiptDue'))}
         />
       </Col>
       <Col xs={6}>

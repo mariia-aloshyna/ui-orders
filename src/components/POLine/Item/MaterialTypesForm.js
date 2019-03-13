@@ -93,9 +93,7 @@ class MaterialTypesForm extends Component {
   render() {
     return (
       <FieldArray
-        label="details.material_types"
-        name="details.material_types"
-        id="details.material_types"
+        name="details.materialTypes"
         component={this.renderForm}
       />
     );

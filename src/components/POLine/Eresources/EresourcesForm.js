@@ -48,7 +48,7 @@ class EresourcesForm extends Component {
                 dataOptions={vendorOptions}
                 fullWidth
                 label={<FormattedMessage id="ui-orders.eresource.accessProvider" />}
-                name="eresource.access_provider"
+                name="eresource.accessProvider"
                 placeholder={placeholder}
                 required
                 validate={[Required]}
@@ -83,7 +83,7 @@ class EresourcesForm extends Component {
             }}
             fullWidth
             label={<FormattedMessage id="ui-orders.eresource.activationDue" />}
-            name="eresource.activation_due"
+            name="eresource.activationDue"
             timeZone={TIMEZONE}
           />
         </Col>
@@ -93,7 +93,7 @@ class EresourcesForm extends Component {
             component={Checkbox}
             fullWidth
             label={<FormattedMessage id="ui-orders.eresource.createItem" />}
-            name="eresource.create_inventory"
+            name="eresource.createInventory"
             type="checkbox"
           />
         </Col>
@@ -114,7 +114,7 @@ class EresourcesForm extends Component {
             dateFormat={DATE_FORMAT}
             fullWidth
             label={<FormattedMessage id="ui-orders.eresource.expectedActivation" />}
-            name="eresource.expected_activation"
+            name="eresource.expectedActivation"
             timeZone={TIMEZONE}
           />
         </Col>
@@ -123,7 +123,7 @@ class EresourcesForm extends Component {
             component={TextField}
             fullWidth
             label={<FormattedMessage id="ui-orders.eresource.userLimit" />}
-            name="eresource.user_limit"
+            name="eresource.userLimit"
             type="number"
           />
         </Col>

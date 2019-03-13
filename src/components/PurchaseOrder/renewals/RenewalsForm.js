@@ -42,7 +42,7 @@ const RenewalsForm = () => {
           dateFormat={DATE_FORMAT}
           fullWidth
           label={<FormattedMessage id="ui-orders.renewals.renewalDate" />}
-          name="renewal.renewal_date"
+          name="renewal.renewalDate"
           timeZone={TIMEZONE}
           validate={required}
         />
@@ -55,7 +55,7 @@ const RenewalsForm = () => {
           component={TextField}
           fullWidth
           label={<FormattedMessage id="ui-orders.renewals.reviewPeriod" />}
-          name="renewal.review_period"
+          name="renewal.reviewPeriod"
           type="number"
         />
       </Col>
@@ -67,7 +67,7 @@ const RenewalsForm = () => {
           component={Checkbox}
           fullWidth
           label={<FormattedMessage id="ui-orders.renewals.manualRenewal" />}
-          name="renewal.manual_renewal"
+          name="renewal.manualRenewal"
           type="checkbox"
         />
       </Col>
