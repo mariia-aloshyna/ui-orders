@@ -9,3 +9,4 @@ export const VENDORS_API = 'vendor-storage/vendors';
 export const RECEIVING_API = 'orders/receiving-history';
 export const LOCATIONS_API = 'locations';
 export const RECEIVE_API = 'orders/receive';
+export const ITEMS_API = 'inventory/items';

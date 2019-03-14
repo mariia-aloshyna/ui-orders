@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {
+  flatten,
   get,
   uniq,
 } from 'lodash';
@@ -16,7 +17,10 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
+import { ITEMS } from '../Utils/resources';
 import ItemDetailsFooter from './ItemDetailsFooter';
+import { fetchItems } from './util';
+
 import css from './ItemDetails.css';
 
 const ITEM_STATUS = {
@@ -24,10 +28,15 @@ const ITEM_STATUS = {
 };
 
 class ItemDetails extends Component {
+  static manifest = Object.freeze({
+    items: ITEMS,
+  })
+
   static propTypes = {
     close: PropTypes.func.isRequired,
     linesItemList: PropTypes.object.isRequired,
     locationsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    mutator: PropTypes.object,
   }
 
   constructor(props) {
@@ -37,8 +46,28 @@ class ItemDetails extends Component {
       allChecked: {},
       checkedItems: [],
       currentLine: 0,
+      isLoading: true,
+      itemsMap: {},
       lineItems: this.props.linesItemList,
     };
+  }
+
+  componentDidMount() {
+    const { mutator } = this.props;
+    const pieces = flatten(Object.values(this.state.lineItems));
+
+    fetchItems(mutator, pieces).then(itemsMap => this.setState((state) => {
+      const lineItems = {};
+
+      Object.entries(state.lineItems).forEach(([k, v]) => {
+        lineItems[k] = v.map((piece) => ({
+          ...piece,
+          barcode: get(itemsMap, [piece.itemId, 'barcode']),
+        }));
+      });
+
+      return { lineItems, itemsMap, isLoading: false };
+    }));
   }
 
   isItemChecked = (item) => (
@@ -102,6 +131,7 @@ class ItemDetails extends Component {
 
   getResultsFormatter = () => {
     const { locationsOptions } = this.props;
+    const { isLoading, itemsMap } = this.state;
 
     return ({
       'isChecked': (item) => (
@@ -114,9 +144,9 @@ class ItemDetails extends Component {
       'barcode': (item) => (
         <div className={css.fieldWrapper}>
           <TextField
+            disabled={isLoading || itemsMap[item.itemId] === undefined}
             onChange={(e) => this.onChangeField(item, e.target.value, 'barcode')}
-            type="number"
-            value={get(item, 'barcode', '')}
+            value={item.barcode}
           />
         </div>
       ),
@@ -156,11 +186,18 @@ class ItemDetails extends Component {
     });
   }
 
+  getCurrentLineId() {
+    const { currentLine, lineItems } = this.state;
+    const poLineIdsList = Object.keys(lineItems);
+
+    return poLineIdsList[currentLine];
+  }
+
   render() {
     const { close } = this.props;
     const { allChecked, checkedItems, currentLine, lineItems } = this.state;
     const poLineIdsList = Object.keys(lineItems);
-    const poLineId = poLineIdsList[currentLine];
+    const poLineId = this.getCurrentLineId();
     const poLineNumber = get(lineItems, [poLineId, 0, 'poLineNumber'], '');
     const title = get(lineItems, [poLineId, 0, 'title'], '');
 

@@ -1,5 +1,6 @@
 import { some } from 'lodash';
 
+import { LIMIT_MAX } from '../Utils/const';
 import { ITEM_STATUS } from './const';
 
 export const reducePieces = (pieces, isSelect = false) => {
@@ -47,4 +48,31 @@ export const historyRemoveItems = (checkedPiecesMap, mutator) => {
 
     return receivingResults;
   });
+};
+
+const itemIdQueryReducer = (query, { itemId }) => {
+  return itemId ? `${query && `${query} or `}id==${itemId}` : '';
+};
+
+const getQueryOfItemIds = (pieces) => pieces.reduce(itemIdQueryReducer, '');
+
+export const fetchItems = (mutator, pieces = []) => {
+  const query = getQueryOfItemIds(pieces);
+
+  mutator.items.reset();
+  if (query) {
+    const itemParams = {
+      limit: LIMIT_MAX,
+      query,
+    };
+
+    return mutator.items.GET({ params: itemParams })
+      .then(items => {
+        const itemsMap = Object.assign({}, ...items.map(item => ({ [item.id]: item })));
+
+        return itemsMap;
+      });
+  }
+
+  return Promise.resolve({});
 };

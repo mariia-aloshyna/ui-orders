@@ -4,6 +4,7 @@ import {
   is,
   property,
   value,
+  text,
 } from '@bigtest/interactor';
 
 @interactor class SearchInput {
@@ -33,5 +34,9 @@ export default interactor(class ReceivingHistoryPage {
   searchInput = new SearchInput();
   removeButton = new RemoveButton();
   pieces = collection('[class*=mclRow---]');
+  barcodes = collection('[data-test-piece-barcode]', {
+    barcode: text(),
+  });
+
   confirmationModal = new ConfirmationModal();
 });
