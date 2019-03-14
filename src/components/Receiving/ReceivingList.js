@@ -252,6 +252,7 @@ class ReceivingList extends Component {
                 receiptStatus: <FormattedMessage id="ui-orders.receiving.status" />,
               }}
               columnWidths={{ isChecked: '35px' }}
+              onRowClick={(_, line) => this.toggleLine(line, receivingList)}
             />
             {this.state.isItemDetailsModalOpened && (
               <ItemDetails
@@ -259,7 +260,7 @@ class ReceivingList extends Component {
                 linesItemList={this.state.itemDetails}
                 location={location}
                 locationsOptions={getLocationsForSelect(resources)}
-                mutator={mutator}
+                parentMutator={mutator}
               />
             )}
           </Pane>

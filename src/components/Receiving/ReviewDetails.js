@@ -10,8 +10,8 @@ import {
 } from '@folio/stripes/components';
 
 const ReviewDetails = ({
+  allChecked,
   checkedItemsList,
-  isAllChecked,
   locationsOptions,
   toggleAll,
   toggleItem,
@@ -38,7 +38,7 @@ const ReviewDetails = ({
       formatter={resultFormatter}
       visibleColumns={['isChecked', 'poLine', 'title', 'barcode', 'format', 'location', 'itemStatus']}
       columnMapping={{
-        isChecked: <Checkbox type="checkbox" checked={isAllChecked} onChange={toggleAll} />,
+        isChecked: <Checkbox type="checkbox" checked={allChecked.reviewDetails} onChange={() => toggleAll('reviewDetails')} />,
         poLine: <FormattedMessage id="ui-orders.receiving.poLine" />,
         title: <FormattedMessage id="ui-orders.receiving.title" />,
         barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
@@ -60,8 +60,8 @@ const ReviewDetails = ({
 };
 
 ReviewDetails.propTypes = {
+  allChecked: PropTypes.object.isRequired,
   checkedItemsList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isAllChecked: PropTypes.bool.isRequired,
   locationsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   toggleAll: PropTypes.func.isRequired,
   toggleItem: PropTypes.func.isRequired,
