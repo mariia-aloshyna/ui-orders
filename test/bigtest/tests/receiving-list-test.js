@@ -30,6 +30,8 @@ describe('Receiving', () => {
       cost: {
         quantityPhysical: 2,
       },
+      id: 'e9009acb-5e89-40b7-8b07-6d565f567778',
+      poLineNumber: '1000-1',
     });
     this.server.get(`${ORDERS_API}/${order.id}`, {
       ...order.attrs,
@@ -164,19 +166,50 @@ describe('Receiving', () => {
             expect(receivingPage.previousButton.isDisabled).to.be.true;
           });
 
-          describe('displays next line Item Details', () => {
+          describe('Uncheck all pieces', () => {
             beforeEach(async () => {
-              await receivingPage.nextButton.click();
+              await receivingPage.checkbox.click();
             });
 
-            it('displays enabled Next Button', () => {
-              expect(receivingPage.nextButton.isButton).to.be.true;
-              expect(receivingPage.nextButton.isDisabled).to.be.false;
+            it('displays disabled Next Button', () => {
+              expect(receivingPage.nextButton.isDisabled).to.be.true;
             });
 
-            it('displays enabled Previous Button', () => {
-              expect(receivingPage.previousButton.isButton).to.be.true;
-              expect(receivingPage.previousButton.isDisabled).to.be.false;
+            describe('displays Review Details', () => {
+              beforeEach(async () => {
+                await receivingPage.checkbox.click();
+                await receivingPage.nextButton.click();
+              });
+
+              it('displays enabled Receive Button', () => {
+                expect(receivingPage.receiveButton.isButton).to.be.true;
+                expect(receivingPage.receiveButton.isDisabled).to.be.false;
+              });
+
+              it('displays enabled Previous Button', () => {
+                expect(receivingPage.previousButton.isButton).to.be.true;
+                expect(receivingPage.previousButton.isDisabled).to.be.false;
+              });
+
+              describe('Uncheck all pieces', () => {
+                beforeEach(async () => {
+                  await receivingPage.checkbox.click();
+                });
+
+                it('displays disabled Receive Button', () => {
+                  expect(receivingPage.receiveButton.isDisabled).to.be.true;
+                });
+              });
+
+              describe('go back to previous Line Details', () => {
+                beforeEach(async () => {
+                  await receivingPage.previousButton.click();
+                });
+
+                it('displays disabled Previous Button', () => {
+                  expect(receivingPage.previousButton.isDisabled).to.be.true;
+                });
+              });
             });
           });
         });

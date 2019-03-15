@@ -5,7 +5,6 @@ import { get } from 'lodash';
 
 import {
   Checkbox,
-  KeyValue,
   MultiColumnList,
 } from '@folio/stripes/components';
 
@@ -28,7 +27,8 @@ const ReviewDetails = ({
     'title': (item) => get(item, 'title', ''),
     'barcode': (item) => get(item, 'barcode', ''),
     'format': (item) => get(item, 'poLineOrderFormat', ''),
-    'location': (item) => <KeyValue value={locationsOptions.filter(el => el.value === item.locationId)[0].label} />,
+    'location': (item) => get(locationsOptions.filter(el => (
+      el.value === item.locationId), [0, 'label'], 'Unknown location')),
     'itemStatus': () => <FormattedMessage id="ui-orders.receiving.itemStatus.received" />,
   };
 
