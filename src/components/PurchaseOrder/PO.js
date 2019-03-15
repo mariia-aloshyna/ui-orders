@@ -192,9 +192,10 @@ class PO extends Component {
     }
   }
 
-  addPOLineButton = (
+  addPOLineButton = (isAbleToAddLines) => (
     <Button
       data-test-add-line-button
+      disabled={!isAbleToAddLines}
       onClick={this.onAddPOLine}
     >
       <FormattedMessage id="ui-orders.button.addLine" />
@@ -249,6 +250,7 @@ class PO extends Component {
     const workflowStatus = get(order, 'workflowStatus');
     const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
     const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
+    const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
 
     const lastMenu = (
       <PaneMenu>
@@ -368,7 +370,7 @@ class PO extends Component {
             <SummaryView order={order} {...this.props} />
           </Accordion>
           <Accordion
-            displayWhenOpen={this.addPOLineButton}
+            displayWhenOpen={this.addPOLineButton(isAbleToAddLines)}
             id="POListing"
             label={<FormattedMessage id="ui-orders.paneBlock.POLines" />}
           >

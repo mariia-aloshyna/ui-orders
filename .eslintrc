@@ -43,7 +43,7 @@
         ]
       }
     ],
-    "react/jsx-one-expression-per-line": false,
+    "react/jsx-one-expression-per-line": 0,
     "comma-dangle": [
       "error",
       {
