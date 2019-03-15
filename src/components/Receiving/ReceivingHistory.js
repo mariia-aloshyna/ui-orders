@@ -20,6 +20,7 @@ import {
 } from '@folio/stripes/components';
 
 import {
+  ITEMS,
   ORDER,
   RECEIVE,
   RECEIVING_HISTORY as RECEIVING_HISTORY_RESOURCE,
@@ -29,6 +30,7 @@ import FolioFormattedTime from '../FolioFormattedTime';
 import ReceivingLinks, { RECEIVING_HISTORY } from './ReceivingLinks';
 import { PIECE_STATUS_RECEIVED } from './const';
 import {
+  fetchItems,
   historyRemoveItems,
   reducePieces,
 } from './util';
@@ -39,6 +41,7 @@ class ReceivingHistory extends Component {
     receivingHistory: RECEIVING_HISTORY_RESOURCE,
     order: ORDER,
     receive: RECEIVE,
+    items: ITEMS,
   })
 
   static propTypes = {
@@ -57,18 +60,37 @@ class ReceivingHistory extends Component {
     checkedPiecesMap: {},
     confirming: false,
     isAllChecked: false,
+    isLoading: true,
+    pieces: [],
     searchText: '',
   };
 
   componentDidMount() {
-    const { mutator: { receivingHistory }, match: { params: { id, lineId } } } = this.props;
+    const { mutator, match: { params: { id, lineId } } } = this.props;
     const params = {
       limit: LIMIT_MAX,
       query: `receivingStatus==${PIECE_STATUS_RECEIVED} and purchaseOrderId==${id}${lineId ? ` and poLineId==${lineId}` : ''}`,
     };
+    let piecesFromHistory = null;
 
-    receivingHistory.reset();
-    receivingHistory.GET({ params });
+    mutator.receivingHistory.reset();
+    mutator.receivingHistory.GET({ params })
+      .then(piecesResponse => {
+        piecesFromHistory = piecesResponse;
+
+        return fetchItems(mutator, piecesResponse);
+      })
+      .then(itemsMap => {
+        const pieces = piecesFromHistory.map((piece) => ({
+          ...piece,
+          barcode: get(itemsMap, [piece.itemId, 'barcode']),
+        }));
+
+        this.setState({
+          isLoading: false,
+          pieces,
+        });
+      });
   }
 
   onCloseReceiving = () => {
@@ -110,8 +132,8 @@ class ReceivingHistory extends Component {
   }
 
   toggleAll = () => {
-    this.setState((state, { resources }) => {
-      const receivingHistory = this.getData(resources);
+    this.setState((state) => {
+      const receivingHistory = this.getData(state.pieces);
       const isAllChecked = !state.isAllChecked;
       const checkedPiecesMap = reducePieces(receivingHistory, isAllChecked);
 
@@ -122,13 +144,12 @@ class ReceivingHistory extends Component {
     });
   }
 
-  getData = (resources) => {
+  getData = (pieces) => {
     const { searchText } = this.state;
-    const receivingHistory = get(resources, ['receivingHistory', 'records'], []);
 
     return searchText
-      ? receivingHistory.filter(piece => piece.title.includes(searchText))
-      : receivingHistory;
+      ? pieces.filter(piece => piece.title.includes(searchText))
+      : pieces;
   }
 
   changeSearchText = (event) => {
@@ -155,9 +176,9 @@ class ReceivingHistory extends Component {
   }
 
   render() {
-    const { checkedPiecesMap, confirming, isAllChecked, searchText } = this.state;
+    const { checkedPiecesMap, confirming, isAllChecked, searchText, pieces, isLoading } = this.state;
     const { mutator, location, resources } = this.props;
-    const contentData = this.getData(resources);
+    const contentData = this.getData(pieces);
     const orderNumber = get(resources, ['order', 'records', 0, 'poNumber']);
     const isRemoveButtonDisabled = Object.values(checkedPiecesMap).filter(Boolean).length === 0;
     const resultsFormatter = {
@@ -171,7 +192,11 @@ class ReceivingHistory extends Component {
       'poLineNumber': piece => get(piece, 'poLineNumber', ''),
       'dateOrdered': piece => <FolioFormattedTime dateString={get(piece, 'dateOrdered')} />,
       'dateReceived': piece => <FolioFormattedTime dateString={get(piece, 'receivedDate')} />,
-      'barcode': piece => get(piece, 'barcode', ''),
+      'barcode': piece => (
+        <span data-test-piece-barcode>
+          {get(piece, 'barcode', '')}
+        </span>
+      ),
       'receivingNote': piece => get(piece, 'receivingNote', ''),
       'receivingStatus': piece => get(piece, 'receivingStatus', ''),
     };
@@ -233,7 +258,8 @@ class ReceivingHistory extends Component {
                 receivingStatus: <FormattedMessage id="ui-orders.receiving.status" />,
               }}
               columnWidths={{ isChecked: '35px' }}
-              visibleColumns={['isChecked', 'title', 'poLineNumber', 'dateOrdered', 'dateReceived', 'receivingNote', 'receivingStatus']}
+              loading={isLoading}
+              visibleColumns={['isChecked', 'title', 'poLineNumber', 'dateOrdered', 'dateReceived', 'barcode', 'receivingNote', 'receivingStatus']}
               onRowClick={(_, piece) => this.toggleItem(piece)}
             />
           </Pane>

@@ -20,6 +20,7 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
+import { stripesShape } from '@folio/stripes/core';
 
 import { EXTENDED_MUTATOR } from '../Utils/mutators';
 import getLocationsForSelect from '../Utils/getLocationsForSelect';
@@ -77,10 +78,13 @@ class ReceivingList extends Component {
       receivingHistory: EXTENDED_MUTATOR,
     }).isRequired,
     match: ReactRouterPropTypes.match.isRequired,
+    stripes: stripesShape.isRequired,
   }
 
   constructor(props) {
     super(props);
+
+    this.connectedItemDetails = props.stripes.connect(ItemDetails);
 
     this.state = {
       isAllChecked: false,
@@ -253,7 +257,7 @@ class ReceivingList extends Component {
               onRowClick={(_, line) => this.toggleLine(line, receivingList)}
             />
             {this.state.isItemDetailsModalOpened && (
-              <ItemDetails
+              <this.connectedItemDetails
                 linesItemList={this.state.itemDetails}
                 close={this.closeItemDetailsModal}
                 locationsOptions={getLocationsForSelect(resources)}

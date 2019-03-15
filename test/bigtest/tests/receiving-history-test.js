@@ -8,22 +8,26 @@ import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/F
 import { PIECE_STATUS_RECEIVED } from '../../../src/components/Receiving/const';
 
 const RECEIVING_LIST_COUNT = 10;
+const BARCODE = '111';
 
 describe('Receiving', () => {
   setupApplication();
 
   let order = null;
+  let item = null;
   const orderDetailsPage = new OrderDetailsPage();
   const page = new ReceivingHistoryPage();
 
-  beforeEach(async function () {
-    order = await this.server.create('order', {
+  beforeEach(function () {
+    order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
     });
-
-    this.server.createList('piece', RECEIVING_LIST_COUNT, { receivingStatus: PIECE_STATUS_RECEIVED });
-
-    await this.visit(`/orders/view/${order.id}/receiving-history`);
+    item = this.server.create('item', { barcode: BARCODE });
+    this.server.createList('piece', RECEIVING_LIST_COUNT, {
+      itemId: item.id,
+      receivingStatus: PIECE_STATUS_RECEIVED,
+    });
+    this.visit(`/orders/view/${order.id}/receiving-history`);
   });
 
   it('displays Receiving History screen', () => {
@@ -41,6 +45,10 @@ describe('Receiving', () => {
   it('displays Remove button disabled', () => {
     expect(page.removeButton.isButton).to.be.true;
     expect(page.removeButton.isDisabled).to.be.true;
+  });
+
+  it('displays barcode', () => {
+    expect(page.barcodes(0).barcode).to.equal(BARCODE);
   });
 
   describe('search text could be entered', () => {

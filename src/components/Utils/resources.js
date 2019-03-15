@@ -1,4 +1,5 @@
 import {
+  ITEMS_API,
   LOCATIONS_API,
   ORDER_DETAIL_API,
   RECEIVE_API,
@@ -34,6 +35,15 @@ export const RECEIVE = {
   fetch: false,
   path: RECEIVE_API,
   records: 'toBeReceived',
+  throwErrors: false,
+  type: 'okapi',
+};
+
+export const ITEMS = {
+  fetch: false,
+  accumulate: true,
+  path: ITEMS_API,
+  records: 'items',
   throwErrors: false,
   type: 'okapi',
 };
