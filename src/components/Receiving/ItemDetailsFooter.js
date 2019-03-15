@@ -22,12 +22,14 @@ const ItemDetailsFooter = ({
   return (
     <Row end="xs">
       <Button
+        data-test-cancel-button
         onClick={close}
       >
         <FormattedMessage id="ui-orders.receiving.cancelBtn" />
       </Button>
       <Button
         buttonStyle="primary"
+        data-test-previous-button
         disabled={!currentLine}
         onClick={onClickPrevious}
       >
@@ -37,6 +39,7 @@ const ItemDetailsFooter = ({
         ? (
           <Button
             buttonStyle="primary"
+            data-test-receive-button
             disabled={isButtonDisabled}
             onClick={() => onClickNext(poLineIdsListLenght)}
           >
@@ -46,6 +49,7 @@ const ItemDetailsFooter = ({
         : (
           <Button
             buttonStyle="primary"
+            data-test-next-button
             disabled={isButtonDisabled}
             onClick={() => onClickNext(poLineIdsListLenght)}
           >

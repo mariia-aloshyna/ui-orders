@@ -48,6 +48,7 @@ class ItemDetails extends Component {
 
       piece.isSelected = !piece.isSelected;
       allChecked[item.poLineId] = false;
+      allChecked.reviewDetails = false;
 
       return {
         allChecked,

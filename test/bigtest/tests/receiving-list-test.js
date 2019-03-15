@@ -66,6 +66,7 @@ describe('Receiving', () => {
 
     it('displays Receive Pieces button', () => {
       expect(receivingPage.receivePiecesButton.isButton).to.be.true;
+      expect(receivingPage.receivePiecesButton.isDisabled).to.be.true;
     });
 
     it('displays Close button', () => {
@@ -83,6 +84,102 @@ describe('Receiving', () => {
 
       it('go to Order Details pane', () => {
         expect(orderDetailsPage.$root).to.exist;
+      });
+    });
+
+    describe('check one line and enable Receive Pieces button', () => {
+      beforeEach(async () => {
+        await receivingPage.receivingList(0).click();
+      });
+
+      it('Receive pieces button is enabled', () => {
+        expect(receivingPage.receivePiecesButton.isDisabled).to.be.false;
+      });
+    });
+
+    describe('check all lines and enable Receive Pieces button', () => {
+      beforeEach(async () => {
+        await receivingPage.checkbox.click();
+      });
+
+      it('Receive pieces is enabled', () => {
+        expect(receivingPage.receivePiecesButton.isDisabled).to.be.false;
+      });
+
+      describe('displays Item Details Modal', () => {
+        beforeEach(async () => {
+          await receivingPage.receivePiecesButton.click();
+        });
+
+        it('Item Details Modal is opened', () => {
+          expect(receivingPage.itemDetails.$root).to.exist;
+        });
+
+        it('displays disabled Next Button', () => {
+          expect(receivingPage.nextButton.isButton).to.be.true;
+          expect(receivingPage.nextButton.isDisabled).to.be.true;
+        });
+
+        it('displays disabled Previous Button', () => {
+          expect(receivingPage.previousButton.isButton).to.be.true;
+          expect(receivingPage.previousButton.isDisabled).to.be.true;
+        });
+
+        it('displays Cancel Button', () => {
+          expect(receivingPage.cancelButton.isButton).to.be.true;
+        });
+
+        describe('barcode field could be entered', () => {
+          beforeEach(async () => {
+            await receivingPage.barcodeInput.fill('12345');
+          });
+
+          it('barcode is changed to "12345"', () => {
+            expect(receivingPage.barcodeInput.value).to.be.equal('12345');
+          });
+        });
+
+        describe('close Item Details Modal', () => {
+          beforeEach(async () => {
+            await receivingPage.cancelButton.click();
+          });
+
+          it('go back to ReceivingList page', () => {
+            expect(receivingPage.$root).to.exist;
+          });
+        });
+
+        describe('check pieces and receive them', () => {
+          beforeEach(async () => {
+            await receivingPage.checkbox.click();
+          });
+
+          it('displays enabled Next Button', () => {
+            expect(receivingPage.nextButton.isButton).to.be.true;
+            expect(receivingPage.nextButton.isDisabled).to.be.false;
+          });
+
+          it('displays disabled Previous Button', () => {
+            expect(receivingPage.previousButton.isButton).to.be.true;
+            expect(receivingPage.previousButton.isDisabled).to.be.true;
+          });
+
+          describe('displays next line Item Details', () => {
+            beforeEach(async () => {
+              await receivingPage.nextButton.click();
+            });
+
+            it('displays enabled Next Button', () => {
+              expect(receivingPage.nextButton.isButton).to.be.true;
+              expect(receivingPage.nextButton.isDisabled).to.be.false;
+            });
+
+            it('displays enabled Previous Button', () => {
+              expect(receivingPage.previousButton.isButton).to.be.true;
+              expect(receivingPage.previousButton.isDisabled).to.be.false;
+            });
+          });
+        });
       });
     });
   });
