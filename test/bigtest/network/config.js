@@ -1,11 +1,12 @@
 // typical mirage config export
 // http://www.ember-cli-mirage.com/docs/v0.4.x/configuration/
 import {
+  ITEMS_API,
   LINES_API,
   ORDER_NUMBER_API,
   ORDERS_API,
-  VENDORS_API,
   RECEIVING_API,
+  VENDORS_API,
 } from '../../../src/components/Utils/api';
 
 export default function config() {
@@ -55,4 +56,6 @@ export default function config() {
   this.get(RECEIVING_API, (schema) => {
     return schema.pieces.all();
   });
+
+  this.get(ITEMS_API, ({ items }) => items.all());
 }

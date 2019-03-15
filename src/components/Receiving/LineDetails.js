@@ -20,6 +20,8 @@ const ITEM_STATUS = {
 const LineDetails = ({
   allChecked,
   isItemChecked,
+  isLoading,
+  itemsMap,
   lineItems,
   locationsOptions,
   onChangeField,
@@ -38,9 +40,10 @@ const LineDetails = ({
     'barcode': (item) => (
       <div className={css.fieldWrapper}>
         <TextField
+          disabled={isLoading || itemsMap[item.itemId] === undefined}
           onChange={(e) => onChangeField(item, e.target.value, 'barcode')}
-          type="number"
-          value={get(item, 'barcode', '')}
+          type="text"
+          value={item.barcode}
         />
       </div>
     ),
@@ -105,6 +108,8 @@ const LineDetails = ({
 LineDetails.propTypes = {
   allChecked: PropTypes.object.isRequired,
   isItemChecked: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
+  itemsMap: PropTypes.object,
   lineItems: PropTypes.object.isRequired,
   locationsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChangeField: PropTypes.func.isRequired,

@@ -2,29 +2,42 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { get } from 'lodash';
+import {
+  flatten,
+  get,
+} from 'lodash';
 
 import {
   Callout,
   Modal,
 } from '@folio/stripes/components';
 
-import { receiveItems } from './util';
-import ItemDetailsFooter from './ItemDetailsFooter';
-import ReviewDetails from './ReviewDetails';
 import {
   RECEIVING_HISTORY,
   RECEIVING_ITEMS,
 } from './ReceivingLinks';
 import LineDetails from './LineDetails';
+import {
+  ITEMS,
+  RECEIVE,
+} from '../Utils/resources';
+import ItemDetailsFooter from './ItemDetailsFooter';
+import ReviewDetails from './ReviewDetails';
+import { fetchItems, receiveItems } from './util';
 
 class ItemDetails extends Component {
+  static manifest = Object.freeze({
+    items: ITEMS,
+    query: {},
+    receive: RECEIVE,
+  })
+
   static propTypes = {
     close: PropTypes.func.isRequired,
     linesItemList: PropTypes.object.isRequired,
     location: PropTypes.object,
     locationsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-    parentMutator: PropTypes.object,
+    mutator: PropTypes.object,
   }
 
   constructor(props) {
@@ -34,8 +47,28 @@ class ItemDetails extends Component {
     this.state = {
       allChecked: {},
       currentLine: 0,
+      isLoading: true,
+      itemsMap: {},
       lineItems: this.props.linesItemList,
     };
+  }
+
+  componentDidMount() {
+    const { mutator } = this.props;
+    const pieces = flatten(Object.values(this.state.lineItems));
+
+    fetchItems(mutator, pieces).then(itemsMap => this.setState((state) => {
+      const lineItems = {};
+
+      Object.entries(state.lineItems).forEach(([k, v]) => {
+        lineItems[k] = v.map((piece) => ({
+          ...piece,
+          barcode: get(itemsMap, [piece.itemId, 'barcode']),
+        }));
+      });
+
+      return { lineItems, itemsMap, isLoading: false };
+    }));
   }
 
   isItemChecked = (item) => item.isSelected;
@@ -91,16 +124,16 @@ class ItemDetails extends Component {
   )
 
   onClickNext = (linesCounter) => {
-    const { close, location, parentMutator } = this.props;
+    const { close, location, mutator } = this.props;
 
     if (this.state.currentLine === linesCounter) {
-      receiveItems(this.state.lineItems.reviewDetails, parentMutator.receive)
+      receiveItems(this.state.lineItems.reviewDetails, mutator.receive)
         .then(() => this.callout.current.sendCallout({
           type: 'success',
           message: <FormattedMessage id="ui-orders.receivingList.receive.success" />,
         }))
         .then(() => close())
-        .then(() => parentMutator.query.update({
+        .then(() => mutator.query.update({
           _path: location.pathname.replace(RECEIVING_ITEMS, RECEIVING_HISTORY),
         }))
         .catch(() => this.callout.current.sendCallout({
@@ -151,7 +184,7 @@ class ItemDetails extends Component {
 
   render() {
     const { close, locationsOptions, linesItemList } = this.props;
-    const { allChecked, currentLine, lineItems } = this.state;
+    const { allChecked, currentLine, lineItems, isLoading, itemsMap } = this.state;
     const poLineIdsList = Object.keys(linesItemList);
     const poLineId = poLineIdsList[currentLine];
     const poLineNumber = get(lineItems, [poLineId, 0, 'poLineNumber'], '');
@@ -180,23 +213,28 @@ class ItemDetails extends Component {
           open
         >
           {isReviewScreen
-            ? <ReviewDetails
-              allChecked={allChecked}
-              checkedItemsList={lineItems.reviewDetails}
-              locationsOptions={locationsOptions}
-              toggleAll={this.toggleAll}
-              toggleItem={this.toggleItem}
+            ? (
+              <ReviewDetails
+                allChecked={allChecked}
+                checkedItemsList={lineItems.reviewDetails}
+                locationsOptions={locationsOptions}
+                toggleAll={this.toggleAll}
+                toggleItem={this.toggleItem}
               />
-            : <LineDetails
-              allChecked={allChecked}
-              isItemChecked={this.isItemChecked}
-              lineItems={lineItems}
-              locationsOptions={locationsOptions}
-              onChangeField={this.onChangeField}
-              poLineId={poLineId}
-              toggleAll={this.toggleAll}
-              toggleItem={this.toggleItem}
+            ) : (
+              <LineDetails
+                allChecked={allChecked}
+                isItemChecked={this.isItemChecked}
+                isLoading={isLoading}
+                itemsMap={itemsMap}
+                lineItems={lineItems}
+                locationsOptions={locationsOptions}
+                onChangeField={this.onChangeField}
+                poLineId={poLineId}
+                toggleAll={this.toggleAll}
+                toggleItem={this.toggleItem}
               />
+            )
           }
         </Modal>
         <Callout ref={this.callout} />

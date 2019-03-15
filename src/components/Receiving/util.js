@@ -4,6 +4,7 @@ import {
   ITEM_STATUS,
   PIECE_STATUS_RECEIVED,
 } from './const';
+import { LIMIT_MAX } from '../Utils/const';
 
 export const reducePieces = (pieces, isSelect = false) => {
   const pieceReducer = (accumulator, piece) => {
@@ -90,4 +91,31 @@ export const receiveItems = (itemList, mutator) => {
 
     return receivingResults;
   });
+};
+
+const itemIdQueryReducer = (query, { itemId }) => {
+  return itemId ? `${query && `${query} or `}id==${itemId}` : '';
+};
+
+const getQueryOfItemIds = (pieces) => pieces.reduce(itemIdQueryReducer, '');
+
+export const fetchItems = (mutator, pieces = []) => {
+  const query = getQueryOfItemIds(pieces);
+
+  mutator.items.reset();
+  if (query) {
+    const itemParams = {
+      limit: LIMIT_MAX,
+      query,
+    };
+
+    return mutator.items.GET({ params: itemParams })
+      .then(items => {
+        const itemsMap = Object.assign({}, ...items.map(item => ({ [item.id]: item })));
+
+        return itemsMap;
+      });
+  }
+
+  return Promise.resolve({});
 };

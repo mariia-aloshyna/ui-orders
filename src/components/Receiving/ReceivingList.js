@@ -20,13 +20,13 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
+import { stripesShape } from '@folio/stripes/core';
 
 import { EXTENDED_MUTATOR } from '../Utils/mutators';
 import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import {
   LOCATIONS,
   RECEIVING_HISTORY,
-  RECEIVE,
 } from '../Utils/resources';
 import { LIMIT_MAX } from '../Utils/const';
 import FolioFormattedTime from '../FolioFormattedTime';
@@ -59,12 +59,7 @@ const getLinesRows = (receivingList) => {
 
 class ReceivingList extends Component {
   static manifest = Object.freeze({
-    query: {
-      initialValue: {
-        query: '',
-      },
-    },
-    receive: RECEIVE,
+    query: {},
     receivingHistory: RECEIVING_HISTORY,
     locations: LOCATIONS,
   })
@@ -79,10 +74,13 @@ class ReceivingList extends Component {
       receivingHistory: EXTENDED_MUTATOR,
     }).isRequired,
     match: ReactRouterPropTypes.match.isRequired,
+    stripes: stripesShape.isRequired,
   }
 
   constructor(props) {
     super(props);
+
+    this.connectedItemDetails = props.stripes.connect(ItemDetails);
 
     this.state = {
       isAllChecked: false,
@@ -255,7 +253,7 @@ class ReceivingList extends Component {
               onRowClick={(_, line) => this.toggleLine(line, receivingList)}
             />
             {this.state.isItemDetailsModalOpened && (
-              <ItemDetails
+              <this.connectedItemDetails
                 close={this.closeItemDetailsModal}
                 linesItemList={this.state.itemDetails}
                 location={location}
