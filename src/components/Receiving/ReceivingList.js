@@ -59,11 +59,7 @@ const getLinesRows = (receivingList) => {
 
 class ReceivingList extends Component {
   static manifest = Object.freeze({
-    query: {
-      initialValue: {
-        query: '',
-      },
-    },
+    query: {},
     receivingHistory: RECEIVING_HISTORY,
     locations: LOCATIONS,
   })
@@ -258,9 +254,11 @@ class ReceivingList extends Component {
             />
             {this.state.isItemDetailsModalOpened && (
               <this.connectedItemDetails
-                linesItemList={this.state.itemDetails}
                 close={this.closeItemDetailsModal}
+                linesItemList={this.state.itemDetails}
+                location={location}
                 locationsOptions={getLocationsForSelect(resources)}
+                parentMutator={mutator}
               />
             )}
           </Pane>

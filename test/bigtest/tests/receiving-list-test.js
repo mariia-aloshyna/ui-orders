@@ -64,8 +64,9 @@ describe('Receiving', () => {
       await this.visit(`/orders/view/${order.id}/receiving`);
     });
 
-    it('displays Receive Pieces button', () => {
+    it('displays disabled Receive Pieces button', () => {
       expect(receivingPage.receivePiecesButton.isButton).to.be.true;
+      expect(receivingPage.receivePiecesButton.isDisabled).to.be.true;
     });
 
     it('displays Close button', () => {
@@ -74,6 +75,36 @@ describe('Receiving', () => {
 
     it('renders Receiving List', () => {
       expect(receivingPage.receivingList().length).to.be.equal(RECEIVING_LIST_COUNT);
+    });
+
+    describe('Check one line to receive', () => {
+      beforeEach(async function () {
+        await receivingPage.receivingList(0).click();
+      });
+
+      it('Receive Pieces button is enabled', () => {
+        expect(receivingPage.receivePiecesButton.isDisabled).to.be.false;
+      });
+    });
+
+    describe('Check all lines to receive', () => {
+      beforeEach(async function () {
+        await receivingPage.checkbox.click();
+      });
+
+      it('Receive Pieces button is enabled', () => {
+        expect(receivingPage.receivePiecesButton.isDisabled).to.be.false;
+      });
+
+      describe('Uncheck all lines to receive', () => {
+        beforeEach(async function () {
+          await receivingPage.checkbox.click();
+        });
+
+        it('Receive Pieces button is disabled', () => {
+          expect(receivingPage.receivePiecesButton.isDisabled).to.be.true;
+        });
+      });
     });
 
     describe('go back from Receiving page to Order Details pane', () => {

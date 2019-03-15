@@ -17,10 +17,15 @@ import {
   isButton = is('button');
 }
 
+@interactor class CheckBox {
+  static defaultScope = '[class*=checkboxInput---]';
+}
+
 export default interactor(class ReceivingPage {
   static defaultScope = '[data-test-receiving]';
   textOnPage = text('Receivings List');
   receivePiecesButton = new ReceivePiecesButton();
   closeButton = new CloseButton();
   receivingList = collection('[class*=mclRow---]');
+  checkbox = new CheckBox();
 });

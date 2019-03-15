@@ -1,7 +1,10 @@
 import { some } from 'lodash';
 
+import {
+  ITEM_STATUS,
+  PIECE_STATUS_RECEIVED,
+} from './const';
 import { LIMIT_MAX } from '../Utils/const';
-import { ITEM_STATUS } from './const';
 
 export const reducePieces = (pieces, isSelect = false) => {
   const pieceReducer = (accumulator, piece) => {
@@ -50,8 +53,48 @@ export const historyRemoveItems = (checkedPiecesMap, mutator) => {
   });
 };
 
+export const receiveItems = (itemList, mutator) => {
+  const pieces = itemList.filter(item => item.isSelected === true);
+  const linesMap = {};
+
+  pieces.forEach(piece => {
+    const item = {
+      barcode: piece.barcode || '',
+      comment: piece.receivingNote,
+      itemStatus: PIECE_STATUS_RECEIVED,
+      locationId: piece.locationId,
+      pieceId: piece.id,
+    };
+    const line = linesMap[piece.poLineId];
+
+    if (line) {
+      line.received += 1;
+      line.receivedItems.push(item);
+    } else {
+      linesMap[piece.poLineId] = {
+        poLineId: piece.poLineId,
+        received: 1,
+        receivedItems: [item],
+      };
+    }
+  });
+
+  const postData = {
+    toBeReceived: Object.values(linesMap),
+    totalRecords: pieces.length,
+  };
+
+  return mutator.POST(postData).then(({ receivingResults }) => {
+    if (some(receivingResults, ({ processedWithError }) => processedWithError > 0)) {
+      return Promise.reject(receivingResults);
+    }
+
+    return receivingResults;
+  });
+};
+
 const itemIdQueryReducer = (query, { itemId }) => {
-  return itemId ? `${query && `${query} or `}id==${itemId}` : '';
+  return itemId ? `${query && `${query} or `}id==${itemId}` : query;
 };
 
 const getQueryOfItemIds = (pieces) => pieces.reduce(itemIdQueryReducer, '');

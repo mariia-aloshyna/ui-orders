@@ -5,46 +5,47 @@ import PropTypes from 'prop-types';
 import {
   flatten,
   get,
-  uniq,
 } from 'lodash';
 
 import {
-  Checkbox,
-  KeyValue,
+  Callout,
   Modal,
-  MultiColumnList,
-  Select,
-  TextField,
 } from '@folio/stripes/components';
 
-import { ITEMS } from '../Utils/resources';
+import {
+  RECEIVING_HISTORY,
+  RECEIVING_ITEMS,
+} from './ReceivingLinks';
+import LineDetails from './LineDetails';
+import {
+  ITEMS,
+  RECEIVE,
+} from '../Utils/resources';
 import ItemDetailsFooter from './ItemDetailsFooter';
-import { fetchItems } from './util';
-
-import css from './ItemDetails.css';
-
-const ITEM_STATUS = {
-  received: 'Received',
-};
+import ReviewDetails from './ReviewDetails';
+import { fetchItems, receiveItems } from './util';
 
 class ItemDetails extends Component {
   static manifest = Object.freeze({
     items: ITEMS,
+    query: {},
+    receive: RECEIVE,
   })
 
   static propTypes = {
     close: PropTypes.func.isRequired,
     linesItemList: PropTypes.object.isRequired,
+    location: PropTypes.object,
     locationsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
     mutator: PropTypes.object,
   }
 
   constructor(props) {
     super(props);
+    this.callout = React.createRef();
 
     this.state = {
       allChecked: {},
-      checkedItems: [],
       currentLine: 0,
       isLoading: true,
       itemsMap: {},
@@ -70,45 +71,97 @@ class ItemDetails extends Component {
     }));
   }
 
-  isItemChecked = (item) => (
-    Boolean(this.state.checkedItems.filter(id => id === item.id).length)
-  );
-
-  toggleAll = (poLineId) => {
-    this.setState(({ allChecked, checkedItems, lineItems }) => {
-      const allCheckedLine = !allChecked[poLineId];
-      const itemsToRemove = lineItems[poLineId].map(el => el.id);
-      const checkedLineItems = allCheckedLine
-        ? uniq([...checkedItems, ...lineItems[poLineId].map(el => el.id)])
-        : [...checkedItems].filter(id => !itemsToRemove.includes(id));
-
-      allChecked[poLineId] = allCheckedLine;
-
-      return {
-        allChecked,
-        checkedItems: checkedLineItems,
-      };
-    });
-  }
+  isItemChecked = (item) => item.isSelected;
 
   toggleItem = (item) => {
-    this.setState(({ allChecked, checkedItems }) => {
-      const checkedItemList = checkedItems.filter(id => id !== item.id);
+    this.setState(state => {
+      const allChecked = { ...state.allChecked };
+      const lineItems = { ...state.lineItems };
+      const piece = lineItems[item.poLineId].filter(el => el.id === item.id)[0];
 
+      piece.isSelected = !piece.isSelected;
       allChecked[item.poLineId] = false;
+      allChecked.reviewDetails = false;
 
       return {
         allChecked,
-        checkedItems: this.isItemChecked(item) ? [...checkedItemList] : [...checkedItems, item.id],
+        lineItems,
       };
     });
   }
 
-  onClickNext = () => (
-    this.setState(({ currentLine }) => ({
-      currentLine: currentLine + 1,
-    }))
-  );
+  toggleAll = (poLineId) => (
+    this.setState(state => {
+      const lineItems = { ...state.lineItems };
+      const allChecked = { ...state.allChecked };
+
+      if (state.allChecked[poLineId]) {
+        lineItems[poLineId].map(item => {
+          item.isSelected = false;
+
+          return item;
+        });
+        allChecked[poLineId] = false;
+
+        return {
+          allChecked,
+          lineItems,
+        };
+      } else {
+        lineItems[poLineId].map(item => {
+          item.isSelected = true;
+
+          return item;
+        });
+        allChecked[poLineId] = true;
+
+        return {
+          allChecked,
+          lineItems,
+        };
+      }
+    })
+  )
+
+  onClickNext = (linesCounter) => {
+    const { close, location, mutator } = this.props;
+
+    if (this.state.currentLine === linesCounter) {
+      receiveItems(this.state.lineItems.reviewDetails, mutator.receive)
+        .then(() => this.callout.current.sendCallout({
+          type: 'success',
+          message: <FormattedMessage id="ui-orders.receivingList.receive.success" />,
+        }))
+        .then(() => close())
+        .then(() => mutator.query.update({
+          _path: location.pathname.replace(RECEIVING_ITEMS, RECEIVING_HISTORY),
+        }))
+        .catch(() => this.callout.current.sendCallout({
+          type: 'error',
+          message: <FormattedMessage id="ui-orders.receivingList.receive.error" />,
+        }));
+    } else {
+      this.setState(state => {
+        if (state.currentLine + 1 === linesCounter) {
+          const lineItems = { ...state.lineItems };
+          const allChecked = { ...state.allChecked };
+
+          lineItems.reviewDetails = Object.values(lineItems).flat().filter(item => item.isSelected === true);
+          allChecked.reviewDetails = true;
+
+          return {
+            allChecked,
+            currentLine: state.currentLine + 1,
+            lineItems,
+          };
+        } else {
+          return {
+            currentLine: state.currentLine + 1,
+          };
+        }
+      });
+    }
+  }
 
   onClickPrevious = () => (
     this.setState(({ currentLine }) => ({
@@ -129,123 +182,63 @@ class ItemDetails extends Component {
     });
   }
 
-  getResultsFormatter = () => {
-    const { locationsOptions } = this.props;
-    const { isLoading, itemsMap } = this.state;
-
-    return ({
-      'isChecked': (item) => (
-        <Checkbox
-          type="checkbox"
-          onChange={() => this.toggleItem(item)}
-          checked={this.isItemChecked(item)}
-        />
-      ),
-      'barcode': (item) => (
-        <div className={css.fieldWrapper}>
-          <TextField
-            disabled={isLoading || itemsMap[item.itemId] === undefined}
-            onChange={(e) => this.onChangeField(item, e.target.value, 'barcode')}
-            value={item.barcode}
-          />
-        </div>
-      ),
-      'format': (item) => (
-        <div className={css.fieldWrapper}>
-          <KeyValue value={get(item, 'poLineOrderFormat', '')} />
-        </div>
-      ),
-      'location': (item) => (
-        <div className={css.fieldWrapper}>
-          <Select
-            dataOptions={locationsOptions}
-            onChange={(e) => this.onChangeField(item, e.target.value, 'locationId')}
-            fullWidth
-            value={get(item, 'locationId', '')}
-          />
-        </div>
-      ),
-      'itemStatus': () => (
-        <div className={css.fieldWrapper}>
-          <Select
-            defaultValue={<FormattedMessage id="ui-orders.receiving.itemStatus.received" />}
-            fullWidth
-            selectClass={css.itemStatusField}
-          >
-            {Object.keys(ITEM_STATUS).map((key) => (
-              <FormattedMessage
-                id={`ui-orders.receiving.itemStatus.${key}`}
-                key={key}
-              >
-                {(message) => <option value={ITEM_STATUS[key]}>{message}</option>}
-              </FormattedMessage>
-            ))}
-          </Select>
-        </div>
-      ),
-    });
-  }
-
-  getCurrentLineId() {
-    const { currentLine, lineItems } = this.state;
-    const poLineIdsList = Object.keys(lineItems);
-
-    return poLineIdsList[currentLine];
-  }
-
   render() {
-    const { close } = this.props;
-    const { allChecked, checkedItems, currentLine, lineItems } = this.state;
-    const poLineIdsList = Object.keys(lineItems);
-    const poLineId = this.getCurrentLineId();
+    const { close, locationsOptions, linesItemList } = this.props;
+    const { allChecked, currentLine, lineItems, isLoading, itemsMap } = this.state;
+    const poLineIdsList = Object.keys(linesItemList);
+    const poLineId = poLineIdsList[currentLine];
     const poLineNumber = get(lineItems, [poLineId, 0, 'poLineNumber'], '');
     const title = get(lineItems, [poLineId, 0, 'title'], '');
+    const isReviewScreen = currentLine >= poLineIdsList.length;
 
     return (
-      <Modal
-        id="data-test-piece-details-modal"
-        label={
-          (currentLine >= poLineIdsList.length)
-            ? <FormattedMessage id="ui-orders.receiving.reviewDetails" />
-            : <FormattedMessage id="ui-orders.receiving.modalPaneTitle" values={{ poLineNumber, title }} />
-        }
-        footer={
-          <ItemDetailsFooter
-            close={close}
-            onClickNext={this.onClickNext}
-            onClickPrevious={this.onClickPrevious}
-            poLineIdsListLenght={poLineIdsList.length}
-            currentLine={currentLine}
-            checkedItemsListLength={checkedItems.length}
-          />
-        }
-        open
-      >
-        {(this.state.currentLine > poLineIdsList.length)
-          ? <div>Receive Details</div>
-          : (
-            <MultiColumnList
-              contentData={lineItems[poLineId]}
-              formatter={this.getResultsFormatter()}
-              visibleColumns={['isChecked', 'barcode', 'format', 'location', 'itemStatus']}
-              columnMapping={{
-                isChecked: <Checkbox type="checkbox" checked={allChecked[poLineId]} onChange={() => this.toggleAll(poLineId)} />,
-                barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
-                format: <FormattedMessage id="ui-orders.receiving.format" />,
-                location: <FormattedMessage id="ui-orders.receiving.location" />,
-                itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,
-              }}
-              columnWidths={{
-                isChecked: '5%',
-                barcode: '25%',
-                format: '20%',
-                location: '35%',
-                itemStatus: '15%',
-              }}
+      <div data-test-item-details>
+        <Modal
+          id="data-test-piece-details-modal"
+          label={
+            isReviewScreen
+              ? <FormattedMessage id="ui-orders.receiving.reviewDetails" />
+              : <FormattedMessage id="ui-orders.receiving.modalPaneTitle" values={{ poLineNumber, title }} />
+          }
+          footer={
+            <ItemDetailsFooter
+              close={close}
+              currentLine={currentLine}
+              lineItems={lineItems}
+              onClickNext={this.onClickNext}
+              onClickPrevious={this.onClickPrevious}
+              poLineIdsListLenght={poLineIdsList.length}
             />
-          )
-        }
-      </Modal>
+          }
+          open
+        >
+          {isReviewScreen
+            ? (
+              <ReviewDetails
+                allChecked={allChecked}
+                checkedItemsList={lineItems.reviewDetails}
+                locationsOptions={locationsOptions}
+                toggleAll={this.toggleAll}
+                toggleItem={this.toggleItem}
+              />
+            ) : (
+              <LineDetails
+                allChecked={allChecked}
+                isItemChecked={this.isItemChecked}
+                isLoading={isLoading}
+                itemsMap={itemsMap}
+                lineItems={lineItems}
+                locationsOptions={locationsOptions}
+                onChangeField={this.onChangeField}
+                poLineId={poLineId}
+                toggleAll={this.toggleAll}
+                toggleItem={this.toggleItem}
+              />
+            )
+          }
+        </Modal>
+        <Callout ref={this.callout} />
+      </div>
     );
   }
 }
