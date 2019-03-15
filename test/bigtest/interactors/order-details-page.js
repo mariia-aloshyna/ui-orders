@@ -1,8 +1,9 @@
 import {
-  interactor,
   clickable,
-  text,
+  interactor,
   is,
+  property,
+  text,
 } from '@bigtest/interactor';
 
 @interactor class EditOrderButton {
@@ -15,10 +16,17 @@ import {
   isButton = is('button');
 }
 
+@interactor class AddLineButton {
+  static defaultScope = '[data-test-add-line-button]';
+  isButton = is('button');
+  click = clickable();
+  isDisabled = property('disabled');
+}
+
 export default interactor(class OrderDetailsPage {
   static defaultScope = '[data-test-order-details]';
   title = text('[class*=paneTitleLabel---]');
   editOrderButton = new EditOrderButton();
-  addLineButton = clickable('[data-test-add-line-button]');
+  addLineButton = new AddLineButton();
   receivingButton = new ReceiveButton();
 });
