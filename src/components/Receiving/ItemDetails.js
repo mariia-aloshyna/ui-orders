@@ -166,6 +166,7 @@ class ItemDetails extends Component {
 
     return (
       <Modal
+        id="data-test-piece-details-modal"
         label={
           (currentLine >= poLineIdsList.length)
             ? <FormattedMessage id="ui-orders.receiving.reviewDetails" />
