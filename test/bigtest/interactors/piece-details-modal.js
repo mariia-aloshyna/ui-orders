@@ -34,13 +34,17 @@ import {
 }
 
 @interactor class BarcodeInput {
-  static defaultScope = '[class*=fieldWrapper] input[type="number"]';
+  static defaultScope = '[class*=fieldWrapper] input[type="text"]';
   isInput = is('input');
   value = value();
 }
 export default interactor(class PieceDetailsModal {
   static defaultScope = '#data-test-piece-details-modal';
-  piecesInLine = collection('[class*=mclRow---]');
+  piecesInLine = collection('[class*=mclRow---]', {
+    barcode: new BarcodeInput(),
+    checkbox: new CheckBox(),
+  });
+
   checkbox = new CheckBox();
   nextButton = new NextButton();
   previousButton = new PreviousButton();

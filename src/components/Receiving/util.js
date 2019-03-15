@@ -94,7 +94,7 @@ export const receiveItems = (itemList, mutator) => {
 };
 
 const itemIdQueryReducer = (query, { itemId }) => {
-  return itemId ? `${query && `${query} or `}id==${itemId}` : '';
+  return itemId ? `${query && `${query} or `}id==${itemId}` : query;
 };
 
 const getQueryOfItemIds = (pieces) => pieces.reduce(itemIdQueryReducer, '');
