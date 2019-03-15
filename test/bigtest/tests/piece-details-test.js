@@ -18,7 +18,7 @@ describe('Piece Details Modal', () => {
   setupApplication();
 
   let order = null;
-  let items = null;
+  // let items = null;
   let line = null;
   const modal = new PieceDetailsModal();
   const receivingPage = new ReceivingPage();
@@ -39,12 +39,12 @@ describe('Piece Details Modal', () => {
       compositePoLines: [line.attrs],
     });
 
-    items = this.server.createList('item', RECEIVING_LIST_COUNT);
+    // items = this.server.createList('item', RECEIVING_LIST_COUNT);
 
     this.server.createList('piece', RECEIVING_LIST_COUNT, {
       receivingStatus: PIECE_STATUS_EXPECTED,
       poLineId: line.id,
-      itemId: items[0].id,
+      // itemId: items[0].id,
     });
 
     await this.visit(`/orders/view/${order.id}/receiving`);
