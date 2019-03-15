@@ -5,6 +5,7 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import OrderEditPage from '../interactors/order-edit-page';
@@ -20,13 +21,18 @@ describe('OrderDetailsPage', () => {
   let order = null;
 
   beforeEach(function () {
-    order = this.server.create('order');
+    order = this.server.create('order', { workflowStatus: WORKFLOW_STATUS.pending });
 
     this.visit(`/orders/view/${order.id}`);
   });
 
   it('displays the order number in the pane header', () => {
     expect(orderDetailsPage.title).to.include(order.poNumber);
+  });
+
+  it('displays the Add Line button enabled', () => {
+    expect(orderDetailsPage.addLineButton.isButton).to.equal(true);
+    expect(orderDetailsPage.addLineButton.isDisabled).to.equal(false);
   });
 
   describe('clicking on edit', () => {
@@ -39,9 +45,37 @@ describe('OrderDetailsPage', () => {
     });
   });
 
+  describe('Add Line button should be disabled for Closed orders', () => {
+    let closedOrder = null;
+
+    beforeEach(function () {
+      closedOrder = this.server.create('order', { workflowStatus: WORKFLOW_STATUS.closed });
+
+      this.visit(`/orders/view/${closedOrder.id}`);
+    });
+
+    it('Add Line button is disabled', () => {
+      expect(orderDetailsPage.addLineButton.isDisabled).to.equal(true);
+    });
+  });
+
+  describe('Add Line button should be disabled for Open orders', () => {
+    let openOrder = null;
+
+    beforeEach(function () {
+      openOrder = this.server.create('order', { workflowStatus: WORKFLOW_STATUS.open });
+
+      this.visit(`/orders/view/${openOrder.id}`);
+    });
+
+    it('Add Line button is disabled', () => {
+      expect(orderDetailsPage.addLineButton.isDisabled).to.equal(true);
+    });
+  });
+
   describe('clicking on add Line', () => {
     beforeEach(async () => {
-      await orderDetailsPage.addLineButton();
+      await orderDetailsPage.addLineButton.click();
     });
 
     it('should redirect to add line page', () => {
