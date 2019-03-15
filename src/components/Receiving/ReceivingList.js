@@ -125,26 +125,25 @@ class ReceivingList extends Component {
     </PaneMenu>
   );
 
-  isLineChecked = (line) => (
-    this.state.itemDetails[line.poLineId]
-      ? Boolean(this.state.itemDetails[line.poLineId].length)
-      : false
-  )
-
   toggleLine = (line, receivingList) => {
-    this.setState(({ itemDetails }) => ({
-      isAllChecked: false,
-      itemDetails: {
-        ...itemDetails,
-        ...{
-          [line.poLineId]: this.isLineChecked(line)
-            ? []
-            : receivingList.filter(el => (
-              el.poLineId === line.poLineId && el.receivingStatus === PIECE_STATUS_EXPECTED
-            )),
-        },
-      },
-    }));
+    this.setState(state => {
+      const lineId = line.poLineId;
+      const isLineCheckedAlready = lineId in state.itemDetails;
+      const itemDetails = { ...state.itemDetails };
+
+      if (isLineCheckedAlready) {
+        delete itemDetails[lineId];
+      } else {
+        itemDetails[lineId] = receivingList.filter(el => (
+          el.poLineId === lineId && el.receivingStatus === PIECE_STATUS_EXPECTED
+        ));
+      }
+
+      return {
+        isAllChecked: false,
+        itemDetails,
+      };
+    });
   }
 
   toggleAll = (receivingList) => {
@@ -184,6 +183,7 @@ class ReceivingList extends Component {
 
   render() {
     const { resources, mutator, location } = this.props;
+    const { itemDetails } = this.state;
     const receivingList = get(resources, ['receivingHistory', 'records'], []);
     const uniqReceivingList = getLinesRows(receivingList);
     const orderNumber = get(resources, ['receivingHistory', 'records', 0, 'poLineNumber'], '-').split('-')[0];
@@ -191,7 +191,7 @@ class ReceivingList extends Component {
       'isChecked': line => (
         <Checkbox
           type="checkbox"
-          checked={this.isLineChecked(line)}
+          checked={itemDetails[line.poLineId]}
           onChange={() => this.toggleLine(line, receivingList)}
         />
       ),
@@ -202,7 +202,7 @@ class ReceivingList extends Component {
       'receivingNote': line => get(line, 'receivingNote', ''),
       'receiptStatus': () => <FormattedMessage id="ui-orders.receiving.lineStatus.expected" />,
     };
-    const isReceiveButtonDisabled = !some(Object.values(this.state.itemDetails), (line => line.length > 0));
+    const isReceiveButtonDisabled = !some(Object.values(itemDetails), (line => line.length > 0));
 
     return (
       <div data-test-receiving>

@@ -161,6 +161,7 @@ class ItemDetails extends Component {
     return (
       <div data-test-item-details>
         <Modal
+          id="data-test-piece-details-modal"
           label={
             isReviewScreen
               ? <FormattedMessage id="ui-orders.receiving.reviewDetails" />
