@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {
   flatten,
   get,
+  uniq,
 } from 'lodash';
 
 import {
@@ -146,7 +147,7 @@ class ItemDetails extends Component {
           const lineItems = { ...state.lineItems };
           const allChecked = { ...state.allChecked };
 
-          lineItems.reviewDetails = Object.values(lineItems).flat().filter(item => item.isSelected === true);
+          lineItems.reviewDetails = uniq(Object.values(lineItems).flat().filter(item => item.isSelected === true), 'id');
           allChecked.reviewDetails = true;
 
           return {
@@ -192,53 +193,51 @@ class ItemDetails extends Component {
     const isReviewScreen = currentLine >= poLineIdsList.length;
 
     return (
-      <div data-test-item-details>
-        <Modal
-          id="data-test-piece-details-modal"
-          label={
-            isReviewScreen
-              ? <FormattedMessage id="ui-orders.receiving.reviewDetails" />
-              : <FormattedMessage id="ui-orders.receiving.modalPaneTitle" values={{ poLineNumber, title }} />
-          }
-          footer={
-            <ItemDetailsFooter
-              close={close}
-              currentLine={currentLine}
-              lineItems={lineItems}
-              onClickNext={this.onClickNext}
-              onClickPrevious={this.onClickPrevious}
-              poLineIdsListLenght={poLineIdsList.length}
+      <Modal
+        id="data-test-piece-details-modal"
+        label={
+          isReviewScreen
+            ? <FormattedMessage id="ui-orders.receiving.reviewDetails" />
+            : <FormattedMessage id="ui-orders.receiving.modalPaneTitle" values={{ poLineNumber, title }} />
+        }
+        footer={
+          <ItemDetailsFooter
+            close={close}
+            currentLine={currentLine}
+            lineItems={lineItems}
+            onClickNext={this.onClickNext}
+            onClickPrevious={this.onClickPrevious}
+            poLineIdsListLenght={poLineIdsList.length}
+          />
+        }
+        open
+      >
+        {isReviewScreen
+          ? (
+            <ReviewDetails
+              allChecked={allChecked}
+              checkedItemsList={lineItems.reviewDetails}
+              locationsOptions={locationsOptions}
+              toggleAll={this.toggleAll}
+              toggleItem={this.toggleItem}
             />
-          }
-          open
-        >
-          {isReviewScreen
-            ? (
-              <ReviewDetails
-                allChecked={allChecked}
-                checkedItemsList={lineItems.reviewDetails}
-                locationsOptions={locationsOptions}
-                toggleAll={this.toggleAll}
-                toggleItem={this.toggleItem}
-              />
-            ) : (
-              <LineDetails
-                allChecked={allChecked}
-                isItemChecked={this.isItemChecked}
-                isLoading={isLoading}
-                itemsMap={itemsMap}
-                lineItems={lineItems}
-                locationsOptions={locationsOptions}
-                onChangeField={this.onChangeField}
-                poLineId={poLineId}
-                toggleAll={this.toggleAll}
-                toggleItem={this.toggleItem}
-              />
-            )
-          }
-        </Modal>
+          ) : (
+            <LineDetails
+              allChecked={allChecked}
+              isItemChecked={this.isItemChecked}
+              isLoading={isLoading}
+              itemsMap={itemsMap}
+              lineItems={lineItems}
+              locationsOptions={locationsOptions}
+              onChangeField={this.onChangeField}
+              poLineId={poLineId}
+              toggleAll={this.toggleAll}
+              toggleItem={this.toggleItem}
+            />
+          )
+        }
         <Callout ref={this.callout} />
-      </div>
+      </Modal>
     );
   }
 }
