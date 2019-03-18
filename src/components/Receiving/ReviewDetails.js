@@ -28,7 +28,7 @@ const ReviewDetails = ({
     'barcode': (item) => get(item, 'barcode', ''),
     'format': (item) => get(item, 'poLineOrderFormat', ''),
     'location': (item) => get(locationsOptions.filter(el => (
-      el.value === item.locationId), [0, 'label'], 'Unknown location')),
+      el.value === item.locationId)), [0, 'label'], 'Unknown location'),
     'itemStatus': () => <FormattedMessage id="ui-orders.receiving.itemStatus.received" />,
   };
 
