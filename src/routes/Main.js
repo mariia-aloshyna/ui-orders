@@ -260,7 +260,7 @@ class Main extends Component {
           stripes={stripes}
           showSingleResult={showSingleResult}
           browseOnly={browseOnly}
-          columnWidths={{ poNumber: '120px' }}
+          columnWidths={{ poNumber: 120 }}
           columnMapping={{
             poNumber: <FormattedMessage id="ui-orders.order.po_number" />,
             created: <FormattedMessage id="ui-orders.order.created" />,

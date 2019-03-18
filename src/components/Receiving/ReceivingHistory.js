@@ -257,7 +257,7 @@ class ReceivingHistory extends Component {
                 receivingNote: <FormattedMessage id="ui-orders.receivingHistory.note" />,
                 receivingStatus: <FormattedMessage id="ui-orders.receiving.status" />,
               }}
-              columnWidths={{ isChecked: '35px' }}
+              columnWidths={{ isChecked: 35 }}
               loading={isLoading}
               visibleColumns={['isChecked', 'title', 'poLineNumber', 'dateOrdered', 'dateReceived', 'barcode', 'receivingNote', 'receivingStatus']}
               onRowClick={(_, piece) => this.toggleItem(piece)}
