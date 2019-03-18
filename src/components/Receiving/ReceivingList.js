@@ -249,7 +249,7 @@ class ReceivingList extends Component {
                 receivingNote: <FormattedMessage id="ui-orders.receiving.note" />,
                 receiptStatus: <FormattedMessage id="ui-orders.receiving.status" />,
               }}
-              columnWidths={{ isChecked: '35px' }}
+              columnWidths={{ isChecked: 35 }}
               onRowClick={(_, line) => this.toggleLine(line, receivingList)}
             />
             {this.state.isItemDetailsModalOpened && (
