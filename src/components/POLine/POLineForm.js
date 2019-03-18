@@ -151,7 +151,7 @@ class POLineForm extends Component {
   }
 
   render() {
-    const { change, dispatch, initialValues, onCancel, deletePOLine, stripes: { store } } = this.props;
+    const { initialValues, onCancel, deletePOLine, stripes: { store } } = this.props;
     const lineId = get(initialValues, 'id');
     const lineNumber = get(initialValues, 'poLineNumber', '');
     const firstMenu = this.getAddFirstMenu();
@@ -242,8 +242,6 @@ class POLineForm extends Component {
                       id={ACCORDION_ID.fundDistribution}
                     >
                       <FundDistributionForm
-                        change={change}
-                        dispatch={dispatch}
                         funds={funds}
                         store={store}
                       />
