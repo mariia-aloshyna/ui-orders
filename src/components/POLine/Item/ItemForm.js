@@ -16,7 +16,7 @@ import {
   DATE_FORMAT,
   TIMEZONE,
 } from '../../Utils/const';
-import { validateYearIsPast } from '../../Utils/Validate';
+import { validateYear } from '../../Utils/Validate';
 import MaterialTypesForm from './MaterialTypesForm';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
 import ContributorForm from './ContributorForm';
@@ -148,7 +148,7 @@ class ItemForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
             name="publicationDate"
-            validate={validateYearIsPast}
+            validate={validateYear}
           />
         </Col>
         <Col xs={6}>
