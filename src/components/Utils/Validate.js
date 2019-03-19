@@ -1,7 +1,6 @@
 import { get } from 'lodash';
 
 const REQUIRED = 'Required!';
-const currentYear = new Date().getFullYear();
 
 // Validate Required Field
 export const required = (value) => {
@@ -33,13 +32,13 @@ export const requiredPositiveNumber = (value) => {
     : REQUIRED;
 };
 
-export const validateYearIsPast = (value) => {
+export const validateYear = (value) => {
   if (!value) {
     return undefined;
   }
   const year = parseInt(value, 10);
 
-  if (year > 1000 && year <= currentYear) {
+  if (year >= 1000 && year <= 9999) {
     return undefined;
   }
 

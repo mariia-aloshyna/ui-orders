@@ -3,6 +3,7 @@ import {
   interactor,
   is,
   property,
+  text,
   value,
 } from '@bigtest/interactor';
 
@@ -29,6 +30,11 @@ import { ACCORDION_ID } from '../../../src/components/POLine/const';
   locations = collection('[class*=repeatableFieldItem---]');
 }
 
+@interactor class PublicationDateField {
+  static defaultScope = '[name="publicationDate"]';
+  isInput = is('input');
+}
+
 export default interactor(class LineEditPage {
   static defaultScope = '[data-test-line-edit]';
   addLocationButton = new AddLocationButton();
@@ -36,4 +42,6 @@ export default interactor(class LineEditPage {
   locationAccordion = new LocationAccordion();
   updateLineButton = new UpdateLineButton();
   lineNumberInputValue = value('input[name="poLineNumber"]');
+  validationMessage = text('[class*=feedbackError---]');
+  publicationDateField = new PublicationDateField();
 });
