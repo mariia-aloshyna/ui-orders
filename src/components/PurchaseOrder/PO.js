@@ -40,7 +40,6 @@ import {
 import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import CloseOrderModal from './CloseOrder';
 import { WORKFLOW_STATUS } from './Summary/FieldWorkflowStatus';
-import { AdjustmentView } from './Adjustment';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
@@ -88,7 +87,6 @@ class PO extends Component {
     location: ReactRouterPropTypes.location.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
-    dropdown: PropTypes.object,
     stripes: stripesShape.isRequired,
     onCloseEdit: PropTypes.func,
     onClose: PropTypes.func,
@@ -375,12 +373,6 @@ class PO extends Component {
             label={<FormattedMessage id="ui-orders.paneBlock.POLines" />}
           >
             <LineListing poLines={poLines} {...this.props} />
-          </Accordion>
-          <Accordion
-            id="Adjustment"
-            label={<FormattedMessage id="ui-orders.paneBlock.adjustment" />}
-          >
-            <AdjustmentView order={order} {...this.props} />
           </Accordion>
         </AccordionSet>
         <LayerPO

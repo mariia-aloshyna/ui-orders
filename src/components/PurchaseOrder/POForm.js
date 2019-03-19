@@ -27,7 +27,6 @@ import getOrderNumberSetting from '../Utils/getOrderNumberSetting';
 import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
-import { AdjustmentView } from './Adjustment';
 import { RenewalsForm } from './renewals';
 
 const throwError = () => {
@@ -70,7 +69,6 @@ class POForm extends Component {
       sections: {
         purchaseOrder: true,
         POSummary: true,
-        Adjustment: true,
         renewals: true,
       },
     };
@@ -245,12 +243,6 @@ class POForm extends Component {
                           label={<FormattedMessage id="ui-orders.paneBlock.POSummary" />}
                         >
                           <SummaryForm {...this.props} />
-                        </Accordion>
-                        <Accordion
-                          id="Adjustment"
-                          label={<FormattedMessage id="ui-orders.paneBlock.adjustment" />}
-                        >
-                          <AdjustmentView order={initialValues} />
                         </Accordion>
                       </AccordionSet>
                       <IfPermission perm="orders.item.delete">
