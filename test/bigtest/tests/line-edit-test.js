@@ -9,11 +9,19 @@ import { PHYSICAL } from '../../../src/components/POLine/const';
 import {
   ORDERS_API,
 } from '../../../src/components/Utils/api';
+import calculateEstimatedPrice from '../../../src/components/POLine/calculateEstimatedPrice';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 
 const requiredField = 'Required!';
 const validationYearMessage = 'Field should be 4-digit year';
+const LIST_UNIT_PRICE = 1.1;
+const QUANTITY_PHYSICAL = 2;
+const cost = {
+  listUnitPrice: LIST_UNIT_PRICE,
+  quantityPhysical: QUANTITY_PHYSICAL,
+};
+const LINE_ESTIMATED_PRICE = calculateEstimatedPrice({ cost });
 
 describe('Line edit test', () => {
   setupApplication();
@@ -29,15 +37,13 @@ describe('Line edit test', () => {
     line = await this.server.create('line', {
       order,
       orderFormat: PHYSICAL,
-      cost: {
-        quantityPhysical: 2,
-      },
+      cost,
     });
 
     locations = [
       {
         locationId: location.attrs.id,
-        quantityPhysical: 2,
+        quantityPhysical: QUANTITY_PHYSICAL,
         quantityElectronic: 0,
       },
     ];
@@ -57,20 +63,20 @@ describe('Line edit test', () => {
 
   it('displays Line Edit form', () => {
     expect(lineEditPage.$root).to.exist;
-    expect(lineEditPage.addLocationButton.isButton).to.be.true;
-    expect(lineEditPage.locationAccordion.isButton).to.be.true;
+    expect(lineEditPage.locationAccordion.$root).to.exist;
+    expect(lineEditPage.fundDistributionAccordion.$root).to.exist;
     expect(lineEditPage.updateLineButton.isButton).to.be.true;
     expect(lineEditPage.publicationDateField.isInput).to.be.true;
   });
 
   describe('Location can be added', () => {
     beforeEach(async function () {
-      await lineEditPage.locationAccordion.click();
-      await lineEditPage.addLocationButton.click();
+      await lineEditPage.locationAccordion.clickHeader();
+      await lineEditPage.locationAccordion.clickAddLocationButton();
     });
 
     it('Location is added', () => {
-      expect(lineEditPage.locationList.locations().length).to.be.equal(locations.length + 1);
+      expect(lineEditPage.locationAccordion.locations().length).to.be.equal(locations.length + 1);
     });
   });
 
@@ -80,7 +86,7 @@ describe('Line edit test', () => {
       await lineEditPage.updateLineButton.click();
     });
 
-    it('displays requiered and error messages', () => {
+    it('displays required and error messages', () => {
       expect(lineEditPage.validationMessage).to.include(requiredField, validationYearMessage);
     });
   });
@@ -91,8 +97,57 @@ describe('Line edit test', () => {
       await lineEditPage.updateLineButton.click();
     });
 
-    it('displays only required vilidation message', () => {
+    it('displays only required validation message', () => {
       expect(lineEditPage.validationMessage).to.include(requiredField);
+    });
+  });
+
+  it('displays Cost form', () => {
+    expect(lineEditPage.listUnitPrice.isInput).to.be.true;
+    expect(lineEditPage.quantityPhysical.isInput).to.be.true;
+    expect(lineEditPage.additionalCost.isInput).to.be.true;
+    expect(lineEditPage.listUnitPriceElectronic.isInput).to.be.true;
+    expect(lineEditPage.discount.isInput).to.be.true;
+    expect(lineEditPage.quantityElectronic.isInput).to.be.true;
+    expect(lineEditPage.poLineEstimatedPrice.$root).to.exist;
+  });
+
+  it('displays right estimated price in Cost form', () => {
+    expect(lineEditPage.poLineEstimatedPrice.value).to.include(LINE_ESTIMATED_PRICE);
+  });
+
+  describe('listUnitPrice can be changed', () => {
+    const NEW_PRICE = '3.33';
+
+    beforeEach(async function () {
+      await lineEditPage.listUnitPrice.fill(NEW_PRICE);
+    });
+
+    it('listUnitPrice contains new value', () => {
+      expect(lineEditPage.listUnitPrice.value).to.be.equal(NEW_PRICE);
+    });
+  });
+
+  describe('discount can be changed', () => {
+    const NEW_DISCOUNT = '13';
+
+    beforeEach(async function () {
+      await lineEditPage.discount.fill(NEW_DISCOUNT);
+    });
+
+    it('discount contains new value', () => {
+      expect(lineEditPage.discount.value).to.be.equal(NEW_DISCOUNT);
+    });
+  });
+
+  describe('Fund can be added', () => {
+    beforeEach(async function () {
+      await lineEditPage.fundDistributionAccordion.clickHeader();
+      await lineEditPage.fundDistributionAccordion.clickAddFundButton();
+    });
+
+    it('Fund is added', () => {
+      expect(lineEditPage.fundDistributionAccordion.funds().length).to.be.equal(1);
     });
   });
 });

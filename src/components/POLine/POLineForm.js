@@ -56,6 +56,8 @@ class POLineForm extends Component {
     poURL: PropTypes.string,
     location: PropTypes.object.isRequired,
     deletePOLine: PropTypes.func,
+    change: PropTypes.func,
+    dispatch: PropTypes.func,
   }
 
   constructor(props) {
@@ -151,7 +153,7 @@ class POLineForm extends Component {
   }
 
   render() {
-    const { initialValues, onCancel, deletePOLine, stripes: { store } } = this.props;
+    const { change, dispatch, initialValues, onCancel, deletePOLine, stripes: { store } } = this.props;
     const lineId = get(initialValues, 'id');
     const lineNumber = get(initialValues, 'poLineNumber', '');
     const firstMenu = this.getAddFirstMenu();
@@ -229,7 +231,11 @@ class POLineForm extends Component {
                       label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
                       id={ACCORDION_ID.costDetails}
                     >
-                      <CostForm {...this.props} />
+                      <CostForm
+                        change={change}
+                        dispatch={dispatch}
+                        formValues={formValues}
+                      />
                     </Accordion>
                     <Accordion
                       label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
@@ -242,8 +248,8 @@ class POLineForm extends Component {
                       id={ACCORDION_ID.fundDistribution}
                     >
                       <FundDistributionForm
+                        formValues={formValues}
                         funds={funds}
-                        store={store}
                       />
                     </Accordion>
                     <Accordion
