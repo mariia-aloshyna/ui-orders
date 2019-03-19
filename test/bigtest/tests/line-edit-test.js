@@ -84,4 +84,15 @@ describe('Line edit test', () => {
       expect(lineEditPage.validationMessage).to.include(requiredField, validationYearMessage);
     });
   });
+
+  describe('Enter valid publication date', () => {
+    beforeEach(async function () {
+      await lineEditPage.publicationDateField.fill('2019');
+      await lineEditPage.updateLineButton.click();
+    });
+
+    it('displays only required vilidation message', () => {
+      expect(lineEditPage.validationMessage).to.include(requiredField);
+    });
+  });
 });
