@@ -12,6 +12,9 @@ import {
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 
+const requiredField = 'Required!';
+const validationYearMessage = 'Field should be 4-digit year';
+
 describe('Line edit test', () => {
   setupApplication();
   let order = null;
@@ -57,6 +60,7 @@ describe('Line edit test', () => {
     expect(lineEditPage.addLocationButton.isButton).to.be.true;
     expect(lineEditPage.locationAccordion.isButton).to.be.true;
     expect(lineEditPage.updateLineButton.isButton).to.be.true;
+    expect(lineEditPage.publicationDateField.isInput).to.be.true;
   });
 
   describe('Location can be added', () => {
@@ -67,6 +71,28 @@ describe('Line edit test', () => {
 
     it('Location is added', () => {
       expect(lineEditPage.locationList.locations().length).to.be.equal(locations.length + 1);
+    });
+  });
+
+  describe('Check required fields and fields with incorrect inputs', () => {
+    beforeEach(async function () {
+      await lineEditPage.publicationDateField.fill('111');
+      await lineEditPage.updateLineButton.click();
+    });
+
+    it('displays requiered and error messages', () => {
+      expect(lineEditPage.validationMessage).to.include(requiredField, validationYearMessage);
+    });
+  });
+
+  describe('Enter valid publication date', () => {
+    beforeEach(async function () {
+      await lineEditPage.publicationDateField.fill('2019');
+      await lineEditPage.updateLineButton.click();
+    });
+
+    it('displays only required vilidation message', () => {
+      expect(lineEditPage.validationMessage).to.include(requiredField);
     });
   });
 });
