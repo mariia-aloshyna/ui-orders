@@ -26,6 +26,16 @@ import { POLineForm } from '../POLine';
 import { CURRENCY } from '../POLine/Cost/FieldCurrency';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
 
+const ERROR_CODES = {
+  accessProviderIsInactive: 'accessProviderIsInactive',
+  accessProviderNotFound: 'accessProviderNotFound',
+  costQtyPhysicalExceedsLoc: 'costQtyPhysicalExceedsLoc',
+  locQtyElectronicExceedsCost: 'locQtyElectronicExceedsCost',
+  locQtyPhysicalExceedsCost: 'locQtyPhysicalExceedsCost',
+  materialTypeRequired: 'materialTypeRequired',
+  orderNotFound: 'orderNotFound',
+};
+
 class LayerPOLine extends Component {
   static manifest = Object.freeze({
     order: ORDER,
@@ -86,13 +96,17 @@ class LayerPOLine extends Component {
         } catch (parsingException) {
           response = e;
         }
-        if (response.errors && response.errors.find(el => el.code === 'lines_limit')) {
-          this.openLineLimitExceededModal(line);
-        } else {
-          this.callout.sendCallout({
-            message: <FormattedMessage id="ui-orders.errors.lineWasNotCreated" />,
-            type: 'error',
-          });
+        if (response.errors && response.errors.length) {
+          if (response.errors.find(el => el.code === 'lines_limit')) {
+            this.openLineLimitExceededModal(line);
+          } else {
+            const messageCode = get(ERROR_CODES, response.errors[0].code, 'lineWasNotCreated');
+
+            this.callout.sendCallout({
+              message: <FormattedMessage id={`ui-orders.errors.${messageCode}`} />,
+              type: 'error',
+            });
+          }
         }
       });
   }
