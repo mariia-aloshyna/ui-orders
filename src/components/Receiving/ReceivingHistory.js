@@ -66,6 +66,10 @@ class ReceivingHistory extends Component {
   };
 
   componentDidMount() {
+    this.fetchHistory();
+  }
+
+  fetchHistory = () => {
     const { mutator, match: { params: { id, lineId } } } = this.props;
     const params = {
       limit: LIMIT_MAX,
@@ -172,7 +176,8 @@ class ReceivingHistory extends Component {
       .catch(() => this.callout.current.sendCallout({
         type: 'error',
         message: <FormattedMessage id="ui-orders.receivingHistory.remove.error" />,
-      }));
+      }))
+      .then(this.fetchHistory);
   }
 
   render() {
