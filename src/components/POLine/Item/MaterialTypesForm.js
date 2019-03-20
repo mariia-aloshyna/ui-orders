@@ -13,6 +13,8 @@ import {
   Select,
 } from '@folio/stripes/components';
 
+import { required } from '../../Utils/Validate';
+
 class MaterialTypesForm extends Component {
   constructor(props) {
     super(props);
@@ -73,6 +75,8 @@ class MaterialTypesForm extends Component {
                 label={<FormattedMessage id="ui-orders.itemDetails.materialTypes" />}
                 name={elem}
                 placeholder={placeholder}
+                required
+                validate={required}
               />
             )}
           </FormattedMessage>
