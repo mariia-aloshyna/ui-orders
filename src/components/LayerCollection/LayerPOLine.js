@@ -19,9 +19,7 @@ import {
   lineMutatorShape,
   orderRecordsMutatorShape,
 } from '../Utils/mutators';
-import {
-  ORDER,
-} from '../Utils/resources';
+import { ORDER } from '../Utils/resources';
 import { POLineForm } from '../POLine';
 import { CURRENCY } from '../POLine/Cost/FieldCurrency';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
@@ -33,7 +31,12 @@ const ERROR_CODES = {
   locQtyElectronicExceedsCost: 'locQtyElectronicExceedsCost',
   locQtyPhysicalExceedsCost: 'locQtyPhysicalExceedsCost',
   materialTypeRequired: 'materialTypeRequired',
+  nonZeroCostQtyElectronic: 'nonZeroCostQtyElectronic',
+  nonZeroLocQtyPhysical: 'nonZeroLocQtyPhysical',
   orderNotFound: 'orderNotFound',
+  zeroCostQty: 'zeroCostQty',
+  zeroCostQtyElectronic: 'zeroCostQtyElectronic',
+  zeroCostQtyPhysical: 'zeroCostQtyPhysical',
 };
 
 class LayerPOLine extends Component {
@@ -66,6 +69,7 @@ class LayerPOLine extends Component {
       line: null,
     };
     this.connectedPOLineForm = props.stripes.connect(POLineForm);
+    this.callout = React.createRef();
   }
 
   openLineLimitExceededModal = (line) => {
@@ -82,33 +86,35 @@ class LayerPOLine extends Component {
     });
   }
 
+  handleErrorResponse = async (e, line) => {
+    let response;
+
+    try {
+      response = await e.json();
+    } catch (parsingException) {
+      response = e;
+    }
+    if (response.errors && response.errors.length) {
+      if (response.errors.find(el => el.code === 'lines_limit')) {
+        this.openLineLimitExceededModal(line);
+      } else {
+        const messageCode = get(ERROR_CODES, response.errors[0].code, 'lineWasNotCreated');
+
+        this.callout.current.sendCallout({
+          message: <FormattedMessage id={`ui-orders.errors.${messageCode}`} />,
+          type: 'error',
+        });
+      }
+    }
+  }
+
   submitPOLine = (line) => {
     const newLine = cloneDeep(line);
     const { parentMutator: { poLine }, onCancel } = this.props;
 
     poLine.POST(newLine)
       .then(() => onCancel())
-      .catch(async e => {
-        let response;
-
-        try {
-          response = await e.json();
-        } catch (parsingException) {
-          response = e;
-        }
-        if (response.errors && response.errors.length) {
-          if (response.errors.find(el => el.code === 'lines_limit')) {
-            this.openLineLimitExceededModal(line);
-          } else {
-            const messageCode = get(ERROR_CODES, response.errors[0].code, 'lineWasNotCreated');
-
-            this.callout.sendCallout({
-              message: <FormattedMessage id={`ui-orders.errors.${messageCode}`} />,
-              type: 'error',
-            });
-          }
-        }
-      });
+      .catch(e => this.handleErrorResponse(e, line));
   }
 
   getOrder = () => get(this.props, 'resources.order.records.0');
@@ -155,12 +161,14 @@ class LayerPOLine extends Component {
       line.eresource.accessProvider = null;
     }
 
-    parentMutator.poLine.PUT(line).then(() => {
-      parentMutator.query.update({
-        _path: `${pathname}`,
-        layer: null,
-      });
-    });
+    parentMutator.poLine.PUT(line)
+      .then(() => {
+        parentMutator.query.update({
+          _path: `${pathname}`,
+          layer: null,
+        });
+      })
+      .catch(e => this.handleErrorResponse(e, line));
   }
 
   deletePOLine = (lineId) => {
@@ -198,10 +206,6 @@ class LayerPOLine extends Component {
     return newObj;
   }
 
-  createCalloutRef = ref => {
-    this.callout = ref;
-  };
-
   render() {
     const { location } = this.props;
     const { layer } = location.search ? queryString.parse(location.search) : {};
@@ -226,7 +230,7 @@ class LayerPOLine extends Component {
               createOrder={this.createNewOrder}
             />
           )}
-          <Callout ref={this.createCalloutRef} />
+          <Callout ref={this.callout} />
         </Layer>
       );
     } else if (layer === 'edit-po-line') {
@@ -242,6 +246,7 @@ class LayerPOLine extends Component {
             deletePOLine={this.deletePOLine}
             order={order}
           />
+          <Callout ref={this.callout} />
         </Layer>
       );
     }

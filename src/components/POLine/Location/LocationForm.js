@@ -60,6 +60,7 @@ const LocationForm = ({ parentResources }) => (
             label={<FormattedMessage id="ui-orders.location.nameCode" />}
             name={`${field}.locationId`}
             placeholder=" "
+            required
             validate={required}
           />
         </Col>
