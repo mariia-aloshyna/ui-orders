@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
+import { FormattedMessage } from 'react-intl';
+import { get } from 'lodash';
 
-import { Layer } from '@folio/stripes/components';
+import {
+  Callout,
+  Layer,
+} from '@folio/stripes/components';
 
 import { updateOrderResource } from '../Utils/orderResource';
 import { POForm } from '../PurchaseOrder';
+
+const ERROR_CODES = {
+  vendorIsInactive: 'vendorIsInactive',
+  accessProviderIsInactive: 'accessProviderIsInactive',
+  vendorNotFound: 'vendorNotFound',
+  orderOpen: 'orderOpen',
+  orderClosed: 'orderClosed',
+  accessProviderNotFound: 'accessProviderNotFound',
+};
 
 class LayerPO extends Component {
   static propTypes = {
@@ -20,17 +34,31 @@ class LayerPO extends Component {
   constructor(props) {
     super(props);
     this.connectedPOForm = props.stripes.connect(POForm);
+    this.callout = React.createRef();
   }
 
-  async updatePO(order) {
+  updatePO = (order) => {
     const { parentMutator, onCancel } = this.props;
 
-    try {
-      await updateOrderResource(order, parentMutator.records);
-      onCancel();
-    } catch (e) {
-      // console.error(e);
-    }
+    updateOrderResource(order, parentMutator.records)
+      .then(() => onCancel())
+      .catch(async e => {
+        let response;
+
+        try {
+          response = await e.json();
+        } catch (parsingException) {
+          response = e;
+        }
+
+        const errorCode = get(response, 'errors.0.code');
+        const messageCode = get(ERROR_CODES, errorCode, 'orderGenericError');
+
+        this.callout.current.sendCallout({
+          message: <FormattedMessage id={`ui-orders.errors.${messageCode}`} />,
+          type: 'error',
+        });
+      });
   }
 
   render() {
@@ -46,8 +74,9 @@ class LayerPO extends Component {
           <this.connectedPOForm
             {...this.props}
             initialValues={order}
-            onSubmit={(record) => { this.updatePO(record); }}
+            onSubmit={this.updatePO}
           />
+          <Callout ref={this.callout} />
         </Layer>
       );
     }
