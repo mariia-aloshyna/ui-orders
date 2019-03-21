@@ -29,3 +29,8 @@ export const MAP_FIELD_ACCORDION = {
   publicationDate: ACCORDION_ID.itemDetails,
   vendorDetail: ACCORDION_ID.vendor,
 };
+
+export const DISCOUNT_TYPE = {
+  amount: 'amount',
+  percentage: 'percentage',
+};

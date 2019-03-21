@@ -1,4 +1,5 @@
 import {
+  clickable,
   collection,
   interactor,
   is,
@@ -9,11 +10,6 @@ import {
 
 import { ACCORDION_ID } from '../../../src/components/POLine/const';
 
-@interactor class AddLocationButton {
-  static defaultScope = '[data-test-repeatable-field-add-item-button]';
-  isButton = is('button');
-}
-
 @interactor class UpdateLineButton {
   static defaultScope = '#clickable-updatePoLine';
   isButton = is('button');
@@ -21,13 +17,10 @@ import { ACCORDION_ID } from '../../../src/components/POLine/const';
 }
 
 @interactor class LocationAccordion {
-  static defaultScope = `#${ACCORDION_ID.location} [class*=defaultCollapseButton---]`;
-  isButton = is('button');
-}
-
-@interactor class LocationList {
-  static defaultScope = '[data-test-repeatable-field]';
-  locations = collection('[class*=repeatableFieldItem---]');
+  static defaultScope = `#${ACCORDION_ID.location}`;
+  clickAddLocationButton = clickable('[data-test-repeatable-field-add-item-button]');
+  clickHeader = clickable('[class*=defaultCollapseButton---]');
+  locations = collection('[data-test-repeatable-field] [class*=repeatableFieldItem---]');
 }
 
 @interactor class PublicationDateField {
@@ -35,13 +28,68 @@ import { ACCORDION_ID } from '../../../src/components/POLine/const';
   isInput = is('input');
 }
 
+@interactor class ListUnitPrice {
+  static defaultScope = '[name="cost.listUnitPrice"]';
+  isInput = is('input');
+  value = value();
+}
+
+@interactor class QuantityPhysical {
+  static defaultScope = '[name="cost.quantityPhysical"]';
+  isInput = is('input');
+  isDisabled = property('disabled');
+}
+
+@interactor class AdditionalCost {
+  static defaultScope = '[name="cost.additionalCost"]';
+  isInput = is('input');
+  isDisabled = property('disabled');
+}
+
+@interactor class ListUnitPriceElectronic {
+  static defaultScope = '[name="cost.listUnitPriceElectronic"]';
+  isInput = is('input');
+  isDisabled = property('disabled');
+}
+
+@interactor class Discount {
+  static defaultScope = '[name="cost.discount"]';
+  isInput = is('input');
+  isDisabled = property('disabled');
+  value = value();
+}
+
+@interactor class QuantityElectronic {
+  static defaultScope = '[name="cost.quantityElectronic"]';
+  isInput = is('input');
+  isDisabled = property('disabled');
+}
+
+@interactor class PoLineEstimatedPrice {
+  static defaultScope = '[data-test-poLineEstimatedPrice]';
+  value = text('[class*=kvRoot---]');
+}
+
+@interactor class FundDistributionAccordion {
+  static defaultScope = `#${ACCORDION_ID.fundDistribution}`;
+  clickHeader = clickable('[class*=defaultCollapseButton---]');
+  clickAddFundButton = clickable('[data-test-repeatable-field-add-item-button]');
+  funds = collection('[data-test-repeatable-field] [class*=repeatableFieldItem---]');
+}
+
 export default interactor(class LineEditPage {
   static defaultScope = '[data-test-line-edit]';
-  addLocationButton = new AddLocationButton();
-  locationList = new LocationList();
   locationAccordion = new LocationAccordion();
   updateLineButton = new UpdateLineButton();
   lineNumberInputValue = value('input[name="poLineNumber"]');
   validationMessage = text('[class*=feedbackError---]');
   publicationDateField = new PublicationDateField();
+  listUnitPrice = new ListUnitPrice();
+  quantityPhysical = new QuantityPhysical();
+  additionalCost = new AdditionalCost();
+  listUnitPriceElectronic = new ListUnitPriceElectronic();
+  discount = new Discount();
+  quantityElectronic = new QuantityElectronic();
+  poLineEstimatedPrice = new PoLineEstimatedPrice();
+  fundDistributionAccordion = new FundDistributionAccordion();
 });

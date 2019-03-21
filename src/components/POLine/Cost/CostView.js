@@ -9,20 +9,21 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-class CostView extends React.Component {
-  static propTypes = {
-    cost: PropTypes.object,
-  }
+import { DISCOUNT_TYPE } from '../const';
 
-  render() {
-    const { cost } = this.props;
+function CostView({ cost }) {
+  const discountType = get(cost, 'discountType');
+  const discount = get(cost, 'discount');
+  const isPercentageDiscountType = discountType === DISCOUNT_TYPE.percentage;
+  const displayDiscount = discount && `${discount}${isPercentageDiscountType ? '%' : ''}`;
 
-    return (
+  return (
+    <React.Fragment>
       <Row>
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.cost.listPrice" />}
-            value={get(cost, 'listPrice')}
+            value={get(cost, 'listUnitPrice')}
           />
         </Col>
         <Col xs={6}>
@@ -31,12 +32,36 @@ class CostView extends React.Component {
             value={get(cost, 'currency')}
           />
         </Col>
+      </Row>
+      <Row>
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.cost.quantityPhysical" />}
             value={get(cost, 'quantityPhysical')}
           />
         </Col>
+        <Col xs={6}>
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.cost.additionalCost" />}
+            value={get(cost, 'additionalCost')}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={6}>
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.cost.unitPriceOfElectronic" />}
+            value={get(cost, 'listUnitPriceElectronic')}
+          />
+        </Col>
+        <Col xs={6}>
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.cost.discount" />}
+            value={displayDiscount}
+          />
+        </Col>
+      </Row>
+      <Row>
         <Col xs={6}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.cost.quantityElectronic" />}
@@ -60,8 +85,12 @@ class CostView extends React.Component {
           />
         </Col>
       </Row>
-    );
-  }
+    </React.Fragment>
+  );
 }
+
+CostView.propTypes = {
+  cost: PropTypes.object,
+};
 
 export default CostView;

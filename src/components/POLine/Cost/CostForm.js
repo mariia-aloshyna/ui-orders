@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import {
-  Field,
-  getFormValues,
-} from 'redux-form';
+import { Field } from 'redux-form';
 import { get } from 'lodash';
 
 import {
@@ -14,56 +11,54 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
+
+import parseNumber from '../../Utils/parseNumber';
 import FieldCurrency from './FieldCurrency';
 import { requiredPositiveNumber } from '../../Utils/Validate';
 import {
+  DISCOUNT_TYPE,
   ERESOURCES,
   PHRESOURCES,
   OTHER,
 } from '../const';
+import calculateEstimatedPrice from '../calculateEstimatedPrice';
 
 const disabled = true;
 
-const parseNumber = (value) => {
-  return value && value.length > 0 ? Number(value) : value;
+const validateNotNegative = (value) => {
+  return !value || value >= 0
+    ? undefined
+    : <FormattedMessage id="ui-orders.cost.validation.cantBeNegative" />;
 };
 
 class CostForm extends Component {
   static propTypes = {
-    initialValues: PropTypes.object,
-    stripes: PropTypes.shape({
-      store: PropTypes.object,
-    }),
+    formValues: PropTypes.object,
     dispatch: PropTypes.func,
     change: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props);
-    this.onChangeInput = this.onChangeInput.bind(this);
-    this.calculateEstimatedPrice = this.calculateEstimatedPrice.bind(this);
-  }
+  normalizeDiscount = (value, previousValue, allValues, previousAllValues) => {
+    if (!value) {
+      return value;
+    }
 
-  onChangeInput(e, propertyName) {
-    const { dispatch, change } = this.props;
+    const previousDiscountType = get(previousAllValues, 'cost.discountType');
+    const discountType = value.includes('%')
+      ? DISCOUNT_TYPE.percentage
+      : DISCOUNT_TYPE.amount;
 
-    dispatch(change(propertyName, e));
-  }
+    if (previousDiscountType !== discountType) {
+      const { dispatch, change } = this.props;
 
-  calculateEstimatedPrice() {
-    const { stripes: { store } } = this.props;
-    const formValues = getFormValues('POLineForm')(store.getState());
-    const listPrice = parseFloat(get(formValues, 'cost.listPrice', 0)) || 0;
-    const quantityPhysical = parseInt(get(formValues, 'cost.quantityPhysical', 0), 10) || 0;
-    const quantityElectronic = parseInt(get(formValues, 'cost.quantityElectronic', 0), 10) || 0;
-    const estimatedPrice = parseFloat(listPrice * (quantityPhysical + quantityElectronic)).toFixed(2);
+      dispatch(change('cost.discountType', discountType));
+    }
 
-    return estimatedPrice;
-  }
+    return parseInt(value, 10) || undefined;
+  };
 
   render() {
-    const { stripes: { store } } = this.props;
-    const formValues = getFormValues('POLineForm')(store.getState());
+    const formValues = this.props.formValues;
     const orderFormat = formValues.orderFormat;
     const validateEresources = ERESOURCES.includes(orderFormat)
       ? { validate: requiredPositiveNumber }
@@ -72,6 +67,10 @@ class CostForm extends Component {
       ? { validate: requiredPositiveNumber }
       : { disabled };
 
+    const discountType = get(formValues, 'cost.discountType', DISCOUNT_TYPE.amount) || DISCOUNT_TYPE.amount;
+    const isAmountDiscountType = discountType === DISCOUNT_TYPE.amount;
+    const poLineEstimatedPrice = calculateEstimatedPrice(formValues);
+
     return (
       <Row>
         <Col xs={6}>
@@ -79,8 +78,8 @@ class CostForm extends Component {
             component={TextField}
             fullWidth
             label={<FormattedMessage id="ui-orders.cost.listPrice" />}
-            name="cost.listPrice"
-            onChange={e => this.onChangeInput(e.target.value, 'cost.listPrice')}
+            name="cost.listUnitPrice"
+            parse={parseNumber}
             required
             type="number"
             validate={requiredPositiveNumber}
@@ -104,6 +103,44 @@ class CostForm extends Component {
           <Field
             component={TextField}
             fullWidth
+            label={<FormattedMessage id="ui-orders.cost.additionalCost" />}
+            name="cost.additionalCost"
+            parse={parseNumber}
+            type="number"
+            validate={validateNotNegative}
+          />
+        </Col>
+        <Col xs={6}>
+          <Field
+            component={TextField}
+            fullWidth
+            label={<FormattedMessage id="ui-orders.cost.unitPriceOfElectronic" />}
+            name="cost.listUnitPriceElectronic"
+            parse={parseNumber}
+            required
+            type="number"
+            {...validateEresources}
+          />
+        </Col>
+        <Col xs={6}>
+          <Field
+            component={TextField}
+            format={(value) => {
+              return !value || isAmountDiscountType
+                ? value
+                : `${value}%`;
+            }}
+            fullWidth
+            label={<FormattedMessage id="ui-orders.cost.discount" />}
+            name="cost.discount"
+            normalize={this.normalizeDiscount}
+            validate={validateNotNegative}
+          />
+        </Col>
+        <Col xs={6}>
+          <Field
+            component={TextField}
+            fullWidth
             label={<FormattedMessage id="ui-orders.cost.quantityElectronic" />}
             name="cost.quantityElectronic"
             type="number"
@@ -111,7 +148,10 @@ class CostForm extends Component {
             {...validateEresources}
           />
         </Col>
-        <Col xs={6}>
+        <Col
+          data-test-poLineEstimatedPrice
+          xs={6}
+        >
           <KeyValue
             label={
               <div>
@@ -124,7 +164,7 @@ class CostForm extends Component {
                 />
               </div>
             }
-            value={this.calculateEstimatedPrice()}
+            value={poLineEstimatedPrice}
           />
         </Col>
       </Row>

@@ -14,6 +14,7 @@ import {
 } from '@folio/stripes/components';
 
 import { SOURCE_FOLIO_CODE } from '../Utils/const';
+import { DISCOUNT_TYPE } from '../POLine/const';
 import { cloneOrder } from '../Utils/orderResource';
 import {
   lineMutatorShape,
@@ -182,9 +183,10 @@ class LayerPOLine extends Component {
     });
   }
 
-  getCreatePOLIneInitialValues() {
-    const { match } = this.props;
-    const orderId = get(match, 'params.id');
+  getCreatePOLIneInitialValues = (order) => {
+    const { parentResources } = this.props;
+    const { id: orderId, vendor: vendorId } = order;
+    const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === vendorId);
 
     const newObj = {
       source: {
@@ -196,11 +198,12 @@ class LayerPOLine extends Component {
       vendorDetail: {
         instructions: '',
       },
+      purchaseOrderId: orderId,
     };
 
-    // Due to not perfect component hierarchy, the 'real' new PO Line goes only if orderId is not falsy
-    if (orderId) {
-      newObj.purchaseOrderId = orderId;
+    if (vendor && vendor.discount_percent) {
+      newObj.cost.discountType = DISCOUNT_TYPE.percentage;
+      newObj.cost.discount = vendor.discount_percent;
     }
 
     return newObj;
@@ -212,7 +215,9 @@ class LayerPOLine extends Component {
     const { resources, ...restProps } = this.props;
     const order = this.getOrder();
 
-    if (layer === 'create-po-line') {
+    if (!order) {
+      return null;
+    } else if (layer === 'create-po-line') {
       return (
         <Layer
           isOpen
@@ -220,7 +225,7 @@ class LayerPOLine extends Component {
         >
           <this.connectedPOLineForm
             {...restProps}
-            initialValues={this.getCreatePOLIneInitialValues()}
+            initialValues={this.getCreatePOLIneInitialValues(order)}
             onSubmit={this.submitPOLine}
             order={order}
           />
