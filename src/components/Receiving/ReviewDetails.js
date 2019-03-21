@@ -29,7 +29,7 @@ const ReviewDetails = ({
     'format': (item) => get(item, 'poLineOrderFormat', ''),
     'location': (item) => get(locationsOptions.filter(el => (
       el.value === item.locationId)), [0, 'label'], 'Unknown location'),
-    'itemStatus': () => <FormattedMessage id="ui-orders.receiving.itemStatus.received" />,
+    'itemStatus': () => <FormattedMessage id="ui-orders.receiving.itemStatus.inProcess" />,
   };
 
   return (

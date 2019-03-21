@@ -11,11 +11,9 @@ import {
   Select,
 } from '@folio/stripes/components';
 
-import css from './ItemDetails.css';
+import { ITEM_STATUS } from './const';
 
-const ITEM_STATUS = {
-  received: 'Received',
-};
+import css from './ItemDetails.css';
 
 const LineDetails = ({
   allChecked,
@@ -65,9 +63,9 @@ const LineDetails = ({
     'itemStatus': () => (
       <div className={css.fieldWrapper}>
         <Select
-          defaultValue={<FormattedMessage id="ui-orders.receiving.itemStatus.received" />}
           fullWidth
           selectClass={css.itemStatusField}
+          value={ITEM_STATUS.inProcess}
         >
           {Object.keys(ITEM_STATUS).map((key) => (
             <FormattedMessage
