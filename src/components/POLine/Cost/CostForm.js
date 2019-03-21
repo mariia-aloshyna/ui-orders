@@ -13,6 +13,7 @@ import {
 } from '@folio/stripes/components';
 
 import parseNumber from '../../Utils/parseNumber';
+import parseMoney from '../../Utils/parseMoney';
 import FieldCurrency from './FieldCurrency';
 import { requiredPositiveNumber } from '../../Utils/Validate';
 import {
@@ -24,6 +25,12 @@ import {
 import calculateEstimatedPrice from '../calculateEstimatedPrice';
 
 const disabled = true;
+const required = true;
+const ATTRS_TO_REQUIRE_POSITIVE_NUMBER = {
+  required,
+  validate: requiredPositiveNumber,
+};
+const ATTRS_TO_DISABLE_FIELD = { disabled };
 
 const validateNotNegative = (value) => {
   return !value || value >= 0
@@ -61,11 +68,11 @@ class CostForm extends Component {
     const formValues = this.props.formValues;
     const orderFormat = formValues.orderFormat;
     const validateEresources = ERESOURCES.includes(orderFormat)
-      ? { validate: requiredPositiveNumber }
-      : { disabled };
+      ? ATTRS_TO_REQUIRE_POSITIVE_NUMBER
+      : ATTRS_TO_DISABLE_FIELD;
     const validatePhresources = PHRESOURCES.includes(orderFormat) || orderFormat === OTHER
-      ? { validate: requiredPositiveNumber }
-      : { disabled };
+      ? ATTRS_TO_REQUIRE_POSITIVE_NUMBER
+      : ATTRS_TO_DISABLE_FIELD;
 
     const discountType = get(formValues, 'cost.discountType', DISCOUNT_TYPE.amount) || DISCOUNT_TYPE.amount;
     const isAmountDiscountType = discountType === DISCOUNT_TYPE.amount;
@@ -79,10 +86,10 @@ class CostForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.cost.listPrice" />}
             name="cost.listUnitPrice"
-            parse={parseNumber}
-            required
+            parse={parseMoney}
+            step="0.01"
             type="number"
-            validate={requiredPositiveNumber}
+            {...validatePhresources}
           />
         </Col>
         <Col xs={6}>
@@ -105,7 +112,8 @@ class CostForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.cost.additionalCost" />}
             name="cost.additionalCost"
-            parse={parseNumber}
+            parse={parseMoney}
+            step="0.01"
             type="number"
             validate={validateNotNegative}
           />
@@ -116,8 +124,8 @@ class CostForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.cost.unitPriceOfElectronic" />}
             name="cost.listUnitPriceElectronic"
-            parse={parseNumber}
-            required
+            parse={parseMoney}
+            step="0.01"
             type="number"
             {...validateEresources}
           />
