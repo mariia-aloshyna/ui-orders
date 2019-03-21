@@ -15,7 +15,6 @@ import {
 import parseNumber from '../../Utils/parseNumber';
 import parseMoney from '../../Utils/parseMoney';
 import FieldCurrency from './FieldCurrency';
-import { requiredPositiveNumber } from '../../Utils/Validate';
 import {
   DISCOUNT_TYPE,
   ERESOURCES,
@@ -24,16 +23,33 @@ import {
 } from '../const';
 import calculateEstimatedPrice from '../calculateEstimatedPrice';
 
+// Validation for Fields with type 'number' requires positive integer
+export const requiredPositiveQuantity = (value) => {
+  return value >= 1
+    ? undefined
+    : <FormattedMessage id="ui-orders.cost.validation.shouldBePositive" />;
+};
+
+const validateRequiredNotNegative = (value) => {
+  return value === 0 || value > 0
+    ? undefined
+    : <FormattedMessage id="ui-orders.cost.validation.cantBeNegativeOrEmpty" />;
+};
+
 const disabled = true;
 const required = true;
-const ATTRS_TO_REQUIRE_POSITIVE_NUMBER = {
+const FIELD_ATTRS_FOR_REQUIRED_PRICE = {
   required,
-  validate: requiredPositiveNumber,
+  validate: validateRequiredNotNegative,
+};
+const FIELD_ATTRS_FOR_REQUIRED_QUANTITY = {
+  required,
+  validate: requiredPositiveQuantity,
 };
 const ATTRS_TO_DISABLE_FIELD = { disabled };
 
 const validateNotNegative = (value) => {
-  return !value || value >= 0
+  return !value || value > 0
     ? undefined
     : <FormattedMessage id="ui-orders.cost.validation.cantBeNegative" />;
 };
@@ -67,12 +83,20 @@ class CostForm extends Component {
   render() {
     const formValues = this.props.formValues;
     const orderFormat = formValues.orderFormat;
-    const validateEresources = ERESOURCES.includes(orderFormat)
-      ? ATTRS_TO_REQUIRE_POSITIVE_NUMBER
-      : ATTRS_TO_DISABLE_FIELD;
-    const validatePhresources = PHRESOURCES.includes(orderFormat) || orderFormat === OTHER
-      ? ATTRS_TO_REQUIRE_POSITIVE_NUMBER
-      : ATTRS_TO_DISABLE_FIELD;
+    let validateEresourcesPrices = ATTRS_TO_DISABLE_FIELD;
+    let validateEresourcesQuantities = ATTRS_TO_DISABLE_FIELD;
+    let validatePhresourcesPrices = ATTRS_TO_DISABLE_FIELD;
+    let validatePhresourcesQuantities = ATTRS_TO_DISABLE_FIELD;
+
+    if (ERESOURCES.includes(orderFormat)) {
+      validateEresourcesPrices = FIELD_ATTRS_FOR_REQUIRED_PRICE;
+      validateEresourcesQuantities = FIELD_ATTRS_FOR_REQUIRED_QUANTITY;
+    }
+
+    if (PHRESOURCES.includes(orderFormat) || orderFormat === OTHER) {
+      validatePhresourcesPrices = FIELD_ATTRS_FOR_REQUIRED_PRICE;
+      validatePhresourcesQuantities = FIELD_ATTRS_FOR_REQUIRED_QUANTITY;
+    }
 
     const discountType = get(formValues, 'cost.discountType', DISCOUNT_TYPE.amount) || DISCOUNT_TYPE.amount;
     const isAmountDiscountType = discountType === DISCOUNT_TYPE.amount;
@@ -89,7 +113,7 @@ class CostForm extends Component {
             parse={parseMoney}
             step="0.01"
             type="number"
-            {...validatePhresources}
+            {...validatePhresourcesPrices}
           />
         </Col>
         <Col xs={6}>
@@ -103,7 +127,7 @@ class CostForm extends Component {
             name="cost.quantityPhysical"
             type="number"
             parse={parseNumber}
-            {...validatePhresources}
+            {...validatePhresourcesQuantities}
           />
         </Col>
         <Col xs={6}>
@@ -127,7 +151,7 @@ class CostForm extends Component {
             parse={parseMoney}
             step="0.01"
             type="number"
-            {...validateEresources}
+            {...validateEresourcesPrices}
           />
         </Col>
         <Col xs={6}>
@@ -153,7 +177,7 @@ class CostForm extends Component {
             name="cost.quantityElectronic"
             type="number"
             parse={parseNumber}
-            {...validateEresources}
+            {...validateEresourcesQuantities}
           />
         </Col>
         <Col
