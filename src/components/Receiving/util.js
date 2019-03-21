@@ -61,7 +61,7 @@ export const receiveItems = (itemList, mutator) => {
     const item = {
       barcode: piece.barcode || '',
       comment: piece.receivingNote,
-      itemStatus: PIECE_STATUS_RECEIVED,
+      itemStatus: ITEM_STATUS.inProcess,
       locationId: piece.locationId,
       pieceId: piece.id,
     };

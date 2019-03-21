@@ -501,6 +501,8 @@
   "receiving.cancelBtn": "Cancel",
   "receiving.dateOrdered": "Date Ordered",
   "receiving.format": "Format",
+  "receiving.itemStatus.inProcess": "In process",
+  "receiving.itemStatus.onOrder": "On order",
   "receiving.itemStatus.received": "Received",
   "receiving.itemStatus": "Item Status",
   "receiving.lineStatus.expected": "Expected",
