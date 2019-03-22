@@ -594,7 +594,11 @@
     "errors.zeroCostQtyElectronic": "Electronic cost quantity must be specified",
     "errors.zeroCostQtyPhysical": "Physical cost quantity must be specified",
     "cost.additionalCost": "Additional Cost",
-    "cost.discount": "Discount",
+    "cost.discount": "折扣",
     "cost.unitPriceOfElectronic": "Unit Price of Electronic",
-    "cost.validation.cantBeNegative": "Can not be negative"
+    "cost.validation.cantBeNegative": "不能为负数",
+    "receiving.itemStatus.inProcess": "In process",
+    "receiving.itemStatus.onOrder": "On order",
+    "cost.validation.shouldBePositive": "Should be positive",
+    "cost.validation.cantBeNegativeOrEmpty": "Can not be negative or empty"
 }

@@ -596,5 +596,9 @@
     "cost.additionalCost": "Additional Cost",
     "cost.discount": "Discount",
     "cost.unitPriceOfElectronic": "Unit Price of Electronic",
-    "cost.validation.cantBeNegative": "Can not be negative"
+    "cost.validation.cantBeNegative": "Can not be negative",
+    "receiving.itemStatus.inProcess": "In process",
+    "receiving.itemStatus.onOrder": "On order",
+    "cost.validation.shouldBePositive": "Should be positive",
+    "cost.validation.cantBeNegativeOrEmpty": "Can not be negative or empty"
 }
