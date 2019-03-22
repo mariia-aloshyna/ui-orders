@@ -416,7 +416,7 @@
     "cost.quantityPhysical": "Quantity physical",
     "cost.quantityElectronic": "Quantity electronic",
     "cost.estimatedPrice": "Estimated price",
-    "cost.info": "List unit price x Quantity ordered",
+    "cost.info": "List Unit Price(s) x Quantities Ordered + Additional Cost - Discount",
     "cost.buttonLabel": "Read more",
     "paneBlock.POLines": "PO lines",
     "order_format.other": "Other",
