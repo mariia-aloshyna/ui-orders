@@ -1,6 +1,11 @@
 # Change history for ui-orders
 
+## [1.3.1](https://github.com/folio-org/ui-orders/tree/v1.3.1) (2019-03-22)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.3.0...v1.3.1)
+* Translations updated
+
 ## [1.3.0](https://github.com/folio-org/ui-orders/tree/v1.3.0) (2019-03-22)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.2.0...v1.3.0)
 * UIOR-134 Support on UI Refactoring of POLine model - Schemas
 * UIOR-140 PO Line: Physical quantities validation error message
 * UIOR-141 Purchase Order: Display Total estimated price and remove adjustments
