@@ -1,7 +1,22 @@
 # Change history for ui-orders
 
-## [1.3.0] - Unreleased
-* UIREC-14 Receiving: Access "Receiving History" for a PO
+## [1.3.0](https://github.com/folio-org/ui-orders/tree/v1.3.0) (2019-03-22)
+* UIOR-134 Support on UI Refactoring of POLine model - Schemas
+* UIOR-140 PO Line: Physical quantities validation error message
+* UIOR-141 Purchase Order: Display Total estimated price and remove adjustments
+* UIOR-142 Purchase Order Lines: Update cost information accordion to include additional costs and discount fields
+* UIOR-155 Receiving: Access Receiving items pane from Orders
+* UIOR-160 Receiving: View Receiving History for a Purchase Order
+* UIOR-162 Receiving: Access the Piece Details Wizard
+* UIOR-163 Receiving: Remove function Receiving History for a Purchase Order
+* UIOR-164 Receiving: Access "Receiving History" for a PO
+* UIOR-165 Order: Receiving Button logic Update
+* UIOR-166 Receiving: Receiving items pane logic and update table columns
+* UIOR-168 Receiving: Access Receiving items pane from Orders (PO Line pane)
+* UIOR-169 Show info from inventory in Receiving list
+* UIOR-170 Receiving: Access the Piece Details Wizard and update receiving workflow
+* UIOR-171 Piece Details Wizard: Final review in modal and click receive
+* UIOR-174 Receiving: Receive items from a PO Line quantity
 
 ## [1.2.0](https://github.com/folio-org/ui-orders/tree/v1.2.0) (2019-02-22)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.1.1...v1.2.0)
