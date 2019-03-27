@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { Callout } from '@folio/stripes/components';
 import { stripesShape } from '@folio/stripes/core';
-import { SearchAndSort } from '@folio/stripes/smart-components';
+import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
 
 import packageInfo from '../../package';
 import {
@@ -54,6 +54,19 @@ class Main extends Component {
       records: 'purchaseOrders',
       recordsRequired: '%{resultCount}',
       perRequest: RESULT_COUNT_INCREMENT,
+      GET: {
+        params: {
+          query: makeQueryFunction(
+            'cql.allRecords=1',
+            '',
+            {
+              created: 'metadata.createdDate',
+            },
+            filterConfig,
+          ),
+        },
+        staticFallback: { params: {} },
+      },
     },
     vendors: {
       type: 'okapi',
