@@ -6,10 +6,15 @@ import {
 import { expect } from 'chai';
 
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { PHYSICAL } from '../../../src/components/POLine/const';
+import {
+  ORDERS_API,
+} from '../../../src/components/Utils/api';
 import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import OrderEditPage from '../interactors/order-edit-page';
 import LineEditPage from '../interactors/line-edit-page';
+import OpenOrderConfirmationModalInct from '../interactors/PurchaseOrder/open-order-confirmation-modal';
 // import LinesLimitModal from '../interactors/lines-limit-modal';
 
 describe('OrderDetailsPage', () => {
@@ -84,6 +89,85 @@ describe('OrderDetailsPage', () => {
 
       // should be fixed with new order creation test (POST)
       expect(lineEditPage.$root).to.exist;
+    });
+  });
+
+  describe('Open order action', () => {
+    describe('button for pending order with at least one POL', () => {
+      const openOrderConfirmationModalInct = new OpenOrderConfirmationModalInct();
+
+      beforeEach(async function () {
+        const pendingOrder = await this.server.create('order', {
+          workflowStatus: WORKFLOW_STATUS.pending,
+        });
+
+        const line = await this.server.create('line', {
+          order: pendingOrder,
+          orderFormat: PHYSICAL,
+          cost: {
+            quantityPhysical: 2,
+          },
+        });
+
+        this.server.get(`${ORDERS_API}/${pendingOrder.id}`, {
+          ...pendingOrder.attrs,
+          compositePoLines: [line.attrs],
+        });
+
+        this.visit(`/orders/view/${pendingOrder.id}`);
+      });
+
+      it('should be visible', () => {
+        expect(orderDetailsPage.openOrderButton.isPresent).to.be.true;
+      });
+
+      describe('click action', () => {
+        beforeEach(async () => {
+          await orderDetailsPage.openOrderButton.click();
+        });
+
+        it('should open Open Order Confirmation Modal', () => {
+          expect(openOrderConfirmationModalInct.isPresent).to.be.true;
+        });
+      });
+
+      describe('click close action on modal', () => {
+        beforeEach(async () => {
+          await orderDetailsPage.openOrderButton.click();
+          await openOrderConfirmationModalInct.cancelAction();
+        });
+
+        it('should close Open Order Confirmation Modal', () => {
+          expect(openOrderConfirmationModalInct.isPresent).to.be.false;
+        });
+      });
+
+      describe('click submit action on modal', () => {
+        beforeEach(async () => {
+          await orderDetailsPage.openOrderButton.click();
+          await openOrderConfirmationModalInct.submitAction();
+        });
+
+        it('should close Open Order Confirmation Modal', () => {
+          expect(openOrderConfirmationModalInct.isPresent).to.be.false;
+        });
+      });
+    });
+
+    Object.values(WORKFLOW_STATUS).forEach(status => {
+      describe(`button for ${status} order without POLs`, () => {
+        beforeEach(async function () {
+          const newOrder = await this.server.create('order', {
+            workflowStatus: status,
+          });
+
+          this.visit(`/orders/view/${newOrder.id}`);
+        });
+
+        it('should not be visible', () => {
+          expect(orderDetailsPage.openOrderButton.isPresent).not.to.be.true;
+        });
+      });
     });
   });
 });

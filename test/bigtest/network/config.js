@@ -22,6 +22,10 @@ export default function config() {
     // };
   });
 
+  this.put(`${ORDERS_API}/:id`, (schema, request) => {
+    return schema.orders.find(request.params.id).attrs;
+  });
+
   this.get(VENDORS_API, (schema) => {
     return schema.vendors.all();
   });
