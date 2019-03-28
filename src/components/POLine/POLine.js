@@ -18,7 +18,10 @@ import {
 } from '@folio/stripes/components';
 import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 
-import { isReceiveAvailableForLine } from '../PurchaseOrder/util';
+import {
+  isCheckInAvailableForLine,
+  isReceiveAvailableForLine,
+} from '../PurchaseOrder/util';
 import {
   ORDER_DETAIL_API,
 } from '../Utils/api';
@@ -127,6 +130,7 @@ class POLine extends Component {
 
   render() {
     const {
+      match,
       match: { params: { lineId } },
       parentResources,
       poURL,
@@ -172,6 +176,7 @@ class POLine extends Component {
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const vendors = get(parentResources, 'vendors.records', []);
     const isReceiveButtonVisible = isReceiveAvailableForLine(line, order);
+    const isCheckInButtonVisible = isCheckInAvailableForLine(line, order);
 
     return (
       <Pane
@@ -191,6 +196,17 @@ class POLine extends Component {
                   onClick={this.goToReceiving}
                 >
                   <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
+                </Button>
+              </div>
+            )}
+            {isCheckInButtonVisible && (
+              <div>
+                <Button
+                  buttonStyle="primary"
+                  data-test-line-check-in-button
+                  to={`${match.url}/check-in/items`}
+                >
+                  <FormattedMessage id="ui-orders.paneBlock.checkInBtn" />
                 </Button>
               </div>
             )}
