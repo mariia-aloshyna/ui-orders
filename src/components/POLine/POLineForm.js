@@ -49,6 +49,7 @@ class POLineForm extends Component {
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
     onRemove: PropTypes.func,
+    order: PropTypes.object.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     parentResources: PropTypes.object,
@@ -153,7 +154,16 @@ class POLineForm extends Component {
   }
 
   render() {
-    const { change, dispatch, initialValues, onCancel, deletePOLine, stripes: { store } } = this.props;
+    const {
+      change,
+      deletePOLine,
+      dispatch,
+      initialValues,
+      onCancel,
+      order,
+      parentResources,
+      stripes: { store },
+    } = this.props;
     const lineId = get(initialValues, 'id');
     const lineNumber = get(initialValues, 'poLineNumber', '');
     const firstMenu = this.getAddFirstMenu();
@@ -189,8 +199,8 @@ class POLineForm extends Component {
     const orderFormat = get(formValues, 'orderFormat');
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
-    const vendors = getVendorsForSelect(this.props.parentResources);
-    const funds = getFundsForSelect(this.props.parentResources);
+    const vendors = getVendorsForSelect(parentResources);
+    const funds = getFundsForSelect(parentResources);
 
     return (
       <Pane
@@ -263,7 +273,10 @@ class POLineForm extends Component {
                         label={<FormattedMessage id="ui-orders.line.accordion.eresource" />}
                         id={ACCORDION_ID.eresources}
                       >
-                        <EresourcesForm {...this.props} />
+                        <EresourcesForm
+                          order={order}
+                          vendors={vendors}
+                        />
                       </Accordion>
                     )}
                     {showPhresources && (
@@ -271,10 +284,7 @@ class POLineForm extends Component {
                         label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
                         id={ACCORDION_ID.physical}
                       >
-                        <PhysicalForm
-                          {...this.props}
-                          vendors={vendors}
-                        />
+                        <PhysicalForm vendors={vendors} />
                       </Accordion>
                     )}
                     <Accordion
