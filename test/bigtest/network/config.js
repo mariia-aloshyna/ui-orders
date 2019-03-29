@@ -41,6 +41,10 @@ export default function config() {
     return schema.lines.all();
   });
 
+  this.get(`${LINES_API}/:id`, (schema, request) => {
+    return schema.lines.find(request.params.id).attrs;
+  });
+
   this.get('/locations');
 
   this.get('/configurations/entries', (_, { queryParams }) => {

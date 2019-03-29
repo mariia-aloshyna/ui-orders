@@ -17,33 +17,52 @@ import {
 } from '@folio/stripes/components';
 
 import {
+  ERESOURCE,
+  OTHER,
+  PE_MIX,
+  PHYSICAL,
+} from '../POLine/const';
+import {
+  LINE,
+  LOCATIONS,
+  ORDER_PIECES,
   RECEIVING_HISTORY,
-  // ORDER_PIECES,
 } from '../Utils/resources';
+import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import { LIMIT_MAX } from '../Utils/const';
-// import AddPieceModal from './AddPieceModal';
+import AddPieceModal from './AddPieceModal';
+import { PIECE_FORMAT } from './FieldPieceFormat';
+
+const ORDER_FORMAT_TO_PIECE_FORMAT = {
+  [ERESOURCE]: PIECE_FORMAT.electronic,
+  [OTHER]: PIECE_FORMAT.other,
+  [PHYSICAL]: PIECE_FORMAT.physical,
+};
 
 class CheckInItems extends Component {
   static manifest = Object.freeze({
+    LINE,
+    locations: LOCATIONS,
+    ORDER_PIECES,
     query: {},
     RECEIVING_HISTORY,
-    // ORDER_PIECES,
   })
 
   static propTypes = {
     mutator: PropTypes.object.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
-    // stripes: PropTypes.object.isRequired,
+    resources: PropTypes.object,
+    stripes: PropTypes.object.isRequired,
   }
 
   constructor(props, context) {
     super(props, context);
-    // this.connectedAddPieceModal = props.stripes.connect(AddPieceModal);
+    this.connectedAddPieceModal = props.stripes.connect(AddPieceModal);
     this.callout = React.createRef();
   }
 
   state = {
-    // addPieceModalOpened: false,
+    addPieceModalOpened: false,
     isAllChecked: false,
     items: [],
     searchText: '',
@@ -105,36 +124,47 @@ class CheckInItems extends Component {
     this.setState({ searchText });
   }
 
-  // addPieceModalOpen = () => {
-  //   this.setState({ addPieceModalOpened: true });
-  // }
+  addPieceModalOpen = () => {
+    this.setState({ addPieceModalOpened: true });
+  }
 
-  // addPieceModalClose = () => {
-  //   this.setState({ addPieceModalOpened: false });
-  // }
+  addPieceModalClose = () => {
+    this.setState({ addPieceModalOpened: false });
+  }
 
-  // addPieceModalSave = values => {
-  //   const { mutator } = this.props;
+  addPieceModalSave = values => {
+    const { mutator } = this.props;
 
-  //   mutator.ORDER_PIECES.POST(values)
-  //     .then(() => this.callout.current.sendCallout({
-  //       type: 'success',
-  //       message: <FormattedMessage id="ui-orders.checkIn.addPiece.success" />,
-  //     }))
-  //     .catch(() => this.callout.current.sendCallout({
-  //       type: 'error',
-  //       message: <FormattedMessage id="ui-orders.checkIn.addPiece.error" />,
-  //     }))
-  //     .then(this.fetchItems);
-  // }
+    this.addPieceModalClose();
+    mutator.ORDER_PIECES.POST(values)
+      .then(() => this.callout.current.sendCallout({
+        type: 'success',
+        message: <FormattedMessage id="ui-orders.checkIn.addPiece.success" />,
+      }))
+      .catch(() => this.callout.current.sendCallout({
+        type: 'error',
+        message: <FormattedMessage id="ui-orders.checkIn.addPiece.error" />,
+      }))
+      .then(this.fetchItems);
+  }
 
   render() {
-    const { searchText } = this.state;
-    // const { match: { params: { lineId } } } = this.props;
-    // const initialValuesPiece = {
-    //   poLineId: lineId,
-    // };
+    const { addPieceModalOpened, searchText } = this.state;
+    const { match: { params: { lineId } }, resources } = this.props;
+    const initialValuesPiece = {
+      poLineId: lineId,
+    };
     const items = this.getItems();
+
+    const poLineOrderFormat = get(resources, 'LINE.records.0.orderFormat');
+    let showPieceFormatField = false;
+
+    if (!poLineOrderFormat || poLineOrderFormat === PE_MIX) {
+      showPieceFormatField = true;
+    } else {
+      initialValuesPiece.format = ORDER_FORMAT_TO_PIECE_FORMAT[poLineOrderFormat];
+    }
+
     const resultsFormatter = {
       'isChecked': piece => (
         <Checkbox
@@ -157,6 +187,7 @@ class CheckInItems extends Component {
       'pieceStatus': piece => piece.receivingStatus,
     };
     const isCheckInDisabled = !items.some(piece => piece.isChecked === true);
+    const locations = getLocationsForSelect(resources);
 
     return (
       <div data-test-check-in-items>
@@ -173,7 +204,7 @@ class CheckInItems extends Component {
             <Button
               buttonStyle="default"
               data-test-check-in-items-add-piece-button
-              // onClick={this.addPieceModalOpen}
+              onClick={this.addPieceModalOpen}
             >
               <FormattedMessage id="ui-orders.checkIn.buttons.addPiece" />
             </Button>
@@ -210,13 +241,15 @@ class CheckInItems extends Component {
           columnWidths={{ isChecked: 35 }}
           onRowClick={(_, item) => this.toggleItem(item)}
         />
-        {/* {addPieceModalOpened && (
+        {addPieceModalOpened && (
           <this.connectedAddPieceModal
             close={this.addPieceModalClose}
             initialValues={initialValuesPiece}
+            locations={locations}
             onSubmit={this.addPieceModalSave}
+            showPieceFormatField={showPieceFormatField}
           />
-        )} */}
+        )}
         <Callout ref={this.callout} />
       </div>
     );

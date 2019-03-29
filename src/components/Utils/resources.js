@@ -1,7 +1,9 @@
 import {
   ITEMS_API,
+  LINE_DETAIL_API,
   LOCATIONS_API,
   ORDER_DETAIL_API,
+  ORDER_PIECES_API,
   RECEIVE_API,
   RECEIVING_API,
 } from './api';
@@ -46,4 +48,20 @@ export const ITEMS = {
   records: 'items',
   throwErrors: false,
   type: 'okapi',
+};
+
+export const ORDER_PIECES = {
+  accumulate: true,
+  clientGeneratePk: false,
+  fetch: false,
+  path: ORDER_PIECES_API,
+  records: 'checkInItems',
+  throwErrors: false,
+  type: 'okapi',
+};
+
+export const LINE = {
+  type: 'okapi',
+  path: LINE_DETAIL_API,
+  throwErrors: false,
 };

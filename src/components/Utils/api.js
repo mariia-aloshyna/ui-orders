@@ -10,3 +10,4 @@ export const RECEIVING_API = 'orders/receiving-history';
 export const LOCATIONS_API = 'locations';
 export const RECEIVE_API = 'orders/receive';
 export const ITEMS_API = 'inventory/items';
+export const ORDER_PIECES_API = 'orders/pieces';
