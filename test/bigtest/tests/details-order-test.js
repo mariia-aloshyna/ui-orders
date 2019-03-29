@@ -14,7 +14,7 @@ import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import OrderEditPage from '../interactors/order-edit-page';
 import LineEditPage from '../interactors/line-edit-page';
-import OpenOrderConfirmationModalInct from '../interactors/PurchaseOrder/open-order-confirmation-modal';
+import OpenOrderConfirmationModal from '../interactors/PurchaseOrder/open-order-confirmation-modal';
 // import LinesLimitModal from '../interactors/lines-limit-modal';
 
 describe('OrderDetailsPage', () => {
@@ -94,7 +94,7 @@ describe('OrderDetailsPage', () => {
 
   describe('Open order action', () => {
     describe('button for pending order with at least one POL', () => {
-      const openOrderConfirmationModalInct = new OpenOrderConfirmationModalInct();
+      const openOrderConfirmationModal = new OpenOrderConfirmationModal();
 
       beforeEach(async function () {
         const pendingOrder = await this.server.create('order', {
@@ -127,29 +127,29 @@ describe('OrderDetailsPage', () => {
         });
 
         it('should open Open Order Confirmation Modal', () => {
-          expect(openOrderConfirmationModalInct.isPresent).to.be.true;
+          expect(openOrderConfirmationModal.isPresent).to.be.true;
         });
       });
 
       describe('click close action on modal', () => {
         beforeEach(async () => {
           await orderDetailsPage.openOrderButton.click();
-          await openOrderConfirmationModalInct.cancelAction();
+          await openOrderConfirmationModal.cancelAction();
         });
 
         it('should close Open Order Confirmation Modal', () => {
-          expect(openOrderConfirmationModalInct.isPresent).to.be.false;
+          expect(openOrderConfirmationModal.isPresent).to.be.false;
         });
       });
 
       describe('click submit action on modal', () => {
         beforeEach(async () => {
           await orderDetailsPage.openOrderButton.click();
-          await openOrderConfirmationModalInct.submitAction();
+          await openOrderConfirmationModal.submitAction();
         });
 
         it('should close Open Order Confirmation Modal', () => {
-          expect(openOrderConfirmationModalInct.isPresent).to.be.false;
+          expect(openOrderConfirmationModal.isPresent).to.be.false;
         });
       });
     });

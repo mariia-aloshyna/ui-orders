@@ -31,6 +31,7 @@ import {
   cloneOrder,
   updateOrderResource,
 } from '../Utils/orderResource';
+import { showUpdateOrderError } from '../Utils/order';
 import {
   CONFIG_CLOSING_REASONS,
   CONFIG_LINES_LIMIT,
@@ -169,15 +170,20 @@ class PO extends Component {
     this.unmountCloseOrderModal();
   }
 
-  openOrder = () => {
+  openOrder = async () => {
     const { mutator, resources } = this.props;
     const order = get(resources, ['order', 'records', 0]);
     const openOrderProps = {
       workflowStatus: WORKFLOW_STATUS.open,
     };
 
-    updateOrderResource(order, mutator.order, openOrderProps);
-    this.toggleOpenOrderModal();
+    try {
+      await updateOrderResource(order, mutator.order, openOrderProps);
+    } catch (e) {
+      await showUpdateOrderError(e, this.callout);
+    } finally {
+      this.toggleOpenOrderModal();
+    }
   }
 
   createNewOrder = async () => {

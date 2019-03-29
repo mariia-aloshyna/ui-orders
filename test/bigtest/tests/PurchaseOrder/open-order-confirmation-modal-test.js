@@ -11,12 +11,12 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 
 import OpenOrderConfirmationModal from '../../../../src/components/PurchaseOrder/OpenOrderConfirmationModal';
-import OpenOrderConfirmationModalInct from '../../interactors/PurchaseOrder/open-order-confirmation-modal';
+import OpenOrderConfirmationModalInteractor from '../../interactors/PurchaseOrder/open-order-confirmation-modal';
 
 describe('OpenOrderConfirmationModal', () => {
   let submitFake;
   let cancelFake;
-  const openOrderConfirmationModalInct = new OpenOrderConfirmationModalInct();
+  const openOrderConfirmationModalInct = new OpenOrderConfirmationModalInteractor();
 
   beforeEach(() => {
     cancelFake = sinon.fake();

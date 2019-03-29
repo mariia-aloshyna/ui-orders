@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
 
 import {
   Callout,
@@ -10,16 +8,8 @@ import {
 } from '@folio/stripes/components';
 
 import { updateOrderResource } from '../Utils/orderResource';
+import { showUpdateOrderError } from '../Utils/order';
 import { POForm } from '../PurchaseOrder';
-
-const ERROR_CODES = {
-  vendorIsInactive: 'vendorIsInactive',
-  accessProviderIsInactive: 'accessProviderIsInactive',
-  vendorNotFound: 'vendorNotFound',
-  orderOpen: 'orderOpen',
-  orderClosed: 'orderClosed',
-  accessProviderNotFound: 'accessProviderNotFound',
-};
 
 class LayerPO extends Component {
   static propTypes = {
@@ -43,21 +33,7 @@ class LayerPO extends Component {
     updateOrderResource(order, parentMutator.records)
       .then(() => onCancel())
       .catch(async e => {
-        let response;
-
-        try {
-          response = await e.json();
-        } catch (parsingException) {
-          response = e;
-        }
-
-        const errorCode = get(response, 'errors.0.code');
-        const messageCode = get(ERROR_CODES, errorCode, 'orderGenericError');
-
-        this.callout.current.sendCallout({
-          message: <FormattedMessage id={`ui-orders.errors.${messageCode}`} />,
-          type: 'error',
-        });
+        await showUpdateOrderError(e, this.callout.current);
       });
   }
 
