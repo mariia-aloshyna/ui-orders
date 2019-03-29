@@ -93,7 +93,7 @@ class ReceivingList extends Component {
     const { mutator: { receivingHistory }, match: { params: { id, lineId } } } = this.props;
     const params = {
       limit: LIMIT_MAX,
-      query: `purchaseOrderId==${id}${lineId ? ` and poLineId==${lineId}` : ''}`,
+      query: `checkin == false and purchaseOrderId==${id}${lineId ? ` and poLineId==${lineId}` : ''}`,
     };
 
     receivingHistory.reset();

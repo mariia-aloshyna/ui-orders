@@ -73,7 +73,7 @@ class ReceivingHistory extends Component {
     const { mutator, match: { params: { id, lineId } } } = this.props;
     const params = {
       limit: LIMIT_MAX,
-      query: `receivingStatus==${PIECE_STATUS_RECEIVED} and purchaseOrderId==${id}${lineId ? ` and poLineId==${lineId}` : ''}`,
+      query: `checkin == false and receivingStatus==${PIECE_STATUS_RECEIVED} and purchaseOrderId==${id}${lineId ? ` and poLineId==${lineId}` : ''}`,
     };
     let piecesFromHistory = null;
 
