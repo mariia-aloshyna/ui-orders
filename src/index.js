@@ -15,6 +15,7 @@ import {
   ReceivingHistory,
   ReceivingList,
 } from './components/Receiving';
+import CheckIn from './components/CheckIn/CheckIn';
 
 /*
   STRIPES-NEW-APP
@@ -37,6 +38,7 @@ class Orders extends Component {
     this.connectedApp = props.stripes.connect(Main);
     this.connectedReceiving = props.stripes.connect(ReceivingList);
     this.connectedReceivingHistory = props.stripes.connect(ReceivingHistory);
+    this.connectedCheckIn = props.stripes.connect(CheckIn);
   }
 
   render() {
@@ -48,6 +50,10 @@ class Orders extends Component {
 
     return (
       <Switch>
+        <Route
+          path={`${LINE_DETAIL_URL}/check-in`}
+          render={props => <this.connectedCheckIn {...props} stripes={stripes} />}
+        />
         <Route
           exact
           path={`${LINE_DETAIL_URL}${RECEIVING_HISTORY}`}

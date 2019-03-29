@@ -26,6 +26,10 @@ export const isReceiveAvailableForLine = (line = {}, order = {}) => {
   return hasLineItemsToReceive && isWorkflowStatusOpen(order);
 };
 
+export const isCheckInAvailableForLine = (line = {}, order = {}) => {
+  return line.checkinItems && isWorkflowStatusOpen(order);
+};
+
 export const isReceiveAvailableForOrder = (order = {}) => {
   const { compositePoLines = [] } = order;
   const hasLineItemsToReceive = some(compositePoLines, isLineAbleToBeReceived);
