@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-
+import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   cloneDeep,
   find,
   get,
 } from 'lodash';
+
+import { Callout } from '@folio/stripes/components';
 
 import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import { fetchItems } from '../Receiving/util';
@@ -30,7 +32,7 @@ class CheckInDetails extends Component {
 
   static propTypes = {
     close: PropTypes.func.isRequired,
-    location: PropTypes.object,
+    location: ReactRouterPropTypes.location.isRequired,
     mutator: PropTypes.object,
     pieces: PropTypes.arrayOf(PropTypes.object).isRequired,
     resources: PropTypes.object,
@@ -55,6 +57,7 @@ class CheckInDetails extends Component {
         ...item,
         barcode: get(itemsMap, [item.itemId, 'barcode'], ''),
         itemStatus: ITEM_STATUS.received,
+        isChecked: true,
       }));
 
       this.setState({
@@ -134,18 +137,20 @@ class CheckInDetails extends Component {
     const { isAllChecked, items, isLoading } = this.state;
 
     return (
-      <ItemsListModal
-        callout={this.callout}
-        close={close}
-        isAllChecked={isAllChecked}
-        isLoading={isLoading}
-        items={items}
-        locations={getLocationsForSelect(resources)}
-        onChangeField={this.onChangeField}
-        submitCheckIn={this.submitCheckIn}
-        toggleAll={this.toggleAll}
-        toggleItem={this.toggleItem}
-      />
+      <React.Fragment>
+        <ItemsListModal
+          close={close}
+          isAllChecked={isAllChecked}
+          isLoading={isLoading}
+          items={items}
+          locations={getLocationsForSelect(resources)}
+          onChangeField={this.onChangeField}
+          submitCheckIn={this.submitCheckIn}
+          toggleAll={this.toggleAll}
+          toggleItem={this.toggleItem}
+        />
+        <Callout ref={this.callout} />
+      </React.Fragment>
     );
   }
 }

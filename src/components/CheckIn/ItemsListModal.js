@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 import {
-  Callout,
   Checkbox,
   KeyValue,
   Modal,
@@ -19,7 +18,6 @@ import ItemsListModalFooter from './ItemsListModalFooter';
 import css from './ItemsListModal.css';
 
 const ItemsListModal = ({
-  callout,
   close,
   isAllChecked,
   isLoading,
@@ -121,7 +119,6 @@ const ItemsListModal = ({
           itemStatus: '15%',
         }}
       />
-      <Callout ref={callout} />
     </Modal>
   );
 };
@@ -135,7 +132,6 @@ ItemsListModal.propTypes = {
   toggleAll: PropTypes.func.isRequired,
   toggleItem: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
-  callout: PropTypes.func.isRequired,
   submitCheckIn: PropTypes.func.isRequired,
 };
 
