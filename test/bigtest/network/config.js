@@ -1,5 +1,6 @@
 // typical mirage config export
 // http://www.ember-cli-mirage.com/docs/v0.4.x/configuration/
+import { noop } from 'lodash';
 import {
   ITEMS_API,
   LINES_API,
@@ -21,6 +22,8 @@ export default function config() {
     //   poLines: [{ cost: { quantityPhysical: 2 } }],
     // };
   });
+
+  this.put(`${ORDERS_API}/:id`, noop);
 
   this.get(VENDORS_API, (schema) => {
     return schema.vendors.all();
