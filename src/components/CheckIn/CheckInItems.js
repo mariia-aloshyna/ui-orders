@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import {
-  get,
-} from 'lodash';
+import { get } from 'lodash';
 
 import {
   Button,
@@ -20,8 +18,10 @@ import {
   RECEIVING_HISTORY,
   // ORDER_PIECES,
 } from '../Utils/resources';
+import { PIECE_STATUS_EXPECTED } from '../Receiving/const';
 import { LIMIT_MAX } from '../Utils/const';
 // import AddPieceModal from './AddPieceModal';
+import CheckInDetails from './CheckInDetails';
 
 class CheckInItems extends Component {
   static manifest = Object.freeze({
@@ -31,19 +31,22 @@ class CheckInItems extends Component {
   })
 
   static propTypes = {
+    location: ReactRouterPropTypes.location.isRequired,
     mutator: PropTypes.object.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
-    // stripes: PropTypes.object.isRequired,
+    stripes: PropTypes.object.isRequired,
   }
 
   constructor(props, context) {
     super(props, context);
     // this.connectedAddPieceModal = props.stripes.connect(AddPieceModal);
+    this.connectedCheckInDetails = props.stripes.connect(CheckInDetails);
     this.callout = React.createRef();
   }
 
   state = {
     // addPieceModalOpened: false,
+    checkInDetailsModalOpened: false,
     isAllChecked: false,
     items: [],
     searchText: '',
@@ -57,7 +60,7 @@ class CheckInItems extends Component {
     const { mutator, match: { params: { id, lineId } } } = this.props;
     const params = {
       limit: LIMIT_MAX,
-      query: `checkin == true and purchaseOrderId==${id}${lineId ? ` and poLineId==${lineId}` : ''}`,
+      query: `checkin == true and receivingStatus==${PIECE_STATUS_EXPECTED} and purchaseOrderId==${id}${lineId ? ` and poLineId==${lineId}` : ''}`,
     };
 
     mutator.RECEIVING_HISTORY.reset();
@@ -105,6 +108,14 @@ class CheckInItems extends Component {
     this.setState({ searchText });
   }
 
+  checkInDetailsModalOpen = () => {
+    this.setState({ checkInDetailsModalOpened: true });
+  }
+
+  checkInDetailsModalClose = () => {
+    this.setState({ checkInDetailsModalOpened: false });
+  }
+
   // addPieceModalOpen = () => {
   //   this.setState({ addPieceModalOpened: true });
   // }
@@ -129,7 +140,8 @@ class CheckInItems extends Component {
   // }
 
   render() {
-    const { searchText } = this.state;
+    const { searchText, checkInDetailsModalOpened, isAllChecked } = this.state;
+    const { location } = this.props;
     // const { match: { params: { lineId } } } = this.props;
     // const initialValuesPiece = {
     //   poLineId: lineId,
@@ -156,7 +168,8 @@ class CheckInItems extends Component {
       'comment': piece => piece.comment,
       'pieceStatus': piece => piece.receivingStatus,
     };
-    const isCheckInDisabled = !items.some(piece => piece.isChecked === true);
+    const pieces = items.filter(item => item.isChecked);
+    const isCheckInDisabled = !pieces.length;
 
     return (
       <div data-test-check-in-items>
@@ -183,6 +196,7 @@ class CheckInItems extends Component {
               buttonStyle="primary"
               data-test-check-in-items-check-in-button
               disabled={isCheckInDisabled}
+              onClick={this.checkInDetailsModalOpen}
             >
               <FormattedMessage id="ui-orders.checkIn.buttons.checkIn" />
             </Button>
@@ -195,7 +209,7 @@ class CheckInItems extends Component {
           columnMapping={{
             isChecked: (
               <Checkbox
-                checked={this.state.isAllChecked}
+                checked={isAllChecked}
                 type="checkbox"
                 onChange={() => this.toggleAll()}
               />
@@ -217,6 +231,13 @@ class CheckInItems extends Component {
             onSubmit={this.addPieceModalSave}
           />
         )} */}
+        {checkInDetailsModalOpened && (
+          <this.connectedCheckInDetails
+            close={this.checkInDetailsModalClose}
+            location={location}
+            pieces={pieces}
+          />
+        )}
         <Callout ref={this.callout} />
       </div>
     );

@@ -7,10 +7,7 @@ import {
   ButtonGroup,
 } from '@folio/stripes/components';
 
-import {
-  ITEMS,
-  HISTORY,
-} from './const';
+import CHECKIN_URLS from './const';
 
 const getButtonStyle = (pathname, pathEnding) => {
   return pathname.endsWith(pathEnding)
@@ -22,16 +19,16 @@ const CheckInNavigation = ({ pathname, url }) => {
   return (
     <ButtonGroup>
       <Button
-        buttonStyle={getButtonStyle(pathname, ITEMS)}
+        buttonStyle={getButtonStyle(pathname, CHECKIN_URLS.items)}
         marginBottom0
-        to={`${url}${ITEMS}`}
+        to={`${url}${CHECKIN_URLS.items}`}
       >
         <FormattedMessage id="ui-orders.checkIn.navigation.items" />
       </Button>
       <Button
-        buttonStyle={getButtonStyle(pathname, HISTORY)}
+        buttonStyle={getButtonStyle(pathname, CHECKIN_URLS.history)}
         marginBottom0
-        to={`${url}${HISTORY}`}
+        to={`${url}${CHECKIN_URLS.history}`}
       >
         <FormattedMessage id="ui-orders.checkIn.navigation.history" />
       </Button>

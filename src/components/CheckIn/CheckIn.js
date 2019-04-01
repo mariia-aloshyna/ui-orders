@@ -19,10 +19,7 @@ import { ORDER } from '../Utils/resources';
 import CheckInItems from './CheckInItems';
 import CheckInHistory from './CheckInHistory';
 import CheckInNavigation from './CheckInNavigation';
-import {
-  ITEMS,
-  HISTORY,
-} from './const';
+import CHECKIN_URLS from './const';
 
 class CheckIn extends Component {
   static manifest = Object.freeze({
@@ -46,9 +43,9 @@ class CheckIn extends Component {
 
   onClose = () => {
     const { location, mutator } = this.props;
-    const pathEnding = location.pathname.endsWith(ITEMS)
-      ? ITEMS
-      : HISTORY;
+    const pathEnding = location.pathname.endsWith(CHECKIN_URLS.items)
+      ? CHECKIN_URLS.items
+      : CHECKIN_URLS.history;
 
     mutator.query.replace({
       _path: location.pathname.replace(`/check-in${pathEnding}`, ''),
