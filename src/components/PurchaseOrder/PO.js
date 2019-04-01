@@ -269,7 +269,7 @@ class PO extends Component {
     const poLines = get(order, 'compositePoLines', []);
     const workflowStatus = get(order, 'workflowStatus');
     const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
-    const isOpenOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.pending && poLines.length;
+    const isOpenOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.pending && poLines.length > 0;
     const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
     const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
 

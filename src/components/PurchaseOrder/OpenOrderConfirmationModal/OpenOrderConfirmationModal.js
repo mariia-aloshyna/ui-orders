@@ -4,11 +4,9 @@ import PropTypes from 'prop-types';
 
 import { Button, Modal } from '@folio/stripes/components';
 
-import css from './OpenOrderConfirmationModal.css';
-
 const OpenOrderConfirmationModal = ({ orderNumber, submit, cancel }) => {
   const footer = (
-    <div className={css.openOrderConfirmationModalFooter}>
+    <div>
       <Button
         onClick={cancel}
         data-test-open-order-confirmation-modal-cancel
@@ -35,10 +33,7 @@ const OpenOrderConfirmationModal = ({ orderNumber, submit, cancel }) => {
       data-test-open-order-confirmation-modal
       footer={footer}
     >
-      <div
-        className={css.openOrderConfirmationModalContent}
-        data-test-open-order-confirmation-modal-content
-      >
+      <div data-test-open-order-confirmation-modal-content>
         <div>
           <FormattedMessage id="ui-orders.openOrderModal.message" />
         </div>
