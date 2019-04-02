@@ -21,7 +21,7 @@ const showUpdateOrderError = async (response, callout) => {
   }
 
   const errorCode = get(error, 'errors.0.code');
-  const messageCode = get(ERROR_CODES, errorCode, 'orderGenericError');
+  const messageCode = get(ERROR_CODES, errorCode, 'orderGenericError1');
 
   callout.sendCallout({
     message: <FormattedMessage id={`ui-orders.errors.${messageCode}`} />,
