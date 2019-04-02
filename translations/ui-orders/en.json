@@ -351,7 +351,7 @@
   "errors.nonZeroCostQtyElectronic": "Electronic cost quantity must not be specified",
   "errors.nonZeroLocQtyPhysical": "Physical cost quantity must not be specified",
   "errors.orderClosed": "Order cannot be modified in Closed status",
-  "errors.orderGenericError": "Order was not saved",
+  "errors.orderGenericError1": "Order could not be saved.",
   "errors.orderNotFound": "The order cannot be found by provided order id",
   "errors.orderNumberIsNotValid": "Order Number is not valid",
   "errors.orderOpen": "Order cannot be modified in Open status",
