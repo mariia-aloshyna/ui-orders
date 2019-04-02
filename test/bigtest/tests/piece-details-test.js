@@ -17,7 +17,6 @@ describe('Piece Details Modal', () => {
 
   let order = null;
   let item = null;
-  let piece = null;
   let line = null;
   const modal = new PieceDetailsModal();
   const receivingPage = new ReceivingPage();
@@ -35,7 +34,7 @@ describe('Piece Details Modal', () => {
     });
 
     item = this.server.create('item', { barcode: ITEM_BARCODE });
-    piece = this.server.create('piece', {
+    this.server.create('piece', {
       receivingStatus: PIECE_STATUS_EXPECTED,
       poLineId: line.id,
       itemId: item.id,

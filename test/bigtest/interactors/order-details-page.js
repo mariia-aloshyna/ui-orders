@@ -16,6 +16,11 @@ import {
   isButton = is('button');
 }
 
+@interactor class OpenOrderButton {
+  static defaultScope = '[data-test-open-order-button]';
+  click = clickable();
+}
+
 @interactor class AddLineButton {
   static defaultScope = '[data-test-add-line-button]';
   isButton = is('button');
@@ -29,4 +34,5 @@ export default interactor(class OrderDetailsPage {
   editOrderButton = new EditOrderButton();
   addLineButton = new AddLineButton();
   receivingButton = new ReceiveButton();
+  openOrderButton = new OpenOrderButton();
 });
