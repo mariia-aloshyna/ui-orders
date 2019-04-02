@@ -26,7 +26,7 @@ const ReviewDetails = ({
     'poLine': (item) => get(item, 'poLineNumber', ''),
     'title': (item) => get(item, 'title', ''),
     'barcode': (item) => get(item, 'barcode', ''),
-    'format': (item) => get(item, 'poLineOrderFormat', ''),
+    'format': (item) => get(item, 'pieceFormat', ''),
     'location': (item) => get(locationsOptions.filter(el => (
       el.value === item.locationId)), [0, 'label'], 'Unknown location'),
     'itemStatus': () => <FormattedMessage id="ui-orders.receiving.itemStatus.inProcess" />,
