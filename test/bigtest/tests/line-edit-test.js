@@ -150,4 +150,49 @@ describe('Line edit test', () => {
       expect(lineEditPage.fundDistributionAccordion.funds().length).to.be.equal(1);
     });
   });
+
+  describe('Check not negative locations quantity validation', () => {
+    const NEGATIVE_QUANTITY = -1;
+
+    beforeEach(async function () {
+      await lineEditPage.locationAccordion.physicalQuantity.fill(NEGATIVE_QUANTITY);
+      await lineEditPage.locationAccordion.electronicQuantity.fill(NEGATIVE_QUANTITY);
+      await lineEditPage.updateLineButton.click();
+    });
+
+    it('Should provide warning messages', () => {
+      expect(lineEditPage.locationAccordion.warningMessage).to.be.equal('Quantity can not be less than 0');
+    });
+  });
+
+  describe('Render expected PO Line form title', () => {
+    describe('Create PO Line', () => {
+      beforeEach(function () {
+        return this.visit(`/orders/view/${order.id}/?layer=create-po-line`, () => {
+          return expect(lineEditPage.$root).to.exist;
+        });
+      });
+
+      it('Has to render expected title', () => {
+        expect(lineEditPage.title).to.be.equal('Add PO Line');
+      });
+    });
+
+    describe('Edit PO Line', () => {
+      beforeEach(async function () {
+        this.server.get(`${ORDERS_API}/${order.id}`, {
+          ...order.attrs,
+          compositePoLines: [line.attrs],
+        });
+
+        return this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`, () => {
+          return expect(lineEditPage.$root).to.exist;
+        });
+      });
+
+      it('Has to render expected title', () => {
+        expect(lineEditPage.title).to.be.equal(`Edit - ${line.poLineNumber}`);
+      });
+    });
+  });
 });
