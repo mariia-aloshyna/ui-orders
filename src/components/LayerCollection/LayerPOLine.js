@@ -62,6 +62,7 @@ class LayerPOLine extends Component {
   })
 
   static propTypes = {
+    connectedSource: PropTypes.object.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: ReactRouterPropTypes.match,
     parentMutator: PropTypes.shape({
@@ -233,6 +234,7 @@ class LayerPOLine extends Component {
 
   render() {
     const {
+      connectedSource,
       location,
       onCancel,
       parentMutator,
@@ -251,6 +253,7 @@ class LayerPOLine extends Component {
           contentLabel="Create PO Line Dialog"
         >
           <this.connectedPOLineForm
+            connectedSource={connectedSource}
             initialValues={this.getCreatePOLIneInitialValues(order)}
             onCancel={onCancel}
             onSubmit={this.submitPOLine}
@@ -275,6 +278,7 @@ class LayerPOLine extends Component {
           contentLabel="Edit PO Line Dialog"
         >
           <this.connectedPOLineForm
+            connectedSource={connectedSource}
             deletePOLine={this.deletePOLine}
             initialValues={this.getLine()}
             onCancel={onCancel}
