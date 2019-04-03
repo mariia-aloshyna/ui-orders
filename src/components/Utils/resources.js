@@ -1,4 +1,5 @@
 import {
+  CHECKIN_API,
   ITEMS_API,
   LINE_DETAIL_API,
   LOCATIONS_API,
@@ -46,6 +47,15 @@ export const ITEMS = {
   accumulate: true,
   path: ITEMS_API,
   records: 'items',
+  throwErrors: false,
+  type: 'okapi',
+};
+
+export const CHECKIN = {
+  clientGeneratePk: false,
+  fetch: false,
+  path: CHECKIN_API,
+  records: 'toBeReceived',
   throwErrors: false,
   type: 'okapi',
 };
