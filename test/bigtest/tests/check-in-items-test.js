@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import LineDetailsPage from '../interactors/line-details-page';
 import CheckInItemsPage from '../interactors/check-in-items-page';
-// import AddPieceModal from '../interactors/add-piece-modal';
+import AddPieceModal from '../interactors/add-piece-modal';
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 import {
@@ -20,13 +20,13 @@ describe('Check-in items', () => {
   let line = null;
   const lineDetailsPage = new LineDetailsPage();
   const page = new CheckInItemsPage();
-  // const addPieceModal = new AddPieceModal();
+  const addPieceModal = new AddPieceModal();
 
   beforeEach(async function () {
-    order = await this.server.create('order', {
+    order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
     });
-    line = await this.server.create('line', {
+    line = this.server.create('line', {
       order,
       orderFormat: PHYSICAL,
       checkinItems: true,
@@ -39,7 +39,7 @@ describe('Check-in items', () => {
       compositePoLines: [line.attrs],
     });
 
-    this.server.createList('piece', RECEIVING_LIST_COUNT);
+    this.server.createList('piece', RECEIVING_LIST_COUNT, { poLineId: line.id });
 
     await this.visit(`/orders/view/${order.id}/po-line/view/${line.id}`);
   });
@@ -74,15 +74,50 @@ describe('Check-in items', () => {
       expect(page.pieces().length).to.be.equal(RECEIVING_LIST_COUNT);
     });
 
-    // describe('click Add Piece button', () => {
-    //   beforeEach(async function () {
-    //     await page.addPieceButton.click();
-    //   });
+    describe('click Add Piece button', () => {
+      beforeEach(async function () {
+        await page.addPieceButton.click();
+      });
 
-    //   it('Add Piece modal is displayed', () => {
-    //     expect(addPieceModal.$root).to.exist;
-    //   });
-    // });
+      it('Add Piece modal is displayed', () => {
+        expect(addPieceModal.$root).to.exist;
+      });
+
+      it('Add Piece modal Cancel button is enabled', () => {
+        expect(addPieceModal.cancelButton.isDisabled).to.be.false;
+      });
+
+      describe('click save button', () => {
+        beforeEach(async function () {
+          await addPieceModal.saveButton.click();
+        });
+
+        it('Add Piece modal is displayed since required fields are empty', () => {
+          expect(addPieceModal.$root).to.exist;
+        });
+      });
+
+      describe('click cancel button', () => {
+        beforeEach(async function () {
+          await addPieceModal.cancelButton.click();
+        });
+
+        it('Add Piece modal is closed', () => {
+          expect(addPieceModal.isPresent).to.be.false;
+        });
+      });
+
+      describe('fill required fields and click save button', () => {
+        beforeEach(async function () {
+          await addPieceModal.caption.fill('test caption');
+          await addPieceModal.saveButton.click();
+        });
+
+        it('Add Piece modal is closed', () => {
+          expect(addPieceModal.isPresent).to.be.false;
+        });
+      });
+    });
 
     describe('Check Item and Enable Remove button', () => {
       beforeEach(async () => {

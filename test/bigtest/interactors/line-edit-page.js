@@ -12,10 +12,23 @@ import {
 
 import { ACCORDION_ID } from '../../../src/components/POLine/const';
 
+const ITEM_DETAILS = {
+  root: '#itemDetails',
+  inputTitle: '[name="title"]',
+};
+
 @interactor class UpdateLineButton {
   static defaultScope = '#clickable-updatePoLine';
   isButton = is('button');
   isDisabled = property('disabled');
+}
+
+@interactor class QuantityLocationElectronic {
+  static defaultScope = '[name$="].quantityElectronic"]';
+}
+
+@interactor class QuantityLocationPhysical {
+  static defaultScope = '[name$="].quantityPhysical"]';
 }
 
 @interactor class LocationAccordion {
@@ -23,6 +36,9 @@ import { ACCORDION_ID } from '../../../src/components/POLine/const';
   clickAddLocationButton = clickable('[data-test-repeatable-field-add-item-button]');
   clickHeader = clickable('[class*=defaultCollapseButton---]');
   locations = collection('[data-test-repeatable-field] [class*=repeatableFieldItem---]');
+  warningMessage = text('[class*=feedbackError---]');
+  electronicQuantity = new QuantityLocationElectronic();
+  physicalQuantity = new QuantityLocationPhysical();
 }
 
 @interactor class PublicationDateField {
@@ -80,9 +96,9 @@ import { ACCORDION_ID } from '../../../src/components/POLine/const';
 }
 
 @interactor class ItemDetailsAccordion {
-  static defaultScope = '#itemDetails';
-  inputTitle = fillable('[name="title"]');
-  errorTitle = attribute('[name="title"]', 'error');
+  static defaultScope = ITEM_DETAILS.root;
+  inputTitle = fillable(ITEM_DETAILS.inputTitle);
+  errorTitle = attribute(ITEM_DETAILS.inputTitle, 'error');
 }
 
 export default interactor(class LineEditPage {
@@ -101,4 +117,5 @@ export default interactor(class LineEditPage {
   poLineEstimatedPrice = new PoLineEstimatedPrice();
   fundDistributionAccordion = new FundDistributionAccordion();
   itemDetailsAccordion = new ItemDetailsAccordion();
+  title = text('[class*=paneTitleLabel---]');
 });
