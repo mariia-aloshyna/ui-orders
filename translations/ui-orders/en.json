@@ -578,6 +578,8 @@
   "settings.closingReasons.save.error": "Reason has not been saved",
   "settings.closingReasons.save.success": "Reason has been successfully saved",
   "settings.closingReasons.saveBtn": "Save",
+  "settings.closingReasons.editBtn": "Edit",
+  "settings.closingReasons.cancelBtn": "Cancel",
   "settings.closingReasons": "Reasons for closing a purchase order",
   "settings.createInventory": "Create Inventory",
   "settings.createInventory.eresource": "Electronic Default",

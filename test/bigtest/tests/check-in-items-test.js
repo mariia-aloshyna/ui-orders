@@ -113,7 +113,7 @@ describe('Check-in items', () => {
           await addPieceModal.saveButton.click();
         });
 
-        it.only('Add Piece modal is closed', () => {
+        it('Add Piece modal is closed', () => {
           expect(addPieceModal.isPresent).to.be.false;
         });
       });
