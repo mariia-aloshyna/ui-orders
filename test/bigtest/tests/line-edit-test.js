@@ -150,4 +150,29 @@ describe('Line edit test', () => {
       expect(lineEditPage.fundDistributionAccordion.funds().length).to.be.equal(1);
     });
   });
+
+  describe('Check existing Item Details Title positive case', () => {
+    const EMPTY_STRING = '';
+
+    beforeEach(async function () {
+      await lineEditPage.itemDetailsAccordion.inputTitle('TEST_VALUE');
+      await lineEditPage.updateLineButton.click();
+    });
+
+    it('Shouldn\'t provide any warning message', () => {
+      expect(lineEditPage.itemDetailsAccordion.errorTitle).to.be.equal(EMPTY_STRING);
+    });
+  });
+
+  describe('Check existing Item Details Title negative case', () => {
+    beforeEach(async function () {
+      await lineEditPage.quantityPhysical.fill(20);
+      await lineEditPage.itemDetailsAccordion.inputTitle('');
+      await lineEditPage.updateLineButton.click();
+    });
+
+    it('Should provide title warning message in case if tile is empty', () => {
+      expect(lineEditPage.itemDetailsAccordion.errorTitle).to.be.equal(requiredField);
+    });
+  });
 });
