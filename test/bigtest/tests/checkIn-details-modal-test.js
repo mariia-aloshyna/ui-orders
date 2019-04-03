@@ -7,7 +7,6 @@ import CheckInItemsPage from '../interactors/check-in-items-page';
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 import { PIECE_STATUS_EXPECTED } from '../../../src/components/Receiving/const';
-import { ORDERS_API } from '../../../src/components/Utils/api';
 
 const RECEIVING_LIST_COUNT = 10;
 const TEST_BARCODE = 'test_barcode';

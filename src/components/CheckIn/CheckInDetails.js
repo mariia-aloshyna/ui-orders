@@ -51,7 +51,6 @@ class CheckInDetails extends Component {
     const { mutator, pieces } = this.props;
 
     fetchItems(mutator, pieces).then(itemsMap => {
-
       const items = pieces.map(item => ({
         ...item,
         barcode: get(itemsMap, [item.itemId, 'barcode'], ''),
