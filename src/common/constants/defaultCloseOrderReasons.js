@@ -1,0 +1,18 @@
+export default {
+  ceased: 'Ceased',
+  transferred: 'Transferred to another publisher',
+  merged: 'Merged with another title',
+  split: 'Split into other titles',
+  lackOfFunds: 'Lack of funds',
+  lackOfUse: 'Lack of use',
+  dublication: 'Duplication',
+  unresponsiveVendor: 'Unresponsive vendor',
+  licensingTerms: 'Licensing terms (unacceptable)',
+  lowQuality: 'Low quality',
+  unpreferredFormat: 'Unpreferred format',
+  error: 'Error',
+  titleWontBePublishedThisYear: 'Title won’t be published this year',
+  titleWontBePublished: 'Title won’t be published',
+  titleOutOtPrint: 'Title is out of print',
+  titleRecievedAsGift: 'Title received as a gift',
+};

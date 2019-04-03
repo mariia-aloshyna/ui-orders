@@ -11,26 +11,9 @@ import {
   TextArea,
 } from '@folio/stripes/components';
 
-import css from './CloseOrderModal.css';
+import { DEFAULT_CLOSE_ORDER_REASONS } from '../../../common/constants';
 
-const DEFAULT_REASONS = {
-  ceased: 'Ceased',
-  transferred: 'Transferred to another publisher',
-  merged: 'Merged with another title',
-  split: 'Split into other titles',
-  lackOfFunds: 'Lack of funds',
-  lackOfUse: 'Lack of use',
-  dublication: 'Duplication',
-  unresponsiveVendor: 'Unresponsive vendor',
-  licensingTerms: 'Licensing terms (unacceptable)',
-  lowQuality: 'Low quality',
-  unpreferredFormat: 'Unpreferred format',
-  error: 'Error',
-  titleWontBePublishedThisYear: 'Title won’t be published this year',
-  titleWontBePublished: 'Title won’t be published',
-  titleOutOtPrint: 'Title is out of print',
-  titleRecievedAsGift: 'Title received as a gift',
-};
+import css from './CloseOrderModal.css';
 
 class CloseOrderModal extends Component {
   static propTypes = {
@@ -79,12 +62,12 @@ class CloseOrderModal extends Component {
               placeholder=" "
               defaultValue=""
             >
-              {Object.keys(DEFAULT_REASONS).map((key) => (
+              {Object.keys(DEFAULT_CLOSE_ORDER_REASONS).map((key) => (
                 <FormattedMessage
                   id={`ui-orders.closeOrderModal.closingReasons.${key}`}
                   key={key}
                 >
-                  {(message) => <option value={DEFAULT_REASONS[key]}>{message}</option>}
+                  {(message) => <option value={DEFAULT_CLOSE_ORDER_REASONS[key]}>{message}</option>}
                 </FormattedMessage>
               ))}
             </Select>
