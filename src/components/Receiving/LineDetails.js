@@ -47,7 +47,7 @@ const LineDetails = ({
     ),
     'format': (item) => (
       <div className={css.fieldWrapper}>
-        <KeyValue value={get(item, 'poLineOrderFormat', '')} />
+        <KeyValue value={get(item, 'pieceFormat', '')} />
       </div>
     ),
     'location': (item) => (

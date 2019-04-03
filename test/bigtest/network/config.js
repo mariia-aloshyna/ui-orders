@@ -23,6 +23,8 @@ export default function config() {
     // };
   });
 
+  this.put(`${ORDERS_API}/:id`, noop);
+
   this.get(VENDORS_API, (schema) => {
     return schema.vendors.all();
   });
@@ -37,6 +39,10 @@ export default function config() {
 
   this.get(LINES_API, (schema) => {
     return schema.lines.all();
+  });
+
+  this.get(`${LINES_API}/:id`, (schema, request) => {
+    return schema.lines.find(request.params.id).attrs;
   });
 
   this.get('/locations');

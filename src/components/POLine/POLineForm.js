@@ -323,5 +323,4 @@ class POLineForm extends Component {
 export default stripesForm({
   form: 'POLineForm',
   navigationCheck: true,
-  enableReinitialize: true,
 })(POLineForm);

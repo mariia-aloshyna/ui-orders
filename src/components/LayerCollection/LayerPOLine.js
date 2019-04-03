@@ -59,9 +59,10 @@ class LayerPOLine extends Component {
         },
       },
     },
-  })
+  });
 
   static propTypes = {
+    connectedSource: PropTypes.object.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: ReactRouterPropTypes.match,
     parentMutator: PropTypes.shape({
@@ -75,7 +76,7 @@ class LayerPOLine extends Component {
     }).isRequired,
     onCancel: PropTypes.func.isRequired,
     resources: PropTypes.object,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -93,14 +94,14 @@ class LayerPOLine extends Component {
       isLinesLimitExceededModalOpened: true,
       line,
     });
-  }
+  };
 
   closeLineLimitExceededModal = () => {
     this.setState({
       isLinesLimitExceededModalOpened: false,
       line: null,
     });
-  }
+  };
 
   handleErrorResponse = async (e, line) => {
     let response;
@@ -122,7 +123,7 @@ class LayerPOLine extends Component {
         });
       }
     }
-  }
+  };
 
   submitPOLine = (line) => {
     const newLine = cloneDeep(line);
@@ -131,7 +132,7 @@ class LayerPOLine extends Component {
     poLine.POST(newLine)
       .then(() => onCancel())
       .catch(e => this.handleErrorResponse(e, line));
-  }
+  };
 
   getOrder = () => get(this.props, 'resources.order.records.0');
 
@@ -140,7 +141,7 @@ class LayerPOLine extends Component {
     const lines = get(this.getOrder(), 'compositePoLines', []);
 
     return lines.find(u => u.id === lineId);
-  }
+  };
 
   createNewOrder = async () => {
     const { parentMutator } = this.props;
@@ -161,7 +162,7 @@ class LayerPOLine extends Component {
     } finally {
       this.closeLineLimitExceededModal();
     }
-  }
+  };
 
   updatePOLine = (data) => {
     const line = cloneDeep(data);
@@ -185,7 +186,7 @@ class LayerPOLine extends Component {
         });
       })
       .catch(e => this.handleErrorResponse(e, line));
-  }
+  };
 
   deletePOLine = (lineId) => {
     const { parentMutator, match: { params: { id } } } = this.props;
@@ -196,7 +197,7 @@ class LayerPOLine extends Component {
         layer: null,
       });
     });
-  }
+  };
 
   getCreatePOLIneInitialValues = (order) => {
     const { parentResources, resources } = this.props;
@@ -221,6 +222,7 @@ class LayerPOLine extends Component {
       physical: {
         createInventory: createInventorySetting.physical,
       },
+      locations: [{}],
     };
 
     if (vendor && vendor.discount_percent) {
@@ -229,10 +231,11 @@ class LayerPOLine extends Component {
     }
 
     return newObj;
-  }
+  };
 
   render() {
     const {
+      connectedSource,
       location,
       onCancel,
       parentMutator,
@@ -251,6 +254,7 @@ class LayerPOLine extends Component {
           contentLabel="Create PO Line Dialog"
         >
           <this.connectedPOLineForm
+            connectedSource={connectedSource}
             initialValues={this.getCreatePOLIneInitialValues(order)}
             onCancel={onCancel}
             onSubmit={this.submitPOLine}
@@ -275,6 +279,7 @@ class LayerPOLine extends Component {
           contentLabel="Edit PO Line Dialog"
         >
           <this.connectedPOLineForm
+            connectedSource={connectedSource}
             deletePOLine={this.deletePOLine}
             initialValues={this.getLine()}
             onCancel={onCancel}

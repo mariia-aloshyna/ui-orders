@@ -17,28 +17,32 @@ import {
 import getLocationsForSelect from '../../Utils/getLocationsForSelect';
 import { required } from '../../Utils/Validate';
 
-const reduceLocations = (locations, propName) => {
+const getTotalLocationsQuantities = (locations, propName) => {
   const reducer = (accumulator, d) => accumulator + (d[propName] || 0);
 
   return locations.reduce(reducer, 0);
 };
 
+const validateNotNegative = (value) => (value < 0
+  ? <FormattedMessage id="ui-orders.validation.quantity.canNotBeLess0" />
+  : undefined);
+
 const validateQuantityPhysical = (value, { cost, locations = [] }) => {
-  const allLocationsQuantity = reduceLocations(locations, 'quantityPhysical');
+  const allLocationsQuantity = getTotalLocationsQuantities(locations, 'quantityPhysical');
   const overallLineQuantity = get(cost, 'quantityPhysical', 0);
 
-  return allLocationsQuantity <= overallLineQuantity
+  return allLocationsQuantity === overallLineQuantity
     ? undefined
-    : <FormattedMessage id="ui-orders.location.quantityPhysical.exceeds" />;
+    : <FormattedMessage id="ui-orders.location.quantityPhysical.notMatch" />;
 };
 
 const validateQuantityElectronic = (value, { cost, locations = [] }) => {
-  const allLocationsQuantity = reduceLocations(locations, 'quantityElectronic');
+  const allLocationsQuantity = getTotalLocationsQuantities(locations, 'quantityElectronic');
   const overallLineQuantity = get(cost, 'quantityElectronic', 0);
 
-  return allLocationsQuantity <= overallLineQuantity
+  return allLocationsQuantity === overallLineQuantity
     ? undefined
-    : <FormattedMessage id="ui-orders.location.quantityElectronic.exceeds" />;
+    : <FormattedMessage id="ui-orders.location.quantityElectronic.notMatch" />;
 };
 
 const parseQuantity = (value) => {
@@ -71,7 +75,7 @@ const LocationForm = ({ parentResources }) => (
             name={`${field}.quantityPhysical`}
             parse={parseQuantity}
             type="number"
-            validate={validateQuantityPhysical}
+            validate={[validateNotNegative, validateQuantityPhysical]}
           />
         </Col>
         <Col xs={3}>
@@ -81,7 +85,7 @@ const LocationForm = ({ parentResources }) => (
             name={`${field}.quantityElectronic`}
             parse={parseQuantity}
             type="number"
-            validate={validateQuantityElectronic}
+            validate={[validateNotNegative, validateQuantityElectronic]}
           />
         </Col>
       </React.Fragment>

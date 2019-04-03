@@ -16,11 +16,22 @@ import { ACCORDION_ID } from '../../../src/components/POLine/const';
   isDisabled = property('disabled');
 }
 
+@interactor class QuantityLocationElectronic {
+  static defaultScope = '[name$="].quantityElectronic"]';
+}
+
+@interactor class QuantityLocationPhysical {
+  static defaultScope = '[name$="].quantityPhysical"]';
+}
+
 @interactor class LocationAccordion {
   static defaultScope = `#${ACCORDION_ID.location}`;
   clickAddLocationButton = clickable('[data-test-repeatable-field-add-item-button]');
   clickHeader = clickable('[class*=defaultCollapseButton---]');
   locations = collection('[data-test-repeatable-field] [class*=repeatableFieldItem---]');
+  warningMessage = text('[class*=feedbackError---]');
+  electronicQuantity = new QuantityLocationElectronic();
+  physicalQuantity = new QuantityLocationPhysical();
 }
 
 @interactor class PublicationDateField {
@@ -92,4 +103,5 @@ export default interactor(class LineEditPage {
   quantityElectronic = new QuantityElectronic();
   poLineEstimatedPrice = new PoLineEstimatedPrice();
   fundDistributionAccordion = new FundDistributionAccordion();
+  title = text('[class*=paneTitleLabel---]');
 });

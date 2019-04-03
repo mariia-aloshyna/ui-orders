@@ -31,6 +31,7 @@ import {
   cloneOrder,
   updateOrderResource,
 } from '../Utils/orderResource';
+import { showUpdateOrderError } from '../Utils/order';
 import {
   CONFIG_CLOSING_REASONS,
   CONFIG_LINES_LIMIT,
@@ -39,6 +40,7 @@ import {
 } from '../Utils/const';
 import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import CloseOrderModal from './CloseOrder';
+import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
 import { WORKFLOW_STATUS } from './Summary/FieldWorkflowStatus';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
@@ -168,6 +170,22 @@ class PO extends Component {
     this.unmountCloseOrderModal();
   }
 
+  openOrder = async () => {
+    const { mutator, resources } = this.props;
+    const order = get(resources, ['order', 'records', 0]);
+    const openOrderProps = {
+      workflowStatus: WORKFLOW_STATUS.open,
+    };
+
+    try {
+      await updateOrderResource(order, mutator.order, openOrderProps);
+    } catch (e) {
+      await showUpdateOrderError(e, this.callout);
+    } finally {
+      this.toggleOpenOrderModal();
+    }
+  }
+
   createNewOrder = async () => {
     const { resources, parentMutator } = this.props;
     const order = get(resources, ['order', 'records', '0'], {});
@@ -199,6 +217,10 @@ class PO extends Component {
       <FormattedMessage id="ui-orders.button.addLine" />
     </Button>
   );
+
+  toggleOpenOrderModal = () => {
+    this.setState(prevState => ({ isOpenOrderModalOpened: !prevState.isOpenOrderModalOpened }));
+  }
 
   mountCloseOrderModal = () => {
     this.setState({ isCloseOrderModalOpened: true });
@@ -247,6 +269,7 @@ class PO extends Component {
     const poLines = get(order, 'compositePoLines', []);
     const workflowStatus = get(order, 'workflowStatus');
     const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
+    const isOpenOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.pending && poLines.length > 0;
     const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
     const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
 
@@ -331,12 +354,31 @@ class PO extends Component {
               </Button>
             </div>
           )}
+          {isOpenOrderButtonVisible && (
+            <div className={css.buttonWrapper}>
+              <Button
+                buttonStyle="primary"
+                className={css.button}
+                data-test-open-order-button
+                onClick={this.toggleOpenOrderModal}
+              >
+                <FormattedMessage id="ui-orders.paneBlock.openBtn" />
+              </Button>
+            </div>
+          )}
           {this.state.isCloseOrderModalOpened && (
             <CloseOrderModal
               cancel={this.unmountCloseOrderModal}
               closeOrder={this.closeOrder}
               closingReasons={resources.closingReasons.records}
               orderNumber={orderNumber}
+            />
+          )}
+          {this.state.isOpenOrderModalOpened && (
+            <OpenOrderConfirmationModal
+              orderNumber={orderNumber}
+              submit={this.openOrder}
+              cancel={this.toggleOpenOrderModal}
             />
           )}
           <div>
