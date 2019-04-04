@@ -27,6 +27,7 @@ export const MAP_FIELD_ACCORDION = {
   orderFormat: ACCORDION_ID.lineDetails,
   poLineNumber: ACCORDION_ID.lineDetails,
   publicationDate: ACCORDION_ID.itemDetails,
+  title: ACCORDION_ID.itemDetails,
   vendorDetail: ACCORDION_ID.vendor,
 };
 

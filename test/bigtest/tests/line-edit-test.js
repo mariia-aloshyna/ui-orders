@@ -195,4 +195,27 @@ describe('Line edit test', () => {
       });
     });
   });
+
+  describe('Check existing warning messages for Item Details Title if value isn\'t empty', () => {
+    beforeEach(async function () {
+      await lineEditPage.itemDetailsAccordion.inputTitle('TEST_VALUE');
+      await lineEditPage.updateLineButton.click();
+    });
+
+    it('Doesn\'t provide any warning message', () => {
+      expect(lineEditPage.itemDetailsAccordion.errorTitle).to.be.equal('');
+    });
+  });
+
+  describe('Check existing warning messages for Item Details Title if value is empty', () => {
+    beforeEach(async function () {
+      await lineEditPage.quantityPhysical.fill(20);
+      await lineEditPage.itemDetailsAccordion.inputTitle('');
+      await lineEditPage.updateLineButton.click();
+    });
+
+    it('Provides title warning message in case if tile is empty', () => {
+      expect(lineEditPage.itemDetailsAccordion.errorTitle).to.be.equal(requiredField);
+    });
+  });
 });

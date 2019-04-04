@@ -6,9 +6,16 @@ import {
   property,
   text,
   value,
+  fillable,
+  attribute,
 } from '@bigtest/interactor';
 
 import { ACCORDION_ID } from '../../../src/components/POLine/const';
+
+const ITEM_DETAILS = {
+  root: '#itemDetails',
+  inputTitle: '[name="title"]',
+};
 
 @interactor class UpdateLineButton {
   static defaultScope = '#clickable-updatePoLine';
@@ -88,6 +95,12 @@ import { ACCORDION_ID } from '../../../src/components/POLine/const';
   funds = collection('[data-test-repeatable-field] [class*=repeatableFieldItem---]');
 }
 
+@interactor class ItemDetailsAccordion {
+  static defaultScope = ITEM_DETAILS.root;
+  inputTitle = fillable(ITEM_DETAILS.inputTitle);
+  errorTitle = attribute(ITEM_DETAILS.inputTitle, 'error');
+}
+
 export default interactor(class LineEditPage {
   static defaultScope = '[data-test-line-edit]';
   locationAccordion = new LocationAccordion();
@@ -103,5 +116,6 @@ export default interactor(class LineEditPage {
   quantityElectronic = new QuantityElectronic();
   poLineEstimatedPrice = new PoLineEstimatedPrice();
   fundDistributionAccordion = new FundDistributionAccordion();
+  itemDetailsAccordion = new ItemDetailsAccordion();
   title = text('[class*=paneTitleLabel---]');
 });

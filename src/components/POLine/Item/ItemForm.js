@@ -16,7 +16,7 @@ import {
   DATE_FORMAT,
   TIMEZONE,
 } from '../../Utils/const';
-import { validateYear } from '../../Utils/Validate';
+import { validateYear, Required } from '../../Utils/Validate';
 import MaterialTypesForm from './MaterialTypesForm';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
 import ContributorForm from './ContributorForm';
@@ -97,6 +97,8 @@ class ItemForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.itemDetails.title" />}
               name="title"
+              required
+              validate={Required}
             />
             <div className={css.addButton}>
               {this.selectInstanceModal()}
