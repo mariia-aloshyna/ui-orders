@@ -7,7 +7,7 @@ import {
   Col,
   Datepicker,
   Row,
-  Select,
+  Selection,
 } from '@folio/stripes/components';
 
 import {
@@ -17,17 +17,23 @@ import {
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import VolumesForm from './VolumesForm';
 
+const MATERIAL_SUPPLIER_TETHER_CONFIG = {
+  attachment: 'middle center',
+};
+
 const PhysicalForm = ({ vendors }) => (
   <Row>
     <Col xs={6}>
       <FormattedMessage id="ui-orders.dropdown.select">
         {(placeholder) => (
           <Field
-            component={Select}
-            dataOptions={[{ label: placeholder, value: '' }, ...vendors]}
+            component={Selection}
+            dataOptions={vendors}
+            placeholder={placeholder}
             fullWidth
             label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
             name="physical.materialSupplier"
+            tether={MATERIAL_SUPPLIER_TETHER_CONFIG}
             normalize={(value) => {
               return value === ''
                 ? null
