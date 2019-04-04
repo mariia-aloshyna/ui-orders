@@ -7,10 +7,7 @@ import { get } from 'lodash';
 
 import {
   Button,
-  Callout,
-  Checkbox,
   Col,
-  MultiColumnList,
   Row,
   SearchField,
 } from '@folio/stripes/components';
@@ -21,18 +18,12 @@ import {
   PE_MIX,
   PHYSICAL,
 } from '../POLine/const';
-import {
-  LINE,
-  LOCATIONS,
-  ORDER_PIECES,
-  RECEIVING_HISTORY,
-} from '../Utils/resources';
-import { PIECE_STATUS_EXPECTED } from '../Receiving/const';
-import getLocationsForSelect from '../Utils/getLocationsForSelect';
-import { LIMIT_MAX } from '../Utils/const';
+
 import CheckInDetails from './CheckInDetails';
+import PiecesList from './PiecesList';
 import AddPieceModal from './AddPieceModal';
 import { PIECE_FORMAT } from './FieldPieceFormat';
+import withCheckboxes from './withCheckboxes';
 
 const ORDER_FORMAT_TO_PIECE_FORMAT = {
   [ERESOURCE]: PIECE_FORMAT.electronic,
@@ -41,20 +32,19 @@ const ORDER_FORMAT_TO_PIECE_FORMAT = {
 };
 
 class CheckInItems extends Component {
-  static manifest = Object.freeze({
-    LINE,
-    locations: LOCATIONS,
-    ORDER_PIECES,
-    query: {},
-    RECEIVING_HISTORY,
-  })
-
   static propTypes = {
+    checkedItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+    checkedItemsMap: PropTypes.object.isRequired,
+    isAllChecked: PropTypes.bool.isRequired,
+    toggleAll: PropTypes.func.isRequired,
+    toggleItem: PropTypes.func.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
-    mutator: PropTypes.object.isRequired,
-    match: ReactRouterPropTypes.match.isRequired,
-    resources: PropTypes.object,
+    locations: PropTypes.arrayOf(PropTypes.object).isRequired,
+    addPiece: PropTypes.func.isRequired,
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    poLineOrderFormat: PropTypes.string,
     stripes: PropTypes.object.isRequired,
+    lineId: PropTypes.string.isRequired,
   }
 
   constructor(props, context) {
@@ -62,65 +52,21 @@ class CheckInItems extends Component {
 
     this.connectedAddPieceModal = props.stripes.connect(AddPieceModal);
     this.connectedCheckInDetails = props.stripes.connect(CheckInDetails);
-    this.callout = React.createRef();
   }
 
   state = {
     addPieceModalOpened: false,
     checkInDetailsModalOpened: false,
-    isAllChecked: false,
-    items: [],
     searchText: '',
   };
 
-  componentDidMount() {
-    this.fetchItems();
-  }
-
-  fetchItems = () => {
-    const { mutator, match: { params: { id, lineId } } } = this.props;
-    const params = {
-      limit: LIMIT_MAX,
-      query: `checkin == true and receivingStatus==${PIECE_STATUS_EXPECTED} and purchaseOrderId==${id}${lineId ? ` and poLineId==${lineId}` : ''}`,
-    };
-
-    mutator.RECEIVING_HISTORY.reset();
-    mutator.RECEIVING_HISTORY.GET({ params })
-      .then(items => {
-        this.setState({ items });
-      });
-  }
-
   getItems = () => {
-    const { items, searchText } = this.state;
+    const { searchText } = this.state;
+    const { items } = this.props;
 
     return searchText
       ? items.filter(item => item.title.toLocaleLowerCase().includes(searchText))
       : items;
-  }
-
-  toggleItem = (item) => {
-    item.isChecked = !item.isChecked;
-    this.setState(state => {
-      const items = [...state.items];
-
-      return { items };
-    });
-  }
-
-  toggleAll = () => {
-    this.setState((state) => {
-      const isAllChecked = !state.isAllChecked;
-      const items = state.items.map(item => ({
-        ...item,
-        isChecked: isAllChecked,
-      }));
-
-      return {
-        isAllChecked,
-        items,
-      };
-    });
   }
 
   changeSearchText = (event) => {
@@ -146,30 +92,30 @@ class CheckInItems extends Component {
   }
 
   addPieceModalSave = values => {
-    const { mutator } = this.props;
+    const { addPiece } = this.props;
 
     this.addPieceModalClose();
-    mutator.ORDER_PIECES.POST(values)
-      .then(() => this.callout.current.sendCallout({
-        type: 'success',
-        message: <FormattedMessage id="ui-orders.checkIn.addPiece.success" />,
-      }))
-      .catch(() => this.callout.current.sendCallout({
-        type: 'error',
-        message: <FormattedMessage id="ui-orders.checkIn.addPiece.error" />,
-      }))
-      .then(this.fetchItems);
+    addPiece(values);
   }
 
   render() {
-    const { addPieceModalOpened, checkInDetailsModalOpened, isAllChecked, searchText } = this.state;
-    const { match: { params: { lineId } }, resources, location } = this.props;
+    const { addPieceModalOpened, checkInDetailsModalOpened, searchText } = this.state;
+    const {
+      checkedItems,
+      checkedItemsMap,
+      isAllChecked,
+      lineId,
+      location,
+      locations,
+      poLineOrderFormat,
+      toggleAll,
+      toggleItem,
+    } = this.props;
     const initialValuesPiece = {
       poLineId: lineId,
     };
     const items = this.getItems();
 
-    const poLineOrderFormat = get(resources, 'LINE.records.0.orderFormat');
     let showPieceFormatField = false;
 
     if (!poLineOrderFormat || poLineOrderFormat === PE_MIX) {
@@ -178,30 +124,7 @@ class CheckInItems extends Component {
       initialValuesPiece.format = ORDER_FORMAT_TO_PIECE_FORMAT[poLineOrderFormat];
     }
 
-    const resultsFormatter = {
-      'isChecked': piece => (
-        <Checkbox
-          checked={piece.isChecked}
-          type="checkbox"
-          onChange={() => this.toggleItem(piece)}
-        />
-      ),
-      'title': piece => get(piece, 'title', ''),
-      'piece': piece => piece.caption,
-      'supplement': piece => (
-        <Checkbox
-          checked={piece.supplement}
-          disabled
-          type="checkbox"
-        />
-      ),
-      'poLineNumber': piece => piece.poLineNumber,
-      'comment': piece => piece.comment,
-      'pieceStatus': piece => piece.receivingStatus,
-    };
-    const pieces = items.filter(item => item.isChecked);
-    const isCheckInDisabled = !pieces.length;
-    const locations = getLocationsForSelect(resources);
+    const isCheckInDisabled = !checkedItems.length;
 
     return (
       <div data-test-check-in-items>
@@ -234,27 +157,12 @@ class CheckInItems extends Component {
             </Button>
           </Col>
         </Row>
-        <MultiColumnList
-          contentData={items}
-          formatter={resultsFormatter}
-          visibleColumns={['isChecked', 'title', 'piece', 'supplement', 'poLineNumber', 'comment', 'pieceStatus']}
-          columnMapping={{
-            isChecked: (
-              <Checkbox
-                checked={isAllChecked}
-                type="checkbox"
-                onChange={() => this.toggleAll()}
-              />
-            ),
-            title: <FormattedMessage id="ui-orders.receiving.title" />,
-            piece: <FormattedMessage id="ui-orders.checkIn.piece" />,
-            supplement: <FormattedMessage id="ui-orders.checkIn.supplement" />,
-            poLineNumber: <FormattedMessage id="ui-orders.receiving.poLine" />,
-            comment: <FormattedMessage id="ui-orders.checkIn.comment" />,
-            pieceStatus: <FormattedMessage id="ui-orders.checkIn.pieceStatus" />,
-          }}
-          columnWidths={{ isChecked: 35 }}
-          onRowClick={(_, item) => this.toggleItem(item)}
+        <PiecesList
+          checkedItemsMap={checkedItemsMap}
+          isAllChecked={isAllChecked}
+          items={items}
+          toggleAll={toggleAll}
+          toggleItem={toggleItem}
         />
         {addPieceModalOpened && (
           <this.connectedAddPieceModal
@@ -269,13 +177,12 @@ class CheckInItems extends Component {
           <this.connectedCheckInDetails
             close={this.checkInDetailsModalClose}
             location={location}
-            pieces={pieces}
+            pieces={checkedItems}
           />
         )}
-        <Callout ref={this.callout} />
       </div>
     );
   }
 }
 
-export default CheckInItems;
+export default withCheckboxes(CheckInItems);

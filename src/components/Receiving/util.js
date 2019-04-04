@@ -13,8 +13,7 @@ export const reducePieces = (pieces, isSelect = false) => {
   return pieces.reduce(pieceReducer, {});
 };
 
-export const historyRemoveItems = (checkedPiecesMap, mutator) => {
-  const pieces = Object.values(checkedPiecesMap).filter(Boolean);
+export const removePiecesFromHistory = (pieces, mutator) => {
   const linesMap = {};
 
   pieces.forEach(({ id, poLineId }) => {
@@ -48,6 +47,12 @@ export const historyRemoveItems = (checkedPiecesMap, mutator) => {
 
     return receivingResults;
   });
+};
+
+export const historyRemoveItems = (checkedPiecesMap, mutator) => {
+  const pieces = Object.values(checkedPiecesMap).filter(Boolean);
+
+  return removePiecesFromHistory(pieces, mutator);
 };
 
 export const receiveItems = (itemList, mutator) => {

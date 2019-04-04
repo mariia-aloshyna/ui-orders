@@ -2,35 +2,41 @@ import { describe, beforeEach, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
-import OrderDetailsPage from '../interactors/order-details-page';
-import ReceivingHistoryPage from '../interactors/receiving-history-page';
+import LineDetailsPage from '../interactors/line-details-page';
+import CheckInHistoryPage from '../interactors/check-in-history-page';
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import { PIECE_STATUS_RECEIVED } from '../../../src/components/Receiving/const';
+import { PHYSICAL } from '../../../src/components/POLine/const';
 
 const RECEIVING_LIST_COUNT = 10;
-const BARCODE = '111';
 
-describe('Receiving history', () => {
+describe('Check-in history', () => {
   setupApplication();
 
   let order = null;
-  let item = null;
-  const orderDetailsPage = new OrderDetailsPage();
-  const page = new ReceivingHistoryPage();
+  let line = null;
+  const lineDetailsPage = new LineDetailsPage();
+  const page = new CheckInHistoryPage();
 
   beforeEach(function () {
     order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
     });
-    item = this.server.create('item', { barcode: BARCODE });
+    line = this.server.create('line', {
+      order,
+      orderFormat: PHYSICAL,
+      cost: {
+        quantityPhysical: 2,
+      },
+      checkinItems: true,
+    });
     this.server.createList('piece', RECEIVING_LIST_COUNT, {
-      itemId: item.id,
       receivingStatus: PIECE_STATUS_RECEIVED,
     });
-    this.visit(`/orders/view/${order.id}/receiving-history`);
+    this.visit(`/orders/view/${order.id}/po-line/view/${line.id}/check-in/history`);
   });
 
-  it('displays Receiving History screen', () => {
+  it('displays Check-in History screen', () => {
     expect(page.$root).to.exist;
   });
 
@@ -45,10 +51,6 @@ describe('Receiving history', () => {
   it('displays Remove button disabled', () => {
     expect(page.removeButton.isButton).to.be.true;
     expect(page.removeButton.isDisabled).to.be.true;
-  });
-
-  it('displays barcode', () => {
-    expect(page.barcodes(0).barcode).to.equal(BARCODE);
   });
 
   describe('search text could be entered', () => {
@@ -80,15 +82,55 @@ describe('Receiving history', () => {
     it('Confirmation is displayed', () => {
       expect(page.confirmationModal.$root).to.exist;
     });
+
+    describe('Click Confirm button', () => {
+      beforeEach(async () => {
+        await page.confirmationModal.confirmButton();
+      });
+
+      it('Confirmation is disappeared', () => {
+        expect(page.confirmationModal.isPresent).to.be.false;
+      });
+    });
+
+    describe('Click Cancel button', () => {
+      beforeEach(async () => {
+        await page.confirmationModal.cancelButton();
+      });
+
+      it('Confirmation is disappeared', () => {
+        expect(page.confirmationModal.isPresent).to.be.false;
+      });
+    });
   });
 
-  describe('go back from Receiving History page to Order Details pane', () => {
+  describe('Check all pieces to remove', () => {
+    beforeEach(async function () {
+      await page.checkAllCheckbox.click();
+    });
+
+    it('Remove button is enabled', () => {
+      expect(page.removeButton.isDisabled).to.be.false;
+    });
+
+    describe('Uncheck all pieces', () => {
+      beforeEach(async function () {
+        await page.checkAllCheckbox.click();
+      });
+
+      it('Remove button is disabled', () => {
+        expect(page.removeButton.isDisabled).to.be.true;
+      });
+    });
+  });
+
+  describe('go back from Check-in History page to Line Details pane', () => {
     beforeEach(async function () {
       await page.closeButton.click();
     });
 
-    it('go to Order Details pane', () => {
-      expect(orderDetailsPage.$root).to.exist;
+    it('go to Line Details pane', () => {
+      expect(lineDetailsPage.$root).to.exist;
     });
   });
 });
