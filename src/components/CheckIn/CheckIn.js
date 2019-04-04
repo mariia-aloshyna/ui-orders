@@ -16,8 +16,8 @@ import {
 import { stripesShape } from '@folio/stripes/core';
 
 import { ORDER } from '../Utils/resources';
-import CheckInItems from './CheckInItems';
-import CheckInHistory from './CheckInHistory';
+import CheckInItemsWrapper from './CheckInItemsWrapper';
+import CheckInHistoryWrapper from './CheckInHistoryWrapper';
 import CheckInNavigation from './CheckInNavigation';
 import CHECKIN_URLS from './const';
 
@@ -37,8 +37,8 @@ class CheckIn extends Component {
 
   constructor(props, context) {
     super(props, context);
-    this.connectedCheckInItems = props.stripes.connect(CheckInItems);
-    this.connectedCheckInHistory = props.stripes.connect(CheckInHistory);
+    this.connectedCheckInItems = props.stripes.connect(CheckInItemsWrapper);
+    this.connectedCheckInHistory = props.stripes.connect(CheckInHistoryWrapper);
   }
 
   onClose = () => {
