@@ -10,6 +10,7 @@ import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-component
 import packageInfo from '../../package';
 import {
   CONFIG_CLOSING_REASONS,
+  CONFIG_CREATE_INVENTORY,
   CONFIG_ORDER_NUMBER,
   MODULE_ORDERS,
 } from '../components/Utils/const';
@@ -142,6 +143,16 @@ class Main extends Component {
       path: 'locations',
       records: 'locations',
       perRequest: 1000,
+    },
+    createInventory: {
+      type: 'okapi',
+      records: 'configs',
+      path: CONFIG_API,
+      GET: {
+        params: {
+          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CREATE_INVENTORY})`,
+        },
+      },
     },
   });
 

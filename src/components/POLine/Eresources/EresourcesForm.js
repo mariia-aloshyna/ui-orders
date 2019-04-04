@@ -14,12 +14,13 @@ import {
   Select,
 } from '@folio/stripes/components';
 
+import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import {
   DATE_FORMAT,
   TIMEZONE,
 } from '../../Utils/const';
 import { Required } from '../../Utils/Validate';
-import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
+import MaterialTypeField from './MaterialTypeField';
 import css from './EresourcesForm.css';
 
 class EresourcesForm extends Component {
@@ -29,10 +30,14 @@ class EresourcesForm extends Component {
       value: PropTypes.string,
     })).isRequired,
     order: PropTypes.object,
+    materialTypes: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })).isRequired,
   }
 
   render() {
-    const { vendors, order } = this.props;
+    const { vendors, materialTypes, order } = this.props;
     const created = get(order, 'metadata.createdDate', '');
 
     return (
@@ -88,6 +93,12 @@ class EresourcesForm extends Component {
           <InventoryRecordTypeSelectField
             label="ui-orders.eresource.createInventory"
             name="eresource.createInventory"
+          />
+        </Col>
+        <Col xs={6} md={3}>
+          <MaterialTypeField
+            materialTypes={materialTypes}
+            name="eresource.materialType"
           />
         </Col>
         <Col xs={6} md={3}>

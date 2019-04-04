@@ -17,9 +17,8 @@ import {
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import normalize from '../../Utils/normalize';
 import MaterialTypeField from '../Eresources/MaterialTypeField';
-import VolumesForm from './VolumesForm';
 
-const PhysicalForm = ({ materialTypes, vendors }) => (
+const OtherForm = ({ materialTypes, vendors }) => (
   <Row>
     <Col xs={6}>
       <FormattedMessage id="ui-orders.dropdown.select">
@@ -69,13 +68,10 @@ const PhysicalForm = ({ materialTypes, vendors }) => (
         name="physical.materialType"
       />
     </Col>
-    <Col xs={6}>
-      <VolumesForm />
-    </Col>
   </Row>
 );
 
-PhysicalForm.propTypes = {
+OtherForm.propTypes = {
   vendors: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
     value: PropTypes.string,
@@ -86,4 +82,4 @@ PhysicalForm.propTypes = {
   })),
 };
 
-export default PhysicalForm;
+export default OtherForm;

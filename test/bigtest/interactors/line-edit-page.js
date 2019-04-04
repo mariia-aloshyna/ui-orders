@@ -1,13 +1,13 @@
 import {
+  attribute,
   clickable,
   collection,
+  fillable,
   interactor,
   is,
   property,
   text,
   value,
-  fillable,
-  attribute,
 } from '@bigtest/interactor';
 
 import { ACCORDION_ID } from '../../../src/components/POLine/const';
@@ -101,6 +101,24 @@ const ITEM_DETAILS = {
   errorTitle = attribute(ITEM_DETAILS.inputTitle, 'error');
 }
 
+@interactor class OrderFormat {
+  static defaultScope = '[name="orderFormat"]';
+  isSelect = is('select');
+  value = value();
+}
+
+@interactor class OtherAccordion {
+  static defaultScope = `#${ACCORDION_ID.other}`;
+  clickHeader = clickable('[class*=defaultCollapseButton---]');
+  warningMessage = text('[class*=feedbackError---]');
+}
+
+@interactor class PhysicalCreateInventory {
+  static defaultScope = '[name="physical.createInventory"]';
+  isSelect = is('select');
+  value = value();
+}
+
 export default interactor(class LineEditPage {
   static defaultScope = '[data-test-line-edit]';
   locationAccordion = new LocationAccordion();
@@ -118,4 +136,7 @@ export default interactor(class LineEditPage {
   fundDistributionAccordion = new FundDistributionAccordion();
   itemDetailsAccordion = new ItemDetailsAccordion();
   title = text('[class*=paneTitleLabel---]');
+  otherAccordion = new OtherAccordion();
+  orderFormat = new OrderFormat();
+  physicalCreateInventory = new PhysicalCreateInventory();
 });

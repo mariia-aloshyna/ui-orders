@@ -13,6 +13,7 @@ export const ACCORDION_ID = {
   itemDetails: 'itemDetails',
   lineDetails: 'lineDetails',
   location: 'location',
+  other: 'other',
   physical: 'physical',
   vendor: 'vendor',
 };

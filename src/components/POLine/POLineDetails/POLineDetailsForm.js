@@ -13,6 +13,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
+import getCreateInventorySetting from '../../Utils/getCreateInventorySetting';
 import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldPaymentStatus from './FieldPaymentStatus';
 import FieldReceiptStatus from './FieldReceiptStatus';
@@ -32,12 +33,16 @@ class POLineDetailsForm extends Component {
       vendors: PropTypes.shape({
         records: PropTypes.arrayOf(PropTypes.object).isRequired,
       }).isRequired,
+      createInventory: PropTypes.shape({
+        records: PropTypes.arrayOf(PropTypes.object).isRequired,
+      }).isRequired,
     }).isRequired,
   }
 
   render() {
     const { change, dispatch, initialValues: poLine, stripes: { store }, parentResources, order } = this.props;
     const vendors = get(parentResources, 'vendors.records', []);
+    const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
 
     return (
       <Fragment>
@@ -73,6 +78,7 @@ class POLineDetailsForm extends Component {
               store={store}
               vendors={vendors}
               orderVendorId={order.vendor}
+              createInventorySetting={createInventorySetting}
             />
           </Col>
         </Row>
