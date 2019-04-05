@@ -119,6 +119,7 @@ const ITEM_DETAILS = {
   static defaultScope = '[name="physical.createInventory"]';
   isSelect = is('select');
   value = value();
+}
 
 @interactor class PhysicalDetailsAccordion {
   static defaultScope = `#${ACCORDION_ID.physical}`;
@@ -132,7 +133,6 @@ const ITEM_DETAILS = {
   toggle = clickable('[class*=defaultCollapseButton---]');
 
   accessProviderPresent = isPresent('[name="eresource.accessProvider"]');
-
 }
 
 export default interactor(class LineEditPage {
