@@ -5,7 +5,9 @@ import {
   fillable,
   interactor,
   is,
+  isPresent,
   property,
+  selectable,
   text,
   value,
 } from '@bigtest/interactor';
@@ -117,6 +119,20 @@ const ITEM_DETAILS = {
   static defaultScope = '[name="physical.createInventory"]';
   isSelect = is('select');
   value = value();
+
+@interactor class PhysicalDetailsAccordion {
+  static defaultScope = `#${ACCORDION_ID.physical}`;
+  toggle = clickable('[class*=defaultCollapseButton---]');
+
+  materialSupplierPresent = isPresent('[name="physical.materialSupplier"]');
+}
+
+@interactor class ElectronicDetailsAccordion {
+  static defaultScope = `#${ACCORDION_ID.eresources}`;
+  toggle = clickable('[class*=defaultCollapseButton---]');
+
+  accessProviderPresent = isPresent('[name="eresource.accessProvider"]');
+
 }
 
 export default interactor(class LineEditPage {
@@ -124,6 +140,7 @@ export default interactor(class LineEditPage {
   locationAccordion = new LocationAccordion();
   updateLineButton = new UpdateLineButton();
   lineNumberInputValue = value('input[name="poLineNumber"]');
+  selectOrderFormat = selectable('[name="orderFormat"]');
   validationMessage = text('[class*=feedbackError---]');
   publicationDateField = new PublicationDateField();
   listUnitPrice = new ListUnitPrice();
@@ -135,6 +152,8 @@ export default interactor(class LineEditPage {
   poLineEstimatedPrice = new PoLineEstimatedPrice();
   fundDistributionAccordion = new FundDistributionAccordion();
   itemDetailsAccordion = new ItemDetailsAccordion();
+  physicalDetailsAccordion = new PhysicalDetailsAccordion();
+  electronicDetailsAccordion = new ElectronicDetailsAccordion();
   title = text('[class*=paneTitleLabel---]');
   otherAccordion = new OtherAccordion();
   orderFormat = new OrderFormat();

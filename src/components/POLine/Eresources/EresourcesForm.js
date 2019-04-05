@@ -11,7 +11,7 @@ import {
   Datepicker,
   TextField,
   Checkbox,
-  Select,
+  Selection,
 } from '@folio/stripes/components';
 
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
@@ -22,6 +22,10 @@ import {
 import { Required } from '../../Utils/Validate';
 import MaterialTypeField from './MaterialTypeField';
 import css from './EresourcesForm.css';
+
+const ACCESS_PROVIDER_TETHER_CONFIG = {
+  attachment: 'middle center',
+};
 
 class EresourcesForm extends Component {
   static propTypes = {
@@ -46,12 +50,13 @@ class EresourcesForm extends Component {
           <FormattedMessage id="ui-orders.dropdown.select">
             {(placeholder) => (
               <Field
-                component={Select}
+                component={Selection}
                 dataOptions={vendors}
                 fullWidth
                 label={<FormattedMessage id="ui-orders.eresource.accessProvider" />}
                 name="eresource.accessProvider"
                 placeholder={placeholder}
+                tether={ACCESS_PROVIDER_TETHER_CONFIG}
                 required
                 validate={[Required]}
               />

@@ -209,9 +209,14 @@ class LayerPOLine extends Component {
       locations: [{}],
     };
 
-    if (vendor && vendor.discount_percent) {
-      newObj.cost.discountType = DISCOUNT_TYPE.percentage;
-      newObj.cost.discount = vendor.discount_percent;
+    if (vendor) {
+      newObj.eresource.accessProvider = vendor.id;
+      newObj.physical.materialSupplier = vendor.id;
+
+      if (vendor.discount_percent) {
+        newObj.cost.discountType = DISCOUNT_TYPE.percentage;
+        newObj.cost.discount = vendor.discount_percent;
+      }
     }
 
     return newObj;
