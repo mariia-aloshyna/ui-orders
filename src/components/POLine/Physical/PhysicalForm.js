@@ -15,7 +15,7 @@ import {
   TIMEZONE,
 } from '../../Utils/const';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
-import normalize from '../../Utils/normalize';
+import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
 import MaterialTypeField from '../Eresources/MaterialTypeField';
 import VolumesForm from './VolumesForm';
 
@@ -36,7 +36,7 @@ const PhysicalForm = ({ materialTypes, vendors }) => (
             label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
             name="physical.materialSupplier"
             tether={MATERIAL_SUPPLIER_TETHER_CONFIG}
-            normalize={normalize}
+            normalize={normalizeEmptySelect}
           />
         )}
       </FormattedMessage>

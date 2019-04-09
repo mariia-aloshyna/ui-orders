@@ -5,23 +5,19 @@ import PropTypes from 'prop-types';
 
 import { Select } from '@folio/stripes/components';
 
-import normalize from '../../Utils/normalize';
+import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
 import { requiredMaterialType } from '../../Utils/Validate';
 
 const MaterialTypeField = ({ name, materialTypes }) => (
-  <FormattedMessage id="ui-orders.dropdown.select">
-    {(placeholder) => (
-      <Field
-        component={Select}
-        dataOptions={[{ label: placeholder, value: '' }, ...materialTypes]}
-        fullWidth
-        label={<FormattedMessage id="ui-orders.poLine.materialType" />}
-        name={name}
-        normalize={normalize}
-        validate={[requiredMaterialType]}
-      />
-    )}
-  </FormattedMessage>
+  <Field
+    component={Select}
+    dataOptions={[{ label: '', value: '' }, ...materialTypes]}
+    fullWidth
+    label={<FormattedMessage id="ui-orders.poLine.materialType" />}
+    name={name}
+    normalize={normalizeEmptySelect}
+    validate={[requiredMaterialType]}
+  />
 );
 
 MaterialTypeField.propTypes = {

@@ -15,24 +15,20 @@ import {
   TIMEZONE,
 } from '../../Utils/const';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
-import normalize from '../../Utils/normalize';
+import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
 import MaterialTypeField from '../Eresources/MaterialTypeField';
 
 const OtherForm = ({ materialTypes, vendors }) => (
   <Row>
     <Col xs={6}>
-      <FormattedMessage id="ui-orders.dropdown.select">
-        {(placeholder) => (
-          <Field
-            component={Select}
-            dataOptions={[{ label: placeholder, value: '' }, ...vendors]}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
-            name="physical.materialSupplier"
-            normalize={normalize}
-          />
-        )}
-      </FormattedMessage>
+      <Field
+        component={Select}
+        dataOptions={[{ label: '', value: '' }, ...vendors]}
+        fullWidth
+        label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
+        name="physical.materialSupplier"
+        normalize={normalizeEmptySelect}
+      />
     </Col>
     <Col xs={6}>
       <Field
