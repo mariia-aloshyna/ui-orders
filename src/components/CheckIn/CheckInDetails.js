@@ -5,7 +5,6 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import {
   cloneDeep,
   find,
-  get,
 } from 'lodash';
 
 import { Callout } from '@folio/stripes/components';
@@ -20,7 +19,10 @@ import {
 import { ITEM_STATUS } from '../Receiving/const';
 import CHECKIN_URLS from './const';
 import ItemsListModal from './ItemsListModal';
-import checkInItems from './util';
+import {
+  checkInItems,
+  getMixedPieceAndItem,
+} from './util';
 
 class CheckInDetails extends Component {
   static manifest = Object.freeze({
@@ -53,9 +55,8 @@ class CheckInDetails extends Component {
     const { mutator, pieces } = this.props;
 
     fetchItems(mutator, pieces).then(itemsMap => {
-      const items = pieces.map(item => ({
-        ...item,
-        barcode: get(itemsMap, [item.itemId, 'barcode'], ''),
+      const items = pieces.map(piece => ({
+        ...getMixedPieceAndItem(piece, itemsMap),
         itemStatus: ITEM_STATUS.received,
         isChecked: true,
       }));

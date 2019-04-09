@@ -106,4 +106,37 @@ export default function config() {
   });
 
   this.get(ITEMS_API, ({ items }) => items.all());
+
+  this.post('/orders/pieces', (schema, request) => {
+    const body = JSON.stringify(request.requestBody);
+
+    return {
+      id: body.id,
+      caption: body.caption,
+      comment: body.comment,
+      format: body.format,
+      locationId: body.locationId,
+      poLineId: body.poLineId,
+      receivingStatus: body.receivingStatus,
+    };
+  });
+
+  this.post('/orders/check-in', (schema, request) => {
+    const body = JSON.stringify(request.requestBody);
+
+    return {
+      receivingResults: [{
+        poLineId: body.poLineId,
+        processedSuccessfully: 1,
+        processedWithError: 0,
+        receivingItemResults: [{
+          pieceId: body.pieceId,
+          processingStatus: {
+            type: 'success',
+          },
+        }],
+      }],
+      totalRecords: 1,
+    };
+  });
 }

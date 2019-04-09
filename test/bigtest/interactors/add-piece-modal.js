@@ -29,4 +29,5 @@ export default interactor(class AddPieceModal {
   caption = new CaptionInput();
   cancelButton = new Button('[data-test-add-piece-cancel]');
   saveButton = new Button('[data-test-add-piece-save]');
+  checkInButton = new Button('[data-test-add-piece-check-in]')
 });

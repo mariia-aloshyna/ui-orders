@@ -1,6 +1,11 @@
-import { some } from 'lodash';
+import {
+  get,
+  some,
+} from 'lodash';
 
-const checkInItems = (pieces, mutator) => {
+import { ITEM_STATUS } from '../Receiving/const';
+
+export const checkInItems = (pieces, mutator) => {
   const linesMap = {};
 
   pieces.forEach(piece => {
@@ -41,4 +46,7 @@ const checkInItems = (pieces, mutator) => {
   });
 };
 
-export { checkInItems as default };
+export const getMixedPieceAndItem = (piece, itemsMap) => ({
+  ...piece,
+  barcode: get(itemsMap, [piece.itemId, 'barcode'], ''),
+});
