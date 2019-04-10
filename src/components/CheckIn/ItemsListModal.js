@@ -14,7 +14,6 @@ import {
 } from '@folio/stripes/components';
 
 import { EMPTY_OPTION } from '../Utils/const';
-import { CHECK_IN_ITEM_STATUSES } from '../../common/constants';
 import ItemsListModalFooter from './ItemsListModalFooter';
 import { SelectItemStatus } from '../SelectItemStatus';
 import css from './ItemsListModal.css';
@@ -67,7 +66,6 @@ const ItemsListModal = ({
     ),
     'itemStatus': (item) => (
       <SelectItemStatus
-        statuses={CHECK_IN_ITEM_STATUSES}
         onChange={(e) => onChangeField(item, e.target.value, 'itemStatus')}
       />
     ),

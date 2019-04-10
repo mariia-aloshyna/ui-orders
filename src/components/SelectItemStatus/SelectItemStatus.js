@@ -2,17 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Select } from '@folio/stripes-components';
 import { FormattedMessage } from 'react-intl';
-import { ITEM_STATUS } from '../../common/constants';
+import {
+  ITEM_STATUS,
+  SELECT_ITEM_STATUSES,
+} from '../../common/constants';
 import css from './SelectItemStatus.css';
 
-const SelectItemStatus = ({ statuses, ...rest }) => (
+const SelectItemStatus = ({ ...rest }) => (
   <div className={css.fieldWrapper}>
     <Select
       fullWidth
       selectClass={css.itemStatusField}
       {...rest}
     >
-      {statuses.map((key) => (
+      {SELECT_ITEM_STATUSES.map((key) => (
         <FormattedMessage
           id={`ui-orders.receiving.itemStatus.${key}`}
           key={key}
@@ -25,7 +28,6 @@ const SelectItemStatus = ({ statuses, ...rest }) => (
 );
 
 SelectItemStatus.propTypes = {
-  statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
   rest: PropTypes.object,
 };
 

@@ -7,5 +7,4 @@ export const ITEM_STATUS = {
   [STATUS_RECEIVED]: 'Received',
 };
 
-export const CHECK_IN_ITEM_STATUSES = [STATUS_IN_PROCESS];
-export const RECEIVE_ITEM_STATUSES = Object.keys(ITEM_STATUS);
+export const SELECT_ITEM_STATUSES = [STATUS_IN_PROCESS];

@@ -12,7 +12,6 @@ import {
 } from '@folio/stripes/components';
 import { SelectItemStatus } from '../SelectItemStatus';
 import {
-  RECEIVE_ITEM_STATUSES,
   STATUS_IN_PROCESS,
   ITEM_STATUS,
 } from '../../common/constants';
@@ -66,7 +65,6 @@ const LineDetails = ({
     ),
     'itemStatus': () => (
       <SelectItemStatus
-        statuses={RECEIVE_ITEM_STATUSES}
         value={ITEM_STATUS[STATUS_IN_PROCESS]}
       />
     ),
