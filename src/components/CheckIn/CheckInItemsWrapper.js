@@ -6,8 +6,12 @@ import { get } from 'lodash';
 
 import { Callout } from '@folio/stripes/components';
 
-import { PIECE_STATUS_EXPECTED } from '../Receiving/const';
 import {
+  ITEM_STATUS,
+  PIECE_STATUS_EXPECTED,
+} from '../Receiving/const';
+import {
+  CHECKIN,
   LINE,
   LOCATIONS,
   ORDER_PIECES,
@@ -16,9 +20,12 @@ import {
 import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import { LIMIT_MAX } from '../Utils/const';
 import CheckInItems from './CheckInItems';
+import { checkInItems } from './util';
+import CHECKIN_URLS from './const';
 
 class CheckInItemsWrapper extends Component {
   static manifest = Object.freeze({
+    checkIn: CHECKIN,
     LINE,
     locations: LOCATIONS,
     ORDER_PIECES,
@@ -76,6 +83,32 @@ class CheckInItemsWrapper extends Component {
       .then(this.fetchItems);
   }
 
+  checkInItem = (values) => {
+    const { mutator, location } = this.props;
+
+    mutator.ORDER_PIECES.POST(values)
+      .then((piece) => {
+        this.callout.current.sendCallout({
+          type: 'success',
+          message: <FormattedMessage id="ui-orders.checkIn.addPiece.success" />,
+        });
+
+        return piece;
+      })
+      .then(piece => {
+        piece.itemStatus = ITEM_STATUS.received;
+
+        return checkInItems([piece], mutator.checkIn);
+      })
+      .then(() => mutator.query.update({
+        _path: location.pathname.replace(CHECKIN_URLS.items, CHECKIN_URLS.history),
+      }))
+      .catch(() => this.callout.current.sendCallout({
+        type: 'error',
+        message: <FormattedMessage id="ui-orders.checkIn.checkInItem.error" />,
+      }));
+  }
+
   render() {
     const { items } = this.state;
     const { match: { params: { lineId } }, resources, stripes, location } = this.props;
@@ -86,12 +119,13 @@ class CheckInItemsWrapper extends Component {
       <div data-test-check-in-items-wrapper>
         <CheckInItems
           addPiece={this.addPiece}
+          checkInItem={this.checkInItem}
           items={items}
-          poLineOrderFormat={poLineOrderFormat}
-          locations={locations}
-          stripes={stripes}
           lineId={lineId}
           location={location}
+          locations={locations}
+          poLineOrderFormat={poLineOrderFormat}
+          stripes={stripes}
         />
         <Callout ref={this.callout} />
       </div>

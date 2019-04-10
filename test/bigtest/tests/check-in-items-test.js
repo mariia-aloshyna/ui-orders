@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import LineDetailsPage from '../interactors/line-details-page';
 import CheckInItemsPage from '../interactors/check-in-items-page';
+import CheckInHistoryPage from '../interactors/check-in-history-page';
 import AddPieceModal from '../interactors/add-piece-modal';
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import { PHYSICAL } from '../../../src/components/POLine/const';
@@ -12,6 +13,7 @@ import {
 } from '../../../src/components/Utils/api';
 
 const RECEIVING_LIST_COUNT = 10;
+const TEST_CAPTION = 'test caption';
 
 describe('Check-in items', () => {
   setupApplication();
@@ -21,6 +23,7 @@ describe('Check-in items', () => {
   const lineDetailsPage = new LineDetailsPage();
   const page = new CheckInItemsPage();
   const addPieceModal = new AddPieceModal();
+  const checkInHistoryPage = new CheckInHistoryPage();
 
   beforeEach(async function () {
     order = this.server.create('order', {
@@ -109,12 +112,23 @@ describe('Check-in items', () => {
 
       describe('fill required fields and click save button', () => {
         beforeEach(async function () {
-          await addPieceModal.caption.fill('test caption');
+          await addPieceModal.caption.fill(TEST_CAPTION);
           await addPieceModal.saveButton.click();
         });
 
         it('Add Piece modal is closed', () => {
           expect(addPieceModal.isPresent).to.be.false;
+        });
+      });
+
+      describe('fill required fields and click checkIn button', () => {
+        beforeEach(async function () {
+          await addPieceModal.caption.fill(TEST_CAPTION);
+          await addPieceModal.checkInButton.click();
+        });
+
+        it('Redirect to CheckIn history page', () => {
+          expect(checkInHistoryPage.$root).to.exist;
         });
       });
     });

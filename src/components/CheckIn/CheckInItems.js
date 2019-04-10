@@ -18,7 +18,6 @@ import {
   PE_MIX,
   PHYSICAL,
 } from '../POLine/const';
-
 import CheckInDetails from './CheckInDetails';
 import PiecesList from './PiecesList';
 import AddPieceModal from './AddPieceModal';
@@ -33,18 +32,19 @@ const ORDER_FORMAT_TO_PIECE_FORMAT = {
 
 class CheckInItems extends Component {
   static propTypes = {
+    addPiece: PropTypes.func.isRequired,
     checkedItems: PropTypes.arrayOf(PropTypes.object).isRequired,
     checkedItemsMap: PropTypes.object.isRequired,
+    checkInItem: PropTypes.func.isRequired,
     isAllChecked: PropTypes.bool.isRequired,
-    toggleAll: PropTypes.func.isRequired,
-    toggleItem: PropTypes.func.isRequired,
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    lineId: PropTypes.string.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     locations: PropTypes.arrayOf(PropTypes.object).isRequired,
-    addPiece: PropTypes.func.isRequired,
-    items: PropTypes.arrayOf(PropTypes.object).isRequired,
     poLineOrderFormat: PropTypes.string,
     stripes: PropTypes.object.isRequired,
-    lineId: PropTypes.string.isRequired,
+    toggleAll: PropTypes.func.isRequired,
+    toggleItem: PropTypes.func.isRequired,
   }
 
   constructor(props, context) {
@@ -98,6 +98,13 @@ class CheckInItems extends Component {
     addPiece(values);
   }
 
+  addPieceModalCheckIn = values => {
+    const { checkInItem } = this.props;
+
+    this.addPieceModalClose();
+    checkInItem(values);
+  }
+
   render() {
     const { addPieceModalOpened, checkInDetailsModalOpened, searchText } = this.state;
     const {
@@ -108,6 +115,7 @@ class CheckInItems extends Component {
       location,
       locations,
       poLineOrderFormat,
+      stripes: { store },
       toggleAll,
       toggleItem,
     } = this.props;
@@ -166,11 +174,13 @@ class CheckInItems extends Component {
         />
         {addPieceModalOpened && (
           <this.connectedAddPieceModal
+            checkIn={this.addPieceModalCheckIn}
             close={this.addPieceModalClose}
             initialValues={initialValuesPiece}
             locations={locations}
             onSubmit={this.addPieceModalSave}
             showPieceFormatField={showPieceFormatField}
+            store={store}
           />
         )}
         {checkInDetailsModalOpened && (
