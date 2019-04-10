@@ -13,6 +13,7 @@ export const ACCORDION_ID = {
   itemDetails: 'itemDetails',
   lineDetails: 'lineDetails',
   location: 'location',
+  other: 'other',
   physical: 'physical',
   vendor: 'vendor',
 };
@@ -25,6 +26,8 @@ export const MAP_FIELD_ACCORDION = {
   fundDistribution: ACCORDION_ID.fundDistribution,
   locations: ACCORDION_ID.location,
   orderFormat: ACCORDION_ID.lineDetails,
+  other: ACCORDION_ID.other,
+  physical: ACCORDION_ID.physical,
   poLineNumber: ACCORDION_ID.lineDetails,
   publicationDate: ACCORDION_ID.itemDetails,
   title: ACCORDION_ID.itemDetails,

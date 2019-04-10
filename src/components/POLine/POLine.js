@@ -22,9 +22,7 @@ import {
   isCheckInAvailableForLine,
   isReceiveAvailableForLine,
 } from '../PurchaseOrder/util';
-import {
-  ORDER_DETAIL_API,
-} from '../Utils/api';
+import { ORDER } from '../Utils/resources';
 import {
   lineMutatorShape,
   orderRecordsMutatorShape,
@@ -37,19 +35,17 @@ import FundDistributionView from './FundDistribution/FundDistributionView';
 import EresourcesView from './Eresources/EresourcesView';
 import ItemView from './Item/ItemView';
 import PhysicalView from './Physical/PhysicalView';
+import { OtherView } from './Other';
 import {
   ACCORDION_ID,
   ERESOURCES,
   PHRESOURCES,
+  OTHER,
 } from './const';
 
 class POLine extends Component {
   static manifest = Object.freeze({
-    order: {
-      type: 'okapi',
-      path: ORDER_DETAIL_API,
-      throwErrors: false,
-    },
+    order: ORDER,
   });
 
   static propTypes = {
@@ -79,11 +75,12 @@ class POLine extends Component {
         CostDetails: false,
         Vendor: false,
         FundDistribution: false,
-        Eresources: false,
         ItemDetails: false,
-        Physical: false,
         Renewal: false,
+        [ACCORDION_ID.eresources]: false,
         [ACCORDION_ID.location]: false,
+        [ACCORDION_ID.other]: false,
+        [ACCORDION_ID.physical]: false,
       },
     };
     this.transitionToParams = transitionToParams.bind(this);
@@ -162,6 +159,7 @@ class POLine extends Component {
     const order = get(resources, ['order', 'records', 0]);
     const lines = get(order, 'compositePoLines', []);
     const line = lines.find(u => u.id === lineId);
+    const materialTypes = get(parentResources, ['materialTypes', 'records'], []);
 
     if (!line) {
       return (
@@ -174,6 +172,7 @@ class POLine extends Component {
     const orderFormat = get(line, 'orderFormat');
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
+    const showOther = orderFormat === OTHER;
     const vendors = get(parentResources, 'vendors.records', []);
     const isReceiveButtonVisible = isReceiveAvailableForLine(line, order);
     const isCheckInButtonVisible = isCheckInAvailableForLine(line, order);
@@ -229,7 +228,7 @@ class POLine extends Component {
           onToggle={this.onToggleSection}
         >
           <Accordion
-            label="Cost Details"
+            label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
             id="CostDetails"
           >
             <CostView
@@ -238,7 +237,7 @@ class POLine extends Component {
             />
           </Accordion>
           <Accordion
-            label="Vendor"
+            label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
             id="Vendor"
           >
             <VendorView
@@ -247,7 +246,7 @@ class POLine extends Component {
             />
           </Accordion>
           <Accordion
-            label="Fund Distribution"
+            label={<FormattedMessage id="ui-orders.line.accordion.fund" />}
             id="FundDistribution"
           >
             <FundDistributionView
@@ -256,21 +255,19 @@ class POLine extends Component {
             />
           </Accordion>
           <Accordion
-            label="Item Details"
+            label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
             id="ItemDetails"
           >
-            <ItemView
-              poLineDetails={line}
-              {...this.props}
-            />
+            <ItemView poLineDetails={line} />
           </Accordion>
           {showEresources && (
             <Accordion
-              label="E-resources Details"
-              id="Eresources"
+              label={<FormattedMessage id="ui-orders.line.accordion.eresource" />}
+              id={ACCORDION_ID.eresources}
             >
               <EresourcesView
                 line={line}
+                materialTypes={materialTypes}
                 order={order}
                 vendors={vendors}
               />
@@ -278,10 +275,23 @@ class POLine extends Component {
           )}
           {showPhresources && (
             <Accordion
-              label="Physical Resource Details"
-              id="Physical"
+              label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
+              id={ACCORDION_ID.physical}
             >
               <PhysicalView
+                materialTypes={materialTypes}
+                physical={get(line, 'physical', {})}
+                vendors={vendors}
+              />
+            </Accordion>
+          )}
+          {showOther && (
+            <Accordion
+              label={<FormattedMessage id="ui-orders.line.accordion.other" />}
+              id={ACCORDION_ID.other}
+            >
+              <OtherView
+                materialTypes={materialTypes}
                 physical={get(line, 'physical', {})}
                 vendors={vendors}
               />

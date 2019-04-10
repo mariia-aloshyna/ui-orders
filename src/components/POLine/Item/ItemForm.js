@@ -16,8 +16,10 @@ import {
   DATE_FORMAT,
   TIMEZONE,
 } from '../../Utils/const';
-import { validateYear, Required } from '../../Utils/Validate';
-import MaterialTypesForm from './MaterialTypesForm';
+import {
+  Required,
+  validateYear,
+} from '../../Utils/Validate';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
 import ContributorForm from './ContributorForm';
 
@@ -86,8 +88,6 @@ class ItemForm extends Component {
   }
 
   render() {
-    const { parentResources } = this.props;
-
     return (
       <Row>
         <Col xs={12}>
@@ -171,9 +171,6 @@ class ItemForm extends Component {
             label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
             name="edition"
           />
-        </Col>
-        <Col xs={6}>
-          <MaterialTypesForm materialTypes={parentResources.materialTypes} />
         </Col>
         <Col xs={12}>
           <ProductIdDetailsForm />

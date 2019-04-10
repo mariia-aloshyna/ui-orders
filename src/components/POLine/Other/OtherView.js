@@ -1,11 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-
-import {
-  get,
-  toString,
-} from 'lodash';
+import { get } from 'lodash';
 
 import {
   Col,
@@ -15,7 +11,7 @@ import {
 
 import formatDate from '../../Utils/formatDate';
 
-const PhysicalView = ({ materialTypes, physical, vendors }) => {
+const OtherView = ({ materialTypes, physical, vendors }) => {
   const materialSupplierId = get(physical, 'materialSupplier');
   const materialSupplier = vendors.find(v => v.id === materialSupplierId);
   const materialTypeId = get(physical, 'materialType');
@@ -43,12 +39,6 @@ const PhysicalView = ({ materialTypes, physical, vendors }) => {
       </Col>
       <Col xs={6}>
         <KeyValue
-          label={<FormattedMessage id="ui-orders.physical.volumes" />}
-          value={toString(get(physical, 'volumes'))}
-        />
-      </Col>
-      <Col xs={6}>
-        <KeyValue
           label={<FormattedMessage id="ui-orders.physical.createInventory" />}
           value={get(physical, 'createInventory')}
         />
@@ -63,7 +53,7 @@ const PhysicalView = ({ materialTypes, physical, vendors }) => {
   );
 };
 
-PhysicalView.propTypes = {
+OtherView.propTypes = {
   materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   physical: PropTypes.object.isRequired,
   vendors: PropTypes.arrayOf(PropTypes.shape({
@@ -72,4 +62,4 @@ PhysicalView.propTypes = {
   })).isRequired,
 };
 
-export default PhysicalView;
+export default OtherView;

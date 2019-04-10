@@ -1,15 +1,15 @@
 import {
+  attribute,
   clickable,
   collection,
+  fillable,
   interactor,
   is,
+  isPresent,
   property,
+  selectable,
   text,
   value,
-  fillable,
-  attribute,
-  selectable,
-  isPresent,
 } from '@bigtest/interactor';
 
 import { ACCORDION_ID } from '../../../src/components/POLine/const';
@@ -103,6 +103,24 @@ const ITEM_DETAILS = {
   errorTitle = attribute(ITEM_DETAILS.inputTitle, 'error');
 }
 
+@interactor class OrderFormat {
+  static defaultScope = '[name="orderFormat"]';
+  isSelect = is('select');
+  value = value();
+}
+
+@interactor class OtherAccordion {
+  static defaultScope = `#${ACCORDION_ID.other}`;
+  clickHeader = clickable('[class*=defaultCollapseButton---]');
+  warningMessage = text('[class*=feedbackError---]');
+}
+
+@interactor class PhysicalCreateInventory {
+  static defaultScope = '[name="physical.createInventory"]';
+  isSelect = is('select');
+  value = value();
+}
+
 @interactor class PhysicalDetailsAccordion {
   static defaultScope = `#${ACCORDION_ID.physical}`;
   toggle = clickable('[class*=defaultCollapseButton---]');
@@ -137,4 +155,7 @@ export default interactor(class LineEditPage {
   physicalDetailsAccordion = new PhysicalDetailsAccordion();
   electronicDetailsAccordion = new ElectronicDetailsAccordion();
   title = text('[class*=paneTitleLabel---]');
+  otherAccordion = new OtherAccordion();
+  orderFormat = new OrderFormat();
+  physicalCreateInventory = new PhysicalCreateInventory();
 });

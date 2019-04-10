@@ -7,7 +7,7 @@ import {
   Col,
   Datepicker,
   Row,
-  Selection,
+  Select,
 } from '@folio/stripes/components';
 
 import {
@@ -17,29 +17,18 @@ import {
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
 import MaterialTypeField from '../Eresources/MaterialTypeField';
-import VolumesForm from './VolumesForm';
 
-const MATERIAL_SUPPLIER_TETHER_CONFIG = {
-  attachment: 'middle center',
-};
-
-const PhysicalForm = ({ materialTypes, vendors }) => (
+const OtherForm = ({ materialTypes, vendors }) => (
   <Row>
     <Col xs={6}>
-      <FormattedMessage id="ui-orders.dropdown.select">
-        {(placeholder) => (
-          <Field
-            component={Selection}
-            dataOptions={vendors}
-            placeholder={placeholder}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
-            name="physical.materialSupplier"
-            tether={MATERIAL_SUPPLIER_TETHER_CONFIG}
-            normalize={normalizeEmptySelect}
-          />
-        )}
-      </FormattedMessage>
+      <Field
+        component={Select}
+        dataOptions={[{ label: '', value: '' }, ...vendors]}
+        fullWidth
+        label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
+        name="physical.materialSupplier"
+        normalize={normalizeEmptySelect}
+      />
     </Col>
     <Col xs={6}>
       <Field
@@ -75,13 +64,10 @@ const PhysicalForm = ({ materialTypes, vendors }) => (
         name="physical.materialType"
       />
     </Col>
-    <Col xs={6}>
-      <VolumesForm />
-    </Col>
   </Row>
 );
 
-PhysicalForm.propTypes = {
+OtherForm.propTypes = {
   vendors: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
     value: PropTypes.string,
@@ -92,4 +78,4 @@ PhysicalForm.propTypes = {
   })),
 };
 
-export default PhysicalForm;
+export default OtherForm;

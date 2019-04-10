@@ -5,7 +5,11 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { PHYSICAL } from '../../../src/components/POLine/const';
+import {
+  INVENTORY_RECORDS_TYPE,
+  OTHER,
+  PHYSICAL,
+} from '../../../src/components/POLine/const';
 import {
   ORDERS_API,
 } from '../../../src/components/Utils/api';
@@ -67,6 +71,7 @@ describe('Line edit test', () => {
     expect(lineEditPage.fundDistributionAccordion.$root).to.exist;
     expect(lineEditPage.updateLineButton.isButton).to.be.true;
     expect(lineEditPage.publicationDateField.isInput).to.be.true;
+    expect(lineEditPage.orderFormat.isSelect).to.be.true;
   });
 
   describe('Location can be added', () => {
@@ -216,6 +221,33 @@ describe('Line edit test', () => {
 
     it('Provides title warning message in case if tile is empty', () => {
       expect(lineEditPage.itemDetailsAccordion.errorTitle).to.be.equal(requiredField);
+    });
+  });
+  describe('Other Resource Details accordion is shown', () => {
+    beforeEach(async function () {
+      await lineEditPage.orderFormat.select(OTHER);
+      await lineEditPage.otherAccordion.clickHeader();
+    });
+
+    it('Displays create inventory field', () => {
+      expect(lineEditPage.physicalCreateInventory.isSelect).to.be.true;
+    });
+
+    it('Displays order format Other', () => {
+      expect(lineEditPage.orderFormat.value).to.be.equal(OTHER);
+    });
+
+    beforeEach(async function () {
+      await lineEditPage.physicalCreateInventory.select(INVENTORY_RECORDS_TYPE.all);
+      await lineEditPage.updateLineButton.click();
+    });
+
+    it('Displays warning message Required for Material Type', () => {
+      expect(lineEditPage.otherAccordion.warningMessage).to.be.equal(requiredField);
+    });
+
+    it('Create inventory field includes Instance, Holding, Item', () => {
+      expect(lineEditPage.physicalCreateInventory.value).to.be.equal(INVENTORY_RECORDS_TYPE.all);
     });
   });
 });

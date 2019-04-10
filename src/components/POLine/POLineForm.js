@@ -30,14 +30,17 @@ import { VendorForm } from './Vendor';
 import { CostForm } from './Cost';
 import { FundDistributionForm } from './FundDistribution';
 import { ItemForm } from './Item';
+import { OtherForm } from './Other';
 import {
   ACCORDION_ID,
   ERESOURCES,
   MAP_FIELD_ACCORDION,
   PHRESOURCES,
+  OTHER,
 } from './const';
 import getVendorsForSelect from '../Utils/getVendorsForSelect';
 import getFundsForSelect from '../Utils/getFundsForSelect';
+import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 
 class POLineForm extends Component {
   static propTypes = {
@@ -70,6 +73,7 @@ class POLineForm extends Component {
         [ACCORDION_ID.vendor]: false,
         [ACCORDION_ID.eresources]: false,
         [ACCORDION_ID.itemDetails]: false,
+        [ACCORDION_ID.other]: false,
         [ACCORDION_ID.physical]: false,
         [ACCORDION_ID.fundDistribution]: false,
         [ACCORDION_ID.location]: false,
@@ -199,8 +203,10 @@ class POLineForm extends Component {
     const orderFormat = get(formValues, 'orderFormat');
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
+    const showOther = orderFormat === OTHER;
     const vendors = getVendorsForSelect(parentResources);
     const funds = getFundsForSelect(parentResources);
+    const materialTypes = getMaterialTypesForSelect(parentResources);
 
     return (
       <Pane
@@ -274,6 +280,7 @@ class POLineForm extends Component {
                         id={ACCORDION_ID.eresources}
                       >
                         <EresourcesForm
+                          materialTypes={materialTypes}
                           order={order}
                           vendors={vendors}
                         />
@@ -284,7 +291,21 @@ class POLineForm extends Component {
                         label={<FormattedMessage id="ui-orders.line.accordion.physical" />}
                         id={ACCORDION_ID.physical}
                       >
-                        <PhysicalForm vendors={vendors} />
+                        <PhysicalForm
+                          materialTypes={materialTypes}
+                          vendors={vendors}
+                        />
+                      </Accordion>
+                    )}
+                    {showOther && (
+                      <Accordion
+                        label={<FormattedMessage id="ui-orders.line.accordion.other" />}
+                        id={ACCORDION_ID.other}
+                      >
+                        <OtherForm
+                          materialTypes={materialTypes}
+                          vendors={vendors}
+                        />
                       </Accordion>
                     )}
                     <Accordion
