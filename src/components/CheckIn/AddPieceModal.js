@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import {
+  Field,
+  getFormValues,
+} from 'redux-form';
 
 import {
   Button,
@@ -19,7 +22,7 @@ import stripesForm from '@folio/stripes/form';
 import { Required } from '../Utils/Validate';
 import FieldPieceFormat from './FieldPieceFormat';
 
-const footer = (close, save) => (
+const footer = (close, save, checkIn) => (
   <ModalFooter>
     <Button
       buttonStyle="primary"
@@ -31,6 +34,7 @@ const footer = (close, save) => (
     <Button
       buttonStyle="primary"
       data-test-add-piece-check-in
+      onClick={checkIn}
     >
       <FormattedMessage id="ui-orders.checkIn.buttons.checkIn" />
     </Button>
@@ -45,6 +49,7 @@ const footer = (close, save) => (
 
 class AddPieceModal extends Component {
   static propTypes = {
+    checkIn: PropTypes.func.isRequired,
     close: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     locations: PropTypes.arrayOf(PropTypes.shape({
@@ -52,16 +57,24 @@ class AddPieceModal extends Component {
       value: PropTypes.string.isRequired,
     })),
     showPieceFormatField: PropTypes.bool,
+    store: PropTypes.object.isRequired,
   }
 
+  checkIn = () => this.props.checkIn(getFormValues('AddPieceModalForm')(this.props.store.getState()));
+
   render() {
-    const { close, handleSubmit, locations = [], showPieceFormatField = false } = this.props;
+    const {
+      close,
+      handleSubmit,
+      locations = [],
+      showPieceFormatField = false,
+    } = this.props;
 
     return (
       <Modal
         id="add-piece-modal"
         label={<FormattedMessage id="ui-orders.checkIn.addPieceModal.title" />}
-        footer={footer(close, handleSubmit)}
+        footer={footer(close, handleSubmit, this.checkIn)}
         open
       >
         <form>
