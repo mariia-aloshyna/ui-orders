@@ -13,8 +13,10 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-import { ITEM_STATUS } from '../Receiving/const';
+import { EMPTY_OPTION } from '../Utils/const';
+import { CHECK_IN_ITEM_STATUSES } from '../../common/constants';
 import ItemsListModalFooter from './ItemsListModalFooter';
+import { SelectItemStatus } from '../SelectItemStatus';
 import css from './ItemsListModal.css';
 
 const ItemsListModal = ({
@@ -56,30 +58,18 @@ const ItemsListModal = ({
     'location': (item) => (
       <div className={css.fieldWrapper}>
         <Select
-          dataOptions={locations}
+          dataOptions={[EMPTY_OPTION, ...locations]}
           fullWidth
           onChange={(e) => onChangeField(item, e.target.value, 'locationId')}
-          value={get(item, 'locationId', '')}
+          value={item.locationId}
         />
       </div>
     ),
     'itemStatus': (item) => (
-      <div className={css.fieldWrapper}>
-        <Select
-          fullWidth
-          defaultValue={ITEM_STATUS.inProcess}
-          onChange={(e) => onChangeField(item, e.target.value, 'itemStatus')}
-        >
-          {Object.keys(ITEM_STATUS).map((key) => (
-            <FormattedMessage
-              id={`ui-orders.receiving.itemStatus.${key}`}
-              key={key}
-            >
-              {(message) => <option value={ITEM_STATUS[key]}>{message}</option>}
-            </FormattedMessage>
-          ))}
-        </Select>
-      </div>
+      <SelectItemStatus
+        statuses={CHECK_IN_ITEM_STATUSES}
+        onChange={(e) => onChangeField(item, e.target.value, 'itemStatus')}
+      />
     ),
   };
 

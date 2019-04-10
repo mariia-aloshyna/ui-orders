@@ -10,7 +10,7 @@ const checkInItems = (pieces, mutator) => {
       comment: piece.comment,
       caption: piece.caption,
       supplement: piece.supplement,
-      locationId: piece.locationId,
+      locationId: piece.locationId || null,
       itemStatus: piece.itemStatus,
     };
     const line = linesMap[piece.poLineId];
