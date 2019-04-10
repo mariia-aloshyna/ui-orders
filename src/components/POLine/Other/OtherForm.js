@@ -11,6 +11,7 @@ import {
 } from '@folio/stripes/components';
 
 import {
+  EMPTY_OPTION,
   DATE_FORMAT,
   TIMEZONE,
 } from '../../Utils/const';
@@ -23,7 +24,7 @@ const OtherForm = ({ materialTypes, vendors }) => (
     <Col xs={6}>
       <Field
         component={Select}
-        dataOptions={[{ label: '', value: '' }, ...vendors]}
+        dataOptions={[EMPTY_OPTION, ...vendors]}
         fullWidth
         label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
         name="physical.materialSupplier"

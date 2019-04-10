@@ -13,6 +13,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
+import { EMPTY_OPTION } from '../Utils/const';
 import { ITEM_STATUS } from '../Receiving/const';
 import ItemsListModalFooter from './ItemsListModalFooter';
 import css from './ItemsListModal.css';
@@ -56,10 +57,10 @@ const ItemsListModal = ({
     'location': (item) => (
       <div className={css.fieldWrapper}>
         <Select
-          dataOptions={locations}
+          dataOptions={[EMPTY_OPTION, ...locations]}
           fullWidth
           onChange={(e) => onChangeField(item, e.target.value, 'locationId')}
-          value={get(item, 'locationId', '')}
+          value={item.locationId}
         />
       </div>
     ),
@@ -67,7 +68,7 @@ const ItemsListModal = ({
       <div className={css.fieldWrapper}>
         <Select
           fullWidth
-          defaultValue={ITEM_STATUS.received}
+          defaultValue={ITEM_STATUS.inProcess}
           onChange={(e) => onChangeField(item, e.target.value, 'itemStatus')}
         >
           {Object.keys(ITEM_STATUS).map((key) => (
