@@ -32,10 +32,11 @@ class FieldOrderFormat extends Component {
     orderVendorId: PropTypes.string.isRequired,
     store: PropTypes.object.isRequired,
     vendors: PropTypes.arrayOf(PropTypes.object).isRequired,
+    createInventorySetting: PropTypes.object.isRequired,
   }
 
   onChangeSelect = (_, value) => {
-    const { dispatch, change, store, vendors, orderVendorId } = this.props;
+    const { dispatch, change, createInventorySetting, store, vendors, orderVendorId } = this.props;
 
     dispatch(change('cost.quantityPhysical', ''));
     dispatch(change('cost.quantityElectronic', ''));
@@ -50,6 +51,12 @@ class FieldOrderFormat extends Component {
       if (activationDue === undefined && vendor && vendor.expected_activation_interval) {
         dispatch(change('eresource.activationDue', vendor.expected_activation_interval));
       }
+    }
+
+    if (value === OTHER) {
+      dispatch(change('physical.createInventory', createInventorySetting.other));
+    } else {
+      dispatch(change('physical.createInventory', createInventorySetting.physical));
     }
   }
 

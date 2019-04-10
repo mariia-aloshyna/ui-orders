@@ -13,12 +13,7 @@ import {
   Layer,
 } from '@folio/stripes/components';
 
-import {
-  CONFIG_CREATE_INVENTORY,
-  MODULE_ORDERS,
-  SOURCE_FOLIO_CODE,
-} from '../Utils/const';
-import { CONFIG_API } from '../Utils/api';
+import { SOURCE_FOLIO_CODE } from '../Utils/const';
 import getCreateInventorySetting from '../Utils/getCreateInventorySetting';
 import { DISCOUNT_TYPE } from '../POLine/const';
 import { cloneOrder } from '../Utils/orderResource';
@@ -49,16 +44,6 @@ const ERROR_CODES = {
 class LayerPOLine extends Component {
   static manifest = Object.freeze({
     order: ORDER,
-    createInventory: {
-      type: 'okapi',
-      records: 'configs',
-      path: CONFIG_API,
-      GET: {
-        params: {
-          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CREATE_INVENTORY})`,
-        },
-      },
-    },
   });
 
   static propTypes = {
@@ -75,7 +60,6 @@ class LayerPOLine extends Component {
       connect: PropTypes.func.isRequired,
     }).isRequired,
     onCancel: PropTypes.func.isRequired,
-    resources: PropTypes.object,
   };
 
   constructor(props) {
@@ -200,10 +184,10 @@ class LayerPOLine extends Component {
   };
 
   getCreatePOLIneInitialValues = (order) => {
-    const { parentResources, resources } = this.props;
+    const { parentResources } = this.props;
     const { id: orderId, vendor: vendorId } = order;
     const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === vendorId);
-    const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
+    const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
 
     const newObj = {
       source: {

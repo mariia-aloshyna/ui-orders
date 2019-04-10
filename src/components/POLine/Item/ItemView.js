@@ -11,18 +11,14 @@ import {
 import formatDate from '../../Utils/formatDate';
 import ContributorView from './ContributorView';
 import ProductIdDetails from './ProductIdDetails';
-import MaterialType from './MaterialType';
 
 class ItemView extends Component {
   static propTypes = {
-    parentResources: PropTypes.shape({
-      materialTypes: PropTypes.object.isRequired,
-    }).isRequired,
     poLineDetails: PropTypes.object.isRequired,
   }
 
   render() {
-    const { parentResources, poLineDetails } = this.props;
+    const { poLineDetails } = this.props;
 
     return (
       <Fragment>
@@ -70,12 +66,6 @@ class ItemView extends Component {
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
               value={formatDate(get(poLineDetails, ['details', 'subscriptionTo']))}
-            />
-          </Col>
-          <Col xs={6}>
-            <MaterialType
-              materialTypes={parentResources.materialTypes}
-              materialTypesIds={get(poLineDetails, ['details', 'materialTypes'], [])}
             />
           </Col>
           <Col xs={6}>

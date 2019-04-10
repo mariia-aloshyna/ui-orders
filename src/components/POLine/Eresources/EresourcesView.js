@@ -14,13 +14,15 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-export default function EresourcesView({ line: { eresource }, order, vendors }) {
+const EresourcesView = ({ line: { eresource }, order, vendors, materialTypes }) => {
   const expectedActivation = get(eresource, 'expectedActivation');
   const activationDue = get(eresource, 'activationDue');
   const created = get(order, 'metadata.createdDate', '');
   const activationDueDate = activationDue && moment.utc(created).add(activationDue, 'days').format();
   const accessProviderId = get(eresource, 'accessProvider');
   const accessProvider = vendors.find((v => v.id === accessProviderId));
+  const materialTypeId = get(eresource, 'materialType');
+  const materialType = materialTypes.find((type => materialTypeId === type.id));
 
   return (
     <Row>
@@ -47,6 +49,12 @@ export default function EresourcesView({ line: { eresource }, order, vendors }) 
         />
       </Col>
       <Col xs={3}>
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.poLine.materialType" />}
+          value={get(materialType, 'name', '')}
+        />
+      </Col>
+      <Col xs={3}>
         <KeyValue label={<FormattedMessage id="ui-orders.eresource.trial" />}>
           <Checkbox checked={get(eresource, 'trial')} disabled />
         </KeyValue>
@@ -64,15 +72,18 @@ export default function EresourcesView({ line: { eresource }, order, vendors }) 
       </Col>
     </Row>
   );
-}
+};
 
 EresourcesView.propTypes = {
   line: PropTypes.shape({
     eresource: PropTypes.object,
   }).isRequired,
+  materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
   order: PropTypes.object.isRequired,
   vendors: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
   })).isRequired,
 };
+
+export default EresourcesView;
