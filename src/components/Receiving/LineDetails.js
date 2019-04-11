@@ -10,8 +10,11 @@ import {
   TextField,
   Select,
 } from '@folio/stripes/components';
-
-import { ITEM_STATUS } from './const';
+import { SelectItemStatus } from '../SelectItemStatus';
+import {
+  STATUS_IN_PROCESS,
+  ITEM_STATUS,
+} from '../../common/constants';
 
 import css from './ItemDetails.css';
 
@@ -61,22 +64,9 @@ const LineDetails = ({
       </div>
     ),
     'itemStatus': () => (
-      <div className={css.fieldWrapper}>
-        <Select
-          fullWidth
-          selectClass={css.itemStatusField}
-          value={ITEM_STATUS.inProcess}
-        >
-          {Object.keys(ITEM_STATUS).map((key) => (
-            <FormattedMessage
-              id={`ui-orders.receiving.itemStatus.${key}`}
-              key={key}
-            >
-              {(message) => <option value={ITEM_STATUS[key]}>{message}</option>}
-            </FormattedMessage>
-          ))}
-        </Select>
-      </div>
+      <SelectItemStatus
+        value={ITEM_STATUS[STATUS_IN_PROCESS]}
+      />
     ),
   };
 

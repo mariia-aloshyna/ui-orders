@@ -14,8 +14,8 @@ import {
 } from '@folio/stripes/components';
 
 import { EMPTY_OPTION } from '../Utils/const';
-import { ITEM_STATUS } from '../Receiving/const';
 import ItemsListModalFooter from './ItemsListModalFooter';
+import { SelectItemStatus } from '../SelectItemStatus';
 import css from './ItemsListModal.css';
 
 const ItemsListModal = ({
@@ -65,22 +65,9 @@ const ItemsListModal = ({
       </div>
     ),
     'itemStatus': (item) => (
-      <div className={css.fieldWrapper}>
-        <Select
-          fullWidth
-          defaultValue={ITEM_STATUS.inProcess}
-          onChange={(e) => onChangeField(item, e.target.value, 'itemStatus')}
-        >
-          {Object.keys(ITEM_STATUS).map((key) => (
-            <FormattedMessage
-              id={`ui-orders.receiving.itemStatus.${key}`}
-              key={key}
-            >
-              {(message) => <option value={ITEM_STATUS[key]}>{message}</option>}
-            </FormattedMessage>
-          ))}
-        </Select>
-      </div>
+      <SelectItemStatus
+        onChange={(e) => onChangeField(item, e.target.value, 'itemStatus')}
+      />
     ),
   };
 

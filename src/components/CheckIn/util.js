@@ -3,8 +3,6 @@ import {
   some,
 } from 'lodash';
 
-import { ITEM_STATUS } from '../Receiving/const';
-
 export const checkInItems = (pieces, mutator) => {
   const linesMap = {};
 

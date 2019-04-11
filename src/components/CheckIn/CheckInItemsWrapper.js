@@ -7,7 +7,6 @@ import { get } from 'lodash';
 import { Callout } from '@folio/stripes/components';
 
 import {
-  ITEM_STATUS,
   PIECE_STATUS_EXPECTED,
 } from '../Receiving/const';
 import {
@@ -22,6 +21,7 @@ import { LIMIT_MAX } from '../Utils/const';
 import CheckInItems from './CheckInItems';
 import { checkInItems } from './util';
 import CHECKIN_URLS from './const';
+import { ITEM_STATUS } from '../../common/constants';
 
 class CheckInItemsWrapper extends Component {
   static manifest = Object.freeze({

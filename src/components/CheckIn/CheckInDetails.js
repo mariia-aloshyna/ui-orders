@@ -16,9 +16,9 @@ import {
   ITEMS,
   LOCATIONS,
 } from '../Utils/resources';
-import { ITEM_STATUS } from '../Receiving/const';
 import CHECKIN_URLS from './const';
 import ItemsListModal from './ItemsListModal';
+import { ITEM_STATUS } from '../../common/constants';
 import {
   checkInItems,
   getMixedPieceAndItem,
@@ -30,7 +30,7 @@ class CheckInDetails extends Component {
     items: ITEMS,
     locations: LOCATIONS,
     query: {},
-  })
+  });
 
   static propTypes = {
     close: PropTypes.func.isRequired,
@@ -38,7 +38,7 @@ class CheckInDetails extends Component {
     mutator: PropTypes.object,
     pieces: PropTypes.arrayOf(PropTypes.object).isRequired,
     resources: PropTypes.object,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -86,7 +86,7 @@ class CheckInDetails extends Component {
         items,
       };
     });
-  }
+  };
 
   toggleAll = () => {
     this.setState((state) => {
@@ -101,7 +101,7 @@ class CheckInDetails extends Component {
         items,
       };
     });
-  }
+  };
 
   submitCheckIn = () => {
     const { close, location, mutator } = this.props;
@@ -120,7 +120,7 @@ class CheckInDetails extends Component {
         type: 'error',
         message: <FormattedMessage id="ui-orders.checkIn.checkInItem.error" />,
       }));
-  }
+  };
 
   onChangeField = (item, value, key) => {
     this.setState((state) => {
@@ -131,7 +131,7 @@ class CheckInDetails extends Component {
 
       return { items };
     });
-  }
+  };
 
   render() {
     const { close, resources } = this.props;

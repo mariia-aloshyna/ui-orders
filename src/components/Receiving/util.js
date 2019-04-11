@@ -1,7 +1,7 @@
 import { some } from 'lodash';
 
-import { ITEM_STATUS } from './const';
 import { LIMIT_MAX } from '../Utils/const';
+import { ITEM_STATUS } from '../../common/constants';
 
 export const reducePieces = (pieces, isSelect = false) => {
   const pieceReducer = (accumulator, piece) => {
@@ -113,9 +113,7 @@ export const fetchItems = (mutator, pieces = []) => {
 
     return mutator.items.GET({ params: itemParams })
       .then(items => {
-        const itemsMap = Object.assign({}, ...items.map(item => ({ [item.id]: item })));
-
-        return itemsMap;
+        return Object.assign({}, ...items.map(item => ({ [item.id]: item })));
       });
   }
 
