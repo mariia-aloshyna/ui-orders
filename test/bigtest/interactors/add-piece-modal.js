@@ -1,4 +1,5 @@
 import {
+  attribute,
   interactor,
   is,
   property,
@@ -20,6 +21,7 @@ import {
 @interactor class Button {
   isButton = is('button');
   isDisabled = property('disabled');
+  disabled = attribute('disabled');
 }
 
 @interactor class LocationSelect {

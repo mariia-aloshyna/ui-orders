@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import {
   Field,
-  getFormValues,
 } from 'redux-form';
 
 import { includes } from 'lodash';
@@ -19,6 +18,7 @@ import {
   TextArea,
   TextField,
 } from '@folio/stripes/components';
+import { Pluggable } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/form';
 
 import { EMPTY_OPTION } from '../Utils/const';
@@ -58,31 +58,39 @@ class AddPieceModal extends Component {
     close: PropTypes.func.isRequired,
     createInventoryValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    stripes: PropTypes.object.isRequired,
     locations: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
     })),
     showPieceFormatField: PropTypes.bool,
-    stripes: PropTypes.object.isRequired,
+    instanceId: PropTypes.string,
+    dispatch: PropTypes.func,
+    change: PropTypes.func,
+    formValues: PropTypes.object,
   }
 
-  getValues = () => {
-    const { stripes: { store } } = this.props;
+  onAddItem = (item = {}) => {
+    const { dispatch, change } = this.props;
 
-    return getFormValues(ADD_PIECE_MODAL_FORM)(store.getState());
+    if (item.id) {
+      dispatch(change('itemId', item.id));
+    }
   }
-
-  checkIn = () => this.props.checkIn(this.getValues());
 
   render() {
     const {
+      checkIn,
       close,
       createInventoryValues,
       handleSubmit,
       locations = [],
       showPieceFormatField = false,
+      stripes,
+      instanceId,
+      formValues = {},
     } = this.props;
-    const { format, locationId } = this.getValues();
+    const { format, locationId } = formValues;
     const isLocationRequired = includes(createInventoryValues[format], INVENTORY_RECORDS_TYPE.instanceAndHolding);
     let isAddItemButtonDisabled = true;
     let locationFieldProps = {
@@ -102,11 +110,13 @@ class AddPieceModal extends Component {
       isAddItemButtonDisabled = false;
     }
 
+    const disabledButtonProps = isAddItemButtonDisabled ? { disabled: isAddItemButtonDisabled } : {};
+
     return (
       <Modal
         id="add-piece-modal"
         label={<FormattedMessage id="ui-orders.checkIn.addPieceModal.title" />}
-        footer={footer(close, handleSubmit, this.checkIn)}
+        footer={footer(close, handleSubmit, checkIn)}
         open
       >
         <form>
@@ -153,12 +163,24 @@ class AddPieceModal extends Component {
           </Row>
           <Row>
             <Col xs>
-              <Button
-                data-test-add-item
+              <Pluggable
                 disabled={isAddItemButtonDisabled}
+                aria-haspopup="true"
+                instanceId={instanceId}
+                locationId={locationId}
+                searchButtonStyle="default"
+                searchLabel={<FormattedMessage id="ui-orders.checkIn.buttons.addItem" />}
+                stripes={stripes}
+                type="create-item"
+                addItem={this.onAddItem}
               >
-                <FormattedMessage id="ui-orders.checkIn.buttons.addItem" />
-              </Button>
+                <span
+                  data-test-add-item
+                  {...disabledButtonProps}
+                >
+                  <FormattedMessage id="ui-orders.errors.noCreateItemPlugin" />
+                </span>
+              </Pluggable>
             </Col>
             {showPieceFormatField && (
               <Col xs>
@@ -174,5 +196,4 @@ class AddPieceModal extends Component {
 
 export default stripesForm({
   form: ADD_PIECE_MODAL_FORM,
-  navigationCheck: true,
 })(AddPieceModal);
