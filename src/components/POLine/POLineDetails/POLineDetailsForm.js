@@ -37,7 +37,7 @@ class POLineDetailsForm extends Component {
         records: PropTypes.arrayOf(PropTypes.object).isRequired,
       }).isRequired,
     }).isRequired,
-  }
+  };
 
   render() {
     const { change, dispatch, initialValues: poLine, stripes: { store }, parentResources, order } = this.props;
@@ -114,10 +114,10 @@ class POLineDetailsForm extends Component {
             />
           </Col>
           <Col xs={6}>
-            <FieldPaymentStatus />
+            <FieldPaymentStatus workflowStatus={order.workflowStatus} />
           </Col>
           <Col xs={6}>
-            <FieldReceiptStatus />
+            <FieldReceiptStatus workflowStatus={order.workflowStatus} />
           </Col>
           <Col xs={6}>
             <Field

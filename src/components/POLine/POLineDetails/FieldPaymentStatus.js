@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 
 import { Select } from '@folio/stripes/components';
+import { PO_WORKFLOW_STATUSES } from '../../../common/constants';
 
 const PAYMENT_STATUS = {
   awaitingPayment: 'Awaiting Payment',
@@ -13,18 +15,33 @@ const PAYMENT_STATUS = {
   pending: 'Pending',
 };
 
+const PAYMENT_STATUSES_BY_ORDER_STATUS = {
+  [PO_WORKFLOW_STATUSES.pending]: [
+    'pending',
+    'paymentNotRequired',
+  ],
+  [PO_WORKFLOW_STATUSES.open]: [
+    'partiallyPaid',
+    'paymentNotRequired',
+    'fullyPaid',
+    'cancelled',
+  ],
+};
+
 class FieldPaymentStatus extends Component {
   render() {
+    const { workflowStatus } = this.props;
+    const statuses = PAYMENT_STATUSES_BY_ORDER_STATUS[workflowStatus] || [];
+
     return (
       <Field
         component={Select}
         label={<FormattedMessage id="ui-orders.poLine.paymentStatus" />}
         name="paymentStatus"
+        disabled={!statuses.length}
       >
-        <FormattedMessage id="ui-orders.dropdown.select">
-          {(message) => <option value="">{message}</option>}
-        </FormattedMessage>
-        {Object.keys(PAYMENT_STATUS).map((key) => (
+        <option value="" />
+        {statuses.map((key) => (
           <FormattedMessage
             id={`ui-orders.payment_status.${key}`}
             key={key}
@@ -36,5 +53,9 @@ class FieldPaymentStatus extends Component {
     );
   }
 }
+
+FieldPaymentStatus.propTypes = {
+  workflowStatus: PropTypes.string.isRequired,
+};
 
 export default FieldPaymentStatus;
