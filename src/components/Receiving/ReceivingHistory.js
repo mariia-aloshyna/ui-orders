@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { get } from 'lodash';
+import { get, debounce } from 'lodash';
 
 import {
   Button,
@@ -25,7 +25,6 @@ import {
   RECEIVE,
   RECEIVING_HISTORY as RECEIVING_HISTORY_RESOURCE,
 } from '../Utils/resources';
-import { LIMIT_MAX } from '../Utils/const';
 import FolioFormattedTime from '../FolioFormattedTime';
 import ReceivingLinks, { RECEIVING_HISTORY } from './ReceivingLinks';
 import { PIECE_STATUS_RECEIVED } from './const';
@@ -34,6 +33,8 @@ import {
   historyRemoveItems,
   reducePieces,
 } from './util';
+
+const RECEIVING_HISTORY_LIMIT = 25;
 
 class ReceivingHistory extends Component {
   static manifest = Object.freeze({
@@ -54,30 +55,35 @@ class ReceivingHistory extends Component {
   constructor(props) {
     super(props);
     this.callout = React.createRef();
+
+    this.receivingHistoryOffset = 0;
   }
 
   state = {
     checkedPiecesMap: {},
     confirming: false,
     isAllChecked: false,
-    isLoading: true,
     pieces: [],
     searchText: '',
   };
 
   componentDidMount() {
+    const { mutator } = this.props;
+
+    mutator.receivingHistory.reset();
     this.fetchHistory();
   }
 
   fetchHistory = () => {
     const { mutator, match: { params: { id, lineId } } } = this.props;
+    const { searchText } = this.state;
     const params = {
-      limit: LIMIT_MAX,
-      query: `checkin == false and receivingStatus==${PIECE_STATUS_RECEIVED} and purchaseOrderId==${id}${lineId ? ` and poLineId==${lineId}` : ''}`,
+      offset: this.receivingHistoryOffset || 0,
+      limit: RECEIVING_HISTORY_LIMIT,
+      query: `(title=="*${searchText}*") and checkin == false and receivingStatus==${PIECE_STATUS_RECEIVED} and purchaseOrderId==${id}${lineId ? ` and poLineId==${lineId}` : ''}`,
     };
     let piecesFromHistory = null;
 
-    mutator.receivingHistory.reset();
     mutator.receivingHistory.GET({ params })
       .then(piecesResponse => {
         piecesFromHistory = piecesResponse;
@@ -90,11 +96,22 @@ class ReceivingHistory extends Component {
           barcode: get(itemsMap, [piece.itemId, 'barcode']),
         }));
 
-        this.setState({
-          isLoading: false,
-          pieces,
-        });
+        this.setState(prevState => ({
+          pieces: [...prevState.pieces, ...pieces],
+        }));
       });
+
+    this.receivingHistoryOffset += RECEIVING_HISTORY_LIMIT;
+  }
+
+  updateReceivingHistory = () => {
+    const { mutator } = this.props;
+
+    mutator.receivingHistory.reset();
+    this.setState({ pieces: [] });
+    this.receivingHistoryOffset = 0;
+
+    this.fetchHistory();
   }
 
   onCloseReceiving = () => {
@@ -137,9 +154,8 @@ class ReceivingHistory extends Component {
 
   toggleAll = () => {
     this.setState((state) => {
-      const receivingHistory = this.getData(state.pieces);
       const isAllChecked = !state.isAllChecked;
-      const checkedPiecesMap = reducePieces(receivingHistory, isAllChecked);
+      const checkedPiecesMap = reducePieces(state.pieces, isAllChecked);
 
       return {
         checkedPiecesMap,
@@ -148,19 +164,14 @@ class ReceivingHistory extends Component {
     });
   }
 
-  getData = (pieces) => {
-    const { searchText } = this.state;
-
-    return searchText
-      ? pieces.filter(piece => piece.title.includes(searchText))
-      : pieces;
-  }
-
   changeSearchText = (event) => {
     const searchText = get(event, 'target.value', '');
 
     this.setState({ searchText });
+    this.updateOnFilter();
   }
+
+  updateOnFilter = debounce(this.updateReceivingHistory, 1000);
 
   showConfirm = () => this.setState({ confirming: true });
 
@@ -177,13 +188,12 @@ class ReceivingHistory extends Component {
         type: 'error',
         message: <FormattedMessage id="ui-orders.receivingHistory.remove.error" />,
       }))
-      .then(this.fetchHistory);
+      .then(this.updateReceivingHistory);
   }
 
   render() {
-    const { checkedPiecesMap, confirming, isAllChecked, searchText, pieces, isLoading } = this.state;
+    const { checkedPiecesMap, confirming, isAllChecked, searchText, pieces } = this.state;
     const { mutator, location, resources } = this.props;
-    const contentData = this.getData(pieces);
     const orderNumber = get(resources, ['order', 'records', 0, 'poNumber']);
     const isRemoveButtonDisabled = Object.values(checkedPiecesMap).filter(Boolean).length === 0;
     const resultsFormatter = {
@@ -249,9 +259,12 @@ class ReceivingHistory extends Component {
               </Col>
             </Row>
             <MultiColumnList
+              onNeedMoreData={this.fetchHistory}
+              virtualize
+              height="450"
               fullWidth
               formatter={resultsFormatter}
-              contentData={contentData}
+              contentData={pieces}
               columnMapping={{
                 isChecked: <Checkbox type="checkbox" checked={isAllChecked} onChange={this.toggleAll} />,
                 title: <FormattedMessage id="ui-orders.receiving.title" />,
@@ -263,7 +276,6 @@ class ReceivingHistory extends Component {
                 receivingStatus: <FormattedMessage id="ui-orders.receiving.status" />,
               }}
               columnWidths={{ isChecked: 35 }}
-              loading={isLoading}
               visibleColumns={['isChecked', 'title', 'poLineNumber', 'dateOrdered', 'dateReceived', 'barcode', 'receivingNote', 'receivingStatus']}
               onRowClick={(_, piece) => this.toggleItem(piece)}
             />
