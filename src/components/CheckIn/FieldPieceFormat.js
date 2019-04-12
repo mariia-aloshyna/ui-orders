@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 
@@ -9,7 +10,6 @@ import { Required } from '../Utils/Validate';
 export const PIECE_FORMAT = {
   electronic: 'Electronic',
   physical: 'Physical',
-  other: 'Other',
 };
 
 const FieldPieceFormat = () => (
@@ -17,8 +17,8 @@ const FieldPieceFormat = () => (
     component={Select}
     label={<FormattedMessage id="ui-orders.checkIn.pieceFormat" />}
     name="format"
-    required
     placeholder=" "
+    required
     validate={Required}
   >
     {Object.keys(PIECE_FORMAT).map((key) => (

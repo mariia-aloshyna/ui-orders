@@ -7,10 +7,14 @@ import CheckInItemsPage from '../interactors/check-in-items-page';
 import CheckInHistoryPage from '../interactors/check-in-history-page';
 import AddPieceModal from '../interactors/add-piece-modal';
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
-import { PHYSICAL } from '../../../src/components/POLine/const';
+import {
+  PE_MIX,
+  INVENTORY_RECORDS_TYPE,
+} from '../../../src/components/POLine/const';
 import {
   ORDERS_API,
 } from '../../../src/components/Utils/api';
+import { PIECE_FORMAT } from '../../../src/components/CheckIn/FieldPieceFormat';
 
 const RECEIVING_LIST_COUNT = 10;
 const TEST_CAPTION = 'test caption';
@@ -31,10 +35,16 @@ describe('Check-in items', () => {
     });
     line = this.server.create('line', {
       order,
-      orderFormat: PHYSICAL,
+      orderFormat: PE_MIX,
       checkinItems: true,
       cost: {
         quantityPhysical: 2,
+      },
+      physical: {
+        createInventory: INVENTORY_RECORDS_TYPE.all,
+      },
+      eresource: {
+        createInventory: INVENTORY_RECORDS_TYPE.none,
       },
     });
     this.server.get(`${ORDERS_API}/${order.id}`, {
@@ -90,12 +100,32 @@ describe('Check-in items', () => {
         expect(addPieceModal.cancelButton.isDisabled).to.be.false;
       });
 
+      it('Add Item button is disabled', () => {
+        expect(addPieceModal.addItemButton.isDisabled).to.be.true;
+      });
+
       describe('click save button', () => {
         beforeEach(async function () {
           await addPieceModal.saveButton.click();
         });
 
         it('Add Piece modal is displayed since required fields are empty', () => {
+          expect(addPieceModal.$root).to.exist;
+        });
+      });
+
+      describe('Check Physical format, fill caption and click save', () => {
+        beforeEach(async function () {
+          await addPieceModal.caption.fill(TEST_CAPTION);
+          await addPieceModal.format.select(PIECE_FORMAT.physical);
+          await addPieceModal.saveButton.click();
+        });
+
+        it('Add Item button is disabled', () => {
+          expect(addPieceModal.addItemButton.isDisabled).to.be.true;
+        });
+
+        it('Add Piece modal is displayed since Location is required and empty', () => {
           expect(addPieceModal.$root).to.exist;
         });
       });
@@ -113,6 +143,7 @@ describe('Check-in items', () => {
       describe('fill required fields and click save button', () => {
         beforeEach(async function () {
           await addPieceModal.caption.fill(TEST_CAPTION);
+          await addPieceModal.format.select(PIECE_FORMAT.electronic);
           await addPieceModal.saveButton.click();
         });
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+
 import {
   cloneDeep,
   find,
@@ -9,6 +10,7 @@ import {
 
 import { Callout } from '@folio/stripes/components';
 
+import { ITEM_STATUS } from '../../common/constants';
 import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import { fetchItems } from '../Receiving/util';
 import {
@@ -16,9 +18,8 @@ import {
   ITEMS,
   LOCATIONS,
 } from '../Utils/resources';
-import CHECKIN_URLS from './const';
+import { CHECKIN_URLS } from './const';
 import ItemsListModal from './ItemsListModal';
-import { ITEM_STATUS } from '../../common/constants';
 import {
   checkInItems,
   getMixedPieceAndItem,

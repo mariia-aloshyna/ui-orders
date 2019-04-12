@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-
 import { get } from 'lodash';
 
 import {
@@ -14,7 +13,6 @@ import {
 
 import {
   ERESOURCE,
-  OTHER,
   PE_MIX,
   PHYSICAL,
 } from '../POLine/const';
@@ -26,7 +24,6 @@ import withCheckboxes from './withCheckboxes';
 
 const ORDER_FORMAT_TO_PIECE_FORMAT = {
   [ERESOURCE]: PIECE_FORMAT.electronic,
-  [OTHER]: PIECE_FORMAT.other,
   [PHYSICAL]: PIECE_FORMAT.physical,
 };
 
@@ -38,13 +35,12 @@ class CheckInItems extends Component {
     checkInItem: PropTypes.func.isRequired,
     isAllChecked: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
-    lineId: PropTypes.string.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     locations: PropTypes.arrayOf(PropTypes.object).isRequired,
-    poLineOrderFormat: PropTypes.string,
     stripes: PropTypes.object.isRequired,
     toggleAll: PropTypes.func.isRequired,
     toggleItem: PropTypes.func.isRequired,
+    poLine: PropTypes.object,
   }
 
   constructor(props, context) {
@@ -105,31 +101,45 @@ class CheckInItems extends Component {
     checkInItem(values);
   }
 
+  getCreateInventoryValues = () => {
+    const { poLine } = this.props;
+
+    return {
+      'Physical': get(poLine, 'physical.createInventory'),
+      'Electronic': get(poLine, 'eresource.createInventory'),
+    };
+  }
+
   render() {
     const { addPieceModalOpened, checkInDetailsModalOpened, searchText } = this.state;
     const {
       checkedItems,
       checkedItemsMap,
       isAllChecked,
-      lineId,
       location,
       locations,
-      poLineOrderFormat,
-      stripes: { store },
+      poLine,
+      stripes,
       toggleAll,
       toggleItem,
     } = this.props;
+
+    if (!poLine) {
+      return null;
+    }
+
+    const { orderFormat, id: poLineId } = poLine;
     const initialValuesPiece = {
-      poLineId: lineId,
+      poLineId,
     };
     const items = this.getItems();
 
     let showPieceFormatField = false;
 
-    if (!poLineOrderFormat || poLineOrderFormat === PE_MIX) {
+    if (!orderFormat || orderFormat === PE_MIX) {
       showPieceFormatField = true;
     } else {
-      initialValuesPiece.format = ORDER_FORMAT_TO_PIECE_FORMAT[poLineOrderFormat];
+      initialValuesPiece.format = ORDER_FORMAT_TO_PIECE_FORMAT[orderFormat];
     }
 
     const isCheckInDisabled = !checkedItems.length;
@@ -176,11 +186,12 @@ class CheckInItems extends Component {
           <this.connectedAddPieceModal
             checkIn={this.addPieceModalCheckIn}
             close={this.addPieceModalClose}
+            createInventoryValues={this.getCreateInventoryValues()}
             initialValues={initialValuesPiece}
             locations={locations}
             onSubmit={this.addPieceModalSave}
             showPieceFormatField={showPieceFormatField}
-            store={store}
+            stripes={stripes}
           />
         )}
         {checkInDetailsModalOpened && (
