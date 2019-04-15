@@ -329,7 +329,6 @@
     "itemDetails.subscriptionFrom": "Subscription From",
     "itemDetails.subscriptionInterval": "Subscription Interval",
     "itemDetails.subscriptionTo": "Subscription To",
-    "itemDetails.materialTypes": "Material Types",
     "itemDetails.addMaterialTypes": "Please Add Material Types",
     "itemDetails.addMaterialTypesBtn": "Add Material Types",
     "itemDetails.productId": "Product ID",
@@ -624,5 +623,7 @@
     "errors.costQtyPhysicalExceedsLoc": "Cost's physical quantity exceeds locations' physical quantity",
     "errors.locQtyPhysicalExceedsCost": "Locations physical quantity exceeds cost physical quantity",
     "errors.locQtyElectronicExceedsCost": "Locations electronic quantity exceeds cost electronic quantity",
-    "checkIn.history.confirmation.message": "Are you sure you want to remove the piece(s) from Check-in history? They will return to a status of Expected and any associated item will be set as On-Order."
+    "checkIn.history.confirmation.message": "Are you sure you want to remove the piece(s) from Check-in history? They will return to a status of Expected and any associated item will be set as On-Order.",
+    "line.accordion.other": "Other Resource Details",
+    "poLine.materialType": "Material Type"
 }
