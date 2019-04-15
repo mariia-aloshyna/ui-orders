@@ -329,7 +329,6 @@
     "itemDetails.subscriptionFrom": "الاشتراك من",
     "itemDetails.subscriptionInterval": "الفاصل الزمني للاشتراك",
     "itemDetails.subscriptionTo": "الاشتراك في",
-    "itemDetails.materialTypes": "أنواع المواد",
     "itemDetails.addMaterialTypes": "يرجى إضافة أنواع المواد",
     "itemDetails.addMaterialTypesBtn": "إضافة أنواع المواد",
     "itemDetails.productId": "معرّف المنتج",
@@ -624,5 +623,7 @@
     "errors.costQtyPhysicalExceedsLoc": "الكمية المادية للتكلفة تتجاوز الكمية المادية للموقع",
     "errors.locQtyPhysicalExceedsCost": "الكمية المادية للموقع تتجاوز الكمية المادية للتكلفة",
     "errors.locQtyElectronicExceedsCost": "الكمية الالكترونية للموقع تتجاوز الكمية الالكترونية للتكلفة",
-    "checkIn.history.confirmation.message": "هل أنت متأكد من أنك تريد حذف هذه القطع من سجل الرد؟ سوف تعود إلى حالة متوقع وسيتم ضبط أي مواد مرتبطة بها إلى في الطلب."
+    "checkIn.history.confirmation.message": "هل أنت متأكد من أنك تريد حذف هذه القطع من سجل الرد؟ سوف تعود إلى حالة متوقع وسيتم ضبط أي مواد مرتبطة بها إلى في الطلب.",
+    "line.accordion.other": "تفاصيل الموارد الأخرى",
+    "poLine.materialType": "نوع المادة"
 }

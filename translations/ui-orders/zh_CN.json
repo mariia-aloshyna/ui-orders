@@ -329,7 +329,6 @@
     "itemDetails.subscriptionFrom": "订阅来自",
     "itemDetails.subscriptionInterval": "订购间隔时间",
     "itemDetails.subscriptionTo": "订阅至",
-    "itemDetails.materialTypes": "资料类型",
     "itemDetails.addMaterialTypes": "请添加资料类型",
     "itemDetails.addMaterialTypesBtn": "添加资料类型",
     "itemDetails.productId": "产品ID",
@@ -624,5 +623,7 @@
     "errors.costQtyPhysicalExceedsLoc": "Cost's physical quantity exceeds locations' physical quantity",
     "errors.locQtyPhysicalExceedsCost": "Locations physical quantity exceeds cost physical quantity",
     "errors.locQtyElectronicExceedsCost": "Locations electronic quantity exceeds cost electronic quantity",
-    "checkIn.history.confirmation.message": "Are you sure you want to remove the piece(s) from Check-in history? They will return to a status of Expected and any associated item will be set as On-Order."
+    "checkIn.history.confirmation.message": "Are you sure you want to remove the piece(s) from Check-in history? They will return to a status of Expected and any associated item will be set as On-Order.",
+    "line.accordion.other": "Other Resource Details",
+    "poLine.materialType": "Material Type"
 }

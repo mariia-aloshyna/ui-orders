@@ -329,7 +329,6 @@
     "itemDetails.subscriptionFrom": "Assinatura de",
     "itemDetails.subscriptionInterval": "Intervalo de assinatura",
     "itemDetails.subscriptionTo": "Assinatura para",
-    "itemDetails.materialTypes": "Tipos de materiais",
     "itemDetails.addMaterialTypes": "Por favor, adicione tipos de material",
     "itemDetails.addMaterialTypesBtn": "Adicionar tipos de material",
     "itemDetails.productId": "ID do produto",
@@ -624,5 +623,7 @@
     "errors.costQtyPhysicalExceedsLoc": "A quantidade física do custo excede a quantidade física dos locais",
     "errors.locQtyPhysicalExceedsCost": "A quantidade física de locais excede a quantidade física de custo",
     "errors.locQtyElectronicExceedsCost": "A quantidade eletrônica dos locais excede a quantidade eletrônica de custo",
-    "checkIn.history.confirmation.message": "Tem certeza de que deseja remover a(s) peça(s) do histórico de recebimento? Eles retornarão ao status de esperado e qualquer item associado será definido como encomendado."
+    "checkIn.history.confirmation.message": "Tem certeza de que deseja remover a(s) peça(s) do histórico de recebimento? Eles retornarão ao status de esperado e qualquer item associado será definido como encomendado.",
+    "line.accordion.other": "Outros detalhes do recurso",
+    "poLine.materialType": "Tipo de material"
 }
