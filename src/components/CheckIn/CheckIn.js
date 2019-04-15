@@ -19,7 +19,7 @@ import { ORDER } from '../Utils/resources';
 import CheckInItemsWrapper from './CheckInItemsWrapper';
 import CheckInHistoryWrapper from './CheckInHistoryWrapper';
 import CheckInNavigation from './CheckInNavigation';
-import CHECKIN_URLS from './const';
+import { CHECKIN_URLS } from './const';
 
 class CheckIn extends Component {
   static manifest = Object.freeze({

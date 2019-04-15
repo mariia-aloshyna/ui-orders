@@ -6,6 +6,8 @@ import {
   getFormValues,
 } from 'redux-form';
 
+import { includes } from 'lodash';
+
 import {
   Button,
   Checkbox,
@@ -19,7 +21,10 @@ import {
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
 
+import { EMPTY_OPTION } from '../Utils/const';
+import { INVENTORY_RECORDS_TYPE } from '../POLine/const';
 import { Required } from '../Utils/Validate';
+import { ADD_PIECE_MODAL_FORM } from './const';
 import FieldPieceFormat from './FieldPieceFormat';
 
 const footer = (close, save, checkIn) => (
@@ -51,24 +56,51 @@ class AddPieceModal extends Component {
   static propTypes = {
     checkIn: PropTypes.func.isRequired,
     close: PropTypes.func.isRequired,
+    createInventoryValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     locations: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
     })),
     showPieceFormatField: PropTypes.bool,
-    store: PropTypes.object.isRequired,
+    stripes: PropTypes.object.isRequired,
   }
 
-  checkIn = () => this.props.checkIn(getFormValues('AddPieceModalForm')(this.props.store.getState()));
+  getValues = () => {
+    const { stripes: { store } } = this.props;
+
+    return getFormValues(ADD_PIECE_MODAL_FORM)(store.getState());
+  }
+
+  checkIn = () => this.props.checkIn(this.getValues());
 
   render() {
     const {
       close,
+      createInventoryValues,
       handleSubmit,
       locations = [],
       showPieceFormatField = false,
     } = this.props;
+    const { format, locationId } = this.getValues();
+    const isLocationRequired = includes(createInventoryValues[format], INVENTORY_RECORDS_TYPE.instanceAndHolding);
+    let isAddItemButtonDisabled = true;
+    let locationFieldProps = {
+      dataOptions: [EMPTY_OPTION, ...locations],
+    };
+
+    if (isLocationRequired) {
+      locationFieldProps = {
+        dataOptions: locations,
+        placeholder: ' ',
+        required: true,
+        validate: Required,
+      };
+    }
+
+    if (locationId && isLocationRequired) {
+      isAddItemButtonDisabled = false;
+    }
 
     return (
       <Modal
@@ -103,11 +135,10 @@ class AddPieceModal extends Component {
             <Col xs>
               <Field
                 component={Select}
-                dataOptions={locations}
                 fullWidth
                 label={<FormattedMessage id="ui-orders.checkIn.location" />}
                 name="locationId"
-                placeholder=" "
+                {...locationFieldProps}
               />
             </Col>
             <Col xs>
@@ -122,7 +153,10 @@ class AddPieceModal extends Component {
           </Row>
           <Row>
             <Col xs>
-              <Button onClick={close}>
+              <Button
+                data-test-add-item
+                disabled={isAddItemButtonDisabled}
+              >
                 <FormattedMessage id="ui-orders.checkIn.buttons.addItem" />
               </Button>
             </Col>
@@ -139,6 +173,6 @@ class AddPieceModal extends Component {
 }
 
 export default stripesForm({
-  form: 'AddPieceModalForm',
+  form: ADD_PIECE_MODAL_FORM,
   navigationCheck: true,
 })(AddPieceModal);

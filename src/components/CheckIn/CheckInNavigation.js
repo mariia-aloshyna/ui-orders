@@ -7,7 +7,7 @@ import {
   ButtonGroup,
 } from '@folio/stripes/components';
 
-import CHECKIN_URLS from './const';
+import { CHECKIN_URLS } from './const';
 
 const getButtonStyle = (pathname, pathEnding) => {
   return pathname.endsWith(pathEnding)

@@ -6,6 +6,7 @@ import { get } from 'lodash';
 
 import { Callout } from '@folio/stripes/components';
 
+import { ITEM_STATUS } from '../../common/constants';
 import {
   PIECE_STATUS_EXPECTED,
 } from '../Receiving/const';
@@ -18,10 +19,9 @@ import {
 } from '../Utils/resources';
 import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import { LIMIT_MAX } from '../Utils/const';
+import { CHECKIN_URLS } from './const';
 import CheckInItems from './CheckInItems';
 import { checkInItems } from './util';
-import CHECKIN_URLS from './const';
-import { ITEM_STATUS } from '../../common/constants';
 
 class CheckInItemsWrapper extends Component {
   static manifest = Object.freeze({
@@ -111,8 +111,8 @@ class CheckInItemsWrapper extends Component {
 
   render() {
     const { items } = this.state;
-    const { match: { params: { lineId } }, resources, stripes, location } = this.props;
-    const poLineOrderFormat = get(resources, 'LINE.records.0.orderFormat');
+    const { resources, stripes, location } = this.props;
+    const poLine = get(resources, 'LINE.records.0');
     const locations = getLocationsForSelect(resources);
 
     return (
@@ -121,10 +121,9 @@ class CheckInItemsWrapper extends Component {
           addPiece={this.addPiece}
           checkInItem={this.checkInItem}
           items={items}
-          lineId={lineId}
           location={location}
           locations={locations}
-          poLineOrderFormat={poLineOrderFormat}
+          poLine={poLine}
           stripes={stripes}
         />
         <Callout ref={this.callout} />
