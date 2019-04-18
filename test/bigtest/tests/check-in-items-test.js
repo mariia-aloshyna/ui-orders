@@ -24,12 +24,14 @@ describe('Check-in items', () => {
 
   let order = null;
   let line = null;
+  let location = null;
   const lineDetailsPage = new LineDetailsPage();
   const page = new CheckInItemsPage();
   const addPieceModal = new AddPieceModal();
   const checkInHistoryPage = new CheckInHistoryPage();
 
   beforeEach(async function () {
+    location = this.server.create('location');
     order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
     });
@@ -101,7 +103,7 @@ describe('Check-in items', () => {
       });
 
       it('Add Item button is disabled', () => {
-        expect(addPieceModal.addItemButton.isDisabled).to.be.true;
+        expect(addPieceModal.addItemButton.disabled).to.be.empty;
       });
 
       describe('click save button', () => {
@@ -122,11 +124,21 @@ describe('Check-in items', () => {
         });
 
         it('Add Item button is disabled', () => {
-          expect(addPieceModal.addItemButton.isDisabled).to.be.true;
+          expect(addPieceModal.addItemButton.disabled).to.be.empty;
         });
 
         it('Add Piece modal is displayed since Location is required and empty', () => {
           expect(addPieceModal.$root).to.exist;
+        });
+
+        describe('Select location', () => {
+          beforeEach(async function () {
+            await addPieceModal.location.select(`${location.name} (${location.code})`);
+          });
+
+          it('Add Item button is enabled', () => {
+            expect(addPieceModal.addItemButton.disabled).to.be.null;
+          });
         });
       });
 

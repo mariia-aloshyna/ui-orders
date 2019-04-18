@@ -3,6 +3,9 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { get } from 'lodash';
+import {
+  getFormValues,
+} from 'redux-form';
 
 import {
   Button,
@@ -21,6 +24,7 @@ import PiecesList from './PiecesList';
 import AddPieceModal from './AddPieceModal';
 import { PIECE_FORMAT } from './FieldPieceFormat';
 import withCheckboxes from './withCheckboxes';
+import { ADD_PIECE_MODAL_FORM } from './const';
 
 const ORDER_FORMAT_TO_PIECE_FORMAT = {
   [ERESOURCE]: PIECE_FORMAT.electronic,
@@ -94,8 +98,9 @@ class CheckInItems extends Component {
     addPiece(values);
   }
 
-  addPieceModalCheckIn = values => {
+  addPieceModalCheckIn = () => {
     const { checkInItem } = this.props;
+    const values = this.getAddPieceFormValues();
 
     this.addPieceModalClose();
     checkInItem(values);
@@ -108,6 +113,12 @@ class CheckInItems extends Component {
       'Physical': get(poLine, 'physical.createInventory'),
       'Electronic': get(poLine, 'eresource.createInventory'),
     };
+  }
+
+  getAddPieceFormValues = () => {
+    const { stripes: { store } } = this.props;
+
+    return getFormValues(ADD_PIECE_MODAL_FORM)(store.getState());
   }
 
   render() {
@@ -128,7 +139,7 @@ class CheckInItems extends Component {
       return null;
     }
 
-    const { orderFormat, id: poLineId } = poLine;
+    const { orderFormat, id: poLineId, instanceId } = poLine;
     const initialValuesPiece = {
       poLineId,
     };
@@ -143,6 +154,7 @@ class CheckInItems extends Component {
     }
 
     const isCheckInDisabled = !checkedItems.length;
+    const formValues = this.getAddPieceFormValues();
 
     return (
       <div data-test-check-in-items>
@@ -188,10 +200,12 @@ class CheckInItems extends Component {
             close={this.addPieceModalClose}
             createInventoryValues={this.getCreateInventoryValues()}
             initialValues={initialValuesPiece}
+            instanceId={instanceId}
             locations={locations}
             onSubmit={this.addPieceModalSave}
             showPieceFormatField={showPieceFormatField}
             stripes={stripes}
+            formValues={formValues}
           />
         )}
         {checkInDetailsModalOpened && (
