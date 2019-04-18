@@ -1,20 +1,10 @@
 import {
   interactor,
   is,
-  property,
   value,
 } from '@bigtest/interactor';
 
-@interactor class CancelButton {
-  static defaultScope = '[data-test-cancel-button]';
-  isButton = is('button');
-}
-
-@interactor class CheckInButton {
-  static defaultScope = '[data-test-check-in-button]';
-  isButton = is('button');
-  isDisabled = property('disabled');
-}
+import Button from './button';
 
 @interactor class CheckBox {
   static defaultScope = '[class*=checkboxInput---]';
@@ -29,7 +19,7 @@ import {
 export default interactor(class CheckInDetailsModal {
   static defaultScope = '#data-test-check-in-details-modal';
   checkbox = new CheckBox();
-  checkInButton = new CheckInButton();
-  cancelButton = new CancelButton();
+  checkInButton = new Button('[data-test-check-in-button]');
+  cancelButton = new Button('[data-test-cancel-button]');
   barcodeInput = new BarcodeInput();
 });

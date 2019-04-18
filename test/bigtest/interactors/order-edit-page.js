@@ -1,17 +1,30 @@
 import {
+  collection,
   interactor,
-  text,
   isPresent,
+  text,
   value,
 } from '@bigtest/interactor';
+
+import Button from './button';
 
 @interactor class SuffixSelect {
   static defaultScope = 'select[name="numberSuffix"]';
   value = value();
 }
 
+@interactor class OrderTypeSelect {
+  static defaultScope = 'select[name="orderType"]';
+  value = value();
+}
+
+@interactor class VendorInput {
+  static defaultScope = 'input[name="vendorName"]';
+  value = value();
+}
+
 export default interactor(class OrderEditPage {
-  static defaultScope = '[data-test-form-page]';
+  static defaultScope = '#form-po';
   isLoaded = isPresent('[class*=paneTitleLabel---]');
 
   whenLoaded() {
@@ -20,4 +33,11 @@ export default interactor(class OrderEditPage {
 
   title = text('[class*=paneTitleLabel---]');
   suffixSelect = new SuffixSelect();
+  renewalsAccordion = isPresent('#renewals');
+  orderTypeSelect = new OrderTypeSelect();
+  createOrderButton = new Button('#clickable-create-new-purchase-order');
+  vendorInput = new VendorInput();
+  addNoteButton = new Button('[data-test-add-note-button]');
+  removeNoteButton = new Button('[data-test-remove-note-button]');
+  notes = collection('[name*=notes]');
 });

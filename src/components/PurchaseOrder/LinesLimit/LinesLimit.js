@@ -33,8 +33,9 @@ const LinesLimit = ({ cancel, createOrder }) => (
         xs={12}
       >
         <Button
-          onClick={cancel}
           buttonStyle="primary"
+          data-test-ok-button
+          onClick={cancel}
         >
           <FormattedMessage id="ui-orders.linesLimit.okBtn" />
         </Button>

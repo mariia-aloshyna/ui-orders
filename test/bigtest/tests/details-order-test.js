@@ -17,24 +17,32 @@ import LineEditPage from '../interactors/line-edit-page';
 import OpenOrderConfirmationModal from '../interactors/PurchaseOrder/open-order-confirmation-modal';
 import OpenOrderErrorModal from '../interactors/PurchaseOrder/open-order-error-modal';
 import { ERROR_CODES } from '../../../src/components/Utils/order';
-// import LinesLimitModal from '../interactors/lines-limit-modal';
+import LinesLimitModal from '../interactors/lines-limit-modal';
+import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
 
 describe('OrderDetailsPage', () => {
   setupApplication();
   const lineEditPage = new LineEditPage();
   const orderDetailsPage = new OrderDetailsPage();
   const orderEditPage = new OrderEditPage();
-  // const linesLimitModal = new LinesLimitModal();
+  const linesLimitModal = new LinesLimitModal();
   let order = null;
 
   beforeEach(function () {
-    order = this.server.create('order', { workflowStatus: WORKFLOW_STATUS.pending });
+    order = this.server.create('order', {
+      workflowStatus: WORKFLOW_STATUS.pending,
+      orderType: ORDER_TYPE.ongoing,
+    });
 
     this.visit(`/orders/view/${order.id}`);
   });
 
   it('displays the order number in the pane header', () => {
     expect(orderDetailsPage.title).to.include(order.poNumber);
+  });
+
+  it('displays Renewals accordion', () => {
+    expect(orderDetailsPage.renewalsAccordion).to.be.true;
   });
 
   it('displays the Add Line button enabled', () => {
@@ -86,24 +94,57 @@ describe('OrderDetailsPage', () => {
     });
 
     it('should redirect to add line page', () => {
-      // expect(linesLimitModal.$root).to.exist;
-      // linesLimitModal.createOrder();
-
-      // should be fixed with new order creation test (POST)
       expect(lineEditPage.$root).to.exist;
+    });
+  });
+
+  describe('clicking on add Line to open LinesLimit Modal', () => {
+    let line = null;
+
+    beforeEach(async function () {
+      line = this.server.create('line', {
+        order,
+        orderFormat: PHYSICAL,
+        cost: {
+          quantityPhysical: 2,
+        },
+      });
+
+      this.server.get(`${ORDERS_API}/${order.id}`, {
+        ...order.attrs,
+        compositePoLines: [line.attrs],
+      });
+
+      this.visit(`/orders/view/${order.id}`);
+      await orderDetailsPage.addLineButton.click();
+    });
+
+    it('displays LineLimit Modal', () => {
+      expect(linesLimitModal.$root).to.exist;
+    });
+
+    describe('Click on Create new PO button', () => {
+      beforeEach(async function () {
+        await linesLimitModal.createOrder();
+      });
+
+      it('displays PO Line edit page', () => {
+        expect(lineEditPage.$root).to.exist;
+      });
     });
   });
 
   describe('Open order action', () => {
     describe('button for pending order with at least one POL', () => {
       const openOrderConfirmationModal = new OpenOrderConfirmationModal();
+      let line = null;
 
       beforeEach(async function () {
         const pendingOrder = await this.server.create('order', {
           workflowStatus: WORKFLOW_STATUS.pending,
         });
 
-        const line = await this.server.create('line', {
+        line = await this.server.create('line', {
           order: pendingOrder,
           orderFormat: PHYSICAL,
           cost: {

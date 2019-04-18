@@ -360,6 +360,7 @@ class PO extends Component {
               <Button
                 buttonStyle="primary"
                 className={css.button}
+                data-test-close-order-button
                 onClick={this.mountCloseOrderModal}
               >
                 <FormattedMessage id="ui-orders.paneBlock.closeBtn" />

@@ -1,21 +1,10 @@
 import {
   collection,
   interactor,
-  is,
-  property,
   text,
 } from '@bigtest/interactor';
 
-@interactor class ReceivePiecesButton {
-  static defaultScope = '[data-test-receive-pieces-button]';
-  isButton = is('button');
-  isDisabled = property('disabled');
-}
-
-@interactor class CloseButton {
-  static defaultScope = '[data-test-close-button]';
-  isButton = is('button');
-}
+import Button from './button';
 
 @interactor class CheckBox {
   static defaultScope = '[class*=checkboxInput---]';
@@ -24,8 +13,9 @@ import {
 export default interactor(class ReceivingPage {
   static defaultScope = '[data-test-receiving]';
   textOnPage = text('Receivings List');
-  receivePiecesButton = new ReceivePiecesButton();
-  closeButton = new CloseButton();
+  receivePiecesButton = new Button('[data-test-receive-pieces-button]');
+  closeButton = new Button('[data-test-close-button]');
   receivingList = collection('[class*=mclRow---]');
   checkbox = new CheckBox();
+  receivingHistoryButton = new Button('[data-test-receiving-history-button]');
 });

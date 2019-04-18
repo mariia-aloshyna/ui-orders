@@ -1,9 +1,10 @@
 import {
   interactor,
   is,
-  property,
   value,
 } from '@bigtest/interactor';
+
+import Button from './button';
 
 @interactor class SupplementInput {
   static defaultScope = '[name="supplement"]';
@@ -15,11 +16,6 @@ import {
   static defaultScope = '[name="caption"]';
   isInput = is('input');
   value = value();
-}
-
-@interactor class Button {
-  isButton = is('button');
-  isDisabled = property('disabled');
 }
 
 @interactor class LocationSelect {

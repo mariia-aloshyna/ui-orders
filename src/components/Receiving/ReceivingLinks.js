@@ -51,6 +51,7 @@ class ReceivingLinks extends Component {
       <ButtonGroup>
         <Button
           buttonStyle={this.getButtonStyle(RECEIVING_ITEMS)}
+          data-test-receiving-items-button
           marginBottom0
           onClick={this.goToItems}
         >
@@ -58,6 +59,7 @@ class ReceivingLinks extends Component {
         </Button>
         <Button
           buttonStyle={this.getButtonStyle(RECEIVING_HISTORY)}
+          data-test-receiving-history-button
           marginBottom0
           onClick={this.goToHistory}
         >

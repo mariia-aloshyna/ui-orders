@@ -44,7 +44,10 @@ class VolumesForm extends Component {
           {fields.map(this.renderSubForm)}
         </Col>
         <Col xs={12} style={{ paddingTop: '10px' }}>
-          <Button onClick={() => this.addFields(fields)}>
+          <Button
+            data-test-add-volume-button
+            onClick={() => this.addFields(fields)}
+          >
             <FormattedMessage id="ui-orders.physical.addVolumeBtn" />
           </Button>
         </Col>
@@ -66,6 +69,7 @@ class VolumesForm extends Component {
         <Col xs={2} style={{ paddingTop: '4px' }}>
           <br />
           <Button
+            data-test-remove-volume-button
             onClick={() => this.removeFields(fields, index)}
             buttonStyle="danger"
           >

@@ -44,7 +44,10 @@ class ContributorForm extends Component {
           {fields.map(this.renderSubForm)}
         </Col>
         <Col xs={12} style={{ paddingTop: '10px' }}>
-          <Button onClick={() => this.addFields(fields)}>
+          <Button
+            data-test-add-contributor-button
+            onClick={() => this.addFields(fields)}
+          >
             <FormattedMessage id="ui-orders.itemDetails.addContributorBtn" />
           </Button>
         </Col>
@@ -66,8 +69,9 @@ class ContributorForm extends Component {
         <Col xs={2} style={{ paddingTop: '4px' }}>
           <br />
           <Button
-            onClick={() => this.removeFields(fields, index)}
             buttonStyle="danger"
+            data-test-remove-contributor-button
+            onClick={() => this.removeFields(fields, index)}
           >
             {<FormattedMessage id="ui-orders.itemDetails.removeBtn" />}
           </Button>

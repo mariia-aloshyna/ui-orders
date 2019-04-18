@@ -49,6 +49,7 @@ class CloseOrderModal extends Component {
 
     return (
       <Modal
+        data-test-close-order-modal
         label={<FormattedMessage id="ui-orders.closeOrderModal.title" values={{ orderNumber }} />}
         open
       >
@@ -57,6 +58,7 @@ class CloseOrderModal extends Component {
             <Select
               autoFocus
               label={<FormattedMessage id="ui-orders.closeOrderModal.reason" />}
+              data-test-closing-reasons
               dataOptions={reasons}
               onChange={this.reasonChanged}
               placeholder=" "
@@ -84,12 +86,16 @@ class CloseOrderModal extends Component {
           >
             <Button
               buttonStyle="primary"
+              data-test-close-order-modal-submit
               disabled={!this.state.reason}
               onClick={() => closeOrder(this.state.reason, this.state.note)}
             >
               <FormattedMessage id="ui-orders.closeOrderModal.submit" />
             </Button>
-            <Button onClick={cancel}>
+            <Button
+              data-test-close-order-modal-cancel
+              onClick={cancel}
+            >
               <FormattedMessage id="ui-orders.closeOrderModal.cancel" />
             </Button>
           </Col>

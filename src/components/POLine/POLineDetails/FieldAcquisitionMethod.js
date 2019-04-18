@@ -5,7 +5,7 @@ import { Field } from 'redux-form';
 import { Select } from '@folio/stripes/components';
 import { Required } from '../../Utils/Validate';
 
-const ACQUISITION_METHOD = {
+export const ACQUISITION_METHOD = {
   approvalPlan: 'Approval Plan',
   dda: 'Demand Driven Acquisitions (DDA)',
   depository: 'Depository',
