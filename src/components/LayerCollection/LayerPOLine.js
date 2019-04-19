@@ -23,8 +23,8 @@ import {
 } from '../Utils/mutators';
 import { ORDER } from '../Utils/resources';
 import { POLineForm } from '../POLine';
-import { CURRENCY } from '../POLine/Cost/FieldCurrency';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
+import { DEFAULT_CURRENCY } from '../POLine/Cost/FieldCurrency';
 
 const ERROR_CODES = {
   accessProviderIsInactive: 'accessProviderIsInactive',
@@ -183,10 +183,9 @@ class LayerPOLine extends Component {
     });
   };
 
-  getCreatePOLIneInitialValues = (order) => {
+  getCreatePOLIneInitialValues = (order, vendor) => {
     const { parentResources } = this.props;
-    const { id: orderId, vendor: vendorId } = order;
-    const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === vendorId);
+    const { id: orderId } = order;
     const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
 
     const newObj = {
@@ -194,10 +193,14 @@ class LayerPOLine extends Component {
         code: SOURCE_FOLIO_CODE,
       },
       cost: {
-        currency: CURRENCY.usd,
+        currency: get(vendor, 'vendor_currencies[0]', DEFAULT_CURRENCY),
       },
       vendorDetail: {
         instructions: '',
+        vendorAccount: get(vendor, 'accounts[0].account_no', ''),
+      },
+      details: {
+        subscriptionInterval: get(vendor, 'subscription_interval'),
       },
       purchaseOrderId: orderId,
       eresource: {
@@ -233,6 +236,8 @@ class LayerPOLine extends Component {
     } = this.props;
     const { layer } = location.search ? queryString.parse(location.search) : {};
     const order = this.getOrder();
+    const { vendor: vendorId } = order || {};
+    const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === vendorId);
 
     if (!order) {
       return null;
@@ -244,10 +249,11 @@ class LayerPOLine extends Component {
         >
           <this.connectedPOLineForm
             connectedSource={connectedSource}
-            initialValues={this.getCreatePOLIneInitialValues(order)}
+            initialValues={this.getCreatePOLIneInitialValues(order, vendor)}
             onCancel={onCancel}
             onSubmit={this.submitPOLine}
             order={order}
+            vendor={vendor}
             parentMutator={parentMutator}
             parentResources={parentResources}
             stripes={stripes}
@@ -274,6 +280,7 @@ class LayerPOLine extends Component {
             onCancel={onCancel}
             onSubmit={this.updatePOLine}
             order={order}
+            vendor={vendor}
             parentMutator={parentMutator}
             parentResources={parentResources}
             stripes={stripes}

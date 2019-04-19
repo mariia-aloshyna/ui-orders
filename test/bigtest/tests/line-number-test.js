@@ -16,11 +16,14 @@ describe('Line number generation', () => {
   const lineEditPage = new LineEditPage();
   let order = null;
   let line = null;
+  let vendor = null;
 
   beforeEach(async function () {
+    vendor = this.server.create('vendor');
     order = await this.server.create('order', {
       poNumber: ORDER_NUMBER,
       workflowStatus: WORKFLOW_STATUS.pending,
+      vendor: vendor.id,
     });
 
     line = await this.server.create('line', {

@@ -11,7 +11,7 @@ import {
 class VendorView extends Component {
   static propTypes = {
     vendorDetail: PropTypes.object,
-  }
+  };
 
   render() {
     const { vendorDetail } = this.props;
@@ -38,7 +38,7 @@ class VendorView extends Component {
         </Col>
         <Col xs={6}>
           <KeyValue
-            label={<FormattedMessage id="ui-orders.vendor.vendorAccount" />}
+            label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
             value={get(vendorDetail, 'vendorAccount')}
           />
           <KeyValue
