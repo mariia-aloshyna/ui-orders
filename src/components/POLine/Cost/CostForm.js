@@ -59,7 +59,8 @@ class CostForm extends Component {
     formValues: PropTypes.object,
     dispatch: PropTypes.func,
     change: PropTypes.func,
-  }
+    currencies: PropTypes.arrayOf(PropTypes.string),
+  };
 
   normalizeDiscount = (value, previousValue, allValues, previousAllValues) => {
     if (!value) {
@@ -83,6 +84,7 @@ class CostForm extends Component {
   render() {
     const formValues = this.props.formValues;
     const orderFormat = formValues.orderFormat;
+    const { currencies } = this.props;
     let validateEresourcesPrices = ATTRS_TO_DISABLE_FIELD;
     let validateEresourcesQuantities = ATTRS_TO_DISABLE_FIELD;
     let validatePhresourcesPrices = ATTRS_TO_DISABLE_FIELD;
@@ -117,7 +119,9 @@ class CostForm extends Component {
           />
         </Col>
         <Col xs={6}>
-          <FieldCurrency />
+          <FieldCurrency
+            currencies={currencies}
+          />
         </Col>
         <Col xs={6}>
           <Field

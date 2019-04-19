@@ -26,10 +26,11 @@ describe('OrderDetailsPage', () => {
   const orderEditPage = new OrderEditPage();
   // const linesLimitModal = new LinesLimitModal();
   let order = null;
+  let vendor = null;
 
   beforeEach(function () {
-    order = this.server.create('order', { workflowStatus: WORKFLOW_STATUS.pending });
-
+    vendor = this.server.create('vendor');
+    order = this.server.create('order', { workflowStatus: WORKFLOW_STATUS.pending, vendor: vendor.id });
     this.visit(`/orders/view/${order.id}`);
   });
 

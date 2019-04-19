@@ -62,7 +62,8 @@ class POLineForm extends Component {
     deletePOLine: PropTypes.func,
     change: PropTypes.func,
     dispatch: PropTypes.func,
-  }
+    vendor: PropTypes.object,
+  };
 
   constructor(props) {
     super(props);
@@ -118,7 +119,7 @@ class POLineForm extends Component {
         </FormattedMessage>
       </PaneMenu>
     );
-  }
+  };
 
   getLastMenu = (id, label) => {
     const { pristine, submitting, handleSubmit } = this.props;
@@ -138,7 +139,7 @@ class POLineForm extends Component {
         </IfPermission>
       </PaneMenu>
     );
-  }
+  };
 
   onToggleSection = ({ id }) => {
     this.setState(({ sections }) => {
@@ -151,11 +152,11 @@ class POLineForm extends Component {
         },
       };
     });
-  }
+  };
 
   handleExpandAll = (sections) => {
     this.setState({ sections });
-  }
+  };
 
   render() {
     const {
@@ -167,6 +168,7 @@ class POLineForm extends Component {
       order,
       parentResources,
       stripes: { store },
+      vendor = {},
     } = this.props;
     const lineId = get(initialValues, 'id');
     const lineNumber = get(initialValues, 'poLineNumber', '');
@@ -207,6 +209,10 @@ class POLineForm extends Component {
     const vendors = getVendorsForSelect(parentResources);
     const funds = getFundsForSelect(parentResources);
     const materialTypes = getMaterialTypesForSelect(parentResources);
+    const {
+      accounts,
+      vendor_currencies: vendorCurrencies,
+    } = vendor;
 
     return (
       <Pane
@@ -251,13 +257,16 @@ class POLineForm extends Component {
                         change={change}
                         dispatch={dispatch}
                         formValues={formValues}
+                        currencies={vendorCurrencies}
                       />
                     </Accordion>
                     <Accordion
                       label={<FormattedMessage id="ui-orders.line.accordion.vendor" />}
                       id={ACCORDION_ID.vendor}
                     >
-                      <VendorForm {...this.props} />
+                      <VendorForm
+                        accounts={accounts}
+                      />
                     </Accordion>
                     <Accordion
                       label={<FormattedMessage id="ui-orders.line.accordion.fund" />}

@@ -158,4 +158,7 @@ export default interactor(class LineEditPage {
   otherAccordion = new OtherAccordion();
   orderFormat = new OrderFormat();
   physicalCreateInventory = new PhysicalCreateInventory();
+  accountNumber = value('[name="vendorDetail.vendorAccount"]');
+  currency = value('[name="cost.currency"]');
+  subscriptionInterval = value('[name="details.subscriptionInterval"]');
 });
