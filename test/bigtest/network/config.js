@@ -36,16 +36,13 @@ export default function config() {
   });
 
   this.put(`${ORDERS_API}/:id`, (schema, request) => {
+    const id = request.params.id;
     const attrs = JSON.parse(request.requestBody);
 
-    return schema.orders.create(attrs);
+    return schema.orders.find(id).update(attrs);
   });
 
-  this.post(ORDERS_API, (schema, request) => {
-    const attrs = JSON.parse(request.requestBody);
-
-    return schema.orders.create(attrs);
-  });
+  this.post(ORDERS_API, 'order');
 
   this.get(VENDORS_API, (schema) => {
     return schema.vendors.all();
@@ -69,11 +66,7 @@ export default function config() {
     return schema.lines.find(request.params.id).attrs;
   });
 
-  this.put(`${LINES_API}/:id`, (schema, request) => {
-    const attrs = JSON.parse(request.requestBody);
-
-    return schema.lines.create(attrs);
-  });
+  this.put(`${LINES_API}/:id`, 'line');
 
   this.get(VENDORS_API, (schema) => {
     return schema.vendors.all();

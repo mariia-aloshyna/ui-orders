@@ -24,7 +24,7 @@ describe('Close Order Modal', () => {
   });
 
   it('displays Close Order button', () => {
-    expect(page.closeOrderButton.isButton).to.equal(true);
+    expect(page.closeOrderButton.isButton).to.be.true;
     expect(page.closeReasonBlock).to.be.false;
   });
 
@@ -47,8 +47,8 @@ describe('Close Order Modal', () => {
         await modal.submitButton.click();
       });
 
-      it('Close Order Modal is closed und workflow status is updated', () => {
-        expect(page.$root).to.exist;
+      it('Close Order Modal is closed and workflow status is updated', () => {
+        expect(modal.isPresent).to.be.false;
         expect(page.closeReasonBlock).to.be.true;
       });
     });
