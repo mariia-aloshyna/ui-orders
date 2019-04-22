@@ -10,7 +10,7 @@ import {
   OTHER,
   PHYSICAL,
 } from '../../../src/components/POLine/const';
-import { CURRENCY } from '../../../src/components/POLine/Cost/FieldCurrency';
+import { DEFAULT_CURRENCY } from '../../../src/components/POLine/Cost/FieldCurrency';
 import { ACQUISITION_METHOD } from '../../../src/components/POLine/POLineDetails/FieldAcquisitionMethod';
 import {
   ORDERS_API,
@@ -26,7 +26,7 @@ const validationYearMessage = 'Field should be 4-digit year';
 const LIST_UNIT_PRICE = 1.1;
 const QUANTITY_PHYSICAL = 2;
 const cost = {
-  currency: CURRENCY.usd,
+  currency: DEFAULT_CURRENCY,
   listUnitPrice: LIST_UNIT_PRICE,
   quantityPhysical: QUANTITY_PHYSICAL,
 };

@@ -1,4 +1,5 @@
 import {
+  attribute,
   interactor,
   is,
   property,
@@ -7,4 +8,5 @@ import {
 export default interactor(class Button {
   isButton = is('button');
   isDisabled = property('disabled');
+  disabled = attribute('disabled');
 });
