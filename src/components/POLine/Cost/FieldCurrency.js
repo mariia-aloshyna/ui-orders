@@ -1,35 +1,36 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 import { Select } from '@folio/stripes/components';
-import { Required } from '../../Utils/Validate';
+import { required } from '../../Utils/Validate';
 
-export const CURRENCY = {
-  usd: 'USD',
+export const DEFAULT_CURRENCY = 'USD';
+
+const DEFAULT_CURRENCY_OPTIONS = [{ label: DEFAULT_CURRENCY, value: DEFAULT_CURRENCY }];
+
+const FieldCurrency = ({ currencies = [] }) => {
+  const currenciesOptions = currencies.length
+    ? currencies.map(v => ({ label: v, value: v }))
+    : DEFAULT_CURRENCY_OPTIONS;
+
+  return (
+    <Field
+      component={Select}
+      dataOptions={currenciesOptions}
+      placeholder=" "
+      fullWidth
+      label={<FormattedMessage id="ui-orders.cost.currency" />}
+      name="cost.currency"
+      required
+      validate={[required]}
+    />
+  );
 };
 
-const FieldCurrency = () => (
-  <Field
-    component={Select}
-    fullWidth
-    label={<FormattedMessage id="ui-orders.cost.currency" />}
-    name="cost.currency"
-    required
-    validate={[Required]}
-  >
-    <FormattedMessage id="ui-orders.dropdown.select">
-      {(message) => <option value="">{message}</option>}
-    </FormattedMessage>
-    {Object.keys(CURRENCY).map((key) => (
-      <FormattedMessage
-        id={`ui-orders.cost.currency.${key}`}
-        key={key}
-      >
-        {(message) => <option value={CURRENCY[key]}>{message}</option>}
-      </FormattedMessage>
-    ))}
-  </Field>
-);
+FieldCurrency.propTypes = {
+  currencies: PropTypes.arrayOf(PropTypes.string),
+};
 
 FieldCurrency.displayName = 'FieldCurrency';
 

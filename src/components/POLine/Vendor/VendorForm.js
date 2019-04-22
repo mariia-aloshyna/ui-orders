@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 import {
@@ -6,12 +7,22 @@ import {
   Row,
   TextArea,
   TextField,
+  Select,
 } from '@folio/stripes/components';
 import { requiredRefNumberType } from '../../Utils/Validate';
 import FieldRefNumberType from './FieldRefNumberType';
+import { EMPTY_OPTION } from '../../Utils/const';
 
 class VendorForm extends Component {
   render() {
+    const { accounts = [] } = this.props;
+    const accountsDataOptions =
+      accounts.map(({ account_no: accountNo }) => (
+        {
+          label: accountNo,
+          value: accountNo,
+        }));
+
     return (
       <Row>
         <Col xs={6}>
@@ -37,9 +48,10 @@ class VendorForm extends Component {
         </Col>
         <Col xs={6}>
           <Field
-            component={TextField}
+            component={Select}
+            dataOptions={[EMPTY_OPTION, ...accountsDataOptions]}
             fullWidth
-            label={<FormattedMessage id="ui-orders.vendor.vendorAccount" />}
+            label={<FormattedMessage id="ui-orders.vendor.accountNumber" />}
             name="vendorDetail.vendorAccount"
           />
           <Field
@@ -53,5 +65,9 @@ class VendorForm extends Component {
     );
   }
 }
+
+VendorForm.propTypes = {
+  accounts: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default VendorForm;

@@ -17,12 +17,20 @@ describe('Create POL', () => {
   let vendor = null;
   let order = null;
   const lineEditPage = new LineEditPage();
+  const ACCOUNTS = [{
+    account_no: 'TEST_ACCOUNT',
+  }];
+  const CURRENCIES = ['GBR', 'USD'];
+  const SUBSCRIPTION_INTERVAL = '10';
 
-  beforeEach(async function () {
-    vendor = await this.server.create('vendor', {
+  beforeEach(function () {
+    vendor = this.server.create('vendor', {
       discount_percent: 5,
+      accounts: ACCOUNTS,
+      vendor_currencies: CURRENCIES,
+      subscription_interval: SUBSCRIPTION_INTERVAL,
     });
-    order = await this.server.create('order', {
+    order = this.server.create('order', {
       vendor: vendor.id,
     });
 
@@ -60,6 +68,50 @@ describe('Create POL', () => {
 
     it('should display Access Provider field', () => {
       expect(lineEditPage.electronicDetailsAccordion.accessProviderPresent).to.be.true;
+    });
+  });
+
+  describe('Default POL fields value from vendor', () => {
+    describe('Non empty vendor\'s fields', () => {
+      it('Account number', () => {
+        expect(lineEditPage.accountNumber).to.equal(ACCOUNTS[0].account_no);
+      });
+
+      it('Currency', () => {
+        expect(lineEditPage.currency).to.equal(CURRENCIES[0]);
+      });
+
+      it('Subscription Interval', () => {
+        expect(lineEditPage.subscriptionInterval).to.equal(SUBSCRIPTION_INTERVAL);
+      });
+    });
+
+    describe('Empty vendor\'s fields', () => {
+      beforeEach(function () {
+        vendor = this.server.create('vendor', {
+          discount_percent: 5,
+        });
+        order = this.server.create('order', {
+          vendor: vendor.id,
+        });
+
+        this.server.get(`${ORDERS_API}/${order.id}`, {
+          ...order.attrs,
+        });
+
+        this.visit(`/orders/view/${order.id}?layer=create-po-line&sort=id`);
+      });
+      it('Account number', () => {
+        expect(lineEditPage.accountNumber).to.equal('');
+      });
+
+      it('Currency', () => {
+        expect(lineEditPage.currency).to.equal(CURRENCIES[1]);
+      });
+
+      it('Subscription Interval', () => {
+        expect(lineEditPage.subscriptionInterval).to.equal('');
+      });
     });
   });
 });

@@ -38,13 +38,17 @@ describe('Line edit test', () => {
   let line = null;
   let location = null;
   let locations = null;
+  let vendor = null;
   const lineEditPage = new LineEditPage();
   const lineDetailsPage = new LineDetailsPage();
 
-  beforeEach(async function () {
-    order = await this.server.create('order');
-    location = await this.server.create('location');
-    line = await this.server.create('line', {
+  beforeEach(function () {
+    vendor = this.server.create('vendor');
+    order = this.server.create('order', {
+      vendor: vendor.id,
+    });
+    location = this.server.create('location');
+    line = this.server.create('line', {
       order,
       orderFormat: PHYSICAL,
       cost,

@@ -159,4 +159,7 @@ export default interactor(class LineEditPage {
   removeVolumeButton = new Button('[data-test-remove-volume-button]');
   addContributorButton = new Button('[data-test-add-contributor-button]');
   removeContributorButton = new Button('[data-test-remove-contributor-button]');
+  accountNumber = value('[name="vendorDetail.vendorAccount"]');
+  currency = value('[name="cost.currency"]');
+  subscriptionInterval = value('[name="details.subscriptionInterval"]');
 });

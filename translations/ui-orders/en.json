@@ -355,6 +355,7 @@
   "errors.electronicLocCostQtyMismatch": "PO Line electronic quantity and Locations electronic quantity do not match",
   "errors.materialTypeRequired": "The Material Type is required but not available in PO line",
   "errors.noCreatedOrder": "Purchase Order has not been created",
+  "errors.noCreateItemPlugin": "[no inventory create-item plugin]",
   "errors.noMatch.how": "How did you get to {location}?",
   "errors.noMatch.oops": "Uh-oh!",
   "errors.nonZeroCostQtyElectronic": "Electronic cost quantity must not be specified",
@@ -622,7 +623,7 @@
   "vendor.refNumberType.suppliersUnique": "Supplier's unique order line reference number",
   "vendor.refNumberType": "Vendor Ref Type",
   "vendor.vendor_status": "Status",
-  "vendor.vendorAccount": "Vendor Account",
+  "vendor.accountNumber": "Account number",
   "workflowStatus.closed": "Closed",
   "workflowStatus.open": "Open",
   "workflowStatus.pending": "Pending"
