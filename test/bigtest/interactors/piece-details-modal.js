@@ -2,32 +2,10 @@ import {
   collection,
   interactor,
   is,
-  property,
   value,
 } from '@bigtest/interactor';
 
-@interactor class CancelButton {
-  static defaultScope = '[data-test-cancel-button]';
-  isButton = is('button');
-}
-
-@interactor class NextButton {
-  static defaultScope = '[data-test-next-button]';
-  isButton = is('button');
-  isDisabled = property('disabled');
-}
-
-@interactor class PreviousButton {
-  static defaultScope = '[data-test-previous-button]';
-  isButton = is('button');
-  isDisabled = property('disabled');
-}
-
-@interactor class ReceiveButton {
-  static defaultScope = '[data-test-receive-button]';
-  isButton = is('button');
-  isDisabled = property('disabled');
-}
+import Button from './button';
 
 @interactor class CheckBox {
   static defaultScope = '[class*=checkboxInput---]';
@@ -46,9 +24,9 @@ export default interactor(class PieceDetailsModal {
   });
 
   checkbox = new CheckBox();
-  nextButton = new NextButton();
-  previousButton = new PreviousButton();
-  receiveButton = new ReceiveButton();
-  cancelButton = new CancelButton();
+  nextButton = new Button('[data-test-next-button]');
+  previousButton = new Button('[data-test-previous-button]');
+  receiveButton = new Button('[data-test-receive-button]');
+  cancelButton = new Button('[data-test-cancel-button]');
   barcodeInput = new BarcodeInput();
 });

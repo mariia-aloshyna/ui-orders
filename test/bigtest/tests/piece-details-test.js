@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import PieceDetailsModal from '../interactors/piece-details-modal';
 import ReceivingPage from '../interactors/receiving-page';
+import ReceivingHistoryPage from '../interactors/receiving-history-page';
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 import { PIECE_STATUS_EXPECTED } from '../../../src/components/Receiving/const';
@@ -20,6 +21,7 @@ describe('Piece Details Modal', () => {
   let line = null;
   const modal = new PieceDetailsModal();
   const receivingPage = new ReceivingPage();
+  const receivingHistoryPage = new ReceivingHistoryPage();
 
   beforeEach(async function () {
     order = this.server.create('order', {
@@ -161,6 +163,16 @@ describe('Piece Details Modal', () => {
 
       it('displays enabled Previous Button', () => {
         expect(modal.previousButton.isDisabled).to.be.false;
+      });
+
+      describe('Click on Receive button', () => {
+        beforeEach(async () => {
+          await modal.receiveButton.click();
+        });
+
+        it('displays Receiving History page', () => {
+          expect(receivingHistoryPage.$root).to.exist;
+        });
       });
 
       describe('Uncheck all pieces', () => {

@@ -4,10 +4,10 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import OrdersInteractor from '../interactors/orders';
 import OrderEditPage from '../interactors/order-edit-page';
+import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
 
 describe('Create order', () => {
   setupApplication();
-
   const orders = new OrdersInteractor();
   const form = new OrderEditPage();
 
@@ -33,6 +33,10 @@ describe('Create order', () => {
     expect(form.suffixSelect.value).to.be.equal('');
   });
 
+  it('has create order button', () => {
+    expect(form.createOrderButton.isPresent).to.be.true;
+  });
+
   describe('suffix could be selected', () => {
     beforeEach(async () => {
       await form.suffixSelect.select('SS');
@@ -51,6 +55,20 @@ describe('Create order', () => {
 
     it('suffix is changed back to blank', () => {
       expect(form.suffixSelect.value).to.be.equal('');
+    });
+  });
+
+  describe('Create new order', () => {
+    beforeEach(async () => {
+      await form.orderTypeSelect.select(ORDER_TYPE.oneTime);
+      await form.vendorInput.fill('EBSCO');
+      await form.createOrderButton.click();
+    });
+
+    it('displays list of orders, new order is created ', () => {
+      expect(orders.$root).to.exist;
+      expect(form.isPresent).to.be.false;
+      expect(orders.orders().length).to.be.equal(1);
     });
   });
 });

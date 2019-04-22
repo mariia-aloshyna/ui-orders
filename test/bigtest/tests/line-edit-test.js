@@ -10,18 +10,23 @@ import {
   OTHER,
   PHYSICAL,
 } from '../../../src/components/POLine/const';
+import { DEFAULT_CURRENCY } from '../../../src/components/POLine/Cost/FieldCurrency';
+import { ACQUISITION_METHOD } from '../../../src/components/POLine/POLineDetails/FieldAcquisitionMethod';
 import {
   ORDERS_API,
 } from '../../../src/components/Utils/api';
 import calculateEstimatedPrice from '../../../src/components/POLine/calculateEstimatedPrice';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
+import LineDetailsPage from '../interactors/line-details-page';
 
+const TITLE = 'TEST_VALUE';
 const requiredField = 'Required!';
 const validationYearMessage = 'Field should be 4-digit year';
 const LIST_UNIT_PRICE = 1.1;
 const QUANTITY_PHYSICAL = 2;
 const cost = {
+  currency: DEFAULT_CURRENCY,
   listUnitPrice: LIST_UNIT_PRICE,
   quantityPhysical: QUANTITY_PHYSICAL,
 };
@@ -35,6 +40,7 @@ describe('Line edit test', () => {
   let locations = null;
   let vendor = null;
   const lineEditPage = new LineEditPage();
+  const lineDetailsPage = new LineDetailsPage();
 
   beforeEach(function () {
     vendor = this.server.create('vendor');
@@ -160,6 +166,48 @@ describe('Line edit test', () => {
     });
   });
 
+  describe('Volume can be added', () => {
+    beforeEach(async function () {
+      await lineEditPage.physicalDetailsAccordion.toggle();
+      await lineEditPage.addVolumeButton.click();
+    });
+
+    it('Volume is added', () => {
+      expect(lineEditPage.physicalDetailsAccordion.volumes().length).to.be.equal(1);
+    });
+
+    describe('Volume can be removed', () => {
+      beforeEach(async function () {
+        await lineEditPage.removeVolumeButton.click();
+      });
+
+      it('Volume is removed', () => {
+        expect(lineEditPage.removeVolumeButton.isPresent).to.be.false;
+      });
+    });
+  });
+
+  describe('Contributor can be added', () => {
+    beforeEach(async function () {
+      await lineEditPage.itemDetailsAccordion.toggle();
+      await lineEditPage.addContributorButton.click();
+    });
+
+    it('contributor is added', () => {
+      expect(lineEditPage.itemDetailsAccordion.contributors().length).to.be.equal(1);
+    });
+
+    describe('contributor can be removed', () => {
+      beforeEach(async function () {
+        await lineEditPage.removeContributorButton.click();
+      });
+
+      it('contributor is removed', () => {
+        expect(lineEditPage.removeContributorButton.isPresent).to.be.false;
+      });
+    });
+  });
+
   describe('Check not negative locations quantity validation', () => {
     const NEGATIVE_QUANTITY = -1;
 
@@ -207,7 +255,7 @@ describe('Line edit test', () => {
 
   describe('Check existing warning messages for Item Details Title if value isn\'t empty', () => {
     beforeEach(async function () {
-      await lineEditPage.itemDetailsAccordion.inputTitle('TEST_VALUE');
+      await lineEditPage.itemDetailsAccordion.inputTitle(TITLE);
       await lineEditPage.updateLineButton.click();
     });
 
@@ -252,6 +300,37 @@ describe('Line edit test', () => {
 
     it('Create inventory field includes Instance, Holding, Item', () => {
       expect(lineEditPage.physicalCreateInventory.value).to.be.equal(INVENTORY_RECORDS_TYPE.all);
+    });
+  });
+
+  describe('Save updated PO Line', () => {
+    beforeEach(async function () {
+      line = this.server.create('line', {
+        order,
+        acquisitionMethod: ACQUISITION_METHOD.gift,
+        orderFormat: PHYSICAL,
+        cost,
+        title: TITLE,
+        locations,
+      });
+
+      this.server.get(`${ORDERS_API}/${order.id}`, {
+        ...order.attrs,
+        compositePoLines: [
+          {
+            ...line.attrs,
+            locations,
+          },
+        ],
+      });
+
+      this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);
+      await lineEditPage.physicalCreateInventory.select(INVENTORY_RECORDS_TYPE.none);
+      await lineEditPage.updateLineButton.click();
+    });
+
+    it('displays updated PO Line Details pane', () => {
+      expect(lineDetailsPage.$root).to.exist;
     });
   });
 });

@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import ReceivingPage from '../interactors/receiving-page';
+import ReceivingHistoryPage from '../interactors/receiving-history-page';
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 import {
@@ -19,6 +20,7 @@ describe('Receiving', () => {
   let line = null;
   const orderDetailsPage = new OrderDetailsPage();
   const receivingPage = new ReceivingPage();
+  const receivingHistoryPage = new ReceivingHistoryPage();
 
   beforeEach(async function () {
     order = await this.server.create('order', {
@@ -107,13 +109,33 @@ describe('Receiving', () => {
       });
     });
 
-    describe('go back from Receiving page to Order Details pane', () => {
+    describe('Click on Receiving History button', () => {
       beforeEach(async function () {
-        await receivingPage.closeButton.click();
+        await receivingPage.receivingHistoryButton.click();
       });
 
       it('go to Order Details pane', () => {
-        expect(orderDetailsPage.$root).to.exist;
+        expect(receivingHistoryPage.$root).to.exist;
+      });
+
+      describe('Click on Receiving Items button', () => {
+        beforeEach(async function () {
+          await receivingHistoryPage.receivingItemsButton.click();
+        });
+
+        it('go to Receiving pane', () => {
+          expect(receivingPage.$root).to.exist;
+        });
+      });
+    });
+
+    describe('go back from Receiving page to Order Details pane', () => {
+      beforeEach(async function () {
+        await receivingPage.receivingHistoryButton.click();
+      });
+
+      it('go to Receiving History pane', () => {
+        expect(receivingHistoryPage.$root).to.exist;
       });
     });
   });

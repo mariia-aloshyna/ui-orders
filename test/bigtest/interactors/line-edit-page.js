@@ -12,18 +12,13 @@ import {
   value,
 } from '@bigtest/interactor';
 
+import Button from './button';
 import { ACCORDION_ID } from '../../../src/components/POLine/const';
 
 const ITEM_DETAILS = {
   root: '#itemDetails',
   inputTitle: '[name="title"]',
 };
-
-@interactor class UpdateLineButton {
-  static defaultScope = '#clickable-updatePoLine';
-  isButton = is('button');
-  isDisabled = property('disabled');
-}
 
 @interactor class QuantityLocationElectronic {
   static defaultScope = '[name$="].quantityElectronic"]';
@@ -99,8 +94,10 @@ const ITEM_DETAILS = {
 
 @interactor class ItemDetailsAccordion {
   static defaultScope = ITEM_DETAILS.root;
+  toggle = clickable('[class*=defaultCollapseButton---]');
   inputTitle = fillable(ITEM_DETAILS.inputTitle);
   errorTitle = attribute(ITEM_DETAILS.inputTitle, 'error');
+  contributors = collection('[name*="contributors"]');
 }
 
 @interactor class OrderFormat {
@@ -124,8 +121,8 @@ const ITEM_DETAILS = {
 @interactor class PhysicalDetailsAccordion {
   static defaultScope = `#${ACCORDION_ID.physical}`;
   toggle = clickable('[class*=defaultCollapseButton---]');
-
   materialSupplierPresent = isPresent('[name="physical.materialSupplier"]');
+  volumes = collection('[name*="physical.volumes"]');
 }
 
 @interactor class ElectronicDetailsAccordion {
@@ -138,7 +135,7 @@ const ITEM_DETAILS = {
 export default interactor(class LineEditPage {
   static defaultScope = '[data-test-line-edit]';
   locationAccordion = new LocationAccordion();
-  updateLineButton = new UpdateLineButton();
+  updateLineButton = new Button('#clickable-updatePoLine');
   lineNumberInputValue = value('input[name="poLineNumber"]');
   selectOrderFormat = selectable('[name="orderFormat"]');
   validationMessage = text('[class*=feedbackError---]');
@@ -154,10 +151,14 @@ export default interactor(class LineEditPage {
   itemDetailsAccordion = new ItemDetailsAccordion();
   physicalDetailsAccordion = new PhysicalDetailsAccordion();
   electronicDetailsAccordion = new ElectronicDetailsAccordion();
-  title = text('[class*=paneTitleLabel---]');
   otherAccordion = new OtherAccordion();
+  title = text('[class*=paneTitleLabel---]');
   orderFormat = new OrderFormat();
   physicalCreateInventory = new PhysicalCreateInventory();
+  addVolumeButton = new Button('[data-test-add-volume-button]');
+  removeVolumeButton = new Button('[data-test-remove-volume-button]');
+  addContributorButton = new Button('[data-test-add-contributor-button]');
+  removeContributorButton = new Button('[data-test-remove-contributor-button]');
   accountNumber = value('[name="vendorDetail.vendorAccount"]');
   currency = value('[name="cost.currency"]');
   subscriptionInterval = value('[name="details.subscriptionInterval"]');

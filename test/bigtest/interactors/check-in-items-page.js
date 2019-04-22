@@ -2,25 +2,10 @@ import {
   collection,
   interactor,
   is,
-  property,
   value,
 } from '@bigtest/interactor';
 
-@interactor class AddPieceButton {
-  static defaultScope = '[data-test-check-in-items-add-piece-button]';
-  isButton = is('button');
-  isDisabled = property('disabled');
-}
-
-@interactor class CheckInButton {
-  static defaultScope = '[data-test-check-in-items-check-in-button]';
-  isButton = is('button');
-  isDisabled = property('disabled');
-}
-
-@interactor class CloseButton {
-  static defaultScope = '[data-test-close-button]';
-}
+import Button from './button';
 
 @interactor class Checkbox {
   static defaultScope = '[class*=checkboxInput---]';
@@ -34,9 +19,9 @@ import {
 
 export default interactor(class CheckInItemsPage {
   static defaultScope = '[data-test-check-in-items]';
-  addPieceButton = new AddPieceButton();
-  checkInButton = new CheckInButton();
-  closeButton = new CloseButton();
+  addPieceButton = new Button('[data-test-check-in-items-add-piece-button]');
+  checkInButton = new Button('[data-test-check-in-items-check-in-button]');
+  closeButton = new Button('[data-test-close-button]');
   pieces = collection('[class*=mclRow---]', {
     checkbox: new Checkbox(),
   });

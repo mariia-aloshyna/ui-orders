@@ -1,15 +1,10 @@
 import {
   interactor,
   is,
-  property,
   text,
 } from '@bigtest/interactor';
 
-@interactor class SaveButton {
-  static defaultScope = '#clickable-save-config';
-  isButton = is('button');
-  isDisabled = property('disabled');
-}
+import Button from './button';
 
 @interactor class EresourcesSelect {
   static defaultScope = '[name="eresource"]';
@@ -28,7 +23,7 @@ import {
 
 export default interactor(class SettingCreateInventoryInteractor {
   static defaultScope = '[data-test-order-settings-create-inventory]';
-  saveButton = new SaveButton();
+  saveButton = new Button('#clickable-save-config');
   eresourcesSelect = new EresourcesSelect();
   physicalSelect = new PhysicalSelect();
   otherSelect = new OtherSelect();

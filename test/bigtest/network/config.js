@@ -2,13 +2,25 @@
 // http://www.ember-cli-mirage.com/docs/v0.4.x/configuration/
 import { noop } from 'lodash';
 import {
+  CHECKIN_API,
+  CONFIG_API,
   ITEMS_API,
   LINES_API,
+  LOCATIONS_API,
   ORDER_NUMBER_API,
+  ORDER_NUMBER_VALIDATE_API,
+  ORDER_PIECES_API,
   ORDERS_API,
+  RECEIVE_API,
   RECEIVING_API,
   VENDORS_API,
 } from '../../../src/components/Utils/api';
+import {
+  CONFIG_CLOSING_REASONS,
+  CONFIG_LINES_LIMIT,
+  CONFIG_ORDER_NUMBER,
+  MODULE_ORDERS,
+} from '../../../src/components/Utils/const';
 
 export default function config() {
   this.get(ORDERS_API, (schema) => {
@@ -23,7 +35,14 @@ export default function config() {
     // };
   });
 
-  this.put(`${ORDERS_API}/:id`, noop);
+  this.put(`${ORDERS_API}/:id`, (schema, request) => {
+    const id = request.params.id;
+    const attrs = JSON.parse(request.requestBody);
+
+    return schema.orders.find(id).update(attrs);
+  });
+
+  this.post(ORDERS_API, 'order');
 
   this.get(VENDORS_API, (schema) => {
     return schema.vendors.all();
@@ -37,6 +56,8 @@ export default function config() {
     return { poNumber: '10001' };
   });
 
+  this.post(ORDER_NUMBER_VALIDATE_API, noop);
+
   this.get(LINES_API, (schema) => {
     return schema.lines.all();
   });
@@ -45,26 +66,32 @@ export default function config() {
     return schema.lines.find(request.params.id).attrs;
   });
 
-  this.get('/locations');
+  this.put(`${LINES_API}/:id`, 'line');
 
-  this.get('/configurations/entries', (_, { queryParams }) => {
-    if (queryParams && queryParams.query === '(module=ORDERS and configName=orderNumber)') {
+  this.get(VENDORS_API, (schema) => {
+    return schema.vendors.all();
+  });
+
+  this.get(LOCATIONS_API);
+
+  this.get(CONFIG_API, (_, { queryParams }) => {
+    if (queryParams && queryParams.query === `(module=${MODULE_ORDERS} and configName=${CONFIG_ORDER_NUMBER})`) {
       return {
         configs: [{
           id: '7c7c5a09-d465-4642-889a-8a0b351d7b15',
-          module: 'ORDERS',
-          configName: 'orderNumber',
+          module: MODULE_ORDERS,
+          configName: CONFIG_ORDER_NUMBER,
           enabled: true,
           value: '{"canUserEditOrderNumber":false,"selectedPrefixes":["PP"],"prefixes":["PP1","PP2","PP3","PP"],"selectedSuffixes":["SS"],"suffixes":["SS1","SS2","SS"]}',
         }],
       };
     }
 
-    if (queryParams && queryParams.query === '(module=ORDERS and configName=closing-reasons)') {
+    if (queryParams && queryParams.query === `(module=${MODULE_ORDERS} and configName=${CONFIG_CLOSING_REASONS})`) {
       return {
         configs: [{
           id: '7c7c5a09-d465-4642-889a-8a0b351d7b15',
-          module: 'ORDERS',
+          module: MODULE_ORDERS,
           configName: 'order.closing-reasons',
           enabled: true,
           value: 'test reason',
@@ -73,10 +100,22 @@ export default function config() {
       };
     }
 
+    if (queryParams && queryParams.query === `(module=${MODULE_ORDERS} and configName=${CONFIG_LINES_LIMIT})`) {
+      return {
+        configs: [{
+          id: '7c7c5a09-d465-4642-889a-8a0b351d7b15',
+          module: MODULE_ORDERS,
+          configName: CONFIG_LINES_LIMIT,
+          enabled: true,
+          value: '1',
+        }],
+      };
+    }
+
     return { configs: [] };
   });
 
-  this.post('/configurations/entries', (schema, request) => {
+  this.post(CONFIG_API, (schema, request) => {
     const body = JSON.stringify(request.requestBody);
 
     if (body.configName === 'order.closing-reasons') {
@@ -98,8 +137,8 @@ export default function config() {
 
     return {};
   });
-  this.put('/configurations/entries/:id', noop);
-  this.delete('/configurations/entries/:id', noop);
+  this.put(`${CONFIG_API}/:id`, noop);
+  this.delete(`${CONFIG_API}/:id`, noop);
 
   this.get(RECEIVING_API, (schema) => {
     return schema.pieces.all();
@@ -107,7 +146,7 @@ export default function config() {
 
   this.get(ITEMS_API, ({ items }) => items.all());
 
-  this.post('/orders/pieces', (schema, request) => {
+  this.post(ORDER_PIECES_API, (schema, request) => {
     const body = JSON.stringify(request.requestBody);
 
     return {
@@ -121,7 +160,26 @@ export default function config() {
     };
   });
 
-  this.post('/orders/check-in', (schema, request) => {
+  this.post(CHECKIN_API, (schema, request) => {
+    const body = JSON.stringify(request.requestBody);
+
+    return {
+      receivingResults: [{
+        poLineId: body.poLineId,
+        processedSuccessfully: 1,
+        processedWithError: 0,
+        receivingItemResults: [{
+          pieceId: body.pieceId,
+          processingStatus: {
+            type: 'success',
+          },
+        }],
+      }],
+      totalRecords: 1,
+    };
+  });
+
+  this.post(RECEIVE_API, (schema, request) => {
     const body = JSON.stringify(request.requestBody);
 
     return {

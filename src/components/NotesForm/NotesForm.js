@@ -1,9 +1,7 @@
 import React, { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import {
-  Field,
-} from 'redux-form';
+import { Field } from 'redux-form';
 
 import {
   Button,
@@ -49,6 +47,7 @@ const NotesForm = ({ fields }) => (
           lg={1}
         >
           <Button
+            data-test-remove-note-button
             onClick={() => fields.remove(index)}
             buttonStyle="danger"
           >
@@ -58,7 +57,10 @@ const NotesForm = ({ fields }) => (
       </Fragment>
     ))}
     <Col xs={12}>
-      <Button onClick={() => fields.push('')}>
+      <Button
+        data-test-add-note-button
+        onClick={() => fields.push('')}
+      >
         <FormattedMessage id="ui-orders.orderDetails.addNoteBtn" />
       </Button>
     </Col>

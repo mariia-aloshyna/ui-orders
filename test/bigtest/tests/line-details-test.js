@@ -6,7 +6,10 @@ import {
 import { expect } from 'chai';
 
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
-import { PHYSICAL } from '../../../src/components/POLine/const';
+import {
+  OTHER,
+  PHYSICAL,
+} from '../../../src/components/POLine/const';
 import {
   ORDERS_API,
 } from '../../../src/components/Utils/api';
@@ -53,6 +56,29 @@ describe('Line details test', () => {
 
     it('transition to Receiving screen', () => {
       expect(receivingPage.$root).to.exist;
+    });
+  });
+
+  describe('displays Other resource details', () => {
+    beforeEach(async function () {
+      line = await this.server.create('line', {
+        order,
+        orderFormat: OTHER,
+        cost: {
+          quantityPhysical: 2,
+        },
+      });
+
+      this.server.get(`${ORDERS_API}/${order.id}`, {
+        ...order.attrs,
+        compositePoLines: [line.attrs],
+      });
+
+      this.visit(`/orders/view/${order.id}/po-line/view/${line.id}`);
+    });
+
+    it('displays Other details accordion', () => {
+      expect(page.otherDetailsAccordion).to.be.true;
     });
   });
 });

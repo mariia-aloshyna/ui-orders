@@ -48,7 +48,7 @@ const SummaryView = ({ order }) => {
         </Col>
       </Row>
       {(workflowStatus === WORKFLOW_STATUS.closed) && (
-        <Row>
+        <Row data-test-close-reason-block>
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderSummary.closingReason" />}
