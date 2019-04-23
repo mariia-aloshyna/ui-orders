@@ -41,6 +41,7 @@ const LineDetails = ({
     'barcode': (item) => (
       <div className={css.fieldWrapper}>
         <TextField
+          data-test-barcode
           disabled={isLoading || itemsMap[item.itemId] === undefined}
           onChange={(e) => onChangeField(item, e.target.value, 'barcode')}
           type="text"
@@ -51,6 +52,17 @@ const LineDetails = ({
     'format': (item) => (
       <div className={css.fieldWrapper}>
         <KeyValue value={get(item, 'pieceFormat', '')} />
+      </div>
+    ),
+    'comment': (item) => (
+      <div className={css.fieldWrapper}>
+        <TextField
+          data-test-comment
+          disabled={isLoading || itemsMap[item.itemId] === undefined}
+          onChange={(e) => onChangeField(item, e.target.value, 'comment')}
+          type="text"
+          value={item.comment}
+        />
       </div>
     ),
     'location': (item) => (
@@ -74,18 +86,20 @@ const LineDetails = ({
     <MultiColumnList
       contentData={lineItems[poLineId]}
       formatter={resultFormatter}
-      visibleColumns={['isChecked', 'barcode', 'format', 'location', 'itemStatus']}
+      visibleColumns={['isChecked', 'barcode', 'format', 'comment', 'location', 'itemStatus']}
       columnMapping={{
         isChecked: <Checkbox type="checkbox" checked={allChecked[poLineId]} onChange={() => toggleAll(poLineId)} />,
         barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
         format: <FormattedMessage id="ui-orders.receiving.format" />,
+        comment: <FormattedMessage id="ui-orders.receiving.comment" />,
         location: <FormattedMessage id="ui-orders.receiving.location" />,
         itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,
       }}
       columnWidths={{
         isChecked: '5%',
-        barcode: '25%',
-        format: '20%',
+        barcode: '20%',
+        format: '10%',
+        comment: '15%',
         location: '35%',
         itemStatus: '15%',
       }}

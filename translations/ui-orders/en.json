@@ -539,6 +539,7 @@
   "receiving.links.items": "Receiving items",
   "receiving.links.history": "Receiving history",
   "receiving.cancelBtn": "Cancel",
+  "receiving.comment": "Comments",
   "receiving.dateOrdered": "Date Ordered",
   "receiving.format": "Format",
   "receiving.itemStatus.inProcess": "In process",
