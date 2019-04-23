@@ -207,6 +207,7 @@ class ReceivingHistory extends Component {
       'poLineNumber': piece => get(piece, 'poLineNumber', ''),
       'dateOrdered': piece => <FolioFormattedTime dateString={get(piece, 'dateOrdered')} />,
       'dateReceived': piece => <FolioFormattedTime dateString={get(piece, 'receivedDate')} />,
+      'comment': piece => get(piece, 'comment', ''),
       'barcode': piece => (
         <span data-test-piece-barcode>
           {get(piece, 'barcode', '')}
@@ -271,12 +272,13 @@ class ReceivingHistory extends Component {
                 poLineNumber: <FormattedMessage id="ui-orders.receiving.poLine" />,
                 dateOrdered: <FormattedMessage id="ui-orders.receiving.dateOrdered" />,
                 dateReceived: <FormattedMessage id="ui-orders.receivingHistory.dateReceived" />,
+                comment: <FormattedMessage id="ui-orders.receiving.comment" />,
                 barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
                 receivingNote: <FormattedMessage id="ui-orders.receivingHistory.note" />,
                 receivingStatus: <FormattedMessage id="ui-orders.receiving.status" />,
               }}
-              columnWidths={{ isChecked: 35 }}
-              visibleColumns={['isChecked', 'title', 'poLineNumber', 'dateOrdered', 'dateReceived', 'barcode', 'receivingNote', 'receivingStatus']}
+              columnWidths={{ isChecked: 35, comment: '15%' }}
+              visibleColumns={['isChecked', 'title', 'poLineNumber', 'dateOrdered', 'dateReceived', 'barcode', 'comment', 'receivingNote', 'receivingStatus']}
               onRowClick={(_, piece) => this.toggleItem(piece)}
             />
           </Pane>

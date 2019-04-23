@@ -12,6 +12,7 @@ import { PIECE_STATUS_EXPECTED } from '../../../src/components/Receiving/const';
 const RECEIVING_LIST_COUNT = 10;
 const TEST_BARCODE = 'test';
 const ITEM_BARCODE = '111';
+const TEST_COMMENT = 'TEST_COMMENT';
 
 describe('Piece Details Modal', () => {
   setupApplication();
@@ -80,11 +81,21 @@ describe('Piece Details Modal', () => {
 
   describe('barcode could be changed', () => {
     beforeEach(async () => {
-      await modal.barcodeInput.fill(TEST_BARCODE);
+      await modal.piecesInLine(0).barcode.fill(TEST_BARCODE);
     });
 
     it('barcode value is changed to "test"', () => {
-      expect(modal.barcodeInput.value).to.be.equal(TEST_BARCODE);
+      expect(modal.piecesInLine(0).barcode.value).to.be.equal(TEST_BARCODE);
+    });
+  });
+
+  describe('comments field could be changed', () => {
+    beforeEach(async () => {
+      await modal.piecesInLine(0).comment.fill(TEST_COMMENT);
+    });
+
+    it('comments field has expected value', () => {
+      expect(modal.piecesInLine(0).comment.value).to.be.equal(TEST_COMMENT);
     });
   });
 
