@@ -193,14 +193,14 @@ class LayerPOLine extends Component {
         code: SOURCE_FOLIO_CODE,
       },
       cost: {
-        currency: get(vendor, 'vendor_currencies[0]', DEFAULT_CURRENCY),
+        currency: get(vendor, 'vendorCurrencies[0]', DEFAULT_CURRENCY),
       },
       vendorDetail: {
         instructions: '',
-        vendorAccount: get(vendor, 'accounts[0].account_no', ''),
+        vendorAccount: get(vendor, 'accounts[0].accountNo', ''),
       },
       details: {
-        subscriptionInterval: get(vendor, 'subscription_interval'),
+        subscriptionInterval: get(vendor, 'subscriptionInterval'),
       },
       purchaseOrderId: orderId,
       eresource: {
@@ -216,9 +216,9 @@ class LayerPOLine extends Component {
       newObj.eresource.accessProvider = vendor.id;
       newObj.physical.materialSupplier = vendor.id;
 
-      if (vendor.discount_percent) {
+      if (vendor.discountPercent) {
         newObj.cost.discountType = DISCOUNT_TYPE.percentage;
-        newObj.cost.discount = vendor.discount_percent;
+        newObj.cost.discount = vendor.discountPercent;
       }
     }
 

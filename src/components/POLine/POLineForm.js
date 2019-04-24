@@ -211,7 +211,7 @@ class POLineForm extends Component {
     const materialTypes = getMaterialTypesForSelect(parentResources);
     const {
       accounts,
-      vendor_currencies: vendorCurrencies,
+      vendorCurrencies,
     } = vendor;
 
     return (
