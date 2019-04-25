@@ -75,7 +75,7 @@ class POLine extends Component {
         CostDetails: false,
         Vendor: false,
         FundDistribution: false,
-        ItemDetails: false,
+        ItemDetails: true,
         Renewal: false,
         [ACCORDION_ID.eresources]: false,
         [ACCORDION_ID.location]: false,
@@ -211,22 +211,28 @@ class POLine extends Component {
             )}
           </Col>
         </Row>
-        <POLineDetails
-          initialValues={line}
-          {...this.props}
-        />
-        <Row end="xs">
-          <Col xs>
-            <ExpandAllButton
-              accordionStatus={this.state.sections}
-              onToggle={this.handleExpandAll}
-            />
-          </Col>
-        </Row>
         <AccordionSet
           accordionStatus={this.state.sections}
           onToggle={this.onToggleSection}
         >
+          <Accordion
+            label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
+            id="ItemDetails"
+          >
+            <ItemView poLineDetails={line} />
+          </Accordion>
+          <POLineDetails
+            initialValues={line}
+            {...this.props}
+          />
+          <Row end="xs">
+            <Col xs>
+              <ExpandAllButton
+                accordionStatus={this.state.sections}
+                onToggle={this.handleExpandAll}
+              />
+            </Col>
+          </Row>
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
             id="CostDetails"
@@ -253,12 +259,6 @@ class POLine extends Component {
               line={line}
               parentResources={parentResources}
             />
-          </Accordion>
-          <Accordion
-            label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
-            id="ItemDetails"
-          >
-            <ItemView poLineDetails={line} />
           </Accordion>
           {showEresources && (
             <Accordion
