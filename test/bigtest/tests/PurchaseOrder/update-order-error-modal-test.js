@@ -11,6 +11,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import OpenOrderErrorModal from '../../interactors/PurchaseOrder/open-order-error-modal';
 import { UpdateOrderErrorModal } from '../../../../src/components/PurchaseOrder/UpdateOrderErrorModal';
+import { ERROR_CODES } from '../../../../src/components/Utils/order';
 
 describe('Update Order Error modal', () => {
   let cancelFake;
@@ -25,7 +26,7 @@ describe('Update Order Error modal', () => {
         <UpdateOrderErrorModal
           cancel={cancelFake}
           orderNumber="123"
-          errorCode="vendorIsInactive"
+          errors={[{ code: ERROR_CODES.vendorIsInactive }]}
         />
       </IntlProvider>
     ));

@@ -11,6 +11,8 @@ export const ERROR_CODES = {
   accessProviderNotFound: 'accessProviderNotFound',
 };
 
+const POL_NUMBER_KEY = 'poLineNumber';
+
 const showUpdateOrderError = async (response, callout, openModal) => {
   let error;
 
@@ -21,15 +23,31 @@ const showUpdateOrderError = async (response, callout, openModal) => {
   }
 
   const errorCode = get(error, 'errors.0.code');
-  const messageCode = get(ERROR_CODES, errorCode, 'orderGenericError1');
+  const code = get(ERROR_CODES, errorCode, 'orderGenericError1');
 
-  if (messageCode !== ERROR_CODES.vendorIsInactive && messageCode !== ERROR_CODES.vendorNotFound) {
-    callout.sendCallout({
-      message: <FormattedMessage id={`ui-orders.errors.${messageCode}`} />,
-      type: 'error',
-    });
-  } else {
-    openModal(messageCode);
+  switch (code) {
+    case ERROR_CODES.vendorIsInactive:
+    case ERROR_CODES.vendorNotFound: {
+      openModal([{ code }]);
+      break;
+    }
+    case ERROR_CODES.accessProviderIsInactive:
+    case ERROR_CODES.accessProviderNotFound: {
+      let errors =
+        get(error, 'errors.0.parameters', [])
+          .filter(({ key }) => key === POL_NUMBER_KEY)
+          .map(({ value }) => ({ code, poLineNumber: value }));
+
+      errors = errors.length ? errors : [{ code }];
+      openModal(errors);
+      break;
+    }
+    default: {
+      callout.sendCallout({
+        message: <FormattedMessage id={`ui-orders.errors.${code}`} />,
+        type: 'error',
+      });
+    }
   }
 };
 
