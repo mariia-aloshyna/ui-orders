@@ -28,12 +28,9 @@ import css from './ItemForm.css';
 class ItemForm extends Component {
   static propTypes = {
     stripes: PropTypes.object.isRequired,
-    parentResources: PropTypes.shape({
-      materialTypes: PropTypes.object.isRequired,
-    }).isRequired,
     dispatch: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
-  }
+  };
 
   onAddInstance = (instance) => {
     const { dispatch, change } = this.props;
@@ -59,7 +56,7 @@ class ItemForm extends Component {
 
       dispatch(change('contributors', lineContributors));
     }
-  }
+  };
 
   selectInstanceModal = () => {
     const { stripes } = this.props;
@@ -85,7 +82,7 @@ class ItemForm extends Component {
         <span>[no instance-selection plugin]</span>
       </Pluggable>
     );
-  }
+  };
 
   render() {
     return (
