@@ -169,8 +169,8 @@ class POForm extends Component {
       ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
       : <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />;
     const lastMenu = initialValues.id ?
-      this.getLastMenu('clickable-update-purchase-order', 'ui-orders.paneMenu.updateOrder') :
-      this.getLastMenu('clickable-create-new-purchase-order', 'ui-orders.paneMenu.createPurchaseOrder');
+      this.getLastMenu('clickable-update-purchase-order', 'ui-orders.paneMenu.saveOrder') :
+      this.getLastMenu('clickable-create-new-purchase-order', 'ui-orders.paneMenu.saveOrder');
     const showDeleteButton = initialValues.id || false;
     const orderNumberSetting = getOrderNumberSetting(get(parentResources, 'orderNumberSetting.records', []));
 
