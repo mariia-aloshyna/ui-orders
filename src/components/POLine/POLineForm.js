@@ -178,8 +178,8 @@ class POLineForm extends Component {
       ? <FormattedMessage id="ui-orders.line.paneTitle.edit" values={{ lineNumber }} />
       : <FormattedMessage id="ui-orders.line.paneTitle.new" />;
     const lastMenu = lineId ?
-      this.getLastMenu('clickable-updatePoLine', <FormattedMessage id="ui-orders.buttons.line.update" />) :
-      this.getLastMenu('clickable-createnewPoLine', <FormattedMessage id="ui-orders.buttons.line.create" />);
+      this.getLastMenu('clickable-updatePoLine', <FormattedMessage id="ui-orders.buttons.line.save" />) :
+      this.getLastMenu('clickable-createnewPoLine', <FormattedMessage id="ui-orders.buttons.line.save" />);
     const showDeleteButton = lineId || false;
 
     if (!initialValues) {
