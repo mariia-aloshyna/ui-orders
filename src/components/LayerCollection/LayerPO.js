@@ -27,16 +27,16 @@ class LayerPO extends Component {
     this.connectedPOForm = props.stripes.connect(POForm);
     this.callout = React.createRef();
     this.state = {
-      updateOrderErrorCode: null,
+      updateOrderError: null,
     };
   }
 
   closeErrorModal = () => {
-    this.setState({ updateOrderErrorCode: null });
+    this.setState({ updateOrderError: null });
   };
 
-  openOrderErrorModalShow = (errorCode) => {
-    this.setState(() => ({ updateOrderErrorCode: errorCode }));
+  openOrderErrorModalShow = (errors) => {
+    this.setState(() => ({ updateOrderError: errors }));
   };
 
   updatePO = (order) => {
@@ -52,7 +52,7 @@ class LayerPO extends Component {
   render() {
     const { order, location } = this.props;
     const { layer } = location.search ? queryString.parse(location.search) : {};
-    const { updateOrderErrorCode } = this.state;
+    const { updateOrderError } = this.state;
 
     if (layer === 'edit') {
       return (
@@ -65,10 +65,10 @@ class LayerPO extends Component {
             initialValues={order}
             onSubmit={this.updatePO}
           />
-          {updateOrderErrorCode && (
+          {updateOrderError && (
             <UpdateOrderErrorModal
               orderNumber={order.poNumber}
-              errorCode={updateOrderErrorCode}
+              errors={updateOrderError}
               cancel={this.closeErrorModal}
             />
           )}

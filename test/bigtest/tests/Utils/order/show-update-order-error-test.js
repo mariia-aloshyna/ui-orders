@@ -3,18 +3,24 @@ import {
   describe,
   it,
 } from '@bigtest/mocha';
+import { omit } from 'lodash';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { showUpdateOrderError, ERROR_CODES } from '../../../../../src/components/Utils/order';
 
-const CALLOUT_ERROR_CODES =
-  Object
-    .keys(ERROR_CODES)
-    .filter(item => item !== ERROR_CODES.vendorIsInactive && item !== ERROR_CODES.vendorNotFound);
+const CALLOUT_ERROR_CODES = omit(
+  ERROR_CODES,
+  [
+    'vendorIsInactive',
+    'accessProviderIsInactive',
+    'vendorNotFound',
+    'accessProviderNotFound',
+  ] // eslint-disable-line comma-dangle
+);
 
 describe('showUpdateOrderError', () => {
-  CALLOUT_ERROR_CODES.forEach(errorCode => {
+  Object.keys(CALLOUT_ERROR_CODES).forEach(errorCode => {
     describe(`process callout for ${errorCode} error`, () => {
       let fakeCallout;
       let fakeResponse;
@@ -48,6 +54,11 @@ describe('showUpdateOrderError', () => {
     let fakeCallout;
     let fakeResponse;
     let fakeOpenModal;
+    const ERRORS = [
+      {
+        code: ERROR_CODES.vendorIsInactive,
+      },
+    ];
 
     beforeEach(async () => {
       fakeCallout = {
@@ -55,11 +66,7 @@ describe('showUpdateOrderError', () => {
       };
       fakeResponse = {
         json: () => ({
-          errors: [
-            {
-              code: ERROR_CODES.vendorIsInactive,
-            },
-          ],
+          errors: ERRORS,
         }),
       };
       fakeOpenModal = sinon.spy();
@@ -68,7 +75,7 @@ describe('showUpdateOrderError', () => {
     });
 
     it('call open error modal with vendorIsInactive error code', () => {
-      expect(fakeOpenModal.args[0][0]).to.equal(ERROR_CODES.vendorIsInactive);
+      expect(fakeOpenModal.args[0][0]).to.eql([ERRORS[0]]);
     });
   });
 
@@ -76,6 +83,11 @@ describe('showUpdateOrderError', () => {
     let fakeCallout;
     let fakeResponse;
     let fakeOpenModal;
+    const ERRORS = [
+      {
+        code: ERROR_CODES.vendorNotFound,
+      },
+    ];
 
     beforeEach(async () => {
       fakeCallout = {
@@ -83,11 +95,7 @@ describe('showUpdateOrderError', () => {
       };
       fakeResponse = {
         json: () => ({
-          errors: [
-            {
-              code: ERROR_CODES.vendorNotFound,
-            },
-          ],
+          errors: ERRORS,
         }),
       };
       fakeOpenModal = sinon.spy();
@@ -96,7 +104,84 @@ describe('showUpdateOrderError', () => {
     });
 
     it('call open error modal with vendorNotFound error code', () => {
-      expect(fakeOpenModal.args[0][0]).to.equal(ERROR_CODES.vendorNotFound);
+      expect(fakeOpenModal.args[0][0]).to.eql([ERRORS[0]]);
+    });
+  });
+
+  describe('process modal for accessProviderIsInactive', () => {
+    let fakeCallout;
+    let fakeResponse;
+    let fakeOpenModal;
+    const ERRORS = [
+      {
+        code: ERROR_CODES.accessProviderIsInactive,
+        parameters: [
+          {
+            key: 'poLineNumber',
+            value: 'TEST',
+          },
+        ],
+      },
+    ];
+
+    beforeEach(async () => {
+      fakeCallout = {
+        sendCallout: sinon.spy(),
+      };
+      fakeResponse = {
+        json: () => ({
+          errors: ERRORS,
+        }),
+      };
+      fakeOpenModal = sinon.spy();
+
+      await showUpdateOrderError(fakeResponse, fakeCallout, fakeOpenModal);
+    });
+
+    it('call open error modal with proper POL number in message', () => {
+      expect(fakeOpenModal.args[0][0]).to.eql([{ code: ERRORS[0].code, poLineNumber: ERRORS[0].parameters[0].value }]);
+    });
+  });
+
+  describe('process modal for multi POL with accessProviderIsInactive', () => {
+    let fakeCallout;
+    let fakeResponse;
+    let fakeOpenModal;
+    const ERRORS = [
+      {
+        code: ERROR_CODES.accessProviderIsInactive,
+        parameters: [
+          {
+            key: 'poLineNumber',
+            value: 'TEST',
+          },
+          {
+            key: 'poLineNumber',
+            value: 'TEST-1',
+          },
+        ],
+      },
+    ];
+
+    beforeEach(async () => {
+      fakeCallout = {
+        sendCallout: sinon.spy(),
+      };
+      fakeResponse = {
+        json: () => ({
+          errors: ERRORS,
+        }),
+      };
+      fakeOpenModal = sinon.spy();
+
+      await showUpdateOrderError(fakeResponse, fakeCallout, fakeOpenModal);
+    });
+
+    it('call open error modal with proper POL number in message', () => {
+      expect(fakeOpenModal.args[0][0]).to.eql([
+        { code: ERRORS[0].code, poLineNumber: ERRORS[0].parameters[0].value },
+        { code: ERRORS[0].code, poLineNumber: ERRORS[0].parameters[1].value },
+      ]);
     });
   });
 });
