@@ -626,5 +626,6 @@
     "line.accordion.other": "تفاصيل الموارد الأخرى",
     "poLine.materialType": "نوع المادة",
     "errors.noCreateItemPlugin": "[لا يوجد برنامج إضافي لإنشاء مادة مخزون]",
-    "vendor.accountNumber": "رقم الحساب"
+    "vendor.accountNumber": "رقم الحساب",
+    "receiving.comment": "تعليقات"
 }
