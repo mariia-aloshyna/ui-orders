@@ -548,8 +548,8 @@
     "receiving.lineStatus.expected": "Expected",
     "receivingList.receive.error": "Receive error",
     "receivingList.receive.success": "Receive success",
-    "errors.accessProviderIsInactive": "Order cannot be open as the associated access provider is inactive",
-    "errors.accessProviderNotFound": "Order cannot be open as the associated access provider not found",
+    "errors.accessProviderIsInactive": "POL {poLineNumber} is using an Access Provider that is inactive or has been removed, please select an active Access Provider to continue.",
+    "errors.accessProviderNotFound": "POL {poLineNumber} is using an Access Provider that is inactive or has been removed, please select an active Access Provider to continue.",
     "errors.materialTypeRequired": "The Material Type is required but not available in PO line",
     "errors.orderNotFound": "The order cannot be found by provided order id",
     "errors.orderClosed": "Order cannot be modified in Closed status",
@@ -626,5 +626,6 @@
     "line.accordion.other": "Other Resource Details",
     "poLine.materialType": "Material Type",
     "errors.noCreateItemPlugin": "[no inventory create-item plugin]",
-    "vendor.accountNumber": "Account number"
+    "vendor.accountNumber": "Account number",
+    "receiving.comment": "Comments"
 }

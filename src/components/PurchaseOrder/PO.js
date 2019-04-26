@@ -113,7 +113,7 @@ class PO extends Component {
       },
       isCloseOrderModalOpened: false,
       isLinesLimitExceededModalOpened: false,
-      updateOrderErrorCode: null,
+      updateOrderError: null,
     };
     this.transitionToParams = transitionToParams.bind(this);
   }
@@ -241,11 +241,11 @@ class PO extends Component {
   };
 
   closeErrorModal = () => {
-    this.setState({ updateOrderErrorCode: null });
+    this.setState({ updateOrderError: null });
   };
 
-  openOrderErrorModalShow = (errorCode) => {
-    this.setState(() => ({ updateOrderErrorCode: errorCode }));
+  openOrderErrorModalShow = (errors) => {
+    this.setState(() => ({ updateOrderError: errors }));
   };
 
   createCalloutRef = ref => {
@@ -331,7 +331,7 @@ class PO extends Component {
       ? `${createdBy.personal.firstName} ${createdBy.personal.lastName}`
       : '';
 
-    const { updateOrderErrorCode } = this.state;
+    const { updateOrderError } = this.state;
 
     return (
       <Pane
@@ -446,10 +446,10 @@ class PO extends Component {
             createOrder={this.createNewOrder}
           />
         )}
-        {updateOrderErrorCode && (
+        {updateOrderError && (
           <UpdateOrderErrorModal
             orderNumber={orderNumber}
-            errorCode={updateOrderErrorCode}
+            errors={updateOrderError}
             cancel={this.closeErrorModal}
           />
         )}

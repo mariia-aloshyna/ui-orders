@@ -626,5 +626,6 @@
     "line.accordion.other": "Outros detalhes do recurso",
     "poLine.materialType": "Tipo de material",
     "errors.noCreateItemPlugin": "[nenhum plugin de criação de item de inventário]",
-    "vendor.accountNumber": "Número da conta"
+    "vendor.accountNumber": "Número da conta",
+    "receiving.comment": "Comentários"
 }

@@ -73,7 +73,7 @@ class POLineForm extends Component {
         [ACCORDION_ID.costDetails]: true,
         [ACCORDION_ID.vendor]: false,
         [ACCORDION_ID.eresources]: false,
-        [ACCORDION_ID.itemDetails]: false,
+        [ACCORDION_ID.itemDetails]: true,
         [ACCORDION_ID.other]: false,
         [ACCORDION_ID.physical]: false,
         [ACCORDION_ID.fundDistribution]: false,
@@ -167,9 +167,10 @@ class POLineForm extends Component {
       onCancel,
       order,
       parentResources,
-      stripes: { store },
+      stripes,
       vendor = {},
     } = this.props;
+    const { store } = stripes;
     const lineId = get(initialValues, 'id');
     const lineNumber = get(initialValues, 'poLineNumber', '');
     const firstMenu = this.getAddFirstMenu();
@@ -177,8 +178,8 @@ class POLineForm extends Component {
       ? <FormattedMessage id="ui-orders.line.paneTitle.edit" values={{ lineNumber }} />
       : <FormattedMessage id="ui-orders.line.paneTitle.new" />;
     const lastMenu = lineId ?
-      this.getLastMenu('clickable-updatePoLine', <FormattedMessage id="ui-orders.buttons.line.update" />) :
-      this.getLastMenu('clickable-createnewPoLine', <FormattedMessage id="ui-orders.buttons.line.create" />);
+      this.getLastMenu('clickable-updatePoLine', <FormattedMessage id="ui-orders.buttons.line.save" />) :
+      this.getLastMenu('clickable-createnewPoLine', <FormattedMessage id="ui-orders.buttons.line.save" />);
     const showDeleteButton = lineId || false;
 
     if (!initialValues) {
@@ -244,6 +245,16 @@ class POLineForm extends Component {
                     onToggle={this.onToggleSection}
                   >
                     <Accordion
+                      label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
+                      id={ACCORDION_ID.itemDetails}
+                    >
+                      <ItemForm
+                        stripes={stripes}
+                        dispatch={dispatch}
+                        change={change}
+                      />
+                    </Accordion>
+                    <Accordion
                       label={<FormattedMessage id="ui-orders.line.accordion.details" />}
                       id={ACCORDION_ID.lineDetails}
                     >
@@ -276,12 +287,6 @@ class POLineForm extends Component {
                         formValues={formValues}
                         funds={funds}
                       />
-                    </Accordion>
-                    <Accordion
-                      label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
-                      id={ACCORDION_ID.itemDetails}
-                    >
-                      <ItemForm {...this.props} />
                     </Accordion>
                     {showEresources && (
                       <Accordion
