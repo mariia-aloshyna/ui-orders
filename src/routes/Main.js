@@ -296,7 +296,7 @@ class Main extends Component {
             vendorCode: <FormattedMessage id="ui-orders.order.vendorCode" />,
             workflowStatus: <FormattedMessage id="ui-orders.order.workflow_status" />,
             orderType: <FormattedMessage id="ui-orders.order.orderType" />,
-            created: <FormattedMessage id="ui-orders.order.created" />,
+            created: <FormattedMessage id="ui-orders.order.createdDate" />,
             assignedTo: <FormattedMessage id="ui-orders.order.assigned_to" />,
           }}
         />
