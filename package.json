@@ -22,7 +22,7 @@
       "material-types": "2.2",
       "orders": "4.0",
       "users": "15.0",
-      "vendor-storage.vendors": "1.0"
+      "organizations-storage.organizations": "1.0"
     },
     "queryResource": "query",
     "icons": [
@@ -44,7 +44,7 @@
         "description": "",
         "subPermissions": [
           "fund.collection.get",
-          "vendor-storage.vendors.collection.get",
+          "organizations-storage.organizations.collection.get",
           "users.collection.get",
           "inventory.items.collection.get",
           "inventory-storage.material-types.collection.get",
@@ -136,6 +136,6 @@
     "@folio/plugin-create-item": "^1.0.0",
     "@folio/plugin-find-instance": "^1.1.0",
     "@folio/plugin-find-user": "^1.1.0",
-    "@folio/plugin-find-vendor": "^1.1.0"
+    "@folio/plugin-find-organization": "^1.0.0"
   }
 }

@@ -48,8 +48,8 @@ class FieldOrderFormat extends Component {
       const activationDue = get(formValues, 'eresource.activationDue');
       const vendor = vendors.find(v => v.id === orderVendorId);
 
-      if (activationDue === undefined && vendor && vendor.expected_activation_interval) {
-        dispatch(change('eresource.activationDue', vendor.expected_activation_interval));
+      if (activationDue === undefined && vendor && vendor.expectedActivationInterval) {
+        dispatch(change('eresource.activationDue', vendor.expectedActivationInterval));
       }
     }
 

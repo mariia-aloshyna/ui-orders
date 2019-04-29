@@ -135,12 +135,12 @@ class PODetailsForm extends Component {
     return (
       <Pluggable
         aria-haspopup="true"
-        type="find-vendor"
+        type="find-organization"
         dataKey="vendor"
         searchLabel="+"
         searchButtonStyle="default"
         selectVendor={this.onAddVendor}
-        visibleColumns={['name', 'vendor_status']}
+        visibleColumns={['name', 'status']}
         columnMapping={columnMapping}
         disableRecordCreation
         stripes={stripes}

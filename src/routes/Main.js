@@ -77,7 +77,7 @@ class Main extends Component {
           query: 'id=="*" sortby name',
         },
       },
-      records: 'vendors',
+      records: 'organizations',
       perRequest: 1000,
     },
     users: {

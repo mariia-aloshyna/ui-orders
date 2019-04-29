@@ -18,17 +18,17 @@ describe('Create POL', () => {
   let order = null;
   const lineEditPage = new LineEditPage();
   const ACCOUNTS = [{
-    account_no: 'TEST_ACCOUNT',
+    accountNo: 'TEST_ACCOUNT',
   }];
   const CURRENCIES = ['GBR', 'USD'];
   const SUBSCRIPTION_INTERVAL = '10';
 
   beforeEach(function () {
     vendor = this.server.create('vendor', {
-      discount_percent: 5,
+      discountPercent: 5,
       accounts: ACCOUNTS,
-      vendor_currencies: CURRENCIES,
-      subscription_interval: SUBSCRIPTION_INTERVAL,
+      vendorCurrencies: CURRENCIES,
+      subscriptionInterval: SUBSCRIPTION_INTERVAL,
     });
     order = this.server.create('order', {
       vendor: vendor.id,
@@ -74,7 +74,7 @@ describe('Create POL', () => {
   describe('Default POL fields value from vendor', () => {
     describe('Non empty vendor\'s fields', () => {
       it('Account number', () => {
-        expect(lineEditPage.accountNumber).to.equal(ACCOUNTS[0].account_no);
+        expect(lineEditPage.accountNumber).to.equal(ACCOUNTS[0].accountNo);
       });
 
       it('Currency', () => {
@@ -89,7 +89,7 @@ describe('Create POL', () => {
     describe('Empty vendor\'s fields', () => {
       beforeEach(function () {
         vendor = this.server.create('vendor', {
-          discount_percent: 5,
+          discountPercent: 5,
         });
         order = this.server.create('order', {
           vendor: vendor.id,
