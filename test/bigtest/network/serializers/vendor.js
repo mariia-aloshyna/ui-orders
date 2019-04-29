@@ -8,7 +8,7 @@ export default ApplicationSerializer.extend({
 
     if (isArray(json.vendors)) {
       return {
-        vendors: json.vendors,
+        organizations: json.vendors,
         totalRecords: json.vendors.length,
       };
     }

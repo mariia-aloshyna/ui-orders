@@ -17,7 +17,7 @@ class VendorForm extends Component {
   render() {
     const { accounts = [] } = this.props;
     const accountsDataOptions =
-      accounts.map(({ account_no: accountNo }) => (
+      accounts.map(({ accountNo }) => (
         {
           label: accountNo,
           value: accountNo,
