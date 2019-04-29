@@ -453,6 +453,8 @@
   "order.paneTitle.edit": "Edit - {orderNumber}",
   "order.po_number": "PO Number",
   "order.workflow_status": "Status",
+  "order.vendorCode": "Vendor Code",
+  "order.orderType": "Order Type",
   "orderDetails.addNoteBtn": "Add Note",
   "orderDetails.assignedTo": "Assigned To",
   "orderDetails.billTo": "Bill To",
