@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get, toString } from 'lodash';
+import { get, map } from 'lodash';
 import { MultiColumnList } from '@folio/stripes/components';
 
 class LineListing extends Component {
@@ -9,7 +9,7 @@ class LineListing extends Component {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     poLines: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -22,15 +22,16 @@ class LineListing extends Component {
     const url = match.url;
 
     history.push(`${url}/po-line/view/${meta.id}`);
-  }
+  };
 
   render() {
     const { poLines } = this.props;
     const resultsFormatter = {
-      'poLineNumber': item => toString(get(item, ['poLineNumber'], '')),
-      'acquisitionMethod': item => toString(get(item, ['acquisitionMethod'], '')),
-      'owner': item => toString(get(item, ['owner'], '')),
-      'poLineDescription': item => toString(get(item, ['poLineDescription'], '')),
+      'poLineNumber': ({ poLineNumber }) => poLineNumber || '',
+      'title': ({ title }) => title || '',
+      'productId': item => map(get(item, 'details.productIds', []), 'productId').join(', '),
+      'vendorRefNumber': item => get(item, 'vendorDetail.refNumber', ''),
+      'fundCode': item => map(get(item, 'fundDistribution', []), 'code').join(', '),
     };
 
     return (
@@ -39,12 +40,15 @@ class LineListing extends Component {
           contentData={poLines}
           formatter={resultsFormatter}
           onRowClick={this.onSelectRow}
-          visibleColumns={['poLineNumber', 'acquisitionMethod', 'owner', 'poLineDescription']}
+          sortedColumn="poLineNumber"
+          sortDirection="ascending"
+          visibleColumns={['poLineNumber', 'title', 'productId', 'vendorRefNumber', 'fundCode']}
           columnMapping={{
             poLineNumber: <FormattedMessage id="ui-orders.lineListing.lineNumber" />,
-            acquisitionMethod: <FormattedMessage id="ui-orders.lineListing.acquisitionMethod" />,
-            owner: <FormattedMessage id="ui-orders.lineListing.owner" />,
-            poLineDescription: <FormattedMessage id="ui-orders.lineListing.lineDescription" />,
+            title: <FormattedMessage id="ui-orders.lineListing.title" />,
+            productId: <FormattedMessage id="ui-orders.lineListing.productId" />,
+            vendorRefNumber: <FormattedMessage id="ui-orders.lineListing.vendorRefNumber" />,
+            fundCode: <FormattedMessage id="ui-orders.lineListing.fundCode" />,
           }}
         />
       </div>
