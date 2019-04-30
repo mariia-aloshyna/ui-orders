@@ -447,7 +447,7 @@
   "order_type.oneTime": "One-Time",
   "order_type.ongoing": "Ongoing",
   "order.assigned_to": "Assigned To",
-  "order.created": "Created",
+  "order.createdDate": "Created Date",
   "order.notes": "Notes",
   "order.paneTitle.details": "Purchase Order - {orderNumber}",
   "order.paneTitle.detailsLoading": "Details",

@@ -358,7 +358,6 @@
     "paneBlock.POSummary": "Riepilogo PO",
     "paneBlock.purchaseOrder": "Ordine d'acquisto",
     "paneMenu.createPurchaseOrder": "Crea ordine di acquisto",
-    "paneMenu.updateOrder": "Aggiorna ordine",
     "lineListing.acquisitionMethod": "Metodo di acquisizione",
     "lineListing.lineDescription": "Descrizione della linea del PO",
     "lineListing.lineNumber": "Numero di riga del PO",
@@ -471,9 +470,7 @@
     "errors.lineWasNotCreated": "Purchase Order Line has not been created",
     "buttons.line.close": "Chiudi",
     "buttons.line.closeDialog": "Close New Line Dialog",
-    "buttons.line.create": "Create PO Line",
     "buttons.line.delete": "Elimina - {lineNumber}",
-    "buttons.line.update": "Update PO Line",
     "line.accordion.cost": "Cost Details",
     "line.accordion.details": "PO Line Details",
     "line.accordion.eresource": "E-resources Details",
@@ -627,5 +624,9 @@
     "poLine.materialType": "Material Type",
     "errors.noCreateItemPlugin": "[no inventory create-item plugin]",
     "vendor.accountNumber": "Account number",
-    "receiving.comment": "Comments"
+    "receiving.comment": "Comments",
+    "buttons.line.save": "Save",
+    "paneMenu.saveOrder": "Save",
+    "order.vendorCode": "Vendor Code",
+    "order.orderType": "Order Type"
 }

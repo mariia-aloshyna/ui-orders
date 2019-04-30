@@ -358,7 +358,6 @@
     "paneBlock.POSummary": "采购订单摘要",
     "paneBlock.purchaseOrder": "采购订单",
     "paneMenu.createPurchaseOrder": "创建采购订单",
-    "paneMenu.updateOrder": "更新订单",
     "lineListing.acquisitionMethod": "获取方式",
     "lineListing.lineDescription": "采购订单行描述",
     "lineListing.lineNumber": "采购订单行编号",
@@ -471,9 +470,7 @@
     "errors.lineWasNotCreated": "尚未创建采购订单行",
     "buttons.line.close": "关闭",
     "buttons.line.closeDialog": "关闭新行对话框",
-    "buttons.line.create": "创建采购订单行",
     "buttons.line.delete": "删除 -  采购订单行＃ {lineNumber}",
-    "buttons.line.update": "更新采购订单行",
     "line.accordion.cost": "成本详情",
     "line.accordion.details": "采购订单行详情",
     "line.accordion.eresource": "电子资源详情",
@@ -627,5 +624,9 @@
     "poLine.materialType": "Material Type",
     "errors.noCreateItemPlugin": "[no inventory create-item plugin]",
     "vendor.accountNumber": "Account number",
-    "receiving.comment": "Comments"
+    "receiving.comment": "Comments",
+    "buttons.line.save": "Save",
+    "paneMenu.saveOrder": "Save",
+    "order.vendorCode": "Vendor Code",
+    "order.orderType": "Order Type"
 }
