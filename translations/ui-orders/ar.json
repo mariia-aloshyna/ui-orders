@@ -358,7 +358,6 @@
     "paneBlock.POSummary": "ملخص أمر الشراء",
     "paneBlock.purchaseOrder": "أمر الشراء",
     "paneMenu.createPurchaseOrder": "إنشاء أمر شراء",
-    "paneMenu.updateOrder": "تحديث الطلبية",
     "lineListing.acquisitionMethod": "طريقة التزويد",
     "lineListing.lineDescription": "وصف خط أمر الشراء",
     "lineListing.lineNumber": "رقم خط أمر الشراء",
@@ -471,9 +470,7 @@
     "errors.lineWasNotCreated": "تم إنشاء خط أمر الشراء.",
     "buttons.line.close": "إغلاق",
     "buttons.line.closeDialog": "إغلاق المربع الحواري للخط الجديد",
-    "buttons.line.create": "إنشاء خط أمر شراء ",
     "buttons.line.delete": "حذف - {lineNumber}",
-    "buttons.line.update": "تحديث خط أمر الشراء",
     "line.accordion.cost": "تفاصيل التكلفة",
     "line.accordion.details": "تفاصيل خط أمر الشراء",
     "line.accordion.eresource": "تفاصيل الموارد الإلكترونية",
@@ -627,5 +624,9 @@
     "poLine.materialType": "نوع المادة",
     "errors.noCreateItemPlugin": "[لا يوجد برنامج إضافي لإنشاء مادة مخزون]",
     "vendor.accountNumber": "رقم الحساب",
-    "receiving.comment": "تعليقات"
+    "receiving.comment": "تعليقات",
+    "buttons.line.save": "حفظ",
+    "paneMenu.saveOrder": "حفظ",
+    "order.vendorCode": "رمز الموّرد",
+    "order.orderType": "نوع الطلبية"
 }
