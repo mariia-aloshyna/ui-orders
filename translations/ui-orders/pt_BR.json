@@ -277,7 +277,6 @@
     "order_format.physicalResource": "Recurso físico",
     "order_format.service": "Serviço",
     "order.assigned_to": "Atribuído a",
-    "order.created": "Criado",
     "order.notes": "Notas",
     "order.po_number": "Número do pedido",
     "payment_status.awaitingPayment": "Aguardando pagamento",
@@ -358,10 +357,7 @@
     "paneBlock.POSummary": "Sumário de pedidos",
     "paneBlock.purchaseOrder": "Pedido",
     "paneMenu.createPurchaseOrder": "Criar pedido",
-    "lineListing.acquisitionMethod": "Método de aquisição",
-    "lineListing.lineDescription": "Descrição da linha do pedido",
     "lineListing.lineNumber": "Número da linha do pedido",
-    "lineListing.owner": "Proprietário",
     "vendor.refNumber": "Número de referência do fornecedor",
     "vendor.refNumberType": "Tipo de referência do fornecedor",
     "vendor.instructions": "Instruções ao fornecedor",
@@ -628,5 +624,10 @@
     "buttons.line.save": "Salvar",
     "paneMenu.saveOrder": "Salvar",
     "order.vendorCode": "Código do fornecedor",
-    "order.orderType": "Tipo de pedido"
+    "order.orderType": "Tipo de pedido",
+    "order.createdDate": "Data de criação",
+    "lineListing.title": "Título",
+    "lineListing.productId": "ID do produto",
+    "lineListing.vendorRefNumber": "Número de referência do fornecedor",
+    "lineListing.fundCode": "Código do fundo"
 }

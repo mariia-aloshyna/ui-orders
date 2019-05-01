@@ -277,7 +277,6 @@
     "order_format.physicalResource": "Physical Resource",
     "order_format.service": "Service",
     "order.assigned_to": "Assigned To",
-    "order.created": "Created",
     "order.notes": "Notes",
     "order.po_number": "PO Number",
     "payment_status.awaitingPayment": "Awaiting Payment",
@@ -358,10 +357,7 @@
     "paneBlock.POSummary": "Riepilogo PO",
     "paneBlock.purchaseOrder": "Ordine d'acquisto",
     "paneMenu.createPurchaseOrder": "Crea ordine di acquisto",
-    "lineListing.acquisitionMethod": "Metodo di acquisizione",
-    "lineListing.lineDescription": "Descrizione della linea del PO",
     "lineListing.lineNumber": "Numero di riga del PO",
-    "lineListing.owner": "Proprietario",
     "vendor.refNumber": "Numero di riferimento del fornitore",
     "vendor.refNumberType": "Tipo di rif. Fornitore *",
     "vendor.instructions": "Istruzioni per il fornitore",
@@ -628,5 +624,10 @@
     "buttons.line.save": "Save",
     "paneMenu.saveOrder": "Save",
     "order.vendorCode": "Vendor Code",
-    "order.orderType": "Order Type"
+    "order.orderType": "Order Type",
+    "order.createdDate": "Created Date",
+    "lineListing.title": "Title",
+    "lineListing.productId": "Product ID",
+    "lineListing.vendorRefNumber": "Vendor Ref Number",
+    "lineListing.fundCode": "Fund Code"
 }
