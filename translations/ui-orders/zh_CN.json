@@ -277,7 +277,6 @@
     "order_format.physicalResource": "实体资源",
     "order_format.service": "服务",
     "order.assigned_to": "分配给",
-    "order.created": "已创建",
     "order.notes": "附注",
     "order.po_number": "采购单号",
     "payment_status.awaitingPayment": "等待付款",
@@ -358,10 +357,7 @@
     "paneBlock.POSummary": "采购订单摘要",
     "paneBlock.purchaseOrder": "采购订单",
     "paneMenu.createPurchaseOrder": "创建采购订单",
-    "lineListing.acquisitionMethod": "获取方式",
-    "lineListing.lineDescription": "采购订单行描述",
     "lineListing.lineNumber": "采购订单行编号",
-    "lineListing.owner": "所有者",
     "vendor.refNumber": "供应商参考编号",
     "vendor.refNumberType": "供应商参考类型 *",
     "vendor.instructions": "致供应商的说明",
@@ -628,5 +624,10 @@
     "buttons.line.save": "Save",
     "paneMenu.saveOrder": "Save",
     "order.vendorCode": "Vendor Code",
-    "order.orderType": "Order Type"
+    "order.orderType": "Order Type",
+    "order.createdDate": "Created Date",
+    "lineListing.title": "Title",
+    "lineListing.productId": "Product ID",
+    "lineListing.vendorRefNumber": "Vendor Ref Number",
+    "lineListing.fundCode": "Fund Code"
 }

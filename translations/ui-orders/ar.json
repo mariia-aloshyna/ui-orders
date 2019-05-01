@@ -277,7 +277,6 @@
     "order_format.physicalResource": "مورد مادي",
     "order_format.service": "الخدمة",
     "order.assigned_to": "معيّن إلى",
-    "order.created": "تم إنشاؤه",
     "order.notes": "ملاحظات",
     "order.po_number": "رقم أمر الشراء",
     "payment_status.awaitingPayment": "في انتظار السداد",
@@ -358,10 +357,7 @@
     "paneBlock.POSummary": "ملخص أمر الشراء",
     "paneBlock.purchaseOrder": "أمر الشراء",
     "paneMenu.createPurchaseOrder": "إنشاء أمر شراء",
-    "lineListing.acquisitionMethod": "طريقة التزويد",
-    "lineListing.lineDescription": "وصف خط أمر الشراء",
     "lineListing.lineNumber": "رقم خط أمر الشراء",
-    "lineListing.owner": "المالك",
     "vendor.refNumber": "رقم الموّرد المرجعي",
     "vendor.refNumberType": "نوع الموّرد المرجعي",
     "vendor.instructions": "تعليمات للموّرد",
@@ -628,5 +624,10 @@
     "buttons.line.save": "حفظ",
     "paneMenu.saveOrder": "حفظ",
     "order.vendorCode": "رمز الموّرد",
-    "order.orderType": "نوع الطلبية"
+    "order.orderType": "نوع الطلبية",
+    "order.createdDate": "تاريخ الإنشاء",
+    "lineListing.title": "Title",
+    "lineListing.productId": "Product ID",
+    "lineListing.vendorRefNumber": "Vendor Ref Number",
+    "lineListing.fundCode": "Fund Code"
 }
