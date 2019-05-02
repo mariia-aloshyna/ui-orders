@@ -626,8 +626,8 @@
     "order.vendorCode": "رمز الموّرد",
     "order.orderType": "نوع الطلبية",
     "order.createdDate": "تاريخ الإنشاء",
-    "lineListing.title": "Title",
-    "lineListing.productId": "Product ID",
-    "lineListing.vendorRefNumber": "Vendor Ref Number",
-    "lineListing.fundCode": "Fund Code"
+    "lineListing.title": "العنوان",
+    "lineListing.productId": "معرّف المنتج",
+    "lineListing.vendorRefNumber": "رقم الموّرد المرجعي",
+    "lineListing.fundCode": "رمز التمويل"
 }
