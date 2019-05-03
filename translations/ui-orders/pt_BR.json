@@ -629,5 +629,9 @@
     "lineListing.title": "Título",
     "lineListing.productId": "ID do produto",
     "lineListing.vendorRefNumber": "Número de referência do fornecedor",
-    "lineListing.fundCode": "Código do fundo"
+    "lineListing.fundCode": "Código do fundo",
+    "location.quantityElectronic.notMatchOrEmpty": "A quantidade de eletrônicos dos locais deve estar vazia ou coincidir com a quantidade de eletrônicos da Linha de PO",
+    "location.required": "Ao menos uma localização deve ser inserida",
+    "location.emptyQuantities": "Pelo menos uma quantidade deve ser especificada para localização",
+    "location.quantityPhysical.notMatchOrEmpty": "A quantidade física das localizações deve estar vazia ou corresponder à quantidade física da linha do pedido"
 }

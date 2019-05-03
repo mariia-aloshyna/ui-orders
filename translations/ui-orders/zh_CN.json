@@ -629,5 +629,9 @@
     "lineListing.title": "Title",
     "lineListing.productId": "Product ID",
     "lineListing.vendorRefNumber": "Vendor Ref Number",
-    "lineListing.fundCode": "Fund Code"
+    "lineListing.fundCode": "Fund Code",
+    "location.quantityElectronic.notMatchOrEmpty": "Locations electronic quantity should be empty or match with PO Line electronic quantity",
+    "location.required": "At least one location must be entered",
+    "location.emptyQuantities": "At least one quantity should be specified for location",
+    "location.quantityPhysical.notMatchOrEmpty": "Locations physical quantity should be empty or match with PO Line physical quantity"
 }
