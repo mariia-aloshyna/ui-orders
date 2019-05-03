@@ -5,55 +5,30 @@ import {
 } from 'redux-form';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { get } from 'lodash';
 
 import {
   Col,
-  RepeatableField,
   Select,
   TextField,
 } from '@folio/stripes/components';
 
 import getLocationsForSelect from '../../Utils/getLocationsForSelect';
 import { required } from '../../Utils/Validate';
-
-const getTotalLocationsQuantities = (locations, propName) => {
-  const reducer = (accumulator, d) => accumulator + (d[propName] || 0);
-
-  return locations.reduce(reducer, 0);
-};
-
-const validateNotNegative = (value) => (value < 0
-  ? <FormattedMessage id="ui-orders.validation.quantity.canNotBeLess0" />
-  : undefined);
-
-const validateQuantityPhysical = (value, { cost, locations = [] }) => {
-  const allLocationsQuantity = getTotalLocationsQuantities(locations, 'quantityPhysical');
-  const overallLineQuantity = get(cost, 'quantityPhysical', 0);
-
-  return allLocationsQuantity === overallLineQuantity
-    ? undefined
-    : <FormattedMessage id="ui-orders.location.quantityPhysical.notMatch" />;
-};
-
-const validateQuantityElectronic = (value, { cost, locations = [] }) => {
-  const allLocationsQuantity = getTotalLocationsQuantities(locations, 'quantityElectronic');
-  const overallLineQuantity = get(cost, 'quantityElectronic', 0);
-
-  return allLocationsQuantity === overallLineQuantity
-    ? undefined
-    : <FormattedMessage id="ui-orders.location.quantityElectronic.notMatch" />;
-};
-
-const parseQuantity = (value) => {
-  return value ? Number(value) : 0;
-};
+import { RepeatableFieldWithErrorMessage } from '../../../common/RepeatableFieldWithErrorMessage/RepeatableFieldWithErrorMessage';
+import {
+  isLocationsRequired,
+  parseQuantity,
+  validateLocation,
+  validateNotNegative, validateQuantityElectronic,
+  validateQuantityPhysical,
+} from './validate';
 
 const LocationForm = ({ parentResources }) => (
   <FieldArray
     addLabel={<FormattedMessage id="ui-orders.location.button.addLocation" />}
-    component={RepeatableField}
+    component={RepeatableFieldWithErrorMessage}
     name="locations"
+    validate={isLocationsRequired}
     renderField={(field) => (
       <React.Fragment>
         <Col xs={6}>
@@ -65,7 +40,7 @@ const LocationForm = ({ parentResources }) => (
             name={`${field}.locationId`}
             placeholder=" "
             required
-            validate={required}
+            validate={[required, validateLocation]}
           />
         </Col>
         <Col xs={3}>
