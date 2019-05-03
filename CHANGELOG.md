@@ -1,5 +1,32 @@
 # Change history for ui-orders
 
+## [1.4.0](https://github.com/folio-org/ui-orders/tree/v1.4.0) (2019-05-03)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.3.1...v1.4.0)
+* UIOR-218 UI validation is unsynced with back-end for location quantities
+* UIOR-214 Update PO search result list columns
+* UIOR-215 Update POL table columns
+* UIOR-213 move item details accordion to top of view
+* UIOR-137 Error Modal: Order has inactive Vendor/Access Provider
+* UIOR-209 Switch to mod-organizations-storage
+* UIOR-207 allow user to add comment to Piece when receiving
+* UIOR-184 Add data to POL based on vendor
+* UIOR-167 Checkin: Add Pieces for a Purchase Order Line with newly added Item through plugin
+* UIOR-147 Align POL Payment and Receipt status with PO Status
+* UIOR-175 Infinite scroll in receiving history
+* UIOR-193 update order error in modal window
+* UIOR-120 Purchase Order Line - Material Type
+* UIOR-192-added required attribute for Item Details title field
+* UIOR-129 Settings: display system-supplied reasons for closure in settings area
+* UIOR-159 Access Checkin History and Remove Items
+* UIOR-173 Check-in Pieces for a Purchase Order Line
+* UIOR-186 add piece modal
+* UIOR-180 Ordering: Open Order action
+* UIOR-161 Check-in button and Check-in items list
+* UIOR-188 Filtering by status doesn't work for order results
+* UIOR-185 Adjustments to piece and receivingHistory
+* UIOR-132 Column sorting doesn't work for order results
+* UIOR-149 Orders Settings Create Inventory
+
 ## [1.3.1](https://github.com/folio-org/ui-orders/tree/v1.3.1) (2019-03-22)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.3.0...v1.3.1)
 * Translations updated
