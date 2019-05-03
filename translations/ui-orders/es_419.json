@@ -629,5 +629,9 @@
     "lineListing.title": "Título",
     "lineListing.productId": "ID producto",
     "lineListing.vendorRefNumber": "Ref. Num. Proveedor",
-    "lineListing.fundCode": "Código de Presupuesto"
+    "lineListing.fundCode": "Código de Presupuesto",
+    "location.quantityElectronic.notMatchOrEmpty": "Locations electronic quantity should be empty or match with PO Line electronic quantity",
+    "location.required": "At least one location must be entered",
+    "location.emptyQuantities": "At least one quantity should be specified for location",
+    "location.quantityPhysical.notMatchOrEmpty": "Locations physical quantity should be empty or match with PO Line physical quantity"
 }

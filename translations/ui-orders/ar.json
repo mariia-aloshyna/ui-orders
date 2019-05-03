@@ -629,5 +629,9 @@
     "lineListing.title": "العنوان",
     "lineListing.productId": "معرّف المنتج",
     "lineListing.vendorRefNumber": "رقم الموّرد المرجعي",
-    "lineListing.fundCode": "رمز التمويل"
+    "lineListing.fundCode": "رمز التمويل",
+    "location.quantityElectronic.notMatchOrEmpty": "يجب أن تكون الكمية الإلكترونية للمواقع فارغة أو مطابقة للكمية الإلكترونية لخط أمر الشراء",
+    "location.required": "يجب إدخال موقع واحد على الأقل",
+    "location.emptyQuantities": "يجب تحديد كمية واحدة على الأقل للموقع",
+    "location.quantityPhysical.notMatchOrEmpty": "يجب أن تكون الكمية المادية للمواقع فارغة أو مطابقة للكمية المادية لخط أمر الشراء"
 }
