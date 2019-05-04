@@ -10,7 +10,7 @@ import {
 
 import { Callout } from '@folio/stripes/components';
 
-import { STATUS_IN_PROCESS } from '../../common/constants';
+import { ITEM_STATUS, STATUS_IN_PROCESS } from '../../common/constants';
 import getLocationsForSelect from '../Utils/getLocationsForSelect';
 import { fetchItems } from '../Receiving/util';
 import {
@@ -58,7 +58,7 @@ class CheckInDetails extends Component {
     fetchItems(mutator, pieces).then(itemsMap => {
       const items = pieces.map(piece => ({
         ...getMixedPieceAndItem(piece, itemsMap),
-        itemStatus: STATUS_IN_PROCESS,
+        itemStatus: ITEM_STATUS[STATUS_IN_PROCESS],
         isChecked: true,
       }));
 

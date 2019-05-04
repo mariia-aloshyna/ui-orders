@@ -92,6 +92,7 @@ class AddPieceModal extends Component {
     } = this.props;
     const { format, locationId } = formValues;
     const isLocationRequired = includes(createInventoryValues[format], INVENTORY_RECORDS_TYPE.instanceAndHolding);
+    const isAddItemRequired = includes(createInventoryValues[format], INVENTORY_RECORDS_TYPE.all);
     let isAddItemButtonDisabled = true;
     let locationFieldProps = {
       dataOptions: [EMPTY_OPTION, ...locations],
@@ -106,7 +107,7 @@ class AddPieceModal extends Component {
       };
     }
 
-    if (locationId && isLocationRequired) {
+    if (locationId && isAddItemRequired) {
       isAddItemButtonDisabled = false;
     }
 

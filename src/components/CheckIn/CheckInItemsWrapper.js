@@ -96,7 +96,7 @@ class CheckInItemsWrapper extends Component {
         return piece;
       })
       .then(piece => {
-        piece.itemStatus = ITEM_STATUS.received;
+        piece.itemStatus = ITEM_STATUS.inProcess;
 
         return checkInItems([piece], mutator.checkIn);
       })
