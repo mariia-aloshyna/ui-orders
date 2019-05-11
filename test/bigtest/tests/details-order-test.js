@@ -20,6 +20,8 @@ import { ERROR_CODES } from '../../../src/components/Utils/order';
 import LinesLimitModal from '../interactors/lines-limit-modal';
 import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
 
+const OWNER_TEST_VALUE = 'some team';
+
 describe('OrderDetailsPage', () => {
   setupApplication();
   const lineEditPage = new LineEditPage();
@@ -35,6 +37,7 @@ describe('OrderDetailsPage', () => {
       workflowStatus: WORKFLOW_STATUS.pending,
       orderType: ORDER_TYPE.ongoing,
       vendor: vendor.id,
+      owner: OWNER_TEST_VALUE,
     });
 
     this.visit(`/orders/view/${order.id}`);
@@ -51,6 +54,10 @@ describe('OrderDetailsPage', () => {
   it('displays the Add Line button enabled', () => {
     expect(orderDetailsPage.addLineButton.isButton).to.equal(true);
     expect(orderDetailsPage.addLineButton.isDisabled).to.equal(false);
+  });
+
+  it('displays the owner', () => {
+    expect(orderDetailsPage.owner.value).to.contain(OWNER_TEST_VALUE);
   });
 
   describe('clicking on edit', () => {

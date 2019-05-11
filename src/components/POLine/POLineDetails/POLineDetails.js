@@ -40,12 +40,6 @@ class POLineDetails extends Component {
           </Col>
           <Col xs={6}>
             <KeyValue
-              label={<FormattedMessage id="ui-orders.poLine.owner" />}
-              value={get(initialValues, 'owner')}
-            />
-          </Col>
-          <Col xs={6}>
-            <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.orderFormat" />}
               value={get(initialValues, 'orderFormat')}
             />

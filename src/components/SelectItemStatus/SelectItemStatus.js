@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Select } from '@folio/stripes-components';
+import { Select } from '@folio/stripes/components';
 import { FormattedMessage } from 'react-intl';
 import {
   ITEM_STATUS,

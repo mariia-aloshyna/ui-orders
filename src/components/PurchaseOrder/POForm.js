@@ -227,6 +227,7 @@ class POForm extends Component {
                             generatedNumber={generatedNumber}
                             order={initialValues}
                             orderNumberSetting={orderNumberSetting}
+                            owner={initialValues.owner}
                             stripes={stripes}
                           />
                         </Accordion>

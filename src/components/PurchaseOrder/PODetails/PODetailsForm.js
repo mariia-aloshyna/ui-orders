@@ -15,6 +15,7 @@ import {
   Row,
   TextField,
   Select,
+  Selection,
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
@@ -26,6 +27,13 @@ import { addEmptyOption } from '../util';
 
 import css from './PODetailsForm.css';
 
+const OWNER_OPTIONS = [
+  { value: '', label: 'No owner' },
+  { value: 'team1', label: 'Team 1' },
+  { value: 'team2', label: 'Team 2' },
+  { value: 'team3', label: 'Team 3' },
+];
+
 class PODetailsForm extends Component {
   static propTypes = {
     generatedNumber: PropTypes.string,
@@ -34,6 +42,7 @@ class PODetailsForm extends Component {
     stripes: PropTypes.object,
     dispatch: PropTypes.func,
     change: PropTypes.func,
+    owner: PropTypes.string,
   }
 
   onClearFieldUser = () => {
@@ -163,8 +172,12 @@ class PODetailsForm extends Component {
     const {
       formValues,
       orderNumberSetting: { selectedPrefixes, selectedSuffixes, canUserEditOrderNumber },
+      owner,
     } = this.props;
     const isExistingOrder = Boolean(get(formValues, 'id'));
+    const ownerOptions = owner && !OWNER_OPTIONS.some(({ value }) => value === owner)
+      ? [...OWNER_OPTIONS, { value: owner, label: owner }]
+      : OWNER_OPTIONS;
 
     return (
       <Fragment>
@@ -314,6 +327,18 @@ class PODetailsForm extends Component {
             lg={3}
           >
             <FieldOrderType />
+          </Col>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <Field
+              component={Selection}
+              dataOptions={ownerOptions}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.poLine.owner" />}
+              name="owner"
+            />
           </Col>
         </Row>
         <Row>

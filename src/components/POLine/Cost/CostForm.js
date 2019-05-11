@@ -185,7 +185,7 @@ class CostForm extends Component {
           />
         </Col>
         <Col
-          data-test-poLineEstimatedPrice
+          data-test-polineestimatedprice
           xs={6}
         >
           <KeyValue
