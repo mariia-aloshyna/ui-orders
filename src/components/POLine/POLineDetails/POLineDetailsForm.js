@@ -63,15 +63,6 @@ class POLineDetailsForm extends Component {
             <FieldAcquisitionMethod />
           </Col>
           <Col xs={6}>
-            <Field
-              component={TextField}
-              fullWidth
-              id="owner"
-              label={<FormattedMessage id="ui-orders.poLine.owner" />}
-              name="owner"
-            />
-          </Col>
-          <Col xs={6}>
             <FieldOrderFormat
               change={change}
               dispatch={dispatch}

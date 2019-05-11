@@ -6,6 +6,11 @@ import {
 
 import Button from './button';
 
+@interactor class Owner {
+  static defaultScope = '[data-test-order-details-owner]';
+  value = text('[class*=kvRoot---]');
+}
+
 export default interactor(class OrderDetailsPage {
   static defaultScope = '[data-test-order-details]';
   title = text('[class*=paneTitleLabel---]');
@@ -15,5 +20,6 @@ export default interactor(class OrderDetailsPage {
   receivingButton = new Button('[data-test-receiving-button]');
   openOrderButton = new Button('[data-test-open-order-button]');
   closeOrderButton = new Button('[data-test-close-order-button]');
-  renewalsAccordion = isPresent('#renewals')
+  renewalsAccordion = isPresent('#renewals');
+  owner = new Owner();
 });

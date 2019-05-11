@@ -81,7 +81,7 @@ const ITEM_DETAILS = {
 }
 
 @interactor class PoLineEstimatedPrice {
-  static defaultScope = '[data-test-poLineEstimatedPrice]';
+  static defaultScope = '[data-test-polineestimatedprice]';
   value = text('[class*=kvRoot---]');
 }
 

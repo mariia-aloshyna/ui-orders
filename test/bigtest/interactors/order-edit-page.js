@@ -23,6 +23,15 @@ import Button from './button';
   value = value();
 }
 
+@interactor class OwnerButton {
+  static defaultScope = 'button[name="owner"]';
+  value = text('[class*=singleValue---] [class*=optionSegment---]');
+}
+
+@interactor class SelectionList {
+  static defaultScope = 'ul[role="listbox"]';
+}
+
 export default interactor(class OrderEditPage {
   static defaultScope = '#form-po';
   isLoaded = isPresent('[class*=paneTitleLabel---]');
@@ -40,4 +49,6 @@ export default interactor(class OrderEditPage {
   addNoteButton = new Button('[data-test-add-note-button]');
   removeNoteButton = new Button('[data-test-remove-note-button]');
   notes = collection('[name*=notes]');
+  owner = new OwnerButton();
+  ownerOptions = new SelectionList();
 });
