@@ -295,7 +295,6 @@
     "poLine.owner": "Owner",
     "poLine.paymentStatus": "Payment Status",
     "poLine.poLineDescription": "Line Description",
-    "poLine.poLineNumber": "PO Line ID",
     "poLine.receiptDate": "Receipt Date",
     "poLine.receiptStatus": "Receipt Status",
     "poLine.requester": "Requester",
@@ -357,7 +356,6 @@
     "paneBlock.POSummary": "PO Summary",
     "paneBlock.purchaseOrder": "Purchase Order",
     "paneMenu.createPurchaseOrder": "Create Purchase Order",
-    "lineListing.lineNumber": "PO Line Number",
     "vendor.refNumber": "Vendor Ref Number",
     "vendor.refNumberType": "Vendor Ref Type*",
     "vendor.instructions": "Instructions To Vendor",
@@ -633,5 +631,6 @@
     "location.quantityElectronic.notMatchOrEmpty": "Locations electronic quantity should be empty or match with PO Line electronic quantity",
     "location.required": "At least one location must be entered",
     "location.emptyQuantities": "At least one quantity should be specified for location",
-    "location.quantityPhysical.notMatchOrEmpty": "Locations physical quantity should be empty or match with PO Line physical quantity"
+    "location.quantityPhysical.notMatchOrEmpty": "Locations physical quantity should be empty or match with PO Line physical quantity",
+    "poLine.number": "POL number"
 }

@@ -295,7 +295,6 @@
     "poLine.owner": "Owner",
     "poLine.paymentStatus": "Payment Status",
     "poLine.poLineDescription": "Line Description",
-    "poLine.poLineNumber": "PO Line ID",
     "poLine.receiptDate": "Receipt Date",
     "poLine.receiptStatus": "Receipt Status",
     "poLine.requester": "Requester",
@@ -357,7 +356,6 @@
     "paneBlock.POSummary": "Riepilogo PO",
     "paneBlock.purchaseOrder": "Ordine d'acquisto",
     "paneMenu.createPurchaseOrder": "Crea ordine di acquisto",
-    "lineListing.lineNumber": "Numero di riga del PO",
     "vendor.refNumber": "Numero di riferimento del fornitore",
     "vendor.refNumberType": "Tipo di rif. Fornitore *",
     "vendor.instructions": "Istruzioni per il fornitore",
@@ -633,5 +631,6 @@
     "location.quantityElectronic.notMatchOrEmpty": "Locations electronic quantity should be empty or match with PO Line electronic quantity",
     "location.required": "At least one location must be entered",
     "location.emptyQuantities": "At least one quantity should be specified for location",
-    "location.quantityPhysical.notMatchOrEmpty": "Locations physical quantity should be empty or match with PO Line physical quantity"
+    "location.quantityPhysical.notMatchOrEmpty": "Locations physical quantity should be empty or match with PO Line physical quantity",
+    "poLine.number": "POL number"
 }

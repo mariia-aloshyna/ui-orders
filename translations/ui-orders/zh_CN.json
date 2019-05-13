@@ -295,7 +295,6 @@
     "poLine.owner": "所有者",
     "poLine.paymentStatus": "支付状态",
     "poLine.poLineDescription": "行说明",
-    "poLine.poLineNumber": "采购订单行ID",
     "poLine.receiptDate": "发票日期",
     "poLine.receiptStatus": "发票状态",
     "poLine.requester": "请求者",
@@ -357,7 +356,6 @@
     "paneBlock.POSummary": "采购订单摘要",
     "paneBlock.purchaseOrder": "采购订单",
     "paneMenu.createPurchaseOrder": "创建采购订单",
-    "lineListing.lineNumber": "采购订单行编号",
     "vendor.refNumber": "供应商参考编号",
     "vendor.refNumberType": "供应商参考类型 *",
     "vendor.instructions": "致供应商的说明",
@@ -633,5 +631,6 @@
     "location.quantityElectronic.notMatchOrEmpty": "Locations electronic quantity should be empty or match with PO Line electronic quantity",
     "location.required": "At least one location must be entered",
     "location.emptyQuantities": "At least one quantity should be specified for location",
-    "location.quantityPhysical.notMatchOrEmpty": "Locations physical quantity should be empty or match with PO Line physical quantity"
+    "location.quantityPhysical.notMatchOrEmpty": "Locations physical quantity should be empty or match with PO Line physical quantity",
+    "poLine.number": "POL number"
 }
