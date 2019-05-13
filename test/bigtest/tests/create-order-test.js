@@ -12,7 +12,7 @@ describe('Create order', () => {
   const form = new OrderEditPage();
 
   beforeEach(function () {
-    return this.visit('/orders?layer=create&sort=id', () => {
+    return this.visit('/orders?layer=create', () => {
       expect(orders.$root).to.exist;
     });
   });

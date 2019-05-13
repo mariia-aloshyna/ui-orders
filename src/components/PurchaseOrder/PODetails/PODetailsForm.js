@@ -29,9 +29,9 @@ import css from './PODetailsForm.css';
 
 const OWNER_OPTIONS = [
   { value: '', label: 'No owner' },
-  { value: 'team1', label: 'Team 1' },
-  { value: 'team2', label: 'Team 2' },
-  { value: 'team3', label: 'Team 3' },
+  { value: 'Team 1', label: 'Team 1' },
+  { value: 'Team 2', label: 'Team 2' },
+  { value: 'Team 3', label: 'Team 3' },
 ];
 
 class PODetailsForm extends Component {

@@ -251,6 +251,7 @@ class Main extends Component {
       'workflowStatus': order => get(order, 'workflowStatus', ''),
       'orderType': order => get(order, 'orderType', ''),
       'created': order => <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />,
+      'owner': ({ owner = '' }) => owner,
       'assignedTo': order => {
         const assignedToId = get(order, 'assignedTo', '');
         const assignedTo = users.find(d => d.id === assignedToId);
@@ -271,7 +272,7 @@ class Main extends Component {
           objectName="order"
           baseRoute={packageInfo.stripes.route}
           filterConfig={filterConfig}
-          visibleColumns={['poNumber', 'vendorCode', 'workflowStatus', 'orderType', 'created', 'assignedTo']}
+          visibleColumns={['poNumber', 'vendorCode', 'workflowStatus', 'orderType', 'created', 'owner', 'assignedTo']}
           resultsFormatter={resultsFormatter}
           viewRecordComponent={Panes}
           editRecordComponent={POForm}
@@ -297,6 +298,7 @@ class Main extends Component {
             workflowStatus: <FormattedMessage id="ui-orders.order.workflow_status" />,
             orderType: <FormattedMessage id="ui-orders.order.orderType" />,
             created: <FormattedMessage id="ui-orders.order.createdDate" />,
+            owner: <FormattedMessage id="ui-orders.poLine.owner" />,
             assignedTo: <FormattedMessage id="ui-orders.order.assigned_to" />,
           }}
         />

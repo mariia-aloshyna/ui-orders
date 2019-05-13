@@ -34,11 +34,7 @@ describe('Create POL', () => {
       vendor: vendor.id,
     });
 
-    this.server.get(`${ORDERS_API}/${order.id}`, {
-      ...order.attrs,
-    });
-
-    this.visit(`/orders/view/${order.id}?layer=create-po-line&sort=id`);
+    this.visit(`/orders/view/${order.id}?layer=create-po-line`);
   });
 
   describe('Physical Details', () => {
@@ -99,7 +95,7 @@ describe('Create POL', () => {
           ...order.attrs,
         });
 
-        this.visit(`/orders/view/${order.id}?layer=create-po-line&sort=id`);
+        this.visit(`/orders/view/${order.id}?layer=create-po-line`);
       });
       it('Account number', () => {
         expect(lineEditPage.accountNumber).to.equal('');
