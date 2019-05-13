@@ -44,7 +44,7 @@ class LineListing extends Component {
           sortDirection="ascending"
           visibleColumns={['poLineNumber', 'title', 'productId', 'vendorRefNumber', 'fundCode']}
           columnMapping={{
-            poLineNumber: <FormattedMessage id="ui-orders.lineListing.lineNumber" />,
+            poLineNumber: <FormattedMessage id="ui-orders.poLine.number" />,
             title: <FormattedMessage id="ui-orders.lineListing.title" />,
             productId: <FormattedMessage id="ui-orders.lineListing.productId" />,
             vendorRefNumber: <FormattedMessage id="ui-orders.lineListing.vendorRefNumber" />,
