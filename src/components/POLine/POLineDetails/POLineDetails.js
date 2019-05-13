@@ -28,7 +28,7 @@ class POLineDetails extends Component {
         <Row>
           <Col xs={6}>
             <KeyValue
-              label={<FormattedMessage id="ui-orders.poLine.poLineNumber" />}
+              label={<FormattedMessage id="ui-orders.poLine.number" />}
               value={get(initialValues, 'poLineNumber')}
             />
           </Col>

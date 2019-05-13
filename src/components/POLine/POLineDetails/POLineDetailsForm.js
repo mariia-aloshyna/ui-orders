@@ -53,7 +53,7 @@ class POLineDetailsForm extends Component {
                 component={TextField}
                 disabled
                 fullWidth
-                label={<FormattedMessage id="ui-orders.poLine.poLineNumber" />}
+                label={<FormattedMessage id="ui-orders.poLine.number" />}
                 name="poLineNumber"
                 type="text"
               />
