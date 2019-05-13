@@ -295,7 +295,6 @@
     "poLine.owner": "Proprietário",
     "poLine.paymentStatus": "Status do pagamento",
     "poLine.poLineDescription": "Descrição da linha",
-    "poLine.poLineNumber": "ID da linha do pedido",
     "poLine.receiptDate": "Data de recebimento",
     "poLine.receiptStatus": "Status de recebimento",
     "poLine.requester": "Solicitante",
@@ -357,7 +356,6 @@
     "paneBlock.POSummary": "Sumário de pedidos",
     "paneBlock.purchaseOrder": "Pedido",
     "paneMenu.createPurchaseOrder": "Criar pedido",
-    "lineListing.lineNumber": "Número da linha do pedido",
     "vendor.refNumber": "Número de referência do fornecedor",
     "vendor.refNumberType": "Tipo de referência do fornecedor",
     "vendor.instructions": "Instruções ao fornecedor",
@@ -633,5 +631,6 @@
     "location.quantityElectronic.notMatchOrEmpty": "A quantidade de eletrônicos dos locais deve estar vazia ou coincidir com a quantidade de eletrônicos da Linha de PO",
     "location.required": "Ao menos uma localização deve ser inserida",
     "location.emptyQuantities": "Pelo menos uma quantidade deve ser especificada para localização",
-    "location.quantityPhysical.notMatchOrEmpty": "A quantidade física das localizações deve estar vazia ou corresponder à quantidade física da linha do pedido"
+    "location.quantityPhysical.notMatchOrEmpty": "A quantidade física das localizações deve estar vazia ou corresponder à quantidade física da linha do pedido",
+    "poLine.number": "Número da Linha do pedido"
 }
