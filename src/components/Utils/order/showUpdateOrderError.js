@@ -1,5 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+
 import { get } from 'lodash';
 
 export const ERROR_CODES = {
@@ -9,9 +11,28 @@ export const ERROR_CODES = {
   orderOpen: 'orderOpen',
   orderClosed: 'orderClosed',
   accessProviderNotFound: 'accessProviderNotFound',
+  missingInstanceStatus: 'missingInstanceStatus',
+  missingInstanceType: 'missingInstanceType',
+  missingLoanType: 'missingLoanType',
+
 };
 
 const POL_NUMBER_KEY = 'poLineNumber';
+
+const showMessage = (callout, code, error, path) => {
+  const title = get(error, 'errors.0.parameters.0.value', '');
+
+  callout.sendCallout({
+    type: 'error',
+    message: (
+      <FormattedMessage
+        id={`ui-orders.errors.${code}`}
+        values={{ value: <Link to={`/settings/inventory/${path}`}>{title}</Link> }}
+      />
+    ),
+    timeout: 0,
+  });
+};
 
 const showUpdateOrderError = async (response, callout, openModal) => {
   let error;
@@ -40,6 +61,18 @@ const showUpdateOrderError = async (response, callout, openModal) => {
 
       errors = errors.length ? errors : [{ code }];
       openModal(errors);
+      break;
+    }
+    case ERROR_CODES.missingInstanceStatus: {
+      showMessage(callout, code, error, 'instanceStatusTypes');
+      break;
+    }
+    case ERROR_CODES.missingInstanceType: {
+      showMessage(callout, code, error, 'resourcetypes');
+      break;
+    }
+    case ERROR_CODES.missingLoanType: {
+      showMessage(callout, code, error, 'loantypes');
       break;
     }
     default: {
