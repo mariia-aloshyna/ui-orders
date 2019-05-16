@@ -633,6 +633,10 @@
   "vendor.refNumberType": "Vendor Ref Type",
   "vendor.vendor_status": "Status",
   "vendor.accountNumber": "Account number",
+
+  "dateOrdered": "Date Ordered",
+  "assignedToMe": "Assigned to me",
+  "workflowStatus": "Status",
   "workflowStatus.closed": "Closed",
   "workflowStatus.open": "Open",
   "workflowStatus.pending": "Pending"
