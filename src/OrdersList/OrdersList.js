@@ -16,7 +16,6 @@ import {
 } from '../components/Utils/const';
 import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
-import { Filters } from '../components/Utils/FilterConfig';
 import FolioFormattedTime from '../components/FolioFormattedTime';
 import { createOrderResource } from '../components/Utils/orderResource';
 import {
@@ -33,13 +32,14 @@ import {
   orderRecordsMutatorShape,
 } from '../components/Utils/mutators';
 
+import OrdersListFilters from './OrdersListFilters';
+import { filterConfig } from './OrdersListFilterConfig';
+
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
-const filterConfig = Filters();
 
-class Main extends Component {
+class OrdersList extends Component {
   static manifest = Object.freeze({
-    initializedFilterConfig: { initialValue: false },
     query: {
       initialValue: {
         query: '',
@@ -158,9 +158,6 @@ class Main extends Component {
 
   static propTypes = {
     mutator: PropTypes.shape({
-      initializedFilterConfig: PropTypes.shape({
-        replace: PropTypes.func.isRequired,
-      }),
       records: orderRecordsMutatorShape,
       orderNumber: orderNumberMutatorShape,
       poLine: lineMutatorShape,
@@ -176,22 +173,6 @@ class Main extends Component {
   static defaultProps = {
     showSingleResult: true,
     browseOnly: false,
-  }
-
-  static getDerivedStateFromProps(props) {
-    const assignedTo = filterConfig.find(group => group.name === 'assignedTo');
-
-    if (assignedTo.values.length === 0) {
-      const user = props.stripes.user.user;
-
-      assignedTo.values.push({
-        name: `${user.firstName} ${user.lastName}`,
-        cql: `${user.id}`,
-      });
-      props.mutator.initializedFilterConfig.replace(true);
-    }
-
-    return null;
   }
 
   constructor(props) {
@@ -219,6 +200,57 @@ class Main extends Component {
 
   createCalloutRef = ref => {
     this.callout = ref;
+  };
+
+  getActiveFilters = () => {
+    const { query } = this.props.resources;
+
+    if (!query || !query.filters) return {};
+
+    return query.filters
+      .split(',')
+      .reduce((filterMap, currentFilter) => {
+        const [name, value] = currentFilter.split('.');
+
+        if (!Array.isArray(filterMap[name])) {
+          filterMap[name] = [];
+        }
+
+        filterMap[name].push(value);
+
+        return filterMap;
+      }, {});
+  };
+
+  handleFilterChange = ({ name, values }) => {
+    const { mutator } = this.props;
+    const newFilters = {
+      ...this.getActiveFilters(),
+      [name]: values,
+    };
+
+    const filters = Object.keys(newFilters)
+      .map((filterName) => {
+        return newFilters[filterName]
+          .map((filterValue) => `${filterName}.${filterValue}`)
+          .join(',');
+      })
+      .filter(filter => filter)
+      .join(',');
+
+    mutator.query.update({ filters });
+  };
+
+  renderFilters = (onChange) => {
+    const { stripes } = this.props;
+
+    return (
+      <OrdersListFilters
+        activeFilters={this.getActiveFilters()}
+        onChange={onChange}
+        user={stripes.user.user}
+      />
+    );
   };
 
   render() {
@@ -271,7 +303,8 @@ class Main extends Component {
           packageInfo={packageInfo}
           objectName="order"
           baseRoute={packageInfo.stripes.route}
-          filterConfig={filterConfig}
+          onFilterChange={this.handleFilterChange}
+          renderFilters={this.renderFilters}
           visibleColumns={['poNumber', 'vendorCode', 'workflowStatus', 'orderType', 'created', 'owner', 'assignedTo']}
           resultsFormatter={resultsFormatter}
           viewRecordComponent={Panes}
@@ -308,4 +341,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default OrdersList;

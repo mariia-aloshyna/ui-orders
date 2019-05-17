@@ -37,6 +37,20 @@ describe('Orders', () => {
     });
   });
 
+  describe('filter', function () {
+    describe('by dateOrdered', function () {
+      beforeEach(async function () {
+        await orders.filter.fillDateOrderedStart('2019-01-01');
+        await orders.filter.fillDateOrderedEnd('2019-08-01');
+        await orders.filter.applyDateOrdered.click();
+      });
+
+      it('should load list without errors', () => {
+        expect(orders.orders().length).to.be.equal(ORDERS_COUNT);
+      });
+    });
+  });
+
   it('create new order button', () => {
     expect(orders.hasCreateOrderButton).to.be.true;
   });

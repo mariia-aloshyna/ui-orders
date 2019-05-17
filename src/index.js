@@ -8,7 +8,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { stripesShape } from '@folio/stripes/core';
 
-import Main from './routes/Main';
+import OrdersList from './OrdersList';
 import OrdersSettings from './settings/OrdersSettings';
 import {
   RECEIVING_HISTORY,
@@ -36,7 +36,7 @@ class Orders extends Component {
 
   constructor(props, context) {
     super(props, context);
-    this.connectedApp = props.stripes.connect(Main);
+    this.connectedOrdersList = props.stripes.connect(OrdersList);
     this.connectedReceiving = props.stripes.connect(ReceivingList);
     this.connectedReceivingHistory = props.stripes.connect(ReceivingHistory);
     this.connectedCheckIn = props.stripes.connect(CheckIn);
@@ -77,7 +77,7 @@ class Orders extends Component {
         />
         <Route
           path={path}
-          render={props => <this.connectedApp {...props} stripes={stripes} />}
+          render={props => <this.connectedOrdersList {...props} stripes={stripes} />}
         />
       </Switch>
     );
