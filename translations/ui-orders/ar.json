@@ -440,7 +440,7 @@
     "linesLimit.createBtn": "إنشاء أمر شراء جديد",
     "errors.noCreatedOrder": "لم يتم إنشاء أمر الشراء",
     "closeOrderModal.closingReasons.ceased": "موقوف",
-    "closeOrderModal.closingReasons.transferred": "تم نقله إلى ناشر آخر",
+    "closeOrderModal.closingReasons.transferred": "تم تحويله إلى ناشر آخر",
     "closeOrderModal.closingReasons.merged": "مدمج مع عنوان آخر",
     "closeOrderModal.closingReasons.split": "تقسيم إلى عناوين أخرى",
     "closeOrderModal.closingReasons.lackOfFunds": "نقص التمويلات",
@@ -616,7 +616,7 @@
     "checkIn.history.confirmation.message": "هل أنت متأكد من أنك تريد حذف هذه القطع من سجل الرد؟ سوف تعود إلى حالة متوقع وسيتم ضبط أي مواد مرتبطة بها إلى في الطلب.",
     "line.accordion.other": "تفاصيل الموارد الأخرى",
     "poLine.materialType": "نوع المادة",
-    "errors.noCreateItemPlugin": "[لا يوجد برنامج إضافي لإنشاء مادة مخزون]",
+    "errors.noCreateItemPlugin": "[لا يوجد برنامج مساعد لإنشاء مادة مخزون]",
     "vendor.accountNumber": "رقم الحساب",
     "receiving.comment": "تعليقات",
     "buttons.line.save": "حفظ",
@@ -632,5 +632,11 @@
     "location.required": "يجب إدخال موقع واحد على الأقل",
     "location.emptyQuantities": "يجب تحديد كمية واحدة على الأقل للموقع",
     "location.quantityPhysical.notMatchOrEmpty": "يجب أن تكون الكمية المادية للمواقع فارغة أو مطابقة للكمية المادية لخط أمر الشراء",
-    "poLine.number": "POL number"
+    "poLine.number": "رقم خط أمر الشراء",
+    "errors.missingInstanceStatus": "لا يمكن فتح الطلبية حيث أن حالة {value} غير معرّفة",
+    "errors.missingInstanceType": "لا يمكن فتح الطلبية حيث أن نوع {value} غير معرّف",
+    "errors.missingLoanType": "لا يمكن فتح الطلبية حيث أن نوع {value} غير معرّف",
+    "dateOrdered": "تاريخ الطلب",
+    "assignedToMe": "معيّن إلىّ",
+    "workflowStatus": "الحالة"
 }
