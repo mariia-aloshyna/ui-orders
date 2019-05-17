@@ -632,5 +632,11 @@
     "location.required": "At least one location must be entered",
     "location.emptyQuantities": "At least one quantity should be specified for location",
     "location.quantityPhysical.notMatchOrEmpty": "Locations physical quantity should be empty or match with PO Line physical quantity",
-    "poLine.number": "POL number"
+    "poLine.number": "POL number",
+    "errors.missingInstanceStatus": "Order can not be opened as the status of {value} is undefined",
+    "errors.missingInstanceType": "Order can not be opened as the type of {value} is undefined",
+    "errors.missingLoanType": "Order can not be opened as the type of {value} is undefined",
+    "dateOrdered": "Date ordered",
+    "assignedToMe": "Assigned to me",
+    "workflowStatus": "Status"
 }

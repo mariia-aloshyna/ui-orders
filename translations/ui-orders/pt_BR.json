@@ -632,5 +632,11 @@
     "location.required": "Ao menos uma localização deve ser inserida",
     "location.emptyQuantities": "Pelo menos uma quantidade deve ser especificada para localização",
     "location.quantityPhysical.notMatchOrEmpty": "A quantidade física das localizações deve estar vazia ou corresponder à quantidade física da linha do pedido",
-    "poLine.number": "Número da Linha do pedido"
+    "poLine.number": "Número da Linha do pedido",
+    "errors.missingInstanceStatus": "O pedido não pode ser aberto porque o status de {value} é indefinido",
+    "errors.missingInstanceType": "O pedido não pode ser aberto porque o tipo de {value} é indefinido",
+    "errors.missingLoanType": "O pedido não pode ser aberto porque o tipo de {value} é indefinido",
+    "dateOrdered": "Data da compra",
+    "assignedToMe": "Atribuído a mim",
+    "workflowStatus": "Status"
 }
