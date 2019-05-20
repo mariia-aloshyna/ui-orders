@@ -65,18 +65,28 @@ class OrdersListFilters extends Component {
     };
 
     if (filterValue) {
-      const [startDate, endDate] = filterValue.split(':');
+      const [startDateString, endDateString] = filterValue.split(':');
+      const endDate = moment.utc(endDateString);
+      const startDate = moment.utc(startDateString);
 
       dateRange = {
-        startDate: moment(startDate).format(DATE_FORMAT) || '',
-        endDate: moment(endDate).format(DATE_FORMAT) || '',
+        startDate: startDate.isValid()
+          ? startDate.format(DATE_FORMAT)
+          : '',
+        endDate: endDate.isValid()
+          ? endDate.subtract(1, 'days').format(DATE_FORMAT)
+          : '',
       };
     }
 
     return dateRange;
   }
 
-  makeDateRangeFilterString = (startDate, endDate) => `${startDate}:${endDate}`;
+  makeDateRangeFilterString = (startDate, endDate) => {
+    const endDateCorrected = moment.utc(endDate).add(1, 'days').format(DATE_FORMAT);
+
+    return `${startDate}:${endDateCorrected}`;
+  }
 
   renderDateOrderedFilter = () => {
     const activeFilters = this.props.activeFilters[FILTERS.DATE_ORDERED] || [];
