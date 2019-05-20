@@ -18,6 +18,7 @@ const PiecesList = ({ checkedItemsMap, items = [], toggleItem, toggleAll, isAllC
     ),
     'title': piece => piece.title,
     'piece': piece => piece.caption,
+    'format': piece => piece.pieceFormat,
     'supplement': piece => (
       <Checkbox
         checked={piece.supplement}
@@ -34,7 +35,7 @@ const PiecesList = ({ checkedItemsMap, items = [], toggleItem, toggleAll, isAllC
     <MultiColumnList
       contentData={items}
       formatter={resultsFormatter}
-      visibleColumns={['isChecked', 'title', 'piece', 'supplement', 'poLineNumber', 'comment', 'pieceStatus']}
+      visibleColumns={['isChecked', 'title', 'piece', 'format', 'supplement', 'poLineNumber', 'comment', 'pieceStatus']}
       columnMapping={{
         isChecked: (
           <Checkbox
@@ -46,6 +47,7 @@ const PiecesList = ({ checkedItemsMap, items = [], toggleItem, toggleAll, isAllC
         ),
         title: <FormattedMessage id="ui-orders.receiving.title" />,
         piece: <FormattedMessage id="ui-orders.checkIn.piece" />,
+        format: <FormattedMessage id="ui-orders.checkIn.pieceFormat" />,
         supplement: <FormattedMessage id="ui-orders.checkIn.supplement" />,
         poLineNumber: <FormattedMessage id="ui-orders.receiving.poLine" />,
         comment: <FormattedMessage id="ui-orders.checkIn.comment" />,
@@ -54,7 +56,8 @@ const PiecesList = ({ checkedItemsMap, items = [], toggleItem, toggleAll, isAllC
       columnWidths={{
         isChecked: '2%',
         title: '30%',
-        piece: '30%',
+        piece: '23%',
+        format: '7%',
         supplement: '8%',
         poLineNumber: '10%',
         comment: '10%',
