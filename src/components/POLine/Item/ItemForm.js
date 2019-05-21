@@ -24,6 +24,7 @@ import ProductIdDetailsForm from './ProductIdDetailsForm';
 import ContributorForm from './ContributorForm';
 
 import css from './ItemForm.css';
+import { ALLOWED_YEAR_LENGTH } from '../const';
 
 class ItemForm extends Component {
   static propTypes = {
@@ -38,10 +39,12 @@ class ItemForm extends Component {
 
     dispatch(change('title', title));
     if (publication && publication.length) {
-      const { publisher, dateOfPublication } = publication[0];
+      const { publisher, dateOfPublication = '' } = publication[0];
 
       dispatch(change('publisher', publisher));
-      dispatch(change('publicationDate', dateOfPublication));
+      if (dateOfPublication.length === ALLOWED_YEAR_LENGTH) {
+        dispatch(change('publicationDate', dateOfPublication));
+      }
     }
     if (editions && editions.length) {
       const edition = editions[0];
@@ -147,6 +150,7 @@ class ItemForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
             name="publicationDate"
+            normalize={v => (v || null)}
             validate={validateYear}
           />
         </Col>
