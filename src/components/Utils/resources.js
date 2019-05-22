@@ -1,5 +1,6 @@
 import {
   CHECKIN_API,
+  IDENTIFIER_TYPES_API,
   ITEMS_API,
   LINE_DETAIL_API,
   LOCATIONS_API,
@@ -74,4 +75,11 @@ export const LINE = {
   type: 'okapi',
   path: LINE_DETAIL_API,
   throwErrors: false,
+};
+
+export const IDENTIFIER_TYPES = {
+  type: 'okapi',
+  path: IDENTIFIER_TYPES_API,
+  records: 'identifierTypes',
+  perRequest: LIMIT_MAX,
 };

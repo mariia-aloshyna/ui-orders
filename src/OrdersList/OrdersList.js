@@ -18,6 +18,7 @@ import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
 import FolioFormattedTime from '../components/FolioFormattedTime';
 import { createOrderResource } from '../components/Utils/orderResource';
+import { IDENTIFIER_TYPES } from '../components/Utils/resources';
 import {
   CONFIG_API,
   LINES_API,
@@ -155,6 +156,7 @@ class OrdersList extends Component {
         },
       },
     },
+    identifierTypes: IDENTIFIER_TYPES,
   });
 
   static propTypes = {

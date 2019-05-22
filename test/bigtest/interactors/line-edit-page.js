@@ -98,6 +98,9 @@ const ITEM_DETAILS = {
   inputTitle = fillable(ITEM_DETAILS.inputTitle);
   errorTitle = attribute(ITEM_DETAILS.inputTitle, 'error');
   contributors = collection('[name*="contributors"]');
+  edition = fillable('[name="edition"]');
+  publisher = fillable('[name="publisher"]');
+  productIds = collection('[name*="productIds"]');
 }
 
 @interactor class OrderFormat {
@@ -162,4 +165,7 @@ export default interactor(class LineEditPage {
   accountNumber = value('[name="vendorDetail.vendorAccount"]');
   currency = value('[name="cost.currency"]');
   subscriptionInterval = value('[name="details.subscriptionInterval"]');
+  instanceId = value('[name="instanceId"]');
+  addProductIdsButton = new Button('[data-test-add-product-ids-button]');
+  removeProductIdsButton = new Button('[data-test-remove-product-ids-button]');
 });
