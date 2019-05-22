@@ -31,6 +31,7 @@ import {
   orderNumberMutatorShape,
   orderRecordsMutatorShape,
 } from '../components/Utils/mutators';
+import OrdersNavigation from '../common/OrdersNavigation';
 
 import OrdersListFilters from './OrdersListFilters';
 import { filterConfig } from './OrdersListFilterConfig';
@@ -44,7 +45,7 @@ class OrdersList extends Component {
       initialValue: {
         query: '',
         filters: '',
-        sort: 'id',
+        sort: 'poNumber',
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
@@ -253,6 +254,8 @@ class OrdersList extends Component {
     );
   };
 
+  renderNavigation = () => <OrdersNavigation isOrders />;
+
   render() {
     const {
       browseOnly,
@@ -305,6 +308,7 @@ class OrdersList extends Component {
           baseRoute={packageInfo.stripes.route}
           onFilterChange={this.handleFilterChange}
           renderFilters={this.renderFilters}
+          renderNavigation={this.renderNavigation}
           visibleColumns={['poNumber', 'vendorCode', 'workflowStatus', 'orderType', 'created', 'owner', 'assignedTo']}
           resultsFormatter={resultsFormatter}
           viewRecordComponent={Panes}
