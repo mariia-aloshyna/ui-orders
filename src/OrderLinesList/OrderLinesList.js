@@ -71,7 +71,10 @@ class OrderLinesList extends Component {
           query: makeQueryFunction(
             'cql.allRecords=1',
             '(title="*%{query.query}*")',
-            {},
+            {
+              updatedDate: 'metadata.updatedDate',
+              vendorRefNumber: 'vendorDetail.refNumber',
+            },
             [],
           ),
         },
