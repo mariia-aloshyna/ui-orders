@@ -25,6 +25,7 @@ import {
 import ItemDetailsFooter from './ItemDetailsFooter';
 import ReviewDetails from './ReviewDetails';
 import { fetchItems, receiveItems } from './util';
+import { STATUS_IN_PROCESS } from '../../common/constants';
 
 class ItemDetails extends Component {
   static manifest = Object.freeze({
@@ -65,6 +66,7 @@ class ItemDetails extends Component {
         lineItems[k] = v.map((piece) => ({
           ...piece,
           barcode: get(itemsMap, [piece.itemId, 'barcode']),
+          itemStatus: STATUS_IN_PROCESS,
         }));
       });
 

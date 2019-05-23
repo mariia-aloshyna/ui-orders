@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+
 import { get } from 'lodash';
 
 import {
@@ -30,7 +31,7 @@ const ReviewDetails = ({
     'format': (item) => get(item, 'pieceFormat', ''),
     'location': (item) => get(locationsOptions.filter(el => (
       el.value === item.locationId)), [0, 'label'], 'Unknown location'),
-    'itemStatus': () => <FormattedMessage id="ui-orders.receiving.itemStatus.inProcess" />,
+    'itemStatus': (item) => <FormattedMessage id={`ui-orders.receiving.itemStatus.${item.itemStatus}`} />,
   };
 
   return (

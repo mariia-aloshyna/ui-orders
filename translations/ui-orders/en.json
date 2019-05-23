@@ -553,6 +553,8 @@
   "receiving.itemStatus.inProcess": "In process",
   "receiving.itemStatus.onOrder": "On order",
   "receiving.itemStatus.received": "Received",
+  "receiving.itemStatus.available": "Available",
+  "receiving.itemStatus.inTransit": "In transit",
   "receiving.itemStatus": "Item Status",
   "receiving.lineStatus.expected": "Expected",
   "receiving.location": "Location",

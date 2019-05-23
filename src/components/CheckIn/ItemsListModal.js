@@ -16,6 +16,7 @@ import {
 import { EMPTY_OPTION } from '../Utils/const';
 import ItemsListModalFooter from './ItemsListModalFooter';
 import { SelectItemStatus } from '../SelectItemStatus';
+
 import css from './ItemsListModal.css';
 
 const ItemsListModal = ({
@@ -66,6 +67,7 @@ const ItemsListModal = ({
     ),
     'itemStatus': (item) => (
       <SelectItemStatus
+        isAssociatedRecord={item.itemId}
         onChange={(e) => onChangeField(item, e.target.value, 'itemStatus')}
       />
     ),
