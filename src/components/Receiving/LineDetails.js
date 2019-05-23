@@ -10,11 +10,8 @@ import {
   TextField,
   Select,
 } from '@folio/stripes/components';
+
 import { SelectItemStatus } from '../SelectItemStatus';
-import {
-  STATUS_IN_PROCESS,
-  ITEM_STATUS,
-} from '../../common/constants';
 
 import css from './ItemDetails.css';
 
@@ -75,9 +72,10 @@ const LineDetails = ({
         />
       </div>
     ),
-    'itemStatus': () => (
+    'itemStatus': (item) => (
       <SelectItemStatus
-        value={ITEM_STATUS[STATUS_IN_PROCESS]}
+        isAssociatedRecord={item.itemId}
+        onChange={(e) => onChangeField(item, e.target.value, 'itemStatus')}
       />
     ),
   };
