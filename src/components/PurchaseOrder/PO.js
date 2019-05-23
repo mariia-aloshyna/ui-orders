@@ -24,20 +24,16 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 
 import { LayerPO } from '../LayerCollection';
 import {
-  CONFIG_API,
-  ORDER_DETAIL_API,
-} from '../Utils/api';
+  CLOSING_REASONS,
+  LINES_LIMIT,
+  ORDER,
+} from '../Utils/resources';
 import {
   cloneOrder,
   updateOrderResource,
 } from '../Utils/orderResource';
 import { showUpdateOrderError } from '../Utils/order';
-import {
-  CONFIG_CLOSING_REASONS,
-  CONFIG_LINES_LIMIT,
-  LINES_LIMIT_DEFAULT,
-  MODULE_ORDERS,
-} from '../Utils/const';
+import { LINES_LIMIT_DEFAULT } from '../Utils/const';
 import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import CloseOrderModal from './CloseOrder';
 import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
@@ -47,38 +43,19 @@ import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
 import { RenewalsView } from './renewals';
 import LinesLimit from './LinesLimit';
-import { isReceiveAvailableForOrder } from './util';
+import {
+  getAddresses,
+  isReceiveAvailableForOrder,
+} from './util';
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
 
 import css from './PO.css';
 
 class PO extends Component {
   static manifest = Object.freeze({
-    order: {
-      type: 'okapi',
-      path: ORDER_DETAIL_API,
-      throwErrors: false,
-    },
-    closingReasons: {
-      type: 'okapi',
-      records: 'configs',
-      path: CONFIG_API,
-      GET: {
-        params: {
-          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CLOSING_REASONS})`,
-        },
-      },
-    },
-    linesLimit: {
-      type: 'okapi',
-      records: 'configs',
-      path: CONFIG_API,
-      GET: {
-        params: {
-          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_LINES_LIMIT})`,
-        },
-      },
-    },
+    order: ORDER,
+    closingReasons: CLOSING_REASONS,
+    linesLimit: LINES_LIMIT,
   });
 
   static propTypes = {
@@ -324,6 +301,7 @@ class PO extends Component {
     const createdByUserId = get(order, 'metadata.createdByUserId');
     const createdBy = get(parentResources, 'users.records', []).find(d => d.id === createdByUserId);
     const isOngoing = get(order, 'orderType') === ORDER_TYPE.ongoing;
+    const addresses = getAddresses(get(parentResources, 'addresses.records', []));
 
     order.vendorName = get(vendor, 'name');
     order.assignedToUser = assignedTo && assignedTo.personal
@@ -408,7 +386,10 @@ class PO extends Component {
             id="purchaseOrder"
             label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
           >
-            <PODetailsView order={order} {...this.props} />
+            <PODetailsView
+              addresses={addresses}
+              order={order}
+            />
           </Accordion>
           {isOngoing && (
             <Accordion

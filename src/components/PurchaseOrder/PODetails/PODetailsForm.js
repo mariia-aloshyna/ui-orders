@@ -13,9 +13,9 @@ import {
   IconButton,
   KeyValue,
   Row,
-  TextField,
   Select,
   Selection,
+  TextField,
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
@@ -43,6 +43,7 @@ class PODetailsForm extends Component {
     dispatch: PropTypes.func,
     change: PropTypes.func,
     owner: PropTypes.string,
+    addresses: PropTypes.arrayOf(PropTypes.object),
   }
 
   onClearFieldUser = () => {
@@ -170,6 +171,7 @@ class PODetailsForm extends Component {
 
   render() {
     const {
+      addresses,
       formValues,
       orderNumberSetting: { selectedPrefixes, selectedSuffixes, canUserEditOrderNumber },
       owner,
@@ -178,6 +180,9 @@ class PODetailsForm extends Component {
     const ownerOptions = owner && !OWNER_OPTIONS.some(({ value }) => value === owner)
       ? [...OWNER_OPTIONS, { value: owner, label: owner }]
       : OWNER_OPTIONS;
+    const addressesOptions = addresses.map(address => ({ value: address.id, label: address.name }));
+    const addressBillTo = get(addresses.find(el => el.id === formValues.billTo), 'address', '');
+    const addressShipTo = get(addresses.find(el => el.id === formValues.shipTo), 'address', '');
 
     return (
       <Fragment>
@@ -302,30 +307,6 @@ class PODetailsForm extends Component {
             xs={6}
             lg={3}
           >
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
-              name="billTo"
-            />
-          </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
-              name="shipTo"
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col
-            xs={6}
-            lg={3}
-          >
             <FieldOrderType />
           </Col>
           <Col
@@ -338,6 +319,50 @@ class PODetailsForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.poLine.owner" />}
               name="owner"
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <Field
+              component={Selection}
+              dataOptions={[{ label: '', value: null }, ...addressesOptions]}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
+              name="billTo"
+            />
+          </Col>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.orderDetails.address" />}
+              value={addressBillTo}
+            />
+          </Col>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <Field
+              component={Selection}
+              dataOptions={[{ label: '', value: null }, ...addressesOptions]}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
+              name="shipTo"
+            />
+          </Col>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
+              label={<FormattedMessage id="ui-orders.orderDetails.address" />}
+              value={addressShipTo}
             />
           </Col>
         </Row>

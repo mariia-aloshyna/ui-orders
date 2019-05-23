@@ -28,6 +28,7 @@ import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { RenewalsForm } from './renewals';
+import { getAddresses } from './util';
 
 const throwError = () => {
   const errorInfo = { poNumber: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
@@ -174,6 +175,7 @@ class POForm extends Component {
       this.getLastMenu('clickable-create-new-purchase-order', 'ui-orders.paneMenu.saveOrder');
     const showDeleteButton = initialValues.id || false;
     const orderNumberSetting = getOrderNumberSetting(get(parentResources, 'orderNumberSetting.records', []));
+    const addresses = getAddresses(get(parentResources, 'addresses.records', []));
 
     if (!initialValues) {
       return (
@@ -222,6 +224,7 @@ class POForm extends Component {
                           label={<FormattedMessage id="ui-orders.paneBlock.purchaseOrder" />}
                         >
                           <PODetailsForm
+                            addresses={addresses}
                             change={change}
                             dispatch={dispatch}
                             formValues={formValues}

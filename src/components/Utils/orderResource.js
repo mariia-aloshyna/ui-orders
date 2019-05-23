@@ -6,8 +6,6 @@ const saveOrder = (order, mutator) => {
   delete order.createdByName;
   delete order.assignedToUser;
   delete order.vendorName;
-  delete order.billTo;
-  delete order.shipTo;
   delete order.numberPrefix;
   delete order.numberSuffix;
 
