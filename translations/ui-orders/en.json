@@ -644,5 +644,12 @@
   "workflowStatus.pending": "Pending",
 
   "navigation.orders": "Orders",
-  "navigation.orderLines": "Order lines"
+  "navigation.orderLines": "Order lines",
+
+  "orderLineList.poLineNumber": "POL number",
+  "orderLineList.updatedDate": "Updated date",
+  "orderLineList.title": "Title",
+  "orderLineList.productIds": "Product ID",
+  "orderLineList.vendorRefNumber": "Vendor reference number",
+  "orderLineList.funCodes": "Fund code"
 }
