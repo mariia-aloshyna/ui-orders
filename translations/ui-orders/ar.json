@@ -638,5 +638,15 @@
     "errors.missingLoanType": "لا يمكن فتح الطلبية حيث أن نوع {value} غير معرّف",
     "dateOrdered": "تاريخ الطلب",
     "assignedToMe": "معيّن إلىّ",
-    "workflowStatus": "الحالة"
+    "workflowStatus": "الحالة",
+    "navigation.orders": "الطلبيات",
+    "navigation.orderLines": "Order lines",
+    "receiving.itemStatus.available": "Available",
+    "receiving.itemStatus.inTransit": "In transit",
+    "orderLineList.poLineNumber": "POL number",
+    "orderLineList.updatedDate": "Updated date",
+    "orderLineList.title": "Title",
+    "orderLineList.productIds": "Product ID",
+    "orderLineList.vendorRefNumber": "Vendor reference number",
+    "orderLineList.funCodes": "Fund code"
 }

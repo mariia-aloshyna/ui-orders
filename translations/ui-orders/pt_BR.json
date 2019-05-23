@@ -638,5 +638,15 @@
     "errors.missingLoanType": "O pedido não pode ser aberto porque o tipo de {value} é indefinido",
     "dateOrdered": "Data da compra",
     "assignedToMe": "Atribuído a mim",
-    "workflowStatus": "Status"
+    "workflowStatus": "Status",
+    "navigation.orders": "Pedidos",
+    "navigation.orderLines": "Linhas do pedido",
+    "receiving.itemStatus.available": "Available",
+    "receiving.itemStatus.inTransit": "In transit",
+    "orderLineList.poLineNumber": "POL number",
+    "orderLineList.updatedDate": "Updated date",
+    "orderLineList.title": "Title",
+    "orderLineList.productIds": "Product ID",
+    "orderLineList.vendorRefNumber": "Vendor reference number",
+    "orderLineList.funCodes": "Fund code"
 }
