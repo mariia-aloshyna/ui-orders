@@ -9,6 +9,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { stripesShape } from '@folio/stripes/core';
 
 import OrdersList from './OrdersList';
+import OrderLinesList from './OrderLinesList';
 import OrdersSettings from './settings/OrdersSettings';
 import {
   RECEIVING_HISTORY,
@@ -17,11 +18,7 @@ import {
   ReceivingList,
 } from './components/Receiving';
 import CheckIn from './components/CheckIn/CheckIn';
-
-/*
-  STRIPES-NEW-APP
-  This is the main entry point into your new app.
-*/
+import { ORDER_LINES_ROUTE } from './common/constants';
 
 const ORDER_DETAIL_URL = '/orders/view/:id';
 const LINE_DETAIL_URL = `${ORDER_DETAIL_URL}/po-line/view/:lineId`;
@@ -37,6 +34,7 @@ class Orders extends Component {
   constructor(props, context) {
     super(props, context);
     this.connectedOrdersList = props.stripes.connect(OrdersList);
+    this.connectedOrderLinesList = props.stripes.connect(OrderLinesList);
     this.connectedReceiving = props.stripes.connect(ReceivingList);
     this.connectedReceivingHistory = props.stripes.connect(ReceivingHistory);
     this.connectedCheckIn = props.stripes.connect(CheckIn);
@@ -74,6 +72,11 @@ class Orders extends Component {
           exact
           path={`${ORDER_DETAIL_URL}${RECEIVING_ITEMS}`}
           render={props => <this.connectedReceiving {...props} stripes={stripes} />}
+        />
+        <Route
+          exact
+          path={ORDER_LINES_ROUTE}
+          render={props => <this.connectedOrderLinesList {...props} stripes={stripes} />}
         />
         <Route
           path={path}

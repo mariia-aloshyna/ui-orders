@@ -641,5 +641,8 @@
   "workflowStatus": "Status",
   "workflowStatus.closed": "Closed",
   "workflowStatus.open": "Open",
-  "workflowStatus.pending": "Pending"
+  "workflowStatus.pending": "Pending",
+
+  "navigation.orders": "Orders",
+  "navigation.orderLines": "Order lines"
 }
