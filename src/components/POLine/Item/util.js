@@ -4,7 +4,25 @@ import {
   isEqual,
 } from 'lodash';
 
-export default (formValues, inventoryData) => {
+export const getInventoryData = (state, initialValues) => {
+  const { instanceId, title, publisher, publicationDate, edition, contributors, productIds } = state;
+
+  return {
+    instanceId: instanceId || get(initialValues, 'instanceId', ''),
+    title: title || get(initialValues, 'title', ''),
+    publisher: publisher || get(initialValues, 'publisher', ''),
+    publicationDate: publicationDate || get(initialValues, 'publicationDate', ''),
+    edition: edition || get(initialValues, 'edition', ''),
+    contributors: contributors.length
+      ? contributors
+      : get(initialValues, 'contributors', []),
+    productIds: productIds.length
+      ? productIds
+      : get(initialValues, 'details.productIds', []),
+  };
+};
+
+export const checkInstanceIdField = (formValues, inventoryData) => {
   const isEqualContributors = inventoryData.contributors.every(el => {
     const contributor = find(get(formValues, 'contributors', []), { 'contributor': el.contributor });
 

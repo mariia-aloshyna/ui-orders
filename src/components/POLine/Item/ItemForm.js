@@ -24,14 +24,16 @@ import {
   DATE_FORMAT,
   TIMEZONE,
 } from '../../Utils/const';
-import getInventoryData from '../../Utils/getInventoryData';
-import checkInstanceIdField from '../../Utils/checkInstanceField';
 import {
   Required,
   validateYear,
 } from '../../Utils/Validate';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
 import ContributorForm from './ContributorForm';
+import {
+  checkInstanceIdField,
+  getInventoryData,
+} from './util';
 
 import css from './ItemForm.css';
 import { ALLOWED_YEAR_LENGTH } from '../const';
