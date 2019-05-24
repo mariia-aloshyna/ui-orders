@@ -20,7 +20,6 @@ class ProductIdDetailsForm extends Component {
   static propTypes = {
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
     onChangeField: PropTypes.func.isRequired,
-    checkInstanceIdField: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -37,7 +36,7 @@ class ProductIdDetailsForm extends Component {
 
   removeFields(fields, index) {
     fields.remove(index);
-    this.props.checkInstanceIdField();
+    this.props.onChangeField();
   }
 
   renderForm({ fields }) {

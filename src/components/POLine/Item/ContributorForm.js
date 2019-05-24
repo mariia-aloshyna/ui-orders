@@ -15,7 +15,6 @@ import {
 class ContributorForm extends Component {
   static propTypes = {
     onChangeField: PropTypes.func.isRequired,
-    checkInstanceIdField: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -32,7 +31,7 @@ class ContributorForm extends Component {
 
   removeFields(fields, index) {
     fields.remove(index);
-    this.props.checkInstanceIdField();
+    this.props.onChangeField();
   }
 
   renderForm({ fields }) {

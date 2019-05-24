@@ -193,7 +193,6 @@ class ItemForm extends Component {
         <Col xs={6}>
           <ContributorForm
             onChangeField={this.onChangeField}
-            checkInstanceIdField={this.checkInstanceIdField}
           />
         </Col>
         <Col xs={6}>
@@ -260,7 +259,6 @@ class ItemForm extends Component {
           <ProductIdDetailsForm
             identifierTypes={this.props.identifierTypes}
             onChangeField={this.onChangeField}
-            checkInstanceIdField={this.checkInstanceIdField}
           />
         </Col>
         <Col xs={12}>
