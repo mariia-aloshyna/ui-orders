@@ -6,6 +6,8 @@ import {
   FieldArray,
 } from 'redux-form';
 
+import { get } from 'lodash';
+
 import {
   Col,
   KeyValue,
@@ -35,8 +37,9 @@ class FundDistributionForm extends Component {
   };
 
   renderSubForm = (elem, index, fields) => {
-    const { funds } = this.props;
+    const { funds = [] } = this.props;
     const fund = fields.get(index);
+    const fundCode = get(funds.find(({ value }) => value === fund.fundId), 'code');
     const amount = this.calculateAmount(fund);
 
     return (
@@ -47,7 +50,7 @@ class FundDistributionForm extends Component {
             dataOptions={funds}
             fullWidth
             label={<FormattedMessage id="ui-orders.fundDistribution.id" />}
-            name={`${elem}.code`}
+            name={`${elem}.fundId`}
             placeholder=" "
             required
             validate={[Required]}
@@ -67,7 +70,7 @@ class FundDistributionForm extends Component {
         <Col xs={3}>
           <KeyValue
             label={<FormattedMessage id="ui-orders.fundDistribution.code" />}
-            value={fund.code}
+            value={fundCode}
           />
         </Col>
         <Col xs={3}>

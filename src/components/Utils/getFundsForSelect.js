@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 
-export default (resources) => get(resources, 'fund.records', []).map(({ name, code }) => ({
+export default (resources) => get(resources, 'fund.records', []).map(({ name, code, id }) => ({
   label: name,
-  value: code,
+  value: id,
   code,
 }));
