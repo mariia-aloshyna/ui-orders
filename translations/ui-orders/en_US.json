@@ -638,5 +638,15 @@
     "errors.missingLoanType": "Order can not be opened as the type of {value} is undefined",
     "dateOrdered": "Date ordered",
     "assignedToMe": "Assigned to me",
-    "workflowStatus": "Status"
+    "workflowStatus": "Status",
+    "navigation.orders": "Orders",
+    "navigation.orderLines": "Order lines",
+    "receiving.itemStatus.available": "Available",
+    "receiving.itemStatus.inTransit": "In transit",
+    "orderLineList.poLineNumber": "POL number",
+    "orderLineList.updatedDate": "Updated date",
+    "orderLineList.title": "Title",
+    "orderLineList.productIds": "Product ID",
+    "orderLineList.vendorRefNumber": "Vendor reference number",
+    "orderLineList.funCodes": "Fund code"
 }
