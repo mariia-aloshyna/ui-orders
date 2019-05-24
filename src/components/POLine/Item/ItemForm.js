@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import {
+  Field,
+  getFormValues,
+} from 'redux-form';
+
+import {
+  find,
+  get,
+} from 'lodash';
 
 import {
   Col,
@@ -22,6 +30,10 @@ import {
 } from '../../Utils/Validate';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
 import ContributorForm from './ContributorForm';
+import {
+  checkInstanceIdField,
+  getInventoryData,
+} from './util';
 
 import css from './ItemForm.css';
 import { ALLOWED_YEAR_LENGTH } from '../const';
@@ -31,25 +43,50 @@ class ItemForm extends Component {
     stripes: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
+    identifierTypes: PropTypes.arrayOf(PropTypes.object),
+    initialValues: PropTypes.object,
   };
 
-  onAddInstance = (instance) => {
-    const { dispatch, change } = this.props;
-    const { contributors, editions, publication, title } = instance;
+  constructor(props) {
+    super(props);
 
-    dispatch(change('title', title));
+    this.state = {
+      instanceId: '',
+      title: '',
+      publisher: '',
+      publicationDate: '',
+      edition: '',
+      contributors: [],
+      productIds: [],
+    };
+  }
+
+  onAddInstance = (instance) => {
+    const { dispatch, change, identifierTypes } = this.props;
+    const { contributors, editions, publication, title, identifiers, id } = instance;
+    const inventoryData = { instanceId: id };
+
+    dispatch(change('instanceId', id));
+    if (title) {
+      dispatch(change('title', title));
+      inventoryData.title = title;
+    }
     if (publication && publication.length) {
       const { publisher, dateOfPublication = '' } = publication[0];
 
       dispatch(change('publisher', publisher));
+      inventoryData.publisher = publisher;
+
       if (dateOfPublication.length === ALLOWED_YEAR_LENGTH) {
         dispatch(change('publicationDate', dateOfPublication));
+        inventoryData.publicationDate = dateOfPublication;
       }
     }
     if (editions && editions.length) {
       const edition = editions[0];
 
       dispatch(change('edition', edition));
+      inventoryData.edition = edition;
     }
     if (contributors && contributors.length) {
       const lineContributors = contributors.map(({ name, contributorNameTypeId }) => ({
@@ -58,7 +95,39 @@ class ItemForm extends Component {
       }));
 
       dispatch(change('contributors', lineContributors));
+      inventoryData.contributors = lineContributors;
     }
+    if (identifiers && identifiers.length) {
+      const lineidentifiers = identifiers.map(({ identifierTypeId, value }) => ({
+        productId: value,
+        productIdType: find(identifierTypes, { id: identifierTypeId }).value,
+      }));
+
+      dispatch(change('details.productIds', lineidentifiers));
+      inventoryData.productIds = lineidentifiers;
+    }
+    this.setState(({
+      instanceId: inventoryData.instanceId,
+      title: get(inventoryData, 'title', ''),
+      publisher: get(inventoryData, 'publisher', ''),
+      publicationDate: get(inventoryData, 'publicationDate', ''),
+      edition: get(inventoryData, 'edition', ''),
+      contributors: get(inventoryData, 'contributors', []),
+      productIds: get(inventoryData, 'productIds', []),
+    }));
+  };
+
+  onChangeField = (value, fieldName) => {
+    const { dispatch, change, initialValues, stripes: { store } } = this.props;
+    const inventoryData = getInventoryData(this.state, initialValues);
+
+    dispatch(change(fieldName, value));
+
+    const formValues = getFormValues('POLineForm')(store.getState());
+
+    if (checkInstanceIdField(formValues, inventoryData)) {
+      dispatch(change('instanceId', inventoryData.instanceId));
+    } else dispatch(change('instanceId', ''));
   };
 
   selectInstanceModal = () => {
@@ -97,6 +166,7 @@ class ItemForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.itemDetails.title" />}
               name="title"
+              onChange={(e, value) => this.onChangeField(value, 'title')}
               required
               validate={Required}
             />
@@ -104,6 +174,15 @@ class ItemForm extends Component {
               {this.selectInstanceModal()}
             </div>
           </div>
+        </Col>
+        <Col xs={6}>
+          <Field
+            component={TextField}
+            fullWidth
+            label={<FormattedMessage id="ui-orders.itemDetails.instanceId" />}
+            name="instanceId"
+            readOnly
+          />
         </Col>
         <Col xs={12}>
           <Field
@@ -114,7 +193,9 @@ class ItemForm extends Component {
           />
         </Col>
         <Col xs={6}>
-          <ContributorForm />
+          <ContributorForm
+            onChangeField={this.onChangeField}
+          />
         </Col>
         <Col xs={6}>
           <Field
@@ -133,6 +214,7 @@ class ItemForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
             name="publisher"
+            onChange={(e, value) => this.onChangeField(value, 'publisher')}
           />
         </Col>
         <Col xs={6}>
@@ -150,6 +232,7 @@ class ItemForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
             name="publicationDate"
+            onChange={(e, value) => this.onChangeField(value, 'publicationDate')}
             normalize={v => (v || null)}
             validate={validateYear}
           />
@@ -170,11 +253,15 @@ class ItemForm extends Component {
             component={TextField}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
+            onChange={(e, value) => this.onChangeField(value, 'edition')}
             name="edition"
           />
         </Col>
         <Col xs={12}>
-          <ProductIdDetailsForm />
+          <ProductIdDetailsForm
+            identifierTypes={this.props.identifierTypes}
+            onChangeField={this.onChangeField}
+          />
         </Col>
         <Col xs={12}>
           <Field

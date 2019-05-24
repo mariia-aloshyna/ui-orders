@@ -25,6 +25,11 @@ const requiredField = 'Required!';
 const validationYearMessage = 'Field should be 4-digit year';
 const LIST_UNIT_PRICE = 1.1;
 const QUANTITY_PHYSICAL = 2;
+const INSTANCE_ID = '12345';
+const CONTRIBUTOR = 'Test Contributor';
+const EDITION = 'Test Edition';
+const PUBLISHER = 'Test Publisher';
+const PRODUCT_ID = '123456789';
 const cost = {
   currency: DEFAULT_CURRENCY,
   listUnitPrice: LIST_UNIT_PRICE,
@@ -208,6 +213,27 @@ describe('Line edit test', () => {
     });
   });
 
+  describe('Product Ids can be added', () => {
+    beforeEach(async function () {
+      await lineEditPage.itemDetailsAccordion.toggle();
+      await lineEditPage.addProductIdsButton.click();
+    });
+
+    it('product Ids fields are added', () => {
+      expect(lineEditPage.itemDetailsAccordion.productIds().length).to.be.equal(2);
+    });
+
+    describe('Product Ids can be removed', () => {
+      beforeEach(async function () {
+        await lineEditPage.removeProductIdsButton.click();
+      });
+
+      it('Product Ids fields are removed', () => {
+        expect(lineEditPage.removeProductIdsButton.isPresent).to.be.false;
+      });
+    });
+  });
+
   describe('Check not negative locations quantity validation', () => {
     const NEGATIVE_QUANTITY = -1;
 
@@ -331,6 +357,66 @@ describe('Line edit test', () => {
 
     it('displays updated PO Line Details pane', () => {
       expect(lineDetailsPage.$root).to.exist;
+    });
+  });
+
+  describe('Capture UUID from inventory', () => {
+    beforeEach(function () {
+      line = this.server.create('line', {
+        order,
+        title: TITLE,
+        instanceId: INSTANCE_ID,
+        contributors: [{ contributor: CONTRIBUTOR }],
+        edition: EDITION,
+        publisher: PUBLISHER,
+        details: {
+          productIds: [{ productId: PRODUCT_ID }],
+        },
+      });
+
+      this.server.get(`${ORDERS_API}/${order.id}`, {
+        ...order.attrs,
+        compositePoLines: [line.attrs],
+      });
+
+      this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);
+    });
+
+    it('Item details fields are shown', () => {
+      expect(lineEditPage.instanceId).to.be.equal(INSTANCE_ID);
+    });
+
+    describe('Remove instance ID from form', () => {
+      beforeEach(async function () {
+        await lineEditPage.itemDetailsAccordion.inputTitle('');
+        await lineEditPage.itemDetailsAccordion.edition('');
+        await lineEditPage.itemDetailsAccordion.publisher('');
+      });
+
+      it('instance id is not shown', () => {
+        expect(lineEditPage.instanceId).to.be.equal('');
+      });
+    });
+
+    describe('Instance Id is shown', () => {
+      beforeEach(async function () {
+        await lineEditPage.addContributorButton.click();
+      });
+
+      it('instance id is shown', () => {
+        expect(lineEditPage.instanceId).to.be.equal(INSTANCE_ID);
+      });
+    });
+
+    describe('Instance Id is not shown', () => {
+      beforeEach(async function () {
+        await lineEditPage.removeContributorButton.click();
+        await lineEditPage.removeProductIdsButton.click();
+      });
+
+      it('instance id is not shown', () => {
+        expect(lineEditPage.instanceId).to.be.equal('');
+      });
     });
   });
 });

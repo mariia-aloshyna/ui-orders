@@ -12,3 +12,4 @@ export const RECEIVE_API = 'orders/receive';
 export const ITEMS_API = 'inventory/items';
 export const CHECKIN_API = 'orders/check-in';
 export const ORDER_PIECES_API = 'orders/pieces';
+export const IDENTIFIER_TYPES_API = 'identifier-types';
