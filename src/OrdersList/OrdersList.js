@@ -18,7 +18,11 @@ import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
 import FolioFormattedTime from '../components/FolioFormattedTime';
 import { createOrderResource } from '../components/Utils/orderResource';
-import { IDENTIFIER_TYPES } from '../components/Utils/resources';
+import {
+  LOCATIONS,
+  MATERIAL_TYPES,
+  IDENTIFIER_TYPES,
+} from '../components/Utils/resources';
 import {
   CONFIG_API,
   LINES_API,
@@ -94,12 +98,7 @@ class OrdersList extends Component {
       records: 'funds',
       perRequest: 1000,
     },
-    materialTypes: {
-      type: 'okapi',
-      path: 'material-types',
-      records: 'mtypes',
-      perRequest: 1000,
-    },
+    materialTypes: MATERIAL_TYPES,
     closingReasons: {
       type: 'okapi',
       path: CONFIG_API,
@@ -140,12 +139,7 @@ class OrdersList extends Component {
       throwErrors: false,
       type: 'okapi',
     },
-    locations: {
-      type: 'okapi',
-      path: 'locations',
-      records: 'locations',
-      perRequest: 1000,
-    },
+    locations: LOCATIONS,
     createInventory: {
       type: 'okapi',
       records: 'configs',

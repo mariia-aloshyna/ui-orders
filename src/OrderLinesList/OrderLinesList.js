@@ -14,12 +14,19 @@ import {
   LINES_API,
   DATE_FORMAT,
 } from '../common/constants';
+import {
+  LOCATIONS,
+  MATERIAL_TYPES,
+  VENDORS,
+} from '../components/Utils/resources';
+// import OrderLinesFilters from './OrderLinesFilters';
+// import { filterConfig } from './OrdersLinesFilterConfig';
 
+const OrderLinesFilters = () => null;
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 
 const viewRecordComponent = noop;
-const renderFilters = noop;
 
 const visibleColumns = ['poLineNumber', 'updatedDate', 'title', 'productIds', 'vendorRefNumber', 'funCodes'];
 const resultsFormatter = {
@@ -75,12 +82,16 @@ class OrderLinesList extends Component {
               updatedDate: 'metadata.updatedDate',
               vendorRefNumber: 'vendorDetail.refNumber',
             },
+            // filterConfig,
             [],
           ),
         },
         staticFallback: { params: {} },
       },
     },
+    locations: LOCATIONS,
+    materialTypes: MATERIAL_TYPES,
+    vendors: VENDORS,
   });
 
   static propTypes = {
@@ -97,7 +108,59 @@ class OrderLinesList extends Component {
     browseOnly: false,
   }
 
+  getActiveFilters = () => {
+    const { query } = this.props.resources;
+
+    if (!query || !query.filters) return {};
+
+    return query.filters
+      .split(',')
+      .reduce((filterMap, currentFilter) => {
+        const [name, value] = currentFilter.split('.');
+
+        if (!Array.isArray(filterMap[name])) {
+          filterMap[name] = [];
+        }
+
+        filterMap[name].push(value);
+
+        return filterMap;
+      }, {});
+  };
+
+  handleFilterChange = ({ name, values }) => {
+    const { mutator } = this.props;
+    const newFilters = {
+      ...this.getActiveFilters(),
+      [name]: values,
+    };
+
+    const filters = Object.keys(newFilters)
+      .map((filterName) => {
+        return newFilters[filterName]
+          .map((filterValue) => `${filterName}.${filterValue}`)
+          .join(',');
+      })
+      .filter(filter => filter)
+      .join(',');
+
+    mutator.query.update({ filters });
+  };
+
   renderNavigation = () => <OrdersNavigation isOrderLines />;
+
+  renderFilters = (onChange) => {
+    const { resources } = this.props;
+    const locations = get(resources, 'locations.records', []);
+
+    return (
+      <OrderLinesFilters
+        activeFilters={this.getActiveFilters()}
+        onChange={onChange}
+        locations={locations}
+      />
+    );
+  };
 
   render() {
     const {
@@ -133,8 +196,9 @@ class OrderLinesList extends Component {
           showSingleResult={showSingleResult}
           browseOnly={browseOnly}
           viewRecordComponent={viewRecordComponent}
-          renderFilters={renderFilters}
+          renderFilters={this.renderFilters}
           renderNavigation={this.renderNavigation}
+          onFilterChange={this.handleFilterChange}
         />
       </div>
     );

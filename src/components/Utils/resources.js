@@ -8,6 +8,7 @@ import {
   ORDER_PIECES_API,
   RECEIVE_API,
   RECEIVING_API,
+  VENDORS_API,
 } from './api';
 import { LIMIT_MAX } from './const';
 
@@ -81,5 +82,24 @@ export const IDENTIFIER_TYPES = {
   type: 'okapi',
   path: IDENTIFIER_TYPES_API,
   records: 'identifierTypes',
+  perRequest: LIMIT_MAX,
+};
+
+export const MATERIAL_TYPES = {
+  type: 'okapi',
+  path: 'material-types',
+  records: 'mtypes',
+  perRequest: LIMIT_MAX,
+};
+
+export const VENDORS = {
+  type: 'okapi',
+  path: VENDORS_API,
+  GET: {
+    params: {
+      query: 'cql.allRecords=1 sortby name',
+    },
+  },
+  records: 'organizations',
   perRequest: LIMIT_MAX,
 };
