@@ -355,7 +355,7 @@
   "errors.materialTypeRequired": "The Material Type is required but not available in PO line",
   "errors.missingInstanceStatus": "Order can not be opened as the status of {value} is undefined",
   "errors.missingInstanceType": "Order can not be opened as the type of {value} is undefined",
-  "errors.missingLoanType": "Order can not be opened as the type of {value} is undefined",
+  "errors.missingLoanType": "Order can not be opened as a loan type was not configured in orders settings or the configured type {value} no longer exists",
   "errors.noCreatedOrder": "Purchase Order has not been created",
   "errors.noCreateItemPlugin": "[no inventory create-item plugin]",
   "errors.noMatch.how": "How did you get to {location}?",
