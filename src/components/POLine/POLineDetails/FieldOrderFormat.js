@@ -18,7 +18,7 @@ import {
   PHYSICAL,
 } from '../const';
 
-const ORDER_FORMAT = {
+export const ORDER_FORMAT = {
   electronicResource: ERESOURCE,
   physicalResource: PHYSICAL,
   PEMix: PE_MIX,

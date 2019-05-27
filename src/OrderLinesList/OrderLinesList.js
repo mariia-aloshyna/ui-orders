@@ -15,14 +15,17 @@ import {
   DATE_FORMAT,
 } from '../common/constants';
 import {
+  getActiveFilters,
+  handleFilterChange,
+} from '../common/utils';
+import {
   LOCATIONS,
   MATERIAL_TYPES,
   VENDORS,
 } from '../components/Utils/resources';
-// import OrderLinesFilters from './OrderLinesFilters';
-// import { filterConfig } from './OrdersLinesFilterConfig';
+import OrderLinesFilters from './OrderLinesFilters';
+import { filterConfig } from './OrdersLinesFilterConfig';
 
-const OrderLinesFilters = () => null;
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 
@@ -82,8 +85,7 @@ class OrderLinesList extends Component {
               updatedDate: 'metadata.updatedDate',
               vendorRefNumber: 'vendorDetail.refNumber',
             },
-            // filterConfig,
-            [],
+            filterConfig,
           ),
         },
         staticFallback: { params: {} },
@@ -108,56 +110,27 @@ class OrderLinesList extends Component {
     browseOnly: false,
   }
 
-  getActiveFilters = () => {
-    const { query } = this.props.resources;
-
-    if (!query || !query.filters) return {};
-
-    return query.filters
-      .split(',')
-      .reduce((filterMap, currentFilter) => {
-        const [name, value] = currentFilter.split('.');
-
-        if (!Array.isArray(filterMap[name])) {
-          filterMap[name] = [];
-        }
-
-        filterMap[name].push(value);
-
-        return filterMap;
-      }, {});
-  };
-
-  handleFilterChange = ({ name, values }) => {
-    const { mutator } = this.props;
-    const newFilters = {
-      ...this.getActiveFilters(),
-      [name]: values,
-    };
-
-    const filters = Object.keys(newFilters)
-      .map((filterName) => {
-        return newFilters[filterName]
-          .map((filterValue) => `${filterName}.${filterValue}`)
-          .join(',');
-      })
-      .filter(filter => filter)
-      .join(',');
-
-    mutator.query.update({ filters });
-  };
+  constructor(props, context) {
+    super(props, context);
+    this.getActiveFilters = getActiveFilters.bind(this);
+    this.handleFilterChange = handleFilterChange.bind(this);
+  }
 
   renderNavigation = () => <OrdersNavigation isOrderLines />;
 
   renderFilters = (onChange) => {
     const { resources } = this.props;
     const locations = get(resources, 'locations.records', []);
+    const vendors = get(resources, 'vendors.records', []);
+    const materialTypes = get(resources, 'materialTypes.records', []);
 
     return (
       <OrderLinesFilters
         activeFilters={this.getActiveFilters()}
         onChange={onChange}
         locations={locations}
+        materialTypes={materialTypes}
+        vendors={vendors}
       />
     );
   };

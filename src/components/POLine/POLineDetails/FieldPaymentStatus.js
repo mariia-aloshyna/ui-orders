@@ -6,7 +6,7 @@ import { Field } from 'redux-form';
 import { Select } from '@folio/stripes/components';
 import { PO_WORKFLOW_STATUSES } from '../../../common/constants';
 
-const PAYMENT_STATUS = {
+export const PAYMENT_STATUS = {
   awaitingPayment: 'Awaiting Payment',
   cancelled: 'Cancelled',
   fullyPaid: 'Fully Paid',

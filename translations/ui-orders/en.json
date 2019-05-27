@@ -372,6 +372,8 @@
   "errors.zeroCostQty": "Physical and electronic cost quantity must be specified",
   "errors.zeroCostQtyElectronic": "Electronic cost quantity must be specified",
   "errors.zeroCostQtyPhysical": "Physical cost quantity must be specified",
+  "filter.materialType.electronic": "Material type, electronic",
+  "filter.materialType.physical": "Material type, physical",
   "fundDistribution.addBtn": "Add",
   "fundDistribution.amount": "Amount",
   "fundDistribution.code": "Code",
