@@ -82,6 +82,7 @@ class PO extends Component {
   });
 
   static propTypes = {
+    connectedSource: PropTypes.object.isRequired,
     mutator: PropTypes.shape({
       order: PropTypes.shape({
         PUT: PropTypes.func.isRequired,
@@ -262,6 +263,7 @@ class PO extends Component {
 
   render() {
     const {
+      connectedSource,
       editLink,
       history,
       location,
@@ -431,6 +433,7 @@ class PO extends Component {
           </Accordion>
         </AccordionSet>
         <LayerPO
+          connectedSource={connectedSource}
           order={order}
           location={location}
           stripes={stripes}
