@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { noop, get } from 'lodash';
+import { get } from 'lodash';
 import moment from 'moment';
 
 import { stripesShape } from '@folio/stripes/core';
@@ -22,14 +22,14 @@ import {
   LOCATIONS,
   MATERIAL_TYPES,
   VENDORS,
+  FUNDS,
 } from '../components/Utils/resources';
 import OrderLinesFilters from './OrderLinesFilters';
 import { filterConfig } from './OrdersLinesFilterConfig';
+import Details from './Details';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
-
-const viewRecordComponent = noop;
 
 const visibleColumns = ['poLineNumber', 'updatedDate', 'title', 'productIds', 'vendorRefNumber', 'funCodes'];
 const resultsFormatter = {
@@ -94,6 +94,7 @@ class OrderLinesList extends Component {
     locations: LOCATIONS,
     materialTypes: MATERIAL_TYPES,
     vendors: VENDORS,
+    funds: FUNDS,
   });
 
   static propTypes = {
@@ -151,10 +152,18 @@ class OrderLinesList extends Component {
       browseOnly,
     } = this.props;
 
+    const correctPackageInfo = {
+      ...packageInfo,
+      stripes: {
+        ...packageInfo.stripes,
+        route: ORDER_LINES_ROUTE,
+      },
+    };
+
     return (
       <div data-test-order-line-instances>
         <SearchAndSort
-          packageInfo={packageInfo}
+          packageInfo={correctPackageInfo}
           objectName="order-line"
           baseRoute={ORDER_LINES_ROUTE}
           visibleColumns={visibleColumns}
@@ -174,7 +183,7 @@ class OrderLinesList extends Component {
           stripes={stripes}
           showSingleResult={showSingleResult}
           browseOnly={browseOnly}
-          viewRecordComponent={viewRecordComponent}
+          viewRecordComponent={Details}
           renderFilters={this.renderFilters}
           renderNavigation={this.renderNavigation}
           onFilterChange={this.handleFilterChange}

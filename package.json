@@ -98,7 +98,7 @@
     "@bigtest/react": "^0.1.2",
     "@folio/eslint-config-stripes": "^4.0.1",
     "@folio/react-intl-safe-html": "^1.0.1",
-    "@folio/stripes": "^2.6.0",
+    "@folio/stripes": "^2.7.0",
     "@folio/stripes-cli": "^1.8.0",
     "@folio/stripes-components": "^5.0.2",
     "babel-eslint": "^9.0.0",
@@ -125,7 +125,7 @@
     "redux-form": "^7.3.0"
   },
   "peerDependencies": {
-    "@folio/stripes": "^2.6.0",
+    "@folio/stripes": "^2.7.0",
     "react": "*",
     "react-dom": "*",
     "react-redux": "*",

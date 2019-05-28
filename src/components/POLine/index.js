@@ -1,4 +1,5 @@
 import POLine from './POLine';
 import POLineForm from './POLineForm';
+import POLineView from './POLineView';
 
-export { POLine, POLineForm };
+export { POLine, POLineForm, POLineView };

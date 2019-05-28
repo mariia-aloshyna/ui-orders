@@ -74,7 +74,6 @@ class Orders extends Component {
           render={props => <this.connectedReceiving {...props} stripes={stripes} />}
         />
         <Route
-          exact
           path={ORDER_LINES_ROUTE}
           render={props => <this.connectedOrderLinesList {...props} stripes={stripes} />}
         />

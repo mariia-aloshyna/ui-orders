@@ -9,6 +9,7 @@ import {
   RECEIVE_API,
   RECEIVING_API,
   VENDORS_API,
+  FUNDS_API,
 } from './api';
 import { LIMIT_MAX } from './const';
 
@@ -101,5 +102,12 @@ export const VENDORS = {
     },
   },
   records: 'organizations',
+  perRequest: LIMIT_MAX,
+};
+
+export const FUNDS = {
+  type: 'okapi',
+  path: FUNDS_API,
+  records: 'funds',
   perRequest: LIMIT_MAX,
 };

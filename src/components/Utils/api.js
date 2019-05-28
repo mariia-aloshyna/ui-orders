@@ -8,6 +8,7 @@ export const ORDER_NUMBER_VALIDATE_API = `${ORDER_NUMBER_API}/validate`;
 export const VENDORS_API = 'organizations-storage/organizations';
 export const RECEIVING_API = 'orders/receiving-history';
 export const LOCATIONS_API = 'locations';
+export const FUNDS_API = 'fund';
 export const RECEIVE_API = 'orders/receive';
 export const ITEMS_API = 'inventory/items';
 export const CHECKIN_API = 'orders/check-in';
