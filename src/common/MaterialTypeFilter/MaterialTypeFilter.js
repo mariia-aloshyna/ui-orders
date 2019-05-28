@@ -7,7 +7,7 @@ import { materialTypesShape } from '../shapes';
 
 const MaterialTypeFilter = ({ isElectronic = false, materialTypes, ...rest }) => {
   const options = getMaterialTypesOptions(materialTypes);
-  const labelId = isElectronic ? 'filter.materialType.electronic' : 'filter.materialType.physical';
+  const labelId = isElectronic ? 'ui-orders.filter.materialType.electronic' : 'ui-orders.filter.materialType.physical';
 
   return (
     <OrdersSelectionFilter

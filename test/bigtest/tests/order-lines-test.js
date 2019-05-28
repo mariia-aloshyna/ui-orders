@@ -32,4 +32,28 @@ describe('Order lines', () => {
       expect(orderLines.navigation.isPresent).to.be.true;
     });
   });
+
+  describe('filter by metadata.createdDate', function () {
+    beforeEach(async function () {
+      await orderLines.filter.fillCreatedDateStart('2019-01-01');
+      await orderLines.filter.fillCreatedDateEnd('2019-08-01');
+      await orderLines.filter.applyCreatedDate.click();
+    });
+
+    it('should load list without errors', () => {
+      expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
+    });
+  });
+
+  it('renders expanded payment status filter', () => {
+    expect(orderLines.filter.accordionPaymentStatus.isExpanded).to.be.true;
+  });
+
+  it('renders expanded receipt status filter', () => {
+    expect(orderLines.filter.accordionReceiptStatus.isExpanded).to.be.true;
+  });
+
+  it('renders collapsed created date filter', () => {
+    expect(orderLines.filter.accordionCreatedDate.isExpanded).to.be.false;
+  });
 });

@@ -158,11 +158,7 @@ class OrdersList extends Component {
   });
 
   static propTypes = {
-    mutator: PropTypes.shape({
-      records: orderRecordsMutatorShape,
-      orderNumber: orderNumberMutatorShape,
-      poLine: lineMutatorShape,
-    }).isRequired,
+    mutator: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
     stripes: stripesShape.isRequired,
     showSingleResult: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
@@ -216,7 +212,12 @@ class OrdersList extends Component {
     );
   };
 
-  renderNavigation = () => <OrdersNavigation isOrders />;
+  renderNavigation = () => (
+    <OrdersNavigation
+      isOrders
+      queryMutator={this.props.mutator.query}
+    />
+  );
 
   render() {
     const {

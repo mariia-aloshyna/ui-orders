@@ -116,7 +116,12 @@ class OrderLinesList extends Component {
     this.handleFilterChange = handleFilterChange.bind(this);
   }
 
-  renderNavigation = () => <OrdersNavigation isOrderLines />;
+  renderNavigation = () => (
+    <OrdersNavigation
+      isOrderLines
+      queryMutator={this.props.mutator.query}
+    />
+  );
 
   renderFilters = (onChange) => {
     const { resources } = this.props;
@@ -127,9 +132,10 @@ class OrderLinesList extends Component {
     return (
       <OrderLinesFilters
         activeFilters={this.getActiveFilters()}
-        onChange={onChange}
         locations={locations}
         materialTypes={materialTypes}
+        onChange={onChange}
+        queryMutator={this.props.mutator.query}
         vendors={vendors}
       />
     );

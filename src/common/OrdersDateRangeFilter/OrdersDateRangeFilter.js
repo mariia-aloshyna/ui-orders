@@ -47,6 +47,7 @@ const makeDateRangeFilterString = (startDate, endDate) => {
 const OrdersDateRangeFilter = ({
   activeFilters = [],
   closedByDefault = true,
+  id,
   labelId,
   name,
   onChange,
@@ -56,6 +57,7 @@ const OrdersDateRangeFilter = ({
       closedByDefault={closedByDefault}
       displayClearButton={activeFilters.length > 0}
       header={FilterAccordionHeader}
+      id={id}
       label={<FormattedMessage id={labelId} />}
       onClearFilter={createClearFilterHandler(onChange, name)}
     >
@@ -73,6 +75,7 @@ const OrdersDateRangeFilter = ({
 OrdersDateRangeFilter.propTypes = {
   activeFilters: PropTypes.arrayOf(PropTypes.string),
   closedByDefault: PropTypes.bool,
+  id: PropTypes.string,
   labelId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

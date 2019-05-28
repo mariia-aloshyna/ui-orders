@@ -15,6 +15,7 @@ import {
 const OrdersCheckboxFilter = ({
   activeFilters = [],
   closedByDefault = true,
+  id,
   labelId,
   name,
   onChange,
@@ -25,6 +26,7 @@ const OrdersCheckboxFilter = ({
       closedByDefault={closedByDefault}
       displayClearButton={activeFilters.length > 0}
       header={FilterAccordionHeader}
+      id={id}
       label={<FormattedMessage id={labelId} />}
       onClearFilter={createClearFilterHandler(onChange, name)}
     >
@@ -41,6 +43,7 @@ const OrdersCheckboxFilter = ({
 OrdersCheckboxFilter.propTypes = {
   activeFilters: PropTypes.arrayOf(PropTypes.string),
   closedByDefault: PropTypes.bool,
+  id: PropTypes.string,
   labelId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

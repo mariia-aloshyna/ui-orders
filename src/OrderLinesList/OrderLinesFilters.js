@@ -5,6 +5,8 @@ import {
   AccordionSet,
 } from '@folio/stripes/components';
 
+import { RECEIPT_STATUS } from '../components/POLine/POLineDetails/FieldReceiptStatus';
+import { PAYMENT_STATUS } from '../components/POLine/POLineDetails/FieldPaymentStatus';
 import LocationFilter from '../common/LocationFilter';
 import OrdersCheckboxFilter from '../common/OrdersCheckboxFilter';
 import VendorFilter from '../common/VendorFilter';
@@ -30,7 +32,14 @@ class OrderLinesFilters extends Component {
     locations: locationsShape,
     vendors: vendorsShape,
     materialTypes: materialTypesShape,
+    queryMutator: PropTypes.object,
   };
+
+  componentDidMount() {
+    const { queryMutator } = this.props;
+
+    queryMutator.update({ filters: `${FILTERS.RECEIPT_STATUS}.${RECEIPT_STATUS.partiallyReceived},${FILTERS.PAYMENT_STATUS}.${PAYMENT_STATUS.partiallyPaid}` });
+  }
 
   render() {
     const { activeFilters, onChange, locations, materialTypes, vendors } = this.props;
@@ -40,6 +49,7 @@ class OrderLinesFilters extends Component {
         <OrdersCheckboxFilter
           activeFilters={activeFilters[FILTERS.RECEIPT_STATUS]}
           closedByDefault={false}
+          id={FILTERS.RECEIPT_STATUS}
           labelId="ui-orders.poLine.receiptStatus"
           name={FILTERS.RECEIPT_STATUS}
           onChange={onChange}
@@ -48,6 +58,7 @@ class OrderLinesFilters extends Component {
         <OrdersCheckboxFilter
           activeFilters={activeFilters[FILTERS.PAYMENT_STATUS]}
           closedByDefault={false}
+          id={FILTERS.PAYMENT_STATUS}
           labelId="ui-orders.poLine.paymentStatus"
           name={FILTERS.PAYMENT_STATUS}
           onChange={onChange}
@@ -89,6 +100,7 @@ class OrderLinesFilters extends Component {
         />
         <OrdersDateRangeFilter
           activeFilters={activeFilters[FILTERS.DATE_CREATED]}
+          id={FILTERS.DATE_CREATED}
           labelId="ui-orders.poLine.dateCreated"
           name={FILTERS.DATE_CREATED}
           onChange={onChange}
