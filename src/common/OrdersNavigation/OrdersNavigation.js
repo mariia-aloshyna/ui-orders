@@ -7,19 +7,27 @@ import {
   Button,
 } from '@folio/stripes/components';
 
-const OrdersNavigation = ({ isOrders, isOrderLines }) => (
+const goTo = (queryMutator, _path, sort = '') => {
+  queryMutator.replace({
+    _path,
+    filters: '',
+    sort,
+  });
+};
+
+const OrdersNavigation = ({ isOrders, isOrderLines, queryMutator }) => (
   <ButtonGroup
     fullWidth
     data-test-orders-navigation
   >
     <Button
-      to="/orders?sort=poNumber"
+      onClick={() => goTo(queryMutator, '/orders', 'poNumber')}
       buttonStyle={`${isOrders ? 'primary' : 'default'}`}
     >
       <FormattedMessage id="ui-orders.navigation.orders" />
     </Button>
     <Button
-      to="/orders/lines"
+      onClick={() => goTo(queryMutator, '/orders/lines')}
       buttonStyle={`${isOrderLines ? 'primary' : 'default'}`}
       data-test-orders-navigation-lines
     >
@@ -31,6 +39,7 @@ const OrdersNavigation = ({ isOrders, isOrderLines }) => (
 OrdersNavigation.propTypes = {
   isOrders: PropTypes.bool,
   isOrderLines: PropTypes.bool,
+  queryMutator: PropTypes.object,
 };
 
 OrdersNavigation.defaultProps = {
