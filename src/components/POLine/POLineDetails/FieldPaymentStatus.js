@@ -55,7 +55,7 @@ class FieldPaymentStatus extends Component {
 }
 
 FieldPaymentStatus.propTypes = {
-  workflowStatus: PropTypes.string.isRequired,
+  workflowStatus: PropTypes.string,
 };
 
 export default FieldPaymentStatus;
