@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import moment from 'moment';
 
 import {
-  Accordion,
   AccordionSet,
-  FilterAccordionHeader,
 } from '@folio/stripes/components';
-import { CheckboxFilter, DateRangeFilter } from '@folio/stripes/smart-components';
 
-import { DATE_FORMAT } from '../common/constants';
+import OrdersCheckboxFilter from '../common/OrdersCheckboxFilter';
+import OrdersDateRangeFilter from '../common/OrdersDateRangeFilter';
 
 import {
   FILTERS,
@@ -34,83 +30,8 @@ class OrdersListFilters extends Component {
     },
   };
 
-  createClearFilterHandler = (name) => () => {
-    this.props.onChange({ name, values: [] });
-  }
-
-  renderCheckboxFilter = (name, labelId, options) => {
-    const activeFilters = this.props.activeFilters[name] || [];
-
-    return (
-      <Accordion
-        displayClearButton={activeFilters.length > 0}
-        header={FilterAccordionHeader}
-        label={<FormattedMessage id={labelId} />}
-        onClearFilter={this.createClearFilterHandler(FILTERS.STATUS)}
-      >
-        <CheckboxFilter
-          dataOptions={options}
-          name={name}
-          onChange={this.props.onChange}
-          selectedValues={activeFilters}
-        />
-      </Accordion>
-    );
-  }
-
-  retrieveDatesFromDateRangeFilterString = filterValue => {
-    let dateRange = {
-      startDate: '',
-      endDate: '',
-    };
-
-    if (filterValue) {
-      const [startDateString, endDateString] = filterValue.split(':');
-      const endDate = moment.utc(endDateString);
-      const startDate = moment.utc(startDateString);
-
-      dateRange = {
-        startDate: startDate.isValid()
-          ? startDate.format(DATE_FORMAT)
-          : '',
-        endDate: endDate.isValid()
-          ? endDate.subtract(1, 'days').format(DATE_FORMAT)
-          : '',
-      };
-    }
-
-    return dateRange;
-  }
-
-  makeDateRangeFilterString = (startDate, endDate) => {
-    const endDateCorrected = moment.utc(endDate).add(1, 'days').format(DATE_FORMAT);
-
-    return `${startDate}:${endDateCorrected}`;
-  }
-
-  renderDateOrderedFilter = () => {
-    const activeFilters = this.props.activeFilters[FILTERS.DATE_ORDERED] || [];
-
-    return (
-      <Accordion
-        displayClearButton={activeFilters.length > 0}
-        header={FilterAccordionHeader}
-        label={<FormattedMessage id="ui-orders.dateOrdered" />}
-        onClearFilter={this.createClearFilterHandler(FILTERS.DATE_ORDERED)}
-      >
-        <DateRangeFilter
-          name={FILTERS.DATE_ORDERED}
-          selectedValues={this.retrieveDatesFromDateRangeFilterString(activeFilters[0])}
-          onChange={this.props.onChange}
-          makeFilterString={this.makeDateRangeFilterString}
-          dateFormat={DATE_FORMAT}
-        />
-      </Accordion>
-    );
-  }
-
   render() {
-    const { user } = this.props;
+    const { activeFilters, onChange, user } = this.props;
     const assignedToMeOptions = [
       {
         label: `${user.firstName} ${user.lastName}`,
@@ -120,16 +41,33 @@ class OrdersListFilters extends Component {
 
     return (
       <AccordionSet>
-        {this.renderCheckboxFilter(FILTERS.ASSIGNED_TO, 'ui-orders.assignedToMe', assignedToMeOptions)}
-        {this.renderCheckboxFilter(FILTERS.STATUS, 'ui-orders.workflowStatus', STATUS_FILTER_OPTIONS)}
-        {
-          this.renderCheckboxFilter(
-            FILTERS.RECEIPT_STATUS,
-            'ui-orders.poLine.receiptStatus',
-            RECEIPT_STATUS_FILTER_OPTIONS,
-          )
-        }
-        {this.renderDateOrderedFilter()}
+        <OrdersCheckboxFilter
+          activeFilters={activeFilters[FILTERS.ASSIGNED_TO]}
+          labelId="ui-orders.assignedToMe"
+          name={FILTERS.ASSIGNED_TO}
+          onChange={onChange}
+          options={assignedToMeOptions}
+        />
+        <OrdersCheckboxFilter
+          activeFilters={activeFilters[FILTERS.STATUS]}
+          labelId="ui-orders.workflowStatus"
+          name={FILTERS.STATUS}
+          onChange={onChange}
+          options={STATUS_FILTER_OPTIONS}
+        />
+        <OrdersCheckboxFilter
+          activeFilters={activeFilters[FILTERS.RECEIPT_STATUS]}
+          labelId="ui-orders.poLine.receiptStatus"
+          name={FILTERS.RECEIPT_STATUS}
+          onChange={onChange}
+          options={RECEIPT_STATUS_FILTER_OPTIONS}
+        />
+        <OrdersDateRangeFilter
+          activeFilters={activeFilters[FILTERS.DATE_ORDERED]}
+          labelId="ui-orders.dateOrdered"
+          name={FILTERS.DATE_ORDERED}
+          onChange={onChange}
+        />
       </AccordionSet>
     );
   }

@@ -37,6 +37,10 @@ import {
   orderRecordsMutatorShape,
 } from '../components/Utils/mutators';
 import OrdersNavigation from '../common/OrdersNavigation';
+import {
+  getActiveFilters,
+  handleFilterChange,
+} from '../common/utils';
 
 import OrdersListFilters from './OrdersListFilters';
 import { filterConfig } from './OrdersListFilterConfig';
@@ -154,11 +158,7 @@ class OrdersList extends Component {
   });
 
   static propTypes = {
-    mutator: PropTypes.shape({
-      records: orderRecordsMutatorShape,
-      orderNumber: orderNumberMutatorShape,
-      poLine: lineMutatorShape,
-    }).isRequired,
+    mutator: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
     stripes: stripesShape.isRequired,
     showSingleResult: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
@@ -172,9 +172,10 @@ class OrdersList extends Component {
     browseOnly: false,
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {};
+  constructor(props, context) {
+    super(props, context);
+    this.getActiveFilters = getActiveFilters.bind(this);
+    this.handleFilterChange = handleFilterChange.bind(this);
   }
 
   create = async (order) => {
@@ -199,45 +200,6 @@ class OrdersList extends Component {
     this.callout = ref;
   };
 
-  getActiveFilters = () => {
-    const { query } = this.props.resources;
-
-    if (!query || !query.filters) return {};
-
-    return query.filters
-      .split(',')
-      .reduce((filterMap, currentFilter) => {
-        const [name, value] = currentFilter.split('.');
-
-        if (!Array.isArray(filterMap[name])) {
-          filterMap[name] = [];
-        }
-
-        filterMap[name].push(value);
-
-        return filterMap;
-      }, {});
-  };
-
-  handleFilterChange = ({ name, values }) => {
-    const { mutator } = this.props;
-    const newFilters = {
-      ...this.getActiveFilters(),
-      [name]: values,
-    };
-
-    const filters = Object.keys(newFilters)
-      .map((filterName) => {
-        return newFilters[filterName]
-          .map((filterValue) => `${filterName}.${filterValue}`)
-          .join(',');
-      })
-      .filter(filter => filter)
-      .join(',');
-
-    mutator.query.update({ filters });
-  };
-
   renderFilters = (onChange) => {
     const { stripes } = this.props;
 
@@ -250,7 +212,12 @@ class OrdersList extends Component {
     );
   };
 
-  renderNavigation = () => <OrdersNavigation isOrders />;
+  renderNavigation = () => (
+    <OrdersNavigation
+      isOrders
+      queryMutator={this.props.mutator.query}
+    />
+  );
 
   render() {
     const {
@@ -324,7 +291,6 @@ class OrdersList extends Component {
           stripes={stripes}
           showSingleResult={showSingleResult}
           browseOnly={browseOnly}
-          columnWidths={{ poNumber: 120 }}
           columnMapping={{
             poNumber: <FormattedMessage id="ui-orders.order.po_number" />,
             vendorCode: <FormattedMessage id="ui-orders.order.vendorCode" />,
