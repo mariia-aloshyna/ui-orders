@@ -1,8 +1,8 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
-import OrderLinesInteractor from '../interactors/order-lines';
+import setupApplication from '../../helpers/setup-application';
+import OrderLinesInteractor from '../../interactors/order-lines';
 
 const ORDER_LINES_COUNT = 15;
 

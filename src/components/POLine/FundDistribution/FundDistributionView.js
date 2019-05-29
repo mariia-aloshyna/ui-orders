@@ -12,7 +12,7 @@ import {
 
 import FundId from './FundId';
 
-function FundDistributionView({ line = {}, parentResources }) {
+function FundDistributionView({ line = {}, funds = [] }) {
   const { fundDistribution = [] } = line;
   const codes = toString(fundDistribution.map(val => val.code));
   const percentages = toString(fundDistribution.map(val => `${val.percentage}%`));
@@ -23,7 +23,7 @@ function FundDistributionView({ line = {}, parentResources }) {
     <Row>
       <Col xs={6}>
         <FundId
-          funds={parentResources.fund}
+          funds={funds}
           fundDistribution={fundDistribution}
         />
       </Col>
@@ -54,11 +54,7 @@ FundDistributionView.propTypes = {
     fundDistribution: PropTypes.arrayOf(PropTypes.object).isRequired,
     cost: PropTypes.object.isRequired,
   }),
-  parentResources: PropTypes.shape({
-    fund: PropTypes.shape({
-      records: PropTypes.arrayOf(PropTypes.object).isRequired,
-    }),
-  }),
+  funds: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default FundDistributionView;

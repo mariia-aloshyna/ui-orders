@@ -9,8 +9,8 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-const Location = ({ location, parentResources }) => {
-  const filteredLocation = filter(get(parentResources, 'locations.records', []), { id: location.locationId });
+const Location = ({ location, locations }) => {
+  const filteredLocation = filter(locations, { id: location.locationId });
   const { name, code } = get(filteredLocation, '0', {});
 
   return (
@@ -37,24 +37,24 @@ const Location = ({ location, parentResources }) => {
   );
 };
 
-const LocationView = ({ parentResources, locations = [] }) => {
-  return locations.map((location, i) => (
+const LocationView = ({ locations, lineLocations = [] }) => {
+  return lineLocations.map((location, i) => (
     <Location
       key={location.id || i}  // i is required when new row of Location is added by User
       location={location}
-      parentResources={parentResources}
+      locations={locations}
     />
   ));
 };
 
 Location.propTypes = {
   location: PropTypes.object,
-  parentResources: PropTypes.object,
+  locations: PropTypes.arrayOf(PropTypes.object),
 };
 
 LocationView.propTypes = {
+  lineLocations: PropTypes.arrayOf(PropTypes.object),
   locations: PropTypes.arrayOf(PropTypes.object),
-  parentResources: PropTypes.object,
 };
 
 export default LocationView;

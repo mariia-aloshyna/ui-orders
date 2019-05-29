@@ -46,7 +46,7 @@ describe('Line details test', () => {
 
   it('displays Line details pane', () => {
     expect(page.$root).to.exist;
-    expect(page.receiveButton.isButton).to.be.true;
+    expect(page.receiveButton.isPresent).to.be.true;
   });
 
   describe('Receive button can be clicked on PO Line level', () => {
