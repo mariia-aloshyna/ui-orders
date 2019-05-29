@@ -24,11 +24,11 @@ describe('Line details test', () => {
   const page = new LineDetailsPage();
   const receivingPage = new ReceivingPage();
 
-  beforeEach(async function () {
-    order = await this.server.create('order', {
+  beforeEach(function () {
+    order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
     });
-    line = await this.server.create('line', {
+    line = this.server.create('line', {
       order,
       orderFormat: PHYSICAL,
       cost: {
@@ -60,8 +60,8 @@ describe('Line details test', () => {
   });
 
   describe('displays Other resource details', () => {
-    beforeEach(async function () {
-      line = await this.server.create('line', {
+    beforeEach(function () {
+      line = this.server.create('line', {
         order,
         orderFormat: OTHER,
         cost: {

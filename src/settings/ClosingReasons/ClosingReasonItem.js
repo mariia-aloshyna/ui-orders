@@ -69,7 +69,7 @@ class ClosingReasonItem extends PureComponent {
                 {value}
               </Col>
               <Col xs={2}>
-                {isSystem ? 'System' : 'User'}
+                <FormattedMessage id={`ui-orders.settings.closingReasons.${isSystem ? 'System' : 'User'}`} />
               </Col>
               {
                 !isSystem && (
