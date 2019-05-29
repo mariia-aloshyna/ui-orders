@@ -14,10 +14,13 @@ import FolioFormattedTime from '../../FolioFormattedTime';
 class PODetailsView extends Component {
   static propTypes = {
     order: PropTypes.object.isRequired,
+    addresses: PropTypes.arrayOf(PropTypes.object),
   };
 
   render() {
-    const { order } = this.props;
+    const { order, addresses } = this.props;
+    const addressBillTo = get(addresses.find(el => el.id === get(order, 'billTo', '')), 'address', '');
+    const addressShipTo = get(addresses.find(el => el.id === get(order, 'shipTo', '')), 'address', '');
 
     return (
       <Row>
@@ -50,16 +53,22 @@ class PODetailsView extends Component {
             value={get(order, 'assignedToUser')}
           />
         </Col>
-        <Col xs={6}>
+        <Col
+          data-test-order-details-bill-to
+          xs={6}
+        >
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
-            value={null}
+            value={addressBillTo}
           />
         </Col>
-        <Col xs={6}>
+        <Col
+          data-test-order-details-ship-to
+          xs={6}
+        >
           <KeyValue
             label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
-            value={null}
+            value={addressShipTo}
           />
         </Col>
         <Col xs={6}>

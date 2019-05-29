@@ -19,7 +19,9 @@ import OpenOrderErrorModal from '../interactors/PurchaseOrder/open-order-error-m
 import { ERROR_CODES } from '../../../src/components/Utils/order';
 import LinesLimitModal from '../interactors/lines-limit-modal';
 import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
+import { ID } from '../network/config';
 
+const ADDRESS = 'TEST ADDRESS';
 const OWNER_TEST_VALUE = 'some team';
 
 describe('OrderDetailsPage', () => {
@@ -38,6 +40,8 @@ describe('OrderDetailsPage', () => {
       orderType: ORDER_TYPE.ongoing,
       vendor: vendor.id,
       owner: OWNER_TEST_VALUE,
+      billTo: ID,
+      shipTo: ID,
     });
 
     this.visit(`/orders/view/${order.id}`);
@@ -58,6 +62,11 @@ describe('OrderDetailsPage', () => {
 
   it('displays the owner', () => {
     expect(orderDetailsPage.owner.value).to.contain(OWNER_TEST_VALUE);
+  });
+
+  it('displays billTo and shipTo', () => {
+    expect(orderDetailsPage.billTo.value).to.contain(ADDRESS);
+    expect(orderDetailsPage.shipTo.value).to.contain(ADDRESS);
   });
 
   describe('clicking on edit', () => {

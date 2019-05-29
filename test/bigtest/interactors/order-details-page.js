@@ -11,6 +11,16 @@ import Button from './button';
   value = text('[class*=kvRoot---]');
 }
 
+@interactor class BillTo {
+  static defaultScope = '[data-test-order-details-bill-to]';
+  value = text('[class*=kvRoot---]');
+}
+
+@interactor class ShipTo {
+  static defaultScope = '[data-test-order-details-ship-to]';
+  value = text('[class*=kvRoot---]');
+}
+
 export default interactor(class OrderDetailsPage {
   static defaultScope = '[data-test-order-details]';
   title = text('[class*=paneTitleLabel---]');
@@ -22,4 +32,6 @@ export default interactor(class OrderDetailsPage {
   closeOrderButton = new Button('[data-test-close-order-button]');
   renewalsAccordion = isPresent('#renewals');
   owner = new Owner();
+  billTo = new BillTo();
+  shipTo = new ShipTo();
 });

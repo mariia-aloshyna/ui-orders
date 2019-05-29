@@ -454,6 +454,7 @@
   "order.vendorCode": "Vendor Code",
   "order.orderType": "Order Type",
   "orderDetails.addNoteBtn": "Add Note",
+  "orderDetails.address": "Address",
   "orderDetails.assignedTo": "Assigned To",
   "orderDetails.billTo": "Bill To",
   "orderDetails.createdBy": "Created By",

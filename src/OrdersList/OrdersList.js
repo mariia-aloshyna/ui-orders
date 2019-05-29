@@ -8,23 +8,11 @@ import { stripesShape } from '@folio/stripes/core';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
 
 import packageInfo from '../../package';
-import {
-  CONFIG_CLOSING_REASONS,
-  CONFIG_CREATE_INVENTORY,
-  CONFIG_ORDER_NUMBER,
-  MODULE_ORDERS,
-} from '../components/Utils/const';
 import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
 import FolioFormattedTime from '../components/FolioFormattedTime';
 import { createOrderResource } from '../components/Utils/orderResource';
 import {
-  LOCATIONS,
-  MATERIAL_TYPES,
-  IDENTIFIER_TYPES,
-} from '../components/Utils/resources';
-import {
-  CONFIG_API,
   LINES_API,
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,
@@ -32,16 +20,21 @@ import {
   VENDORS_API,
 } from '../components/Utils/api';
 import {
-  lineMutatorShape,
-  orderNumberMutatorShape,
-  orderRecordsMutatorShape,
-} from '../components/Utils/mutators';
+  ADDRESSES,
+  CLOSING_REASONS,
+  CREATE_INVENTORY,
+  FUND,
+  IDENTIFIER_TYPES,
+  LOCATIONS,
+  MATERIAL_TYPES,
+  ORDER_NUMBER_SETTING,
+  USERS,
+} from '../components/Utils/resources';
 import OrdersNavigation from '../common/OrdersNavigation';
 import {
   getActiveFilters,
   handleFilterChange,
 } from '../common/utils';
-
 import OrdersListFilters from './OrdersListFilters';
 import { filterConfig } from './OrdersListFilterConfig';
 
@@ -79,6 +72,11 @@ class OrdersList extends Component {
         staticFallback: { params: {} },
       },
     },
+    users: USERS,
+    fund: FUND,
+    materialTypes: MATERIAL_TYPES,
+    closingReasons: CLOSING_REASONS,
+    orderNumberSetting: ORDER_NUMBER_SETTING,
     vendors: {
       type: 'okapi',
       path: VENDORS_API,
@@ -89,39 +87,6 @@ class OrdersList extends Component {
       },
       records: 'organizations',
       perRequest: 1000,
-    },
-    users: {
-      type: 'okapi',
-      path: 'users',
-      records: 'users',
-      perRequest: 1000,
-    },
-    fund: {
-      type: 'okapi',
-      path: 'fund',
-      records: 'funds',
-      perRequest: 1000,
-    },
-    materialTypes: MATERIAL_TYPES,
-    closingReasons: {
-      type: 'okapi',
-      path: CONFIG_API,
-      GET: {
-        params: {
-          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CLOSING_REASONS})`,
-        },
-      },
-      records: 'configs',
-    },
-    orderNumberSetting: {
-      type: 'okapi',
-      records: 'configs',
-      path: CONFIG_API,
-      GET: {
-        params: {
-          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_ORDER_NUMBER})`,
-        },
-      },
     },
     orderNumber: {
       accumulate: true,
@@ -144,17 +109,9 @@ class OrdersList extends Component {
       type: 'okapi',
     },
     locations: LOCATIONS,
-    createInventory: {
-      type: 'okapi',
-      records: 'configs',
-      path: CONFIG_API,
-      GET: {
-        params: {
-          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CREATE_INVENTORY})`,
-        },
-      },
-    },
     identifierTypes: IDENTIFIER_TYPES,
+    createInventory: CREATE_INVENTORY,
+    addresses: ADDRESSES,
   });
 
   static propTypes = {

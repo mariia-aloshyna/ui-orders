@@ -1,17 +1,35 @@
 import {
   CHECKIN_API,
+  CONFIG_API,
+  FUND_API,
   IDENTIFIER_TYPES_API,
   ITEMS_API,
   LINE_DETAIL_API,
   LOCATIONS_API,
+  MATERIAL_TYPES_API,
   ORDER_DETAIL_API,
   ORDER_PIECES_API,
   RECEIVE_API,
   RECEIVING_API,
+  USERS_API,
   VENDORS_API,
   FUNDS_API,
 } from './api';
-import { LIMIT_MAX } from './const';
+import {
+  CONFIG_ADDRESSES,
+  CONFIG_CLOSING_REASONS,
+  CONFIG_CREATE_INVENTORY,
+  CONFIG_LINES_LIMIT,
+  CONFIG_ORDER_NUMBER,
+  LIMIT_MAX,
+  MODULE_ORDERS,
+  MODULE_TENANT,
+} from './const';
+
+const BASE_RESOURCE = {
+  perRequest: LIMIT_MAX,
+  type: 'okapi',
+};
 
 export const RECEIVING_HISTORY = {
   fetch: false,
@@ -24,10 +42,9 @@ export const RECEIVING_HISTORY = {
 
 export const LOCATIONS = {
   path: LOCATIONS_API,
-  perRequest: LIMIT_MAX,
   records: 'locations',
   throwErrors: false,
-  type: 'okapi',
+  ...BASE_RESOURCE,
 };
 
 export const ORDER = {
@@ -51,7 +68,7 @@ export const ITEMS = {
   path: ITEMS_API,
   records: 'items',
   throwErrors: false,
-  type: 'okapi',
+  ...BASE_RESOURCE,
 };
 
 export const CHECKIN = {
@@ -60,7 +77,7 @@ export const CHECKIN = {
   path: CHECKIN_API,
   records: 'toBeReceived',
   throwErrors: false,
-  type: 'okapi',
+  ...BASE_RESOURCE,
 };
 
 export const ORDER_PIECES = {
@@ -70,7 +87,7 @@ export const ORDER_PIECES = {
   path: ORDER_PIECES_API,
   records: 'checkInItems',
   throwErrors: false,
-  type: 'okapi',
+  ...BASE_RESOURCE,
 };
 
 export const LINE = {
@@ -80,21 +97,18 @@ export const LINE = {
 };
 
 export const IDENTIFIER_TYPES = {
-  type: 'okapi',
   path: IDENTIFIER_TYPES_API,
   records: 'identifierTypes',
-  perRequest: LIMIT_MAX,
+  ...BASE_RESOURCE,
 };
 
 export const MATERIAL_TYPES = {
-  type: 'okapi',
-  path: 'material-types',
+  path: MATERIAL_TYPES_API,
   records: 'mtypes',
-  perRequest: LIMIT_MAX,
+  ...BASE_RESOURCE,
 };
 
 export const VENDORS = {
-  type: 'okapi',
   path: VENDORS_API,
   GET: {
     params: {
@@ -102,7 +116,74 @@ export const VENDORS = {
     },
   },
   records: 'organizations',
-  perRequest: LIMIT_MAX,
+  ...BASE_RESOURCE,
+};
+
+export const CLOSING_REASONS = {
+  path: CONFIG_API,
+  records: 'configs',
+  GET: {
+    params: {
+      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CLOSING_REASONS})`,
+    },
+  },
+  ...BASE_RESOURCE,
+};
+
+export const LINES_LIMIT = {
+  records: 'configs',
+  path: CONFIG_API,
+  GET: {
+    params: {
+      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_LINES_LIMIT})`,
+    },
+  },
+  ...BASE_RESOURCE,
+};
+
+export const ADDRESSES = {
+  records: 'configs',
+  path: CONFIG_API,
+  GET: {
+    params: {
+      query: `(module=${MODULE_TENANT} and configName=${CONFIG_ADDRESSES})`,
+    },
+  },
+  ...BASE_RESOURCE,
+};
+
+export const FUND = {
+  path: FUND_API,
+  records: 'funds',
+  ...BASE_RESOURCE,
+};
+
+export const USERS = {
+  path: USERS_API,
+  records: 'users',
+  ...BASE_RESOURCE,
+};
+
+export const CREATE_INVENTORY = {
+  path: CONFIG_API,
+  records: 'configs',
+  GET: {
+    params: {
+      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CREATE_INVENTORY})`,
+    },
+  },
+  ...BASE_RESOURCE,
+};
+
+export const ORDER_NUMBER_SETTING = {
+  path: CONFIG_API,
+  records: 'configs',
+  GET: {
+    params: {
+      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_ORDER_NUMBER})`,
+    },
+  },
+  ...BASE_RESOURCE,
 };
 
 export const FUNDS = {
