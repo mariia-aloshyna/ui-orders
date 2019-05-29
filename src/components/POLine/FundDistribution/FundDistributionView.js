@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { toString } from 'lodash';
+import { map, get } from 'lodash';
 
 import {
   Col,
@@ -10,21 +10,30 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import FundId from './FundId';
-
 function FundDistributionView({ line = {}, funds = [] }) {
-  const { fundDistribution = [] } = line;
-  const codes = toString(fundDistribution.map(val => val.code));
-  const percentages = toString(fundDistribution.map(val => `${val.percentage}%`));
-  const estimatedPrice = line.listUnitPriceElectronic || 0;
-  const amount = toString(fundDistribution.map(d => ((d.percentage / 100) * estimatedPrice).toFixed(2)));
+  const { fundDistribution = [], cost } = line;
+  const fundsToDisplay = fundDistribution.map(({ fundId, percentage }) => {
+    const { name = '', code = '' } = funds.find(({ id }) => id === fundId) || {};
+
+    return {
+      code,
+      name,
+      percentage,
+    };
+  });
+
+  const names = map(fundsToDisplay, 'name').join(', ');
+  const codes = map(fundsToDisplay, 'code').join(', ');
+  const percentages = fundsToDisplay.map(val => `${val.percentage}%`).join(', ');
+  const estimatedPrice = get(cost, 'poLineEstimatedPrice') || 0;
+  const amount = fundsToDisplay.map(d => ((d.percentage / 100) * estimatedPrice).toFixed(2)).join(', ');
 
   return (
     <Row>
       <Col xs={6}>
-        <FundId
-          funds={funds}
-          fundDistribution={fundDistribution}
+        <KeyValue
+          label={<FormattedMessage id="ui-orders.fundDistribution.id" />}
+          value={names}
         />
       </Col>
       <Col xs={6}>

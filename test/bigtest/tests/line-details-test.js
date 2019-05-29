@@ -21,10 +21,12 @@ describe('Line details test', () => {
   setupApplication();
   let order = null;
   let line = null;
+  let fund = null;
   const page = new LineDetailsPage();
   const receivingPage = new ReceivingPage();
 
   beforeEach(function () {
+    fund = this.server.create('fund');
     order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
     });
@@ -34,6 +36,12 @@ describe('Line details test', () => {
       cost: {
         quantityPhysical: 2,
       },
+      fundDistribution: [
+        {
+          fundId: fund.id,
+          percentage: 100,
+        },
+      ],
     });
 
     this.server.get(`${ORDERS_API}/${order.id}`, {
