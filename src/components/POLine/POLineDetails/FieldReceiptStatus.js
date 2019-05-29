@@ -55,7 +55,7 @@ class FieldReceiptStatus extends Component {
 }
 
 FieldReceiptStatus.propTypes = {
-  workflowStatus: PropTypes.string.isRequired,
+  workflowStatus: PropTypes.string,
 };
 
 export default FieldReceiptStatus;
