@@ -18,15 +18,15 @@ describe('Line number generation', () => {
   let line = null;
   let vendor = null;
 
-  beforeEach(async function () {
+  beforeEach(function () {
     vendor = this.server.create('vendor');
-    order = await this.server.create('order', {
+    order = this.server.create('order', {
       poNumber: ORDER_NUMBER,
       workflowStatus: WORKFLOW_STATUS.pending,
       vendor: vendor.id,
     });
 
-    line = await this.server.create('line', {
+    line = this.server.create('line', {
       order,
       poLineNumber: LINE_NUMBER,
       orderFormat: PHYSICAL,

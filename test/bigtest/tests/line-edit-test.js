@@ -262,7 +262,7 @@ describe('Line edit test', () => {
     });
 
     describe('Edit PO Line', () => {
-      beforeEach(async function () {
+      beforeEach(function () {
         this.server.get(`${ORDERS_API}/${order.id}`, {
           ...order.attrs,
           compositePoLines: [line.attrs],

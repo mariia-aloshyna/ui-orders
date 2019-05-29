@@ -24,7 +24,6 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 
 import { LayerPO } from '../LayerCollection';
 import {
-  CLOSING_REASONS,
   LINES_LIMIT,
   ORDER,
 } from '../Utils/resources';
@@ -54,7 +53,6 @@ import css from './PO.css';
 class PO extends Component {
   static manifest = Object.freeze({
     order: ORDER,
-    closingReasons: CLOSING_REASONS,
     linesLimit: LINES_LIMIT,
   });
 
@@ -254,6 +252,7 @@ class PO extends Component {
       stripes,
     } = this.props;
     const order = get(resources, ['order', 'records', 0]);
+    const closingReasons = get(parentResources, 'closingReasons.records', []);
     const orderNumber = get(order, 'poNumber', '');
     const poLines = get(order, 'compositePoLines', []);
     const workflowStatus = get(order, 'workflowStatus');
@@ -363,7 +362,7 @@ class PO extends Component {
             <CloseOrderModal
               cancel={this.unmountCloseOrderModal}
               closeOrder={this.closeOrder}
-              closingReasons={resources.closingReasons.records}
+              closingReasons={closingReasons}
               orderNumber={orderNumber}
             />
           )}

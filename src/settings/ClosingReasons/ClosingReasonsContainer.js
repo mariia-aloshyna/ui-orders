@@ -6,11 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { Callout } from '@folio/stripes/components';
 
 import { DEFAULT_CLOSE_ORDER_REASONS } from '../../common/constants';
-import {
-  CONFIG_CLOSING_REASONS,
-  MODULE_ORDERS,
-} from '../../components/Utils/const';
-import { CONFIG_API } from '../../components/Utils/api';
+import { CLOSING_REASONS } from '../../components/Utils/resources';
 
 import ClosingReasons from './ClosingReasons';
 
@@ -21,16 +17,7 @@ const DEFAULT_CLOSE_ORDER_REASONS_RECORDS = entries(DEFAULT_CLOSE_ORDER_REASONS)
 
 class ClosingReasonsContainer extends Component {
   static manifest = Object.freeze({
-    closingReasons: {
-      type: 'okapi',
-      records: 'configs',
-      path: CONFIG_API,
-      GET: {
-        params: {
-          query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CLOSING_REASONS})`,
-        },
-      },
-    },
+    closingReasons: CLOSING_REASONS,
   });
 
   static propTypes = {

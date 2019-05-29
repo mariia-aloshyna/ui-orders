@@ -13,7 +13,7 @@ import css from './LinesLimit.css';
 
 const LinesLimit = ({ cancel, createOrder }) => (
   <Modal
-    data-test-lines-limit-modal
+    id="data-test-lines-limit-modal"
     label={<FormattedMessage id="ui-orders.linesLimit.label" />}
     open
   >

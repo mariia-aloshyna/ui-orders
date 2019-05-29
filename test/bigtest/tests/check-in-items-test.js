@@ -30,7 +30,7 @@ describe('Check-in items', () => {
   const addPieceModal = new AddPieceModal();
   const checkInHistoryPage = new CheckInHistoryPage();
 
-  beforeEach(async function () {
+  beforeEach(function () {
     location = this.server.create('location');
     order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
@@ -56,7 +56,7 @@ describe('Check-in items', () => {
 
     this.server.createList('piece', RECEIVING_LIST_COUNT, { poLineId: line.id });
 
-    await this.visit(`/orders/view/${order.id}/po-line/view/${line.id}`);
+    this.visit(`/orders/view/${order.id}/po-line/view/${line.id}`);
   });
 
   it('displays Line Details pane', () => {
