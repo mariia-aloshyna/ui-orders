@@ -590,6 +590,8 @@
   "settings.closingReasons.editBtn": "Edit",
   "settings.closingReasons.cancelBtn": "Cancel",
   "settings.closingReasons": "Reasons for closing a purchase order",
+  "settings.closingReasons.System": "System",
+  "settings.closingReasons.User": "User",
   "settings.createInventory": "Create Inventory",
   "settings.createInventory.eresource": "Electronic Default",
   "settings.createInventory.physical": "Physical Default",

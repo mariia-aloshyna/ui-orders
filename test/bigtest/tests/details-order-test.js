@@ -24,7 +24,7 @@ import { ID } from '../network/config';
 const ADDRESS = 'TEST ADDRESS';
 const OWNER_TEST_VALUE = 'some team';
 
-describe('OrderDetailsPage', () => {
+describe('OrderDetailsPage', function () {
   setupApplication();
   const lineEditPage = new LineEditPage();
   const orderDetailsPage = new OrderDetailsPage();
@@ -117,10 +117,10 @@ describe('OrderDetailsPage', () => {
     });
   });
 
-  describe('clicking on add Line to open LinesLimit Modal', () => {
+  describe('clicking on add Line to open LinesLimit Modal', function () {
     let line = null;
 
-    beforeEach(async function () {
+    beforeEach(function () {
       line = this.server.create('line', {
         order,
         orderFormat: PHYSICAL,
@@ -135,15 +135,21 @@ describe('OrderDetailsPage', () => {
       });
 
       this.visit(`/orders/view/${order.id}`);
-      await orderDetailsPage.addLineButton.click();
     });
 
-    it('displays LineLimit Modal', () => {
-      expect(linesLimitModal.$root).to.exist;
+    describe('Click Add Line Button', () => {
+      beforeEach(async function () {
+        await orderDetailsPage.addLineButton.click();
+      });
+
+      it('displays LineLimit Modal', () => {
+        expect(linesLimitModal.$root).to.exist;
+      });
     });
 
     describe('Click on Create new PO button', () => {
       beforeEach(async function () {
+        await orderDetailsPage.addLineButton.click();
         await linesLimitModal.createOrder();
       });
 
@@ -158,12 +164,12 @@ describe('OrderDetailsPage', () => {
       const openOrderConfirmationModal = new OpenOrderConfirmationModal();
       let line = null;
 
-      beforeEach(async function () {
-        const pendingOrder = await this.server.create('order', {
+      beforeEach(function () {
+        const pendingOrder = this.server.create('order', {
           workflowStatus: WORKFLOW_STATUS.pending,
         });
 
-        line = await this.server.create('line', {
+        line = this.server.create('line', {
           order: pendingOrder,
           orderFormat: PHYSICAL,
           cost: {

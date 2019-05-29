@@ -22,11 +22,11 @@ describe('Receiving', () => {
   const receivingPage = new ReceivingPage();
   const receivingHistoryPage = new ReceivingHistoryPage();
 
-  beforeEach(async function () {
-    order = await this.server.create('order', {
+  beforeEach(function () {
+    order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
     });
-    line = await this.server.create('line', {
+    line = this.server.create('line', {
       order,
       orderFormat: PHYSICAL,
       cost: {
@@ -40,7 +40,7 @@ describe('Receiving', () => {
 
     this.server.createList('piece', RECEIVING_LIST_COUNT);
 
-    await this.visit(`/orders/view/${order.id}`);
+    this.visit(`/orders/view/${order.id}`);
   });
 
   it('displays Order Details pane', () => {

@@ -28,6 +28,7 @@ import {
 
 const BASE_RESOURCE = {
   perRequest: LIMIT_MAX,
+  throwErrors: false,
   type: 'okapi',
 };
 
@@ -120,6 +121,7 @@ export const VENDORS = {
 };
 
 export const CLOSING_REASONS = {
+  ...BASE_RESOURCE,
   path: CONFIG_API,
   records: 'configs',
   GET: {
@@ -127,7 +129,6 @@ export const CLOSING_REASONS = {
       query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CLOSING_REASONS})`,
     },
   },
-  ...BASE_RESOURCE,
 };
 
 export const LINES_LIMIT = {
