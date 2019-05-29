@@ -51,6 +51,7 @@ const asyncValidate = (values, dispatchRedux, props) => {
 
 class POForm extends Component {
   static propTypes = {
+    connectedSource: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
