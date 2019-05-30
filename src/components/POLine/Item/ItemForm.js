@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import {
@@ -28,8 +28,8 @@ import {
   Required,
   validateYear,
 } from '../../Utils/Validate';
-import ProductIdDetailsForm from './ProductIdDetailsForm';
 import ContributorForm from './ContributorForm';
+import ProductIdDetailsForm from './ProductIdDetailsForm';
 import {
   checkInstanceIdField,
   getInventoryData,
@@ -51,7 +51,6 @@ class ItemForm extends Component {
     super(props);
 
     this.state = {
-      instanceId: '',
       title: '',
       publisher: '',
       publicationDate: '',
@@ -127,7 +126,7 @@ class ItemForm extends Component {
 
     if (checkInstanceIdField(formValues, inventoryData)) {
       dispatch(change('instanceId', inventoryData.instanceId));
-    } else dispatch(change('instanceId', ''));
+    } else dispatch(change('instanceId', null));
   };
 
   selectInstanceModal = () => {
@@ -158,120 +157,126 @@ class ItemForm extends Component {
 
   render() {
     return (
-      <Row>
-        <Col xs={12}>
-          <div className={css.titleWrapper}>
+      <Fragment>
+        <Row>
+          <Col xs={12}>
+            <div className={css.titleWrapper}>
+              <Field
+                component={TextField}
+                fullWidth
+                label={<FormattedMessage id="ui-orders.itemDetails.title" />}
+                name="title"
+                onChange={(e, value) => this.onChangeField(value, 'title')}
+                required
+                validate={Required}
+              />
+              <div className={css.addButton}>
+                {this.selectInstanceModal()}
+              </div>
+            </div>
+          </Col>
+          <Col xs={6}>
             <Field
               component={TextField}
               fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.title" />}
-              name="title"
-              onChange={(e, value) => this.onChangeField(value, 'title')}
-              required
-              validate={Required}
+              label={<FormattedMessage id="ui-orders.itemDetails.instanceId" />}
+              name="instanceId"
+              readOnly
             />
-            <div className={css.addButton}>
-              {this.selectInstanceModal()}
-            </div>
-          </div>
-        </Col>
-        <Col xs={6}>
-          <Field
-            component={TextField}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.itemDetails.instanceId" />}
-            name="instanceId"
-            readOnly
-          />
-        </Col>
-        <Col xs={12}>
-          <Field
-            component={TextArea}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
-            name="details.receivingNote"
-          />
-        </Col>
-        <Col xs={6}>
-          <ContributorForm
-            onChangeField={this.onChangeField}
-          />
-        </Col>
-        <Col xs={6}>
-          <Field
-            backendDateStandard={DATE_FORMAT}
-            component={Datepicker}
-            dateFormat={DATE_FORMAT}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
-            name="details.subscriptionFrom"
-            timeZone={TIMEZONE}
-          />
-        </Col>
-        <Col xs={6}>
-          <Field
-            component={TextField}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
-            name="publisher"
-            onChange={(e, value) => this.onChangeField(value, 'publisher')}
-          />
-        </Col>
-        <Col xs={6}>
-          <Field
-            label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
-            name="details.subscriptionInterval"
-            component={TextField}
-            type="number"
-            fullWidth
-          />
-        </Col>
-        <Col xs={6}>
-          <Field
-            component={TextField}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
-            name="publicationDate"
-            onChange={(e, value) => this.onChangeField(value, 'publicationDate')}
-            normalize={v => (v || null)}
-            validate={validateYear}
-          />
-        </Col>
-        <Col xs={6}>
-          <Field
-            backendDateStandard={DATE_FORMAT}
-            component={Datepicker}
-            dateFormat={DATE_FORMAT}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
-            name="details.subscriptionTo"
-            timeZone={TIMEZONE}
-          />
-        </Col>
-        <Col xs={6}>
-          <Field
-            component={TextField}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
-            onChange={(e, value) => this.onChangeField(value, 'edition')}
-            name="edition"
-          />
-        </Col>
-        <Col xs={12}>
-          <ProductIdDetailsForm
-            identifierTypes={this.props.identifierTypes}
-            onChangeField={this.onChangeField}
-          />
-        </Col>
-        <Col xs={12}>
-          <Field
-            component={TextArea}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.itemDetails.description" />}
-            name="description"
-          />
-        </Col>
-      </Row>
+          </Col>
+          <Col xs={12}>
+            <Field
+              component={TextArea}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
+              name="details.receivingNote"
+            />
+          </Col>
+          <Col xs={6}>
+            <Field
+              backendDateStandard={DATE_FORMAT}
+              component={Datepicker}
+              dateFormat={DATE_FORMAT}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
+              name="details.subscriptionFrom"
+              timeZone={TIMEZONE}
+            />
+          </Col>
+          <Col xs={6}>
+            <Field
+              backendDateStandard={DATE_FORMAT}
+              component={Datepicker}
+              dateFormat={DATE_FORMAT}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
+              name="details.subscriptionTo"
+              timeZone={TIMEZONE}
+            />
+          </Col>
+          <Col xs={6}>
+            <Field
+              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
+              name="details.subscriptionInterval"
+              component={TextField}
+              type="number"
+              fullWidth
+            />
+          </Col>
+          <Col xs={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.itemDetails.publicationDate" />}
+              name="publicationDate"
+              onChange={(e, value) => this.onChangeField(value, 'publicationDate')}
+              normalize={v => (v || null)}
+              validate={validateYear}
+            />
+          </Col>
+          <Col xs={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
+              name="publisher"
+              onChange={(e, value) => this.onChangeField(value, 'publisher')}
+            />
+          </Col>
+          <Col xs={6}>
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
+              onChange={(e, value) => this.onChangeField(value, 'edition')}
+              name="edition"
+            />
+          </Col>
+          <Col xs={6}>
+            <ContributorForm
+              onChangeField={this.onChangeField}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <ProductIdDetailsForm
+              identifierTypes={this.props.identifierTypes}
+              onChangeField={this.onChangeField}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <Field
+              component={TextArea}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.itemDetails.description" />}
+              name="description"
+            />
+          </Col>
+        </Row>
+      </Fragment>
     );
   }
 }

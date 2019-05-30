@@ -36,9 +36,6 @@ class ItemView extends Component {
             />
           </Col>
           <Col xs={6}>
-            <ContributorView contributors={poLineDetails.contributors} />
-          </Col>
-          <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
               value={formatDate(get(poLineDetails, ['details', 'subscriptionFrom']))}
@@ -46,8 +43,8 @@ class ItemView extends Component {
           </Col>
           <Col xs={6}>
             <KeyValue
-              label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
-              value={get(poLineDetails, 'publisher')}
+              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
+              value={formatDate(get(poLineDetails, ['details', 'subscriptionTo']))}
             />
           </Col>
           <Col xs={6}>
@@ -64,8 +61,8 @@ class ItemView extends Component {
           </Col>
           <Col xs={6}>
             <KeyValue
-              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
-              value={formatDate(get(poLineDetails, ['details', 'subscriptionTo']))}
+              label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
+              value={get(poLineDetails, 'publisher')}
             />
           </Col>
           <Col xs={6}>
@@ -73,6 +70,9 @@ class ItemView extends Component {
               label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
               value={toString(get(poLineDetails, 'edition'))}
             />
+          </Col>
+          <Col xs={6}>
+            <ContributorView contributors={poLineDetails.contributors} />
           </Col>
         </Row>
         <Row>

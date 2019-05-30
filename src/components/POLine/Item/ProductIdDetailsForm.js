@@ -9,6 +9,7 @@ import {
 import {
   Button,
   Col,
+  IconButton,
   Row,
   Select,
   TextField,
@@ -22,24 +23,16 @@ class ProductIdDetailsForm extends Component {
     onChangeField: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.addFields = this.addFields.bind(this);
-    this.removeFields = this.removeFields.bind(this);
-    this.renderForm = this.renderForm.bind(this);
-    this.renderSubForm = this.renderSubForm.bind(this);
-  }
-
-  addFields(fields) {
+  addFields = (fields) => {
     fields.push({});
   }
 
-  removeFields(fields, index) {
+  removeFields = (fields, index) => {
     fields.remove(index);
     this.props.onChangeField();
   }
 
-  renderForm({ fields }) {
+  renderForm = ({ fields }) => {
     return (
       <Row>
         <Col xs={12}>
@@ -66,7 +59,7 @@ class ProductIdDetailsForm extends Component {
     );
   }
 
-  renderSubForm(elem, index, fields) {
+  renderSubForm = (elem, index, fields) => {
     return (
       <Row key={index}>
         <Col xs={6}>
@@ -91,15 +84,18 @@ class ProductIdDetailsForm extends Component {
             validate={[Required]}
           />
         </Col>
-        <Col xs={1} style={{ paddingTop: '4px' }}>
+        <Col
+          style={{ paddingTop: '10px' }}
+          xs={1}
+        >
           <br />
-          <Button
-            buttonStyle="danger"
+          <IconButton
             data-test-remove-product-ids-button
+            icon="trash"
             onClick={() => this.removeFields(fields, index)}
           >
             {<FormattedMessage id="ui-orders.itemDetails.removeBtn" />}
-          </Button>
+          </IconButton>
         </Col>
       </Row>
     );

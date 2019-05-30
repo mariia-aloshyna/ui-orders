@@ -6,6 +6,7 @@ import { Field } from 'redux-form';
 import {
   Button,
   Col,
+  IconButton,
   TextArea,
 } from '@folio/stripes/components';
 
@@ -29,9 +30,7 @@ const NotesForm = ({ fields }) => (
     {fields.map((note, index) => (
       <Fragment key={note.id || index}>
         <Col
-          xs={8}
-          md={10}
-          lg={11}
+          xs={11}
           key={index}
         >
           <Field
@@ -41,18 +40,14 @@ const NotesForm = ({ fields }) => (
             validate={required}
           />
         </Col>
-        <Col
-          xs={4}
-          md={2}
-          lg={1}
-        >
-          <Button
+        <Col xs={1}>
+          <IconButton
             data-test-remove-note-button
+            icon="trash"
             onClick={() => fields.remove(index)}
-            buttonStyle="danger"
           >
             <FormattedMessage id="ui-orders.orderDetails.removeNoteBtn" />
-          </Button>
+          </IconButton>
         </Col>
       </Fragment>
     ))}
