@@ -22,7 +22,7 @@ import {
   LOCATIONS,
   MATERIAL_TYPES,
   VENDORS,
-  FUNDS,
+  FUND,
 } from '../components/Utils/resources';
 import OrderLinesFilters from './OrderLinesFilters';
 import { filterConfig } from './OrdersLinesFilterConfig';
@@ -94,7 +94,7 @@ class OrderLinesList extends Component {
     locations: LOCATIONS,
     materialTypes: MATERIAL_TYPES,
     vendors: VENDORS,
-    funds: FUNDS,
+    funds: FUND,
   });
 
   static propTypes = {

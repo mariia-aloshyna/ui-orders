@@ -16,7 +16,7 @@
     "hasSettings": true,
     "okapiInterfaces": {
       "configuration": "2.0",
-      "fund": "1.0",
+      "finance-storage.funds": "1.0",
       "inventory": "8.0",
       "locations": "3.0",
       "material-types": "2.2",
@@ -43,7 +43,7 @@
         "displayName": "Orders: Permissions required to call services apart from mod-orders",
         "description": "",
         "subPermissions": [
-          "fund.collection.get",
+          "finance-storage.funds.collection.get",
           "organizations-storage.organizations.collection.get",
           "users.collection.get",
           "inventory.items.collection.get",
