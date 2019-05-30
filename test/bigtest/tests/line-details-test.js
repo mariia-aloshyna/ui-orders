@@ -57,6 +57,10 @@ describe('Line details test', () => {
     expect(page.receiveButton.isPresent).to.be.true;
   });
 
+  it('does not display actions', () => {
+    expect(page.actions.isPresent).to.be.false;
+  });
+
   describe('Receive button can be clicked on PO Line level', () => {
     beforeEach(async function () {
       await page.receiveButton.click();

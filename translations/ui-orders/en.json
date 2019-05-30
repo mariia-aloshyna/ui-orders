@@ -505,6 +505,7 @@
   "pieceFormat.electronic": "Electronic",
   "pieceFormat.other": "Other",
   "pieceFormat.physical": "Physical",
+  "poLine.actions.viewPO": "View PO",
   "poLine.acquisitionMethod": "Acquisition Method",
   "poLine.cancellationRestriction": "Cancellation Restriction",
   "poLine.cancellationRestrictionNote": "Cancellation Description",

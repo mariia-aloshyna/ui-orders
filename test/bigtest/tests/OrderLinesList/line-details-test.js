@@ -12,8 +12,10 @@ import {
 } from '../../../../src/components/POLine/const';
 import setupApplication from '../../helpers/setup-application';
 import LineDetailsPage from '../../interactors/line-details-page';
+import OrderDetailsPage from '../../interactors/order-details-page';
 import {
   LINES_API,
+  ORDER_DETAIL_API,
 } from '../../../../src/components/Utils/api';
 
 describe('Order lines list - Line details test', () => {
@@ -21,12 +23,13 @@ describe('Order lines list - Line details test', () => {
   let order = null;
   let line = null;
   const page = new LineDetailsPage();
+  const orderPage = new OrderDetailsPage();
 
-  beforeEach(async function () {
-    order = await this.server.create('order', {
+  beforeEach(function () {
+    order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
     });
-    line = await this.server.create('line', {
+    line = this.server.create('line', {
       order,
       orderFormat: PHYSICAL,
       cost: {
@@ -38,6 +41,10 @@ describe('Order lines list - Line details test', () => {
       ...line.attrs,
     });
 
+    this.server.get(ORDER_DETAIL_API, {
+      ...order.attrs,
+    });
+
     this.visit(`/orders/lines/view/${line.id}/`);
   });
 
@@ -45,9 +52,29 @@ describe('Order lines list - Line details test', () => {
     expect(page.isPresent).to.be.true;
   });
 
-  describe('displays Other resource details', () => {
+  describe('actions', () => {
     beforeEach(async function () {
-      line = await this.server.create('line', {
+      await page.actions.toggle.click();
+    });
+
+    it('should be present', () => {
+      expect(page.actions.isPresent).to.be.true;
+    });
+
+    describe('View PO', () => {
+      beforeEach(async function () {
+        await page.actions.viewPOButton.click();
+      });
+
+      it('should redirect to PO details', () => {
+        expect(orderPage.isPresent).to.be.true;
+      });
+    });
+  });
+
+  describe('displays Other resource details', () => {
+    beforeEach(function () {
+      line = this.server.create('line', {
         order,
         orderFormat: OTHER,
         cost: {

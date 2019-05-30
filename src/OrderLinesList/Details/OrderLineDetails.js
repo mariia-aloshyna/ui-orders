@@ -8,6 +8,7 @@ import {
   ORDERS_API,
   LINES_API,
 } from '../../components/Utils/api';
+import { FILTERS as ORDER_FILTERS } from '../../OrdersList';
 
 class OrderLineDetails extends Component {
   static manifest = Object.freeze({
@@ -54,6 +55,15 @@ class OrderLineDetails extends Component {
       });
   }
 
+  goToOrderDetails = () => {
+    const order = get(this.props.resources, ['order', 'records', 0], {});
+
+    this.props.parentMutator.query.replace({
+      _path: `/orders/view/${order.id}`,
+      filters: `${ORDER_FILTERS.PO_NUMBER}.${order.poNumber}`,
+    });
+  };
+
   render() {
     const { match: { params: { id } } } = this.props;
     const line = get(this.props.resources, ['orderLine', 'records', 0]);
@@ -78,6 +88,7 @@ class OrderLineDetails extends Component {
         checkinURL={checkinURL}
         funds={funds}
         editable={false}
+        goToOrderDetails={this.goToOrderDetails}
       />
     );
   }

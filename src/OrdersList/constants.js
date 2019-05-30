@@ -12,6 +12,7 @@ export const FILTERS = {
   ASSIGNED_TO: 'assignedTo',
   RECEIPT_STATUS: 'receiptStatus',
   DATE_ORDERED: 'dateOrdered',
+  PO_NUMBER: 'poNumber',
 };
 
 export const STATUS_FILTER_OPTIONS = Object.keys(WORKFLOW_STATUS).map(status => ({
