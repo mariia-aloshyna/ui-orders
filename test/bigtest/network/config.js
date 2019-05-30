@@ -14,6 +14,7 @@ import {
   RECEIVE_API,
   RECEIVING_API,
   VENDORS_API,
+  FUND_API,
 } from '../../../src/components/Utils/api';
 import {
   CONFIG_ADDRESSES,
@@ -53,7 +54,7 @@ export default function config() {
     return schema.vendors.all();
   });
 
-  this.get('/fund');
+  this.get(FUND_API);
   this.get('/users');
   this.get('/material-types');
   this.get('/identifier-types');

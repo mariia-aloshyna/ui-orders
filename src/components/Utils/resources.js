@@ -13,7 +13,6 @@ import {
   RECEIVING_API,
   USERS_API,
   VENDORS_API,
-  FUNDS_API,
 } from './api';
 import {
   CONFIG_ADDRESSES,
@@ -185,11 +184,4 @@ export const ORDER_NUMBER_SETTING = {
     },
   },
   ...BASE_RESOURCE,
-};
-
-export const FUNDS = {
-  type: 'okapi',
-  path: FUNDS_API,
-  records: 'funds',
-  perRequest: LIMIT_MAX,
 };
