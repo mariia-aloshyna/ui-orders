@@ -3,6 +3,7 @@ import {
   fillable,
   interactor,
   isVisible,
+  selectable,
 } from '@bigtest/interactor';
 
 import Button from './button';
@@ -22,6 +23,9 @@ import { FILTERS } from '../../../src/OrderLinesList/constants';
   fillCreatedDateStart = fillable('input[name="startDate"]');
   fillCreatedDateEnd = fillable('input[name="endDate"]');
   applyCreatedDate = new Button('[data-test-apply-button]');
+  selectSearchOption = selectable('#input-order-line-search-qindex');
+  searchInput = fillable('#input-order-line-search');
+  searchButton = new Button('[data-test-search-and-sort-submit]');
 }
 
 @interactor class OrdersNavigation {

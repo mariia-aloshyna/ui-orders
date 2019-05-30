@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import moment from 'moment';
@@ -25,8 +29,9 @@ import {
   FUND,
 } from '../components/Utils/resources';
 import OrderLinesFilters from './OrderLinesFilters';
-import { filterConfig } from './OrdersLinesFilterConfig';
 import Details from './Details';
+import { filterConfig } from './OrdersLinesFilterConfig';
+import { searchableIndexes } from './OrdersLinesSearchConfig';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -59,13 +64,24 @@ const columnWidths = {
   funCodes: '18%',
 };
 
+const OrderLinesSearchQueryTemplate = `(
+  title="%{query.query}*" OR
+  poLineNumber="%{query.query}*" OR
+  contributors="%{query.query}*" OR
+  requester="%{query.query}*" OR
+  vendorDetail.vendorAccount="%{query.query}*" OR
+  vendorDetail.refNumber="%{query.query}*" OR
+  details.productIds="%{query.query}*"
+)`;
+
 class OrderLinesList extends Component {
   static manifest = Object.freeze({
     query: {
       initialValue: {
+        qindex: '',
         query: '',
         filters: '',
-        sort: 'id',
+        sort: 'poLineNumber',
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
@@ -80,7 +96,7 @@ class OrderLinesList extends Component {
         params: {
           query: makeQueryFunction(
             'cql.allRecords=1',
-            '(title="*%{query.query}*")',
+            OrderLinesSearchQueryTemplate,
             {
               updatedDate: 'metadata.updatedDate',
               vendorRefNumber: 'vendorDetail.refNumber',
@@ -104,6 +120,7 @@ class OrderLinesList extends Component {
     showSingleResult: PropTypes.bool,
     browseOnly: PropTypes.bool,
     onComponentWillUnmount: PropTypes.func,
+    intl: intlShape.isRequired,
   }
 
   static defaultProps = {
@@ -142,14 +159,21 @@ class OrderLinesList extends Component {
     );
   };
 
+  onChangeIndex = (e) => {
+    const qindex = e.target.value;
+
+    this.props.mutator.query.update({ qindex });
+  }
+
   render() {
     const {
+      browseOnly,
+      intl: { formatMessage },
+      mutator,
       onComponentWillUnmount,
       resources,
-      mutator,
-      stripes,
       showSingleResult,
-      browseOnly,
+      stripes,
     } = this.props;
 
     const correctPackageInfo = {
@@ -159,6 +183,12 @@ class OrderLinesList extends Component {
         route: ORDER_LINES_ROUTE,
       },
     };
+
+    const translatedSearchableIndexes = searchableIndexes.map(index => {
+      const label = formatMessage({ id: `ui-orders.search.${index.label}` });
+
+      return { ...index, label };
+    });
 
     return (
       <div data-test-order-line-instances>
@@ -187,10 +217,13 @@ class OrderLinesList extends Component {
           renderFilters={this.renderFilters}
           renderNavigation={this.renderNavigation}
           onFilterChange={this.handleFilterChange}
+          searchableIndexes={translatedSearchableIndexes}
+          onChangeIndex={this.onChangeIndex}
+          selectedIndex={get(resources.query, 'qindex')}
         />
       </div>
     );
   }
 }
 
-export default OrderLinesList;
+export default injectIntl(OrderLinesList);

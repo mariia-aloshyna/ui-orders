@@ -33,6 +33,12 @@ describe('Order lines', () => {
     });
   });
 
+  describe('renders search button', () => {
+    it('search button is disabled', () => {
+      expect(orderLines.filter.searchButton.isDisabled).to.be.true;
+    });
+  });
+
   describe('filter by metadata.createdDate', function () {
     beforeEach(async function () {
       await orderLines.filter.fillCreatedDateStart('2019-01-01');
@@ -55,5 +61,17 @@ describe('Order lines', () => {
 
   it('renders collapsed created date filter', () => {
     expect(orderLines.filter.accordionCreatedDate.isExpanded).to.be.false;
+  });
+
+  describe('search by title', function () {
+    beforeEach(async function () {
+      await orderLines.filter.selectSearchOption('Title');
+      await orderLines.filter.searchInput('TEST');
+      await orderLines.filter.searchButton.click();
+    });
+
+    it('no lines found', () => {
+      expect(orderLines.instances().length).to.be.equal(0);
+    });
   });
 });
