@@ -13,9 +13,11 @@ import {
   AccordionSet,
   Button,
   Callout,
+  ConfirmationModal,
   ExpandAllButton,
   Icon,
   IconButton,
+  MenuSection,
   Pane,
   PaneMenu,
   Row,
@@ -67,6 +69,7 @@ class PO extends Component {
     history: ReactRouterPropTypes.history.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
     stripes: stripesShape.isRequired,
+    showToast: PropTypes.func.isRequired,
     onCloseEdit: PropTypes.func,
     onClose: PropTypes.func,
     onEdit: PropTypes.func,
@@ -90,9 +93,57 @@ class PO extends Component {
       isCloseOrderModalOpened: false,
       isLinesLimitExceededModalOpened: false,
       updateOrderError: null,
+      showConfirmDelete: false,
     };
     this.transitionToParams = transitionToParams.bind(this);
   }
+
+  deletePO = () => {
+    const { parentMutator, showToast } = this.props;
+    const order = this.getOrder();
+    const orderNumber = order.poNumber;
+
+    parentMutator.records.DELETE(order).then(() => {
+      showToast('ui-orders.order.delete.success', 'success', { orderNumber });
+      parentMutator.query.update({
+        _path: '/orders',
+        layer: null,
+      });
+    });
+  }
+
+  actionMenu = ({ onToggle }) => (
+    <MenuSection id="order-details-actions">
+      <IfPermission perm="orders.item.delete">
+        <Button
+          buttonStyle="dropdownItem"
+          data-test-button-delete-order
+          onClick={() => {
+            onToggle();
+            this.mountDeleteOrderConfirm();
+          }}
+        >
+          <Icon size="small" icon="trash">
+            <FormattedMessage id="ui-orders.button.delete" />
+          </Icon>
+        </Button>
+      </IfPermission>
+      <IfPermission perm="orders.item.put">
+        <Button
+          buttonStyle="dropdownItem"
+          data-test-button-edit-order
+          onClick={() => {
+            onToggle();
+            this.props.onEdit();
+          }}
+        >
+          <Icon size="small" icon="edit">
+            <FormattedMessage id="ui-orders.button.edit" />
+          </Icon>
+        </Button>
+      </IfPermission>
+    </MenuSection>
+  );
 
   onToggleSection = ({ id }) => {
     this.setState(({ sections }) => {
@@ -236,6 +287,12 @@ class PO extends Component {
     });
   };
 
+  getOrder = () => get(this.props.resources, ['order', 'records', 0]);
+
+  mountDeleteOrderConfirm = () => this.setState({ showConfirmDelete: true });
+
+  unmountDeleteOrderConfirm = () => this.setState({ showConfirmDelete: false });
+
   render() {
     const {
       connectedSource,
@@ -248,10 +305,9 @@ class PO extends Component {
       onEdit,
       parentMutator,
       parentResources,
-      resources,
       stripes,
     } = this.props;
-    const order = get(resources, ['order', 'records', 0]);
+    const order = this.getOrder();
     const closingReasons = get(parentResources, 'closingReasons.records', []);
     const orderNumber = get(order, 'poNumber', '');
     const poLines = get(order, 'compositePoLines', []);
@@ -314,6 +370,7 @@ class PO extends Component {
 
     return (
       <Pane
+        actionMenu={this.actionMenu}
         data-test-order-details
         defaultWidth="fill"
         paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.details" values={{ orderNumber }} />}
@@ -434,6 +491,17 @@ class PO extends Component {
             orderNumber={orderNumber}
             errors={updateOrderError}
             cancel={this.closeErrorModal}
+          />
+        )}
+        {this.state.showConfirmDelete && (
+          <ConfirmationModal
+            id="delete-order-confirmation"
+            confirmLabel={<FormattedMessage id="ui-orders.order.delete.confirmLabel" />}
+            heading={<FormattedMessage id="ui-orders.order.delete.heading" values={{ orderNumber }} />}
+            message={<FormattedMessage id="ui-orders.order.delete.message" />}
+            onCancel={this.unmountDeleteOrderConfirm}
+            onConfirm={this.deletePO}
+            open
           />
         )}
         <Callout ref={this.createCalloutRef} />

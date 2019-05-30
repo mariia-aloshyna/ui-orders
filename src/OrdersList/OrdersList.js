@@ -133,7 +133,13 @@ class OrdersList extends Component {
     super(props, context);
     this.getActiveFilters = getActiveFilters.bind(this);
     this.handleFilterChange = handleFilterChange.bind(this);
+    this.callout = React.createRef();
   }
+
+  showToast = (messageId, messageType = 'success', values = {}) => this.callout.current.sendCallout({
+    message: <FormattedMessage id={messageId} values={values} />,
+    type: messageType,
+  });
 
   create = async (order) => {
     const { mutator } = this.props;
@@ -146,16 +152,9 @@ class OrdersList extends Component {
         layer: null,
       });
     } catch (e) {
-      this.callout.sendCallout({
-        message: <FormattedMessage id="ui-orders.errors.noCreatedOrder" />,
-        type: 'error',
-      });
+      this.showToast('ui-orders.errors.noCreatedOrder', 'error');
     }
   }
-
-  createCalloutRef = ref => {
-    this.callout = ref;
-  };
 
   renderFilters = (onChange) => {
     const { stripes } = this.props;
@@ -257,8 +256,9 @@ class OrdersList extends Component {
             owner: <FormattedMessage id="ui-orders.poLine.owner" />,
             assignedTo: <FormattedMessage id="ui-orders.order.assigned_to" />,
           }}
+          detailProps={{ showToast: this.showToast }}
         />
-        <Callout ref={this.createCalloutRef} />
+        <Callout ref={this.callout} />
       </div>
     );
   }

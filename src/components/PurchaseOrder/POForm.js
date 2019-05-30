@@ -7,7 +7,6 @@ import {
   isDirty,
 } from 'redux-form';
 
-import { IfPermission } from '@folio/stripes/core';
 import stripesForm from '@folio/stripes/form';
 import {
   Accordion,
@@ -74,7 +73,6 @@ class POForm extends Component {
         renewals: true,
       },
     };
-    this.deletePO = this.deletePO.bind(this);
   }
 
   componentDidMount() {
@@ -148,17 +146,6 @@ class POForm extends Component {
     this.setState({ sections });
   }
 
-  deletePO = () => {
-    const { parentMutator, initialValues: { id } } = this.props;
-
-    parentMutator.records.DELETE({ id }).then(() => {
-      parentMutator.query.update({
-        _path: '/orders',
-        layer: null,
-      });
-    });
-  }
-
   render() {
     const { change, dispatch, initialValues, onCancel, stripes, parentResources } = this.props;
     const { sections } = this.state;
@@ -173,7 +160,6 @@ class POForm extends Component {
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-update-purchase-order', 'ui-orders.paneMenu.saveOrder') :
       this.getLastMenu('clickable-create-new-purchase-order', 'ui-orders.paneMenu.saveOrder');
-    const showDeleteButton = initialValues.id || false;
     const orderNumberSetting = getOrderNumberSetting(get(parentResources, 'orderNumberSetting.records', []));
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
 
@@ -250,22 +236,6 @@ class POForm extends Component {
                           <SummaryForm {...this.props} />
                         </Accordion>
                       </AccordionSet>
-                      <IfPermission perm="orders.item.delete">
-                        <Row end="xs">
-                          <Col xs={12}>
-                            {
-                              showDeleteButton &&
-                              <Button
-                                type="button"
-                                buttonStyle="danger"
-                                onClick={this.deletePO}
-                              >
-                                <FormattedMessage id="ui-orders.button.remove" />
-                              </Button>
-                            }
-                          </Col>
-                        </Row>
-                      </IfPermission>
                     </Col>
                   </Row>
                 </Col>

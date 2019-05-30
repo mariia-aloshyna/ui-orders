@@ -47,6 +47,7 @@ export default function config() {
   });
 
   this.post(ORDERS_API, 'order');
+  this.delete(`${ORDERS_API}/:id`, 'order');
 
   this.get(VENDORS_API, (schema) => {
     return schema.vendors.all();
