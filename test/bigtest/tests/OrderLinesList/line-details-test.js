@@ -17,6 +17,7 @@ import {
   LINES_API,
   ORDER_DETAIL_API,
 } from '../../../../src/components/Utils/api';
+import ConfirmationModal from '../../interactors/confirmation';
 
 describe('Order lines list - Line details test', () => {
   setupApplication();
@@ -69,6 +70,24 @@ describe('Order lines list - Line details test', () => {
       it('should redirect to PO details', () => {
         expect(orderPage.isPresent).to.be.true;
       });
+    });
+  });
+
+  describe('click delete line and confirm', () => {
+    const deleteLineConfirmation = new ConfirmationModal('#delete-line-confirmation');
+
+    beforeEach(async function () {
+      await page.actions.toggle.click();
+      await page.actions.delete.click();
+      await deleteLineConfirmation.confirm();
+    });
+
+    it('closes delete line confirmation', () => {
+      expect(deleteLineConfirmation.isPresent).to.be.false;
+    });
+
+    it('closes Line Details Pane', () => {
+      expect(page.isPresent).to.be.false;
     });
   });
 

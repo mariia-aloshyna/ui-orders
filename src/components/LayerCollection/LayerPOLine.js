@@ -172,17 +172,6 @@ class LayerPOLine extends Component {
       .catch(e => this.handleErrorResponse(e, line));
   };
 
-  deletePOLine = (lineId) => {
-    const { parentMutator, match: { params: { id } } } = this.props;
-
-    parentMutator.poLine.DELETE({ id: lineId }).then(() => {
-      parentMutator.query.update({
-        _path: `/orders/view/${id}`,
-        layer: null,
-      });
-    });
-  };
-
   getCreatePOLIneInitialValues = (order, vendor) => {
     const { parentResources } = this.props;
     const { id: orderId } = order;
@@ -275,7 +264,6 @@ class LayerPOLine extends Component {
         >
           <this.connectedPOLineForm
             connectedSource={connectedSource}
-            deletePOLine={this.deletePOLine}
             initialValues={this.getLine()}
             onCancel={onCancel}
             onSubmit={this.updatePOLine}

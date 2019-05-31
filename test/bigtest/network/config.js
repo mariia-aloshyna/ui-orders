@@ -74,6 +74,7 @@ export default function config() {
   });
 
   this.put(`${LINES_API}/:id`, 'line');
+  this.delete(`${LINES_API}/:id`, 'line');
 
   this.get(VENDORS_API, (schema) => {
     return schema.vendors.all();

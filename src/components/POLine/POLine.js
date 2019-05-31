@@ -16,6 +16,7 @@ class POLine extends Component {
   });
 
   static propTypes = {
+    showToast: PropTypes.func.isRequired,
     parentResources: PropTypes.object.isRequired,
     parentMutator: PropTypes.shape({
       query: PropTypes.object.isRequired,
@@ -34,18 +35,36 @@ class POLine extends Component {
     resources: PropTypes.object.isRequired,
   }
 
+  getOrder = () => get(this.props.resources, ['order', 'records', 0]);
+
+  getLine = () => {
+    const { match: { params: { lineId } } } = this.props;
+    const order = this.getOrder();
+    const lines = get(order, 'compositePoLines', []);
+
+    return lines.find(u => u.id === lineId);
+  }
+
+  deleteLine = () => {
+    const { parentMutator, poURL, showToast } = this.props;
+    const line = this.getLine();
+    const lineNumber = line.poLineNumber;
+
+    parentMutator.poLine.DELETE(line).then(() => {
+      showToast('ui-orders.line.delete.success', 'success', { lineNumber });
+      parentMutator.query.update({ _path: poURL });
+    });
+  };
+
   render() {
     const {
       match,
-      match: { params: { lineId } },
       parentMutator,
       parentResources,
-      resources,
     } = this.props;
 
-    const order = get(resources, ['order', 'records', 0]);
-    const lines = get(order, 'compositePoLines', []);
-    const line = lines.find(u => u.id === lineId);
+    const order = this.getOrder();
+    const line = this.getLine();
     const materialTypes = get(parentResources, ['materialTypes', 'records'], []);
     const locations = get(this.props.parentResources, 'locations.records', []);
     const vendors = get(this.props.parentResources, 'vendors.records', []);
@@ -68,6 +87,7 @@ class POLine extends Component {
         checkinURL={checkinURL}
         funds={funds}
         queryMutator={parentMutator.query}
+        deleteLine={this.deleteLine}
       />
     );
   }

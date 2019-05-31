@@ -6,7 +6,7 @@ import OrderDetailsPage from '../../interactors/order-details-page';
 import OrderEditPage from '../../interactors/order-edit-page';
 import ConfirmationModal from '../../interactors/confirmation';
 
-describe('Orders', () => {
+describe('Delete Order', () => {
   setupApplication();
 
   const page = new OrderDetailsPage();

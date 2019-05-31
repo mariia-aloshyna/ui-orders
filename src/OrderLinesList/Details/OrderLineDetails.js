@@ -35,6 +35,7 @@ class OrderLineDetails extends Component {
     match: ReactRouterPropTypes.match,
     resources: PropTypes.object.isRequired,
     mutator: PropTypes.object.isRequired,
+    showToast: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -68,9 +69,22 @@ class OrderLineDetails extends Component {
     });
   };
 
+  getLine = () => get(this.props.resources, ['orderLine', 'records', 0]);
+
+  deleteLine = () => {
+    const { mutator, parentMutator, showToast } = this.props;
+    const line = this.getLine();
+    const lineNumber = line.poLineNumber;
+
+    mutator.orderLine.DELETE(line).then(() => {
+      showToast('ui-orders.line.delete.success', 'success', { lineNumber });
+      parentMutator.query.update({ _path: '/orders/lines' });
+    });
+  };
+
   render() {
     const { match: { params: { id } } } = this.props;
-    const line = get(this.props.resources, ['orderLine', 'records', 0]);
+    const line = this.getLine();
     const order = get(this.props.resources, ['order', 'records', 0], {});
     const locations = get(this.props.parentResources, 'locations.records', []);
     const materialTypes = get(this.props.parentResources, 'materialTypes.records', []);
@@ -93,6 +107,7 @@ class OrderLineDetails extends Component {
         funds={funds}
         editable={false}
         goToOrderDetails={this.goToOrderDetails}
+        deleteLine={this.deleteLine}
       />
     );
   }
