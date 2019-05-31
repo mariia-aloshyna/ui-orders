@@ -93,4 +93,14 @@ describe('Line details test', () => {
       expect(page.otherDetailsAccordion).to.be.true;
     });
   });
+
+  describe('go back to Order Details', () => {
+    beforeEach(async () => {
+      await page.goBackToOrderButton.click();
+    });
+
+    it('Line Details is closed', () => {
+      expect(page.isPresent).to.be.false;
+    });
+  });
 });

@@ -22,6 +22,7 @@ class POLineDetails extends Component {
 
   render() {
     const { initialValues } = this.props;
+    const receiptDate = get(initialValues, 'receiptDate');
 
     return (
       <Fragment>
@@ -52,10 +53,9 @@ class POLineDetails extends Component {
             </KeyValue>
           </Col>
           <Col xs={6}>
-            <KeyValue
-              label={<FormattedMessage id="ui-orders.poLine.receiptDate" />}
-              value={<FormattedDate value={get(initialValues, 'receiptDate')} />}
-            />
+            <KeyValue label={<FormattedMessage id="ui-orders.poLine.receiptDate" />}>
+              {receiptDate && <FormattedDate value={receiptDate} />}
+            </KeyValue>
           </Col>
           <Col xs={6}>
             <KeyValue

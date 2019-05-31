@@ -1,4 +1,5 @@
 import {
+  collection,
   interactor,
   isPresent,
   text,
@@ -46,4 +47,5 @@ export default interactor(class OrderDetailsPage {
   owner = new Owner();
   billTo = new BillTo();
   shipTo = new ShipTo();
+  lines = collection('#POListing [class*=mclRow---]');
 });
