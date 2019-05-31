@@ -47,7 +47,7 @@ describe('OrderDetailsPage', function () {
   });
 
   it('displays the order number in the pane header', () => {
-    expect(orderDetailsPage.title).to.include(order.poNumber);
+    expect(orderDetailsPage.header.title).to.include(order.poNumber);
   });
 
   it('displays Renewals accordion', () => {
