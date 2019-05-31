@@ -4,16 +4,26 @@ import {
   isPresent,
   scoped,
   fillable,
+  property,
 } from '@bigtest/interactor';
+
+import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { FILTERS } from '../../../src/OrdersList';
 
 import Button from './button';
 
 @interactor class OrdersFilterInteractor {
   static defaultScope = '#pane-filter';
 
-  fillDateOrderedStart = fillable('input[name="startDate"]');
-  fillDateOrderedEnd = fillable('input[name="endDate"]');
-  applyDateOrdered = new Button('[data-test-apply-button]');
+  statusOpenChecked = property(`[data-test-checkbox-filter-data-option=${WORKFLOW_STATUS.open}]`, 'checked');
+  statusPendingChecked = property(`[data-test-checkbox-filter-data-option=${WORKFLOW_STATUS.pending}]`, 'checked');
+  statusClosedChecked = property(`[data-test-checkbox-filter-data-option=${WORKFLOW_STATUS.closed}]`, 'checked');
+
+  fillDateOrderedStart = fillable(`#${FILTERS.DATE_ORDERED} input[name="startDate"]`);
+  fillDateOrderedEnd = fillable(`#${FILTERS.DATE_ORDERED} input[name="endDate"]`);
+  applyDateOrdered = new Button(`#${FILTERS.DATE_ORDERED} [data-test-apply-button]`);
+
+  fillRenewalReviewPeriod = fillable(`#${FILTERS.RENEWAL_REVIEW_PERIOD} input`);
 }
 
 export default interactor(class OrdersInteractor {
@@ -26,5 +36,5 @@ export default interactor(class OrdersInteractor {
   orders = collection('[role=row] a');
   order = scoped('[data-test-order-details]');
 
-  filter = new OrdersFilterInteractor();
+  filters = new OrdersFilterInteractor();
 });
