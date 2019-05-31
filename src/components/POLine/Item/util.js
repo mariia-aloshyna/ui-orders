@@ -8,7 +8,7 @@ export const getInventoryData = (state, initialValues) => {
   const { instanceId, title, publisher, publicationDate, edition, contributors, productIds } = state;
 
   return {
-    instanceId: instanceId || get(initialValues, 'instanceId', ''),
+    instanceId: instanceId || get(initialValues, 'instanceId', null),
     title: title || get(initialValues, 'title', ''),
     publisher: publisher || get(initialValues, 'publisher', ''),
     publicationDate: publicationDate || get(initialValues, 'publicationDate', ''),
