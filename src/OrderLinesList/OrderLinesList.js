@@ -43,9 +43,9 @@ const resultsFormatter = {
 
     return updatedDate.isValid() ? updatedDate.format(DATE_FORMAT) : '';
   },
-  productIds: line => get(line, 'details.productIds', []).map(product => product.productId).join(' ,'),
+  productIds: line => get(line, 'details.productIds', []).map(product => product.productId).join(', '),
   vendorRefNumber: line => get(line, 'vendorDetail.refNumber', ''),
-  funCodes: line => get(line, 'fundDistribution', []).map(fund => fund.code).join(' ,'),
+  funCodes: line => get(line, 'fundDistribution', []).map(fund => fund.code).join(', '),
 };
 const columnMapping = {
   poLineNumber: <FormattedMessage id="ui-orders.orderLineList.poLineNumber" />,
