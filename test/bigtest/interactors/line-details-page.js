@@ -17,6 +17,7 @@ export default interactor(class LineDetailsPage {
   receiveButton = new Button('[data-test-line-receive-button]');
   checkInButton = new Button('[data-test-line-check-in-button]');
   otherDetailsAccordion = isPresent('#other');
+  goBackToOrderButton = new Button('#clickable-backToPO');
 
   actions = new LineDetailsPageActions();
 });

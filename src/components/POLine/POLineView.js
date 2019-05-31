@@ -55,6 +55,7 @@ class POLineView extends Component {
     onClose: PropTypes.func,
     editable: PropTypes.bool,
     goToOrderDetails: PropTypes.func,
+    queryMutator: PropTypes.object,
   }
 
   static defaultProps = {
@@ -135,6 +136,12 @@ class POLineView extends Component {
     );
   };
 
+  backToOrder = () => {
+    const { poURL, queryMutator } = this.props;
+
+    queryMutator.update({ _path: poURL });
+  }
+
   render() {
     const {
       onClose,
@@ -155,7 +162,7 @@ class POLineView extends Component {
         <IconButton
           icon="arrow-left"
           id="clickable-backToPO"
-          href={`${poURL}`}
+          onClick={this.backToOrder}
           title="Back to PO"
         />
       </PaneMenu>);

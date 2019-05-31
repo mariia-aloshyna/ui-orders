@@ -16,11 +16,12 @@ class POLine extends Component {
   });
 
   static propTypes = {
-    parentResources: PropTypes.object,
+    parentResources: PropTypes.object.isRequired,
     parentMutator: PropTypes.shape({
+      query: PropTypes.object.isRequired,
       poLine: lineMutatorShape,
       records: orderRecordsMutatorShape,
-    }),
+    }).isRequired,
     poURL: PropTypes.string,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -37,6 +38,7 @@ class POLine extends Component {
     const {
       match,
       match: { params: { lineId } },
+      parentMutator,
       parentResources,
       resources,
     } = this.props;
@@ -65,6 +67,7 @@ class POLine extends Component {
         receivingURL={receivingURL}
         checkinURL={checkinURL}
         funds={funds}
+        queryMutator={parentMutator.query}
       />
     );
   }

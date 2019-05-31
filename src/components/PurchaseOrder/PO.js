@@ -466,7 +466,11 @@ class PO extends Component {
             id="POListing"
             label={<FormattedMessage id="ui-orders.paneBlock.POLines" />}
           >
-            <LineListing poLines={poLines} {...this.props} />
+            <LineListing
+              baseUrl={match.url}
+              poLines={poLines}
+              queryMutator={parentMutator.query}
+            />
           </Accordion>
         </AccordionSet>
         <LayerPO

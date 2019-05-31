@@ -2,32 +2,27 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get, map } from 'lodash';
+
 import { MultiColumnList } from '@folio/stripes/components';
 
 class LineListing extends Component {
   static propTypes = {
-    history: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
+    baseUrl: PropTypes.string.isRequired,
     poLines: PropTypes.arrayOf(PropTypes.object).isRequired,
+    queryMutator: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.onSelectRow = this.onSelectRow.bind(this);
-  }
-
   onSelectRow = (e, meta) => {
-    const { match, history } = this.props;
-    const url = match.url;
+    const { baseUrl, queryMutator } = this.props;
+    const _path = `${baseUrl}/po-line/view/${meta.id}`;
 
-    history.push(`${url}/po-line/view/${meta.id}`);
+    queryMutator.update({ _path });
   };
 
   render() {
     const { poLines } = this.props;
     const resultsFormatter = {
-      'poLineNumber': ({ poLineNumber }) => poLineNumber || '',
+      'poLineNumber': ({ poLineNumber }) => poLineNumber,
       'title': ({ title }) => title || '',
       'productId': item => map(get(item, 'details.productIds', []), 'productId').join(', '),
       'vendorRefNumber': item => get(item, 'vendorDetail.refNumber', ''),
