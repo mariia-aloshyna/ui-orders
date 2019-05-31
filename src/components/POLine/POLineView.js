@@ -54,6 +54,7 @@ class POLineView extends Component {
     checkinURL: PropTypes.string.isRequired,
     onClose: PropTypes.func,
     editable: PropTypes.bool,
+    goToOrderDetails: PropTypes.func,
   }
 
   static defaultProps = {
@@ -103,6 +104,36 @@ class POLineView extends Component {
     if (e) e.preventDefault();
     this.transitionToParams({ layer: 'edit-po-line' });
   }
+
+  getActionMenu = ({ onToggle }) => {
+    const { goToOrderDetails, editable } = this.props;
+
+    // TODO: remove with other actions implementation
+    if (editable) {
+      return null;
+    }
+
+    return (
+      <div data-test-line-details-actions>
+        {
+          goToOrderDetails && (
+            <Button
+              data-test-line-details-actions-view-po
+              buttonStyle="dropdownItem"
+              onClick={() => {
+                onToggle();
+                goToOrderDetails();
+              }}
+            >
+              <Icon icon="eye-open">
+                <FormattedMessage id="ui-orders.poLine.actions.viewPO" />
+              </Icon>
+            </Button>
+          )
+        }
+      </div>
+    );
+  };
 
   render() {
     const {
@@ -164,6 +195,7 @@ class POLineView extends Component {
       <Pane
         defaultWidth="fill"
         firstMenu={poURL ? firstMenu : null}
+        actionMenu={this.getActionMenu}
         dismissible={Boolean(onClose)}
         onClose={onClose}
         id="pane-poLineDetails"

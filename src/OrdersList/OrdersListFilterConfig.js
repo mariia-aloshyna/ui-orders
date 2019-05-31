@@ -24,4 +24,9 @@ export const filterConfig = [
     rangeSeparator: ':',
     values: [],
   },
+  {
+    name: FILTERS.PO_NUMBER,
+    cql: FILTERS.PO_NUMBER,
+    values: [],
+  },
 ];

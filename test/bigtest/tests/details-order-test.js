@@ -195,8 +195,8 @@ describe('OrderDetailsPage', function () {
 
     Object.values(WORKFLOW_STATUS).forEach(status => {
       describe(`button for ${status} order without POLs`, () => {
-        beforeEach(async function () {
-          const newOrder = await this.server.create('order', {
+        beforeEach(function () {
+          const newOrder = this.server.create('order', {
             workflowStatus: status,
           });
 
