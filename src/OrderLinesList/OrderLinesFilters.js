@@ -25,6 +25,15 @@ import {
 } from '../common/shapes';
 import { FILTERS } from './constants';
 
+const DEFAULT_FILTERS = [
+  `${FILTERS.RECEIPT_STATUS}.${RECEIPT_STATUS.partiallyReceived}`,
+  `${FILTERS.RECEIPT_STATUS}.${RECEIPT_STATUS.awaitingReceipt}`,
+  `${FILTERS.RECEIPT_STATUS}.${RECEIPT_STATUS.pending}`,
+  `${FILTERS.PAYMENT_STATUS}.${PAYMENT_STATUS.partiallyPaid}`,
+  `${FILTERS.PAYMENT_STATUS}.${PAYMENT_STATUS.awaitingPayment}`,
+  `${FILTERS.PAYMENT_STATUS}.${PAYMENT_STATUS.pending}`,
+];
+
 class OrderLinesFilters extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
@@ -37,8 +46,9 @@ class OrderLinesFilters extends Component {
 
   componentDidMount() {
     const { queryMutator } = this.props;
+    const filters = DEFAULT_FILTERS.join(',');
 
-    queryMutator.update({ filters: `${FILTERS.RECEIPT_STATUS}.${RECEIPT_STATUS.partiallyReceived},${FILTERS.PAYMENT_STATUS}.${PAYMENT_STATUS.partiallyPaid}` });
+    queryMutator.update({ filters });
   }
 
   render() {
