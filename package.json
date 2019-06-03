@@ -12,7 +12,7 @@
     "type": "app",
     "displayName": "ui-orders.meta.title",
     "route": "/orders",
-    "home": "/orders/lines",
+    "home": "/orders/lines?sort=-poLineNumber",
     "hasSettings": true,
     "okapiInterfaces": {
       "configuration": "2.0",

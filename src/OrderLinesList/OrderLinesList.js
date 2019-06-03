@@ -45,7 +45,6 @@ const resultsFormatter = {
   },
   productIds: line => get(line, 'details.productIds', []).map(product => product.productId).join(', '),
   vendorRefNumber: line => get(line, 'vendorDetail.refNumber', ''),
-  funCodes: line => get(line, 'fundDistribution', []).map(fund => fund.code).join(', '),
 };
 const columnMapping = {
   poLineNumber: <FormattedMessage id="ui-orders.orderLineList.poLineNumber" />,
@@ -190,6 +189,17 @@ class OrderLinesList extends Component {
       return { ...index, label };
     });
 
+    const fundsMap = get(resources, 'funds.records', []).reduce((acc, fund) => {
+      acc[fund.id] = fund.code;
+
+      return acc;
+    }, {});
+
+    const connectedResultsFormatter = {
+      ...resultsFormatter,
+      funCodes: line => get(line, 'fundDistribution', []).map(fund => fundsMap[fund.fundId]).join(', '),
+    };
+
     return (
       <div data-test-order-line-instances>
         <SearchAndSort
@@ -197,7 +207,7 @@ class OrderLinesList extends Component {
           objectName="order-line"
           baseRoute={ORDER_LINES_ROUTE}
           visibleColumns={visibleColumns}
-          resultsFormatter={resultsFormatter}
+          resultsFormatter={connectedResultsFormatter}
           columnMapping={columnMapping}
           columnWidths={columnWidths}
           massageNewRecord={this.massageNewRecord}
