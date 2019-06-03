@@ -16,6 +16,8 @@ class OrderLineDetails extends Component {
       type: 'okapi',
       path: `${ORDERS_API}/%{orderId}`,
       throwErrors: false,
+      fetch: false,
+      accumulate: true,
     },
     orderLine: {
       type: 'okapi',
@@ -49,9 +51,11 @@ class OrderLineDetails extends Component {
     const { mutator } = this.props;
 
     mutator.orderLine.reset();
+    mutator.order.reset();
     mutator.orderLine.GET()
       .then(({ purchaseOrderId }) => {
         mutator.orderId.replace(purchaseOrderId);
+        mutator.order.GET();
       });
   }
 
