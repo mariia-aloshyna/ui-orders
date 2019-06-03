@@ -3,18 +3,8 @@ import { FILTERS } from './constants';
 // eslint-disable-next-line import/prefer-default-export
 export const filterConfig = [
   {
-    name: FILTERS.ASSIGNED_TO,
-    cql: FILTERS.ASSIGNED_TO,
-    values: [],
-  },
-  {
     name: FILTERS.STATUS,
     cql: FILTERS.STATUS,
-    values: [],
-  },
-  {
-    name: FILTERS.RECEIPT_STATUS,
-    cql: FILTERS.RECEIPT_STATUS,
     values: [],
   },
   {
@@ -22,6 +12,33 @@ export const filterConfig = [
     cql: FILTERS.DATE_ORDERED,
     isRange: true,
     rangeSeparator: ':',
+    values: [],
+  },
+  {
+    name: FILTERS.ORDER_TYPE,
+    cql: FILTERS.ORDER_TYPE,
+    values: [],
+  },
+  {
+    name: FILTERS.RENEWAL_DATE,
+    cql: 'renewal.renewalDate',
+    isRange: true,
+    rangeSeparator: ':',
+    values: [],
+  },
+  {
+    name: FILTERS.MANUAL_RENEWAL,
+    cql: 'renewal.manualRenewal',
+    values: [],
+  },
+  {
+    name: FILTERS.RENEWAL_REVIEW_PERIOD,
+    cql: 'renewal.reviewPeriod',
+    values: [],
+  },
+  {
+    name: FILTERS.VENDOR,
+    cql: FILTERS.VENDOR,
     values: [],
   },
   {

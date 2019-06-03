@@ -5,10 +5,7 @@ import {
 } from '@bigtest/interactor';
 
 import Button from './button';
-
-@interactor class CheckBox {
-  static defaultScope = '[class*=checkboxInput---]';
-}
+import { CheckBox } from './common';
 
 @interactor class BarcodeInput {
   static defaultScope = '[class*=fieldWrapper] input[type="text"]';

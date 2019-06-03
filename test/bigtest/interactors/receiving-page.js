@@ -5,10 +5,7 @@ import {
 } from '@bigtest/interactor';
 
 import Button from './button';
-
-@interactor class CheckBox {
-  static defaultScope = '[class*=checkboxInput---]';
-}
+import { CheckBox } from './common';
 
 export default interactor(class ReceivingPage {
   static defaultScope = '[data-test-receiving]';

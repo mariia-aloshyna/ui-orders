@@ -5,24 +5,31 @@ import { FormattedMessage } from 'react-intl';
 import {
   Accordion,
   FilterAccordionHeader,
-  Selection,
+  TextField,
 } from '@folio/stripes/components';
 
 import {
   createClearFilterHandler,
-  createOnChangeSelectionFilter,
 } from '../utils';
-import { selectOptionsShape } from '../shapes';
 
-const OrdersSelectionFilter = ({
+const OrdersTextFilter = ({
   id,
   activeFilters = [],
   closedByDefault = true,
   labelId,
   name,
+  type,
   onChange,
-  options = [],
 }) => {
+  const clearFilter = createClearFilterHandler(onChange, name);
+  const changeFilter = (e) => {
+    const value = e.target.value;
+
+    return value
+      ? onChange({ name, values: [value] })
+      : clearFilter();
+  };
+
   return (
     <Accordion
       id={id}
@@ -30,25 +37,29 @@ const OrdersSelectionFilter = ({
       displayClearButton={activeFilters.length > 0}
       header={FilterAccordionHeader}
       label={<FormattedMessage id={labelId} />}
-      onClearFilter={createClearFilterHandler(onChange, name)}
+      onClearFilter={clearFilter}
     >
-      <Selection
-        dataOptions={options}
+      <TextField
+        type={type}
         value={activeFilters[0] || ''}
-        onChange={createOnChangeSelectionFilter(onChange, name)}
+        onChange={changeFilter}
       />
     </Accordion>
   );
 };
 
-OrdersSelectionFilter.propTypes = {
+OrdersTextFilter.propTypes = {
   id: PropTypes.string,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
   closedByDefault: PropTypes.bool,
   labelId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  options: selectOptionsShape,
+  type: PropTypes.string,
 };
 
-export default OrdersSelectionFilter;
+OrdersTextFilter.defaultProps = {
+  type: 'text',
+};
+
+export default OrdersTextFilter;

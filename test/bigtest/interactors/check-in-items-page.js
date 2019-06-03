@@ -6,10 +6,7 @@ import {
 } from '@bigtest/interactor';
 
 import Button from './button';
-
-@interactor class Checkbox {
-  static defaultScope = '[class*=checkboxInput---]';
-}
+import { CheckBox } from './common';
 
 @interactor class SearchInput {
   static defaultScope = '[data-test-check-in-items-search] input[type="search"]';
@@ -23,7 +20,7 @@ export default interactor(class CheckInItemsPage {
   checkInButton = new Button('[data-test-check-in-items-check-in-button]');
   closeButton = new Button('[data-test-close-button]');
   pieces = collection('[class*=mclRow---]', {
-    checkbox: new Checkbox(),
+    checkbox: new CheckBox(),
   });
 
   searchInput = new SearchInput();

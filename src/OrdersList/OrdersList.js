@@ -35,8 +35,10 @@ import {
   getActiveFilters,
   handleFilterChange,
 } from '../common/utils';
+import { WORKFLOW_STATUS } from '../components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import OrdersListFilters from './OrdersListFilters';
 import { filterConfig } from './OrdersListFilterConfig';
+import { FILTERS } from './constants';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -136,6 +138,16 @@ class OrdersList extends Component {
     this.callout = React.createRef();
   }
 
+  initFilters = () => {
+    const { resources, mutator } = this.props;
+
+    if (!resources.query.filters) {
+      mutator.query.update({
+        filters: `${FILTERS.STATUS}.${WORKFLOW_STATUS.open},${FILTERS.STATUS}.${WORKFLOW_STATUS.pending}`,
+      });
+    }
+  }
+
   showToast = (messageId, messageType = 'success', values = {}) => this.callout.current.sendCallout({
     message: <FormattedMessage id={messageId} values={values} />,
     type: messageType,
@@ -157,15 +169,20 @@ class OrdersList extends Component {
   }
 
   renderFilters = (onChange) => {
-    const { stripes } = this.props;
+    const { resources } = this.props;
+    const vendors = get(resources, 'vendors.records', []);
 
-    return (
-      <OrdersListFilters
-        activeFilters={this.getActiveFilters()}
-        onChange={onChange}
-        user={stripes.user.user}
-      />
-    );
+    return resources.query
+      ? (
+        <OrdersListFilters
+          activeFilters={this.getActiveFilters()}
+          onChange={onChange}
+          vendors={vendors}
+          queryMutator={this.props.mutator.query}
+          init={this.initFilters}
+        />
+      )
+      : null;
   };
 
   renderNavigation = () => (
