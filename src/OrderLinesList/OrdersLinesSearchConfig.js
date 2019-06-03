@@ -24,6 +24,11 @@ export const searchableIndexes = [
     makeQuery: term => `(poLineNumber="${term}")`,
   },
   {
+    label: 'productId',
+    value: 'details.productIds',
+    makeQuery: term => `(details.productIds="${term}")`,
+  },
+  {
     label: 'requester',
     value: 'requester',
     makeQuery: term => `(requester="${term}")`,
