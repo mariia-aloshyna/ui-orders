@@ -84,13 +84,14 @@ class OrderLineDetails extends Component {
   };
 
   render() {
-    const { match: { params: { id } } } = this.props;
+    const { match: { params: { id } }, parentResources } = this.props;
     const line = this.getLine();
     const order = this.getOrder();
-    const locations = get(this.props.parentResources, 'locations.records', []);
-    const materialTypes = get(this.props.parentResources, 'materialTypes.records', []);
-    const vendors = get(this.props.parentResources, 'vendors.records', []);
-    const funds = get(this.props.parentResources, 'funds.records', []);
+    const locations = get(parentResources, 'locations.records', []);
+    const materialTypes = get(parentResources, 'materialTypes.records', []);
+    const vendors = get(parentResources, 'vendors.records', []);
+    const funds = get(parentResources, 'funds.records', []);
+    const identifierTypes = get(parentResources, 'identifierTypes.records', []);
 
     const receivingURL = `/orders/view/${order.id}/po-line/view/${id}/receiving`;
     const checkinURL = `/orders/view/${order.id}/po-line/view/${id}/check-in/items`;
@@ -109,6 +110,7 @@ class OrderLineDetails extends Component {
         editable={false}
         goToOrderDetails={this.goToOrderDetails}
         deleteLine={this.deleteLine}
+        identifierTypes={identifierTypes}
       />
     );
   }
