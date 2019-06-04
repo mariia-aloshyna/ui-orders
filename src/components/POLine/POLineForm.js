@@ -60,7 +60,6 @@ class POLineForm extends Component {
     parentMutator: PropTypes.object,
     poURL: PropTypes.string,
     location: PropTypes.object.isRequired,
-    deletePOLine: PropTypes.func,
     change: PropTypes.func,
     dispatch: PropTypes.func,
     vendor: PropTypes.object,
@@ -162,7 +161,6 @@ class POLineForm extends Component {
   render() {
     const {
       change,
-      deletePOLine,
       dispatch,
       initialValues,
       onCancel,
@@ -181,7 +179,6 @@ class POLineForm extends Component {
     const lastMenu = lineId ?
       this.getLastMenu('clickable-updatePoLine', <FormattedMessage id="ui-orders.buttons.line.save" />) :
       this.getLastMenu('clickable-createnewPoLine', <FormattedMessage id="ui-orders.buttons.line.save" />);
-    const showDeleteButton = lineId || false;
 
     if (!initialValues) {
       return (
@@ -333,22 +330,6 @@ class POLineForm extends Component {
                       <LocationForm {...this.props} />
                     </Accordion>
                   </AccordionSet>
-                  <IfPermission perm="orders.po-lines.item.delete">
-                    <Row end="xs">
-                      <Col xs={12}>
-                        {
-                          showDeleteButton &&
-                          <Button
-                            type="button"
-                            buttonStyle="danger"
-                            onClick={() => { deletePOLine(lineId); }}
-                          >
-                            <FormattedMessage id="ui-orders.buttons.line.delete" values={{ lineNumber }} />
-                          </Button>
-                        }
-                      </Col>
-                    </Row>
-                  </IfPermission>
                 </Col>
               </Row>
             </Col>

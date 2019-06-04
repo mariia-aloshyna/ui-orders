@@ -34,6 +34,7 @@ import OrdersNavigation from '../common/OrdersNavigation';
 import {
   getActiveFilters,
   handleFilterChange,
+  showToast,
 } from '../common/utils';
 import { WORKFLOW_STATUS } from '../components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import OrdersListFilters from './OrdersListFilters';
@@ -136,6 +137,7 @@ class OrdersList extends Component {
     this.getActiveFilters = getActiveFilters.bind(this);
     this.handleFilterChange = handleFilterChange.bind(this);
     this.callout = React.createRef();
+    this.showToast = showToast.bind(this);
   }
 
   initFilters = () => {
@@ -147,11 +149,6 @@ class OrdersList extends Component {
       });
     }
   }
-
-  showToast = (messageId, messageType = 'success', values = {}) => this.callout.current.sendCallout({
-    message: <FormattedMessage id={messageId} values={values} />,
-    type: messageType,
-  });
 
   create = async (order) => {
     const { mutator } = this.props;

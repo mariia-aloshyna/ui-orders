@@ -9,14 +9,15 @@ import {
   AccordionSet,
   Button,
   Col,
+  ConfirmationModal,
   ExpandAllButton,
   Icon,
   IconButton,
+  MenuSection,
   Pane,
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
-import transitionToParams from '@folio/stripes-components/util/transitionToParams';
 
 import {
   isCheckInAvailableForLine,
@@ -56,6 +57,7 @@ class POLineView extends Component {
     editable: PropTypes.bool,
     goToOrderDetails: PropTypes.func,
     queryMutator: PropTypes.object,
+    deleteLine: PropTypes.func,
   }
 
   static defaultProps = {
@@ -80,8 +82,8 @@ class POLineView extends Component {
         [ACCORDION_ID.other]: false,
         [ACCORDION_ID.physical]: false,
       },
+      showConfirmDelete: false,
     };
-    this.transitionToParams = transitionToParams.bind(this);
   }
 
   onToggleSection = ({ id }) => {
@@ -103,36 +105,66 @@ class POLineView extends Component {
 
   onEditPOLine = (e) => {
     if (e) e.preventDefault();
-    this.transitionToParams({ layer: 'edit-po-line' });
+    const { queryMutator } = this.props;
+
+    queryMutator.update({ layer: 'edit-po-line' });
   }
+
+  mountDeleteLineConfirm = () => this.setState({ showConfirmDelete: true });
+
+  unmountDeleteLineConfirm = () => this.setState({ showConfirmDelete: false });
 
   getActionMenu = ({ onToggle }) => {
     const { goToOrderDetails, editable } = this.props;
 
-    // TODO: remove with other actions implementation
-    if (editable) {
-      return null;
-    }
-
+    // TODO: unify actions after Order Lines list is implemented fully
     return (
-      <div data-test-line-details-actions>
-        {
-          goToOrderDetails && (
+      <MenuSection id="data-test-line-details-actions">
+        <IfPermission perm="orders.po-lines.item.delete">
+          <Button
+            buttonStyle="dropdownItem"
+            data-test-button-delete-line
+            onClick={() => {
+              onToggle();
+              this.mountDeleteLineConfirm();
+            }}
+          >
+            <Icon size="small" icon="trash">
+              <FormattedMessage id="ui-orders.button.delete" />
+            </Icon>
+          </Button>
+        </IfPermission>
+        {editable && (
+          <IfPermission perm="orders.po-lines.item.put">
             <Button
-              data-test-line-details-actions-view-po
               buttonStyle="dropdownItem"
+              data-test-button-edit-line
               onClick={() => {
                 onToggle();
-                goToOrderDetails();
+                this.onEditPOLine();
               }}
             >
-              <Icon icon="eye-open">
-                <FormattedMessage id="ui-orders.poLine.actions.viewPO" />
+              <Icon size="small" icon="edit">
+                <FormattedMessage id="ui-orders.button.edit" />
               </Icon>
             </Button>
-          )
-        }
-      </div>
+          </IfPermission>
+        )}
+        {goToOrderDetails && (
+          <Button
+            data-test-line-details-actions-view-po
+            buttonStyle="dropdownItem"
+            onClick={() => {
+              onToggle();
+              goToOrderDetails();
+            }}
+          >
+            <Icon icon="eye-open">
+              <FormattedMessage id="ui-orders.poLine.actions.viewPO" />
+            </Icon>
+          </Button>
+        )}
+      </MenuSection>
     );
   };
 
@@ -155,6 +187,7 @@ class POLineView extends Component {
       vendors,
       funds,
       editable,
+      deleteLine,
     } = this.props;
 
     const firstMenu = (
@@ -192,6 +225,7 @@ class POLineView extends Component {
     }
 
     const orderFormat = get(line, 'orderFormat');
+    const poLineNumber = line.poLineNumber;
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const showOther = orderFormat === OTHER;
@@ -331,6 +365,17 @@ class POLineView extends Component {
             />
           </Accordion>
         </AccordionSet>
+        {this.state.showConfirmDelete && (
+          <ConfirmationModal
+            id="delete-line-confirmation"
+            confirmLabel={<FormattedMessage id="ui-orders.order.delete.confirmLabel" />}
+            heading={<FormattedMessage id="ui-orders.order.delete.heading" values={{ orderNumber: poLineNumber }} />}
+            message={<FormattedMessage id="ui-orders.line.delete.message" />}
+            onCancel={this.unmountDeleteLineConfirm}
+            onConfirm={deleteLine}
+            open
+          />
+        )}
       </Pane>
     );
   }

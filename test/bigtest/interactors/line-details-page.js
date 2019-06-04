@@ -6,10 +6,12 @@ import {
 import Button from './button';
 
 @interactor class LineDetailsPageActions {
-  static defaultScope = '[data-test-line-details-actions]';
+  static defaultScope = '#data-test-line-details-actions';
 
   toggle = new Button('[class*=paneHeaderCenterButton---]');
   viewPOButton = new Button('[data-test-line-details-actions-view-po]');
+  delete = new Button('[data-test-button-delete-line]');
+  edit = new Button('[data-test-button-edit-line]');
 }
 
 export default interactor(class LineDetailsPage {

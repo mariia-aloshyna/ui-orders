@@ -9,6 +9,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 
 import { stripesShape } from '@folio/stripes/core';
+import { Callout } from '@folio/stripes/components';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
 
 import packageInfo from '../../package';
@@ -21,6 +22,7 @@ import {
 import {
   getActiveFilters,
   handleFilterChange,
+  showToast,
 } from '../common/utils';
 import {
   LOCATIONS,
@@ -131,6 +133,8 @@ class OrderLinesList extends Component {
     super(props, context);
     this.getActiveFilters = getActiveFilters.bind(this);
     this.handleFilterChange = handleFilterChange.bind(this);
+    this.callout = React.createRef();
+    this.showToast = showToast.bind(this);
   }
 
   renderNavigation = () => (
@@ -230,7 +234,9 @@ class OrderLinesList extends Component {
           searchableIndexes={translatedSearchableIndexes}
           onChangeIndex={this.onChangeIndex}
           selectedIndex={get(resources.query, 'qindex')}
+          detailProps={{ showToast: this.showToast }}
         />
+        <Callout ref={this.callout} />
       </div>
     );
   }
