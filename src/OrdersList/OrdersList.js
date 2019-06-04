@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 
 import { Callout } from '@folio/stripes/components';
 import { stripesShape } from '@folio/stripes/core';
@@ -39,6 +43,7 @@ import {
 import { WORKFLOW_STATUS } from '../components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import OrdersListFilters from './OrdersListFilters';
 import { filterConfig } from './OrdersListFilterConfig';
+import { ordersSearchTemplate, searchableIndexes } from './OrdersListSearchConfig';
 import { FILTERS } from './constants';
 
 const INITIAL_RESULT_COUNT = 30;
@@ -48,6 +53,7 @@ class OrdersList extends Component {
   static manifest = Object.freeze({
     query: {
       initialValue: {
+        qindex: '',
         query: '',
         filters: '',
         sort: 'poNumber',
@@ -65,7 +71,7 @@ class OrdersList extends Component {
         params: {
           query: makeQueryFunction(
             'cql.allRecords=1',
-            '',
+            ordersSearchTemplate,
             {
               created: 'metadata.createdDate',
             },
@@ -125,6 +131,7 @@ class OrdersList extends Component {
     browseOnly: PropTypes.bool,
     onComponentWillUnmount: PropTypes.func,
     disableRecordCreation: PropTypes.bool,
+    intl: intlShape.isRequired,
   }
 
   static defaultProps = {
@@ -148,6 +155,12 @@ class OrdersList extends Component {
         filters: `${FILTERS.STATUS}.${WORKFLOW_STATUS.open},${FILTERS.STATUS}.${WORKFLOW_STATUS.pending}`,
       });
     }
+  }
+
+  changeSearchIndex = (e) => {
+    const qindex = e.target.value;
+
+    this.props.mutator.query.update({ qindex });
   }
 
   create = async (order) => {
@@ -192,6 +205,7 @@ class OrdersList extends Component {
   render() {
     const {
       browseOnly,
+      intl: { formatMessage },
       disableRecordCreation,
       mutator,
       onComponentWillUnmount,
@@ -233,6 +247,12 @@ class OrdersList extends Component {
       createdByName: `${firstName} ${lastName}` || '',
     };
 
+    const translatedSearchableIndexes = searchableIndexes.map(index => {
+      const label = formatMessage({ id: `ui-orders.search.${index.label}` });
+
+      return { ...index, label };
+    });
+
     return (
       <div data-test-order-instances>
         <SearchAndSort
@@ -242,6 +262,9 @@ class OrdersList extends Component {
           onFilterChange={this.handleFilterChange}
           renderFilters={this.renderFilters}
           renderNavigation={this.renderNavigation}
+          searchableIndexes={translatedSearchableIndexes}
+          onChangeIndex={this.changeSearchIndex}
+          selectedIndex={get(resources.query, 'qindex')}
           visibleColumns={['poNumber', 'vendorCode', 'workflowStatus', 'orderType', 'created', 'owner', 'assignedTo']}
           resultsFormatter={resultsFormatter}
           viewRecordComponent={Panes}
@@ -278,4 +301,4 @@ class OrdersList extends Component {
   }
 }
 
-export default OrdersList;
+export default injectIntl(OrdersList);

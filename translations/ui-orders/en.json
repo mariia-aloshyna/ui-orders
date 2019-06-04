@@ -595,6 +595,8 @@
   "search.title": "Title",
   "search.vendorAccount": "Vendor account",
   "search.vendorReferenceNumber": "Vendor reference number",
+  "search.dateOrdered": "Date ordered",
+  "search.poNumber": "PO number",
   "settings.closingReasons.add": "Add Reason",
   "settings.closingReasons.addBtn": "Add",
   "settings.closingReasons.reason": "Reason",
