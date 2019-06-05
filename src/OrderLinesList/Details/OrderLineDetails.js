@@ -70,6 +70,7 @@ class OrderLineDetails extends Component {
   };
 
   getLine = () => get(this.props.resources, ['orderLine', 'records', 0]);
+  getOrder = () => get(this.props.resources, ['order', 'records', 0], {});
 
   deleteLine = () => {
     const { mutator, parentMutator, showToast } = this.props;
@@ -85,7 +86,7 @@ class OrderLineDetails extends Component {
   render() {
     const { match: { params: { id } } } = this.props;
     const line = this.getLine();
-    const order = get(this.props.resources, ['order', 'records', 0], {});
+    const order = this.getOrder();
     const locations = get(this.props.parentResources, 'locations.records', []);
     const materialTypes = get(this.props.parentResources, 'materialTypes.records', []);
     const vendors = get(this.props.parentResources, 'vendors.records', []);

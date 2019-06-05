@@ -10,7 +10,7 @@ import { PIECE_STATUS_RECEIVED } from '../../../src/components/Receiving/const';
 const RECEIVING_LIST_COUNT = 10;
 const BARCODE = '111';
 
-describe('Receiving history', () => {
+describe('Receiving history', function () {
   setupApplication();
 
   let order = null;

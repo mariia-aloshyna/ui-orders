@@ -13,7 +13,7 @@ import {
 
 const RECEIVING_LIST_COUNT = 10;
 
-describe('Receiving', () => {
+describe('Receiving', function () {
   setupApplication();
 
   let order = null;
@@ -27,6 +27,7 @@ describe('Receiving', () => {
       workflowStatus: WORKFLOW_STATUS.open,
     });
     line = this.server.create('line', {
+      purchaseOrderId: order.id,
       order,
       orderFormat: PHYSICAL,
       cost: {
@@ -62,8 +63,8 @@ describe('Receiving', () => {
   });
 
   describe('displays Receiving page', () => {
-    beforeEach(async function () {
-      await this.visit(`/orders/view/${order.id}/receiving`);
+    beforeEach(function () {
+      this.visit(`/orders/view/${order.id}/receiving`);
     });
 
     it('displays disabled Receive Pieces button', () => {

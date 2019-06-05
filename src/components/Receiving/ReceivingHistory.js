@@ -262,7 +262,7 @@ class ReceivingHistory extends Component {
             <MultiColumnList
               onNeedMoreData={this.fetchHistory}
               virtualize
-              height="450"
+              height={450}
               fullWidth
               formatter={resultsFormatter}
               contentData={pieces}

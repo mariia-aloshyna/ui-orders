@@ -6,14 +6,12 @@ import {
 import { expect } from 'chai';
 
 import { PHYSICAL, ERESOURCE } from '../../../src/components/POLine/const';
-import {
-  ORDERS_API,
-} from '../../../src/components/Utils/api';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 
-describe('Create POL', () => {
+describe('Create POL', function () {
   setupApplication();
+
   let vendor = null;
   let order = null;
   const lineEditPage = new LineEditPage();
@@ -23,7 +21,7 @@ describe('Create POL', () => {
   const CURRENCIES = ['GBR', 'USD'];
   const SUBSCRIPTION_INTERVAL = '10';
 
-  beforeEach(function () {
+  beforeEach(async function () {
     vendor = this.server.create('vendor', {
       discountPercent: 5,
       accounts: ACCOUNTS,
@@ -35,78 +33,51 @@ describe('Create POL', () => {
     });
 
     this.visit(`/orders/view/${order.id}?layer=create-po-line`);
+    await lineEditPage.whenLoaded();
   });
 
-  describe('Physical Details', () => {
-    beforeEach(async () => {
+  describe('Physical Details', function () {
+    beforeEach(async function () {
       await lineEditPage.selectOrderFormat(PHYSICAL);
       await lineEditPage.physicalDetailsAccordion.toggle();
     });
 
-    it('should display details accordion', () => {
+    it('should display details accordion', function () {
       expect(lineEditPage.physicalDetailsAccordion.isPresent).to.be.true;
     });
 
-    it('should display Material Supplier field', () => {
+    it('should display Material Supplier field', function () {
       expect(lineEditPage.physicalDetailsAccordion.materialSupplierPresent).to.be.true;
     });
   });
 
-  describe('Electronic Details', () => {
-    beforeEach(async () => {
+  describe('Electronic Details', function () {
+    beforeEach(async function () {
       await lineEditPage.selectOrderFormat(ERESOURCE);
       await lineEditPage.electronicDetailsAccordion.toggle();
     });
 
-    it('should display details accordion', () => {
+    it('should display details accordion', function () {
       expect(lineEditPage.electronicDetailsAccordion.isPresent).to.be.true;
     });
 
-    it('should display Access Provider field', () => {
+    it('should display Access Provider field', function () {
       expect(lineEditPage.electronicDetailsAccordion.accessProviderPresent).to.be.true;
     });
   });
 
-  describe('Default POL fields value from vendor', () => {
-    describe('Non empty vendor\'s fields', () => {
-      it('Account number', () => {
+  describe('Default POL fields value from vendor', function () {
+    describe("Non empty vendor's fields", function () {
+      it('Account number', function () {
         expect(lineEditPage.accountNumber).to.equal(ACCOUNTS[0].accountNo);
       });
 
-      it('Currency', () => {
+      it('Currency', function () {
         expect(lineEditPage.currency).to.equal(CURRENCIES[0]);
       });
 
-      it('Subscription Interval', () => {
+      it('Subscription Interval', function () {
         expect(lineEditPage.subscriptionInterval).to.equal(SUBSCRIPTION_INTERVAL);
-      });
-    });
-
-    describe('Empty vendor\'s fields', () => {
-      beforeEach(function () {
-        vendor = this.server.create('vendor', {
-          discountPercent: 5,
-        });
-        order = this.server.create('order', {
-          vendor: vendor.id,
-        });
-
-        this.server.get(`${ORDERS_API}/${order.id}`, {
-          ...order.attrs,
-        });
-
-        this.visit(`/orders/view/${order.id}?layer=create-po-line`);
-      });
-      it('Account number', () => {
-        expect(lineEditPage.accountNumber).to.equal('');
-      });
-
-      it('Currency', () => {
-        expect(lineEditPage.currency).to.equal(CURRENCIES[1]);
-      });
-
-      it('Subscription Interval', () => {
-        expect(lineEditPage.subscriptionInterval).to.equal('');
       });
     });
   });

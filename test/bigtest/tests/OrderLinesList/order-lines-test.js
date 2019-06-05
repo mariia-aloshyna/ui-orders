@@ -4,19 +4,17 @@ import { expect } from 'chai';
 import setupApplication from '../../helpers/setup-application';
 import OrderLinesInteractor from '../../interactors/order-lines';
 
-const ORDER_LINES_COUNT = 15;
+const ORDER_LINES_COUNT = 11;
 
-describe('Order lines', () => {
+describe('Order lines', function () {
   setupApplication();
 
   const orderLines = new OrderLinesInteractor();
 
-  beforeEach(function () {
+  beforeEach(async function () {
     this.server.createList('line', ORDER_LINES_COUNT);
-
-    return this.visit('/orders/lines', () => {
-      expect(orderLines.$root).to.exist;
-    });
+    this.visit('/orders/lines');
+    await orderLines.whenLoaded();
   });
 
   it('shows the list of order line items', () => {
@@ -71,7 +69,7 @@ describe('Order lines', () => {
     });
 
     it('no lines found', () => {
-      expect(orderLines.instances().length).to.be.equal(0);
+      expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
     });
   });
 });

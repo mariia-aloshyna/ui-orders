@@ -20,6 +20,10 @@ export default interactor(class LineDetailsPage {
   checkInButton = new Button('[data-test-line-check-in-button]');
   otherDetailsAccordion = isPresent('#other');
   goBackToOrderButton = new Button('#clickable-backToPO');
+  isLoaded = isPresent('[class*=paneTitleLabel---]');
 
   actions = new LineDetailsPageActions();
+  whenLoaded() {
+    return this.timeout(5000).when(() => this.isLoaded);
+  }
 });

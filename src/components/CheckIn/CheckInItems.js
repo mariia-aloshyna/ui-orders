@@ -10,6 +10,7 @@ import {
 import {
   Button,
   Col,
+  ConfirmationModal,
   Row,
   SearchField,
 } from '@folio/stripes/components';
@@ -25,6 +26,7 @@ import AddPieceModal from './AddPieceModal';
 import { PIECE_FORMAT } from './FieldPieceFormat';
 import withCheckboxes from './withCheckboxes';
 import { ADD_PIECE_MODAL_FORM } from './const';
+import CheckInItemsActions from './CheckInItemsActions';
 
 const ORDER_FORMAT_TO_PIECE_FORMAT = {
   [ERESOURCE]: PIECE_FORMAT.electronic,
@@ -37,6 +39,7 @@ class CheckInItems extends Component {
     checkedItems: PropTypes.arrayOf(PropTypes.object).isRequired,
     checkedItemsMap: PropTypes.object.isRequired,
     checkInItem: PropTypes.func.isRequired,
+    deletePiece: PropTypes.func.isRequired,
     isAllChecked: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
     location: ReactRouterPropTypes.location.isRequired,
@@ -55,8 +58,10 @@ class CheckInItems extends Component {
   }
 
   state = {
+    addPieceInitialValues: {},
     addPieceModalOpened: false,
     checkInDetailsModalOpened: false,
+    pieceToDelete: null,
     searchText: '',
   };
 
@@ -83,9 +88,12 @@ class CheckInItems extends Component {
     this.setState({ checkInDetailsModalOpened: false });
   }
 
-  addPieceModalOpen = () => {
-    this.setState({ addPieceModalOpened: true });
-  }
+  showEditPieceModal = (addPieceInitialValues = {}) => this.setState({
+    addPieceModalOpened: true,
+    addPieceInitialValues,
+  });
+
+  addPieceModalOpen = () => this.showEditPieceModal();
 
   addPieceModalClose = () => {
     this.setState({ addPieceModalOpened: false });
@@ -121,8 +129,35 @@ class CheckInItems extends Component {
     return getFormValues(ADD_PIECE_MODAL_FORM)(store.getState());
   }
 
+  renderActions = (piece) => {
+    return (
+      <CheckInItemsActions
+        deletePiece={this.mountDeleteConfirm}
+        piece={piece}
+        showEditPieceModal={this.showEditPieceModal}
+      />
+    );
+  }
+
+  mountDeleteConfirm = (pieceToDelete) => this.setState({
+    showConfirmDelete: true,
+    pieceToDelete,
+  });
+
+  unmountDeleteConfirm = () => this.setState({ showConfirmDelete: false });
+  confirmDelete = () => {
+    this.unmountDeleteConfirm();
+    this.props.deletePiece(this.state.pieceToDelete);
+  }
+
   render() {
-    const { addPieceModalOpened, checkInDetailsModalOpened, searchText } = this.state;
+    const {
+      addPieceInitialValues,
+      addPieceModalOpened,
+      checkInDetailsModalOpened,
+      searchText,
+      showConfirmDelete,
+    } = this.state;
     const {
       checkedItems,
       checkedItemsMap,
@@ -141,6 +176,7 @@ class CheckInItems extends Component {
 
     const { orderFormat, id: poLineId, instanceId } = poLine;
     const initialValuesPiece = {
+      ...addPieceInitialValues,
       poLineId,
     };
     const items = this.getItems();
@@ -191,6 +227,7 @@ class CheckInItems extends Component {
           checkedItemsMap={checkedItemsMap}
           isAllChecked={isAllChecked}
           items={items}
+          renderActions={this.renderActions}
           toggleAll={toggleAll}
           toggleItem={toggleItem}
         />
@@ -199,7 +236,7 @@ class CheckInItems extends Component {
             checkIn={this.addPieceModalCheckIn}
             close={this.addPieceModalClose}
             createInventoryValues={this.getCreateInventoryValues()}
-            initialValues={initialValuesPiece}
+            initialValues={Object.assign(initialValuesPiece, addPieceInitialValues)}
             instanceId={instanceId}
             locations={locations}
             onSubmit={this.addPieceModalSave}
@@ -213,6 +250,17 @@ class CheckInItems extends Component {
             close={this.checkInDetailsModalClose}
             location={location}
             pieces={checkedItems}
+          />
+        )}
+        {showConfirmDelete && (
+          <ConfirmationModal
+            id="delete-piece-confirmation"
+            confirmLabel={<FormattedMessage id="ui-orders.order.delete.confirmLabel" />}
+            heading={<FormattedMessage id="ui-orders.piece.delete.heading" />}
+            message={<FormattedMessage id="ui-orders.piece.delete.message" />}
+            onCancel={this.unmountDeleteConfirm}
+            onConfirm={this.confirmDelete}
+            open
           />
         )}
       </div>

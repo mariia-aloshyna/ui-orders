@@ -8,7 +8,7 @@ import { WORKFLOW_STATUS } from '../../../../src/components/PurchaseOrder/Summar
 
 const REASON = 'test reason';
 
-describe('Close Order Modal', () => {
+describe('Close Order Modal', function () {
   setupApplication();
 
   let order = null;

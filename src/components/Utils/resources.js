@@ -81,13 +81,12 @@ export const CHECKIN = {
 };
 
 export const ORDER_PIECES = {
+  ...BASE_RESOURCE,
   accumulate: true,
   clientGeneratePk: false,
   fetch: false,
   path: ORDER_PIECES_API,
   records: 'checkInItems',
-  throwErrors: false,
-  ...BASE_RESOURCE,
 };
 
 export const LINE = {

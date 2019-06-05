@@ -5,9 +5,9 @@ import setupApplication from '../helpers/setup-application';
 import SettingsInteractor from '../interactors/settings';
 
 describe('Settings', function () {
-  const settings = new SettingsInteractor();
-
   setupApplication();
+
+  const settings = new SettingsInteractor();
 
   beforeEach(function () {
     this.visit('/settings/orders');

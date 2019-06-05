@@ -7,7 +7,7 @@ import setupApplication from '../../helpers/setup-application';
 import LineDetailsPage from '../../interactors/line-details-page';
 import ConfirmationModal from '../../interactors/confirmation';
 
-describe('Delete Order Line', () => {
+describe('Delete Order Line', function () {
   setupApplication();
 
   const page = new LineDetailsPage();
@@ -17,6 +17,7 @@ describe('Delete Order Line', () => {
   beforeEach(function () {
     order = this.server.create('order');
     line = this.server.create('line', {
+      purchaseOrderId: order.id,
       order,
       orderFormat: PHYSICAL,
       cost: {

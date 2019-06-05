@@ -4,10 +4,10 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import SettingOrderNumberInteractor from '../interactors/setting-order-number';
 
-describe('Setting of Order Number', () => {
-  const setting = new SettingOrderNumberInteractor();
-
+describe('Setting of Order Number', function () {
   setupApplication();
+
+  const setting = new SettingOrderNumberInteractor();
 
   beforeEach(function () {
     this.visit('/settings/orders/po-number');

@@ -25,6 +25,7 @@ const OWNER_TEST_VALUE = 'some team';
 
 describe('OrderDetailsPage', function () {
   setupApplication();
+
   const lineEditPage = new LineEditPage();
   const orderDetailsPage = new OrderDetailsPage();
   const orderEditPage = new OrderEditPage();
@@ -32,7 +33,7 @@ describe('OrderDetailsPage', function () {
   let order = null;
   let vendor = null;
 
-  beforeEach(function () {
+  beforeEach(async function () {
     vendor = this.server.create('vendor');
     order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.pending,
@@ -44,6 +45,7 @@ describe('OrderDetailsPage', function () {
     });
 
     this.visit(`/orders/view/${order.id}`);
+    await orderDetailsPage.whenLoaded();
   });
 
   it('displays the order number in the pane header', () => {
@@ -127,6 +129,7 @@ describe('OrderDetailsPage', function () {
         });
 
         line = this.server.create('line', {
+          purchaseOrderId: order.id,
           order: pendingOrder,
           orderFormat: PHYSICAL,
           cost: {

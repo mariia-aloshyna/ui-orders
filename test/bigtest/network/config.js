@@ -33,11 +33,9 @@ export default function config() {
   });
 
   this.get(`${ORDERS_API}/:id`, (schema, request) => {
-    return schema.orders.find(request.params.id).attrs;
-    // return {
-    //   ...schema.orders.find(request.params.id).attrs,
-    //   poLines: [{ cost: { quantityPhysical: 2 } }],
-    // };
+    const order = schema.orders.find(request.params.id);
+
+    return order && order.attrs;
   });
 
   this.put(`${ORDERS_API}/:id`, (schema, request) => {
@@ -179,6 +177,8 @@ export default function config() {
       receivingStatus: body.receivingStatus,
     };
   });
+
+  this.delete(`${ORDER_PIECES_API}/:id`, 'piece');
 
   this.post(CHECKIN_API, (schema, request) => {
     const body = JSON.stringify(request.requestBody);

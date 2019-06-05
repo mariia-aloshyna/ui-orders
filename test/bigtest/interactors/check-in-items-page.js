@@ -2,6 +2,7 @@ import {
   collection,
   interactor,
   is,
+  isPresent,
   value,
 } from '@bigtest/interactor';
 
@@ -15,13 +16,20 @@ import { CheckBox } from './common';
 }
 
 export default interactor(class CheckInItemsPage {
-  static defaultScope = '[data-test-check-in-items]';
+  static defaultScope = '[data-test-check-in-items-wrapper]';
   addPieceButton = new Button('[data-test-check-in-items-add-piece-button]');
   checkInButton = new Button('[data-test-check-in-items-check-in-button]');
   closeButton = new Button('[data-test-close-button]');
   pieces = collection('[class*=mclRow---]', {
     checkbox: new CheckBox(),
+    actions: new Button('#check-in-actions'),
   });
 
+  deletePieceButton = new Button('[data-test-button-delete-piece]');
+
   searchInput = new SearchInput();
+  isLoaded = isPresent('[data-test-check-in-items]');
+  whenLoaded() {
+    return this.timeout(5000).when(() => this.isLoaded);
+  }
 });

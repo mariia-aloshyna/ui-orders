@@ -11,25 +11,18 @@ import {
   PHYSICAL,
 } from '../../../src/components/POLine/const';
 import { DEFAULT_CURRENCY } from '../../../src/components/POLine/Cost/FieldCurrency';
-import { ACQUISITION_METHOD } from '../../../src/components/POLine/POLineDetails/FieldAcquisitionMethod';
 import {
   ORDERS_API,
 } from '../../../src/components/Utils/api';
 import calculateEstimatedPrice from '../../../src/components/POLine/calculateEstimatedPrice';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
-import LineDetailsPage from '../interactors/line-details-page';
 
 const TITLE = 'TEST_VALUE';
 const requiredField = 'Required!';
 const validationYearMessage = 'Field should be 4-digit year';
 const LIST_UNIT_PRICE = 1.1;
 const QUANTITY_PHYSICAL = 2;
-const INSTANCE_ID = '12345';
-const CONTRIBUTOR = 'Test Contributor';
-const EDITION = 'Test Edition';
-const PUBLISHER = 'Test Publisher';
-const PRODUCT_ID = '123456789';
 const cost = {
   currency: DEFAULT_CURRENCY,
   listUnitPrice: LIST_UNIT_PRICE,
@@ -37,23 +30,24 @@ const cost = {
 };
 const LINE_ESTIMATED_PRICE = calculateEstimatedPrice({ cost });
 
-describe('Line edit test', () => {
+describe('Line edit test', function () {
   setupApplication();
+
   let order = null;
   let line = null;
   let location = null;
   let locations = null;
   let vendor = null;
   const lineEditPage = new LineEditPage();
-  const lineDetailsPage = new LineDetailsPage();
 
-  beforeEach(function () {
+  beforeEach(async function () {
     vendor = this.server.create('vendor');
     order = this.server.create('order', {
       vendor: vendor.id,
     });
     location = this.server.create('location');
     line = this.server.create('line', {
+      purchaseOrderId: order.id,
       order,
       orderFormat: PHYSICAL,
       cost,
@@ -78,9 +72,10 @@ describe('Line edit test', () => {
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);
+    await lineEditPage.whenLoaded();
   });
 
-  it('displays Line Edit form', () => {
+  it('displays Line Edit form', function () {
     expect(lineEditPage.$root).to.exist;
     expect(lineEditPage.locationAccordion.$root).to.exist;
     expect(lineEditPage.fundDistributionAccordion.$root).to.exist;
@@ -89,40 +84,40 @@ describe('Line edit test', () => {
     expect(lineEditPage.orderFormat.isSelect).to.be.true;
   });
 
-  describe('Location can be added', () => {
+  describe('Location can be added', function () {
     beforeEach(async function () {
       await lineEditPage.locationAccordion.clickHeader();
       await lineEditPage.locationAccordion.clickAddLocationButton();
     });
 
-    it('Location is added', () => {
+    it('Location is added', function () {
       expect(lineEditPage.locationAccordion.locations().length).to.be.equal(locations.length + 1);
     });
   });
 
-  describe('Check required fields and fields with incorrect inputs', () => {
+  describe('Check required fields and fields with incorrect inputs', function () {
     beforeEach(async function () {
       await lineEditPage.publicationDateField.fill('111');
       await lineEditPage.updateLineButton.click();
     });
 
-    it('displays required and error messages', () => {
+    it('displays required and error messages', function () {
       expect(lineEditPage.validationMessage).to.include(requiredField, validationYearMessage);
     });
   });
 
-  describe('Enter valid publication date', () => {
+  describe('Enter valid publication date', function () {
     beforeEach(async function () {
       await lineEditPage.publicationDateField.fill('2019');
       await lineEditPage.updateLineButton.click();
     });
 
-    it('displays only required validation message', () => {
+    it('displays only required validation message', function () {
       expect(lineEditPage.validationMessage).to.include(requiredField);
     });
   });
 
-  it('displays Cost form', () => {
+  it('displays Cost form', function () {
     expect(lineEditPage.listUnitPrice.isInput).to.be.true;
     expect(lineEditPage.quantityPhysical.isInput).to.be.true;
     expect(lineEditPage.additionalCost.isInput).to.be.true;
@@ -132,109 +127,109 @@ describe('Line edit test', () => {
     expect(lineEditPage.poLineEstimatedPrice.$root).to.exist;
   });
 
-  it('displays right estimated price in Cost form', () => {
+  it('displays right estimated price in Cost form', function () {
     expect(lineEditPage.poLineEstimatedPrice.value).to.include(LINE_ESTIMATED_PRICE);
   });
 
-  describe('listUnitPrice can be changed', () => {
+  describe('listUnitPrice can be changed', function () {
     const NEW_PRICE = '3.33';
 
     beforeEach(async function () {
       await lineEditPage.listUnitPrice.fill(NEW_PRICE);
     });
 
-    it('listUnitPrice contains new value', () => {
+    it('listUnitPrice contains new value', function () {
       expect(lineEditPage.listUnitPrice.value).to.be.equal(NEW_PRICE);
     });
   });
 
-  describe('discount can be changed', () => {
+  describe('discount can be changed', function () {
     const NEW_DISCOUNT = '13';
 
     beforeEach(async function () {
       await lineEditPage.discount.fill(NEW_DISCOUNT);
     });
 
-    it('discount contains new value', () => {
+    it('discount contains new value', function () {
       expect(lineEditPage.discount.value).to.be.equal(NEW_DISCOUNT);
     });
   });
 
-  describe('Fund can be added', () => {
+  describe('Fund can be added', function () {
     beforeEach(async function () {
       await lineEditPage.fundDistributionAccordion.clickHeader();
       await lineEditPage.fundDistributionAccordion.clickAddFundButton();
     });
 
-    it('Fund is added', () => {
+    it('Fund is added', function () {
       expect(lineEditPage.fundDistributionAccordion.funds().length).to.be.equal(1);
     });
   });
 
-  describe('Volume can be added', () => {
+  describe('Volume can be added', function () {
     beforeEach(async function () {
       await lineEditPage.physicalDetailsAccordion.toggle();
       await lineEditPage.addVolumeButton.click();
     });
 
-    it('Volume is added', () => {
+    it('Volume is added', function () {
       expect(lineEditPage.physicalDetailsAccordion.volumes().length).to.be.equal(1);
     });
 
-    describe('Volume can be removed', () => {
+    describe('Volume can be removed', function () {
       beforeEach(async function () {
         await lineEditPage.removeVolumeButton.click();
       });
 
-      it('Volume is removed', () => {
+      it('Volume is removed', function () {
         expect(lineEditPage.removeVolumeButton.isPresent).to.be.false;
       });
     });
   });
 
-  describe('Contributor can be added', () => {
+  describe('Contributor can be added', function () {
     beforeEach(async function () {
       await lineEditPage.itemDetailsAccordion.toggle();
       await lineEditPage.addContributorButton.click();
     });
 
-    it('contributor is added', () => {
+    it('contributor is added', function () {
       expect(lineEditPage.itemDetailsAccordion.contributors().length).to.be.equal(1);
     });
 
-    describe('contributor can be removed', () => {
+    describe('contributor can be removed', function () {
       beforeEach(async function () {
         await lineEditPage.removeContributorButton.click();
       });
 
-      it('contributor is removed', () => {
+      it('contributor is removed', function () {
         expect(lineEditPage.removeContributorButton.isPresent).to.be.false;
       });
     });
   });
 
-  describe('Product Ids can be added', () => {
+  describe('Product Ids can be added', function () {
     beforeEach(async function () {
       await lineEditPage.itemDetailsAccordion.toggle();
       await lineEditPage.addProductIdsButton.click();
     });
 
-    it('product Ids fields are added', () => {
+    it('product Ids fields are added', function () {
       expect(lineEditPage.itemDetailsAccordion.productIds().length).to.be.equal(2);
     });
 
-    describe('Product Ids can be removed', () => {
+    describe('Product Ids can be removed', function () {
       beforeEach(async function () {
         await lineEditPage.removeProductIdsButton.click();
       });
 
-      it('Product Ids fields are removed', () => {
+      it('Product Ids fields are removed', function () {
         expect(lineEditPage.removeProductIdsButton.isPresent).to.be.false;
       });
     });
   });
 
-  describe('Check not negative locations quantity validation', () => {
+  describe('Check not negative locations quantity validation', function () {
     const NEGATIVE_QUANTITY = -1;
 
     beforeEach(async function () {
@@ -243,75 +238,48 @@ describe('Line edit test', () => {
       await lineEditPage.updateLineButton.click();
     });
 
-    it('Should provide warning messages', () => {
+    it('Should provide warning messages', function () {
       expect(lineEditPage.locationAccordion.warningMessage).to.be.equal('Quantity can not be less than 0');
     });
   });
 
-  describe('Render expected PO Line form title', () => {
-    describe('Create PO Line', () => {
-      beforeEach(function () {
-        return this.visit(`/orders/view/${order.id}/?layer=create-po-line`, () => {
-          return expect(lineEditPage.$root).to.exist;
-        });
-      });
-
-      it('Has to render expected title', () => {
-        expect(lineEditPage.title).to.be.equal('Add PO Line');
-      });
-    });
-
-    describe('Edit PO Line', () => {
-      beforeEach(function () {
-        this.server.get(`${ORDERS_API}/${order.id}`, {
-          ...order.attrs,
-          compositePoLines: [line.attrs],
-        });
-
-        return this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`, () => {
-          return expect(lineEditPage.$root).to.exist;
-        });
-      });
-
-      it('Has to render expected title', () => {
-        expect(lineEditPage.title).to.be.equal(`Edit - ${line.poLineNumber}`);
-      });
-    });
+  it('Has to render expected title', function () {
+    expect(lineEditPage.title).to.be.equal(`Edit - ${line.poLineNumber}`);
   });
 
-  describe('Check existing warning messages for Item Details Title if value isn\'t empty', () => {
+  describe('Check existing warning messages for Item Details Title if value isn\'t empty', function () {
     beforeEach(async function () {
       await lineEditPage.itemDetailsAccordion.inputTitle(TITLE);
       await lineEditPage.updateLineButton.click();
     });
 
-    it('Doesn\'t provide any warning message', () => {
+    it('Doesn\'t provide any warning message', function () {
       expect(lineEditPage.itemDetailsAccordion.errorTitle).to.be.equal('');
     });
   });
 
-  describe('Check existing warning messages for Item Details Title if value is empty', () => {
+  describe('Check existing warning messages for Item Details Title if value is empty', function () {
     beforeEach(async function () {
       await lineEditPage.quantityPhysical.fill(20);
       await lineEditPage.itemDetailsAccordion.inputTitle('');
       await lineEditPage.updateLineButton.click();
     });
 
-    it('Provides title warning message in case if tile is empty', () => {
+    it('Provides title warning message in case if tile is empty', function () {
       expect(lineEditPage.itemDetailsAccordion.errorTitle).to.be.equal(requiredField);
     });
   });
-  describe('Other Resource Details accordion is shown', () => {
+  describe('Other Resource Details accordion is shown', function () {
     beforeEach(async function () {
       await lineEditPage.orderFormat.select(OTHER);
       await lineEditPage.otherAccordion.clickHeader();
     });
 
-    it('Displays create inventory field', () => {
+    it('Displays create inventory field', function () {
       expect(lineEditPage.physicalCreateInventory.isSelect).to.be.true;
     });
 
-    it('Displays order format Other', () => {
+    it('Displays order format Other', function () {
       expect(lineEditPage.orderFormat.value).to.be.equal(OTHER);
     });
 
@@ -320,103 +288,12 @@ describe('Line edit test', () => {
       await lineEditPage.updateLineButton.click();
     });
 
-    it('Displays warning message Required for Material Type', () => {
+    it('Displays warning message Required for Material Type', function () {
       expect(lineEditPage.otherAccordion.warningMessage).to.be.equal(requiredField);
     });
 
-    it('Create inventory field includes Instance, Holding, Item', () => {
+    it('Create inventory field includes Instance, Holding, Item', function () {
       expect(lineEditPage.physicalCreateInventory.value).to.be.equal(INVENTORY_RECORDS_TYPE.all);
-    });
-  });
-
-  describe('Save updated PO Line', () => {
-    beforeEach(async function () {
-      line = this.server.create('line', {
-        order,
-        acquisitionMethod: ACQUISITION_METHOD.gift,
-        orderFormat: PHYSICAL,
-        cost,
-        title: TITLE,
-        locations,
-      });
-
-      this.server.get(`${ORDERS_API}/${order.id}`, {
-        ...order.attrs,
-        compositePoLines: [
-          {
-            ...line.attrs,
-            locations,
-          },
-        ],
-      });
-
-      this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);
-      await lineEditPage.physicalCreateInventory.select(INVENTORY_RECORDS_TYPE.none);
-      await lineEditPage.updateLineButton.click();
-    });
-
-    it('displays updated PO Line Details pane', () => {
-      expect(lineDetailsPage.$root).to.exist;
-    });
-  });
-
-  describe('Capture UUID from inventory', () => {
-    beforeEach(function () {
-      line = this.server.create('line', {
-        order,
-        title: TITLE,
-        instanceId: INSTANCE_ID,
-        contributors: [{ contributor: CONTRIBUTOR }],
-        edition: EDITION,
-        publisher: PUBLISHER,
-        details: {
-          productIds: [{ productId: PRODUCT_ID }],
-        },
-      });
-
-      this.server.get(`${ORDERS_API}/${order.id}`, {
-        ...order.attrs,
-        compositePoLines: [line.attrs],
-      });
-
-      this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);
-    });
-
-    it('Item details fields are shown', () => {
-      expect(lineEditPage.instanceId).to.be.equal(INSTANCE_ID);
-    });
-
-    describe('Remove instance ID from form', () => {
-      beforeEach(async function () {
-        await lineEditPage.itemDetailsAccordion.inputTitle('');
-        await lineEditPage.itemDetailsAccordion.edition('');
-        await lineEditPage.itemDetailsAccordion.publisher('');
-      });
-
-      it('instance id is not shown', () => {
-        expect(lineEditPage.instanceId).to.be.equal('');
-      });
-    });
-
-    describe('Instance Id is shown', () => {
-      beforeEach(async function () {
-        await lineEditPage.addContributorButton.click();
-      });
-
-      it('instance id is shown', () => {
-        expect(lineEditPage.instanceId).to.be.equal(INSTANCE_ID);
-      });
-    });
-
-    describe('Instance Id is not shown', () => {
-      beforeEach(async function () {
-        await lineEditPage.removeContributorButton.click();
-        await lineEditPage.removeProductIdsButton.click();
-      });
-
-      it('instance id is not shown', () => {
-        expect(lineEditPage.instanceId).to.be.equal('');
-      });
     });
   });
 });

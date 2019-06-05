@@ -14,7 +14,7 @@ const TEST_BARCODE = 'test';
 const ITEM_BARCODE = '111';
 const TEST_COMMENT = 'TEST_COMMENT';
 
-describe('Piece Details Modal', () => {
+describe('Piece Details Modal', function () {
   setupApplication();
 
   let order = null;
@@ -29,6 +29,7 @@ describe('Piece Details Modal', () => {
       workflowStatus: WORKFLOW_STATUS.open,
     });
     line = this.server.create('line', {
+      purchaseOrderId: order.id,
       order,
       orderFormat: PHYSICAL,
       cost: {
@@ -48,7 +49,7 @@ describe('Piece Details Modal', () => {
       poLineId: line.id,
     });
 
-    await this.visit(`/orders/view/${order.id}/receiving`);
+    this.visit(`/orders/view/${order.id}/receiving`);
     await receivingPage.receivingList(0).click();
     await receivingPage.receivePiecesButton.click();
   });

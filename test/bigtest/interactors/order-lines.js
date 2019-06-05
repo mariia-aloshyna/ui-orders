@@ -4,6 +4,7 @@ import {
   interactor,
   isVisible,
   selectable,
+  isPresent,
 } from '@bigtest/interactor';
 
 import Button from './button';
@@ -40,4 +41,8 @@ export default interactor(class OrderLinesInteractor {
   navigation = new OrdersNavigation();
 
   filter = new OrderLinesFilterInteractor();
+  isLoaded = isPresent('#pane-results');
+  whenLoaded() {
+    return this.timeout(5000).when(() => this.isLoaded);
+  }
 });

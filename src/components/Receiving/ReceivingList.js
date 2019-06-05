@@ -189,7 +189,7 @@ class ReceivingList extends Component {
       'isChecked': line => (
         <Checkbox
           type="checkbox"
-          checked={itemDetails[line.poLineId]}
+          checked={!!itemDetails[line.poLineId]}
           onChange={() => this.toggleLine(line, receivingList)}
         />
       ),

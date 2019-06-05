@@ -13,8 +13,9 @@ import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import LineDetailsPage from '../interactors/line-details-page';
 
-describe('Order details with Line', () => {
+describe('Order details with Line', function () {
   setupApplication();
+
   const lineDetailsPage = new LineDetailsPage();
   const orderDetailsPage = new OrderDetailsPage();
 
@@ -30,6 +31,7 @@ describe('Order details with Line', () => {
       vendor: vendor.id,
     });
     line = this.server.create('line', {
+      purchaseOrderId: order.id,
       order,
       orderFormat: PHYSICAL,
       cost: {

@@ -4,10 +4,9 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import SettingLineLimitInteractor from '../interactors/setting-line-limit';
 
-describe('Setting of Lines Limit', () => {
-  const setting = new SettingLineLimitInteractor();
-
+describe('Setting of Lines Limit', function () {
   setupApplication();
+  const setting = new SettingLineLimitInteractor();
 
   beforeEach(function () {
     this.visit('/settings/orders/polines-limit');
