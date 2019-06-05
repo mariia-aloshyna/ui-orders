@@ -62,12 +62,50 @@
           "orders.item.get",
           "orders.po-lines.collection.get",
           "orders.po-lines.item.get",
-          "orders.receiving-history.collection.get"
+          "orders.receiving-history.collection.get",
+          "orders.po-number.item.get"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.orders.modify",
+        "displayName": "Orders: permissions to view, create and edit order and lines with receiving and check-in",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "ui-orders.view",
+          "orders.item.post",
+          "orders.item.put",
+          "orders.po-number.item.post",
+          "orders.po-lines.item.post",
+          "orders.po-lines.item.put",
+          "orders.receiving.collection.post",
+          "orders.check-in.collection.post",
+          "orders.pieces.item.post"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.order.delete",
+        "displayName": "Orders: Remove orders",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "ui-orders.view",
+          "orders.item.delete"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.order-lines.delete",
+        "displayName": "Orders: Remove order lines",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "ui-orders.view",
+          "orders.po-lines.item.delete"
         ]
       },
       {
         "permissionName": "ui-orders.all",
-        "displayName": "Orders: all permissions for View and Edit orders and their lines",
+        "displayName": "Orders: all permissions to view, create, edit and remove orders and their lines",
         "description": "",
         "visible": true,
         "subPermissions": [
