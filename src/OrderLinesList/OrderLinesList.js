@@ -39,6 +39,7 @@ const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 
 const visibleColumns = ['poLineNumber', 'updatedDate', 'title', 'productIds', 'vendorRefNumber', 'funCodes'];
+const sortableColumns = ['poLineNumber', 'updatedDate', 'title', 'vendorRefNumber'];
 const resultsFormatter = {
   updatedDate: line => {
     const updatedDate = moment.utc(get(line, 'metadata.updatedDate', ''));
@@ -233,6 +234,8 @@ class OrderLinesList extends Component {
           onFilterChange={this.handleFilterChange}
           searchableIndexes={translatedSearchableIndexes}
           onChangeIndex={this.onChangeIndex}
+          maxSortKeys={1}
+          sortableColumns={sortableColumns}
           selectedIndex={get(resources.query, 'qindex')}
           detailProps={{ showToast: this.showToast }}
         />
