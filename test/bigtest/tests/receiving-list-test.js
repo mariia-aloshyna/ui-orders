@@ -52,6 +52,41 @@ describe('Receiving', function () {
     expect(orderDetailsPage.receivingButton.isButton).to.be.true;
   });
 
+  describe('go to receiving history from closed PO', () => {
+    beforeEach(function () {
+      order = this.server.create('order', {
+        workflowStatus: WORKFLOW_STATUS.closed,
+      });
+      line = this.server.create('line', {
+        order,
+        orderFormat: PHYSICAL,
+        cost: {
+          quantityPhysical: 2,
+        },
+      });
+      this.server.get(`${ORDERS_API}/${order.id}`, {
+        ...order.attrs,
+        compositePoLines: [line.attrs],
+      });
+
+      this.visit(`/orders/view/${order.id}`);
+    });
+
+    it('displays the Receive button', () => {
+      expect(orderDetailsPage.receivingButton.isButton).to.be.true;
+    });
+
+    describe('go to receiving history', () => {
+      beforeEach(async function () {
+        await orderDetailsPage.receivingButton.click();
+      });
+
+      it('displays Receiving history screen', () => {
+        expect(receivingHistoryPage.$root).to.exist;
+      });
+    });
+  });
+
   describe('go to receiving list', () => {
     beforeEach(async function () {
       await orderDetailsPage.receivingButton.click();

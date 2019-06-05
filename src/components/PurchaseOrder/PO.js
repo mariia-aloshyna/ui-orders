@@ -281,9 +281,10 @@ class PO extends Component {
 
   goToReceiving = () => {
     const { match: { params: { id } }, parentMutator: { query } } = this.props;
+    const order = this.getOrder();
 
     query.replace({
-      _path: `/orders/view/${id}/receiving`,
+      _path: `/orders/view/${id}/${order.workflowStatus === WORKFLOW_STATUS.open ? 'receiving' : 'receiving-history'}`,
     });
   };
 

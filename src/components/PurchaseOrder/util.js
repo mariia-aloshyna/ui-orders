@@ -14,27 +14,27 @@ const isLineAbleToBeReceived = (line = { cost: {} }) => {
   return isNotCheckin && hasQuantity && hasCorrectReceiptStatus;
 };
 
-const isWorkflowStatusOpen = (order) => {
+const isWorkflowStatusNotPending = (order) => {
   const { workflowStatus } = order;
 
-  return workflowStatus === WORKFLOW_STATUS.open;
+  return workflowStatus !== WORKFLOW_STATUS.pending;
 };
 
 export const isReceiveAvailableForLine = (line = {}, order = {}) => {
   const hasLineItemsToReceive = isLineAbleToBeReceived(line);
 
-  return hasLineItemsToReceive && isWorkflowStatusOpen(order);
+  return hasLineItemsToReceive && isWorkflowStatusNotPending(order);
 };
 
 export const isCheckInAvailableForLine = (line = {}, order = {}) => {
-  return line.checkinItems && isWorkflowStatusOpen(order);
+  return line.checkinItems && isWorkflowStatusNotPending(order);
 };
 
 export const isReceiveAvailableForOrder = (order = {}) => {
   const { compositePoLines = [] } = order;
   const hasLineItemsToReceive = some(compositePoLines, isLineAbleToBeReceived);
 
-  return hasLineItemsToReceive && isWorkflowStatusOpen(order);
+  return hasLineItemsToReceive && isWorkflowStatusNotPending(order);
 };
 
 const EMPTY_OPTION = {

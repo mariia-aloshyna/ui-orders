@@ -23,6 +23,7 @@ import {
   isCheckInAvailableForLine,
   isReceiveAvailableForLine,
 } from '../PurchaseOrder/util';
+import { WORKFLOW_STATUS } from '../PurchaseOrder/Summary/FieldWorkflowStatus';
 
 import LocationView from './Location/LocationView';
 import { POLineDetails } from './POLineDetails';
@@ -231,6 +232,9 @@ class POLineView extends Component {
     const showOther = orderFormat === OTHER;
     const isReceiveButtonVisible = isReceiveAvailableForLine(line, order);
     const isCheckInButtonVisible = isCheckInAvailableForLine(line, order);
+    const isWorkflowStatusOpen = order.workflowStatus === WORKFLOW_STATUS.open;
+    const checkInLocation = isWorkflowStatusOpen ? `${checkinURL}/items` : `${checkinURL}/history`;
+    const receivingLocation = isWorkflowStatusOpen ? receivingURL : `${receivingURL}-history`;
 
     return (
       <Pane
@@ -250,7 +254,7 @@ class POLineView extends Component {
                 <Button
                   buttonStyle="primary"
                   data-test-line-receive-button
-                  to={receivingURL}
+                  to={receivingLocation}
                 >
                   <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
                 </Button>
@@ -261,7 +265,7 @@ class POLineView extends Component {
                 <Button
                   buttonStyle="primary"
                   data-test-line-check-in-button
-                  to={checkinURL}
+                  to={checkInLocation}
                 >
                   <FormattedMessage id="ui-orders.paneBlock.checkInBtn" />
                 </Button>
