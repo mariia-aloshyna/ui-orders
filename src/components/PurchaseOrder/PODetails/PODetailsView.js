@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+
 import { get } from 'lodash';
+
 import {
   Checkbox,
   Col,
   KeyValue,
   Row,
 } from '@folio/stripes/components';
+
 import FolioFormattedTime from '../../FolioFormattedTime';
-// import css from './css/PODetailsView.css';
+
+import css from './PODetailsView.css';
 
 class PODetailsView extends Component {
   static propTypes = {
@@ -54,6 +58,7 @@ class PODetailsView extends Component {
           />
         </Col>
         <Col
+          className={css.addressWrapper}
           data-test-order-details-bill-to
           xs={6}
         >
@@ -63,6 +68,7 @@ class PODetailsView extends Component {
           />
         </Col>
         <Col
+          className={css.addressWrapper}
           data-test-order-details-ship-to
           xs={6}
         >
