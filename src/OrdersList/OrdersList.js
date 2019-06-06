@@ -294,6 +294,7 @@ class OrdersList extends Component {
             assignedTo: <FormattedMessage id="ui-orders.order.assigned_to" />,
           }}
           detailProps={{ showToast: this.showToast }}
+          maxSortKeys={1}
         />
         <Callout ref={this.callout} />
       </div>
