@@ -71,7 +71,7 @@ class POLine extends Component {
     const funds = get(this.props.parentResources, 'fund.records', []);
     const poURL = this.props.poURL;
     const receivingURL = `${match.url}/receiving`;
-    const checkinURL = `${match.url}/check-in/items`;
+    const checkinURL = `${match.url}/check-in`;
 
     return (
       <POLineView
