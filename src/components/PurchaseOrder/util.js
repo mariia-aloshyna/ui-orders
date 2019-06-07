@@ -20,6 +20,12 @@ const isWorkflowStatusNotPending = (order) => {
   return workflowStatus !== WORKFLOW_STATUS.pending;
 };
 
+export const isWorkflowStatusOpen = (order) => {
+  const { workflowStatus } = order;
+
+  return workflowStatus === WORKFLOW_STATUS.open;
+};
+
 export const isReceiveAvailableForLine = (line = {}, order = {}) => {
   const hasLineItemsToReceive = isLineAbleToBeReceived(line);
 

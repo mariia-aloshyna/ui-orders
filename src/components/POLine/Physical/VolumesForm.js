@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
   Field,
   FieldArray,
 } from 'redux-form';
+
 import {
   Button,
   Col,
@@ -13,6 +15,10 @@ import {
 } from '@folio/stripes/components';
 
 class VolumesForm extends Component {
+  static propTypes = {
+    disabled: PropTypes.bool,
+  };
+
   addFields = (fields) => {
     fields.push('');
   }
@@ -22,6 +28,8 @@ class VolumesForm extends Component {
   }
 
   renderForm = ({ fields }) => {
+    const { disabled } = this.props;
+
     return (
       <Row>
         <Col xs={12}>
@@ -40,6 +48,7 @@ class VolumesForm extends Component {
           <Button
             data-test-add-volume-button
             onClick={() => this.addFields(fields)}
+            disabled={disabled}
           >
             <FormattedMessage id="ui-orders.physical.addVolumeBtn" />
           </Button>
@@ -49,6 +58,8 @@ class VolumesForm extends Component {
   }
 
   renderSubForm = (elem, index, fields) => {
+    const { disabled } = this.props;
+
     return (
       <Row key={index}>
         <Col xs={11}>
@@ -57,6 +68,7 @@ class VolumesForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.physical.volume" />}
             name={elem}
+            disabled={disabled}
           />
         </Col>
         <Col
@@ -68,6 +80,7 @@ class VolumesForm extends Component {
             data-test-remove-volume-button
             icon="trash"
             onClick={() => this.removeFields(fields, index)}
+            disabled={disabled}
           >
             {<FormattedMessage id="ui-orders.physical.removeBtn" />}
           </IconButton>

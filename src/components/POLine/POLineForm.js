@@ -248,6 +248,7 @@ class POLineForm extends Component {
                       id={ACCORDION_ID.itemDetails}
                     >
                       <ItemForm
+                        order={order}
                         change={change}
                         dispatch={dispatch}
                         identifierTypes={identifierTypes}
@@ -270,6 +271,7 @@ class POLineForm extends Component {
                         dispatch={dispatch}
                         formValues={formValues}
                         currencies={vendorCurrencies}
+                        order={order}
                       />
                     </Accordion>
                     <Accordion
@@ -278,6 +280,7 @@ class POLineForm extends Component {
                     >
                       <VendorForm
                         accounts={accounts}
+                        order={order}
                       />
                     </Accordion>
                     <Accordion
@@ -287,6 +290,7 @@ class POLineForm extends Component {
                       <FundDistributionForm
                         formValues={formValues}
                         funds={funds}
+                        order={order}
                       />
                     </Accordion>
                     {showEresources && (
@@ -309,6 +313,7 @@ class POLineForm extends Component {
                         <PhysicalForm
                           materialTypes={materialTypes}
                           vendors={vendors}
+                          order={order}
                         />
                       </Accordion>
                     )}
@@ -320,6 +325,7 @@ class POLineForm extends Component {
                         <OtherForm
                           materialTypes={materialTypes}
                           vendors={vendors}
+                          order={order}
                         />
                       </Accordion>
                     )}

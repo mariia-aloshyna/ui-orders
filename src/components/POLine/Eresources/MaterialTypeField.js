@@ -9,7 +9,7 @@ import { EMPTY_OPTION } from '../../Utils/const';
 import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
 import { requiredMaterialType } from '../../Utils/Validate';
 
-const MaterialTypeField = ({ name, materialTypes }) => (
+const MaterialTypeField = ({ name, materialTypes, disabled }) => (
   <Field
     component={Select}
     dataOptions={[EMPTY_OPTION, ...materialTypes]}
@@ -18,6 +18,7 @@ const MaterialTypeField = ({ name, materialTypes }) => (
     name={name}
     normalize={normalizeEmptySelect}
     validate={[requiredMaterialType]}
+    disabled={disabled}
   />
 );
 
@@ -27,6 +28,7 @@ MaterialTypeField.propTypes = {
     value: PropTypes.string,
   })),
   name: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
 };
 
 export default MaterialTypeField;

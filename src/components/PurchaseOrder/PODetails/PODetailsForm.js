@@ -23,7 +23,7 @@ import NotesForm from '../../NotesForm';
 import { required } from '../../Utils/Validate';
 import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldOrderType from './FieldOrderType';
-import { addEmptyOption } from '../util';
+import { addEmptyOption, isWorkflowStatusOpen } from '../util';
 
 import css from './PODetailsForm.css';
 
@@ -44,6 +44,7 @@ class PODetailsForm extends Component {
     change: PropTypes.func,
     owner: PropTypes.string,
     addresses: PropTypes.arrayOf(PropTypes.object),
+    order: PropTypes.object,
   }
 
   onClearFieldUser = () => {
@@ -135,7 +136,9 @@ class PODetailsForm extends Component {
     );
   }
 
-  userVendor = () => {
+  userVendor = (isDisabled) => {
+    if (isDisabled) return false;
+
     const columnMapping = {
       name: <FormattedMessage id="ui-orders.vendor.name" />,
       vendor_status: <FormattedMessage id="ui-orders.vendor.vendor_status" />,
@@ -175,8 +178,10 @@ class PODetailsForm extends Component {
       formValues,
       orderNumberSetting: { selectedPrefixes, selectedSuffixes, canUserEditOrderNumber },
       owner,
+      order,
     } = this.props;
-    const isExistingOrder = Boolean(get(formValues, 'id'));
+
+    const isOpenedOrder = isWorkflowStatusOpen(order);
     const ownerOptions = owner && !OWNER_OPTIONS.some(({ value }) => value === owner)
       ? [...OWNER_OPTIONS, { value: owner, label: owner }]
       : OWNER_OPTIONS;
@@ -193,7 +198,7 @@ class PODetailsForm extends Component {
               label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
               name="numberPrefix"
               dataOptions={addEmptyOption(selectedPrefixes)}
-              disabled={isExistingOrder}
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col xs={4}>
@@ -202,7 +207,7 @@ class PODetailsForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.orderDetails.poNumber" />}
               name="poNumber"
-              disabled={!canUserEditOrderNumber}
+              disabled={!canUserEditOrderNumber || isOpenedOrder}
               onBlur={this.fillBackGeneratedNumber}
             />
           </Col>
@@ -212,7 +217,7 @@ class PODetailsForm extends Component {
               label={<FormattedMessage id="ui-orders.orderDetails.orderNumberSuffix" />}
               name="numberSuffix"
               dataOptions={addEmptyOption(selectedSuffixes)}
-              disabled={isExistingOrder}
+              disabled={isOpenedOrder}
             />
           </Col>
         </Row>
@@ -225,7 +230,7 @@ class PODetailsForm extends Component {
             <Field
               component={TextField}
               disabled
-              endControl={this.vendorClearButton()}
+              endControl={!isOpenedOrder && this.vendorClearButton()}
               fullWidth
               hasClearIcon={false}
               label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
@@ -234,7 +239,7 @@ class PODetailsForm extends Component {
               validate={required}
             />
             <div className={css.pluginButtonWrapper}>
-              {this.userVendor()}
+              {this.userVendor(isOpenedOrder)}
             </div>
           </Col>
           <Col
@@ -288,6 +293,7 @@ class PODetailsForm extends Component {
               label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
               name="manualPo"
               type="checkbox"
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col
@@ -301,13 +307,14 @@ class PODetailsForm extends Component {
               label={<FormattedMessage id="ui-orders.orderDetails.re_encumber" />}
               name="reEncumber"
               type="checkbox"
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col
             xs={6}
             lg={3}
           >
-            <FieldOrderType />
+            <FieldOrderType disabled={isOpenedOrder} />
           </Col>
           <Col
             xs={6}
@@ -319,6 +326,7 @@ class PODetailsForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.poLine.owner" />}
               name="owner"
+              disabled={isOpenedOrder}
             />
           </Col>
         </Row>
@@ -333,6 +341,7 @@ class PODetailsForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
               name="billTo"
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col

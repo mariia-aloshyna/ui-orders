@@ -33,6 +33,7 @@ class FieldOrderFormat extends Component {
     store: PropTypes.object.isRequired,
     vendors: PropTypes.arrayOf(PropTypes.object).isRequired,
     createInventorySetting: PropTypes.object.isRequired,
+    disabled: PropTypes.bool,
   }
 
   onChangeSelect = (_, value) => {
@@ -69,6 +70,7 @@ class FieldOrderFormat extends Component {
         onChange={this.onChangeSelect}
         required
         validate={[Required]}
+        disabled={this.props.disabled}
       >
         <FormattedMessage id="ui-orders.dropdown.select">
           {(message) => <option value="">{message}</option>}
