@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import get from 'lodash/get';
+import {
+  get,
+  find,
+} from 'lodash';
 import {
   Col,
   KeyValue,
@@ -11,6 +14,7 @@ import {
 class ProductIdDetails extends Component {
   static propTypes = {
     itemIdDetails: PropTypes.arrayOf(PropTypes.object),
+    identifierTypes: PropTypes.arrayOf(PropTypes.object),
   }
 
   constructor(props) {
@@ -38,11 +42,15 @@ class ProductIdDetails extends Component {
   }
 
   render() {
-    const { itemIdDetails } = this.props;
+    const { itemIdDetails, identifierTypes } = this.props;
+    const itemIdDetailsToDisplay = itemIdDetails.map(({ productId, productIdType }) => ({
+      productId,
+      productIdType: get(find(identifierTypes, { id: productIdType }), 'name', ''),
+    }));
 
     return (
       <Col xs={12}>
-        {itemIdDetails.map(this.getProductDetails)}
+        {itemIdDetailsToDisplay.map(this.getProductDetails)}
       </Col>
     );
   }

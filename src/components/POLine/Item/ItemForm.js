@@ -99,7 +99,7 @@ class ItemForm extends Component {
     if (identifiers && identifiers.length) {
       const lineidentifiers = identifiers.map(({ identifierTypeId, value }) => ({
         productId: value,
-        productIdType: find(identifierTypes, { id: identifierTypeId }).value,
+        productIdType: find(identifierTypes, { value: identifierTypeId }).value,
       }));
 
       dispatch(change('details.productIds', lineidentifiers));

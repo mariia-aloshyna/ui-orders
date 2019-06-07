@@ -15,10 +15,11 @@ import ProductIdDetails from './ProductIdDetails';
 class ItemView extends Component {
   static propTypes = {
     poLineDetails: PropTypes.object.isRequired,
+    identifierTypes: PropTypes.arrayOf(PropTypes.object),
   }
 
   render() {
-    const { poLineDetails } = this.props;
+    const { poLineDetails, identifierTypes } = this.props;
 
     return (
       <Fragment>
@@ -76,7 +77,10 @@ class ItemView extends Component {
           </Col>
         </Row>
         <Row>
-          <ProductIdDetails itemIdDetails={get(poLineDetails, ['details', 'productIds'], [])} />
+          <ProductIdDetails
+            identifierTypes={identifierTypes}
+            itemIdDetails={get(poLineDetails, ['details', 'productIds'], [])}
+          />
         </Row>
         <Row>
           <Col xs={12}>

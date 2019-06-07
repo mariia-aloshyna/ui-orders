@@ -59,6 +59,7 @@ class POLineView extends Component {
     goToOrderDetails: PropTypes.func,
     queryMutator: PropTypes.object,
     deleteLine: PropTypes.func,
+    identifierTypes: PropTypes.arrayOf(PropTypes.object),
   }
 
   static defaultProps = {
@@ -67,6 +68,7 @@ class POLineView extends Component {
     vendors: [],
     funds: [],
     editable: true,
+    identifierTypes: [],
   }
 
   constructor(props) {
@@ -189,6 +191,7 @@ class POLineView extends Component {
       funds,
       editable,
       deleteLine,
+      identifierTypes,
     } = this.props;
 
     const firstMenu = (
@@ -281,7 +284,10 @@ class POLineView extends Component {
             label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
             id="ItemDetails"
           >
-            <ItemView poLineDetails={line} />
+            <ItemView
+              identifierTypes={identifierTypes}
+              poLineDetails={line}
+            />
           </Accordion>
           <POLineDetails
             initialValues={line}

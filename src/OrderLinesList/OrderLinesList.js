@@ -25,10 +25,11 @@ import {
   showToast,
 } from '../common/utils';
 import {
+  FUND,
+  IDENTIFIER_TYPES,
   LOCATIONS,
   MATERIAL_TYPES,
   VENDORS,
-  FUND,
 } from '../components/Utils/resources';
 import OrderLinesFilters from './OrderLinesFilters';
 import Details from './Details';
@@ -113,6 +114,7 @@ class OrderLinesList extends Component {
     materialTypes: MATERIAL_TYPES,
     vendors: VENDORS,
     funds: FUND,
+    identifierTypes: IDENTIFIER_TYPES,
   });
 
   static propTypes = {

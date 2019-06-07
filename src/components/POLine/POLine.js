@@ -66,9 +66,10 @@ class POLine extends Component {
     const order = this.getOrder();
     const line = this.getLine();
     const materialTypes = get(parentResources, ['materialTypes', 'records'], []);
-    const locations = get(this.props.parentResources, 'locations.records', []);
-    const vendors = get(this.props.parentResources, 'vendors.records', []);
-    const funds = get(this.props.parentResources, 'fund.records', []);
+    const locations = get(parentResources, 'locations.records', []);
+    const vendors = get(parentResources, 'vendors.records', []);
+    const funds = get(parentResources, 'fund.records', []);
+    const identifierTypes = get(parentResources, 'identifierTypes.records', []);
     const poURL = this.props.poURL;
     const receivingURL = `${match.url}/receiving`;
     const checkinURL = `${match.url}/check-in`;
@@ -88,6 +89,7 @@ class POLine extends Component {
         funds={funds}
         queryMutator={parentMutator.query}
         deleteLine={this.deleteLine}
+        identifierTypes={identifierTypes}
       />
     );
   }
