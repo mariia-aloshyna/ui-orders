@@ -336,6 +336,7 @@ class PODetailsForm extends Component {
             />
           </Col>
           <Col
+            className={css.addressWrapper}
             xs={6}
             lg={3}
           >
@@ -357,6 +358,7 @@ class PODetailsForm extends Component {
             />
           </Col>
           <Col
+            className={css.addressWrapper}
             xs={6}
             lg={3}
           >
