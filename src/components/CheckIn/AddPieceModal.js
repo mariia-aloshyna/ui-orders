@@ -90,7 +90,7 @@ class AddPieceModal extends Component {
       instanceId,
       formValues = {},
     } = this.props;
-    const { format, locationId } = formValues;
+    const { format, id, itemId, locationId } = formValues;
     const isLocationRequired = includes(createInventoryValues[format], INVENTORY_RECORDS_TYPE.instanceAndHolding);
     const isAddItemRequired = includes(createInventoryValues[format], INVENTORY_RECORDS_TYPE.all);
     let isAddItemButtonDisabled = true;
@@ -107,16 +107,17 @@ class AddPieceModal extends Component {
       };
     }
 
-    if (locationId && isAddItemRequired) {
+    if (!itemId && locationId && isAddItemRequired) {
       isAddItemButtonDisabled = false;
     }
 
     const disabledButtonProps = isAddItemButtonDisabled ? { disabled: isAddItemButtonDisabled } : {};
+    const labelId = id ? 'ui-orders.checkIn.addPieceModal.editTitle' : 'ui-orders.checkIn.addPieceModal.title';
 
     return (
       <Modal
         id="add-piece-modal"
-        label={<FormattedMessage id="ui-orders.checkIn.addPieceModal.title" />}
+        label={<FormattedMessage id={labelId} />}
         footer={footer(close, handleSubmit, checkIn)}
         open
       >

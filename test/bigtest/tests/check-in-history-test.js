@@ -10,7 +10,7 @@ import { PHYSICAL } from '../../../src/components/POLine/const';
 
 const RECEIVING_LIST_COUNT = 10;
 
-describe('Check-in history', () => {
+describe('Check-in history', function () {
   setupApplication();
 
   let order = null;
@@ -23,6 +23,7 @@ describe('Check-in history', () => {
       workflowStatus: WORKFLOW_STATUS.open,
     });
     line = this.server.create('line', {
+      purchaseOrderId: order.id,
       order,
       orderFormat: PHYSICAL,
       cost: {

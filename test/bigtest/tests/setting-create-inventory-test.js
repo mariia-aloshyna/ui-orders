@@ -4,10 +4,10 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import SettingCreateInventoryInteractor from '../interactors/setting-create-inventory';
 
-describe('Setting for Create Inventory', () => {
-  const setting = new SettingCreateInventoryInteractor();
-
+describe('Setting for Create Inventory', function () {
   setupApplication();
+
+  const setting = new SettingCreateInventoryInteractor();
 
   beforeEach(function () {
     this.visit('/settings/orders/create-inventory');

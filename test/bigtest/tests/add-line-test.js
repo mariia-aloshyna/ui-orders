@@ -31,6 +31,7 @@ describe('clicking on add Line to open LinesLimit Modal', function () {
     });
 
     line = this.server.create('line', {
+      purchaseOrderId: order.id,
       order,
       orderFormat: PHYSICAL,
       cost: {

@@ -7,7 +7,7 @@ import { DEFAULT_CLOSE_ORDER_REASONS } from '../../../../src/common/constants';
 import setupApplication from '../../helpers/setup-application';
 import ClosingReasons from '../../interactors/settings/ClosingReasons/ClosingReasons';
 
-describe('Setting of Closing Reasons', () => {
+describe('Setting of Closing Reasons', function () {
   const closingReasons = new ClosingReasons();
   const defaultReasonsCount = Object.keys(DEFAULT_CLOSE_ORDER_REASONS).length;
 

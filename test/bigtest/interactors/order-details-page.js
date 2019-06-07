@@ -48,4 +48,9 @@ export default interactor(class OrderDetailsPage {
   billTo = new BillTo();
   shipTo = new ShipTo();
   lines = collection('#POListing [class*=mclRow---]');
+  isLoaded = isPresent('[class*=paneTitleLabel---]');
+
+  whenLoaded() {
+    return this.timeout(5000).when(() => this.isLoaded);
+  }
 });

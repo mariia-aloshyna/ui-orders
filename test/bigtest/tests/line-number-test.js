@@ -10,7 +10,7 @@ import { PHYSICAL } from '../../../src/components/POLine/const';
 const ORDER_NUMBER = '10001';
 const LINE_NUMBER = `${ORDER_NUMBER}-1`;
 
-describe('Line number generation', () => {
+describe('Line number generation', function () {
   setupApplication();
 
   const lineEditPage = new LineEditPage();
@@ -18,7 +18,7 @@ describe('Line number generation', () => {
   let line = null;
   let vendor = null;
 
-  beforeEach(function () {
+  beforeEach(async function () {
     vendor = this.server.create('vendor');
     order = this.server.create('order', {
       poNumber: ORDER_NUMBER,
@@ -27,6 +27,7 @@ describe('Line number generation', () => {
     });
 
     line = this.server.create('line', {
+      purchaseOrderId: order.id,
       order,
       poLineNumber: LINE_NUMBER,
       orderFormat: PHYSICAL,
@@ -41,6 +42,7 @@ describe('Line number generation', () => {
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);
+    await lineEditPage.whenLoaded();
   });
 
   it('Line number is filled', () => {

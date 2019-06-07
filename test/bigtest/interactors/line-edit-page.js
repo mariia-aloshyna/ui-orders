@@ -168,4 +168,9 @@ export default interactor(class LineEditPage {
   instanceId = value('[name="instanceId"]');
   addProductIdsButton = new Button('[data-test-add-product-ids-button]');
   removeProductIdsButton = new Button('[data-test-remove-product-ids-button]');
+  isLoaded = isPresent('[class*=paneTitleLabel---]');
+
+  whenLoaded() {
+    return this.timeout(5000).when(() => this.isLoaded);
+  }
 });

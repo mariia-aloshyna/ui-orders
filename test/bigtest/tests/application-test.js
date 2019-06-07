@@ -4,10 +4,9 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import ApplicationInteractor from '../interactors/application';
 
-describe('Application', () => {
-  const app = new ApplicationInteractor();
-
+describe('Application', function () {
   setupApplication();
+  const app = new ApplicationInteractor();
 
   beforeEach(function () {
     this.visit('/');

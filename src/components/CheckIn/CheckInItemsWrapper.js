@@ -6,7 +6,7 @@ import { get } from 'lodash';
 
 import { Callout } from '@folio/stripes/components';
 
-import { ITEM_STATUS } from '../../common/constants';
+import { STATUS_IN_PROCESS } from '../../common/constants';
 import {
   PIECE_STATUS_EXPECTED,
 } from '../Receiving/const';
@@ -70,8 +70,9 @@ class CheckInItemsWrapper extends Component {
 
   addPiece = values => {
     const { mutator } = this.props;
+    const mutatorMethod = values.id ? 'PUT' : 'POST';
 
-    mutator.ORDER_PIECES.POST(values)
+    mutator.ORDER_PIECES[mutatorMethod](values)
       .then(() => this.callout.current.sendCallout({
         type: 'success',
         message: <FormattedMessage id="ui-orders.checkIn.addPiece.success" />,
@@ -85,27 +86,46 @@ class CheckInItemsWrapper extends Component {
 
   checkInItem = (values) => {
     const { mutator, location } = this.props;
+    const mutatorMethod = values.id ? 'PUT' : 'POST';
 
-    mutator.ORDER_PIECES.POST(values)
+    mutator.ORDER_PIECES[mutatorMethod](values)
       .then((piece) => {
         this.callout.current.sendCallout({
           type: 'success',
           message: <FormattedMessage id="ui-orders.checkIn.addPiece.success" />,
         });
 
-        return piece;
-      })
-      .then(piece => {
-        piece.itemStatus = ITEM_STATUS.inProcess;
-
-        return checkInItems([piece], mutator.checkIn);
+        return checkInItems([{
+          ...piece,
+          itemStatus: STATUS_IN_PROCESS,
+        }], mutator.checkIn);
       })
       .then(() => mutator.query.update({
         _path: location.pathname.replace(CHECKIN_URLS.items, CHECKIN_URLS.history),
       }))
+      .catch(() => {
+        this.callout.current.sendCallout({
+          type: 'error',
+          message: <FormattedMessage id="ui-orders.checkIn.checkInItem.error" />,
+        });
+        this.fetchItems();
+      });
+  }
+
+  deletePiece = piece => {
+    const { mutator } = this.props;
+
+    mutator.ORDER_PIECES.DELETE(piece)
+      .then(() => {
+        this.callout.current.sendCallout({
+          type: 'success',
+          message: <FormattedMessage id="ui-orders.checkIn.deletePiece.success" />,
+        });
+        this.fetchItems();
+      })
       .catch(() => this.callout.current.sendCallout({
         type: 'error',
-        message: <FormattedMessage id="ui-orders.checkIn.checkInItem.error" />,
+        message: <FormattedMessage id="ui-orders.checkIn.deletePiece.error" />,
       }));
   }
 
@@ -120,6 +140,7 @@ class CheckInItemsWrapper extends Component {
         <CheckInItems
           addPiece={this.addPiece}
           checkInItem={this.checkInItem}
+          deletePiece={this.deletePiece}
           items={items}
           location={location}
           locations={locations}

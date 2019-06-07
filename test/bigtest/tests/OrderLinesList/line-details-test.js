@@ -6,20 +6,14 @@ import {
 import { expect } from 'chai';
 
 import { WORKFLOW_STATUS } from '../../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
-import {
-  OTHER,
-  PHYSICAL,
-} from '../../../../src/components/POLine/const';
+import { PHYSICAL } from '../../../../src/components/POLine/const';
 import setupApplication from '../../helpers/setup-application';
 import LineDetailsPage from '../../interactors/line-details-page';
 import OrderDetailsPage from '../../interactors/order-details-page';
-import {
-  LINES_API,
-  ORDER_DETAIL_API,
-} from '../../../../src/components/Utils/api';
+import { ORDERS_API } from '../../../../src/components/Utils/api';
 import ConfirmationModal from '../../interactors/confirmation';
 
-describe('Order lines list - Line details test', () => {
+describe('Order lines list - Line details test', function () {
   setupApplication();
   let order = null;
   let line = null;
@@ -31,6 +25,7 @@ describe('Order lines list - Line details test', () => {
       workflowStatus: WORKFLOW_STATUS.open,
     });
     line = this.server.create('line', {
+      purchaseOrderId: order.id,
       order,
       orderFormat: PHYSICAL,
       cost: {
@@ -38,42 +33,39 @@ describe('Order lines list - Line details test', () => {
       },
     });
 
-    this.server.get(`${LINES_API}/${line.id}`, {
-      ...line.attrs,
-    });
-
-    this.server.get(ORDER_DETAIL_API, {
+    this.server.get(`${ORDERS_API}/${order.id}`, {
       ...order.attrs,
+      compositePoLines: [line.attrs],
     });
 
-    this.visit(`/orders/lines/view/${line.id}/`);
+    this.visit(`/orders/lines/view/${line.id}`);
   });
 
-  it('displays Line details pane', () => {
+  it('displays Line details pane', function () {
     expect(page.isPresent).to.be.true;
   });
 
-  describe('actions', () => {
+  describe('actions', function () {
     beforeEach(async function () {
       await page.actions.toggle.click();
     });
 
-    it('should be present', () => {
+    it('should be present', function () {
       expect(page.actions.isPresent).to.be.true;
     });
 
-    describe('View PO', () => {
+    describe('View PO', function () {
       beforeEach(async function () {
         await page.actions.viewPOButton.click();
       });
 
-      it('should redirect to PO details', () => {
+      it('should redirect to PO details', function () {
         expect(orderPage.isPresent).to.be.true;
       });
     });
   });
 
-  describe('click delete line and confirm', () => {
+  describe('click delete line and confirm', function () {
     const deleteLineConfirmation = new ConfirmationModal('#delete-line-confirmation');
 
     beforeEach(async function () {
@@ -82,34 +74,12 @@ describe('Order lines list - Line details test', () => {
       await deleteLineConfirmation.confirm();
     });
 
-    it('closes delete line confirmation', () => {
+    it('closes delete line confirmation', function () {
       expect(deleteLineConfirmation.isPresent).to.be.false;
     });
 
-    it('closes Line Details Pane', () => {
+    it('closes Line Details Pane', function () {
       expect(page.isPresent).to.be.false;
-    });
-  });
-
-  describe('displays Other resource details', () => {
-    beforeEach(function () {
-      line = this.server.create('line', {
-        order,
-        orderFormat: OTHER,
-        cost: {
-          quantityPhysical: 2,
-        },
-      });
-
-      this.server.get(`${LINES_API}/${line.id}`, {
-        ...line.attrs,
-      });
-
-      this.visit(`/orders/lines/view/${line.id}/`);
-    });
-
-    it('displays Other details accordion', () => {
-      expect(page.otherDetailsAccordion).to.be.true;
     });
   });
 });

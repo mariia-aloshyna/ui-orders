@@ -6,17 +6,14 @@ import OrdersInteractor from '../interactors/orders';
 
 const ORDERS_COUNT = 15;
 
-describe('Orders', () => {
+describe('Orders', function () {
   setupApplication();
 
   const orders = new OrdersInteractor();
 
   beforeEach(function () {
     this.server.createList('order', ORDERS_COUNT);
-
-    return this.visit('/orders', () => {
-      expect(orders.$root).to.exist;
-    });
+    this.visit('/orders');
   });
 
   it('shows the list of order items', () => {

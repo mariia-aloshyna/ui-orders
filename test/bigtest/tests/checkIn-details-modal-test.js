@@ -11,7 +11,7 @@ import { PIECE_STATUS_EXPECTED } from '../../../src/components/Receiving/const';
 const RECEIVING_LIST_COUNT = 10;
 const TEST_BARCODE = 'test_barcode';
 
-describe('CheckIn Details Modal', () => {
+describe('CheckIn Details Modal', function () {
   setupApplication();
 
   let order = null;
@@ -24,6 +24,7 @@ describe('CheckIn Details Modal', () => {
       workflowStatus: WORKFLOW_STATUS.open,
     });
     line = this.server.create('line', {
+      purchaseOrderId: order.id,
       order,
       orderFormat: PHYSICAL,
       checkinItems: true,
@@ -37,7 +38,7 @@ describe('CheckIn Details Modal', () => {
       pieceFormat: 'physical',
     });
 
-    await this.visit(`/orders/view/${order.id}/po-line/view/${line.id}/check-in/items`);
+    this.visit(`/orders/view/${order.id}/po-line/view/${line.id}/check-in/items`);
     await page.pieces(0).click();
     await page.checkInButton.click();
   });

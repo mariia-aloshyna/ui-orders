@@ -39,7 +39,7 @@ const SelectItemStatus = ({ isAssociatedRecord, ...rest }) => {
 
 SelectItemStatus.propTypes = {
   rest: PropTypes.object,
-  isAssociatedRecord: PropTypes.object,
+  isAssociatedRecord: PropTypes.string,
 };
 
 export default SelectItemStatus;

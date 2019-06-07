@@ -7,7 +7,9 @@ import {
   MultiColumnList,
 } from '@folio/stripes/components';
 
-const PiecesList = ({ checkedItemsMap, items = [], toggleItem, toggleAll, isAllChecked = false }) => {
+const VISIBLE_COLUMNS = ['isChecked', 'title', 'piece', 'format', 'supplement', 'poLineNumber', 'comment', 'pieceStatus'];
+
+const PiecesList = ({ renderActions, checkedItemsMap, items = [], toggleItem, toggleAll, isAllChecked = false }) => {
   const resultsFormatter = {
     'isChecked': piece => (
       <Checkbox
@@ -29,13 +31,15 @@ const PiecesList = ({ checkedItemsMap, items = [], toggleItem, toggleAll, isAllC
     'poLineNumber': piece => piece.poLineNumber,
     'comment': piece => piece.comment,
     'pieceStatus': piece => piece.receivingStatus,
+    'actions': renderActions,
   };
+  const visibleColumns = renderActions ? [...VISIBLE_COLUMNS, 'actions'] : VISIBLE_COLUMNS;
 
   return (
     <MultiColumnList
       contentData={items}
       formatter={resultsFormatter}
-      visibleColumns={['isChecked', 'title', 'piece', 'format', 'supplement', 'poLineNumber', 'comment', 'pieceStatus']}
+      visibleColumns={visibleColumns}
       columnMapping={{
         isChecked: (
           <Checkbox
@@ -52,6 +56,7 @@ const PiecesList = ({ checkedItemsMap, items = [], toggleItem, toggleAll, isAllC
         poLineNumber: <FormattedMessage id="ui-orders.receiving.poLine" />,
         comment: <FormattedMessage id="ui-orders.checkIn.comment" />,
         pieceStatus: <FormattedMessage id="ui-orders.checkIn.pieceStatus" />,
+        actions: null,
       }}
       columnWidths={{
         isChecked: '2%',
@@ -61,7 +66,8 @@ const PiecesList = ({ checkedItemsMap, items = [], toggleItem, toggleAll, isAllC
         supplement: '8%',
         poLineNumber: '10%',
         comment: '10%',
-        pieceStatus: '10%',
+        pieceStatus: '8%',
+        actions: '2%',
       }}
       onRowClick={(_, item) => toggleItem(item)}
     />
@@ -74,6 +80,7 @@ PiecesList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),
   toggleAll: PropTypes.func.isRequired,
   toggleItem: PropTypes.func.isRequired,
+  renderActions: PropTypes.func,
 };
 
 export default PiecesList;

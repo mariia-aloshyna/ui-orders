@@ -33,11 +33,11 @@ import Button from './button';
 }
 
 export default interactor(class OrderEditPage {
-  static defaultScope = '#form-po';
+  static defaultScope = '#pane-poForm';
   isLoaded = isPresent('[class*=paneTitleLabel---]');
 
   whenLoaded() {
-    return this.when(() => this.isLoaded);
+    return this.timeout(5000).when(() => this.isLoaded);
   }
 
   title = text('[class*=paneTitleLabel---]');

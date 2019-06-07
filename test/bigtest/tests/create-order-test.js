@@ -6,15 +6,15 @@ import OrdersInteractor from '../interactors/orders';
 import OrderEditPage from '../interactors/order-edit-page';
 import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
 
-describe('Create order', () => {
+describe('Create order', function () {
   setupApplication();
+
   const orders = new OrdersInteractor();
   const form = new OrderEditPage();
 
-  beforeEach(function () {
-    return this.visit('/orders?layer=create', () => {
-      expect(orders.$root).to.exist;
-    });
+  beforeEach(async function () {
+    this.visit('/orders?layer=create');
+    await form.whenLoaded();
   });
 
   it('has a PO number field', () => {
