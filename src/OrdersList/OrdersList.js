@@ -48,6 +48,15 @@ import { FILTERS } from './constants';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
+const columnWidths = {
+  poNumber: '15%',
+  vendorCode: '15%',
+  workflowStatus: '10%',
+  orderType: '10%',
+  created: '15%',
+  owner: '15%',
+  assignedTo: '20%',
+};
 
 class OrdersList extends Component {
   static manifest = Object.freeze({
@@ -295,6 +304,7 @@ class OrdersList extends Component {
           }}
           detailProps={{ showToast: this.showToast }}
           maxSortKeys={1}
+          columnWidths={columnWidths}
         />
         <Callout ref={this.callout} />
       </div>
