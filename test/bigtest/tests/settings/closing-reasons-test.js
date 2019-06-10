@@ -6,6 +6,10 @@ import { DEFAULT_CLOSE_ORDER_REASONS } from '../../../../src/common/constants';
 
 import setupApplication from '../../helpers/setup-application';
 import ClosingReasons from '../../interactors/settings/ClosingReasons/ClosingReasons';
+import {
+  CONFIG_CLOSING_REASONS,
+  MODULE_ORDERS,
+} from '../../../../src/components/Utils/const';
 
 describe('Setting of Closing Reasons', function () {
   const closingReasons = new ClosingReasons();
@@ -14,6 +18,13 @@ describe('Setting of Closing Reasons', function () {
   setupApplication();
 
   beforeEach(function () {
+    this.server.create('configs', {
+      module: MODULE_ORDERS,
+      configName: CONFIG_CLOSING_REASONS,
+      enabled: true,
+      value: 'test reason',
+      code: 'CLOSING_REASON_1',
+    });
     this.visit('/settings/orders/closing-reasons', () => {
       expect(closingReasons.$root).to.exist;
     });

@@ -7,7 +7,7 @@ import {
   MODULE_ORDERS,
   CONFIG_CREATE_INVENTORY,
 } from '../components/Utils/const';
-import getCreateInventorySetting from '../components/Utils/getCreateInventorySetting';
+import getCreateInventorySetting from '../common/utils/getCreateInventorySetting';
 import CreateInventoryForm from './CreateInventoryForm';
 import css from './CreateInventory.css';
 

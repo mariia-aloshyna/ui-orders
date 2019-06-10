@@ -1,8 +1,8 @@
 import { describe, beforeEach, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
-import SettingLineLimitInteractor from '../interactors/setting-line-limit';
+import setupApplication from '../../helpers/setup-application';
+import SettingLineLimitInteractor from '../../interactors/settings/setting-line-limit';
 
 describe('Setting of Lines Limit', function () {
   setupApplication();

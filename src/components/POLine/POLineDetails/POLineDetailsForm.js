@@ -14,7 +14,7 @@ import {
 } from '@folio/stripes/components';
 
 import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
-import getCreateInventorySetting from '../../Utils/getCreateInventorySetting';
+import getCreateInventorySetting from '../../../common/utils/getCreateInventorySetting';
 import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldPaymentStatus from './FieldPaymentStatus';
 import FieldReceiptStatus from './FieldReceiptStatus';

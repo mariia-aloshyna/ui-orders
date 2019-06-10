@@ -12,6 +12,11 @@ import { ORDERS_API } from '../../../src/components/Utils/api';
 import LinesLimitModal from '../interactors/lines-limit-modal';
 import OrderDetailsPage from '../interactors/order-details-page';
 import setupApplication from '../helpers/setup-application';
+import {
+  CONFIG_LINES_LIMIT,
+  LINES_LIMIT_DEFAULT,
+  MODULE_ORDERS,
+} from '../../../src/components/Utils/const';
 
 describe('clicking on add Line to open LinesLimit Modal', function () {
   setupApplication();
@@ -42,6 +47,13 @@ describe('clicking on add Line to open LinesLimit Modal', function () {
     this.server.get(`${ORDERS_API}/${order.id}`, {
       ...order.attrs,
       compositePoLines: [line.attrs],
+    });
+
+    this.server.create('configs', {
+      module: MODULE_ORDERS,
+      configName: CONFIG_LINES_LIMIT,
+      enabled: true,
+      value: LINES_LIMIT_DEFAULT,
     });
 
     this.visit(`/orders/view/${order.id}`);

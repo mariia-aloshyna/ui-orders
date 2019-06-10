@@ -13,8 +13,8 @@ import {
   Layer,
 } from '@folio/stripes/components';
 
+import getCreateInventorySetting from '../../common/utils/getCreateInventorySetting';
 import { SOURCE_FOLIO_CODE } from '../Utils/const';
-import getCreateInventorySetting from '../Utils/getCreateInventorySetting';
 import { DISCOUNT_TYPE } from '../POLine/const';
 import { cloneOrder } from '../Utils/orderResource';
 import {

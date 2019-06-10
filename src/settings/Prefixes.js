@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { ConfigManager } from '@folio/stripes/smart-components';
 
 import { MODULE_ORDERS } from '../components/Utils/const';
-import getOrderNumberSetting from '../common/utils/getOrderNumberSetting';
-import OrderNumberForm from './OrderNumberForm';
-import css from './OrderNumber.css';
+import getSettingsList from '../common/utils/getSettingsList';
+import PrefixesForm from './PrefixesForm';
+import css from './Prefixes.css';
 
-class OrderNumber extends Component {
+class Prefixes extends Component {
   static propTypes = {
     label: PropTypes.object.isRequired,
     stripes: PropTypes.object.isRequired,
@@ -20,30 +20,32 @@ class OrderNumber extends Component {
     this.configManager = props.stripes.connect(ConfigManager);
   }
 
-  beforeSave = (canUserEditOrderNumber) => (
-    JSON.stringify(canUserEditOrderNumber)
-  )
+  beforeSave = ({ selectedItems }) => (
+    JSON.stringify({
+      selectedItems: selectedItems.map(item => item.value),
+    })
+  );
 
   render() {
-    const { label } = this.props;
+    const { label, stripes } = this.props;
 
     return (
       <div
-        data-test-order-settings-order-number
+        data-test-order-settings-prefixes
         className={css.formWrapper}
       >
         <this.configManager
-          configName="orderNumber"
-          getInitialValues={getOrderNumberSetting}
+          configName="prefixes"
+          getInitialValues={getSettingsList}
           label={label}
           moduleName={MODULE_ORDERS}
           onBeforeSave={this.beforeSave}
         >
-          <OrderNumberForm />
+          <PrefixesForm stripes={stripes} />
         </this.configManager>
       </div>
     );
   }
 }
 
-export default OrderNumber;
+export default Prefixes;

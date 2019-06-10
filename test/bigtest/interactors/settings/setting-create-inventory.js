@@ -4,7 +4,7 @@ import {
   text,
 } from '@bigtest/interactor';
 
-import Button from './button';
+import Button from '../button';
 
 @interactor class EresourcesSelect {
   static defaultScope = '[name="eresource"]';
