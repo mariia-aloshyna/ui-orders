@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import omit from 'lodash/omit';
 
 import {
   Button,
@@ -12,12 +11,34 @@ import {
   MenuSection,
 } from '@folio/stripes/components';
 
-const omitUIProps = (pieceFromUI) => omit(pieceFromUI, ['dateOrdered', 'rowIndex']);
+const transformReceivingHistoryToPiece = ({
+  id,
+  caption,
+  comment,
+  pieceFormat,
+  itemId,
+  locationId,
+  poLineId,
+  receivingStatus,
+  supplement,
+  receivedDate,
+}) => ({
+  id,
+  caption,
+  comment,
+  format: pieceFormat,
+  itemId,
+  locationId,
+  poLineId,
+  receivingStatus,
+  supplement,
+  receivedDate,
+});
 
-const CheckInItemsActions = ({ showEditPieceModal, deletePiece, piece }) => {
+const CheckInItemsActions = ({ showEditPieceModal, deletePiece, receivingHistoryPiece }) => {
   const [open, setOpen] = useState(false);
   const toggleActionMenu = () => setOpen(!open);
-  const dehydratedPiece = omitUIProps(piece);
+  const piece = transformReceivingHistoryToPiece(receivingHistoryPiece);
 
   return (
     <Dropdown
@@ -40,7 +61,7 @@ const CheckInItemsActions = ({ showEditPieceModal, deletePiece, piece }) => {
             data-test-button-delete-piece
             onClick={() => {
               toggleActionMenu();
-              deletePiece(dehydratedPiece);
+              deletePiece(piece);
             }}
           >
             <Icon size="small" icon="trash">
@@ -52,7 +73,7 @@ const CheckInItemsActions = ({ showEditPieceModal, deletePiece, piece }) => {
             data-test-button-edit-piece
             onClick={() => {
               toggleActionMenu();
-              showEditPieceModal(dehydratedPiece);
+              showEditPieceModal(piece);
             }}
           >
             <Icon size="small" icon="edit">
@@ -68,7 +89,7 @@ const CheckInItemsActions = ({ showEditPieceModal, deletePiece, piece }) => {
 CheckInItemsActions.propTypes = {
   showEditPieceModal: PropTypes.func.isRequired,
   deletePiece: PropTypes.func.isRequired,
-  piece: PropTypes.object.isRequired,
+  receivingHistoryPiece: PropTypes.object.isRequired,
 };
 
 export default CheckInItemsActions;
