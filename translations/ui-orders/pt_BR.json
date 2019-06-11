@@ -663,9 +663,9 @@
     "line.delete.success": "A linha do pedido de compra {lineNumber} foi excluída com sucesso",
     "search.dateOrdered": "Data da compra",
     "search.poNumber": "Número do pedido",
-    "checkIn.addPieceModal.editTitle": "Edit Piece",
-    "checkIn.deletePiece.error": "Piece was not deleted",
-    "checkIn.deletePiece.success": "Piece was deleted successfully",
-    "piece.delete.heading": "Delete piece?",
-    "piece.delete.message": "Delete piece?"
+    "checkIn.addPieceModal.editTitle": "Editar peça",
+    "checkIn.deletePiece.error": "Peça não foi excluída",
+    "checkIn.deletePiece.success": "Peça foi excluída com sucesso",
+    "piece.delete.heading": "Excluir peça?",
+    "piece.delete.message": "Excluir peça?"
 }
