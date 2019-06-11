@@ -238,13 +238,15 @@ class PO extends Component {
   };
 
   addPOLineButton = (isAbleToAddLines) => (
-    <Button
-      data-test-add-line-button
-      disabled={!isAbleToAddLines}
-      onClick={this.onAddPOLine}
-    >
-      <FormattedMessage id="ui-orders.button.addLine" />
-    </Button>
+    <IfPermission perm="orders.po-lines.item.post">
+      <Button
+        data-test-add-line-button
+        disabled={!isAbleToAddLines}
+        onClick={this.onAddPOLine}
+      >
+        <FormattedMessage id="ui-orders.button.addLine" />
+      </Button>
+    </IfPermission>
   );
 
   toggleOpenOrderModal = () => {
@@ -380,57 +382,63 @@ class PO extends Component {
         onClose={onClose}
       >
         <Row end="xs">
-          {isReceiveButtonVisible && (
-            <div className={css.buttonWrapper}>
-              <Button
-                buttonStyle="primary"
-                className={css.button}
-                data-test-receiving-button
-                onClick={this.goToReceiving}
-              >
-                <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
-              </Button>
-            </div>
-          )}
-          {isCloseOrderButtonVisible && (
-            <div className={css.buttonWrapper}>
-              <Button
-                buttonStyle="primary"
-                className={css.button}
-                data-test-close-order-button
-                onClick={this.mountCloseOrderModal}
-              >
-                <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
-              </Button>
-            </div>
-          )}
-          {isOpenOrderButtonVisible && (
-            <div className={css.buttonWrapper}>
-              <Button
-                buttonStyle="primary"
-                className={css.button}
-                data-test-open-order-button
-                onClick={this.toggleOpenOrderModal}
-              >
-                <FormattedMessage id="ui-orders.paneBlock.openBtn" />
-              </Button>
-            </div>
-          )}
-          {this.state.isCloseOrderModalOpened && (
-            <CloseOrderModal
-              cancel={this.unmountCloseOrderModal}
-              closeOrder={this.closeOrder}
-              closingReasons={closingReasons}
-              orderNumber={orderNumber}
-            />
-          )}
-          {this.state.isOpenOrderModalOpened && (
-            <OpenOrderConfirmationModal
-              orderNumber={orderNumber}
-              submit={this.openOrder}
-              cancel={this.toggleOpenOrderModal}
-            />
-          )}
+          <IfPermission perm="orders.receiving.collection.post">
+            {isReceiveButtonVisible && (
+              <div className={css.buttonWrapper}>
+                <Button
+                  buttonStyle="primary"
+                  className={css.button}
+                  data-test-receiving-button
+                  onClick={this.goToReceiving}
+                >
+                  <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
+                </Button>
+              </div>
+            )}
+          </IfPermission>
+
+          <IfPermission perm="orders.item.put">
+            {isCloseOrderButtonVisible && (
+              <div className={css.buttonWrapper}>
+                <Button
+                  buttonStyle="primary"
+                  className={css.button}
+                  data-test-close-order-button
+                  onClick={this.mountCloseOrderModal}
+                >
+                  <FormattedMessage id="ui-orders.paneBlock.closeBtn" />
+                </Button>
+              </div>
+            )}
+            {isOpenOrderButtonVisible && (
+              <div className={css.buttonWrapper}>
+                <Button
+                  buttonStyle="primary"
+                  className={css.button}
+                  data-test-open-order-button
+                  onClick={this.toggleOpenOrderModal}
+                >
+                  <FormattedMessage id="ui-orders.paneBlock.openBtn" />
+                </Button>
+              </div>
+            )}
+            {this.state.isCloseOrderModalOpened && (
+              <CloseOrderModal
+                cancel={this.unmountCloseOrderModal}
+                closeOrder={this.closeOrder}
+                closingReasons={closingReasons}
+                orderNumber={orderNumber}
+              />
+            )}
+            {this.state.isOpenOrderModalOpened && (
+              <OpenOrderConfirmationModal
+                orderNumber={orderNumber}
+                submit={this.openOrder}
+                cancel={this.toggleOpenOrderModal}
+              />
+            )}
+          </IfPermission>
+
           <div>
             <ExpandAllButton
               accordionStatus={this.state.sections}
