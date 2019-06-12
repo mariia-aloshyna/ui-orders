@@ -129,11 +129,11 @@ class CheckInItems extends Component {
     return getFormValues(ADD_PIECE_MODAL_FORM)(store.getState());
   }
 
-  renderActions = (piece) => {
+  renderActions = (receivingHistoryPiece) => {
     return (
       <CheckInItemsActions
         deletePiece={this.mountDeleteConfirm}
-        piece={piece}
+        receivingHistoryPiece={receivingHistoryPiece}
         showEditPieceModal={this.showEditPieceModal}
       />
     );
