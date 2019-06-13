@@ -22,6 +22,10 @@ class ItemView extends Component {
   render() {
     const { poLineDetails, identifierTypes } = this.props;
     const instanceId = get(poLineDetails, 'instanceId');
+    const title = get(poLineDetails, 'title');
+    const titleValue = instanceId
+      ? <Link to={`/inventory/view/${instanceId}`}>{title}</Link>
+      : title;
 
     return (
       <Fragment>
@@ -29,13 +33,8 @@ class ItemView extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.title" />}
-            >
-              {instanceId ? (
-                <Link to={`/inventory/view/${instanceId}`}>
-                  {get(poLineDetails, 'title')}
-                </Link>) : get(poLineDetails, 'title')
-              }
-            </KeyValue>
+              value={titleValue}
+            />
           </Col>
           <Col xs={6}>
             <KeyValue
