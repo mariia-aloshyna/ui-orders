@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -17,10 +17,10 @@
     "okapiInterfaces": {
       "configuration": "2.0",
       "finance-storage.funds": "1.0",
-      "inventory": "8.0",
+      "inventory": "8.3",
       "locations": "3.0",
       "material-types": "2.2",
-      "orders": "5.0",
+      "orders": "6.0",
       "users": "15.0",
       "organizations-storage.organizations": "1.0"
     },
@@ -43,6 +43,7 @@
         "displayName": "Orders: Permissions required to call services apart from mod-orders",
         "description": "",
         "subPermissions": [
+          "configuration.entries.collection.get",
           "finance-storage.funds.collection.get",
           "organizations-storage.organizations.collection.get",
           "users.collection.get",
@@ -52,35 +53,36 @@
         ]
       },
       {
-        "permissionName": "ui-orders.view",
-        "displayName": "Orders: View orders and PO lines",
+        "permissionName": "ui-orders.order.view",
+        "displayName": "Orders: View orders",
         "description": "",
         "visible": true,
         "subPermissions": [
           "ui-orders.third-party-services",
           "orders.collection.get",
-          "orders.item.get",
-          "orders.po-lines.collection.get",
-          "orders.po-lines.item.get",
-          "orders.receiving-history.collection.get",
+          "orders.item.get"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.order.create",
+        "displayName": "Orders: Create orders",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.item.post",
+          "orders.po-number.item.post",
           "orders.po-number.item.get"
         ]
       },
       {
-        "permissionName": "ui-orders.orders.modify",
-        "displayName": "Orders: permissions to view, create and edit order and lines with receiving and check-in",
+        "permissionName": "ui-orders.order.edit",
+        "displayName": "Orders: Edit orders",
         "description": "",
         "visible": true,
         "subPermissions": [
-          "ui-orders.view",
-          "orders.item.post",
           "orders.item.put",
           "orders.po-number.item.post",
-          "orders.po-lines.item.post",
-          "orders.po-lines.item.put",
-          "orders.receiving.collection.post",
-          "orders.check-in.collection.post",
-          "orders.pieces.item.post"
+          "orders.po-number.item.get"
         ]
       },
       {
@@ -89,28 +91,59 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "ui-orders.view",
           "orders.item.delete"
         ]
       },
       {
-        "permissionName": "ui-orders.order-lines.delete",
-        "displayName": "Orders: Remove order lines",
-        "description": "",
-        "visible": true,
-        "subPermissions": [
-          "ui-orders.view",
-          "orders.po-lines.item.delete"
-        ]
-      },
-      {
-        "permissionName": "ui-orders.all",
-        "displayName": "Orders: all permissions to view, create, edit and remove orders and their lines",
+        "permissionName": "ui-orders.order-lines.view",
+        "displayName": "Orders: View order lines",
         "description": "",
         "visible": true,
         "subPermissions": [
           "ui-orders.third-party-services",
-          "orders.all"
+          "orders.po-lines.collection.get",
+          "orders.po-lines.item.get"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.order-lines.create",
+        "displayName": "Orders: Create order lines",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.po-lines.item.post"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.order-lines.edit",
+        "displayName": "Orders: Edit order lines",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.po-lines.item.put"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.receiving",
+        "displayName": "Orders: Receive items",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.receiving-history.collection.get",
+          "orders.receiving.collection.post"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.check-in",
+        "displayName": "Orders: Check-in items",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.receiving-history.collection.get",
+          "orders.check-in.collection.post",
+          "orders.pieces.item.post",
+          "orders.pieces.item.put",
+          "orders.pieces.item.delete"
         ]
       },
       {
@@ -171,9 +204,9 @@
     "redux": "*"
   },
   "optionalDependencies": {
-    "@folio/plugin-create-item": "^1.0.0",
-    "@folio/plugin-find-instance": "^1.1.0",
-    "@folio/plugin-find-organization": "^1.1.0",
-    "@folio/plugin-find-user": "^1.1.0"
+    "@folio/plugin-create-item": "^1.1.0",
+    "@folio/plugin-find-instance": "^1.4.0",
+    "@folio/plugin-find-organization": "^1.2.0",
+    "@folio/plugin-find-user": "^1.7.0"
   }
 }
