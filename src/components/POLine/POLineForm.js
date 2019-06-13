@@ -71,13 +71,13 @@ class POLineForm extends Component {
       sections: {
         [ACCORDION_ID.lineDetails]: true,
         [ACCORDION_ID.costDetails]: true,
-        [ACCORDION_ID.vendor]: false,
-        [ACCORDION_ID.eresources]: false,
+        [ACCORDION_ID.vendor]: true,
+        [ACCORDION_ID.eresources]: true,
         [ACCORDION_ID.itemDetails]: true,
-        [ACCORDION_ID.other]: false,
-        [ACCORDION_ID.physical]: false,
-        [ACCORDION_ID.fundDistribution]: false,
-        [ACCORDION_ID.location]: false,
+        [ACCORDION_ID.other]: true,
+        [ACCORDION_ID.physical]: true,
+        [ACCORDION_ID.fundDistribution]: true,
+        [ACCORDION_ID.location]: true,
       },
     };
   }

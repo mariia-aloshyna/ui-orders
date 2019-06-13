@@ -75,15 +75,15 @@ class POLineView extends Component {
     super(props);
     this.state = {
       sections: {
-        CostDetails: false,
-        Vendor: false,
-        FundDistribution: false,
+        CostDetails: true,
+        Vendor: true,
+        FundDistribution: true,
         ItemDetails: true,
-        Renewal: false,
-        [ACCORDION_ID.eresources]: false,
-        [ACCORDION_ID.location]: false,
-        [ACCORDION_ID.other]: false,
-        [ACCORDION_ID.physical]: false,
+        Renewal: true,
+        [ACCORDION_ID.eresources]: true,
+        [ACCORDION_ID.location]: true,
+        [ACCORDION_ID.other]: true,
+        [ACCORDION_ID.physical]: true,
       },
       showConfirmDelete: false,
     };
