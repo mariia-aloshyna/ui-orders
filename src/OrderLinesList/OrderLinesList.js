@@ -39,6 +39,7 @@ import { searchableIndexes } from './OrdersLinesSearchConfig';
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 
+const title = <FormattedMessage id="ui-orders.navigation.orderLines" />;
 const visibleColumns = ['poLineNumber', 'updatedDate', 'title', 'productIds', 'vendorRefNumber', 'funCodes'];
 const sortableColumns = ['poLineNumber', 'updatedDate', 'title', 'vendorRefNumber'];
 const resultsFormatter = {
@@ -213,6 +214,7 @@ class OrderLinesList extends Component {
           packageInfo={correctPackageInfo}
           objectName="order-line"
           baseRoute={ORDER_LINES_ROUTE}
+          title={title}
           visibleColumns={visibleColumns}
           resultsFormatter={connectedResultsFormatter}
           columnMapping={columnMapping}
