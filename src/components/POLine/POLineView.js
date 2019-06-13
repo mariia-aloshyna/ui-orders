@@ -252,28 +252,33 @@ class POLineView extends Component {
       >
         <Row end="xs">
           <Col xs>
-            {isReceiveButtonVisible && (
-              <div>
-                <Button
-                  buttonStyle="primary"
-                  data-test-line-receive-button
-                  to={receivingLocation}
-                >
-                  <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
-                </Button>
-              </div>
-            )}
-            {isCheckInButtonVisible && (
-              <div>
-                <Button
-                  buttonStyle="primary"
-                  data-test-line-check-in-button
-                  to={checkInLocation}
-                >
-                  <FormattedMessage id="ui-orders.paneBlock.checkInBtn" />
-                </Button>
-              </div>
-            )}
+            <IfPermission perm="orders.receiving.collection.post">
+              {isReceiveButtonVisible && (
+                <div>
+                  <Button
+                    buttonStyle="primary"
+                    data-test-line-receive-button
+                    to={receivingLocation}
+                  >
+                    <FormattedMessage id="ui-orders.paneBlock.receiveBtn" />
+                  </Button>
+                </div>
+              )}
+            </IfPermission>
+
+            <IfPermission perm="orders.check-in.collection.post">
+              {isCheckInButtonVisible && (
+                <div>
+                  <Button
+                    buttonStyle="primary"
+                    data-test-line-check-in-button
+                    to={checkInLocation}
+                  >
+                    <FormattedMessage id="ui-orders.paneBlock.checkInBtn" />
+                  </Button>
+                </div>
+              )}
+            </IfPermission>
           </Col>
         </Row>
         <AccordionSet
