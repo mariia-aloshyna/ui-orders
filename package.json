@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -17,7 +17,7 @@
     "okapiInterfaces": {
       "configuration": "2.0",
       "finance-storage.funds": "1.0",
-      "inventory": "8.0",
+      "inventory": "8.3",
       "locations": "3.0",
       "material-types": "2.2",
       "orders": "6.0",
@@ -43,6 +43,7 @@
         "displayName": "Orders: Permissions required to call services apart from mod-orders",
         "description": "",
         "subPermissions": [
+          "configuration.entries.collection.get",
           "finance-storage.funds.collection.get",
           "organizations-storage.organizations.collection.get",
           "users.collection.get",
@@ -171,9 +172,9 @@
     "redux": "*"
   },
   "optionalDependencies": {
-    "@folio/plugin-create-item": "^1.0.0",
-    "@folio/plugin-find-instance": "^1.1.0",
-    "@folio/plugin-find-organization": "^1.1.0",
-    "@folio/plugin-find-user": "^1.1.0"
+    "@folio/plugin-create-item": "^1.1.0",
+    "@folio/plugin-find-instance": "^1.4.0",
+    "@folio/plugin-find-organization": "^1.2.0",
+    "@folio/plugin-find-user": "^1.7.0"
   }
 }

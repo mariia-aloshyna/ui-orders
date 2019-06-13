@@ -1,5 +1,40 @@
 # Change history for ui-orders
 
+## [1.5.0](https://github.com/folio-org/ui-orders/tree/v1.5.0) (2019-06-12)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.4.0...v1.5.0)
+### Story
+* [UIOR-252](https://issues.folio.org/browse/UIOR-252) Allow edit and deletion of pending check-in pieces
+* [UIOR-261](https://issues.folio.org/browse/UIOR-261) Create the primary search options for Orders
+* [UIOR-255](https://issues.folio.org/browse/UIOR-255) Reconfigure the PO remove button and add confirmation modal
+* [UIOR-257](https://issues.folio.org/browse/UIOR-257) UI fix: change "remove" buttons to trashcans in PO and POL
+* [UIOR-258](https://issues.folio.org/browse/UIOR-258) Reconfigure the POL remove button and add confirmation modal
+* [UIOR-27](https://issues.folio.org/browse/UIOR-27) Reorganize the search and filter pane on the Orders landing page
+* [UIOR-91](https://issues.folio.org/browse/UIOR-91) Enhance Bill To and Ship addresses
+* [UIOR-206](https://issues.folio.org/browse/UIOR-206) Search and filter by Date Ordered and Receipt Status
+* [UIOR-212](https://issues.folio.org/browse/UIOR-212) Display "Piece format" in Check-in area and wizard table
+* [UIOR-219](https://issues.folio.org/browse/UIOR-219) Add appropriate error message on missing instance-status
+* [UIOR-220](https://issues.folio.org/browse/UIOR-220) Display owner column in PO result list
+* [UIOR-222](https://issues.folio.org/browse/UIOR-222) Add appropriate error message on missing instance-type
+* [UIOR-223](https://issues.folio.org/browse/UIOR-223) Add appropriate error message on missing loan-type
+* [UIOR-226](https://issues.folio.org/browse/UIOR-226) Access Receiving/Checkin history for closed orders
+* [UIOR-227](https://issues.folio.org/browse/UIOR-227) move "Owner" field to PO level
+* [UIOR-228](https://issues.folio.org/browse/UIOR-228) Capture instance uuid and product id's when user selects instance
+* [UIOR-240](https://issues.folio.org/browse/UIOR-240) Allow user to choose specific item status when receiving or checking in
+* [UIOR-263](https://issues.folio.org/browse/UIOR-263) Create the primary search options for Order lines
+* [UIOR-265](https://issues.folio.org/browse/UIOR-265) Create the primary filter options for Orders
+* [UIOR-267](https://issues.folio.org/browse/UIOR-267) Create the primary filter options for Order Lines
+* [UIOR-270](https://issues.folio.org/browse/UIOR-270) Revise the Order Lines search results list columns
+* [UIOR-276](https://issues.folio.org/browse/UIOR-276) Support PoLine FundDistribution schema updates from UI
+* [UIOR-288](https://issues.folio.org/browse/UIOR-288) PO Line: product id type is uuid
+* [UIOR-289](https://issues.folio.org/browse/UIOR-289) Navigation to PO details from POL details (order lines screen)
+### Bug
+* [UIOR-296](https://issues.folio.org/browse/UIOR-296) Make the acquisitions addresses retain line breaks
+* [UIOR-201](https://issues.folio.org/browse/UIOR-201) English words/phrases showing up in FOLIO Apps UI while in RTL - Requests App Settings
+* [UIOR-218](https://issues.folio.org/browse/UIOR-218) UI validation is unsynced with back-end for location quantities
+* [UIOR-225](https://issues.folio.org/browse/UIOR-225) PO Line number label is different on different screens
+* [UIOR-241](https://issues.folio.org/browse/UIOR-241) To not fetch publication date from inventory if it's not a 4-char year
+* [UIOR-292](https://issues.folio.org/browse/UIOR-292) Suppress up/down arrow for search results columns that cannot be sorted
+
 ## [1.4.0](https://github.com/folio-org/ui-orders/tree/v1.4.0) (2019-05-03)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.3.1...v1.4.0)
 * UIOR-218 UI validation is unsynced with back-end for location quantities
