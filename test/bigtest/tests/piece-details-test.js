@@ -28,26 +28,29 @@ describe('Piece Details Modal', function () {
     order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
     });
-    line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
-      orderFormat: PHYSICAL,
-      cost: {
-        quantityPhysical: 2,
-      },
-    });
 
-    item = this.server.create('item', { barcode: ITEM_BARCODE });
-    this.server.create('piece', {
-      receivingStatus: PIECE_STATUS_EXPECTED,
-      poLineId: line.id,
-      itemId: item.id,
-    });
+    for (let i = 0; i < 2; i++) {
+      line = this.server.create('line', {
+        purchaseOrderId: order.id,
+        order,
+        orderFormat: PHYSICAL,
+        cost: {
+          quantityPhysical: 2,
+        },
+      });
 
-    this.server.createList('piece', RECEIVING_LIST_COUNT - 1, {
-      receivingStatus: PIECE_STATUS_EXPECTED,
-      poLineId: line.id,
-    });
+      item = this.server.create('item', { barcode: ITEM_BARCODE });
+      this.server.create('piece', {
+        receivingStatus: PIECE_STATUS_EXPECTED,
+        poLineId: line.id,
+        itemId: item.id,
+      });
+
+      this.server.createList('piece', RECEIVING_LIST_COUNT - 1, {
+        receivingStatus: PIECE_STATUS_EXPECTED,
+        poLineId: line.id,
+      });
+    }
 
     this.visit(`/orders/view/${order.id}/receiving`);
     await receivingPage.receivingList(0).click();
