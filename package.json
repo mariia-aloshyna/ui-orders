@@ -124,6 +124,15 @@
         ]
       },
       {
+        "permissionName": "ui-orders.order-lines.delete",
+        "displayName": "Orders: Delete order lines",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.po-lines.item.delete"
+        ]
+      },
+      {
         "permissionName": "ui-orders.receiving",
         "displayName": "Orders: Receive items",
         "description": "",
