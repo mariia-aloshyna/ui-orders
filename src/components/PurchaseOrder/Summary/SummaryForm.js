@@ -9,6 +9,8 @@ import {
   Checkbox,
   KeyValue,
 } from '@folio/stripes/components';
+
+import { isWorkflowStatusOpen } from '../util';
 import FieldWorkflowStatus from './FieldWorkflowStatus';
 
 const SummaryForm = ({ initialValues: order }) => (
@@ -32,6 +34,7 @@ const SummaryForm = ({ initialValues: order }) => (
         label={<FormattedMessage id="ui-orders.orderSummary.approved" />}
         name="approved"
         type="checkbox"
+        disabled={isWorkflowStatusOpen(order)}
       />
     </Col>
     <Col xs={6} md={3}>

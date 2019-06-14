@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get, toString } from 'lodash';
+import { Link } from 'react-router-dom';
 
 import {
   Col,
@@ -20,6 +21,11 @@ class ItemView extends Component {
 
   render() {
     const { poLineDetails, identifierTypes } = this.props;
+    const instanceId = get(poLineDetails, 'instanceId');
+    const title = get(poLineDetails, 'title');
+    const titleValue = instanceId
+      ? <Link to={`/inventory/view/${instanceId}`}>{title}</Link>
+      : title;
 
     return (
       <Fragment>
@@ -27,7 +33,7 @@ class ItemView extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.title" />}
-              value={get(poLineDetails, 'title')}
+              value={titleValue}
             />
           </Col>
           <Col xs={6}>

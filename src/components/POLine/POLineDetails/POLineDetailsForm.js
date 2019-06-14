@@ -13,6 +13,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
+import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import getCreateInventorySetting from '../../Utils/getCreateInventorySetting';
 import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldPaymentStatus from './FieldPaymentStatus';
@@ -43,6 +44,7 @@ class POLineDetailsForm extends Component {
     const { change, dispatch, initialValues: poLine, stripes: { store }, parentResources, order } = this.props;
     const vendors = get(parentResources, 'vendors.records', []);
     const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
+    const isOpenedOrder = isWorkflowStatusOpen(order);
 
     return (
       <Fragment>
@@ -60,7 +62,7 @@ class POLineDetailsForm extends Component {
             )}
           </Col>
           <Col xs={6}>
-            <FieldAcquisitionMethod />
+            <FieldAcquisitionMethod disabled={isOpenedOrder} />
           </Col>
           <Col xs={6}>
             <FieldOrderFormat
@@ -70,6 +72,7 @@ class POLineDetailsForm extends Component {
               vendors={vendors}
               orderVendorId={order.vendor}
               createInventorySetting={createInventorySetting}
+              disabled={isOpenedOrder}
             />
           </Col>
         </Row>
@@ -102,6 +105,7 @@ class POLineDetailsForm extends Component {
               label={<FormattedMessage id="ui-orders.poLine.donor" />}
               name="donor"
               type="text"
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col xs={6}>
@@ -118,6 +122,7 @@ class POLineDetailsForm extends Component {
               label={<FormattedMessage id="ui-orders.poLine.selector" />}
               name="selector"
               type="text"
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col xs={6}>
@@ -128,6 +133,7 @@ class POLineDetailsForm extends Component {
               label={<FormattedMessage id="ui-orders.poLine.requester" />}
               name="requester"
               type="text"
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col xs={3}>
@@ -147,6 +153,7 @@ class POLineDetailsForm extends Component {
               label={<FormattedMessage id="ui-orders.poLine.rush" />}
               name="rush"
               type="checkbox"
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col xs={3}>
@@ -157,6 +164,7 @@ class POLineDetailsForm extends Component {
               label={<FormattedMessage id="ui-orders.poLine.сollection" />}
               name="collection"
               type="checkbox"
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col xs={3}>
@@ -166,6 +174,7 @@ class POLineDetailsForm extends Component {
               label={<FormattedMessage id="ui-orders.poLine.checkinItems" />}
               name="checkinItems"
               type="checkbox"
+              disabled={isOpenedOrder}
             />
           </Col>
         </Row>

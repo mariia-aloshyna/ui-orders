@@ -10,6 +10,7 @@ import {
   Selection,
 } from '@folio/stripes/components';
 
+import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import {
   DATE_FORMAT,
   TIMEZONE,
@@ -23,63 +24,70 @@ const MATERIAL_SUPPLIER_TETHER_CONFIG = {
   attachment: 'middle center',
 };
 
-const PhysicalForm = ({ materialTypes, vendors }) => (
-  <Row>
-    <Col xs={6}>
-      <FormattedMessage id="ui-orders.dropdown.select">
-        {(placeholder) => (
-          <Field
-            component={Selection}
-            dataOptions={vendors}
-            placeholder={placeholder}
-            fullWidth
-            label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
-            name="physical.materialSupplier"
-            tether={MATERIAL_SUPPLIER_TETHER_CONFIG}
-            normalize={normalizeEmptySelect}
-          />
-        )}
-      </FormattedMessage>
-    </Col>
-    <Col xs={6}>
-      <Field
-        backendDateStandard={DATE_FORMAT}
-        component={Datepicker}
-        dateFormat={DATE_FORMAT}
-        fullWidth
-        label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
-        name="physical.receiptDue"
-        timeZone={TIMEZONE}
-      />
-    </Col>
-    <Col xs={6}>
-      <Field
-        backendDateStandard={DATE_FORMAT}
-        component={Datepicker}
-        dateFormat={DATE_FORMAT}
-        fullWidth
-        label={<FormattedMessage id="ui-orders.physical.expectedReceiptDate" />}
-        name="physical.expectedReceiptDate"
-        timeZone={TIMEZONE}
-      />
-    </Col>
-    <Col xs={6}>
-      <InventoryRecordTypeSelectField
-        label="ui-orders.physical.createInventory"
-        name="physical.createInventory"
-      />
-    </Col>
-    <Col xs={6}>
-      <MaterialTypeField
-        materialTypes={materialTypes}
-        name="physical.materialType"
-      />
-    </Col>
-    <Col xs={6}>
-      <VolumesForm />
-    </Col>
-  </Row>
-);
+const PhysicalForm = ({ order, materialTypes, vendors }) => {
+  const isOpenedOrder = isWorkflowStatusOpen(order);
+
+  return (
+    <Row>
+      <Col xs={6}>
+        <FormattedMessage id="ui-orders.dropdown.select">
+          {(placeholder) => (
+            <Field
+              component={Selection}
+              dataOptions={vendors}
+              placeholder={placeholder}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
+              name="physical.materialSupplier"
+              tether={MATERIAL_SUPPLIER_TETHER_CONFIG}
+              normalize={normalizeEmptySelect}
+              disabled={isOpenedOrder}
+            />
+          )}
+        </FormattedMessage>
+      </Col>
+      <Col xs={6}>
+        <Field
+          backendDateStandard={DATE_FORMAT}
+          component={Datepicker}
+          dateFormat={DATE_FORMAT}
+          fullWidth
+          label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
+          name="physical.receiptDue"
+          timeZone={TIMEZONE}
+        />
+      </Col>
+      <Col xs={6}>
+        <Field
+          backendDateStandard={DATE_FORMAT}
+          component={Datepicker}
+          dateFormat={DATE_FORMAT}
+          fullWidth
+          label={<FormattedMessage id="ui-orders.physical.expectedReceiptDate" />}
+          name="physical.expectedReceiptDate"
+          timeZone={TIMEZONE}
+        />
+      </Col>
+      <Col xs={6}>
+        <InventoryRecordTypeSelectField
+          label="ui-orders.physical.createInventory"
+          name="physical.createInventory"
+          disabled={isOpenedOrder}
+        />
+      </Col>
+      <Col xs={6}>
+        <MaterialTypeField
+          materialTypes={materialTypes}
+          name="physical.materialType"
+          disabled={isOpenedOrder}
+        />
+      </Col>
+      <Col xs={6}>
+        <VolumesForm disabled={isOpenedOrder} />
+      </Col>
+    </Row>
+  );
+};
 
 PhysicalForm.propTypes = {
   vendors: PropTypes.arrayOf(PropTypes.shape({
@@ -90,6 +98,7 @@ PhysicalForm.propTypes = {
     label: PropTypes.string,
     value: PropTypes.string,
   })),
+  order: PropTypes.object.isRequired,
 };
 
 export default PhysicalForm;

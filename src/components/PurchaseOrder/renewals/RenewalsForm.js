@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 
@@ -15,8 +16,11 @@ import {
   TIMEZONE,
 } from '../../Utils/const';
 import { required } from '../../Utils/Validate';
+import { isWorkflowStatusOpen } from '../util';
 
-const RenewalsForm = () => {
+const RenewalsForm = ({ order }) => {
+  const isOpenedOrder = isWorkflowStatusOpen(order);
+
   return (
     <Row>
       <Col
@@ -30,6 +34,7 @@ const RenewalsForm = () => {
           name="renewal.interval"
           type="number"
           validate={required}
+          disabled={isOpenedOrder}
         />
       </Col>
       <Col
@@ -45,6 +50,7 @@ const RenewalsForm = () => {
           name="renewal.renewalDate"
           timeZone={TIMEZONE}
           validate={required}
+          disabled={isOpenedOrder}
         />
       </Col>
       <Col
@@ -57,6 +63,7 @@ const RenewalsForm = () => {
           label={<FormattedMessage id="ui-orders.renewals.reviewPeriod" />}
           name="renewal.reviewPeriod"
           type="number"
+          disabled={isOpenedOrder}
         />
       </Col>
       <Col
@@ -69,10 +76,15 @@ const RenewalsForm = () => {
           label={<FormattedMessage id="ui-orders.renewals.manualRenewal" />}
           name="renewal.manualRenewal"
           type="checkbox"
+          disabled={isOpenedOrder}
         />
       </Col>
     </Row>
   );
+};
+
+RenewalsForm.propTypes = {
+  order: PropTypes.object.isRequired,
 };
 
 export default RenewalsForm;

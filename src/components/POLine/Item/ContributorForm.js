@@ -16,6 +16,7 @@ import {
 class ContributorForm extends Component {
   static propTypes = {
     onChangeField: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
   };
 
   addFields = (fields) => {
@@ -46,6 +47,7 @@ class ContributorForm extends Component {
           <Button
             data-test-add-contributor-button
             onClick={() => this.addFields(fields)}
+            disabled={this.props.disabled}
           >
             <FormattedMessage id="ui-orders.itemDetails.addContributorBtn" />
           </Button>
@@ -64,6 +66,7 @@ class ContributorForm extends Component {
             label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
             name={`${elem}.contributor`}
             onChange={(e, value) => this.props.onChangeField(value, `${elem}.contributor`)}
+            disabled={this.props.disabled}
           />
         </Col>
         <Col
@@ -75,6 +78,7 @@ class ContributorForm extends Component {
             data-test-remove-contributor-button
             icon="trash"
             onClick={() => this.removeFields(fields, index)}
+            disabled={this.props.disabled}
           >
             {<FormattedMessage id="ui-orders.itemDetails.removeBtn" />}
           </IconButton>

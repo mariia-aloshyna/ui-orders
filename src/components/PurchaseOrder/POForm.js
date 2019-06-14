@@ -226,7 +226,7 @@ class POForm extends Component {
                             id="renewals"
                             label={<FormattedMessage id="ui-orders.paneBlock.renewals" />}
                           >
-                            <RenewalsForm />
+                            <RenewalsForm order={initialValues} />
                           </Accordion>
                         )}
                         <Accordion
