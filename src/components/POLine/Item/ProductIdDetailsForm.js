@@ -21,6 +21,7 @@ class ProductIdDetailsForm extends Component {
   static propTypes = {
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
     onChangeField: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
   };
 
   addFields = (fields) => {
@@ -51,6 +52,7 @@ class ProductIdDetailsForm extends Component {
           <Button
             data-test-add-product-ids-button
             onClick={() => this.addFields(fields)}
+            disabled={this.props.disabled}
           >
             <FormattedMessage id="ui-orders.itemDetails.addProductIdBtn" />
           </Button>
@@ -69,6 +71,7 @@ class ProductIdDetailsForm extends Component {
             label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
             name={`${elem}.productId`}
             onChange={(e, value) => this.props.onChangeField(value, `${elem}.productId`)}
+            disabled={this.props.disabled}
           />
         </Col>
         <Col xs={5}>
@@ -82,6 +85,7 @@ class ProductIdDetailsForm extends Component {
             placeholder=" "
             required
             validate={[Required]}
+            disabled={this.props.disabled}
           />
         </Col>
         <Col
@@ -93,6 +97,7 @@ class ProductIdDetailsForm extends Component {
             data-test-remove-product-ids-button
             icon="trash"
             onClick={() => this.removeFields(fields, index)}
+            disabled={this.props.disabled}
           >
             {<FormattedMessage id="ui-orders.itemDetails.removeBtn" />}
           </IconButton>

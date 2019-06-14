@@ -14,6 +14,7 @@ import {
   Selection,
 } from '@folio/stripes/components';
 
+import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import {
   DATE_FORMAT,
@@ -43,6 +44,7 @@ class EresourcesForm extends Component {
   render() {
     const { vendors, materialTypes, order } = this.props;
     const created = get(order, 'metadata.createdDate', '');
+    const isOpenedOrder = isWorkflowStatusOpen(order);
 
     return (
       <Row>
@@ -59,6 +61,7 @@ class EresourcesForm extends Component {
                 tether={ACCESS_PROVIDER_TETHER_CONFIG}
                 required
                 validate={[Required]}
+                disabled={isOpenedOrder}
               />
             )}
           </FormattedMessage>
@@ -98,12 +101,14 @@ class EresourcesForm extends Component {
           <InventoryRecordTypeSelectField
             label="ui-orders.eresource.createInventory"
             name="eresource.createInventory"
+            disabled={isOpenedOrder}
           />
         </Col>
         <Col xs={6} md={3}>
           <MaterialTypeField
             materialTypes={materialTypes}
             name="eresource.materialType"
+            disabled={isOpenedOrder}
           />
         </Col>
         <Col xs={6} md={3}>
@@ -114,6 +119,7 @@ class EresourcesForm extends Component {
             label={<FormattedMessage id="ui-orders.eresource.trial" />}
             name="eresource.trial"
             type="checkbox"
+            disabled={isOpenedOrder}
           />
         </Col>
         <Col xs={6} md={3}>
@@ -134,6 +140,7 @@ class EresourcesForm extends Component {
             label={<FormattedMessage id="ui-orders.eresource.userLimit" />}
             name="eresource.userLimit"
             type="number"
+            disabled={isOpenedOrder}
           />
         </Col>
       </Row>
