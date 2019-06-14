@@ -8,6 +8,7 @@ import {
   sortBy,
   uniqBy,
   each,
+  isEqual,
 } from 'lodash';
 
 import {
@@ -101,17 +102,11 @@ class ReceivingList extends Component {
     receivingHistory.GET({ params });
   }
 
-  componentWillReceiveProps(nextProps, nextContext) {
-    const receivingList = get(nextProps.resources, ['receivingHistory', 'records'], []);
+  componentDidUpdate(prevProps) {
+    if (!isEqual(this.props.resources, prevProps.resources)) {
+      const receivingList = get(this.props.resources, ['receivingHistory', 'records'], []);
 
-    if (receivingList.length === 1) {
-      const itemDetails = {};
-
-      each(receivingList, item => {
-        if (item.receivingStatus === PIECE_STATUS_EXPECTED) itemDetails[item.poLineId] = [item];
-      });
-
-      this.setState({ itemDetails });
+      if (receivingList.length === 1) this.toggleAll(receivingList);
     }
   }
 
