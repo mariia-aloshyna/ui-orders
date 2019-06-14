@@ -99,15 +99,11 @@ class ReceivingList extends Component {
     };
 
     receivingHistory.reset();
-    receivingHistory.GET({ params });
-  }
+    receivingHistory.GET({ params }).then(response => {
+      const uniqReceivingList = getLinesRows(response);
 
-  componentDidUpdate(prevProps) {
-    if (!isEqual(this.props.resources, prevProps.resources)) {
-      const receivingList = get(this.props.resources, ['receivingHistory', 'records'], []);
-
-      if (receivingList.length === 1) this.toggleAll(receivingList);
-    }
+      if (uniqReceivingList.length === 1) this.toggleAll(uniqReceivingList);
+    });
   }
 
   onCloseReceiving = () => {
