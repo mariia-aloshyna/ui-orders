@@ -7,12 +7,13 @@ import { Select } from '@folio/stripes/components';
 
 import { INVENTORY_RECORDS_TYPE } from '../components/POLine/const';
 
-const InventoryRecordTypeSelectField = ({ label, name }) => (
+const InventoryRecordTypeSelectField = ({ label, name, disabled }) => (
   <Field
     component={Select}
     fullWidth
     label={<FormattedMessage id={label} />}
     name={name}
+    disabled={disabled}
   >
     {Object.keys(INVENTORY_RECORDS_TYPE).map((key) => (
       <FormattedMessage
@@ -28,6 +29,7 @@ const InventoryRecordTypeSelectField = ({ label, name }) => (
 InventoryRecordTypeSelectField.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
 };
 
 export default InventoryRecordTypeSelectField;

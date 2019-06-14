@@ -9,7 +9,7 @@ export const DEFAULT_CURRENCY = 'USD';
 
 const DEFAULT_CURRENCY_OPTIONS = [{ label: DEFAULT_CURRENCY, value: DEFAULT_CURRENCY }];
 
-const FieldCurrency = ({ currencies = [] }) => {
+const FieldCurrency = ({ disabled, currencies = [] }) => {
   const currenciesOptions = currencies.length
     ? currencies.map(v => ({ label: v, value: v }))
     : DEFAULT_CURRENCY_OPTIONS;
@@ -24,12 +24,14 @@ const FieldCurrency = ({ currencies = [] }) => {
       name="cost.currency"
       required
       validate={[required]}
+      disabled={disabled}
     />
   );
 };
 
 FieldCurrency.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string),
+  disabled: PropTypes.bool,
 };
 
 FieldCurrency.displayName = 'FieldCurrency';

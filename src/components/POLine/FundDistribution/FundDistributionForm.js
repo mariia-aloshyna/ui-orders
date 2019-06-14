@@ -17,6 +17,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
+import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import parseNumber from '../../Utils/parseNumber';
 import { Required } from '../../Utils/Validate';
 import calculateEstimatedPrice from '../calculateEstimatedPrice';
@@ -25,6 +26,7 @@ class FundDistributionForm extends Component {
   static propTypes = {
     formValues: PropTypes.object,
     funds: PropTypes.arrayOf(PropTypes.object),
+    order: PropTypes.object.isRequired,
   };
 
   calculateAmount = (fund) => {
@@ -37,7 +39,8 @@ class FundDistributionForm extends Component {
   };
 
   renderSubForm = (elem, index, fields) => {
-    const { funds = [] } = this.props;
+    const { order, funds = [] } = this.props;
+    const isOpenedOrder = isWorkflowStatusOpen(order);
     const fund = fields.get(index);
     const fundCode = get(funds.find(({ value }) => value === fund.fundId), 'code');
     const amount = this.calculateAmount(fund);
@@ -54,6 +57,7 @@ class FundDistributionForm extends Component {
             placeholder=" "
             required
             validate={[Required]}
+            disabled={isOpenedOrder}
           />
         </Col>
         <Col xs={2}>
@@ -65,6 +69,7 @@ class FundDistributionForm extends Component {
             parse={parseNumber}
             type="number"
             validate={[Required]}
+            disabled={isOpenedOrder}
           />
         </Col>
         <Col xs={3}>
@@ -84,6 +89,8 @@ class FundDistributionForm extends Component {
   }
 
   render() {
+    const isOpenedOrder = isWorkflowStatusOpen(this.props.order);
+
     return (
       <Row>
         <Col xs={12}>
@@ -91,6 +98,10 @@ class FundDistributionForm extends Component {
             addLabel={<FormattedMessage id="ui-orders.fundDistribution.addBtn" />}
             component={RepeatableField}
             name="fundDistribution"
+            props={{
+              candAdd: !isOpenedOrder,
+              canRemove: !isOpenedOrder,
+            }}
             renderField={this.renderSubForm}
           />
         </Col>

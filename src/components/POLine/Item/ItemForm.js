@@ -34,6 +34,7 @@ import {
   checkInstanceIdField,
   getInventoryData,
 } from './util';
+import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 
 import css from './ItemForm.css';
 import { ALLOWED_YEAR_LENGTH } from '../const';
@@ -45,6 +46,7 @@ class ItemForm extends Component {
     change: PropTypes.func.isRequired,
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
     initialValues: PropTypes.object,
+    order: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -129,7 +131,9 @@ class ItemForm extends Component {
     } else dispatch(change('instanceId', null));
   };
 
-  selectInstanceModal = () => {
+  selectInstanceModal = (isDisabled) => {
+    if (isDisabled) return false;
+
     const { stripes } = this.props;
     const columnMapping = {
       title: <FormattedMessage id="ui-orders.instance.title" />,
@@ -156,6 +160,8 @@ class ItemForm extends Component {
   };
 
   render() {
+    const isOpenedOrder = isWorkflowStatusOpen(this.props.order);
+
     return (
       <Fragment>
         <Row>
@@ -169,9 +175,10 @@ class ItemForm extends Component {
                 onChange={(e, value) => this.onChangeField(value, 'title')}
                 required
                 validate={Required}
+                disabled={isOpenedOrder}
               />
               <div className={css.addButton}>
-                {this.selectInstanceModal()}
+                {this.selectInstanceModal(isOpenedOrder)}
               </div>
             </div>
           </Col>
@@ -212,6 +219,7 @@ class ItemForm extends Component {
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
               name="details.subscriptionTo"
               timeZone={TIMEZONE}
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col xs={6}>
@@ -221,6 +229,7 @@ class ItemForm extends Component {
               component={TextField}
               type="number"
               fullWidth
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col xs={6}>
@@ -232,6 +241,7 @@ class ItemForm extends Component {
               onChange={(e, value) => this.onChangeField(value, 'publicationDate')}
               normalize={v => (v || null)}
               validate={validateYear}
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col xs={6}>
@@ -241,6 +251,7 @@ class ItemForm extends Component {
               label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
               name="publisher"
               onChange={(e, value) => this.onChangeField(value, 'publisher')}
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col xs={6}>
@@ -250,11 +261,13 @@ class ItemForm extends Component {
               label={<FormattedMessage id="ui-orders.itemDetails.edition" />}
               onChange={(e, value) => this.onChangeField(value, 'edition')}
               name="edition"
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col xs={6}>
             <ContributorForm
               onChangeField={this.onChangeField}
+              disabled={isOpenedOrder}
             />
           </Col>
         </Row>
@@ -263,6 +276,7 @@ class ItemForm extends Component {
             <ProductIdDetailsForm
               identifierTypes={this.props.identifierTypes}
               onChangeField={this.onChangeField}
+              disabled={isOpenedOrder}
             />
           </Col>
         </Row>
