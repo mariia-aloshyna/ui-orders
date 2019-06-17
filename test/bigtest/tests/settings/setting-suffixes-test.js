@@ -1,16 +1,16 @@
 import { describe, beforeEach, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
-import SettingOrderNumberInteractor from '../interactors/setting-order-number';
+import setupApplication from '../../helpers/setup-application';
+import SettingSuffixesInteractor from '../../interactors/settings/setting-suffixes';
 
 describe('Setting of Order Number', function () {
   setupApplication();
 
-  const setting = new SettingOrderNumberInteractor();
+  const setting = new SettingSuffixesInteractor();
 
   beforeEach(function () {
-    this.visit('/settings/orders/po-number');
+    this.visit('/settings/orders/suffixes');
   });
 
   it('renders', () => {
@@ -18,22 +18,6 @@ describe('Setting of Order Number', function () {
     expect(setting.suffixSelect.controlPresent).to.be.true;
     expect(setting.suffixSelect.valueCount).to.equal(0);
     expect(setting.suffixSelect.optionCount).to.equal(0);
-    expect(setting.prefixSelect.controlPresent).to.be.true;
-    expect(setting.prefixSelect.valueCount).to.equal(0);
-    expect(setting.prefixSelect.optionCount).to.equal(0);
-  });
-
-  describe('add and select a prefix', () => {
-    beforeEach(async () => {
-      await setting.prefixSelect.clickControl();
-      await setting.prefixSelect.fillFilter('PP');
-      await setting.prefixSelect.options(0).clickOption();
-    });
-
-    it('has prefix option added', () => {
-      expect(setting.prefixSelect.optionCount).to.equal(1);
-      expect(setting.prefixSelect.valueCount).to.equal(1);
-    });
   });
 
   describe('add and select a suffix', () => {

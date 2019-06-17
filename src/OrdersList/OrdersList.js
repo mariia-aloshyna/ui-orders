@@ -33,6 +33,8 @@ import {
   MATERIAL_TYPES,
   ORDER_NUMBER_SETTING,
   USERS,
+  SUFFIXES_SETTING,
+  PREFIXES_SETTING,
 } from '../components/Utils/resources';
 import OrdersNavigation from '../common/OrdersNavigation';
 import {
@@ -95,6 +97,8 @@ class OrdersList extends Component {
     materialTypes: MATERIAL_TYPES,
     closingReasons: CLOSING_REASONS,
     orderNumberSetting: ORDER_NUMBER_SETTING,
+    prefixesSetting: PREFIXES_SETTING,
+    suffixesSetting: SUFFIXES_SETTING,
     vendors: {
       type: 'okapi',
       path: VENDORS_API,

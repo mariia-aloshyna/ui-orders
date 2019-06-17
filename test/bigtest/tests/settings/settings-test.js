@@ -1,8 +1,8 @@
 import { describe, beforeEach, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
-import SettingsInteractor from '../interactors/settings';
+import setupApplication from '../../helpers/setup-application';
+import SettingsInteractor from '../../interactors/settings/settings';
 
 describe('Settings', function () {
   setupApplication();

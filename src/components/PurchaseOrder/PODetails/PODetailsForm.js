@@ -38,6 +38,8 @@ class PODetailsForm extends Component {
   static propTypes = {
     generatedNumber: PropTypes.string,
     orderNumberSetting: PropTypes.object.isRequired,
+    prefixesSetting: PropTypes.object.isRequired,
+    suffixesSetting: PropTypes.object.isRequired,
     formValues: PropTypes.object,
     stripes: PropTypes.object,
     dispatch: PropTypes.func,
@@ -176,7 +178,9 @@ class PODetailsForm extends Component {
     const {
       addresses,
       formValues,
-      orderNumberSetting: { selectedPrefixes, selectedSuffixes, canUserEditOrderNumber },
+      orderNumberSetting: { canUserEditOrderNumber },
+      prefixesSetting,
+      suffixesSetting,
       owner,
       order,
     } = this.props;
@@ -197,7 +201,7 @@ class PODetailsForm extends Component {
               component={Select}
               label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
               name="numberPrefix"
-              dataOptions={addEmptyOption(selectedPrefixes)}
+              dataOptions={addEmptyOption(prefixesSetting.selectedItems)}
               disabled={isOpenedOrder}
             />
           </Col>
@@ -216,7 +220,7 @@ class PODetailsForm extends Component {
               component={Select}
               label={<FormattedMessage id="ui-orders.orderDetails.orderNumberSuffix" />}
               name="numberSuffix"
-              dataOptions={addEmptyOption(selectedSuffixes)}
+              dataOptions={addEmptyOption(suffixesSetting.selectedItems)}
               disabled={isOpenedOrder}
             />
           </Col>

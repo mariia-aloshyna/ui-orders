@@ -20,6 +20,8 @@ import {
   CONFIG_CREATE_INVENTORY,
   CONFIG_LINES_LIMIT,
   CONFIG_ORDER_NUMBER,
+  CONFIG_PREFIXES,
+  CONFIG_SUFFIXES,
   LIMIT_MAX,
   MODULE_ORDERS,
   MODULE_TENANT,
@@ -41,10 +43,10 @@ export const RECEIVING_HISTORY = {
 };
 
 export const LOCATIONS = {
+  ...BASE_RESOURCE,
   path: LOCATIONS_API,
   records: 'locations',
   throwErrors: false,
-  ...BASE_RESOURCE,
 };
 
 export const ORDER = {
@@ -63,21 +65,21 @@ export const RECEIVE = {
 };
 
 export const ITEMS = {
+  ...BASE_RESOURCE,
   fetch: false,
   accumulate: true,
   path: ITEMS_API,
   records: 'items',
   throwErrors: false,
-  ...BASE_RESOURCE,
 };
 
 export const CHECKIN = {
+  ...BASE_RESOURCE,
   clientGeneratePk: false,
   fetch: false,
   path: CHECKIN_API,
   records: 'toBeReceived',
   throwErrors: false,
-  ...BASE_RESOURCE,
 };
 
 export const ORDER_PIECES = {
@@ -96,18 +98,19 @@ export const LINE = {
 };
 
 export const IDENTIFIER_TYPES = {
+  ...BASE_RESOURCE,
   path: IDENTIFIER_TYPES_API,
   records: 'identifierTypes',
-  ...BASE_RESOURCE,
 };
 
 export const MATERIAL_TYPES = {
+  ...BASE_RESOURCE,
   path: MATERIAL_TYPES_API,
   records: 'mtypes',
-  ...BASE_RESOURCE,
 };
 
 export const VENDORS = {
+  ...BASE_RESOURCE,
   path: VENDORS_API,
   GET: {
     params: {
@@ -115,7 +118,6 @@ export const VENDORS = {
     },
   },
   records: 'organizations',
-  ...BASE_RESOURCE,
 };
 
 export const CLOSING_REASONS = {
@@ -130,6 +132,7 @@ export const CLOSING_REASONS = {
 };
 
 export const LINES_LIMIT = {
+  ...BASE_RESOURCE,
   records: 'configs',
   path: CONFIG_API,
   GET: {
@@ -137,10 +140,10 @@ export const LINES_LIMIT = {
       query: `(module=${MODULE_ORDERS} and configName=${CONFIG_LINES_LIMIT})`,
     },
   },
-  ...BASE_RESOURCE,
 };
 
 export const ADDRESSES = {
+  ...BASE_RESOURCE,
   records: 'configs',
   path: CONFIG_API,
   GET: {
@@ -148,22 +151,22 @@ export const ADDRESSES = {
       query: `(module=${MODULE_TENANT} and configName=${CONFIG_ADDRESSES})`,
     },
   },
-  ...BASE_RESOURCE,
 };
 
 export const FUND = {
+  ...BASE_RESOURCE,
   path: FUND_API,
   records: 'funds',
-  ...BASE_RESOURCE,
 };
 
 export const USERS = {
+  ...BASE_RESOURCE,
   path: USERS_API,
   records: 'users',
-  ...BASE_RESOURCE,
 };
 
 export const CREATE_INVENTORY = {
+  ...BASE_RESOURCE,
   path: CONFIG_API,
   records: 'configs',
   GET: {
@@ -171,10 +174,10 @@ export const CREATE_INVENTORY = {
       query: `(module=${MODULE_ORDERS} and configName=${CONFIG_CREATE_INVENTORY})`,
     },
   },
-  ...BASE_RESOURCE,
 };
 
 export const ORDER_NUMBER_SETTING = {
+  ...BASE_RESOURCE,
   path: CONFIG_API,
   records: 'configs',
   GET: {
@@ -182,5 +185,26 @@ export const ORDER_NUMBER_SETTING = {
       query: `(module=${MODULE_ORDERS} and configName=${CONFIG_ORDER_NUMBER})`,
     },
   },
+};
+
+export const PREFIXES_SETTING = {
   ...BASE_RESOURCE,
+  path: CONFIG_API,
+  records: 'configs',
+  GET: {
+    params: {
+      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_PREFIXES})`,
+    },
+  },
+};
+
+export const SUFFIXES_SETTING = {
+  ...BASE_RESOURCE,
+  path: CONFIG_API,
+  records: 'configs',
+  GET: {
+    params: {
+      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_SUFFIXES})`,
+    },
+  },
 };

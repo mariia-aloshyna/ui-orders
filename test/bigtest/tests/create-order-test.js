@@ -5,6 +5,10 @@ import setupApplication from '../helpers/setup-application';
 import OrdersInteractor from '../interactors/orders';
 import OrderEditPage from '../interactors/order-edit-page';
 import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
+import {
+  CONFIG_SUFFIXES,
+  MODULE_ORDERS,
+} from '../../../src/components/Utils/const';
 
 describe('Create order', function () {
   setupApplication();
@@ -13,6 +17,12 @@ describe('Create order', function () {
   const form = new OrderEditPage();
 
   beforeEach(async function () {
+    this.server.create('configs', {
+      module: MODULE_ORDERS,
+      configName: CONFIG_SUFFIXES,
+      enabled: true,
+      value: '{"selectedItems":["SS"],"suffixes":["SS1","SS2","SS"]}',
+    });
     this.visit('/orders?layer=create');
     await form.whenLoaded();
   });

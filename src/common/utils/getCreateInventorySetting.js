@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 
-import { INVENTORY_RECORDS_TYPE } from '../POLine/const';
+import { INVENTORY_RECORDS_TYPE } from '../../components/POLine/const';
 
 // Retrieve data from mod-configuration if any or use default values
 

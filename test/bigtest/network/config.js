@@ -17,15 +17,9 @@ import {
   FUND_API,
 } from '../../../src/components/Utils/api';
 import {
-  CONFIG_ADDRESSES,
   CONFIG_CLOSING_REASONS,
-  CONFIG_LINES_LIMIT,
-  CONFIG_ORDER_NUMBER,
   MODULE_ORDERS,
-  MODULE_TENANT,
 } from '../../../src/components/Utils/const';
-
-export const ID = '7c7c5a09-d465-4642-889a-8a0b351d7b15';
 
 export default function config() {
   this.get(ORDERS_API, (schema) => {
@@ -80,67 +74,18 @@ export default function config() {
 
   this.get(LOCATIONS_API);
 
-  this.get(CONFIG_API, (_, { queryParams }) => {
-    if (queryParams && queryParams.query === `(module=${MODULE_ORDERS} and configName=${CONFIG_ORDER_NUMBER})`) {
-      return {
-        configs: [{
-          id: ID,
-          module: MODULE_ORDERS,
-          configName: CONFIG_ORDER_NUMBER,
-          enabled: true,
-          value: '{"canUserEditOrderNumber":false,"selectedPrefixes":["PP"],"prefixes":["PP1","PP2","PP3","PP"],"selectedSuffixes":["SS"],"suffixes":["SS1","SS2","SS"]}',
-        }],
-      };
-    }
-
-    if (queryParams && queryParams.query === `(module=${MODULE_ORDERS} and configName=${CONFIG_CLOSING_REASONS})`) {
-      return {
-        configs: [{
-          id: ID,
-          module: MODULE_ORDERS,
-          configName: 'order.closing-reasons',
-          enabled: true,
-          value: 'test reason',
-          code: 'CLOSING_REASON_1',
-        }],
-      };
-    }
-
-    if (queryParams && queryParams.query === `(module=${MODULE_ORDERS} and configName=${CONFIG_LINES_LIMIT})`) {
-      return {
-        configs: [{
-          id: ID,
-          module: MODULE_ORDERS,
-          configName: CONFIG_LINES_LIMIT,
-          enabled: true,
-          value: '1',
-        }],
-      };
-    }
-
-    if (queryParams && queryParams.query === `(module=${MODULE_TENANT} and configName=${CONFIG_ADDRESSES})`) {
-      return {
-        configs: [{
-          id: ID,
-          module: MODULE_TENANT,
-          configName: CONFIG_ADDRESSES,
-          enabled: true,
-          value: '{"name": "ADDRESS NAME","address":"TEST ADDRESS"}',
-        }],
-      };
-    }
-
-    return { configs: [] };
+  this.get(CONFIG_API, (schema) => {
+    return schema.configs.all();
   });
 
   this.post(CONFIG_API, (schema, request) => {
     const body = JSON.stringify(request.requestBody);
 
-    if (body.configName === 'order.closing-reasons') {
+    if (body.configName === CONFIG_CLOSING_REASONS) {
       return {
         id: '042faa36-23a3-4f62-a52c-e869edb69de1',
-        module: 'ORDERS',
-        configName: 'order.closing-reasons',
+        module: MODULE_ORDERS,
+        configName: CONFIG_CLOSING_REASONS,
         code: body.code,
         enabled: true,
         value: body.value,
