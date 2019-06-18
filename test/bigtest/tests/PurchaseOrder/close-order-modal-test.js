@@ -5,6 +5,10 @@ import setupApplication from '../../helpers/setup-application';
 import CloseOrderModal from '../../interactors/PurchaseOrder/close-order-modal';
 import OrderDetailsPage from '../../interactors/order-details-page';
 import { WORKFLOW_STATUS } from '../../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import {
+  CONFIG_CLOSING_REASONS,
+  MODULE_ORDERS,
+} from '../../../../src/components/Utils/const';
 
 const REASON = 'test reason';
 
@@ -18,6 +22,14 @@ describe('Close Order Modal', function () {
   beforeEach(function () {
     order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
+    });
+
+    this.server.create('configs', {
+      module: MODULE_ORDERS,
+      configName: CONFIG_CLOSING_REASONS,
+      enabled: true,
+      value: REASON,
+      code: 'CLOSING_REASON_1',
     });
 
     this.visit(`/orders/view/${order.id}`);

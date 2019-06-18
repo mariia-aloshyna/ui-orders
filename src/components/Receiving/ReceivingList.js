@@ -7,6 +7,8 @@ import {
   some,
   sortBy,
   uniqBy,
+  each,
+  isEqual,
 } from 'lodash';
 
 import {
@@ -97,7 +99,11 @@ class ReceivingList extends Component {
     };
 
     receivingHistory.reset();
-    receivingHistory.GET({ params });
+    receivingHistory.GET({ params }).then(response => {
+      const uniqReceivingList = getLinesRows(response);
+
+      if (uniqReceivingList.length === 1) this.toggleAll(uniqReceivingList);
+    });
   }
 
   onCloseReceiving = () => {

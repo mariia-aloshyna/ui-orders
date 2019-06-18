@@ -18,7 +18,10 @@ import OpenOrderConfirmationModal from '../interactors/PurchaseOrder/open-order-
 import OpenOrderErrorModal from '../interactors/PurchaseOrder/open-order-error-modal';
 import { ERROR_CODES } from '../../../src/components/Utils/order';
 import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
-import { ID } from '../network/config';
+import {
+  CONFIG_ADDRESSES,
+  MODULE_ORDERS,
+} from '../../../src/components/Utils/const';
 
 const ADDRESS = 'TEST ADDRESS';
 const OWNER_TEST_VALUE = 'some team';
@@ -32,16 +35,23 @@ describe('OrderDetailsPage', function () {
 
   let order = null;
   let vendor = null;
+  let configs = null;
 
   beforeEach(async function () {
+    configs = this.server.create('configs', {
+      module: MODULE_ORDERS,
+      configName: CONFIG_ADDRESSES,
+      enabled: true,
+      value: '{"name": "ADDRESS NAME","address": "TEST ADDRESS"}',
+    });
     vendor = this.server.create('vendor');
     order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.pending,
       orderType: ORDER_TYPE.ongoing,
       vendor: vendor.id,
       owner: OWNER_TEST_VALUE,
-      billTo: ID,
-      shipTo: ID,
+      billTo: configs.id,
+      shipTo: configs.id,
     });
 
     this.visit(`/orders/view/${order.id}`);

@@ -22,7 +22,8 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import getOrderNumberSetting from '../Utils/getOrderNumberSetting';
+import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
+import getSettingsList from '../../common/utils/getSettingsList';
 import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
@@ -160,7 +161,9 @@ class POForm extends Component {
     const lastMenu = initialValues.id ?
       this.getLastMenu('clickable-update-purchase-order', 'ui-orders.paneMenu.saveOrder') :
       this.getLastMenu('clickable-create-new-purchase-order', 'ui-orders.paneMenu.saveOrder');
-    const orderNumberSetting = getOrderNumberSetting(get(parentResources, 'orderNumberSetting.records', []));
+    const orderNumberSetting = getOrderNumberSetting(get(parentResources, 'orderNumberSetting.records', {}));
+    const prefixesSetting = getSettingsList(get(parentResources, 'prefixesSetting.records', {}));
+    const suffixesSetting = getSettingsList(get(parentResources, 'suffixesSetting.records', {}));
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
 
     if (!initialValues) {
@@ -217,6 +220,8 @@ class POForm extends Component {
                             generatedNumber={generatedNumber}
                             order={initialValues}
                             orderNumberSetting={orderNumberSetting}
+                            prefixesSetting={prefixesSetting}
+                            suffixesSetting={suffixesSetting}
                             owner={initialValues.owner}
                             stripes={stripes}
                           />

@@ -7,31 +7,59 @@ import POLinesLimit from './POLinesLimit';
 import ClosingReasons from './ClosingReasons';
 import OrderNumber from './OrderNumber';
 import CreateInventory from './CreateInventory';
+import OrderTemplates from './OrderTemplates';
+import Suffixes from './Suffixes';
+import Prefixes from './Prefixes';
 
 class OrdersSettings extends Component {
   constructor(props) {
     super(props);
 
-    this.pages = [
+    this.sections = [
       {
-        component: POLinesLimit,
-        label: <FormattedMessage id="ui-orders.settings.polines-limit" />,
-        route: 'polines-limit',
+        label: <FormattedMessage id="ui-orders.settings.general.label" />,
+        pages: [
+          {
+            component: ClosingReasons,
+            label: <FormattedMessage id="ui-orders.settings.closingOrderReasons" />,
+            route: 'closing-reasons',
+          },
+          {
+            component: CreateInventory,
+            label: <FormattedMessage id="ui-orders.settings.inventoryInteractions" />,
+            route: 'create-inventory',
+          },
+          {
+            component: OrderTemplates,
+            label: <FormattedMessage id="ui-orders.settings.orderTemplates" />,
+            route: 'order-templates',
+          },
+          {
+            component: POLinesLimit,
+            label: <FormattedMessage id="ui-orders.settings.polinesLimit" />,
+            route: 'polines-limit',
+          },
+        ],
       },
       {
-        component: ClosingReasons,
-        label: <FormattedMessage id="ui-orders.settings.closingReasons" />,
-        route: 'closing-reasons',
-      },
-      {
-        component: OrderNumber,
-        label: <FormattedMessage id="ui-orders.settings.poNumber" />,
-        route: 'po-number',
-      },
-      {
-        component: CreateInventory,
-        label: <FormattedMessage id="ui-orders.settings.createInventory" />,
-        route: 'create-inventory',
+        label: <FormattedMessage id="ui-orders.settings.poNumber.label" />,
+        pages: [
+          {
+            component: OrderNumber,
+            label: <FormattedMessage id="ui-orders.settings.poNumber.edit" />,
+            route: 'po-number',
+          },
+          {
+            component: Prefixes,
+            label: <FormattedMessage id="ui-orders.settings.poNumber.prefixes" />,
+            route: 'prefixes',
+          },
+          {
+            component: Suffixes,
+            label: <FormattedMessage id="ui-orders.settings.poNumber.suffixes" />,
+            route: 'suffixes',
+          },
+        ],
       },
     ];
   }
@@ -40,7 +68,7 @@ class OrdersSettings extends Component {
     return (
       <Settings
         {...this.props}
-        pages={this.pages}
+        sections={this.sections}
         paneTitle={<FormattedMessage id="ui-orders.settings.index.paneTitle" />}
       />
     );

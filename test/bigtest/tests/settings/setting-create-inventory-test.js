@@ -1,8 +1,8 @@
 import { describe, beforeEach, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
-import SettingCreateInventoryInteractor from '../interactors/setting-create-inventory';
+import setupApplication from '../../helpers/setup-application';
+import SettingCreateInventoryInteractor from '../../interactors/settings/setting-create-inventory';
 
 describe('Setting for Create Inventory', function () {
   setupApplication();
@@ -29,6 +29,6 @@ describe('Setting for Create Inventory', function () {
   });
 
   it('displays Title', () => {
-    expect(setting.title).to.equal('Create Inventory');
+    expect(setting.title).to.equal('Inventory interactions');
   });
 });
