@@ -18,6 +18,7 @@ import {
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
+import { ViewMetaData } from '@folio/stripes/smart-components';
 
 import {
   isCheckInAvailableForLine,
@@ -239,6 +240,8 @@ class POLineView extends Component {
     const checkInLocation = isWorkflowStatusOpen ? `${checkinURL}/items` : `${checkinURL}/history`;
     const receivingLocation = isWorkflowStatusOpen ? receivingURL : `${receivingURL}-history`;
 
+    const metadata = get(line, 'metadata');
+
     return (
       <Pane
         defaultWidth="fill"
@@ -289,6 +292,8 @@ class POLineView extends Component {
             label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
             id="ItemDetails"
           >
+            {metadata && <ViewMetaData metadata={metadata} />}
+
             <ItemView
               identifierTypes={identifierTypes}
               poLineDetails={line}
