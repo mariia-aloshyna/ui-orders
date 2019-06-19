@@ -9,14 +9,20 @@ import { ACQUISITION_METHOD } from '../components/POLine/POLineDetails/FieldAcqu
 import { ORDER_FORMAT } from '../components/POLine/POLineDetails/FieldOrderFormat';
 
 export const FILTERS = {
-  STATUS: 'workflowStatus',
+  APPROVED: 'approved',
+  ASSIGNED_TO: 'assignedTo',
+  CLOSE_REASON: 'closeReason',
+  CREATED_BY: 'createdByUserId',
+  DATE_CREATED: 'createdDate',
   DATE_ORDERED: 'dateOrdered',
-  ORDER_TYPE: 'orderType',
-  RENEWAL_DATE: 'renewalDate',
   MANUAL_RENEWAL: 'manualRenewal',
-  RENEWAL_REVIEW_PERIOD: 'renewalReviewPeriod',
-  VENDOR: 'vendor',
+  ORDER_TYPE: 'orderType',
   PO_NUMBER: 'poNumber',
+  RE_ENCUMBER: 'reEncumber',
+  RENEWAL_DATE: 'renewalDate',
+  RENEWAL_REVIEW_PERIOD: 'renewalReviewPeriod',
+  STATUS: 'workflowStatus',
+  VENDOR: 'vendor',
 };
 
 export const STATUS_FILTER_OPTIONS = Object.keys(WORKFLOW_STATUS).map(status => ({

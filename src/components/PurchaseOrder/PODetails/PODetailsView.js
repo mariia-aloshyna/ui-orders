@@ -92,7 +92,7 @@ class PODetailsView extends Component {
             </KeyValue>
           </Col>
           <Col xs={6}>
-            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.re_encumber" />}>
+            <KeyValue label={<FormattedMessage id="ui-orders.orderDetails.reEncumber" />}>
               <Checkbox checked={get(order, 'reEncumber')} disabled />
             </KeyValue>
           </Col>

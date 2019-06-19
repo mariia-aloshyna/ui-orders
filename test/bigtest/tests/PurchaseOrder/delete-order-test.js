@@ -13,17 +13,14 @@ describe('Delete Order', function () {
   const editOrderPage = new OrderEditPage();
   let order = null;
 
-  beforeEach(function () {
+  beforeEach(async function () {
     order = this.server.create('order');
     this.visit(`/orders/view/${order.id}`);
+    await page.whenLoaded();
   });
 
   it('shows Order Details Pane', () => {
     expect(page.isVisible).to.be.true;
-  });
-
-  it("doesn't show Order Details action menu", () => {
-    expect(page.actionsMenu.isPresent).to.be.false;
   });
 
   describe('click on header', () => {

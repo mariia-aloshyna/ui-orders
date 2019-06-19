@@ -13,7 +13,7 @@ describe('Delete Order Line', function () {
   let order = null;
   let line = null;
 
-  beforeEach(function () {
+  beforeEach(async function () {
     line = this.server.create('line', {
       orderFormat: PHYSICAL,
       cost: {
@@ -26,6 +26,7 @@ describe('Delete Order Line', function () {
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}`);
+    await page.whenLoaded();
   });
 
   it('shows Line Details Pane', () => {

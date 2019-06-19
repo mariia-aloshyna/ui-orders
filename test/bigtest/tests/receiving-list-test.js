@@ -47,7 +47,7 @@ describe('Receiving', function () {
   });
 
   describe('go to receiving history from closed PO', () => {
-    beforeEach(function () {
+    beforeEach(async function () {
       line = this.server.create('line', {
         orderFormat: PHYSICAL,
         cost: {
@@ -61,6 +61,7 @@ describe('Receiving', function () {
       });
 
       this.visit(`/orders/view/${order.id}`);
+      await orderDetailsPage.whenLoaded();
     });
 
     it('displays the Receive button', () => {
