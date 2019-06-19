@@ -11,9 +11,6 @@ import {
   PE_MIX,
   INVENTORY_RECORDS_TYPE,
 } from '../../../src/components/POLine/const';
-import {
-  ORDERS_API,
-} from '../../../src/components/Utils/api';
 import { PIECE_FORMAT } from '../../../src/components/CheckIn/FieldPieceFormat';
 
 const RECEIVING_LIST_COUNT = 10;
@@ -32,12 +29,8 @@ describe('Check-in items', function () {
 
   beforeEach(async function () {
     location = this.server.create('location');
-    order = this.server.create('order', {
-      workflowStatus: WORKFLOW_STATUS.open,
-    });
+
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       orderFormat: PE_MIX,
       checkinItems: true,
       cost: {
@@ -50,9 +43,11 @@ describe('Check-in items', function () {
         createInventory: INVENTORY_RECORDS_TYPE.none,
       },
     });
-    this.server.get(`${ORDERS_API}/${order.id}`, {
-      ...order.attrs,
+
+    order = this.server.create('order', {
+      workflowStatus: WORKFLOW_STATUS.open,
       compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
     });
 
     this.server.createList('piece', RECEIVING_LIST_COUNT, { poLineId: line.id });
@@ -180,7 +175,7 @@ describe('Check-in items', function () {
 
     describe('Check Item and Enable Remove button', function () {
       beforeEach(async function () {
-        await page.pieces(0).click();
+        await page.pieces(0).checkPiece.click();
       });
 
       it('Check-in button is enabled', function () {

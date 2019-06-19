@@ -10,32 +10,26 @@ import { PHYSICAL } from '../../../../src/components/POLine/const';
 import setupApplication from '../../helpers/setup-application';
 import LineDetailsPage from '../../interactors/line-details-page';
 import OrderDetailsPage from '../../interactors/order-details-page';
-import { ORDERS_API } from '../../../../src/components/Utils/api';
 import ConfirmationModal from '../../interactors/confirmation';
 
 describe('Order lines list - Line details test', function () {
   setupApplication();
-  let order = null;
   let line = null;
   const page = new LineDetailsPage();
   const orderPage = new OrderDetailsPage();
 
   beforeEach(async function () {
-    order = this.server.create('order', {
-      workflowStatus: WORKFLOW_STATUS.open,
-    });
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       orderFormat: PHYSICAL,
       cost: {
         quantityPhysical: 2,
       },
     });
 
-    this.server.get(`${ORDERS_API}/${order.id}`, {
-      ...order.attrs,
+    this.server.create('order', {
+      workflowStatus: WORKFLOW_STATUS.open,
       compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
     });
 
     this.visit(`/orders/lines/view/${line.id}`);

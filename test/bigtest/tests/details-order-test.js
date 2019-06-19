@@ -25,7 +25,7 @@ import {
 
 const ADDRESS = 'TEST ADDRESS';
 
-describe('OrderDetailsPage', function () {
+describe('Order Details Page', function () {
   setupApplication();
 
   const lineEditPage = new LineEditPage();
@@ -128,18 +128,19 @@ describe('OrderDetailsPage', function () {
       let line = null;
 
       beforeEach(function () {
-        const pendingOrder = this.server.create('order', {
-          workflowStatus: WORKFLOW_STATUS.pending,
-        });
-
         line = this.server.create('line', {
-          purchaseOrderId: order.id,
-          order: pendingOrder,
           orderFormat: PHYSICAL,
           cost: {
             quantityPhysical: 2,
           },
         });
+
+        const pendingOrder = this.server.create('order', {
+          workflowStatus: WORKFLOW_STATUS.pending,
+          compositePoLines: [line.attrs],
+          id: line.attrs.purchaseOrderId,
+        });
+
         const VENDOR_IS_INACTIVE_RESPONSE = {
           'errors': [{
             'message': 'Order cannot be open as the associated vendor is inactive',
@@ -151,11 +152,6 @@ describe('OrderDetailsPage', function () {
         };
 
         this.server.put(`${ORDERS_API}/:id`, VENDOR_IS_INACTIVE_RESPONSE, 422);
-
-        this.server.get(`${ORDERS_API}/${pendingOrder.id}`, {
-          ...pendingOrder.attrs,
-          compositePoLines: [line.attrs],
-        });
 
         this.visit(`/orders/view/${pendingOrder.id}`);
       });

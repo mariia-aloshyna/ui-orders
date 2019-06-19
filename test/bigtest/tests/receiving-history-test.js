@@ -63,7 +63,7 @@ describe('Receiving history', function () {
 
   describe('Check Item and Enable Remove button', () => {
     beforeEach(async () => {
-      await page.pieces(0).click();
+      await page.pieces(0).checkPiece.click();
     });
 
     it('Remove button is enabled', () => {
@@ -73,7 +73,7 @@ describe('Receiving history', function () {
 
   describe('Click Remove button', () => {
     beforeEach(async () => {
-      await page.pieces(0).click();
+      await page.pieces(0).checkPiece.click();
       await page.removeButton.click();
     });
 

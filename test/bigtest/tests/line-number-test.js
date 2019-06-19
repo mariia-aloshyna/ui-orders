@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
-import { ORDERS_API } from '../../../src/components/Utils/api';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 
 const ORDER_NUMBER = '10001';
@@ -20,15 +19,8 @@ describe('Line number generation', function () {
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');
-    order = this.server.create('order', {
-      poNumber: ORDER_NUMBER,
-      workflowStatus: WORKFLOW_STATUS.pending,
-      vendor: vendor.id,
-    });
 
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       poLineNumber: LINE_NUMBER,
       orderFormat: PHYSICAL,
       cost: {
@@ -36,9 +28,12 @@ describe('Line number generation', function () {
       },
     });
 
-    this.server.get(`${ORDERS_API}/${order.id}`, {
-      ...order.attrs,
+    order = this.server.create('order', {
+      poNumber: ORDER_NUMBER,
+      workflowStatus: WORKFLOW_STATUS.pending,
+      vendor: vendor.id,
       compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);

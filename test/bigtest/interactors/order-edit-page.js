@@ -23,10 +23,6 @@ import Button from './button';
   value = value();
 }
 
-@interactor class SelectionList {
-  static defaultScope = 'ul[role="listbox"]';
-}
-
 export default interactor(class OrderEditPage {
   static defaultScope = '#pane-poForm';
   isLoaded = isPresent('[class*=paneTitleLabel---]');

@@ -1,7 +1,6 @@
 import { beforeEach, describe, it } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { ORDERS_API } from '../../../../src/components/Utils/api';
 import { PHYSICAL } from '../../../../src/components/POLine/const';
 import setupApplication from '../../helpers/setup-application';
 import LineDetailsPage from '../../interactors/line-details-page';
@@ -15,19 +14,15 @@ describe('Delete Order Line', function () {
   let line = null;
 
   beforeEach(function () {
-    order = this.server.create('order');
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       orderFormat: PHYSICAL,
       cost: {
         quantityPhysical: 2,
       },
     });
-
-    this.server.get(`${ORDERS_API}/${order.id}`, {
-      ...order.attrs,
+    order = this.server.create('order', {
       compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}`);

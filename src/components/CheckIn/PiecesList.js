@@ -69,7 +69,6 @@ const PiecesList = ({ renderActions, checkedItemsMap, items = [], toggleItem, to
         pieceStatus: '8%',
         actions: '2%',
       }}
-      onRowClick={(_, item) => toggleItem(item)}
     />
   );
 };

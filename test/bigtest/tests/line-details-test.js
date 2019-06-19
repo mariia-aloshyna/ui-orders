@@ -7,9 +7,6 @@ import { expect } from 'chai';
 
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import { PHYSICAL } from '../../../src/components/POLine/const';
-import {
-  ORDERS_API,
-} from '../../../src/components/Utils/api';
 import setupApplication from '../helpers/setup-application';
 import LineDetailsPage from '../interactors/line-details-page';
 import ReceivingPage from '../interactors/receiving-page';
@@ -27,13 +24,8 @@ describe('Line details test', function () {
   beforeEach(function () {
     fund = this.server.create('fund');
     vendor = this.server.create('vendor');
-    order = this.server.create('order', {
-      workflowStatus: WORKFLOW_STATUS.open,
-      vendor: vendor.id,
-    });
+
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       orderFormat: PHYSICAL,
       cost: {
         quantityPhysical: 2,
@@ -46,9 +38,11 @@ describe('Line details test', function () {
       ],
     });
 
-    this.server.get(`${ORDERS_API}/${order.id}`, {
-      ...order.attrs,
+    order = this.server.create('order', {
+      workflowStatus: WORKFLOW_STATUS.open,
+      vendor: vendor.id,
       compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}`);

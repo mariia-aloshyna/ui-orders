@@ -12,7 +12,10 @@ export default interactor(class ReceivingPage {
   textOnPage = text('Receivings List');
   receivePiecesButton = new Button('[data-test-receive-pieces-button]');
   closeButton = new Button('[data-test-close-button]');
-  receivingList = collection('[class*=mclRow---]');
-  checkbox = new CheckBox();
+  receivingList = collection('[class*=mclRow---]', {
+    checkLine: new CheckBox('input[name*=check-line-]'),
+  });
+
+  checkAll = new CheckBox();
   receivingHistoryButton = new Button('[data-test-receiving-history-button]');
 });

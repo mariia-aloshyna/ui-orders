@@ -11,9 +11,6 @@ import {
 } from '../../../src/components/POLine/const';
 import { ACQUISITION_METHOD } from '../../../src/components/POLine/POLineDetails/FieldAcquisitionMethod';
 import { DEFAULT_CURRENCY } from '../../../src/components/POLine/Cost/FieldCurrency';
-import {
-  ORDERS_API,
-} from '../../../src/components/Utils/api';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
 import LineDetailsPage from '../interactors/line-details-page';
@@ -40,9 +37,7 @@ describe('Edit PO Line - Save updated PO Line', function () {
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');
-    order = this.server.create('order', {
-      vendor: vendor.id,
-    });
+
     location = this.server.create('location');
     locations = [
       {
@@ -52,23 +47,16 @@ describe('Edit PO Line - Save updated PO Line', function () {
       },
     ];
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       acquisitionMethod: ACQUISITION_METHOD.gift,
       orderFormat: PHYSICAL,
       cost,
       title: TITLE,
       locations,
     });
-
-    this.server.get(`${ORDERS_API}/${order.id}`, {
-      ...order.attrs,
-      compositePoLines: [
-        {
-          ...line.attrs,
-          locations,
-        },
-      ],
+    order = this.server.create('order', {
+      vendor: vendor.id,
+      compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);

@@ -9,7 +9,6 @@ import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/F
 import { OTHER } from '../../../src/components/POLine/const';
 import setupApplication from '../helpers/setup-application';
 import LineDetailsPage from '../interactors/line-details-page';
-import { ORDERS_API } from '../../../src/components/Utils/api';
 
 describe('Orders List - Line details with other format test', function () {
   setupApplication();
@@ -20,22 +19,19 @@ describe('Orders List - Line details with other format test', function () {
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');
-    order = this.server.create('order', {
-      workflowStatus: WORKFLOW_STATUS.open,
-      vendor: vendor.id,
-    });
+
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       orderFormat: OTHER,
       cost: {
         quantityPhysical: 2,
       },
     });
 
-    this.server.get(`${ORDERS_API}/${order.id}`, {
-      ...order.attrs,
+    order = this.server.create('order', {
+      workflowStatus: WORKFLOW_STATUS.open,
+      vendor: vendor.id,
       compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}`);
