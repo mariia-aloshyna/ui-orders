@@ -6,6 +6,7 @@ import {
   value,
 } from '@bigtest/interactor';
 
+import { CheckBox } from './common';
 import Button from './button';
 
 @interactor class SearchInput {
@@ -23,7 +24,10 @@ export default interactor(class ReceivingHistoryPage {
   closeButton = new Button('[data-test-close-button]');
   searchInput = new SearchInput();
   removeButton = new Button('[data-test-receiving-remove]');
-  pieces = collection('[class*=mclRow---]');
+  pieces = collection('[class*=mclRow---]', {
+    checkPiece: new CheckBox(),
+  });
+
   barcodes = collection('[data-test-piece-barcode]', {
     barcode: text(),
   });

@@ -8,7 +8,6 @@ import { expect } from 'chai';
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
 import { PHYSICAL } from '../../../src/components/POLine/const';
-import { ORDERS_API } from '../../../src/components/Utils/api';
 import LinesLimitModal from '../interactors/lines-limit-modal';
 import OrderDetailsPage from '../interactors/order-details-page';
 import setupApplication from '../helpers/setup-application';
@@ -29,24 +28,18 @@ describe('clicking on add Line to open LinesLimit Modal', function () {
 
   beforeEach(function () {
     vendor = this.server.create('vendor');
-    order = this.server.create('order', {
-      workflowStatus: WORKFLOW_STATUS.pending,
-      orderType: ORDER_TYPE.ongoing,
-      vendor: vendor.id,
-    });
-
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       orderFormat: PHYSICAL,
       cost: {
         quantityPhysical: 2,
       },
     });
-
-    this.server.get(`${ORDERS_API}/${order.id}`, {
-      ...order.attrs,
+    order = this.server.create('order', {
+      workflowStatus: WORKFLOW_STATUS.pending,
+      orderType: ORDER_TYPE.ongoing,
+      vendor: vendor.id,
       compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
     });
 
     this.server.create('configs', {

@@ -21,7 +21,7 @@ export default interactor(class CheckInItemsPage {
   checkInButton = new Button('[data-test-check-in-items-check-in-button]');
   closeButton = new Button('[data-test-close-button]');
   pieces = collection('[class*=mclRow---]', {
-    checkbox: new CheckBox(),
+    checkPiece: new CheckBox(),
     actions: new Button('#check-in-actions'),
   });
 

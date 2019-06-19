@@ -19,18 +19,20 @@ describe('Check-in history', function () {
   const page = new CheckInHistoryPage();
 
   beforeEach(function () {
-    order = this.server.create('order', {
-      workflowStatus: WORKFLOW_STATUS.open,
-    });
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       orderFormat: PHYSICAL,
       cost: {
         quantityPhysical: 2,
       },
       checkinItems: true,
     });
+
+    order = this.server.create('order', {
+      compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
+      workflowStatus: WORKFLOW_STATUS.open,
+    });
+
     this.server.createList('piece', RECEIVING_LIST_COUNT, {
       receivingStatus: PIECE_STATUS_RECEIVED,
     });
@@ -66,7 +68,7 @@ describe('Check-in history', function () {
 
   describe('Check Item and Enable Remove button', () => {
     beforeEach(async () => {
-      await page.pieces(0).click();
+      await page.pieces(0).checkPiece.click();
     });
 
     it('Remove button is enabled', () => {
@@ -76,7 +78,7 @@ describe('Check-in history', function () {
 
   describe('Click Remove button', () => {
     beforeEach(async () => {
-      await page.pieces(0).click();
+      await page.pieces(0).checkPiece.click();
       await page.removeButton.click();
     });
 

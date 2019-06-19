@@ -7,9 +7,6 @@ import ReceivingPage from '../interactors/receiving-page';
 import ReceivingHistoryPage from '../interactors/receiving-history-page';
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import { PHYSICAL } from '../../../src/components/POLine/const';
-import {
-  ORDERS_API,
-} from '../../../src/components/Utils/api';
 
 const RECEIVING_LIST_COUNT = 10;
 
@@ -23,20 +20,17 @@ describe('Receiving', function () {
   const receivingHistoryPage = new ReceivingHistoryPage();
 
   beforeEach(function () {
-    order = this.server.create('order', {
-      workflowStatus: WORKFLOW_STATUS.open,
-    });
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       orderFormat: PHYSICAL,
       cost: {
         quantityPhysical: 2,
       },
     });
-    this.server.get(`${ORDERS_API}/${order.id}`, {
-      ...order.attrs,
+
+    order = this.server.create('order', {
+      workflowStatus: WORKFLOW_STATUS.open,
       compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
     });
 
     this.server.createList('piece', RECEIVING_LIST_COUNT);
@@ -54,19 +48,16 @@ describe('Receiving', function () {
 
   describe('go to receiving history from closed PO', () => {
     beforeEach(function () {
-      order = this.server.create('order', {
-        workflowStatus: WORKFLOW_STATUS.closed,
-      });
       line = this.server.create('line', {
-        order,
         orderFormat: PHYSICAL,
         cost: {
           quantityPhysical: 2,
         },
       });
-      this.server.get(`${ORDERS_API}/${order.id}`, {
-        ...order.attrs,
+      order = this.server.create('order', {
+        workflowStatus: WORKFLOW_STATUS.closed,
         compositePoLines: [line.attrs],
+        id: line.attrs.purchaseOrderId,
       });
 
       this.visit(`/orders/view/${order.id}`);
@@ -117,7 +108,7 @@ describe('Receiving', function () {
 
     describe('Check one line to receive', () => {
       beforeEach(async function () {
-        await receivingPage.receivingList(0).click();
+        await receivingPage.receivingList(0).checkLine.click();
       });
 
       it('Receive Pieces button is enabled', () => {
@@ -127,7 +118,7 @@ describe('Receiving', function () {
 
     describe('Check all lines to receive', () => {
       beforeEach(async function () {
-        await receivingPage.checkbox.click();
+        await receivingPage.checkAll.click();
       });
 
       it('Receive Pieces button is enabled', () => {
@@ -136,7 +127,7 @@ describe('Receiving', function () {
 
       describe('Uncheck all lines to receive', () => {
         beforeEach(async function () {
-          await receivingPage.checkbox.click();
+          await receivingPage.checkAll.click();
         });
 
         it('Receive Pieces button is disabled', () => {

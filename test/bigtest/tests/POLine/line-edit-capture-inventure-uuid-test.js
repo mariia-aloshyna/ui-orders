@@ -5,9 +5,6 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import {
-  ORDERS_API,
-} from '../../../../src/components/Utils/api';
 import setupApplication from '../../helpers/setup-application';
 import LineEditPage from '../../interactors/line-edit-page';
 
@@ -31,9 +28,6 @@ describe('Line edit test - Capture UUID from inventory', function () {
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');
-    order = this.server.create('order', {
-      vendor: vendor.id,
-    });
     location = this.server.create('location');
 
     locations = [
@@ -45,8 +39,6 @@ describe('Line edit test - Capture UUID from inventory', function () {
     ];
 
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       locations,
       title: TITLE,
       instanceId: INSTANCE_ID,
@@ -58,14 +50,10 @@ describe('Line edit test - Capture UUID from inventory', function () {
       },
     });
 
-    this.server.get(`${ORDERS_API}/${order.id}`, {
-      ...order.attrs,
-      compositePoLines: [
-        {
-          ...line.attrs,
-          locations,
-        },
-      ],
+    order = this.server.create('order', {
+      vendor: vendor.id,
+      compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);

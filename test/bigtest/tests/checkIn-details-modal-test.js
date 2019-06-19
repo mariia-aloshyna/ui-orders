@@ -20,18 +20,20 @@ describe('CheckIn Details Modal', function () {
   const page = new CheckInItemsPage();
 
   beforeEach(async function () {
-    order = this.server.create('order', {
-      workflowStatus: WORKFLOW_STATUS.open,
-    });
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       orderFormat: PHYSICAL,
       checkinItems: true,
       cost: {
         quantityPhysical: 2,
       },
     });
+
+    order = this.server.create('order', {
+      workflowStatus: WORKFLOW_STATUS.open,
+      compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
+    });
+
     this.server.createList('piece', RECEIVING_LIST_COUNT, {
       receivingStatus: PIECE_STATUS_EXPECTED,
       poLineId: line.id,
@@ -39,7 +41,7 @@ describe('CheckIn Details Modal', function () {
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}/check-in/items`);
-    await page.pieces(0).click();
+    await page.pieces(0).checkPiece.click();
     await page.checkInButton.click();
   });
 
@@ -61,7 +63,7 @@ describe('CheckIn Details Modal', function () {
 
   describe('uncheck all items', () => {
     beforeEach(async function () {
-      await modal.checkbox.click();
+      await modal.checkAll.click();
     });
 
     it('displays disabled CheckIn Button', () => {

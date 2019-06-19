@@ -8,7 +8,6 @@ import { expect } from 'chai';
 import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
 import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
 import { PHYSICAL } from '../../../src/components/POLine/const';
-import { ORDERS_API } from '../../../src/components/Utils/api';
 import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import LineDetailsPage from '../interactors/line-details-page';
@@ -25,14 +24,8 @@ describe('Order details with Line', function () {
 
   beforeEach(function () {
     vendor = this.server.create('vendor');
-    order = this.server.create('order', {
-      workflowStatus: WORKFLOW_STATUS.pending,
-      orderType: ORDER_TYPE.ongoing,
-      vendor: vendor.id,
-    });
+
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       orderFormat: PHYSICAL,
       cost: {
         quantityPhysical: 2,
@@ -40,9 +33,12 @@ describe('Order details with Line', function () {
       receiptDate: '1111-11-11',
     });
 
-    this.server.get(`${ORDERS_API}/${order.id}`, {
-      ...order.attrs,
+    order = this.server.create('order', {
+      workflowStatus: WORKFLOW_STATUS.pending,
+      orderType: ORDER_TYPE.ongoing,
+      vendor: vendor.id,
       compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
     });
 
     this.visit(`/orders/view/${order.id}`);

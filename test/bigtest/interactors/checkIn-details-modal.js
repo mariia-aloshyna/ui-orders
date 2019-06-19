@@ -15,7 +15,7 @@ import { CheckBox } from './common';
 
 export default interactor(class CheckInDetailsModal {
   static defaultScope = '#data-test-check-in-details-modal';
-  checkbox = new CheckBox();
+  checkAll = new CheckBox();
   checkInButton = new Button('[data-test-check-in-button]');
   cancelButton = new Button('[data-test-cancel-button]');
   barcodeInput = new BarcodeInput();

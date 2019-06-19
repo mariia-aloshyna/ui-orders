@@ -24,11 +24,11 @@ export default interactor(class PieceDetailsModal {
   static defaultScope = '#data-test-piece-details-modal';
   piecesInLine = collection('[class*=mclRow---]', {
     barcode: new BarcodeInput(),
-    checkbox: new CheckBox(),
+    checkPiece: new CheckBox(),
     comment: new CommentInput(),
   });
 
-  checkbox = new CheckBox();
+  checkboxAll = new CheckBox();
   nextButton = new Button('[data-test-next-button]');
   previousButton = new Button('[data-test-previous-button]');
   receiveButton = new Button('[data-test-receive-button]');

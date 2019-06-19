@@ -201,6 +201,7 @@ class ReceivingHistory extends Component {
         <Checkbox
           type="checkbox"
           checked={Boolean(checkedPiecesMap[piece.id])}
+          onClick={() => this.toggleItem(piece)}
         />
       ),
       'title': piece => get(piece, 'title', ''),
@@ -279,7 +280,6 @@ class ReceivingHistory extends Component {
               }}
               columnWidths={{ isChecked: 35, comment: '15%' }}
               visibleColumns={['isChecked', 'title', 'poLineNumber', 'dateOrdered', 'dateReceived', 'barcode', 'comment', 'receivingNote', 'receivingStatus']}
-              onRowClick={(_, piece) => this.toggleItem(piece)}
             />
           </Pane>
         </Paneset>

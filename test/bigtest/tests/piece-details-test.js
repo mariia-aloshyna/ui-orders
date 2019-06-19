@@ -32,7 +32,6 @@ describe('Piece Details Modal', function () {
     for (let i = 0; i < 2; i++) {
       line = this.server.create('line', {
         purchaseOrderId: order.id,
-        order,
         orderFormat: PHYSICAL,
         cost: {
           quantityPhysical: 2,
@@ -53,7 +52,7 @@ describe('Piece Details Modal', function () {
     }
 
     this.visit(`/orders/view/${order.id}/receiving`);
-    await receivingPage.receivingList(0).click();
+    await receivingPage.receivingList(0).checkLine.click();
     await receivingPage.receivePiecesButton.click();
   });
 
@@ -115,7 +114,7 @@ describe('Piece Details Modal', function () {
 
   describe('check one piece and next button is enabled', () => {
     beforeEach(async () => {
-      await modal.piecesInLine(0).checkbox.click();
+      await modal.piecesInLine(0).checkPiece.click();
     });
 
     it('displays enabled Next Button', () => {
@@ -145,7 +144,7 @@ describe('Piece Details Modal', function () {
 
   describe('check pieces and receive them', () => {
     beforeEach(async () => {
-      await modal.checkbox.click();
+      await modal.checkboxAll.click();
     });
 
     it('displays enabled Next Button', () => {
@@ -158,7 +157,7 @@ describe('Piece Details Modal', function () {
 
     describe('Uncheck all pieces', () => {
       beforeEach(async () => {
-        await modal.checkbox.click();
+        await modal.checkboxAll.click();
       });
 
       it('displays disabled Next Button', () => {
@@ -192,7 +191,7 @@ describe('Piece Details Modal', function () {
 
       describe('Uncheck all pieces', () => {
         beforeEach(async () => {
-          await modal.checkbox.click();
+          await modal.checkboxAll.click();
         });
 
         it('displays disabled Receive Button', () => {

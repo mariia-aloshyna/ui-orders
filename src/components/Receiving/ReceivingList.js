@@ -195,6 +195,7 @@ class ReceivingList extends Component {
           type="checkbox"
           checked={!!itemDetails[line.poLineId]}
           onChange={() => this.toggleLine(line, receivingList)}
+          name={`check-line-${line.id}`}
         />
       ),
       'poLineNumber': line => get(line, 'poLineNumber', ''),
@@ -254,7 +255,6 @@ class ReceivingList extends Component {
                 receiptStatus: <FormattedMessage id="ui-orders.receiving.status" />,
               }}
               columnWidths={{ isChecked: 35 }}
-              onRowClick={(_, line) => this.toggleLine(line, receivingList)}
             />
             {this.state.isItemDetailsModalOpened && (
               <this.connectedItemDetails

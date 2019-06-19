@@ -146,8 +146,12 @@ class CheckInItems extends Component {
 
   unmountDeleteConfirm = () => this.setState({ showConfirmDelete: false });
   confirmDelete = () => {
+    const { checkedItemsMap, deletePiece, toggleItem } = this.props;
+    const { pieceToDelete } = this.state;
+
     this.unmountDeleteConfirm();
-    this.props.deletePiece(this.state.pieceToDelete);
+    if (checkedItemsMap[pieceToDelete.id]) toggleItem(pieceToDelete);
+    deletePiece(pieceToDelete);
   }
 
   render() {

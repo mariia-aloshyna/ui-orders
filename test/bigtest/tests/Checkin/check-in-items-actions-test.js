@@ -8,9 +8,6 @@ import {
   PE_MIX,
   INVENTORY_RECORDS_TYPE,
 } from '../../../../src/components/POLine/const';
-import {
-  ORDERS_API,
-} from '../../../../src/components/Utils/api';
 import ConfirmationModal from '../../interactors/confirmation';
 
 const RECEIVING_LIST_COUNT = 10;
@@ -23,12 +20,7 @@ describe('Check-in items actions', function () {
   const page = new CheckInItemsPage();
 
   beforeEach(async function () {
-    order = this.server.create('order', {
-      workflowStatus: WORKFLOW_STATUS.open,
-    });
     line = this.server.create('line', {
-      purchaseOrderId: order.id,
-      order,
       orderFormat: PE_MIX,
       checkinItems: true,
       cost: {
@@ -41,9 +33,11 @@ describe('Check-in items actions', function () {
         createInventory: INVENTORY_RECORDS_TYPE.none,
       },
     });
-    this.server.get(`${ORDERS_API}/${order.id}`, {
-      ...order.attrs,
+
+    order = this.server.create('order', {
+      workflowStatus: WORKFLOW_STATUS.open,
       compositePoLines: [line.attrs],
+      id: line.attrs.purchaseOrderId,
     });
 
     this.server.createList('piece', RECEIVING_LIST_COUNT, { poLineId: line.id });
