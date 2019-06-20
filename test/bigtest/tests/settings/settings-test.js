@@ -9,8 +9,9 @@ describe('Settings', function () {
 
   const settings = new SettingsInteractor();
 
-  beforeEach(function () {
+  beforeEach(async function () {
     this.visit('/settings/orders');
+    await settings.whenLoaded();
   });
 
   it('renders', function () {

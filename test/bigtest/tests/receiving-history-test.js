@@ -18,7 +18,7 @@ describe('Receiving history', function () {
   const orderDetailsPage = new OrderDetailsPage();
   const page = new ReceivingHistoryPage();
 
-  beforeEach(function () {
+  beforeEach(async function () {
     order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
     });
@@ -28,6 +28,7 @@ describe('Receiving history', function () {
       receivingStatus: PIECE_STATUS_RECEIVED,
     });
     this.visit(`/orders/view/${order.id}/receiving-history`);
+    await page.whenLoaded();
   });
 
   it('displays Receiving History screen', () => {

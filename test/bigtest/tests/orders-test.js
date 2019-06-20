@@ -11,9 +11,10 @@ describe('Orders', function () {
 
   const orders = new OrdersInteractor();
 
-  beforeEach(function () {
+  beforeEach(async function () {
     this.server.createList('order', ORDERS_COUNT);
     this.visit('/orders');
+    await orders.whenLoaded();
   });
 
   it('shows the list of order items', () => {

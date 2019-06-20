@@ -2,6 +2,7 @@ import {
   collection,
   interactor,
   is,
+  isPresent,
   text,
   value,
 } from '@bigtest/interactor';
@@ -34,4 +35,9 @@ export default interactor(class ReceivingHistoryPage {
 
   confirmationModal = new ConfirmationModal();
   receivingItemsButton = new Button('[data-test-receiving-items-button]');
+  isLoaded = isPresent('[data-test-receiving-history-search]');
+
+  whenLoaded() {
+    return this.timeout(5000).when(() => this.isLoaded);
+  }
 });

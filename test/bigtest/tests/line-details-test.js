@@ -21,7 +21,7 @@ describe('Line details test', function () {
   const page = new LineDetailsPage();
   const receivingPage = new ReceivingPage();
 
-  beforeEach(function () {
+  beforeEach(async function () {
     fund = this.server.create('fund');
     vendor = this.server.create('vendor');
 
@@ -46,6 +46,7 @@ describe('Line details test', function () {
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}`);
+    await page.whenLoaded();
   });
 
   it('displays Line details pane', function () {

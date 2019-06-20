@@ -127,7 +127,7 @@ describe('Order Details Page', function () {
       const openOrderConfirmationModal = new OpenOrderConfirmationModal();
       let line = null;
 
-      beforeEach(function () {
+      beforeEach(async function () {
         line = this.server.create('line', {
           orderFormat: PHYSICAL,
           cost: {
@@ -154,6 +154,7 @@ describe('Order Details Page', function () {
         this.server.put(`${ORDERS_API}/:id`, VENDOR_IS_INACTIVE_RESPONSE, 422);
 
         this.visit(`/orders/view/${pendingOrder.id}`);
+        await orderDetailsPage.whenLoaded();
       });
 
       it('should be visible', () => {

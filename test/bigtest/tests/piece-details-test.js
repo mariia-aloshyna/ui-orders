@@ -52,6 +52,7 @@ describe('Piece Details Modal', function () {
     }
 
     this.visit(`/orders/view/${order.id}/receiving`);
+    await receivingPage.whenLoaded();
     await receivingPage.receivingList(0).checkLine.click();
     await receivingPage.receivePiecesButton.click();
   });

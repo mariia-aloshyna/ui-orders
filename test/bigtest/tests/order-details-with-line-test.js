@@ -22,7 +22,7 @@ describe('Order details with Line', function () {
   let vendor = null;
   let line = null;
 
-  beforeEach(function () {
+  beforeEach(async function () {
     vendor = this.server.create('vendor');
 
     line = this.server.create('line', {
@@ -42,6 +42,7 @@ describe('Order details with Line', function () {
     });
 
     this.visit(`/orders/view/${order.id}`);
+    await orderDetailsPage.whenLoaded();
   });
 
   it('displays the order details pane', () => {

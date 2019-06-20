@@ -288,6 +288,14 @@ class POLineView extends Component {
           accordionStatus={this.state.sections}
           onToggle={this.onToggleSection}
         >
+          <Row end="xs">
+            <Col xs>
+              <ExpandAllButton
+                accordionStatus={this.state.sections}
+                onToggle={this.handleExpandAll}
+              />
+            </Col>
+          </Row>
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.itemDetails" />}
             id="ItemDetails"
@@ -299,18 +307,15 @@ class POLineView extends Component {
               poLineDetails={line}
             />
           </Accordion>
-          <POLineDetails
-            initialValues={line}
-            {...this.props}
-          />
-          <Row end="xs">
-            <Col xs>
-              <ExpandAllButton
-                accordionStatus={this.state.sections}
-                onToggle={this.handleExpandAll}
-              />
-            </Col>
-          </Row>
+          <Accordion
+            label={<FormattedMessage id="ui-orders.line.accordion.poLine" />}
+            id={ACCORDION_ID.poLine}
+          >
+            <POLineDetails
+              initialValues={line}
+              {...this.props}
+            />
+          </Accordion>
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.cost" />}
             id="CostDetails"

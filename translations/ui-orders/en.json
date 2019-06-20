@@ -425,6 +425,7 @@
   "line.accordion.location": "Location",
   "line.accordion.other": "Other Resource Details",
   "line.accordion.physical": "Physical Resource Details",
+  "line.accordion.poLine": "Purchase order line",
   "line.accordion.vendor": "Vendor",
   "line.paneTitle.details": "Details",
   "line.paneTitle.edit": "Edit - {lineNumber}",

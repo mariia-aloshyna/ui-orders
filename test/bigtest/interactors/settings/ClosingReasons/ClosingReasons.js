@@ -17,4 +17,8 @@ export default interactor(class ClosingReasons {
 
   reasons = collection(ClosingReasonItem.defaultScope, ClosingReasonItem);
   systemReasons = collection('[data-test-closing-reason-item-system]', ClosingReasonItem);
+
+  whenLoaded() {
+    return this.timeout(5000).when(() => this.iisOrdersListPresentsLoaded);
+  }
 });

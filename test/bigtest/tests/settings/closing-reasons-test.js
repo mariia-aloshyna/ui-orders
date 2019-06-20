@@ -17,7 +17,7 @@ describe('Setting of Closing Reasons', function () {
 
   setupApplication();
 
-  beforeEach(function () {
+  beforeEach(async function () {
     this.server.create('configs', {
       module: MODULE_ORDERS,
       configName: CONFIG_CLOSING_REASONS,
@@ -25,9 +25,8 @@ describe('Setting of Closing Reasons', function () {
       value: 'test reason',
       code: 'CLOSING_REASON_1',
     });
-    this.visit('/settings/orders/closing-reasons', () => {
-      expect(closingReasons.$root).to.exist;
-    });
+    this.visit('/settings/orders/closing-reasons');
+    await closingReasons.whenLoaded();
   });
 
   it('renders page correctly', () => {
