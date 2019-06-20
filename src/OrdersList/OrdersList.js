@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 import {
   FormattedMessage,
   injectIntl,
   intlShape,
 } from 'react-intl';
+
+import { get } from 'lodash';
 
 import { Callout } from '@folio/stripes/components';
 import { stripesShape } from '@folio/stripes/core';
@@ -192,16 +193,20 @@ class OrdersList extends Component {
 
   renderFilters = (onChange) => {
     const { resources } = this.props;
+    const closingReasons = get(resources, 'closingReasons.records', []);
+    const users = get(resources, 'users.records', []);
     const vendors = get(resources, 'vendors.records', []);
 
     return resources.query
       ? (
         <OrdersListFilters
           activeFilters={this.getActiveFilters()}
-          onChange={onChange}
-          vendors={vendors}
-          queryMutator={this.props.mutator.query}
+          closingReasons={closingReasons}
           init={this.initFilters}
+          onChange={onChange}
+          queryMutator={this.props.mutator.query}
+          users={users}
+          vendors={vendors}
         />
       )
       : null;

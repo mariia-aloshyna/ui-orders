@@ -8,6 +8,28 @@ export const filterConfig = [
     values: [],
   },
   {
+    name: FILTERS.APPROVED,
+    cql: FILTERS.APPROVED,
+    values: [],
+  },
+  {
+    name: FILTERS.ASSIGNED_TO,
+    cql: FILTERS.ASSIGNED_TO,
+    values: [],
+  },
+  {
+    name: FILTERS.CREATED_BY,
+    cql: `metadata.${FILTERS.CREATED_BY}`,
+    values: [],
+  },
+  {
+    name: FILTERS.DATE_CREATED,
+    cql: `metadata.${FILTERS.DATE_CREATED}`,
+    isRange: true,
+    rangeSeparator: ':',
+    values: [],
+  },
+  {
     name: FILTERS.DATE_ORDERED,
     cql: FILTERS.DATE_ORDERED,
     isRange: true,
@@ -17,6 +39,16 @@ export const filterConfig = [
   {
     name: FILTERS.ORDER_TYPE,
     cql: FILTERS.ORDER_TYPE,
+    values: [],
+  },
+  {
+    name: FILTERS.CLOSE_REASON,
+    cql: `${FILTERS.CLOSE_REASON}.reason`,
+    values: [],
+  },
+  {
+    name: FILTERS.RE_ENCUMBER,
+    cql: FILTERS.RE_ENCUMBER,
     values: [],
   },
   {

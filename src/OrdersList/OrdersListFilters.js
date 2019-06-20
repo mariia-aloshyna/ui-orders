@@ -6,14 +6,18 @@ import {
   AccordionSet,
 } from '@folio/stripes/components';
 
+import ClosingReasonFilter from '../common/ClosingReasonFilter';
 import OrdersCheckboxFilter from '../common/OrdersCheckboxFilter';
 import OrdersDateRangeFilter from '../common/OrdersDateRangeFilter';
 import OrdersTextFilter from '../common/OrdersTextFilter';
+import UserFilter from '../common/UserFilter';
 import VendorFilter from '../common/VendorFilter';
 import {
+  closingReasonsShape,
+  usersShape,
   vendorsShape,
 } from '../common/shapes';
-
+import { BOOLEAN_OPTIONS } from '../OrderLinesList/constants';
 import {
   FILTERS,
   STATUS_FILTER_OPTIONS,
@@ -27,16 +31,24 @@ class OrdersListFilters extends Component {
     onChange: PropTypes.func.isRequired,
     vendors: vendorsShape,
     init: PropTypes.func,
+    closingReasons: closingReasonsShape,
+    users: usersShape,
   };
 
   static defaultProps = {
     activeFilters: {
-      [FILTERS.STATUS]: [],
+      [FILTERS.APPROVED]: [],
+      [FILTERS.ASSIGNED_TO]: [],
+      [FILTERS.CLOSE_REASON]: [],
+      [FILTERS.CREATED_BY]: [],
+      [FILTERS.DATE_CREATED]: [],
       [FILTERS.DATE_ORDERED]: [],
-      [FILTERS.ORDER_TYPE]: [],
-      [FILTERS.RENEWAL_DATE]: [],
       [FILTERS.MANUAL_RENEWAL]: [],
+      [FILTERS.ORDER_TYPE]: [],
+      [FILTERS.RE_ENCUMBER]: [],
+      [FILTERS.RENEWAL_DATE]: [],
       [FILTERS.RENEWAL_REVIEW_PERIOD]: [],
+      [FILTERS.STATUS]: [],
       [FILTERS.VENDOR]: [],
     },
     init: noop,
@@ -47,7 +59,7 @@ class OrdersListFilters extends Component {
   }
 
   render() {
-    const { activeFilters, onChange, vendors } = this.props;
+    const { activeFilters, closingReasons, onChange, vendors, users } = this.props;
 
     return (
       <AccordionSet>
@@ -59,6 +71,37 @@ class OrdersListFilters extends Component {
           onChange={onChange}
           options={STATUS_FILTER_OPTIONS}
           closedByDefault={false}
+        />
+        <OrdersCheckboxFilter
+          id={FILTERS.APPROVED}
+          activeFilters={activeFilters[FILTERS.APPROVED]}
+          labelId="ui-orders.orderSummary.approved"
+          name={FILTERS.APPROVED}
+          onChange={onChange}
+          options={BOOLEAN_OPTIONS}
+        />
+        <UserFilter
+          id={FILTERS.ASSIGNED_TO}
+          activeFilters={activeFilters[FILTERS.ASSIGNED_TO]}
+          labelId="ui-orders.orderDetails.assignedTo"
+          name={FILTERS.ASSIGNED_TO}
+          onChange={onChange}
+          users={users}
+        />
+        <UserFilter
+          id={FILTERS.CREATED_BY}
+          activeFilters={activeFilters[FILTERS.CREATED_BY]}
+          labelId="ui-orders.orderDetails.createdBy"
+          name={FILTERS.CREATED_BY}
+          onChange={onChange}
+          users={users}
+        />
+        <OrdersDateRangeFilter
+          id={FILTERS.DATE_CREATED}
+          activeFilters={activeFilters[FILTERS.DATE_CREATED]}
+          labelId="ui-orders.filter.dateCreated"
+          name={FILTERS.DATE_CREATED}
+          onChange={onChange}
         />
         <OrdersDateRangeFilter
           id={FILTERS.DATE_ORDERED}
@@ -82,6 +125,22 @@ class OrdersListFilters extends Component {
           name={FILTERS.VENDOR}
           onChange={onChange}
           vendors={vendors}
+        />
+        <ClosingReasonFilter
+          id={FILTERS.CLOSE_REASON}
+          activeFilters={activeFilters[FILTERS.CLOSE_REASON]}
+          labelId="ui-orders.orderSummary.closingReason"
+          name={FILTERS.CLOSE_REASON}
+          onChange={onChange}
+          closingReasons={closingReasons}
+        />
+        <OrdersCheckboxFilter
+          id={FILTERS.RE_ENCUMBER}
+          activeFilters={activeFilters[FILTERS.RE_ENCUMBER]}
+          labelId="ui-orders.orderDetails.reEncumber"
+          name={FILTERS.RE_ENCUMBER}
+          onChange={onChange}
+          options={BOOLEAN_OPTIONS}
         />
         <OrdersDateRangeFilter
           id={FILTERS.RENEWAL_DATE}

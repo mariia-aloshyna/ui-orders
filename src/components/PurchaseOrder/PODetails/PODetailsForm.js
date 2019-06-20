@@ -296,7 +296,7 @@ class PODetailsForm extends Component {
             <Field
               component={Checkbox}
               fullWidth
-              label={<FormattedMessage id="ui-orders.orderDetails.re_encumber" />}
+              label={<FormattedMessage id="ui-orders.orderDetails.reEncumber" />}
               name="reEncumber"
               type="checkbox"
               disabled={isOpenedOrder}
