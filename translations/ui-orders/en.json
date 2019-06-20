@@ -638,7 +638,27 @@
   "settings.index.paneTitle": "Orders",
   "settings.inventoryInteractions": "Inventory interactions",
   "settings.newBtn": "New",
+
   "settings.orderTemplates": "Order templates",
+
+  "settings.orderTemplates.accordion.template": "Template information",
+  "settings.orderTemplates.accordion.poInfo": "PO information",
+  "settings.orderTemplates.accordion.poNotes": "Notes",
+  "settings.orderTemplates.accordion.poSummary": "PO summary",
+  "settings.orderTemplates.accordion.poItemDetails": "Item details",
+  "settings.orderTemplates.accordion.polDetails": "PO line details",
+  "settings.orderTemplates.accordion.polCostDetails": "Cost details",
+  "settings.orderTemplates.accordion.polVendor": "Vendor",
+  "settings.orderTemplates.accordion.polFundDistribution": "Fund distribution",
+  "settings.orderTemplates.accordion.polEResources": "E-resources details",
+  "settings.orderTemplates.accordion.polFResources": "Physical resource details",
+  "settings.orderTemplates.accordion.polLocation": "Location",
+
+  "settings.orderTemplates.editor.titleCreate": "New order template",
+  "settings.orderTemplates.editor.template.name": "Template name",
+  "settings.orderTemplates.editor.template.code": "Code",
+  "settings.orderTemplates.editor.template.description": "Description",
+
   "settings.polinesLimit": "Purchase order lines limit",
   "settings.poNumber.addOption": "Add: ",
   "settings.poNumber.edit": "Edit",
