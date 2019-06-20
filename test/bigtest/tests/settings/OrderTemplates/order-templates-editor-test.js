@@ -9,8 +9,9 @@ describe('Settings - Order templates - Create', function () {
 
   const orderTemplatesEditor = new OrderTemplatesEditor();
 
-  beforeEach(function () {
+  beforeEach(async function () {
     this.visit('/settings/orders/order-templates/create');
+    await orderTemplatesEditor.whenLoaded();
   });
 
   it('should be present', () => {

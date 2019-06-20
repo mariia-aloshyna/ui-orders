@@ -37,4 +37,8 @@ export default interactor(class OrdersInteractor {
   order = scoped('[data-test-order-details]');
 
   filters = new OrdersFilterInteractor();
+
+  whenLoaded() {
+    return this.timeout(5000).when(() => this.hasCreateOrderButton);
+  }
 });

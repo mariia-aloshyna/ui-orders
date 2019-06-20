@@ -18,7 +18,7 @@ describe('Check-in history', function () {
   const lineDetailsPage = new LineDetailsPage();
   const page = new CheckInHistoryPage();
 
-  beforeEach(function () {
+  beforeEach(async function () {
     line = this.server.create('line', {
       orderFormat: PHYSICAL,
       cost: {
@@ -37,6 +37,7 @@ describe('Check-in history', function () {
       receivingStatus: PIECE_STATUS_RECEIVED,
     });
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}/check-in/history`);
+    await page.whenLoaded();
   });
 
   it('displays Check-in History screen', () => {

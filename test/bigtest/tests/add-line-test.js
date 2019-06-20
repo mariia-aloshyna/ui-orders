@@ -26,7 +26,7 @@ describe('clicking on add Line to open LinesLimit Modal', function () {
   let order = null;
   let vendor = null;
 
-  beforeEach(function () {
+  beforeEach(async function () {
     vendor = this.server.create('vendor');
     line = this.server.create('line', {
       orderFormat: PHYSICAL,
@@ -50,6 +50,7 @@ describe('clicking on add Line to open LinesLimit Modal', function () {
     });
 
     this.visit(`/orders/view/${order.id}`);
+    await orderDetailsPage.whenLoaded();
   });
 
   describe('Click Add Line Button', () => {

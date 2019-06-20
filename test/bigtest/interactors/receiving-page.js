@@ -1,6 +1,7 @@
 import {
   collection,
   interactor,
+  isPresent,
   text,
 } from '@bigtest/interactor';
 
@@ -18,4 +19,10 @@ export default interactor(class ReceivingPage {
 
   checkAll = new CheckBox();
   receivingHistoryButton = new Button('[data-test-receiving-history-button]');
+
+  isLoaded = isPresent('[data-test-receive-pieces-button]');
+
+  whenLoaded() {
+    return this.timeout(5000).when(() => this.isLoaded);
+  }
 });

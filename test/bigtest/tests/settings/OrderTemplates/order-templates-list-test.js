@@ -9,8 +9,9 @@ describe('Settings - Order templates - list', function () {
 
   const orderTemplatesList = new OrderTemplatesList();
 
-  beforeEach(function () {
+  beforeEach(async function () {
     this.visit('/settings/orders/order-templates');
+    await orderTemplatesList.whenLoaded();
   });
 
   it('should be present', () => {

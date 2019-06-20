@@ -19,7 +19,7 @@ describe('Receiving', function () {
   const receivingPage = new ReceivingPage();
   const receivingHistoryPage = new ReceivingHistoryPage();
 
-  beforeEach(function () {
+  beforeEach(async function () {
     line = this.server.create('line', {
       orderFormat: PHYSICAL,
       cost: {
@@ -36,6 +36,7 @@ describe('Receiving', function () {
     this.server.createList('piece', RECEIVING_LIST_COUNT);
 
     this.visit(`/orders/view/${order.id}`);
+    await orderDetailsPage.whenLoaded();
   });
 
   it('displays Order Details pane', () => {

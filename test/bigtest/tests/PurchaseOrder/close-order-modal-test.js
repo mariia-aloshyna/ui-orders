@@ -19,7 +19,7 @@ describe('Close Order Modal', function () {
   const modal = new CloseOrderModal();
   const page = new OrderDetailsPage();
 
-  beforeEach(function () {
+  beforeEach(async function () {
     order = this.server.create('order', {
       workflowStatus: WORKFLOW_STATUS.open,
     });
@@ -33,6 +33,7 @@ describe('Close Order Modal', function () {
     });
 
     this.visit(`/orders/view/${order.id}`);
+    await page.whenLoaded();
   });
 
   it('displays Close Order button', () => {

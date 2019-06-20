@@ -36,4 +36,8 @@ export default interactor(class CheckInHistoryPage {
 
   confirmationModal = new ConfirmationModal();
   checkAllCheckbox = new CheckAllCheckbox();
+
+  whenLoaded() {
+    return this.timeout(5000).when(() => this.searchInput.isPresent);
+  }
 });

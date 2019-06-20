@@ -41,6 +41,7 @@ describe('CheckIn Details Modal', function () {
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}/check-in/items`);
+    await page.whenLoaded();
     await page.pieces(0).checkPiece.click();
     await page.checkInButton.click();
   });
