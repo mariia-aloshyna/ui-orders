@@ -19,9 +19,11 @@ import {
   ORDER_TEMPLATES_ACCORDION,
   ORDER_TEMPLATES_ACCORDION_TITLES,
 } from '../constants';
+
 import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
 import PurchaseOrderNotesForm from './PurchaseOrderNotesForm';
+import PurchaseOrderSummaryForm from './PurchaseOrderSummaryForm';
 
 const titleCreate = <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
 
@@ -150,7 +152,9 @@ class OrderTemplatesEditor extends Component {
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]}
                     id={ORDER_TEMPLATES_ACCORDION.PO_SUMMARY}
-                  />
+                  >
+                    <PurchaseOrderSummaryForm />
+                  </Accordion>
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]}

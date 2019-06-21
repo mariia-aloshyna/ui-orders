@@ -6,3 +6,4 @@ export { default as FieldShipTo } from './FieldShipTo';
 export { default as FieldIsManualPO } from './FieldIsManualPO';
 export { default as FieldIsReEncumber } from './FieldIsReEncumber';
 export { default as FieldsNotes } from './FieldsNotes';
+export { default as FieldIsApproved } from './FieldIsApproved';
