@@ -6,7 +6,7 @@ import {
   INVENTORY_RECORDS_TYPE,
   OTHER,
   PHRESOURCES,
-} from '../const';
+} from '../../../components/POLine/const';
 
 export const REQUIRED_LOCATION_QUANTITY_MAP_TO_INVENTORY = {
   [INVENTORY_RECORDS_TYPE.all]: true,
