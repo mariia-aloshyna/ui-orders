@@ -4,9 +4,9 @@ import {
 } from '@bigtest/interactor';
 
 export default interactor(class OrderTemplatesList {
-  static defaultScope = '#order-settings-order-templates-editor';
+  static defaultScope = '#order-template-form';
 
-  isLoaded = isPresent('#order-template-form');
+  isLoaded = isPresent('#order-settings-order-templates-editor');
 
   whenLoaded() {
     return this.timeout(5000).when(() => this.isLoaded);

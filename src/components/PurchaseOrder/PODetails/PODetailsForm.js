@@ -8,22 +8,27 @@ import {
 } from 'redux-form';
 
 import {
-  Checkbox,
   Col,
   IconButton,
   KeyValue,
   Row,
-  Select,
-  Selection,
   TextField,
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
+import {
+  FieldPrefix,
+  FieldSuffix,
+  FieldBillTo,
+  FieldShipTo,
+  FieldIsManualPO,
+  FieldIsReEncumber,
+} from '../../../common/POFields';
 import NotesForm from '../../NotesForm';
 import { required } from '../../Utils/Validate';
 import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldOrderType from './FieldOrderType';
-import { addEmptyOption, isWorkflowStatusOpen } from '../util';
+import { isWorkflowStatusOpen } from '../util';
 
 import css from './PODetailsForm.css';
 
@@ -185,12 +190,9 @@ class PODetailsForm extends Component {
       <Fragment>
         <Row>
           <Col xs={4}>
-            <Field
-              component={Select}
-              label={<FormattedMessage id="ui-orders.orderDetails.orderNumberPrefix" />}
-              name="numberPrefix"
-              dataOptions={addEmptyOption(prefixesSetting.selectedItems)}
+            <FieldPrefix
               disabled={isOpenedOrder}
+              prefixes={prefixesSetting.selectedItems}
             />
           </Col>
           <Col xs={4}>
@@ -204,12 +206,9 @@ class PODetailsForm extends Component {
             />
           </Col>
           <Col xs={4}>
-            <Field
-              component={Select}
-              label={<FormattedMessage id="ui-orders.orderDetails.orderNumberSuffix" />}
-              name="numberSuffix"
-              dataOptions={addEmptyOption(suffixesSetting.selectedItems)}
+            <FieldSuffix
               disabled={isOpenedOrder}
+              suffixes={suffixesSetting.selectedItems}
             />
           </Col>
         </Row>
@@ -278,29 +277,13 @@ class PODetailsForm extends Component {
             xs={6}
             lg={3}
           >
-            <br />
-            <Field
-              component={Checkbox}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.orderDetails.manualPO" />}
-              name="manualPo"
-              type="checkbox"
-              disabled={isOpenedOrder}
-            />
+            <FieldIsManualPO disabled={isOpenedOrder} />
           </Col>
           <Col
             xs={6}
             lg={3}
           >
-            <br />
-            <Field
-              component={Checkbox}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.orderDetails.reEncumber" />}
-              name="reEncumber"
-              type="checkbox"
-              disabled={isOpenedOrder}
-            />
+            <FieldIsReEncumber disabled={isOpenedOrder} />
           </Col>
           <Col
             xs={6}
@@ -312,12 +295,8 @@ class PODetailsForm extends Component {
             xs={6}
             lg={3}
           >
-            <Field
-              component={Selection}
-              dataOptions={[{ label: '', value: null }, ...addressesOptions]}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.orderDetails.billTo" />}
-              name="billTo"
+            <FieldBillTo
+              addresses={addressesOptions}
               disabled={isOpenedOrder}
             />
           </Col>
@@ -335,13 +314,7 @@ class PODetailsForm extends Component {
             xs={6}
             lg={3}
           >
-            <Field
-              component={Selection}
-              dataOptions={[{ label: '', value: null }, ...addressesOptions]}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
-              name="shipTo"
-            />
+            <FieldShipTo addresses={addressesOptions} />
           </Col>
           <Col
             className={css.addressWrapper}

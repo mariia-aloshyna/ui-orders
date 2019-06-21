@@ -22,6 +22,7 @@ import {
   CONFIG_ORDER_NUMBER,
   CONFIG_PREFIXES,
   CONFIG_SUFFIXES,
+  CONFIG_ORDER_TEMPLATES,
   LIMIT_MAX,
   MODULE_ORDERS,
   MODULE_TENANT,
@@ -205,6 +206,17 @@ export const SUFFIXES_SETTING = {
   GET: {
     params: {
       query: `(module=${MODULE_ORDERS} and configName=${CONFIG_SUFFIXES})`,
+    },
+  },
+};
+
+export const ORDER_TEMPLATES = {
+  ...BASE_RESOURCE,
+  path: CONFIG_API,
+  records: 'configs',
+  GET: {
+    params: {
+      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_ORDER_TEMPLATES})`,
     },
   },
 };
