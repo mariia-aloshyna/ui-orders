@@ -2,10 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import {
-  Field,
-  FieldArray,
-} from 'redux-form';
+import { Field } from 'redux-form';
 
 import {
   Col,
@@ -23,8 +20,8 @@ import {
   FieldShipTo,
   FieldIsManualPO,
   FieldIsReEncumber,
+  FieldsNotes,
 } from '../../../common/POFields';
-import NotesForm from '../../NotesForm';
 import { required } from '../../Utils/Validate';
 import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldOrderType from './FieldOrderType';
@@ -328,10 +325,9 @@ class PODetailsForm extends Component {
           </Col>
         </Row>
         <Row>
-          <FieldArray
-            name="notes"
-            component={NotesForm}
-          />
+          <Col xs={12}>
+            <FieldsNotes />
+          </Col>
         </Row>
       </Fragment>
     );

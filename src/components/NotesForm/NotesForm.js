@@ -7,6 +7,7 @@ import {
   Button,
   Col,
   IconButton,
+  Row,
   TextArea,
 } from '@folio/stripes/components';
 
@@ -28,7 +29,7 @@ renderNotesField.propTypes = {
 const NotesForm = ({ fields }) => (
   <Fragment>
     {fields.map((note, index) => (
-      <Fragment key={note.id || index}>
+      <Row key={note.id || index}>
         <Col
           xs={11}
           key={index}
@@ -49,7 +50,7 @@ const NotesForm = ({ fields }) => (
             <FormattedMessage id="ui-orders.orderDetails.removeNoteBtn" />
           </IconButton>
         </Col>
-      </Fragment>
+      </Row>
     ))}
     <Col xs={12}>
       <Button
