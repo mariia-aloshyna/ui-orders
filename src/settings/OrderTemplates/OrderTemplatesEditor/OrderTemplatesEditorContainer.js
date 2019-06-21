@@ -1,22 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { ORDER_TEMPLATES } from '../../../components/Utils/resources';
+import {
+  ORDER_TEMPLATES,
+  LOCATIONS,
+} from '../../../components/Utils/resources';
 import {
   MODULE_ORDERS,
   CONFIG_ORDER_TEMPLATES,
 } from '../../../components/Utils/const';
+import getLocationsForSelect from '../../../components/Utils/getLocationsForSelect';
 
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
 class OrderTemplatesEditorContainer extends Component {
   static manifest = Object.freeze({
     orderTemplates: ORDER_TEMPLATES,
+    locations: LOCATIONS,
   });
 
   static propTypes = {
     close: PropTypes.func.isRequired,
     mutator: PropTypes.object.isRequired,
+    resources: PropTypes.object.isRequired,
   };
 
   saveOrderTemplate = (values) => {
@@ -34,12 +40,14 @@ class OrderTemplatesEditorContainer extends Component {
   };
 
   render() {
-    const { close } = this.props;
+    const { close, resources } = this.props;
+    const locations = getLocationsForSelect(resources);
 
     return (
       <OrderTemplatesEditor
         onSubmit={this.saveOrderTemplate}
         close={close}
+        locations={locations}
       />
     );
   }

@@ -24,6 +24,7 @@ import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
 import PurchaseOrderNotesForm from './PurchaseOrderNotesForm';
 import PurchaseOrderSummaryForm from './PurchaseOrderSummaryForm';
+import POLineLocationsForm from './POLineLocationsForm';
 
 const titleCreate = <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
 
@@ -33,6 +34,7 @@ class OrderTemplatesEditor extends Component {
     handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
+    locations: PropTypes.arrayOf(PropTypes.object),
   };
 
   state = {
@@ -92,7 +94,11 @@ class OrderTemplatesEditor extends Component {
   }
 
   render() {
-    const { handleSubmit, close } = this.props;
+    const {
+      locations,
+      handleSubmit,
+      close,
+    } = this.props;
     const { sections } = this.state;
 
     return (
@@ -194,7 +200,9 @@ class OrderTemplatesEditor extends Component {
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_LOCATION]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_LOCATION}
-                  />
+                  >
+                    <POLineLocationsForm locations={locations} />
+                  </Accordion>
                 </AccordionSet>
               </Col>
             </Row>
