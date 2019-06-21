@@ -9,6 +9,7 @@ export const CONFIG_ORDER_NUMBER = 'orderNumber';
 export const CONFIG_ADDRESSES = 'addresses';
 export const CONFIG_PREFIXES = 'prefixes';
 export const CONFIG_SUFFIXES = 'suffixes';
+export const CONFIG_ORDER_TEMPLATES = 'order-templates';
 export const SOURCE_FOLIO_CODE = 'FOLIO';
 export const LINES_LIMIT_DEFAULT = 1;
 export const LIMIT_MAX = 2147483647; // from https://s3.amazonaws.com/foliodocs/api/mod-orders-storage/location.html#orders_storage_locations_get

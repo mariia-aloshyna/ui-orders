@@ -656,6 +656,7 @@
   "settings.orderTemplates.accordion.polLocation": "Location",
 
   "settings.orderTemplates.editor.titleCreate": "New order template",
+  "settings.orderTemplates.editor.save": "Save",
   "settings.orderTemplates.editor.template.name": "Template name",
   "settings.orderTemplates.editor.template.code": "Code",
   "settings.orderTemplates.editor.template.description": "Description",

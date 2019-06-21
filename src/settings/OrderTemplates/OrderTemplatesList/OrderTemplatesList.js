@@ -23,6 +23,7 @@ const OrderTemplatesList = ({ label, rootPath }) => {
       id="order-settings-order-templates-list"
       lastMenu={lastMenu}
       paneTitle={label}
+      defaultWidth="fill"
     />
   );
 };

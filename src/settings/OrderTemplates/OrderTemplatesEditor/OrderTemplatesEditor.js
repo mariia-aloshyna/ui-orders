@@ -10,6 +10,8 @@ import {
   Col,
   AccordionSet,
   Accordion,
+  PaneMenu,
+  Button,
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
 
@@ -18,12 +20,16 @@ import {
   ORDER_TEMPLATES_ACCORDION_TITLES,
 } from '../constants';
 import TemplateInformationForm from './TemplateInformationForm';
+import PurchaseOrderInformation from './PurchaseOrderInformation';
 
 const titleCreate = <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
 
 class OrderTemplatesEditor extends Component {
   static propTypes = {
     close: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -60,20 +66,46 @@ class OrderTemplatesEditor extends Component {
     this.setState({ sections });
   };
 
+  getLastMenu() {
+    const { pristine, submitting } = this.props;
+
+    return (
+      <PaneMenu>
+        <FormattedMessage id="ui-orders.settings.orderTemplates.editor.save">
+          {ariaLabel => (
+            <Button
+              id="save-order-template-button"
+              type="submit"
+              disabled={pristine || submitting}
+              style={{ marginBottom: '0', marginRight: '10px' }}
+            >
+              {ariaLabel}
+            </Button>
+          )}
+        </FormattedMessage>
+
+      </PaneMenu>
+    );
+  }
+
   render() {
-    const { close } = this.props;
+    const { handleSubmit, close } = this.props;
     const { sections } = this.state;
 
     return (
       <Layer isOpen>
-        <Pane
-          id="order-settings-order-templates-editor"
-          defaultWidth="fill"
-          paneTitle={titleCreate}
-          dismissible
-          onClose={close}
+        <form
+          id="order-template-form"
+          onSubmit={handleSubmit}
         >
-          <form id="order-template-form">
+          <Pane
+            id="order-settings-order-templates-editor"
+            defaultWidth="fill"
+            paneTitle={titleCreate}
+            dismissible
+            onClose={close}
+            lastMenu={this.getLastMenu()}
+          >
             <Row center="xs">
               <Col xs={12} md={8}>
                 <Row end="xs">
@@ -103,7 +135,9 @@ class OrderTemplatesEditor extends Component {
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_INFO]}
                     id={ORDER_TEMPLATES_ACCORDION.PO_INFO}
-                  />
+                  >
+                    <PurchaseOrderInformation />
+                  </Accordion>
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_NOTES]}
@@ -157,8 +191,8 @@ class OrderTemplatesEditor extends Component {
                 </AccordionSet>
               </Col>
             </Row>
-          </form>
-        </Pane>
+          </Pane>
+        </form>
       </Layer>
     );
   }
@@ -166,6 +200,6 @@ class OrderTemplatesEditor extends Component {
 
 export default stripesForm({
   enableReinitialize: true,
-  form: 'OrderTemplatesEditor',
+  form: 'orderTemplateForm',
   navigationCheck: true,
 })(OrderTemplatesEditor);

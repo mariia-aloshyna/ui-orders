@@ -4,12 +4,14 @@ import Route from 'react-router-dom/Route';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
+import { stripesShape } from '@folio/stripes/core';
+
 import {
   SUFFIXES_SETTING,
   PREFIXES_SETTING,
 } from '../../components/Utils/resources';
 import OrderTemplatesList from './OrderTemplatesList';
-import OrderTemplatesEditor from './OrderTemplatesEditor';
+import OrderTemplatesEditorContainer from './OrderTemplatesEditor';
 
 class OrderTemplates extends Component {
   static manifest = Object.freeze({
@@ -21,7 +23,16 @@ class OrderTemplates extends Component {
     label: PropTypes.object.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
+    stripes: stripesShape.isRequired,
   };
+
+  constructor(props) {
+    super(props);
+
+    const { stripes } = props;
+
+    this.connectedOrderTemplatesEditor = stripes.connect(OrderTemplatesEditorContainer);
+  }
 
   closePane = () => {
     const { history, match: { path } } = this.props;
@@ -48,7 +59,7 @@ class OrderTemplates extends Component {
           exact
           path={`${path}/create`}
           render={() => (
-            <OrderTemplatesEditor
+            <this.connectedOrderTemplatesEditor
               close={this.closePane}
             />
           )}
