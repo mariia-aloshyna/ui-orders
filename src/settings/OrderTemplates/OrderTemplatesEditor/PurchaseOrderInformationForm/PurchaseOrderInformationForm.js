@@ -16,7 +16,7 @@ import {
 } from '../../../../common/POFields';
 import FieldOrderType from '../../../../components/PurchaseOrder/PODetails/FieldOrderType';
 
-const PurchaseOrderInformation = () => {
+const PurchaseOrderInformationForm = () => {
   return (
     <Row>
       <Col
@@ -85,4 +85,4 @@ const PurchaseOrderInformation = () => {
   );
 };
 
-export default PurchaseOrderInformation;
+export default PurchaseOrderInformationForm;
