@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { getFormValues } from 'redux-form';
+
+import { withStripes } from '@folio/stripes/core';
 
 import {
   Pane,
@@ -24,17 +27,20 @@ import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
 import PurchaseOrderNotesForm from './PurchaseOrderNotesForm';
 import PurchaseOrderSummaryForm from './PurchaseOrderSummaryForm';
+import POLineFundDistributionForm from './POLineFundDistributionForm';
 import POLineLocationsForm from './POLineLocationsForm';
 
 const titleCreate = <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
 
 class OrderTemplatesEditor extends Component {
   static propTypes = {
+    stripes: PropTypes.object.isRequired,
     close: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     locations: PropTypes.arrayOf(PropTypes.object),
+    funds: PropTypes.arrayOf(PropTypes.object),
   };
 
   state = {
@@ -95,11 +101,15 @@ class OrderTemplatesEditor extends Component {
 
   render() {
     const {
+      funds,
       locations,
       handleSubmit,
       close,
+      stripes,
     } = this.props;
     const { sections } = this.state;
+    const { store } = stripes;
+    const formValues = getFormValues('orderTemplateForm')(store.getState());
 
     return (
       <Layer isOpen>
@@ -185,7 +195,12 @@ class OrderTemplatesEditor extends Component {
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION}
-                  />
+                  >
+                    <POLineFundDistributionForm
+                      formValues={formValues}
+                      funds={funds}
+                    />
+                  </Accordion>
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]}
@@ -217,4 +232,4 @@ export default stripesForm({
   enableReinitialize: true,
   form: 'orderTemplateForm',
   navigationCheck: true,
-})(OrderTemplatesEditor);
+})(withStripes(OrderTemplatesEditor));
