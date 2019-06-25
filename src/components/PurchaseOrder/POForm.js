@@ -22,13 +22,15 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+import {
+  getAddresses,
+  getSettingsList,
+} from '../../common/utils';
 import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
-import getSettingsList from '../../common/utils/getSettingsList';
 import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { RenewalsForm } from './renewals';
-import { getAddresses } from './util';
 
 const throwError = () => {
   const errorInfo = { poNumber: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
