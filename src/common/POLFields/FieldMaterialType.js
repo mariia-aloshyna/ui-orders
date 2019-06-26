@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 
 import { Select } from '@folio/stripes/components';
 
-import { EMPTY_OPTION } from '../../Utils/const';
-import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
-import { requiredMaterialType } from '../../Utils/Validate';
+import { EMPTY_OPTION } from '../../components/Utils/const';
+import normalizeEmptySelect from '../../components/Utils/normalizeEmptySelect';
+import { requiredMaterialType } from '../../components/Utils/Validate';
 
-const MaterialTypeField = ({ name, materialTypes, disabled }) => (
+const FieldMaterialType = ({ name, materialTypes, disabled }) => (
   <Field
     component={Select}
     dataOptions={[EMPTY_OPTION, ...materialTypes]}
@@ -22,7 +22,7 @@ const MaterialTypeField = ({ name, materialTypes, disabled }) => (
   />
 );
 
-MaterialTypeField.propTypes = {
+FieldMaterialType.propTypes = {
   materialTypes: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
     value: PropTypes.string,
@@ -31,4 +31,4 @@ MaterialTypeField.propTypes = {
   disabled: PropTypes.bool,
 };
 
-export default MaterialTypeField;
+export default FieldMaterialType;

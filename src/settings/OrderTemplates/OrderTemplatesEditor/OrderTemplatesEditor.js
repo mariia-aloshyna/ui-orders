@@ -30,6 +30,7 @@ import PurchaseOrderSummaryForm from './PurchaseOrderSummaryForm';
 import POLineDetailsForm from './POLineDetailsForm';
 import POLineVendorForm from './POLineVendorForm';
 import POLineFundDistributionForm from './POLineFundDistributionForm';
+import POLineEresourcesForm from './POLineEresourcesForm';
 import POLineLocationsForm from './POLineLocationsForm';
 
 const titleCreate = <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
@@ -50,6 +51,7 @@ class OrderTemplatesEditor extends Component {
     suffixesSetting: PropTypes.arrayOf(PropTypes.object),
     addresses: PropTypes.arrayOf(PropTypes.object),
     vendors: PropTypes.arrayOf(PropTypes.object),
+    materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
     title: PropTypes.string,
   };
 
@@ -118,6 +120,7 @@ class OrderTemplatesEditor extends Component {
       vendors,
       funds,
       locations,
+      materialTypes,
       handleSubmit,
       close,
       stripes,
@@ -237,7 +240,12 @@ class OrderTemplatesEditor extends Component {
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
-                  />
+                  >
+                    <POLineEresourcesForm
+                      materialTypes={materialTypes}
+                      vendors={vendors}
+                    />
+                  </Accordion>
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]}

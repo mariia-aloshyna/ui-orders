@@ -15,6 +15,7 @@ import {
   PREFIXES_SETTING,
   SUFFIXES_SETTING,
   VENDORS,
+  MATERIAL_TYPES,
 } from '../../../components/Utils/resources';
 import {
   MODULE_ORDERS,
@@ -22,6 +23,7 @@ import {
 } from '../../../components/Utils/const';
 import getLocationsForSelect from '../../../components/Utils/getLocationsForSelect';
 import getFundsForSelect from '../../../components/Utils/getFundsForSelect';
+import getMaterialTypesForSelect from '../../../components/Utils/getMaterialTypesForSelect';
 import {
   getCreateInventorySetting,
   getAddresses,
@@ -43,6 +45,7 @@ class OrderTemplatesEditorContainer extends Component {
     suffixesSetting: SUFFIXES_SETTING,
     addresses: ADDRESSES,
     vendors: VENDORS,
+    materialTypes: MATERIAL_TYPES,
   });
 
   static propTypes = {
@@ -85,6 +88,8 @@ class OrderTemplatesEditorContainer extends Component {
     const prefixesSetting = getSettingsList(get(resources, 'prefixesSetting.records', {}));
     const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', {}));
     const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
+    const materialTypes = getMaterialTypesForSelect(resources);
+
     const orderTemplatesList = getOrderTemplatesList(get(resources, ['orderTemplates', 'records'], []));
     const id = get(match, ['params', 'id']);
     const template = id
@@ -105,6 +110,7 @@ class OrderTemplatesEditorContainer extends Component {
         suffixesSetting={suffixesSetting.selectedItems}
         addresses={addresses}
         vendors={vendors}
+        materialTypes={materialTypes}
       />
     );
   }
