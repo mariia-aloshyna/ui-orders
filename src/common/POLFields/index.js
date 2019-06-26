@@ -33,3 +33,9 @@ export { default as FieldTrial } from './EresourcesFields/FieldTrial';
 export { default as FieldUserLimit } from './EresourcesFields/FieldUserLimit';
 export { default as FieldExpectedActivation } from './EresourcesFields/FieldExpectedActivation';
 export { default as FieldActivationDue } from './EresourcesFields/FieldActivationDue';
+
+// physical
+export { default as FieldMaterialSupplier } from './PhysicalFields/FieldMaterialSupplier';
+export { default as FieldReceiptDue } from './PhysicalFields/FieldReceiptDue';
+export { default as FieldExpectedReceiptDate } from './PhysicalFields/FieldExpectedReceiptDate';
+export { default as FieldsVolume } from './PhysicalFields/FieldsVolume';

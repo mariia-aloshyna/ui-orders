@@ -1,30 +1,20 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
 import PropTypes from 'prop-types';
 
 import {
   Col,
-  Datepicker,
   Row,
-  Selection,
 } from '@folio/stripes/components';
 
 import {
+  FieldMaterialSupplier,
   FieldMaterialType,
+  FieldReceiptDue,
+  FieldExpectedReceiptDate,
+  FieldsVolume,
 } from '../../../common/POLFields';
 import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
-import {
-  DATE_FORMAT,
-  TIMEZONE,
-} from '../../Utils/const';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
-import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
-import VolumesForm from './VolumesForm';
-
-const MATERIAL_SUPPLIER_TETHER_CONFIG = {
-  attachment: 'middle center',
-};
 
 const PhysicalForm = ({ order, materialTypes, vendors }) => {
   const isOpenedOrder = isWorkflowStatusOpen(order);
@@ -32,43 +22,16 @@ const PhysicalForm = ({ order, materialTypes, vendors }) => {
   return (
     <Row>
       <Col xs={6}>
-        <FormattedMessage id="ui-orders.dropdown.select">
-          {(placeholder) => (
-            <Field
-              component={Selection}
-              dataOptions={vendors}
-              placeholder={placeholder}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
-              name="physical.materialSupplier"
-              tether={MATERIAL_SUPPLIER_TETHER_CONFIG}
-              normalize={normalizeEmptySelect}
-              disabled={isOpenedOrder}
-            />
-          )}
-        </FormattedMessage>
-      </Col>
-      <Col xs={6}>
-        <Field
-          backendDateStandard={DATE_FORMAT}
-          component={Datepicker}
-          dateFormat={DATE_FORMAT}
-          fullWidth
-          label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
-          name="physical.receiptDue"
-          timeZone={TIMEZONE}
+        <FieldMaterialSupplier
+          vendors={vendors}
+          disabled={isOpenedOrder}
         />
       </Col>
       <Col xs={6}>
-        <Field
-          backendDateStandard={DATE_FORMAT}
-          component={Datepicker}
-          dateFormat={DATE_FORMAT}
-          fullWidth
-          label={<FormattedMessage id="ui-orders.physical.expectedReceiptDate" />}
-          name="physical.expectedReceiptDate"
-          timeZone={TIMEZONE}
-        />
+        <FieldReceiptDue />
+      </Col>
+      <Col xs={6}>
+        <FieldExpectedReceiptDate />
       </Col>
       <Col xs={6}>
         <InventoryRecordTypeSelectField
@@ -85,7 +48,7 @@ const PhysicalForm = ({ order, materialTypes, vendors }) => {
         />
       </Col>
       <Col xs={6}>
-        <VolumesForm disabled={isOpenedOrder} />
+        <FieldsVolume disabled={isOpenedOrder} />
       </Col>
     </Row>
   );
