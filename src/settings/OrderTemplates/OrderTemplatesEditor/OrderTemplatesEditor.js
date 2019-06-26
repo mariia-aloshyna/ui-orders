@@ -24,6 +24,7 @@ import {
 } from '../constants';
 
 import { ItemForm } from '../../../components/POLine/Item';
+import { CostForm } from '../../../components/POLine/Cost';
 import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
 import PurchaseOrderNotesForm from './PurchaseOrderNotesForm';
@@ -232,7 +233,14 @@ class OrderTemplatesEditor extends Component {
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS}
-                  />
+                  >
+                    <CostForm
+                      change={change}
+                      dispatch={dispatch}
+                      formValues={formValues}
+                      order={ORDER}
+                    />
+                  </Accordion>
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}
