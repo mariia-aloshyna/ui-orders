@@ -1,5 +1,6 @@
 export { default as FieldsLocation } from './FieldsLocation';
 export { default as FieldsFundDistribution } from './FieldsFundDistribution';
+export { default as FieldMaterialType } from './FieldMaterialType';
 
 // details
 export { default as FieldPOLineNumber } from './DetailsFields/FieldPOLineNumber';
@@ -24,3 +25,11 @@ export { default as FieldVendorRefNumber } from './VendorFields/FieldVendorRefNu
 export { default as FieldVendorInstructions } from './VendorFields/FieldVendorInstructions';
 export { default as FieldVendorAccountNumber } from './VendorFields/FieldVendorAccountNumber';
 export { default as FieldVendorNote } from './VendorFields/FieldVendorNote';
+
+// eresources
+export { default as FieldAccessProvider } from './EresourcesFields/FieldAccessProvider';
+export { default as FieldActivated } from './EresourcesFields/FieldActivated';
+export { default as FieldTrial } from './EresourcesFields/FieldTrial';
+export { default as FieldUserLimit } from './EresourcesFields/FieldUserLimit';
+export { default as FieldExpectedActivation } from './EresourcesFields/FieldExpectedActivation';
+export { default as FieldActivationDue } from './EresourcesFields/FieldActivationDue';

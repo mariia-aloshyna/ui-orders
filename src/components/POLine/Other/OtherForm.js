@@ -10,6 +10,9 @@ import {
   Select,
 } from '@folio/stripes/components';
 
+import {
+  FieldMaterialType,
+} from '../../../common/POLFields';
 import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import {
   EMPTY_OPTION,
@@ -18,7 +21,6 @@ import {
 } from '../../Utils/const';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
-import MaterialTypeField from '../Eresources/MaterialTypeField';
 
 const OtherForm = ({ order, materialTypes, vendors }) => {
   const isOpenedOrder = isWorkflowStatusOpen(order);
@@ -66,7 +68,7 @@ const OtherForm = ({ order, materialTypes, vendors }) => {
         />
       </Col>
       <Col xs={6}>
-        <MaterialTypeField
+        <FieldMaterialType
           materialTypes={materialTypes}
           name="physical.materialType"
           disabled={isOpenedOrder}

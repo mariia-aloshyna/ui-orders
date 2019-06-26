@@ -10,6 +10,9 @@ import {
   Selection,
 } from '@folio/stripes/components';
 
+import {
+  FieldMaterialType,
+} from '../../../common/POLFields';
 import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import {
   DATE_FORMAT,
@@ -17,7 +20,6 @@ import {
 } from '../../Utils/const';
 import InventoryRecordTypeSelectField from '../../../settings/InventoryRecordTypeSelectField';
 import normalizeEmptySelect from '../../Utils/normalizeEmptySelect';
-import MaterialTypeField from '../Eresources/MaterialTypeField';
 import VolumesForm from './VolumesForm';
 
 const MATERIAL_SUPPLIER_TETHER_CONFIG = {
@@ -76,7 +78,7 @@ const PhysicalForm = ({ order, materialTypes, vendors }) => {
         />
       </Col>
       <Col xs={6}>
-        <MaterialTypeField
+        <FieldMaterialType
           materialTypes={materialTypes}
           name="physical.materialType"
           disabled={isOpenedOrder}
