@@ -248,12 +248,12 @@ class POLineForm extends Component {
                       id={ACCORDION_ID.itemDetails}
                     >
                       <ItemForm
+                        formValues={formValues}
                         order={order}
                         change={change}
                         dispatch={dispatch}
                         identifierTypes={identifierTypes}
                         initialValues={initialValues}
-                        stripes={stripes}
                       />
                     </Accordion>
                     <Accordion

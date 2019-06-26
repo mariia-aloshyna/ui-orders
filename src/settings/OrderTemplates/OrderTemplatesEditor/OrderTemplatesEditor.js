@@ -23,6 +23,7 @@ import {
   ORDER_TEMPLATES_ACCORDION_TITLES,
 } from '../constants';
 
+import { ItemForm } from '../../../components/POLine/Item';
 import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
 import PurchaseOrderNotesForm from './PurchaseOrderNotesForm';
@@ -35,6 +36,8 @@ import POLineLocationsForm from './POLineLocationsForm';
 
 const titleCreate = <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
 
+const ORDER = {};
+
 class OrderTemplatesEditor extends Component {
   static propTypes = {
     stripes: PropTypes.object.isRequired,
@@ -44,6 +47,7 @@ class OrderTemplatesEditor extends Component {
     handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
+    identifierTypes: PropTypes.arrayOf(PropTypes.object),
     locations: PropTypes.arrayOf(PropTypes.object),
     funds: PropTypes.arrayOf(PropTypes.object),
     createInventorySetting: PropTypes.object,
@@ -113,6 +117,7 @@ class OrderTemplatesEditor extends Component {
 
   render() {
     const {
+      identifierTypes,
       createInventorySetting,
       prefixesSetting,
       suffixesSetting,
@@ -201,7 +206,15 @@ class OrderTemplatesEditor extends Component {
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS}
-                  />
+                  >
+                    <ItemForm
+                      identifierTypes={identifierTypes}
+                      order={ORDER}
+                      formValues={formValues}
+                      change={change}
+                      dispatch={dispatch}
+                    />
+                  </Accordion>
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_DETAILS]}
