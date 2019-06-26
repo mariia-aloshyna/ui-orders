@@ -31,6 +31,7 @@ import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { RenewalsForm } from './renewals';
+import { ORGANIZATION_STATUS_ACTIVE } from '../../common/constants';
 
 const throwError = () => {
   const errorInfo = { poNumber: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
@@ -167,6 +168,8 @@ class POForm extends Component {
     const prefixesSetting = getSettingsList(get(parentResources, 'prefixesSetting.records', {}));
     const suffixesSetting = getSettingsList(get(parentResources, 'suffixesSetting.records', {}));
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
+    const vendors = get(parentResources, 'vendors.records', [])
+      .filter(vendor => vendor.isVendor && vendor.status === ORGANIZATION_STATUS_ACTIVE);
 
     if (!initialValues) {
       return (
@@ -225,6 +228,7 @@ class POForm extends Component {
                             prefixesSetting={prefixesSetting}
                             suffixesSetting={suffixesSetting}
                             stripes={stripes}
+                            vendors={vendors}
                           />
                         </Accordion>
                         {isOngoing && (

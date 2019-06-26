@@ -13,7 +13,7 @@ import {
 } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
-import { getAddressOptions } from '../../../common/utils';
+import { getAddressOptions, getVendorOptions } from '../../../common/utils';
 import {
   FieldPrefix,
   FieldSuffix,
@@ -22,8 +22,8 @@ import {
   FieldIsManualPO,
   FieldIsReEncumber,
   FieldsNotes,
+  FieldVendor,
 } from '../../../common/POFields';
-import { required } from '../../Utils/Validate';
 import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldOrderType from './FieldOrderType';
 import { isWorkflowStatusOpen } from '../util';
@@ -41,6 +41,7 @@ class PODetailsForm extends Component {
     dispatch: PropTypes.func,
     change: PropTypes.func,
     addresses: PropTypes.arrayOf(PropTypes.object),
+    vendors: PropTypes.arrayOf(PropTypes.object),
     order: PropTypes.object,
   }
 
@@ -51,25 +52,11 @@ class PODetailsForm extends Component {
     dispatch(change('assignedTo', null));
   }
 
-  onClearFieldVendor = () => {
-    const { dispatch, change } = this.props;
-
-    dispatch(change('vendor', ''));
-    dispatch(change('vendorName', ''));
-  }
-
   onAddUser = (user) => {
     const { dispatch, change } = this.props;
 
     dispatch(change('assignedToUser', `${user.personal.firstName} ${user.personal.lastName}`));
     dispatch(change('assignedTo', `${user.id}`));
-  }
-
-  onAddVendor = (vendor) => {
-    const { dispatch, change } = this.props;
-
-    dispatch(change('vendorName', `${vendor.name}`));
-    dispatch(change('vendor', `${vendor.id}`));
   }
 
   userClearButton = () => {
@@ -80,23 +67,6 @@ class PODetailsForm extends Component {
       return (
         <IconButton
           onClick={this.onClearFieldUser}
-          icon="times-circle-solid"
-          size="small"
-        />
-      );
-    }
-
-    return null;
-  }
-
-  vendorClearButton = () => {
-    const { formValues } = this.props;
-    const isValues = formValues.vendorName || formValues.vendor;
-
-    if (isValues && isValues.length > 0) {
-      return (
-        <IconButton
-          onClick={this.onClearFieldVendor}
           icon="times-circle-solid"
           size="small"
         />
@@ -133,33 +103,6 @@ class PODetailsForm extends Component {
     );
   }
 
-  userVendor = (isDisabled) => {
-    if (isDisabled) return false;
-
-    const columnMapping = {
-      name: <FormattedMessage id="ui-orders.vendor.name" />,
-      vendor_status: <FormattedMessage id="ui-orders.vendor.vendor_status" />,
-    };
-    const { stripes } = this.props;
-
-    return (
-      <Pluggable
-        aria-haspopup="true"
-        type="find-organization"
-        dataKey="vendor"
-        searchLabel="+"
-        searchButtonStyle="default"
-        selectVendor={this.onAddVendor}
-        visibleColumns={['name', 'status']}
-        columnMapping={columnMapping}
-        disableRecordCreation
-        stripes={stripes}
-      >
-        <span>[no vendor-selection plugin]</span>
-      </Pluggable>
-    );
-  }
-
   fillBackGeneratedNumber = (e, value) => {
     const { change, dispatch, generatedNumber } = this.props;
 
@@ -177,9 +120,11 @@ class PODetailsForm extends Component {
       prefixesSetting,
       suffixesSetting,
       order,
+      vendors,
     } = this.props;
 
     const isOpenedOrder = isWorkflowStatusOpen(order);
+    const vendorOptions = getVendorOptions(vendors);
     const addressesOptions = getAddressOptions(addresses);
     const addressBillTo = get(addresses.find(el => el.id === formValues.billTo), 'address', '');
     const addressShipTo = get(addresses.find(el => el.id === formValues.shipTo), 'address', '');
@@ -216,20 +161,9 @@ class PODetailsForm extends Component {
             lg={3}
             className={css.pluginFieldWrapper}
           >
-            <Field
-              component={TextField}
-              disabled
-              endControl={!isOpenedOrder && this.vendorClearButton()}
-              fullWidth
-              hasClearIcon={false}
-              label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
-              name="vendorName"
-              required
-              validate={required}
+            <FieldVendor
+              vendors={vendorOptions}
             />
-            <div className={css.pluginButtonWrapper}>
-              {this.userVendor(isOpenedOrder)}
-            </div>
           </Col>
           <Col
             xs={6}
