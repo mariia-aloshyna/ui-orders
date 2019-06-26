@@ -32,6 +32,7 @@ import POLineDetailsForm from './POLineDetailsForm';
 import POLineVendorForm from './POLineVendorForm';
 import POLineFundDistributionForm from './POLineFundDistributionForm';
 import POLineEresourcesForm from './POLineEresourcesForm';
+import POLinePhysicalForm from './POLinePhysicalForm';
 import POLineLocationsForm from './POLineLocationsForm';
 
 const titleCreate = <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
@@ -263,7 +264,12 @@ class OrderTemplatesEditor extends Component {
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES}
-                  />
+                  >
+                    <POLinePhysicalForm
+                      materialTypes={materialTypes}
+                      vendors={vendors}
+                    />
+                  </Accordion>
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_LOCATION]}

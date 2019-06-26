@@ -14,7 +14,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-class VolumesForm extends Component {
+class FieldsVolume extends Component {
   static propTypes = {
     disabled: PropTypes.bool,
   };
@@ -100,4 +100,4 @@ class VolumesForm extends Component {
   }
 }
 
-export default VolumesForm;
+export default FieldsVolume;
