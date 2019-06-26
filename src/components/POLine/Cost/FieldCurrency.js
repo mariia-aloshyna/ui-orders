@@ -34,6 +34,10 @@ FieldCurrency.propTypes = {
   disabled: PropTypes.bool,
 };
 
+FieldCurrency.defaultProps = {
+  currencies: [],
+};
+
 FieldCurrency.displayName = 'FieldCurrency';
 
 export default FieldCurrency;

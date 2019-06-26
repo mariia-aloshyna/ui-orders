@@ -37,6 +37,8 @@ import {
 import { getOrderTemplatesList } from '../util';
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
+const INITIAL_VALUES = {};
+
 class OrderTemplatesEditorContainer extends Component {
   static manifest = Object.freeze({
     orderTemplates: ORDER_TEMPLATES,
@@ -98,7 +100,7 @@ class OrderTemplatesEditorContainer extends Component {
     const id = get(match, ['params', 'id']);
     const template = id
       ? find(orderTemplatesList, { id })
-      : {};
+      : { orderTemplate: INITIAL_VALUES };
     const title = get(template, 'title', '');
 
     return (
