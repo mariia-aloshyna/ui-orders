@@ -36,8 +36,6 @@ import POLineEresourcesForm from './POLineEresourcesForm';
 import POLinePhysicalForm from './POLinePhysicalForm';
 import POLineLocationsForm from './POLineLocationsForm';
 
-const titleCreate = <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
-
 const ORDER = {};
 
 class OrderTemplatesEditor extends Component {
@@ -148,7 +146,7 @@ class OrderTemplatesEditor extends Component {
           <Pane
             id="order-settings-order-templates-editor"
             defaultWidth="fill"
-            paneTitle={title || titleCreate}
+            paneTitle={title}
             dismissible
             onClose={close}
             lastMenu={this.getLastMenu()}

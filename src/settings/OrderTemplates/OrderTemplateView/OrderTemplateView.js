@@ -19,6 +19,7 @@ import {
 
 import { PODetailsView } from '../../../components/PurchaseOrder/PODetails';
 import { SummaryView } from '../../../components/PurchaseOrder/Summary';
+import { RenewalsView } from '../../../components/PurchaseOrder/renewals';
 import { ItemView } from '../../../components/POLine/Item';
 import { POLineDetails } from '../../../components/POLine/POLineDetails';
 import { CostView } from '../../../components/POLine/Cost';
@@ -26,7 +27,14 @@ import { VendorView } from '../../../components/POLine/Vendor';
 import { FundDistributionView } from '../../../components/POLine/FundDistribution';
 import { EresourcesView } from '../../../components/POLine/Eresources';
 import { PhysicalView } from '../../../components/POLine/Physical';
+import { OtherView } from '../../../components/POLine/Other';
 import LocationView from '../../../components/POLine/Location/LocationView';
+import { ORDER_TYPE } from '../../../components/PurchaseOrder/PODetails/FieldOrderType';
+import {
+  ERESOURCES,
+  PHRESOURCES,
+  OTHER,
+} from '../../../components/POLine/const';
 import {
   ORDER_TEMPLATES_ACCORDION_TITLES,
   ORDER_TEMPLATES_ACCORDION,
@@ -62,6 +70,7 @@ class OrderTemplateView extends Component {
       [ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]: true,
       [ORDER_TEMPLATES_ACCORDION.PO_INFO]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: false,
+      [ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_DETAILS]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_COST_DETAILS]: false,
@@ -69,6 +78,7 @@ class OrderTemplateView extends Component {
       [ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_ORESOURCES]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: false,
     },
     showConfirmDelete: false,
@@ -147,6 +157,11 @@ class OrderTemplateView extends Component {
     const { sections, showConfirmDelete } = this.state;
     const orderTemplate = get(template, 'orderTemplate', {});
     const title = get(template, 'title', '');
+    const orderFormat = get(orderTemplate, 'orderFormat');
+    const showEresources = ERESOURCES.includes(orderFormat);
+    const showPhresources = PHRESOURCES.includes(orderFormat);
+    const showOther = orderFormat === OTHER;
+    const isOngoing = get(template, 'orderType') === ORDER_TYPE.ongoing;
 
     return (
       <Layer isOpen>
@@ -204,6 +219,15 @@ class OrderTemplateView extends Component {
                   <SummaryView order={orderTemplate} />
                 </Accordion>
 
+                {isOngoing && (
+                  <Accordion
+                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]}
+                    id={ORDER_TEMPLATES_ACCORDION.PO_RENEWALS}
+                  >
+                    <RenewalsView order={orderTemplate} />
+                  </Accordion>
+                )}
+
                 <Accordion
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]}
                   id={ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS}
@@ -245,27 +269,44 @@ class OrderTemplateView extends Component {
                   />
                 </Accordion>
 
-                <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]}
-                  id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
-                >
-                  <EresourcesView
-                    line={orderTemplate}
-                    materialTypes={materialTypes}
-                    vendors={vendors}
-                  />
-                </Accordion>
+                {showEresources && (
+                  <Accordion
+                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]}
+                    id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
+                  >
+                    <EresourcesView
+                      line={orderTemplate}
+                      materialTypes={materialTypes}
+                      vendors={vendors}
+                    />
+                  </Accordion>
+                )}
 
-                <Accordion
-                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]}
-                  id={ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES}
-                >
-                  <PhysicalView
-                    materialTypes={materialTypes}
-                    physical={orderTemplate.physical}
-                    vendors={vendors}
-                  />
-                </Accordion>
+                {showPhresources && (
+                  <Accordion
+                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]}
+                    id={ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES}
+                  >
+                    <PhysicalView
+                      materialTypes={materialTypes}
+                      physical={orderTemplate.physical}
+                      vendors={vendors}
+                    />
+                  </Accordion>
+                )}
+
+                {showOther && (
+                  <Accordion
+                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ORESOURCES]}
+                    id={ORDER_TEMPLATES_ACCORDION.POL_ORESOURCES}
+                  >
+                    <OtherView
+                      materialTypes={materialTypes}
+                      physical={orderTemplate.physical}
+                      vendors={vendors}
+                    />
+                  </Accordion>
+                )}
 
                 <Accordion
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_LOCATION]}

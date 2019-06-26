@@ -220,3 +220,8 @@ export const ORDER_TEMPLATES = {
     },
   },
 };
+
+export const ORDER_TEMPLATE = {
+  ...BASE_RESOURCE,
+  path: `${CONFIG_API}/:{id}`,
+};

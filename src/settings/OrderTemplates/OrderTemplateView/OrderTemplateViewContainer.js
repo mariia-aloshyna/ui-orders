@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import {
-  get,
-  find,
-} from 'lodash';
+import { get } from 'lodash';
 
 import { Callout } from '@folio/stripes/components';
 
@@ -19,7 +16,7 @@ import {
   IDENTIFIER_TYPES,
   LOCATIONS,
   MATERIAL_TYPES,
-  ORDER_TEMPLATES,
+  ORDER_TEMPLATE,
   VENDORS,
 } from '../../../components/Utils/resources';
 import { getOrderTemplatesList } from '../util';
@@ -32,7 +29,7 @@ class OrderTemplateViewContainer extends Component {
     identifierTypes: IDENTIFIER_TYPES,
     locations: LOCATIONS,
     materialTypes: MATERIAL_TYPES,
-    orderTemplates: ORDER_TEMPLATES,
+    orderTemplate: ORDER_TEMPLATE,
     vendors: VENDORS,
   });
 
@@ -50,10 +47,10 @@ class OrderTemplateViewContainer extends Component {
   };
 
   onDeleteOrderTemplate = async () => {
-    const { close, mutator: { orderTemplates }, match: { params: { id } }, showSuccessDeleteMessage } = this.props;
+    const { close, mutator: { orderTemplate }, match: { params: { id } }, showSuccessDeleteMessage } = this.props;
 
     try {
-      await orderTemplates.DELETE({ id });
+      await orderTemplate.DELETE({ id });
       close();
       showSuccessDeleteMessage();
     } catch (e) {
@@ -65,9 +62,8 @@ class OrderTemplateViewContainer extends Component {
   };
 
   render() {
-    const { close, match: { params: id }, resources, rootPath } = this.props;
-    const orderTemplatesList = getOrderTemplatesList(get(resources, ['orderTemplates', 'records'], []));
-    const orderTemplate = find(orderTemplatesList, id, {});
+    const { close, resources, rootPath } = this.props;
+    const orderTemplate = get(getOrderTemplatesList(get(resources, 'orderTemplate.records', [])), 0, {});
     const addresses = getAddresses(get(resources, 'addresses.records', []));
     const funds = get(resources, 'funds.records', []);
     const identifierTypes = get(resources, 'identifierTypes.records', []);

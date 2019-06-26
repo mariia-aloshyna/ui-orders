@@ -14,23 +14,23 @@ import ConfirmationModal from '../../../interactors/confirmation';
 describe('Order template view', function () {
   setupApplication();
 
-  const orderTemplatesList = new OrderTemplatesList();
   const orderTemplateView = new OrderTemplateView();
   const orderTemplateForm = new OrderTemplatesEditor();
+  const orderTemplatesList = new OrderTemplatesList();
 
   beforeEach(async function () {
-    this.server.create('configs', {
+    const template = this.server.create('configs', {
       module: MODULE_ORDERS,
       configName: CONFIG_ORDER_TEMPLATES,
       enabled: true,
-      value: '{"templateName":"TEST TEMPLATE"}',
+      value: '{"templateName":"TEST TEMPLATE", "orderFormat":"Other"}',
     });
-    this.visit('/settings/orders/order-templates');
-    await orderTemplatesList.whenLoaded();
-    await orderTemplatesList.list(0).click();
+
+    this.visit(`/settings/orders/order-templates/${template.id}/view`);
+    await orderTemplateView.whenLoaded();
   });
 
-  it('should redirect to view screen', () => {
+  it('View screen should be present', () => {
     expect(orderTemplateView.isPresent).to.be.true;
   });
 
