@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import {
   Field,
-  getFormValues,
 } from 'redux-form';
 
 import {
@@ -18,7 +17,6 @@ import {
   TextArea,
   TextField,
 } from '@folio/stripes/components';
-import { Pluggable } from '@folio/stripes/core';
 
 import {
   DATE_FORMAT,
@@ -30,6 +28,7 @@ import {
 } from '../../Utils/Validate';
 import ContributorForm from './ContributorForm';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
+import InstancePlugin from './InstancePlugin';
 import {
   checkInstanceIdField,
   getInventoryData,
@@ -41,12 +40,12 @@ import { ALLOWED_YEAR_LENGTH } from '../const';
 
 class ItemForm extends Component {
   static propTypes = {
-    stripes: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
     initialValues: PropTypes.object,
     order: PropTypes.object.isRequired,
+    formValues: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -119,12 +118,10 @@ class ItemForm extends Component {
   };
 
   onChangeField = (value, fieldName) => {
-    const { dispatch, change, initialValues, stripes: { store } } = this.props;
+    const { formValues, dispatch, change, initialValues } = this.props;
     const inventoryData = getInventoryData(this.state, initialValues);
 
     dispatch(change(fieldName, value));
-
-    const formValues = getFormValues('POLineForm')(store.getState());
 
     if (checkInstanceIdField(formValues, inventoryData)) {
       dispatch(change('instanceId', inventoryData.instanceId));
@@ -134,29 +131,7 @@ class ItemForm extends Component {
   selectInstanceModal = (isDisabled) => {
     if (isDisabled) return false;
 
-    const { stripes } = this.props;
-    const columnMapping = {
-      title: <FormattedMessage id="ui-orders.instance.title" />,
-      contributors: <FormattedMessage id="ui-orders.instance.contributors" />,
-      publishers: <FormattedMessage id="ui-orders.instance.publishers" />,
-    };
-
-    return (
-      <Pluggable
-        aria-haspopup="true"
-        columnMapping={columnMapping}
-        dataKey="instances"
-        disableRecordCreation
-        searchButtonStyle="default"
-        searchLabel="+"
-        selectInstance={this.onAddInstance}
-        stripes={stripes}
-        type="find-instance"
-        visibleColumns={['title', 'contributors', 'publishers']}
-      >
-        <span>[no instance-selection plugin]</span>
-      </Pluggable>
-    );
+    return <InstancePlugin addInstance={this.onAddInstance} />;
   };
 
   render() {
@@ -164,7 +139,7 @@ class ItemForm extends Component {
 
     return (
       <Fragment>
-        <Row>
+        <Row start="xs">
           <Col xs={12}>
             <div className={css.titleWrapper}>
               <Field

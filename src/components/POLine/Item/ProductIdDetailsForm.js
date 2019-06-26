@@ -35,7 +35,7 @@ class ProductIdDetailsForm extends Component {
 
   renderForm = ({ fields }) => {
     return (
-      <Row>
+      <Row start="xs">
         <Col xs={12}>
           {fields.length === 0 &&
             <Col xs={12}>

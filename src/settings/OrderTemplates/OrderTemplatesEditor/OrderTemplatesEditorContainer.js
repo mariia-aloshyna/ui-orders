@@ -7,6 +7,7 @@ import {
 } from 'lodash';
 
 import {
+  IDENTIFIER_TYPES,
   ADDRESSES,
   ORDER_TEMPLATES,
   LOCATIONS,
@@ -21,6 +22,7 @@ import {
   MODULE_ORDERS,
   CONFIG_ORDER_TEMPLATES,
 } from '../../../components/Utils/const';
+import getIdentifierTypesForSelect from '../../../components/Utils/getIdentifierTypesForSelect';
 import getLocationsForSelect from '../../../components/Utils/getLocationsForSelect';
 import getFundsForSelect from '../../../components/Utils/getFundsForSelect';
 import getMaterialTypesForSelect from '../../../components/Utils/getMaterialTypesForSelect';
@@ -38,6 +40,7 @@ import OrderTemplatesEditor from './OrderTemplatesEditor';
 class OrderTemplatesEditorContainer extends Component {
   static manifest = Object.freeze({
     orderTemplates: ORDER_TEMPLATES,
+    identifierTypes: IDENTIFIER_TYPES,
     locations: LOCATIONS,
     fund: FUND,
     createInventory: CREATE_INVENTORY,
@@ -83,6 +86,7 @@ class OrderTemplatesEditorContainer extends Component {
     const { close, resources, match } = this.props;
     const locations = getLocationsForSelect(resources);
     const funds = getFundsForSelect(resources);
+    const identifierTypes = getIdentifierTypesForSelect(resources);
     const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
     const vendors = getVendorOptions(get(resources, 'vendors.records', []));
     const prefixesSetting = getSettingsList(get(resources, 'prefixesSetting.records', {}));
@@ -104,6 +108,7 @@ class OrderTemplatesEditorContainer extends Component {
         close={close}
         funds={funds}
         initialValues={template.orderTemplate}
+        identifierTypes={identifierTypes}
         locations={locations}
         createInventorySetting={createInventorySetting}
         prefixesSetting={prefixesSetting.selectedItems}
