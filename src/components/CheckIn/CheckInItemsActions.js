@@ -55,7 +55,7 @@ const CheckInItemsActions = ({ showEditPieceModal, deletePiece, receivingHistory
         data-role="menu"
         onToggle={toggleActionMenu}
       >
-        <MenuSection id="order-details-actions">
+        <MenuSection id="check-in-items-actions">
           <Button
             buttonStyle="dropdownItem"
             data-test-button-delete-piece

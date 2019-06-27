@@ -56,9 +56,11 @@ const columnWidths = {
   vendorCode: '15%',
   workflowStatus: '10%',
   orderType: '10%',
-  created: '15%',
-  assignedTo: '20%',
+  lastUpdated: '15%',
+  acquisitionsUnit: '20%',
+  assignedTo: '15%',
 };
+const sortableColumns = ['poNumber', 'workflowStatus', 'orderType', 'lastUpdated'];
 
 class OrdersList extends Component {
   static manifest = Object.freeze({
@@ -84,7 +86,7 @@ class OrdersList extends Component {
             'cql.allRecords=1',
             ordersSearchTemplate,
             {
-              created: 'metadata.createdDate',
+              lastUpdated: 'metadata.updatedDate',
             },
             filterConfig,
           ),
@@ -249,7 +251,8 @@ class OrdersList extends Component {
       },
       'workflowStatus': order => get(order, 'workflowStatus', ''),
       'orderType': order => get(order, 'orderType', ''),
-      'created': order => <FolioFormattedTime dateString={get(order, 'metadata.createdDate')} />,
+      'lastUpdated': order => <FolioFormattedTime dateString={get(order, 'metadata.updatedDate')} />,
+      'acquisitionsUnit': order => get(order, 'acquisitionsUnit', ''),
       'assignedTo': order => {
         const assignedToId = get(order, 'assignedTo', '');
         const assignedTo = users.find(d => d.id === assignedToId);
@@ -281,7 +284,7 @@ class OrdersList extends Component {
           searchableIndexes={translatedSearchableIndexes}
           onChangeIndex={this.changeSearchIndex}
           selectedIndex={get(resources.query, 'qindex')}
-          visibleColumns={['poNumber', 'vendorCode', 'workflowStatus', 'orderType', 'created', 'assignedTo']}
+          visibleColumns={['poNumber', 'vendorCode', 'workflowStatus', 'orderType', 'lastUpdated', 'acquisitionsUnit', 'assignedTo']}
           resultsFormatter={resultsFormatter}
           viewRecordComponent={Panes}
           editRecordComponent={POForm}
@@ -301,16 +304,18 @@ class OrdersList extends Component {
           showSingleResult={showSingleResult}
           browseOnly={browseOnly}
           columnMapping={{
-            poNumber: <FormattedMessage id="ui-orders.order.po_number" />,
+            poNumber: <FormattedMessage id="ui-orders.order.poNumber" />,
             vendorCode: <FormattedMessage id="ui-orders.order.vendorCode" />,
             workflowStatus: <FormattedMessage id="ui-orders.order.workflow_status" />,
             orderType: <FormattedMessage id="ui-orders.order.orderType" />,
-            created: <FormattedMessage id="ui-orders.order.createdDate" />,
+            lastUpdated: <FormattedMessage id="ui-orders.order.lastUpdated" />,
+            acquisitionsUnit: <FormattedMessage id="ui-orders.order.acquisitionsUnit" />,
             assignedTo: <FormattedMessage id="ui-orders.order.assigned_to" />,
           }}
           detailProps={{ showToast: this.showToast }}
           maxSortKeys={1}
           columnWidths={columnWidths}
+          sortableColumns={sortableColumns}
         />
         <Callout ref={this.callout} />
       </div>
