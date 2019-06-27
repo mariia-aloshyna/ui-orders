@@ -700,9 +700,11 @@
     "settings.orderTemplates.editor.template.description": "الوصف",
     "line.accordion.poLine": "خط أمر الشراء",
     "settings.orderTemplates.editor.save": "حفظ",
-    "settings.orderTemplates.confirmDelete.confirmLabel": "Confirm",
-    "settings.orderTemplates.confirmDelete.heading": "Delete template",
-    "settings.orderTemplates.confirmDelete.message": "Are you sure you want to delete the template?",
-    "settings.orderTemplates.remove.success": "The template was deleted",
-    "settings.orderTemplates.remove.error": "The template was not deleted"
+    "settings.orderTemplates.confirmDelete.confirmLabel": "تأكيد",
+    "settings.orderTemplates.confirmDelete.heading": "حذف القالب",
+    "settings.orderTemplates.confirmDelete.message": "هل أنت متأكد من أنك تريد حذف القالب؟",
+    "settings.orderTemplates.remove.success": "تم حذف القالب",
+    "settings.orderTemplates.remove.error": "لم يتم حذف القالب",
+    "settings.orderTemplates.accordion.poRenewals": "PO renewals",
+    "settings.orderTemplates.accordion.polOtherResources": "Other resource details"
 }

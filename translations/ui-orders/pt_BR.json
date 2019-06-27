@@ -700,9 +700,11 @@
     "settings.orderTemplates.editor.template.description": "Descrição",
     "line.accordion.poLine": "Linha do pedido",
     "settings.orderTemplates.editor.save": "Salvar",
-    "settings.orderTemplates.confirmDelete.confirmLabel": "Confirm",
-    "settings.orderTemplates.confirmDelete.heading": "Delete template",
-    "settings.orderTemplates.confirmDelete.message": "Are you sure you want to delete the template?",
-    "settings.orderTemplates.remove.success": "The template was deleted",
-    "settings.orderTemplates.remove.error": "The template was not deleted"
+    "settings.orderTemplates.confirmDelete.confirmLabel": "Confirmar",
+    "settings.orderTemplates.confirmDelete.heading": "Excluir modelo",
+    "settings.orderTemplates.confirmDelete.message": "Tem certeza de que deseja excluir o modelo?",
+    "settings.orderTemplates.remove.success": "O modelo foi excluído",
+    "settings.orderTemplates.remove.error": "O modelo não foi excluído",
+    "settings.orderTemplates.accordion.poRenewals": "PO renewals",
+    "settings.orderTemplates.accordion.polOtherResources": "Other resource details"
 }
