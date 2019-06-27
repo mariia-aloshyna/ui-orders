@@ -644,6 +644,7 @@
 
   "settings.orderTemplates.accordion.template": "Template information",
   "settings.orderTemplates.accordion.poInfo": "PO information",
+  "settings.orderTemplates.accordion.poRenewals": "PO renewal information",
   "settings.orderTemplates.accordion.poNotes": "Notes",
   "settings.orderTemplates.accordion.poSummary": "PO summary",
   "settings.orderTemplates.accordion.poRenewals": "PO renewals",
@@ -654,7 +655,7 @@
   "settings.orderTemplates.accordion.polFundDistribution": "Fund distribution",
   "settings.orderTemplates.accordion.polEResources": "E-resources details",
   "settings.orderTemplates.accordion.polFResources": "Physical resource details",
-  "settings.orderTemplates.accordion.polOResources": "Other resource details",
+  "settings.orderTemplates.accordion.polOtherResources": "Other resource details",
   "settings.orderTemplates.accordion.polLocation": "Location",
 
   "settings.orderTemplates.editor.titleCreate": "New order template",

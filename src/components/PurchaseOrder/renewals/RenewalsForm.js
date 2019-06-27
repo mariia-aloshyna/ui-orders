@@ -1,21 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
-import { FormattedMessage } from 'react-intl';
 
 import {
-  Checkbox,
   Col,
-  Datepicker,
   Row,
-  TextField,
 } from '@folio/stripes/components';
 
 import {
-  DATE_FORMAT,
-  TIMEZONE,
-} from '../../Utils/const';
-import { required } from '../../Utils/Validate';
+  FieldRenewalInterval,
+  FieldRenewalDate,
+  FieldRenewalPeriod,
+  FieldIsManualRenewal,
+} from '../../../common/POFields';
+
 import { isWorkflowStatusOpen } from '../util';
 
 const RenewalsForm = ({ order }) => {
@@ -27,57 +24,25 @@ const RenewalsForm = ({ order }) => {
         xs={6}
         md={3}
       >
-        <Field
-          component={TextField}
-          fullWidth
-          label={<FormattedMessage id="ui-orders.renewals.renewalInterval" />}
-          name="renewal.interval"
-          type="number"
-          validate={required}
-          disabled={isOpenedOrder}
-        />
+        <FieldRenewalInterval disabled={isOpenedOrder} />
       </Col>
       <Col
         xs={6}
         md={3}
       >
-        <Field
-          backendDateStandard={DATE_FORMAT}
-          component={Datepicker}
-          dateFormat={DATE_FORMAT}
-          fullWidth
-          label={<FormattedMessage id="ui-orders.renewals.renewalDate" />}
-          name="renewal.renewalDate"
-          timeZone={TIMEZONE}
-          validate={required}
-          disabled={isOpenedOrder}
-        />
+        <FieldRenewalDate disabled={isOpenedOrder} />
       </Col>
       <Col
         xs={6}
         md={3}
       >
-        <Field
-          component={TextField}
-          fullWidth
-          label={<FormattedMessage id="ui-orders.renewals.reviewPeriod" />}
-          name="renewal.reviewPeriod"
-          type="number"
-          disabled={isOpenedOrder}
-        />
+        <FieldRenewalPeriod disabled={isOpenedOrder} />
       </Col>
       <Col
         xs={6}
         md={3}
       >
-        <Field
-          component={Checkbox}
-          fullWidth
-          label={<FormattedMessage id="ui-orders.renewals.manualRenewal" />}
-          name="renewal.manualRenewal"
-          type="checkbox"
-          disabled={isOpenedOrder}
-        />
+        <FieldIsManualRenewal disabled={isOpenedOrder} />
       </Col>
     </Row>
   );

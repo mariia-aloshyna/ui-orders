@@ -39,3 +39,5 @@ export { default as FieldMaterialSupplier } from './PhysicalFields/FieldMaterial
 export { default as FieldReceiptDue } from './PhysicalFields/FieldReceiptDue';
 export { default as FieldExpectedReceiptDate } from './PhysicalFields/FieldExpectedReceiptDate';
 export { default as FieldsVolume } from './PhysicalFields/FieldsVolume';
+
+export * from './utils';

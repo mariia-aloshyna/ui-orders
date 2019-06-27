@@ -20,7 +20,7 @@ const FieldSuffix = ({ suffixes, disabled }) => {
 };
 
 FieldSuffix.propTypes = {
-  suffixes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  suffixes: PropTypes.arrayOf(PropTypes.object).isRequired,
   disabled: PropTypes.bool,
 };
 

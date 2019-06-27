@@ -22,6 +22,11 @@ import {
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
 
+import {
+  isEresource,
+  isFresource,
+  isOtherResource,
+} from '../../common/POLFields';
 import LocationForm from './Location/LocationForm';
 import { EresourcesForm } from './Eresources';
 import { PhysicalForm } from './Physical';
@@ -33,10 +38,7 @@ import { ItemForm } from './Item';
 import { OtherForm } from './Other';
 import {
   ACCORDION_ID,
-  ERESOURCES,
   MAP_FIELD_ACCORDION,
-  PHRESOURCES,
-  OTHER,
 } from './const';
 import getVendorsForSelect from '../Utils/getVendorsForSelect';
 import getFundsForSelect from '../Utils/getFundsForSelect';
@@ -202,9 +204,9 @@ class POLineForm extends Component {
 
     const formValues = getFormValues('POLineForm')(store.getState());
     const orderFormat = get(formValues, 'orderFormat');
-    const showEresources = ERESOURCES.includes(orderFormat);
-    const showPhresources = PHRESOURCES.includes(orderFormat);
-    const showOther = orderFormat === OTHER;
+    const showEresources = isEresource(orderFormat);
+    const showPhresources = isFresource(orderFormat);
+    const showOther = isOtherResource(orderFormat);
     const vendors = getVendorsForSelect(parentResources);
     const funds = getFundsForSelect(parentResources);
     const materialTypes = getMaterialTypesForSelect(parentResources);
