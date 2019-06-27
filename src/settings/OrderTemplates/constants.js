@@ -6,9 +6,9 @@ import { ACCORDION_ID as PO_LINE_ACCORDION } from '../../components/POLine/const
 export const ORDER_TEMPLATES_ACCORDION = {
   TEMPLATE_INFO: 'templateInfo',
   PO_INFO: 'poInfo',
+  PO_RENEWALS: 'renewals',
   PO_NOTES: 'poNotes',
   PO_SUMMARY: 'poSummary',
-  PO_RENEWALS: 'poRenewals',
   POL_ITEM_DETAILS: PO_LINE_ACCORDION.itemDetails,
   POL_DETAILS: PO_LINE_ACCORDION.lineDetails,
   POL_COST_DETAILS: PO_LINE_ACCORDION.costDetails,
@@ -16,13 +16,14 @@ export const ORDER_TEMPLATES_ACCORDION = {
   POL_FUND_DISTIBUTION: PO_LINE_ACCORDION.fundDistribution,
   POL_ERESOURCES: PO_LINE_ACCORDION.eresources,
   POL_FRESOURCES: PO_LINE_ACCORDION.physical,
-  POL_ORESOURCES: PO_LINE_ACCORDION.other,
+  POL_OTHER_RESOURCES: PO_LINE_ACCORDION.other,
   POL_LOCATION: PO_LINE_ACCORDION.location,
 };
 
 export const ORDER_TEMPLATES_ACCORDION_TITLES = {
   [ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.template" />,
   [ORDER_TEMPLATES_ACCORDION.PO_INFO]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poInfo" />,
+  [ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poRenewals" />,
   [ORDER_TEMPLATES_ACCORDION.PO_NOTES]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poNotes" />,
   [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poSummary" />,
   [ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.poRenewals" />,
@@ -33,6 +34,6 @@ export const ORDER_TEMPLATES_ACCORDION_TITLES = {
   [ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polFundDistribution" />,
   [ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polEResources" />,
   [ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polFResources" />,
-  [ORDER_TEMPLATES_ACCORDION.POL_ORESOURCES]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polOResources" />,
+  [ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polOtherResources" />,
   [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: <FormattedMessage id="ui-orders.settings.orderTemplates.accordion.polLocation" />,
 };

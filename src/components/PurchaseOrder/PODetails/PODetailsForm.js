@@ -6,12 +6,10 @@ import { Field } from 'redux-form';
 
 import {
   Col,
-  IconButton,
   KeyValue,
   Row,
   TextField,
 } from '@folio/stripes/components';
-import { Pluggable } from '@folio/stripes/core';
 
 import { getAddressOptions, getVendorOptions } from '../../../common/utils';
 import {
@@ -23,6 +21,7 @@ import {
   FieldIsReEncumber,
   FieldsNotes,
   FieldVendor,
+  FieldAssignedTo,
 } from '../../../common/POFields';
 import FolioFormattedTime from '../../FolioFormattedTime';
 import FieldOrderType from './FieldOrderType';
@@ -37,70 +36,11 @@ class PODetailsForm extends Component {
     prefixesSetting: PropTypes.object.isRequired,
     suffixesSetting: PropTypes.object.isRequired,
     formValues: PropTypes.object,
-    stripes: PropTypes.object,
     dispatch: PropTypes.func,
     change: PropTypes.func,
     addresses: PropTypes.arrayOf(PropTypes.object),
     vendors: PropTypes.arrayOf(PropTypes.object),
     order: PropTypes.object,
-  }
-
-  onClearFieldUser = () => {
-    const { dispatch, change } = this.props;
-
-    dispatch(change('assignedToUser', ''));
-    dispatch(change('assignedTo', null));
-  }
-
-  onAddUser = (user) => {
-    const { dispatch, change } = this.props;
-
-    dispatch(change('assignedToUser', `${user.personal.firstName} ${user.personal.lastName}`));
-    dispatch(change('assignedTo', `${user.id}`));
-  }
-
-  userClearButton = () => {
-    const { formValues } = this.props;
-    const isValues = formValues.assignedTo || formValues.assignedToUser;
-
-    if (isValues && isValues.length > 0) {
-      return (
-        <IconButton
-          onClick={this.onClearFieldUser}
-          icon="times-circle-solid"
-          size="small"
-        />
-      );
-    }
-
-    return null;
-  }
-
-  userModal = () => {
-    const columnMapping = {
-      name: <FormattedMessage id="ui-orders.user.name" />,
-      patronGroup: <FormattedMessage id="ui-orders.user.patronGroup" />,
-      username: <FormattedMessage id="ui-orders.user.username" />,
-      barcode: <FormattedMessage id="ui-orders.user.barcode" />,
-    };
-    const { stripes } = this.props;
-
-    return (
-      <Pluggable
-        aria-haspopup="true"
-        type="find-user"
-        dataKey="user"
-        searchLabel="+"
-        searchButtonStyle="default"
-        selectUser={this.onAddUser}
-        visibleColumns={['name', 'patronGroup', 'username', 'barcode']}
-        columnMapping={columnMapping}
-        disableRecordCreation
-        stripes={stripes}
-      >
-        <span>[no user-selection plugin]</span>
-      </Pluggable>
-    );
   }
 
   fillBackGeneratedNumber = (e, value) => {
@@ -121,6 +61,8 @@ class PODetailsForm extends Component {
       suffixesSetting,
       order,
       vendors,
+      dispatch,
+      change,
     } = this.props;
 
     const isOpenedOrder = isWorkflowStatusOpen(order);
@@ -159,7 +101,6 @@ class PODetailsForm extends Component {
           <Col
             xs={12}
             lg={3}
-            className={css.pluginFieldWrapper}
           >
             <FieldVendor
               vendors={vendorOptions}
@@ -188,20 +129,12 @@ class PODetailsForm extends Component {
           <Col
             xs={12}
             lg={3}
-            className={css.pluginFieldWrapper}
           >
-            <Field
-              component={TextField}
-              disabled
-              endControl={this.userClearButton()}
-              fullWidth
-              hasClearIcon={false}
-              label={<FormattedMessage id="ui-orders.orderDetails.assignedTo" />}
-              name="assignedToUser"
+            <FieldAssignedTo
+              dispatch={dispatch}
+              change={change}
+              assignedToValue={formValues.assignedTo || formValues.assignedToUser}
             />
-            <div className={css.pluginButtonWrapper}>
-              {this.userModal()}
-            </div>
           </Col>
         </Row>
         <Row>

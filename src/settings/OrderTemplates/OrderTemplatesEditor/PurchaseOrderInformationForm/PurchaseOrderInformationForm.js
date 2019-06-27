@@ -14,6 +14,7 @@ import {
   FieldShipTo,
   FieldIsManualPO,
   FieldIsReEncumber,
+  FieldAssignedTo,
 } from '../../../../common/POFields';
 import FieldOrderType from '../../../../components/PurchaseOrder/PODetails/FieldOrderType';
 
@@ -22,6 +23,9 @@ const PurchaseOrderInformationForm = ({
   suffixesSetting,
   addresses,
   vendors,
+  formValues,
+  change,
+  dispatch,
 }) => {
   return (
     <Row>
@@ -50,7 +54,11 @@ const PurchaseOrderInformationForm = ({
         xs={3}
         data-col-order-template-assign-to
       >
-        Assign to (TBD)
+        <FieldAssignedTo
+          dispatch={dispatch}
+          change={change}
+          assignedToValue={formValues.assignedTo || formValues.assignedToUser}
+        />
       </Col>
 
       <Col
@@ -96,6 +104,9 @@ PurchaseOrderInformationForm.propTypes = {
   suffixesSetting: PropTypes.arrayOf(PropTypes.object),
   addresses: PropTypes.arrayOf(PropTypes.object),
   vendors: PropTypes.arrayOf(PropTypes.object),
+  formValues: PropTypes.object.isRequired,
+  change: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default PurchaseOrderInformationForm;

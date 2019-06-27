@@ -1,0 +1,10 @@
+.FieldAssignedToWrapper {
+  display: flex;
+  height: 80px;
+}
+
+.FieldAssignedToButtonWrapper {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}

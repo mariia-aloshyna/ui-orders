@@ -20,7 +20,7 @@ const FieldPrefix = ({ prefixes, disabled }) => {
 };
 
 FieldPrefix.propTypes = {
-  prefixes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  prefixes: PropTypes.arrayOf(PropTypes.object).isRequired,
   disabled: PropTypes.bool,
 };
 

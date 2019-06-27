@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
+import { getFormValues } from 'redux-form';
 
 import { get } from 'lodash';
+
+import { withStripes } from '@folio/stripes/core';
 
 import {
   IDENTIFIER_TYPES,
@@ -62,6 +65,7 @@ class OrderTemplatesEditorContainer extends Component {
     mutator: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
+    stripes: PropTypes.object.isRequired,
   };
 
   saveOrderTemplate = (values) => {
@@ -87,7 +91,9 @@ class OrderTemplatesEditorContainer extends Component {
   };
 
   render() {
-    const { close, resources, match } = this.props;
+    const { close, resources, match, stripes } = this.props;
+    const formValues = getFormValues('orderTemplateForm')(stripes.store.getState()) || INITIAL_VALUES;
+
     const locations = getLocationsForSelect(resources);
     const funds = getFundsForSelect(resources);
     const identifierTypes = getIdentifierTypesForSelect(resources);
@@ -119,9 +125,10 @@ class OrderTemplatesEditorContainer extends Component {
         addresses={addresses}
         vendors={vendors}
         materialTypes={materialTypes}
+        formValues={formValues}
       />
     );
   }
 }
 
-export default OrderTemplatesEditorContainer;
+export default withStripes(OrderTemplatesEditorContainer);

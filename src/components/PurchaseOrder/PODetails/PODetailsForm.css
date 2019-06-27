@@ -1,14 +1,3 @@
-.pluginFieldWrapper {
-  display: flex;
-  height: 80px;
-}
-
-.pluginButtonWrapper {
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-}
-
 .addressWrapper {
   white-space: pre-line;
 }

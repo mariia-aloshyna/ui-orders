@@ -78,7 +78,7 @@ class OrderTemplateView extends Component {
       [ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]: false,
-      [ORDER_TEMPLATES_ACCORDION.POL_ORESOURCES]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: false,
     },
     showConfirmDelete: false,
@@ -297,8 +297,8 @@ class OrderTemplateView extends Component {
 
                 {showOther && (
                   <Accordion
-                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ORESOURCES]}
-                    id={ORDER_TEMPLATES_ACCORDION.POL_ORESOURCES}
+                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]}
+                    id={ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES}
                   >
                     <OtherView
                       materialTypes={materialTypes}

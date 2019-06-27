@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { getFormValues } from 'redux-form';
-
-import { withStripes } from '@folio/stripes/core';
 
 import {
   Pane,
@@ -23,10 +20,19 @@ import {
   ORDER_TEMPLATES_ACCORDION_TITLES,
 } from '../constants';
 
+import {
+  isEresource,
+  isFresource,
+  isOtherResource,
+} from '../../../common/POLFields';
+import {
+  isOngoing,
+} from '../../../common/POFields';
 import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
 import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
+import PurchaseOrderRenewalsForm from './PurchaseOrderRenewalsForm';
 import PurchaseOrderNotesForm from './PurchaseOrderNotesForm';
 import PurchaseOrderSummaryForm from './PurchaseOrderSummaryForm';
 import POLineDetailsForm from './POLineDetailsForm';
@@ -34,13 +40,14 @@ import POLineVendorForm from './POLineVendorForm';
 import POLineFundDistributionForm from './POLineFundDistributionForm';
 import POLineEresourcesForm from './POLineEresourcesForm';
 import POLinePhysicalForm from './POLinePhysicalForm';
+import POLineOtherResourcesForm from './POLineOtherResourcesForm';
 import POLineLocationsForm from './POLineLocationsForm';
 
 const ORDER = {};
 
 class OrderTemplatesEditor extends Component {
   static propTypes = {
-    stripes: PropTypes.object.isRequired,
+    formValues: PropTypes.object.isRequired,
     change: PropTypes.func,
     dispatch: PropTypes.func,
     close: PropTypes.func.isRequired,
@@ -56,13 +63,14 @@ class OrderTemplatesEditor extends Component {
     addresses: PropTypes.arrayOf(PropTypes.object),
     vendors: PropTypes.arrayOf(PropTypes.object),
     materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    title: PropTypes.string,
+    title: PropTypes.object,
   };
 
   state = {
     sections: {
       [ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]: true,
       [ORDER_TEMPLATES_ACCORDION.PO_INFO]: false,
+      [ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_NOTES]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: false,
@@ -72,6 +80,7 @@ class OrderTemplatesEditor extends Component {
       [ORDER_TEMPLATES_ACCORDION.POL_FUND_DISTIBUTION]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: false,
     },
   };
@@ -128,14 +137,13 @@ class OrderTemplatesEditor extends Component {
       materialTypes,
       handleSubmit,
       close,
-      stripes,
+      formValues,
       dispatch,
       change,
       title,
     } = this.props;
     const { sections } = this.state;
-    const { store } = stripes;
-    const formValues = getFormValues('orderTemplateForm')(store.getState());
+    const orderFormat = formValues.orderFormat;
 
     return (
       <Layer isOpen>
@@ -186,8 +194,22 @@ class OrderTemplatesEditor extends Component {
                       suffixesSetting={suffixesSetting}
                       addresses={addresses}
                       vendors={vendors}
+                      formValues={formValues}
+                      change={change}
+                      dispatch={dispatch}
                     />
                   </Accordion>
+
+                  {
+                    isOngoing(formValues.orderType) && (
+                      <Accordion
+                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]}
+                        id={ORDER_TEMPLATES_ACCORDION.PO_RENEWALS}
+                      >
+                        <PurchaseOrderRenewalsForm />
+                      </Accordion>
+                    )
+                  }
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_NOTES]}
@@ -257,25 +279,47 @@ class OrderTemplatesEditor extends Component {
                     />
                   </Accordion>
 
-                  <Accordion
-                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]}
-                    id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
-                  >
-                    <POLineEresourcesForm
-                      materialTypes={materialTypes}
-                      vendors={vendors}
-                    />
-                  </Accordion>
+                  {
+                    isEresource(orderFormat) && (
+                      <Accordion
+                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES]}
+                        id={ORDER_TEMPLATES_ACCORDION.POL_ERESOURCES}
+                      >
+                        <POLineEresourcesForm
+                          materialTypes={materialTypes}
+                          vendors={vendors}
+                        />
+                      </Accordion>
+                    )
+                  }
 
-                  <Accordion
-                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]}
-                    id={ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES}
-                  >
-                    <POLinePhysicalForm
-                      materialTypes={materialTypes}
-                      vendors={vendors}
-                    />
-                  </Accordion>
+                  {
+                    isFresource(orderFormat) && (
+                      <Accordion
+                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]}
+                        id={ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES}
+                      >
+                        <POLinePhysicalForm
+                          materialTypes={materialTypes}
+                          vendors={vendors}
+                        />
+                      </Accordion>
+                    )
+                  }
+
+                  {
+                    isOtherResource(orderFormat) && (
+                      <Accordion
+                        label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]}
+                        id={ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES}
+                      >
+                        <POLineOtherResourcesForm
+                          materialTypes={materialTypes}
+                          vendors={vendors}
+                        />
+                      </Accordion>
+                    )
+                  }
 
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_LOCATION]}
@@ -297,4 +341,4 @@ export default stripesForm({
   enableReinitialize: true,
   form: 'orderTemplateForm',
   navigationCheck: true,
-})(withStripes(OrderTemplatesEditor));
+})(OrderTemplatesEditor);
