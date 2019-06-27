@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
+import { FormattedMessage } from 'react-intl';
 
-import {
-  get,
-  find,
-} from 'lodash';
+import { get } from 'lodash';
 
 import {
   IDENTIFIER_TYPES,
@@ -17,6 +16,7 @@ import {
   SUFFIXES_SETTING,
   VENDORS,
   MATERIAL_TYPES,
+  ORDER_TEMPLATE,
 } from '../../../components/Utils/resources';
 import {
   MODULE_ORDERS,
@@ -41,7 +41,10 @@ const INITIAL_VALUES = {};
 
 class OrderTemplatesEditorContainer extends Component {
   static manifest = Object.freeze({
-    orderTemplates: ORDER_TEMPLATES,
+    orderTemplates: {
+      ...ORDER_TEMPLATES,
+      fetch: false,
+    },
     identifierTypes: IDENTIFIER_TYPES,
     locations: LOCATIONS,
     fund: FUND,
@@ -51,25 +54,25 @@ class OrderTemplatesEditorContainer extends Component {
     addresses: ADDRESSES,
     vendors: VENDORS,
     materialTypes: MATERIAL_TYPES,
+    orderTemplate: ORDER_TEMPLATE,
   });
 
   static propTypes = {
     close: PropTypes.func.isRequired,
     mutator: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
-    match: PropTypes.object,
+    match: ReactRouterPropTypes.match.isRequired,
   };
 
   saveOrderTemplate = (values) => {
-    const { close, mutator: { orderTemplates }, match, resources } = this.props;
-    const orderTemplatesConfig = get(resources, ['orderTemplates', 'records'], []);
+    const { close, mutator: { orderTemplates, orderTemplate }, match, resources } = this.props;
     const id = get(match, ['params', 'id']);
-    const mutatorMethod = id ? 'PUT' : 'POST';
+    const mutator = id ? orderTemplate.PUT : orderTemplates.POST;
     const value = JSON.stringify(values);
     let orderTemplateBody;
 
     if (id) {
-      orderTemplateBody = find(orderTemplatesConfig, { id });
+      orderTemplateBody = get(resources, ['orderTemplate', 'records', 0], {});
     } else {
       orderTemplateBody = {
         module: MODULE_ORDERS,
@@ -80,8 +83,7 @@ class OrderTemplatesEditorContainer extends Component {
 
     orderTemplateBody = { ...orderTemplateBody, value };
 
-    orderTemplates[mutatorMethod](orderTemplateBody)
-      .then(close);
+    mutator(orderTemplateBody).then(close);
   };
 
   render() {
@@ -95,13 +97,12 @@ class OrderTemplatesEditorContainer extends Component {
     const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', {}));
     const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
     const materialTypes = getMaterialTypesForSelect(resources);
-
-    const orderTemplatesList = getOrderTemplatesList(get(resources, ['orderTemplates', 'records'], []));
+    const orderTemplate = getOrderTemplatesList(get(resources, 'orderTemplate.records', []));
     const id = get(match, ['params', 'id']);
     const template = id
-      ? find(orderTemplatesList, { id })
+      ? get(orderTemplate, 0, {})
       : { orderTemplate: INITIAL_VALUES };
-    const title = get(template, 'title', '');
+    const title = get(template, 'title') || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
 
     return (
       <OrderTemplatesEditor

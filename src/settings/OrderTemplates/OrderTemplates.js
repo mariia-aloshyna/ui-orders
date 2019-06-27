@@ -5,21 +5,20 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
 
+import { get } from 'lodash';
+
 import { stripesShape } from '@folio/stripes/core';
 import { Callout } from '@folio/stripes/components';
 
-import {
-  SUFFIXES_SETTING,
-  PREFIXES_SETTING,
-} from '../../components/Utils/resources';
+import { ORDER_TEMPLATES } from '../../components/Utils/resources';
 import OrderTemplatesList from './OrderTemplatesList';
 import OrderTemplatesEditorContainer from './OrderTemplatesEditor';
 import OrderTemplateViewContainer from './OrderTemplateView';
+import { getOrderTemplatesList } from './util';
 
 class OrderTemplates extends Component {
   static manifest = Object.freeze({
-    prefixesSetting: PREFIXES_SETTING,
-    suffixesSetting: SUFFIXES_SETTING,
+    orderTemplates: ORDER_TEMPLATES,
   });
 
   static propTypes = {
@@ -27,6 +26,7 @@ class OrderTemplates extends Component {
     match: ReactRouterPropTypes.match.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     stripes: stripesShape.isRequired,
+    resources: PropTypes.object,
   };
 
   constructor(props) {
@@ -54,7 +54,8 @@ class OrderTemplates extends Component {
   }
 
   render() {
-    const { label, match: { path } } = this.props;
+    const { label, match: { path }, resources } = this.props;
+    const orderTemplatesList = getOrderTemplatesList(get(resources, ['orderTemplates', 'records'], []));
 
     return (
       <Fragment>
@@ -66,6 +67,7 @@ class OrderTemplates extends Component {
               <this.connectedOrderTemplatesList
                 label={label}
                 rootPath={path}
+                orderTemplatesList={orderTemplatesList}
               />
             )}
           />

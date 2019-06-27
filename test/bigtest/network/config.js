@@ -78,6 +78,8 @@ export default function config() {
     return schema.configs.all();
   });
 
+  this.get(`${CONFIG_API}/:id`, 'configs');
+
   this.post(CONFIG_API, (schema, request) => {
     const body = JSON.stringify(request.requestBody);
 

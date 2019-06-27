@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { get } from 'lodash';
-
 import {
   Button,
   NavList,
@@ -11,24 +9,20 @@ import {
   Pane,
 } from '@folio/stripes/components';
 
-import { ORDER_TEMPLATES } from '../../../components/Utils/resources';
-import { getOrderTemplatesList } from '../util';
-
 class OrderTemplatesList extends Component {
-  static manifest = Object.freeze({
-    orderTemplates: ORDER_TEMPLATES,
-  });
-
   static propTypes = {
     label: PropTypes.object.isRequired,
-    resources: PropTypes.object.isRequired,
+    orderTemplatesList: PropTypes.arrayOf(PropTypes.object),
     rootPath: PropTypes.string.isRequired,
   };
 
-  render() {
-    const { label, rootPath, resources } = this.props;
+  static defaultProps = {
+    orderTemplatesList: [],
+  };
 
-    const orderTemplatesList = getOrderTemplatesList(get(resources, ['orderTemplates', 'records'], []));
+  render() {
+    const { label, rootPath, orderTemplatesList } = this.props;
+
     const lastMenu = (
       <Button
         to={`${rootPath}/create`}
