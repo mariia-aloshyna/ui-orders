@@ -53,6 +53,7 @@ class OrderTemplateView extends Component {
     locations: PropTypes.arrayOf(PropTypes.object),
     materialTypes: PropTypes.arrayOf(PropTypes.object),
     vendors: PropTypes.arrayOf(PropTypes.object),
+    users: PropTypes.arrayOf(PropTypes.object),
   };
 
   static defaultProps = {
@@ -63,6 +64,7 @@ class OrderTemplateView extends Component {
     materialTypes: [],
     template: {},
     vendors: [],
+    users: [],
   }
 
   state = {
@@ -153,6 +155,7 @@ class OrderTemplateView extends Component {
       locations,
       materialTypes,
       vendors,
+      users,
     } = this.props;
     const { sections, showConfirmDelete } = this.state;
     const orderTemplate = get(template, 'orderTemplate', {});
@@ -162,6 +165,13 @@ class OrderTemplateView extends Component {
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const showOther = orderFormat === OTHER;
     const isOngoing = get(template, 'orderType') === ORDER_TYPE.ongoing;
+    const vendor = vendors.find(d => d.id === orderTemplate.vendor);
+    const assignedTo = users.find(d => d.id === orderTemplate.assignedTo);
+
+    orderTemplate.vendorName = get(vendor, 'name');
+    orderTemplate.assignedToUser = assignedTo && assignedTo.personal
+      ? `${assignedTo.personal.firstName} ${assignedTo.personal.lastName}`
+      : '';
 
     return (
       <Layer isOpen>
