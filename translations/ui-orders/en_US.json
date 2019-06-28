@@ -278,7 +278,6 @@
     "order_format.service": "Service",
     "order.assigned_to": "Assigned to",
     "order.notes": "Notes",
-    "order.po_number": "PO number",
     "payment_status.awaitingPayment": "Awaiting payment",
     "payment_status.cancelled": "Canceled",
     "payment_status.fullyPaid": "Fully paid",
@@ -706,5 +705,8 @@
     "settings.orderTemplates.remove.success": "The template was deleted.",
     "settings.orderTemplates.remove.error": "The template was not deleted.",
     "settings.orderTemplates.accordion.poRenewals": "PO renewals",
-    "settings.orderTemplates.accordion.polOtherResources": "Other resource details"
+    "settings.orderTemplates.accordion.polOtherResources": "Other resource details",
+    "order.poNumber": "PO number",
+    "order.lastUpdated": "Last updated",
+    "order.acquisitionsUnit": "Acquisitions unit"
 }

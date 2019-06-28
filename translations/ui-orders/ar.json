@@ -278,7 +278,6 @@
     "order_format.service": "الخدمة",
     "order.assigned_to": "معيّن إلى",
     "order.notes": "ملاحظات",
-    "order.po_number": "رقم أمر الشراء",
     "payment_status.awaitingPayment": "في انتظار السداد",
     "payment_status.cancelled": "ملغي",
     "payment_status.fullyPaid": "مسدد بالكامل",
@@ -705,6 +704,9 @@
     "settings.orderTemplates.confirmDelete.message": "هل أنت متأكد من أنك تريد حذف القالب؟",
     "settings.orderTemplates.remove.success": "تم حذف القالب",
     "settings.orderTemplates.remove.error": "لم يتم حذف القالب",
-    "settings.orderTemplates.accordion.poRenewals": "PO renewals",
-    "settings.orderTemplates.accordion.polOtherResources": "Other resource details"
+    "settings.orderTemplates.accordion.poRenewals": "تجديدات أمر الشراء",
+    "settings.orderTemplates.accordion.polOtherResources": "تفاصيل الموارد الأخرى",
+    "order.poNumber": "رقم أمر الشراء",
+    "order.lastUpdated": "آخر تحديث",
+    "order.acquisitionsUnit": "وحدة التزويد"
 }

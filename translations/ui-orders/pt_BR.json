@@ -278,7 +278,6 @@
     "order_format.service": "Serviço",
     "order.assigned_to": "Atribuído a",
     "order.notes": "Notas",
-    "order.po_number": "Número do pedido",
     "payment_status.awaitingPayment": "Aguardando pagamento",
     "payment_status.cancelled": "Cancelado",
     "payment_status.fullyPaid": "Totalmente pago",
@@ -705,6 +704,9 @@
     "settings.orderTemplates.confirmDelete.message": "Tem certeza de que deseja excluir o modelo?",
     "settings.orderTemplates.remove.success": "O modelo foi excluído",
     "settings.orderTemplates.remove.error": "O modelo não foi excluído",
-    "settings.orderTemplates.accordion.poRenewals": "PO renewals",
-    "settings.orderTemplates.accordion.polOtherResources": "Other resource details"
+    "settings.orderTemplates.accordion.poRenewals": "Renovações de pedido",
+    "settings.orderTemplates.accordion.polOtherResources": "Outros detalhes do recurso",
+    "order.poNumber": "Número do pedido",
+    "order.lastUpdated": "Última atualização",
+    "order.acquisitionsUnit": "Unidade de aquisição"
 }
