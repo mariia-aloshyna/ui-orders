@@ -26,8 +26,8 @@ import {
   getAddresses,
   getSettingsList,
 } from '../../common/utils';
+import { isOngoing } from '../../common/POFields';
 import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
-import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { RenewalsForm } from './renewals';
@@ -155,7 +155,6 @@ class POForm extends Component {
     const { sections } = this.state;
     const generatedNumber = get(parentResources, 'orderNumber.records.0.poNumber');
     const formValues = getFormValues('FormPO')(stripes.store.getState());
-    const isOngoing = formValues.orderType === ORDER_TYPE.ongoing;
     const firstMenu = this.getAddFirstMenu();
     const orderNumber = get(initialValues, 'poNumber', '');
     const paneTitle = initialValues.id
@@ -231,7 +230,7 @@ class POForm extends Component {
                             vendors={vendors}
                           />
                         </Accordion>
-                        {isOngoing && (
+                        {isOngoing(formValues.orderType) && (
                           <Accordion
                             id="renewals"
                             label={<FormattedMessage id="ui-orders.paneBlock.renewals" />}

@@ -14,25 +14,37 @@ import {
 
 const RenewalsView = ({ order: { renewal = {} } }) => {
   return (
-    <Row>
-      <Col xs={6}>
+    <Row start="xs">
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.renewals.renewalInterval" />}
           value={renewal.interval}
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue label={<FormattedMessage id="ui-orders.renewals.renewalDate" />}>
           <FormattedDate value={renewal.renewalDate} />
         </KeyValue>
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue
           label={<FormattedMessage id="ui-orders.renewals.reviewPeriod" />}
           value={renewal.reviewPeriod}
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        lg={3}
+      >
         <KeyValue label={<FormattedMessage id="ui-orders.renewals.manualRenewal" />}>
           <Checkbox
             checked={renewal.manualRenewal}
