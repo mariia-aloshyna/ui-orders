@@ -18,6 +18,7 @@ import {
   MATERIAL_TYPES,
   ORDER_TEMPLATE,
   VENDORS,
+  USERS,
 } from '../../../components/Utils/resources';
 import { getOrderTemplatesList } from '../util';
 import OrderTemplateView from './OrderTemplateView';
@@ -31,6 +32,7 @@ class OrderTemplateViewContainer extends Component {
     materialTypes: MATERIAL_TYPES,
     orderTemplate: ORDER_TEMPLATE,
     vendors: VENDORS,
+    users: USERS,
   });
 
   static propTypes = {
@@ -70,6 +72,7 @@ class OrderTemplateViewContainer extends Component {
     const locations = get(resources, 'locations.records', []);
     const materialTypes = get(resources, 'materialTypes.records', []);
     const vendors = get(resources, 'vendors.records', []);
+    const users = get(resources, 'users.records', []);
 
     return (
       <Fragment>
@@ -84,6 +87,7 @@ class OrderTemplateViewContainer extends Component {
           rootPath={rootPath}
           template={orderTemplate}
           vendors={vendors}
+          users={users}
         />
         <Callout ref={this.createCalloutRef} />
       </Fragment>
