@@ -29,12 +29,12 @@ import { EresourcesView } from '../../../components/POLine/Eresources';
 import { PhysicalView } from '../../../components/POLine/Physical';
 import { OtherView } from '../../../components/POLine/Other';
 import LocationView from '../../../components/POLine/Location/LocationView';
-import { ORDER_TYPE } from '../../../components/PurchaseOrder/PODetails/FieldOrderType';
 import {
   ERESOURCES,
   PHRESOURCES,
   OTHER,
 } from '../../../components/POLine/const';
+import { isOngoing } from '../../../common/POFields';
 import {
   ORDER_TEMPLATES_ACCORDION_TITLES,
   ORDER_TEMPLATES_ACCORDION,
@@ -164,7 +164,7 @@ class OrderTemplateView extends Component {
     const showEresources = ERESOURCES.includes(orderFormat);
     const showPhresources = PHRESOURCES.includes(orderFormat);
     const showOther = orderFormat === OTHER;
-    const isOngoing = get(template, 'orderType') === ORDER_TYPE.ongoing;
+    const orderType = get(orderTemplate, 'orderType');
     const vendor = vendors.find(d => d.id === orderTemplate.vendor);
     const assignedTo = users.find(d => d.id === orderTemplate.assignedTo);
 
@@ -229,7 +229,7 @@ class OrderTemplateView extends Component {
                   <SummaryView order={orderTemplate} />
                 </Accordion>
 
-                {isOngoing && (
+                {isOngoing(orderType) && (
                   <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]}
                     id={ORDER_TEMPLATES_ACCORDION.PO_RENEWALS}

@@ -27,6 +27,7 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 import {
   getAddresses,
 } from '../../common/utils';
+import { isOngoing } from '../../common/POFields';
 import { LayerPO } from '../LayerCollection';
 import {
   LINES_LIMIT,
@@ -38,7 +39,6 @@ import {
 } from '../Utils/orderResource';
 import { showUpdateOrderError } from '../Utils/order';
 import { LINES_LIMIT_DEFAULT } from '../Utils/const';
-import { ORDER_TYPE } from './PODetails/FieldOrderType';
 import CloseOrderModal from './CloseOrder';
 import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
 import { WORKFLOW_STATUS } from './Summary/FieldWorkflowStatus';
@@ -360,7 +360,7 @@ class PO extends Component {
     const assignedTo = get(parentResources, 'users.records', []).find(d => d.id === order.assignedTo);
     const createdByUserId = get(order, 'metadata.createdByUserId');
     const createdBy = get(parentResources, 'users.records', []).find(d => d.id === createdByUserId);
-    const isOngoing = get(order, 'orderType') === ORDER_TYPE.ongoing;
+    const orderType = get(order, 'orderType');
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
 
     order.vendorName = get(vendor, 'name');
@@ -458,7 +458,7 @@ class PO extends Component {
               order={order}
             />
           </Accordion>
-          {isOngoing && (
+          {isOngoing(orderType) && (
             <Accordion
               id="renewals"
               label={<FormattedMessage id="ui-orders.paneBlock.renewals" />}
