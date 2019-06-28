@@ -278,7 +278,6 @@
     "order_format.service": "服务",
     "order.assigned_to": "分配给",
     "order.notes": "附注",
-    "order.po_number": "采购单号",
     "payment_status.awaitingPayment": "等待付款",
     "payment_status.cancelled": "取消",
     "payment_status.fullyPaid": "全额支付",
@@ -599,7 +598,7 @@
     "buttons.line.save": "Save",
     "paneMenu.saveOrder": "Save",
     "order.vendorCode": "Vendor Code",
-    "order.orderType": "Order Type",
+    "order.orderType": "Order type",
     "order.createdDate": "Created Date",
     "lineListing.title": "Title",
     "lineListing.productId": "Product ID",
@@ -706,5 +705,8 @@
     "settings.orderTemplates.remove.success": "The template was deleted",
     "settings.orderTemplates.remove.error": "The template was not deleted",
     "settings.orderTemplates.accordion.poRenewals": "PO renewals",
-    "settings.orderTemplates.accordion.polOtherResources": "Other resource details"
+    "settings.orderTemplates.accordion.polOtherResources": "Other resource details",
+    "order.poNumber": "PO number",
+    "order.lastUpdated": "Last updated",
+    "order.acquisitionsUnit": "Acquisitions unit"
 }

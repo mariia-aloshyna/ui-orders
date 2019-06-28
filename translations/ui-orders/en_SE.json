@@ -278,7 +278,6 @@
     "order_format.service": "Service",
     "order.assigned_to": "Assigned To",
     "order.notes": "Notes",
-    "order.po_number": "PO Number",
     "payment_status.awaitingPayment": "Awaiting Payment",
     "payment_status.cancelled": "Cancelled",
     "payment_status.fullyPaid": "Fully Paid",
@@ -338,7 +337,7 @@
     "physical.materialSupplier": "Material Supplier",
     "order_type.oneTime": "One-Time",
     "order_type.ongoing": "Ongoing",
-    "orderDetails.assignedTo": "Assigned To",
+    "orderDetails.assignedTo": "Assigned to",
     "orderDetails.billTo": "Bill To",
     "orderDetails.createdBy": "Created By",
     "orderDetails.createdOn": "Created On",
@@ -599,7 +598,7 @@
     "buttons.line.save": "Save",
     "paneMenu.saveOrder": "Save",
     "order.vendorCode": "Vendor Code",
-    "order.orderType": "Order Type",
+    "order.orderType": "Order type",
     "order.createdDate": "Created Date",
     "lineListing.title": "Title",
     "lineListing.productId": "Product ID",
@@ -706,5 +705,8 @@
     "settings.orderTemplates.remove.success": "The template was deleted",
     "settings.orderTemplates.remove.error": "The template was not deleted",
     "settings.orderTemplates.accordion.poRenewals": "PO renewals",
-    "settings.orderTemplates.accordion.polOtherResources": "Other resource details"
+    "settings.orderTemplates.accordion.polOtherResources": "Other resource details",
+    "order.poNumber": "PO number",
+    "order.lastUpdated": "Last updated",
+    "order.acquisitionsUnit": "Acquisitions unit"
 }
