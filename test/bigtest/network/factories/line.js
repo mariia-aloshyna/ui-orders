@@ -6,6 +6,6 @@ export default Factory.extend({
   poLineNumber: (id) => `${id}${faker.random.alphaNumeric()}${faker.random.alphaNumeric()}${faker.random.alphaNumeric()}-${id}`,
   metadata: () => ({
     createdDate: faker.date.past(),
-    lastUpdated: faker.date.past(),
+    updatedDate: faker.date.past(),
   }),
 });

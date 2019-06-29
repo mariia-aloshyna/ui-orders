@@ -55,11 +55,15 @@ const OtherView = ({ materialTypes, physical, vendors }) => {
 
 OtherView.propTypes = {
   materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  physical: PropTypes.object.isRequired,
+  physical: PropTypes.object,
   vendors: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
   })).isRequired,
+};
+
+OtherView.defaultProps = {
+  physical: {},
 };
 
 export default OtherView;

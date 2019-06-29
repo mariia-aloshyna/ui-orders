@@ -63,7 +63,7 @@ class OrderTemplatesEditor extends Component {
     addresses: PropTypes.arrayOf(PropTypes.object),
     vendors: PropTypes.arrayOf(PropTypes.object),
     materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    title: PropTypes.object,
+    title: PropTypes.node,
   };
 
   state = {
@@ -146,7 +146,10 @@ class OrderTemplatesEditor extends Component {
     const orderFormat = formValues.orderFormat;
 
     return (
-      <Layer isOpen>
+      <Layer
+        contentLabel="Order template editor"
+        isOpen
+      >
         <form
           id="order-template-form"
           onSubmit={handleSubmit}

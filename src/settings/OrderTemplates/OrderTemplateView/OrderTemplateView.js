@@ -174,7 +174,10 @@ class OrderTemplateView extends Component {
       : '';
 
     return (
-      <Layer isOpen>
+      <Layer
+        contentLabel="Order template details"
+        isOpen
+      >
         <Pane
           actionMenu={this.getActionMenu}
           id="order-settings-order-template-view"
