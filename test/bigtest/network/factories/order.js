@@ -5,7 +5,7 @@ export default Factory.extend({
   poNumber: (id) => `${id}${faker.random.alphaNumeric()}${faker.random.alphaNumeric()}${faker.random.alphaNumeric()}`,
   metadata: () => ({
     createdDate: faker.date.past(),
-    lastUpdated: faker.date.past(),
+    updatedDate: faker.date.past(),
   }),
   notes: (id) => [`Order ${id}`],
 });

@@ -15,7 +15,7 @@ import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-component
 import packageInfo from '../../package';
 import Panes from '../components/Panes';
 import { POForm } from '../components/PurchaseOrder';
-import FolioFormattedTime from '../components/FolioFormattedTime';
+import FolioFormattedDate from '../components/FolioFormattedDate';
 import { createOrderResource } from '../components/Utils/orderResource';
 import {
   LINES_API,
@@ -55,8 +55,8 @@ const columnWidths = {
   poNumber: '15%',
   vendorCode: '15%',
   workflowStatus: '10%',
-  orderType: '10%',
-  lastUpdated: '15%',
+  orderType: '15%',
+  lastUpdated: '10%',
   acquisitionsUnit: '20%',
   assignedTo: '15%',
 };
@@ -251,7 +251,7 @@ class OrdersList extends Component {
       },
       'workflowStatus': order => get(order, 'workflowStatus', ''),
       'orderType': order => get(order, 'orderType', ''),
-      'lastUpdated': order => <FolioFormattedTime dateString={get(order, 'metadata.updatedDate')} />,
+      'lastUpdated': order => <FolioFormattedDate value={get(order, 'metadata.updatedDate')} />,
       'acquisitionsUnit': order => get(order, 'acquisitionsUnit', ''),
       'assignedTo': order => {
         const assignedToId = get(order, 'assignedTo', '');
