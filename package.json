@@ -176,7 +176,7 @@
     "@bigtest/mirage": "^0.0.1",
     "@bigtest/mocha": "^0.5.1",
     "@bigtest/react": "^0.1.2",
-    "@folio/eslint-config-stripes": "^4.0.1",
+    "@folio/eslint-config-stripes": "^4.1.0",
     "@folio/react-intl-safe-html": "^1.0.1",
     "@folio/stripes": "^2.7.0",
     "@folio/stripes-cli": "^1.8.0",
@@ -196,6 +196,7 @@
     "sinon": "^7.0.0"
   },
   "dependencies": {
+    "@folio/stripes-acq-components": "^1.0.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
