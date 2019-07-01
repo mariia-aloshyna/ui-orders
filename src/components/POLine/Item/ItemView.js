@@ -59,6 +59,15 @@ class ItemView extends Component {
             lg={3}
           >
             <KeyValue
+              label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
+              value={get(poLineDetails, ['details', 'contributorType'])}
+            />
+          </Col>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <KeyValue
               label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
               value={formatDate(get(poLineDetails, ['details', 'subscriptionFrom']))}
             />
