@@ -61,6 +61,10 @@ describe('Create POL', function () {
       expect(lineEditPage.electronicDetailsAccordion.isPresent).to.be.true;
     });
 
+    it('should display contributor field', function () {
+      expect(lineEditPage.electronicDetailsAccordion.isPresent).to.be.true;
+    });
+
     it('should display Access Provider field', function () {
       expect(lineEditPage.electronicDetailsAccordion.accessProviderPresent).to.be.true;
     });

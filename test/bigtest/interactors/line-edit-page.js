@@ -92,12 +92,19 @@ const ITEM_DETAILS = {
   funds = collection('[data-test-repeatable-field] [class*=repeatableFieldItem---]');
 }
 
+@interactor class Contributor {
+  static defaultScope = '[name="details.contributorType"]';
+  isSelect = is('select');
+  value = value();
+}
+
 @interactor class ItemDetailsAccordion {
   static defaultScope = ITEM_DETAILS.root;
   toggle = clickable('[class*=defaultCollapseButton---]');
   inputTitle = fillable(ITEM_DETAILS.inputTitle);
   errorTitle = attribute(ITEM_DETAILS.inputTitle, 'error');
   contributors = collection('[name*="contributors"]');
+  contributor = collection('[name="details.contributorType"]');
   edition = fillable('[name="edition"]');
   publisher = fillable('[name="publisher"]');
   productIds = collection('[name*="productIds"]');
@@ -140,6 +147,7 @@ export default interactor(class LineEditPage {
   locationAccordion = new LocationAccordion();
   updateLineButton = new Button('#clickable-updatePoLine');
   lineNumberInputValue = value('input[name="poLineNumber"]');
+  selectContributor = selectable('[name="details.contributorType"]');
   selectOrderFormat = selectable('[name="orderFormat"]');
   validationMessage = text('[class*=feedbackError---]');
   publicationDateField = new PublicationDateField();
@@ -157,6 +165,7 @@ export default interactor(class LineEditPage {
   otherAccordion = new OtherAccordion();
   title = text('[class*=paneTitleLabel---]');
   orderFormat = new OrderFormat();
+  contributor = new Contributor();
   physicalCreateInventory = new PhysicalCreateInventory();
   addVolumeButton = new Button('[data-test-add-volume-button]');
   removeVolumeButton = new Button('[data-test-remove-volume-button]');
