@@ -12,6 +12,7 @@ import {
   RECEIVE_API,
   RECEIVING_API,
   USERS_API,
+  CONTRIBUTOR_NAME_TYPES_API,
   VENDORS_API,
 } from './api';
 import {
@@ -164,6 +165,12 @@ export const USERS = {
   ...BASE_RESOURCE,
   path: USERS_API,
   records: 'users',
+};
+
+export const CONTRIBUTOR_NAME_TYPES = {
+  ...BASE_RESOURCE,
+  path: CONTRIBUTOR_NAME_TYPES_API,
+  records: 'contributorNameTypes',
 };
 
 export const CREATE_INVENTORY = {

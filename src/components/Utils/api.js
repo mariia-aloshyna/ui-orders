@@ -16,3 +16,4 @@ export const MATERIAL_TYPES_API = 'material-types';
 export const FUND_API = 'finance-storage/funds';
 export const USERS_API = 'users';
 export const IDENTIFIER_TYPES_API = 'identifier-types';
+export const CONTRIBUTOR_NAME_TYPES_API = 'contributor-name-types';

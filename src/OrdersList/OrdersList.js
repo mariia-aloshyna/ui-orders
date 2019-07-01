@@ -34,6 +34,7 @@ import {
   MATERIAL_TYPES,
   ORDER_NUMBER_SETTING,
   USERS,
+  CONTRIBUTOR_NAME_TYPES,
   SUFFIXES_SETTING,
   PREFIXES_SETTING,
 } from '../components/Utils/resources';
@@ -95,6 +96,7 @@ class OrdersList extends Component {
       },
     },
     users: USERS,
+    contributorNameTypes: CONTRIBUTOR_NAME_TYPES,
     fund: FUND,
     materialTypes: MATERIAL_TYPES,
     closingReasons: CLOSING_REASONS,
@@ -262,6 +264,7 @@ class OrdersList extends Component {
           : '';
       },
     };
+
     const newRecordInitialValues = {
       createdByName: `${firstName} ${lastName}` || '',
     };
