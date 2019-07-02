@@ -100,7 +100,7 @@ class ReceivingList extends Component {
     receivingHistory.GET({ params }).then(response => {
       const uniqReceivingList = getLinesRows(response);
 
-      if (uniqReceivingList.length === 1) this.toggleAll(uniqReceivingList);
+      if (uniqReceivingList.length === 1) this.toggleAll(response);
     });
   }
 
