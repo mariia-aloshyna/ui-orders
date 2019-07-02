@@ -185,7 +185,7 @@ class ItemForm extends Component {
               fullWidth
               required
               label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
-              name="details.contributorType"
+              name="details.contributorNameTypeId"
               validate={Required}
             />
           </Col>
