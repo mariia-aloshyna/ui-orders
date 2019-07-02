@@ -48,6 +48,9 @@ describe('Edit PO Line - Save updated PO Line', function () {
     ];
     line = this.server.create('line', {
       acquisitionMethod: ACQUISITION_METHOD.gift,
+      details: {
+        contributorNameTypeId: '1',
+      },
       orderFormat: PHYSICAL,
       cost,
       title: TITLE,
