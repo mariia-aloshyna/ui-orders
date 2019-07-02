@@ -175,7 +175,7 @@ class OrderLinesFilters extends Component {
         />
         <OrdersDateRangeFilter
           activeFilters={activeFilters[FILTERS.EXPECTED_ACTIVATION_DATE]}
-          id={FILTERS.SUBSCRIPTION_FROM}
+          id={FILTERS.EXPECTED_ACTIVATION_DATE}
           labelId="ui-orders.eresource.expectedActivation"
           name={FILTERS.EXPECTED_ACTIVATION_DATE}
           onChange={onChange}
@@ -205,7 +205,7 @@ class OrderLinesFilters extends Component {
           activeFilters={activeFilters[FILTERS.ACTUAL_RECEIPT_DATE]}
           id={FILTERS.ACTUAL_RECEIPT_DATE}
           labelId="ui-orders.filter.actualReceiptDate"
-          name={FILTERS.EXPECTED_ACTIVATION_DATE}
+          name={FILTERS.ACTUAL_RECEIPT_DATE}
           onChange={onChange}
         />
         <OrdersDateRangeFilter
