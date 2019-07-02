@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
-import FieldSelection from '../FieldSelection';
+import { FieldSelection } from '@folio/stripes-acq-components';
 
 const FieldShipTo = ({ addresses }) => {
   return (
     <FieldSelection
       dataOptions={addresses}
-      labelId="ui-orders.orderDetails.shipTo"
+      label={<FormattedMessage id="ui-orders.orderDetails.shipTo" />}
       name="shipTo"
     />
   );

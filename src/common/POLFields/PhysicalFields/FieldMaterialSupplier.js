@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
-import FieldSelection from '../../FieldSelection';
+import { FieldSelection } from '@folio/stripes-acq-components';
 
 const FieldMaterialSupplier = ({ vendors, disabled }) => {
   return (
     <FieldSelection
       dataOptions={vendors}
-      labelId="ui-orders.physical.materialSupplier"
+      label={<FormattedMessage id="ui-orders.physical.materialSupplier" />}
       name="physical.materialSupplier"
       disabled={disabled}
     />

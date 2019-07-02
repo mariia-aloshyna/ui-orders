@@ -104,6 +104,7 @@ class PODetailsForm extends Component {
           >
             <FieldVendor
               vendors={vendorOptions}
+              disabled={isOpenedOrder}
             />
           </Col>
           <Col
