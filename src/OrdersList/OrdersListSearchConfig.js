@@ -1,26 +1,16 @@
-const DATE_ORDERED_SEARCH = 'dateOrdered';
-const PO_NUMBER_SEARCH = 'poNumber';
-
 export const ordersSearchTemplate = `(
-  ${PO_NUMBER_SEARCH}="%{query.query}*"
+  poNumber="%{query.query}*"
 )`;
 
-export const searchableIndexes = [
-  {
-    label: 'keyword',
-    value: '',
-    makeQuery: term => `(
-      "${PO_NUMBER_SEARCH}"="${term}*"
-    )`,
-  },
-  {
-    label: DATE_ORDERED_SEARCH,
-    value: DATE_ORDERED_SEARCH,
-    makeQuery: term => `(${DATE_ORDERED_SEARCH}="${term}")`,
-  },
-  {
-    label: PO_NUMBER_SEARCH,
-    value: PO_NUMBER_SEARCH,
-    makeQuery: term => `(${PO_NUMBER_SEARCH}="${term}")`,
-  },
+const indexes = [
+  'metadata.createdDate',
+  'dateOrdered',
+  'poNumber',
 ];
+
+const keywordIndex = {
+  label: 'keyword',
+  value: '',
+};
+
+export const searchableIndexes = [keywordIndex, ...indexes.map(index => ({ label: index, value: index }))];
