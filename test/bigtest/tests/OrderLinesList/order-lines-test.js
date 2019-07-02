@@ -61,6 +61,18 @@ describe('Order lines', function () {
     expect(orderLines.filter.accordionCreatedDate.isExpanded).to.be.false;
   });
 
+  describe('search by keyword', function () {
+    beforeEach(async function () {
+      await orderLines.filter.selectSearchOption('Keyword');
+      await orderLines.filter.searchInput('TEST');
+      await orderLines.filter.searchButton.click();
+    });
+
+    it('search results are shown', () => {
+      expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
+    });
+  });
+
   describe('search by title', function () {
     beforeEach(async function () {
       await orderLines.filter.selectSearchOption('Title');
@@ -68,7 +80,55 @@ describe('Order lines', function () {
       await orderLines.filter.searchButton.click();
     });
 
-    it('no lines found', () => {
+    it('search results are shown', () => {
+      expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
+    });
+  });
+
+  describe('search by publisher', function () {
+    beforeEach(async function () {
+      await orderLines.filter.selectSearchOption('Publisher');
+      await orderLines.filter.searchInput('TEST');
+      await orderLines.filter.searchButton.click();
+    });
+
+    it('search results are shown', () => {
+      expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
+    });
+  });
+
+  describe('search by donor', function () {
+    beforeEach(async function () {
+      await orderLines.filter.selectSearchOption('Donor');
+      await orderLines.filter.searchInput('TEST');
+      await orderLines.filter.searchButton.click();
+    });
+
+    it('search results are shown', () => {
+      expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
+    });
+  });
+
+  describe('search by selector', function () {
+    beforeEach(async function () {
+      await orderLines.filter.selectSearchOption('Selector');
+      await orderLines.filter.searchInput('TEST');
+      await orderLines.filter.searchButton.click();
+    });
+
+    it('search results are shown', () => {
+      expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
+    });
+  });
+
+  describe('search by volume', function () {
+    beforeEach(async function () {
+      await orderLines.filter.selectSearchOption('Volumes');
+      await orderLines.filter.searchInput('TEST');
+      await orderLines.filter.searchButton.click();
+    });
+
+    it('search results are shown', () => {
       expect(orderLines.instances().length).to.be.equal(ORDER_LINES_COUNT);
     });
   });
