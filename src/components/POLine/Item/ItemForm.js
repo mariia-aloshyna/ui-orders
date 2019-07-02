@@ -44,7 +44,7 @@ class ItemForm extends Component {
     dispatch: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
-    contributors: PropTypes.arrayOf(PropTypes.object),
+    contributorsNameTypes: PropTypes.arrayOf(PropTypes.object),
     initialValues: PropTypes.object,
     order: PropTypes.object.isRequired,
     formValues: PropTypes.object.isRequired,
@@ -139,7 +139,7 @@ class ItemForm extends Component {
   render() {
     const isOpenedOrder = isWorkflowStatusOpen(this.props.order);
 
-    const { contributors } = this.props;
+    const { contributorsNameTypes } = this.props;
 
     return (
       <Fragment>
@@ -180,7 +180,7 @@ class ItemForm extends Component {
           </Col>
           <Col xs={6}>
             <Field
-              dataOptions={contributors}
+              dataOptions={contributorsNameTypes}
               component={Select}
               fullWidth
               required
