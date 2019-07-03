@@ -705,13 +705,13 @@
     "order.poNumber": "رقم أمر الشراء",
     "order.lastUpdated": "آخر تحديث",
     "order.acquisitionsUnit": "وحدة التزويد",
-    "search.contributors": "Contributor",
-    "search.donor": "Donor",
-    "search.details.productIds": "Product ID",
-    "search.publisher": "Publisher",
-    "search.selector": "Selector",
-    "search.vendorDetail.vendorAccount": "Vendor account",
-    "search.vendorDetail.refNumber": "Vendor reference number",
-    "search.physical.volumes": "Volumes",
-    "search.metadata.createdDate": "Date created"
+    "search.contributors": "المساهم",
+    "search.donor": "الجهة المانحة",
+    "search.details.productIds": "معرّف المنتج",
+    "search.publisher": "الناشر",
+    "search.selector": "محدد",
+    "search.vendorDetail.vendorAccount": "حساب الموّرد",
+    "search.vendorDetail.refNumber": "رقم الموّرد المرجعي",
+    "search.physical.volumes": "مجلدات",
+    "search.metadata.createdDate": "تاريخ الإنشاء"
 }
