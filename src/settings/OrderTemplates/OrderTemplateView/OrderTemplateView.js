@@ -54,6 +54,7 @@ class OrderTemplateView extends Component {
     materialTypes: PropTypes.arrayOf(PropTypes.object),
     vendors: PropTypes.arrayOf(PropTypes.object),
     users: PropTypes.arrayOf(PropTypes.object),
+    contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
   };
 
   static defaultProps = {
@@ -65,6 +66,7 @@ class OrderTemplateView extends Component {
     template: {},
     vendors: [],
     users: [],
+    contributorNameTypes: [],
   }
 
   state = {
@@ -156,6 +158,7 @@ class OrderTemplateView extends Component {
       materialTypes,
       vendors,
       users,
+      contributorNameTypes,
     } = this.props;
     const { sections, showConfirmDelete } = this.state;
     const orderTemplate = get(template, 'orderTemplate', {});
@@ -248,6 +251,7 @@ class OrderTemplateView extends Component {
                   <ItemView
                     poLineDetails={orderTemplate}
                     identifierTypes={identifierTypes}
+                    contributorNameTypes={contributorNameTypes}
                   />
                 </Accordion>
 

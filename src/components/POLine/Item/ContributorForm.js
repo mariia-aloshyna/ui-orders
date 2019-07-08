@@ -12,12 +12,15 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
+import { FieldSelection } from '@folio/stripes-acq-components';
+
+import { Required } from '../../Utils/Validate';
 
 class ContributorForm extends Component {
   static propTypes = {
     onChangeField: PropTypes.func.isRequired,
-    contributorNameTypeId: PropTypes.string,
     disabled: PropTypes.bool,
+    contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
   };
 
   addFields = (fields) => {
@@ -31,7 +34,7 @@ class ContributorForm extends Component {
 
   renderForm = ({ fields }) => {
     return (
-      <Row>
+      <Row start="xs">
         <Col xs={12}>
           {fields.length === 0 &&
             <Col xs={12}>
@@ -60,16 +63,26 @@ class ContributorForm extends Component {
   renderSubForm = (elem, index, fields) => {
     return (
       <Row key={index}>
-        <Col xs={11}>
+        <Col xs={6}>
           <Field
             component={TextField}
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
             name={`${elem}.contributor`}
-            onChange={(e, value) => {
-              this.props.onChangeField(value, `${elem}.contributor`);
-              this.props.onChangeField(this.props.contributorNameTypeId, `${elem}.contributorNameTypeId`);
-            }}
+            onChange={(e, value) => this.props.onChangeField(value, `${elem}.contributor`)}
+            disabled={this.props.disabled}
+          />
+        </Col>
+        <Col xs={5}>
+          <Field
+            dataOptions={this.props.contributorNameTypes}
+            component={FieldSelection}
+            fullWidth
+            required
+            label={<FormattedMessage id="ui-orders.itemDetails.contributorType" />}
+            name={`${elem}.contributorNameTypeId`}
+            onChange={(e, value) => this.props.onChangeField(value, `${elem}.contributorNameTypeId`)}
+            validate={Required}
             disabled={this.props.disabled}
           />
         </Col>
@@ -95,11 +108,14 @@ class ContributorForm extends Component {
     return (
       <FieldArray
         component={this.renderForm}
-        label="contributors"
         name="contributors"
       />
     );
   }
 }
+
+ContributorForm.defaultProps = {
+  contributorNameTypes: [],
+};
 
 export default ContributorForm;

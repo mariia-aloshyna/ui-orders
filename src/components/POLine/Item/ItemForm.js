@@ -17,7 +17,6 @@ import {
   TextArea,
   TextField,
 } from '@folio/stripes/components';
-import { FieldSelection } from '@folio/stripes-acq-components';
 
 import {
   DATE_FORMAT,
@@ -44,7 +43,7 @@ class ItemForm extends Component {
     dispatch: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
-    contributorsNameTypes: PropTypes.arrayOf(PropTypes.object),
+    contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
     initialValues: PropTypes.object,
     order: PropTypes.object.isRequired,
     formValues: PropTypes.object.isRequired,
@@ -130,19 +129,6 @@ class ItemForm extends Component {
     } else dispatch(change('instanceId', null));
   };
 
-  onChangeContributor = (e, value) => {
-    const { formValues, dispatch, change } = this.props;
-
-    const contributors = get(formValues, 'contributors', []);
-
-    dispatch(change('contributors', contributors.map(contributor => ({
-      ...contributor,
-      contributorNameTypeId: value,
-    }))));
-
-    this.onChangeField(value, 'contributors[0].contributorNameTypeId');
-  };
-
   selectInstanceModal = (isDisabled) => {
     if (isDisabled) return false;
 
@@ -151,10 +137,7 @@ class ItemForm extends Component {
 
   render() {
     const isOpenedOrder = isWorkflowStatusOpen(this.props.order);
-
-    const { contributorsNameTypes, formValues } = this.props;
-    const contributors = get(formValues, 'contributors', []);
-    const contributorNameTypeId = get(contributors, [0, 'contributorNameTypeId']);
+    const { contributorNameTypes, identifierTypes } = this.props;
 
     return (
       <Fragment>
@@ -191,18 +174,6 @@ class ItemForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
               name="details.receivingNote"
-            />
-          </Col>
-          <Col xs={6}>
-            <Field
-              dataOptions={contributorsNameTypes}
-              component={FieldSelection}
-              fullWidth
-              onChange={this.onChangeContributor}
-              required={contributors.length > 0}
-              label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
-              name="contributors[0].contributorNameTypeId"
-              validate={contributors.length > 0 ? Required : []}
             />
           </Col>
           <Col xs={6}>
@@ -270,10 +241,10 @@ class ItemForm extends Component {
               disabled={isOpenedOrder}
             />
           </Col>
-          <Col xs={6}>
+          <Col xs={12}>
             <ContributorForm
+              contributorNameTypes={contributorNameTypes}
               onChangeField={this.onChangeField}
-              contributorNameTypeId={contributorNameTypeId}
               disabled={isOpenedOrder}
             />
           </Col>
@@ -281,7 +252,7 @@ class ItemForm extends Component {
         <Row>
           <Col xs={12}>
             <ProductIdDetailsForm
-              identifierTypes={this.props.identifierTypes}
+              identifierTypes={identifierTypes}
               onChangeField={this.onChangeField}
               disabled={isOpenedOrder}
             />

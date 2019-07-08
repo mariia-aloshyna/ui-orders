@@ -59,6 +59,7 @@ class POLineView extends Component {
     queryMutator: PropTypes.object,
     deleteLine: PropTypes.func,
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
+    contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
   }
 
   static defaultProps = {
@@ -68,6 +69,7 @@ class POLineView extends Component {
     funds: [],
     editable: true,
     identifierTypes: [],
+    contributorNameTypes: [],
   }
 
   constructor(props) {
@@ -191,6 +193,7 @@ class POLineView extends Component {
       editable,
       deleteLine,
       identifierTypes,
+      contributorNameTypes,
     } = this.props;
 
     const firstMenu = (
@@ -303,6 +306,7 @@ class POLineView extends Component {
             <ItemView
               identifierTypes={identifierTypes}
               poLineDetails={line}
+              contributorNameTypes={contributorNameTypes}
             />
           </Accordion>
           <Accordion

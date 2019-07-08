@@ -405,6 +405,7 @@
   "itemDetails.addProductId": "Please Add Product ID and Product ID Type",
   "itemDetails.addProductIdBtn": "Add Product ID and Product ID Type",
   "itemDetails.contributor": "Contributor",
+  "itemDetails.contributorType": "Contributor type",
   "itemDetails.description": "Description",
   "itemDetails.edition": "Edition",
   "itemDetails.productId": "Product ID",

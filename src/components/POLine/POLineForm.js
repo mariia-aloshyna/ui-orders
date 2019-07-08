@@ -212,7 +212,7 @@ class POLineForm extends Component {
     const funds = getFundsForSelect(parentResources);
     const materialTypes = getMaterialTypesForSelect(parentResources);
     const identifierTypes = getIdentifierTypesForSelect(parentResources);
-    const contributorsNameTypes = getContributorNameTypesForSelect(parentResources);
+    const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
     const {
       accounts,
       vendorCurrencies,
@@ -254,7 +254,7 @@ class POLineForm extends Component {
                       <ItemForm
                         formValues={formValues}
                         order={order}
-                        contributorsNameTypes={contributorsNameTypes}
+                        contributorNameTypes={contributorNameTypes}
                         change={change}
                         dispatch={dispatch}
                         identifierTypes={identifierTypes}

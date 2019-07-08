@@ -25,6 +25,7 @@ import {
   showToast,
 } from '../common/utils';
 import {
+  CONTRIBUTOR_NAME_TYPES,
   FUND,
   IDENTIFIER_TYPES,
   LOCATIONS,
@@ -121,6 +122,7 @@ export class OrderLinesList extends Component {
     vendors: VENDORS,
     funds: FUND,
     identifierTypes: IDENTIFIER_TYPES,
+    contributorNameTypes: CONTRIBUTOR_NAME_TYPES,
   });
 
   static propTypes = {

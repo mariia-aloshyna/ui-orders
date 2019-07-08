@@ -92,6 +92,7 @@ class OrderLineDetails extends Component {
     const vendors = get(parentResources, 'vendors.records', []);
     const funds = get(parentResources, 'funds.records', []);
     const identifierTypes = get(parentResources, 'identifierTypes.records', []);
+    const contributorNameTypes = get(parentResources, 'contributorNameTypes.records', []);
 
     const receivingURL = `/orders/view/${order.id}/po-line/view/${id}/receiving`;
     const checkinURL = `/orders/view/${order.id}/po-line/view/${id}/check-in/items`;
@@ -111,6 +112,7 @@ class OrderLineDetails extends Component {
         goToOrderDetails={this.goToOrderDetails}
         deleteLine={this.deleteLine}
         identifierTypes={identifierTypes}
+        contributorNameTypes={contributorNameTypes}
       />
     );
   }
