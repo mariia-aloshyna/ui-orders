@@ -93,7 +93,7 @@ const ITEM_DETAILS = {
 }
 
 @interactor class Contributor {
-  static defaultScope = '[name="details.contributorNameTypeId"]';
+  static defaultScope = '[name="contributors[0].contributorNameTypeId"]';
   isSelect = is('select');
   value = value();
 }
@@ -104,7 +104,7 @@ const ITEM_DETAILS = {
   inputTitle = fillable(ITEM_DETAILS.inputTitle);
   errorTitle = attribute(ITEM_DETAILS.inputTitle, 'error');
   contributors = collection('[name*="contributors"]');
-  contributor = collection('[name="details.contributorNameTypeId"]');
+  contributor = collection('[name="contributors[0].contributorNameTypeId"]');
   edition = fillable('[name="edition"]');
   publisher = fillable('[name="publisher"]');
   productIds = collection('[name*="productIds"]');
@@ -147,7 +147,7 @@ export default interactor(class LineEditPage {
   locationAccordion = new LocationAccordion();
   updateLineButton = new Button('#clickable-updatePoLine');
   lineNumberInputValue = value('input[name="poLineNumber"]');
-  selectContributor = selectable('[name="details.contributorNameTypeId"]');
+  selectContributor = selectable('[name="contributors[0].contributorNameTypeId"]');
   selectOrderFormat = selectable('[name="orderFormat"]');
   validationMessage = text('[class*=feedbackError---]');
   publicationDateField = new PublicationDateField();

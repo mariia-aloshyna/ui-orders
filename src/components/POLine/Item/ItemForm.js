@@ -38,6 +38,7 @@ import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 
 import css from './ItemForm.css';
 import { ALLOWED_YEAR_LENGTH } from '../const';
+import { FieldSelection } from "@folio/stripes-acq-components";
 
 class ItemForm extends Component {
   static propTypes = {
@@ -137,7 +138,7 @@ class ItemForm extends Component {
     const contributors = get(formValues, 'contributors', []);
     const contributorNameTypeId = get(contributors, [0, 'contributorNameTypeId']);
 
-    dispatch(change('contributors', contributors.map(contributor => ({
+    dispatch(change('contributors', contributors.filter(item => !!item.contributorNameTypeId).map(contributor => ({
       ...contributor,
       contributorNameTypeId,
     }))));
@@ -152,7 +153,8 @@ class ItemForm extends Component {
   render() {
     const isOpenedOrder = isWorkflowStatusOpen(this.props.order);
 
-    const { contributorsNameTypes } = this.props;
+    const { contributorsNameTypes, formValues } = this.props;
+    const contributors = get(formValues, 'contributors', []);
 
     return (
       <Fragment>
@@ -194,11 +196,11 @@ class ItemForm extends Component {
           <Col xs={6}>
             <Field
               dataOptions={contributorsNameTypes}
-              component={Select}
+              component={FieldSelection}
               fullWidth
-              required
+              required={contributors.length > 0}
               label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
-              name="contributors.0.contributorNameTypeId"
+              name="contributors[0].contributorNameTypeId"
               validate={Required}
             />
           </Col>
