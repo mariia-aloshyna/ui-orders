@@ -72,7 +72,6 @@ describe('Line edit test', function () {
     expect(lineEditPage.updateLineButton.isButton).to.be.true;
     expect(lineEditPage.publicationDateField.isInput).to.be.true;
     expect(lineEditPage.orderFormat.isSelect).to.be.true;
-    expect(lineEditPage.contributor.isSelect).to.be.true;
   });
 
   describe('Location can be added', function () {
