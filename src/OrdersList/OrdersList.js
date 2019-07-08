@@ -70,7 +70,7 @@ class OrdersList extends Component {
         qindex: '',
         query: '',
         filters: '',
-        sort: 'poNumber',
+        sort: '-poNumber',
       },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },

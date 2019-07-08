@@ -76,7 +76,11 @@ const OrderLinesSearchQueryTemplate = `(
   requester="%{query.query}*" OR
   vendorDetail.vendorAccount="%{query.query}*" OR
   vendorDetail.refNumber="%{query.query}*" OR
-  details.productIds="%{query.query}*"
+  details.productIds="%{query.query}*" OR
+  publisher="%{query.query}*" OR
+  donor="%{query.query}*" OR
+  selector="%{query.query}*" OR
+  physical.volumes="%{query.query}*"
 )`;
 
 export class OrderLinesList extends Component {
