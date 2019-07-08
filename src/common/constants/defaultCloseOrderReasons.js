@@ -6,7 +6,7 @@ export default {
   split: 'Split into other titles',
   lackOfFunds: 'Lack of funds',
   lackOfUse: 'Lack of use',
-  dublication: 'Duplication',
+  duplication: 'Duplication',
   unresponsiveVendor: 'Unresponsive vendor',
   licensingTerms: 'Licensing terms (unacceptable)',
   lowQuality: 'Low quality',
