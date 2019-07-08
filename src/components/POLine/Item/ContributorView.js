@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { find, get } from 'lodash';
 import {
   Col,
   KeyValue,
@@ -11,6 +11,7 @@ import {
 class ContributorView extends Component {
   static propTypes = {
     contributors: PropTypes.arrayOf(PropTypes.object),
+    contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
   }
 
   static defaultProps = {
@@ -25,10 +26,22 @@ class ContributorView extends Component {
   getContributorName(val, key) {
     return (
       <Row key={key}>
-        <Col xs={12}>
+        <Col
+          xs={6}
+          lg={3}
+        >
           <KeyValue
             label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
             value={get(val, 'contributor')}
+          />
+        </Col>
+        <Col
+          xs={6}
+          lg={3}
+        >
+          <KeyValue
+            label={<FormattedMessage id="ui-orders.itemDetails.contributorType" />}
+            value={get(val, 'contributorType')}
           />
         </Col>
       </Row>
@@ -36,16 +49,24 @@ class ContributorView extends Component {
   }
 
   render() {
-    const { contributors } = this.props;
+    const { contributors, contributorNameTypes } = this.props;
+    const contributorsToDisplay = contributors.map(({ contributor, contributorNameTypeId }) => ({
+      contributor,
+      contributorType: get(find(contributorNameTypes, { id: contributorNameTypeId }), 'name', ''),
+    }));
 
     return (
       <Row>
         <Col xs={12}>
-          {contributors.map(this.getContributorName)}
+          {contributorsToDisplay.map(this.getContributorName)}
         </Col>
       </Row>
     );
   }
 }
+
+ContributorView.defaultProps = {
+  contributorNameTypes: [],
+};
 
 export default ContributorView;

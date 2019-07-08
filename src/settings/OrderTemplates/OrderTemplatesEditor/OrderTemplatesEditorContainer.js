@@ -20,6 +20,7 @@ import {
   VENDORS,
   MATERIAL_TYPES,
   ORDER_TEMPLATE,
+  CONTRIBUTOR_NAME_TYPES,
 } from '../../../components/Utils/resources';
 import {
   MODULE_ORDERS,
@@ -29,6 +30,7 @@ import getIdentifierTypesForSelect from '../../../components/Utils/getIdentifier
 import getLocationsForSelect from '../../../components/Utils/getLocationsForSelect';
 import getFundsForSelect from '../../../components/Utils/getFundsForSelect';
 import getMaterialTypesForSelect from '../../../components/Utils/getMaterialTypesForSelect';
+import getContributorNameTypesForSelect from '../../../components/Utils/getContributorNameTypesForSelect';
 import {
   getCreateInventorySetting,
   getAddresses,
@@ -58,6 +60,7 @@ class OrderTemplatesEditorContainer extends Component {
     vendors: VENDORS,
     materialTypes: MATERIAL_TYPES,
     orderTemplate: ORDER_TEMPLATE,
+    contributorNameTypes: CONTRIBUTOR_NAME_TYPES,
   });
 
   static propTypes = {
@@ -97,6 +100,7 @@ class OrderTemplatesEditorContainer extends Component {
     const locations = getLocationsForSelect(resources);
     const funds = getFundsForSelect(resources);
     const identifierTypes = getIdentifierTypesForSelect(resources);
+    const contributorNameTypes = getContributorNameTypesForSelect(resources);
     const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
     const vendors = getVendorOptions(get(resources, 'vendors.records', []));
     const prefixesSetting = getSettingsList(get(resources, 'prefixesSetting.records', {}));
@@ -126,6 +130,7 @@ class OrderTemplatesEditorContainer extends Component {
         vendors={vendors}
         materialTypes={materialTypes}
         formValues={formValues}
+        contributorNameTypes={contributorNameTypes}
       />
     );
   }

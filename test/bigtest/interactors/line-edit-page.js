@@ -171,6 +171,6 @@ export default interactor(class LineEditPage {
   isLoaded = isPresent('[class*=paneTitleLabel---]');
 
   whenLoaded() {
-    return this.timeout(5000).when(() => this.isLoaded);
+    return this.timeout(9000).when(() => this.isLoaded);
   }
 });

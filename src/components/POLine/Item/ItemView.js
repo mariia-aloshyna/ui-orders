@@ -17,15 +17,17 @@ class ItemView extends Component {
   static propTypes = {
     poLineDetails: PropTypes.object,
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
+    contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
   }
 
   static defaultProps = {
     poLineDetails: {},
     identifierTypes: [],
+    contributorNameTypes: [],
   }
 
   render() {
-    const { poLineDetails, identifierTypes } = this.props;
+    const { poLineDetails, identifierTypes, contributorNameTypes } = this.props;
     const instanceId = get(poLineDetails, 'instanceId');
     const title = get(poLineDetails, 'title');
     const titleValue = instanceId
@@ -108,11 +110,11 @@ class ItemView extends Component {
               value={toString(get(poLineDetails, 'edition'))}
             />
           </Col>
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <ContributorView contributors={contributors} />
+          <Col xs={12}>
+            <ContributorView
+              contributors={contributors}
+              contributorNameTypes={contributorNameTypes}
+            />
           </Col>
         </Row>
         <Row start="xs">

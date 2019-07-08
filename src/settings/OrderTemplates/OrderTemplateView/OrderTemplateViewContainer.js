@@ -12,6 +12,7 @@ import {
 } from '../../../common/utils';
 import {
   ADDRESSES,
+  CONTRIBUTOR_NAME_TYPES,
   FUND,
   IDENTIFIER_TYPES,
   LOCATIONS,
@@ -28,6 +29,7 @@ class OrderTemplateViewContainer extends Component {
     addresses: ADDRESSES,
     funds: FUND,
     identifierTypes: IDENTIFIER_TYPES,
+    contributorNameTypes: CONTRIBUTOR_NAME_TYPES,
     locations: LOCATIONS,
     materialTypes: MATERIAL_TYPES,
     orderTemplate: ORDER_TEMPLATE,
@@ -69,6 +71,7 @@ class OrderTemplateViewContainer extends Component {
     const addresses = getAddresses(get(resources, 'addresses.records', []));
     const funds = get(resources, 'funds.records', []);
     const identifierTypes = get(resources, 'identifierTypes.records', []);
+    const contributorNameTypes = get(resources, 'contributorNameTypes.records', []);
     const locations = get(resources, 'locations.records', []);
     const materialTypes = get(resources, 'materialTypes.records', []);
     const vendors = get(resources, 'vendors.records', []);
@@ -88,6 +91,7 @@ class OrderTemplateViewContainer extends Component {
           template={orderTemplate}
           vendors={vendors}
           users={users}
+          contributorNameTypes={contributorNameTypes}
         />
         <Callout ref={this.createCalloutRef} />
       </Fragment>

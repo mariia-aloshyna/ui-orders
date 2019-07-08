@@ -44,6 +44,7 @@ import getVendorsForSelect from '../Utils/getVendorsForSelect';
 import getFundsForSelect from '../Utils/getFundsForSelect';
 import getMaterialTypesForSelect from '../Utils/getMaterialTypesForSelect';
 import getIdentifierTypesForSelect from '../Utils/getIdentifierTypesForSelect';
+import getContributorNameTypesForSelect from '../Utils/getContributorNameTypesForSelect';
 
 class POLineForm extends Component {
   static propTypes = {
@@ -211,6 +212,7 @@ class POLineForm extends Component {
     const funds = getFundsForSelect(parentResources);
     const materialTypes = getMaterialTypesForSelect(parentResources);
     const identifierTypes = getIdentifierTypesForSelect(parentResources);
+    const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
     const {
       accounts,
       vendorCurrencies,
@@ -252,6 +254,7 @@ class POLineForm extends Component {
                       <ItemForm
                         formValues={formValues}
                         order={order}
+                        contributorNameTypes={contributorNameTypes}
                         change={change}
                         dispatch={dispatch}
                         identifierTypes={identifierTypes}

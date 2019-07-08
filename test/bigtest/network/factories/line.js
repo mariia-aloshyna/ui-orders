@@ -8,4 +8,8 @@ export default Factory.extend({
     createdDate: faker.date.past(),
     updatedDate: faker.date.past(),
   }),
+  contributors: [],
+  details: {
+    productIds: [],
+  },
 });

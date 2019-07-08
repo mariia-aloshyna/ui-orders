@@ -43,6 +43,7 @@ class ItemForm extends Component {
     dispatch: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
+    contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
     initialValues: PropTypes.object,
     order: PropTypes.object.isRequired,
     formValues: PropTypes.object.isRequired,
@@ -91,7 +92,7 @@ class ItemForm extends Component {
     if (contributors && contributors.length) {
       const lineContributors = contributors.map(({ name, contributorNameTypeId }) => ({
         contributor: name,
-        contributorType: contributorNameTypeId,
+        contributorNameTypeId,
       }));
 
       dispatch(change('contributors', lineContributors));
@@ -136,6 +137,7 @@ class ItemForm extends Component {
 
   render() {
     const isOpenedOrder = isWorkflowStatusOpen(this.props.order);
+    const { contributorNameTypes, identifierTypes } = this.props;
 
     return (
       <Fragment>
@@ -239,8 +241,9 @@ class ItemForm extends Component {
               disabled={isOpenedOrder}
             />
           </Col>
-          <Col xs={6}>
+          <Col xs={12}>
             <ContributorForm
+              contributorNameTypes={contributorNameTypes}
               onChangeField={this.onChangeField}
               disabled={isOpenedOrder}
             />
@@ -249,7 +252,7 @@ class ItemForm extends Component {
         <Row>
           <Col xs={12}>
             <ProductIdDetailsForm
-              identifierTypes={this.props.identifierTypes}
+              identifierTypes={identifierTypes}
               onChangeField={this.onChangeField}
               disabled={isOpenedOrder}
             />
