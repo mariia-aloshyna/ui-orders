@@ -93,7 +93,7 @@ class ItemForm extends Component {
     if (contributors && contributors.length) {
       const lineContributors = contributors.map(({ name, contributorNameTypeId }) => ({
         contributor: name,
-        contributorType: contributorNameTypeId,
+        contributorNameTypeId,
       }));
 
       dispatch(change('contributors', lineContributors));
@@ -125,9 +125,22 @@ class ItemForm extends Component {
 
     dispatch(change(fieldName, value));
 
+    this.updateContributor();
+
     if (checkInstanceIdField(formValues, inventoryData)) {
       dispatch(change('instanceId', inventoryData.instanceId));
     } else dispatch(change('instanceId', null));
+  };
+
+  updateContributor = () => {
+    const { formValues, dispatch, change } = this.props;
+    const contributors = get(formValues, 'contributors', []);
+    const contributorNameTypeId = get(contributors, [0, 'contributorNameTypeId']);
+
+    dispatch(change('contributors', contributors.map(contributor => ({
+      ...contributor,
+      contributorNameTypeId,
+    }))));
   };
 
   selectInstanceModal = (isDisabled) => {
@@ -185,7 +198,7 @@ class ItemForm extends Component {
               fullWidth
               required
               label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
-              name="details.contributorNameTypeId"
+              name="contributors.0.contributorNameTypeId"
               validate={Required}
             />
           </Col>
