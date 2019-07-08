@@ -39,7 +39,6 @@ import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 import css from './ItemForm.css';
 import { ALLOWED_YEAR_LENGTH } from '../const';
 
-
 class ItemForm extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
