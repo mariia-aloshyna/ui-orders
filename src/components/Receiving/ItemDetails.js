@@ -83,7 +83,10 @@ class ItemDetails extends Component {
       const piece = lineItems[item.poLineId].filter(el => el.id === item.id)[0];
 
       piece.isSelected = !piece.isSelected;
-      allChecked[item.poLineId] = false;
+
+      const isAllChecked = lineItems[item.poLineId].find(line => !line.isSelected);
+
+      allChecked[item.poLineId] = !isAllChecked;
       allChecked.reviewDetails = false;
 
       return {
@@ -91,7 +94,7 @@ class ItemDetails extends Component {
         lineItems,
       };
     });
-  }
+  };
 
   toggleAll = (poLineId) => (
     this.setState(state => {
@@ -179,11 +182,13 @@ class ItemDetails extends Component {
 
       selectedItem[key] = value;
 
+      if (value && key === 'barcode' && !item.isSelected) this.toggleItem(item);
+
       return {
         lineItems: updatedLineItems,
       };
     });
-  }
+  };
 
   render() {
     const { close, locationsOptions, linesItemList } = this.props;

@@ -14,7 +14,7 @@ const ClosingReasonFilter = ({ closingReasons, intl: { formatMessage }, ...rest 
   const translatedDefaultReasons = Object.keys(DEFAULT_CLOSE_ORDER_REASONS).map(key => {
     const label = formatMessage({ id: `ui-orders.closeOrderModal.closingReasons.${key}` });
 
-    return { value: key, label };
+    return { value: DEFAULT_CLOSE_ORDER_REASONS[key], label };
   });
 
   return (
