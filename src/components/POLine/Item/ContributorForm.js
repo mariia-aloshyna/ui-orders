@@ -16,6 +16,7 @@ import {
 class ContributorForm extends Component {
   static propTypes = {
     onChangeField: PropTypes.func.isRequired,
+    contributorNameTypeId: PropTypes.string,
     disabled: PropTypes.bool,
   };
 
@@ -65,7 +66,10 @@ class ContributorForm extends Component {
             fullWidth
             label={<FormattedMessage id="ui-orders.itemDetails.contributor" />}
             name={`${elem}.contributor`}
-            onChange={(e, value) => this.props.onChangeField(value, `${elem}.contributor`)}
+            onChange={(e, value) => {
+              this.props.onChangeField(value, `${elem}.contributor`);
+              this.props.onChangeField(this.props.contributorNameTypeId, `${elem}.contributorNameTypeId`);
+            }}
             disabled={this.props.disabled}
           />
         </Col>
