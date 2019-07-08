@@ -53,7 +53,7 @@
   "closeOrderModal.cancel": "Cancel",
   "closeOrderModal.closingReasons.ceased": "Ceased",
   "closeOrderModal.closingReasons.complete": "Complete",
-  "closeOrderModal.closingReasons.dublication": "Duplication",
+  "closeOrderModal.closingReasons.duplication": "Duplication",
   "closeOrderModal.closingReasons.error": "Error",
   "closeOrderModal.closingReasons.lackOfFunds": "Lack of funds",
   "closeOrderModal.closingReasons.lackOfUse": "Lack of use",
