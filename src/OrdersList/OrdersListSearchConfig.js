@@ -1,5 +1,7 @@
 export const ordersSearchTemplate = `(
-  poNumber="%{query.query}*"
+  poNumber="%{query.query}" OR
+  metadata.createdDate="%{query.query}" OR
+  dateOrdered="%{query.query}"
 )`;
 
 const indexes = [
