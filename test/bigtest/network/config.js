@@ -4,9 +4,13 @@ import { noop } from 'lodash';
 import {
   CHECKIN_API,
   CONFIG_API,
+  FUND_API,
+  INVOICE_LINES_API,
+  INVOICES_API,
   ITEMS_API,
   LINES_API,
   LOCATIONS_API,
+  ORDER_INVOICE_RELNS_API,
   ORDER_NUMBER_API,
   ORDER_NUMBER_VALIDATE_API,
   ORDER_PIECES_API,
@@ -14,7 +18,6 @@ import {
   RECEIVE_API,
   RECEIVING_API,
   VENDORS_API,
-  FUND_API,
 } from '../../../src/components/Utils/api';
 import {
   CONFIG_CLOSING_REASONS,
@@ -78,6 +81,12 @@ export default function config() {
   this.get(CONFIG_API, (schema) => {
     return schema.configs.all();
   });
+
+  this.get(ORDER_INVOICE_RELNS_API, (schema) => {
+    return schema.orderInvoiceRelationships.all();
+  });
+  this.get(INVOICES_API);
+  this.get(INVOICE_LINES_API);
 
   this.get(`${CONFIG_API}/:id`, 'configs');
 

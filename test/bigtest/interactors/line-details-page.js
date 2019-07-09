@@ -1,4 +1,6 @@
 import {
+  clickable,
+  collection,
   interactor,
   isPresent,
 } from '@bigtest/interactor';
@@ -14,6 +16,14 @@ import Button from './button';
   edit = new Button('[data-test-button-edit-line]');
 }
 
+@interactor class RelatedInvoicesAccordion {
+  static defaultScope = '#relatedInvoices';
+
+  invoices = collection('[class*=mclRow---]', {
+    link: clickable('[data-test-link-to-invoice]'),
+  });
+}
+
 export default interactor(class LineDetailsPage {
   static defaultScope = '#pane-poLineDetails';
   receiveButton = new Button('[data-test-line-receive-button]');
@@ -21,6 +31,7 @@ export default interactor(class LineDetailsPage {
   otherDetailsAccordion = isPresent('#other');
   goBackToOrderButton = new Button('#clickable-backToPO');
   isLoaded = isPresent('[class*=paneTitleLabel---]');
+  relatedInvoicesAccordion = new RelatedInvoicesAccordion();
 
   actions = new LineDetailsPageActions();
   whenLoaded() {

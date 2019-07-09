@@ -18,6 +18,7 @@ describe('Line details test', function () {
   let line = null;
   let fund = null;
   let vendor = null;
+  let invoice = null;
   const page = new LineDetailsPage();
   const receivingPage = new ReceivingPage();
 
@@ -43,6 +44,18 @@ describe('Line details test', function () {
       vendor: vendor.id,
       compositePoLines: [line.attrs],
       id: line.attrs.purchaseOrderId,
+    });
+
+    invoice = this.server.create('invoice');
+
+    this.server.create('orderInvoiceRelationships', {
+      purchaseOrderId: order.id,
+      invoiceId: invoice.id,
+    });
+
+    this.server.create('invoice-line', {
+      poLineId: line.id,
+      invoiceId: invoice.id,
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}`);
@@ -74,6 +87,16 @@ describe('Line details test', function () {
     });
 
     it('Line Details is closed', function () {
+      expect(page.isPresent).to.be.false;
+    });
+  });
+
+  describe('Go to Invoices app', function () {
+    beforeEach(async function () {
+      await page.relatedInvoicesAccordion.invoices(0).link();
+    });
+
+    it('Line Details page is not presented', function () {
       expect(page.isPresent).to.be.false;
     });
   });

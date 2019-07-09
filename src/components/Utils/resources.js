@@ -1,18 +1,21 @@
 import {
   CHECKIN_API,
   CONFIG_API,
+  CONTRIBUTOR_NAME_TYPES_API,
   FUND_API,
   IDENTIFIER_TYPES_API,
+  INVOICE_LINES_API,
+  INVOICES_API,
   ITEMS_API,
   LINE_DETAIL_API,
   LOCATIONS_API,
   MATERIAL_TYPES_API,
   ORDER_DETAIL_API,
+  ORDER_INVOICE_RELNS_API,
   ORDER_PIECES_API,
   RECEIVE_API,
   RECEIVING_API,
   USERS_API,
-  CONTRIBUTOR_NAME_TYPES_API,
   VENDORS_API,
 } from './api';
 import {
@@ -231,4 +234,22 @@ export const ORDER_TEMPLATES = {
 export const ORDER_TEMPLATE = {
   ...BASE_RESOURCE,
   path: `${CONFIG_API}/:{id}`,
+};
+
+export const ORDER_INVOICES = {
+  ...BASE_RESOURCE,
+  path: ORDER_INVOICE_RELNS_API,
+  records: 'orderInvoiceRelationships',
+};
+
+export const INVOICES = {
+  ...BASE_RESOURCE,
+  path: INVOICES_API,
+  records: 'invoices',
+};
+
+export const INVOICE_LINES = {
+  ...BASE_RESOURCE,
+  path: INVOICE_LINES_API,
+  records: 'invoiceLines',
 };

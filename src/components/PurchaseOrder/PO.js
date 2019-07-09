@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 import ReactRouterPropTypes from 'react-router-prop-types';
+
+import { get } from 'lodash';
 
 import {
   IfPermission,
@@ -47,6 +48,7 @@ import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
 import { RenewalsView } from './renewals';
 import LinesLimit from './LinesLimit';
+import POInvoicesContainer from './POInvoices';
 import {
   isReceiveAvailableForOrder,
 } from './util';
@@ -91,6 +93,7 @@ class PO extends Component {
         POSummary: true,
         POListing: true,
         renewals: true,
+        relatedInvoices: true,
       },
       isCloseOrderModalOpened: false,
       isLinesLimitExceededModalOpened: false,
@@ -356,7 +359,8 @@ class PO extends Component {
       );
     }
 
-    const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === order.vendor);
+    const vendors = get(parentResources, 'vendors.records', []);
+    const vendor = vendors.find(d => d.id === order.vendor);
     const assignedTo = get(parentResources, 'users.records', []).find(d => d.id === order.assignedTo);
     const createdByUserId = get(order, 'metadata.createdByUserId');
     const createdBy = get(parentResources, 'users.records', []).find(d => d.id === createdByUserId);
@@ -472,6 +476,12 @@ class PO extends Component {
           >
             <SummaryView order={order} {...this.props} />
           </Accordion>
+          <POInvoicesContainer
+            accordionId="relatedInvoices"
+            label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
+            orderId={order.id}
+            vendors={vendors}
+          />
           <Accordion
             displayWhenOpen={this.addPOLineButton(isAbleToAddLines)}
             id="POListing"

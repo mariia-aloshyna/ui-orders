@@ -35,6 +35,7 @@ import EresourcesView from './Eresources/EresourcesView';
 import ItemView from './Item/ItemView';
 import PhysicalView from './Physical/PhysicalView';
 import { OtherView } from './Other';
+import POLineInvoicesContainer from './POLineInvoices';
 import {
   ACCORDION_ID,
   ERESOURCES,
@@ -85,6 +86,7 @@ class POLineView extends Component {
         [ACCORDION_ID.location]: true,
         [ACCORDION_ID.other]: true,
         [ACCORDION_ID.physical]: true,
+        [ACCORDION_ID.relatedInvoices]: true,
       },
       showConfirmDelete: false,
     };
@@ -373,6 +375,12 @@ class POLineView extends Component {
               />
             </Accordion>
           )}
+          <POLineInvoicesContainer
+            accordionId={ACCORDION_ID.relatedInvoices}
+            label={<FormattedMessage id="ui-orders.line.accordion.relatedInvoices" />}
+            lineId={get(line, 'id')}
+            vendors={vendors}
+          />
           <Accordion
             label={<FormattedMessage id="ui-orders.line.accordion.location" />}
             id={ACCORDION_ID.location}
