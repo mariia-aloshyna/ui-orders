@@ -298,7 +298,6 @@
     "poLine.requester": "مقدم الطلب",
     "poLine.rush": "سرعة",
     "poLine.selector": "محدد",
-    "poLine.source": "مصدر",
     "poLine.сollection": "مجموعة",
     "receipt_status.awaitingReceipt": "في انتظار الاستلام",
     "receipt_status.cancelled": "ملغي",
@@ -427,7 +426,6 @@
     "closeOrderModal.closingReasons.split": "تقسيم إلى عناوين أخرى",
     "closeOrderModal.closingReasons.lackOfFunds": "نقص التمويلات",
     "closeOrderModal.closingReasons.lackOfUse": "نقص الاستخدام",
-    "closeOrderModal.closingReasons.dublication": "تكرار",
     "closeOrderModal.closingReasons.unresponsiveVendor": "موّرد غير متجاوب ",
     "closeOrderModal.closingReasons.licensingTerms": "شروط الترخيص (غير مقبول)",
     "closeOrderModal.closingReasons.lowQuality": "جودة منخفضة",
@@ -713,5 +711,9 @@
     "search.vendorDetail.vendorAccount": "حساب الموّرد",
     "search.vendorDetail.refNumber": "رقم الموّرد المرجعي",
     "search.physical.volumes": "مجلدات",
-    "search.metadata.createdDate": "تاريخ الإنشاء"
+    "search.metadata.createdDate": "تاريخ الإنشاء",
+    "closeOrderModal.closingReasons.complete": "أكمل",
+    "closeOrderModal.closingReasons.duplication": "تكرار",
+    "itemDetails.contributorType": "نوع المساهم",
+    "poLine.source": "Source"
 }
