@@ -9,11 +9,13 @@ import {
 import { mount, cleanup } from '@bigtest/react';
 import sinon from 'sinon';
 import { expect } from 'chai';
+
+import prefixKeys from '@folio/stripes-acq-components/test/bigtest/helpers/prefixKeys';
+
 import OpenOrderErrorModal from '../../interactors/PurchaseOrder/open-order-error-modal';
 import { UpdateOrderErrorModal } from '../../../../src/components/PurchaseOrder/UpdateOrderErrorModal';
 import { ERROR_CODES } from '../../../../src/components/Utils/order';
 import translations from '../../../../translations/ui-orders/en';
-import { prefixKeys } from '../../helpers/prefixKeys';
 
 describe('Update Order Error modal', () => {
   let cancelFake;
