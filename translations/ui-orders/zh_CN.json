@@ -298,7 +298,6 @@
     "poLine.requester": "请求者",
     "poLine.rush": "忙碌",
     "poLine.selector": "选择",
-    "poLine.source": "源",
     "poLine.сollection": "集合",
     "receipt_status.awaitingReceipt": "等待接收",
     "receipt_status.cancelled": "取消",
@@ -427,7 +426,6 @@
     "closeOrderModal.closingReasons.split": "拆分为其他题名",
     "closeOrderModal.closingReasons.lackOfFunds": "缺少资金",
     "closeOrderModal.closingReasons.lackOfUse": "缺乏使用",
-    "closeOrderModal.closingReasons.dublication": "重复",
     "closeOrderModal.closingReasons.unresponsiveVendor": "无响应的供应商",
     "closeOrderModal.closingReasons.licensingTerms": "许可条款（不可接受）",
     "closeOrderModal.closingReasons.lowQuality": "低质量",
@@ -713,5 +711,9 @@
     "search.vendorDetail.vendorAccount": "Vendor account",
     "search.vendorDetail.refNumber": "Vendor reference number",
     "search.physical.volumes": "Volumes",
-    "search.metadata.createdDate": "Date created"
+    "search.metadata.createdDate": "Date created",
+    "closeOrderModal.closingReasons.complete": "Complete",
+    "closeOrderModal.closingReasons.duplication": "Duplication",
+    "itemDetails.contributorType": "Contributor type",
+    "poLine.source": "Source"
 }

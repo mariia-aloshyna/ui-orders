@@ -298,7 +298,6 @@
     "poLine.requester": "Requester",
     "poLine.rush": "Rush",
     "poLine.selector": "Selector",
-    "poLine.source": "Source",
     "poLine.сollection": "Collection",
     "receipt_status.awaitingReceipt": "Awaiting Receipt",
     "receipt_status.cancelled": "Cancelled",
@@ -427,7 +426,6 @@
     "closeOrderModal.closingReasons.split": "Split into other titles",
     "closeOrderModal.closingReasons.lackOfFunds": "Lack of funds",
     "closeOrderModal.closingReasons.lackOfUse": "Lack of use",
-    "closeOrderModal.closingReasons.dublication": "Duplication",
     "closeOrderModal.closingReasons.unresponsiveVendor": "Unresponsive vendor",
     "closeOrderModal.closingReasons.licensingTerms": "Licensing terms (unacceptable)",
     "closeOrderModal.closingReasons.lowQuality": "Low quality",
@@ -713,5 +711,9 @@
     "search.vendorDetail.vendorAccount": "Vendor account",
     "search.vendorDetail.refNumber": "Vendor reference number",
     "search.physical.volumes": "Volumes",
-    "search.metadata.createdDate": "Date created"
+    "search.metadata.createdDate": "Date created",
+    "closeOrderModal.closingReasons.complete": "Complete",
+    "closeOrderModal.closingReasons.duplication": "Duplication",
+    "itemDetails.contributorType": "Contributor type",
+    "poLine.source": "Source"
 }
