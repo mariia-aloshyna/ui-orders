@@ -10,10 +10,11 @@ import { mount, cleanup } from '@bigtest/react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
+import prefixKeys from '@folio/stripes-acq-components/test/bigtest/helpers/prefixKeys';
+
 import OpenOrderConfirmationModal from '../../../../src/components/PurchaseOrder/OpenOrderConfirmationModal';
 import OpenOrderConfirmationModalInteractor from '../../interactors/PurchaseOrder/open-order-confirmation-modal';
 import translations from '../../../../translations/ui-orders/en';
-import { prefixKeys } from '../../helpers/prefixKeys';
 
 describe('OpenOrderConfirmationModal', () => {
   let submitFake;
