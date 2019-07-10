@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Field,
@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
+  Row,
   Select,
   TextField,
 } from '@folio/stripes/components';
@@ -37,7 +38,7 @@ const FieldsLocation = ({ locations, disabled, withValidation }) => {
         canRemove: !disabled,
       }}
       renderField={(field) => (
-        <Fragment>
+        <Row>
           <Col xs={6}>
             <Field
               component={Select}
@@ -73,7 +74,7 @@ const FieldsLocation = ({ locations, disabled, withValidation }) => {
               disabled={disabled}
             />
           </Col>
-        </Fragment>
+        </Row>
       )}
     />
   );

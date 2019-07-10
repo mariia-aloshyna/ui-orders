@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Field,
@@ -12,6 +12,7 @@ import {
   Col,
   KeyValue,
   RepeatableField,
+  Row,
   Select,
   TextField,
 } from '@folio/stripes/components';
@@ -34,7 +35,7 @@ const FieldsFundDistribution = ({ funds, disabled, formValues }) => {
     const fundCode = get(funds.find(({ value }) => value === fund.fundId), 'code');
 
     return (
-      <Fragment>
+      <Row>
         <Col xs={4}>
           <Field
             component={Select}
@@ -72,7 +73,7 @@ const FieldsFundDistribution = ({ funds, disabled, formValues }) => {
             value={calculateAmount(fund, formValues)}
           />
         </Col>
-      </Fragment>
+      </Row>
     );
   };
 
