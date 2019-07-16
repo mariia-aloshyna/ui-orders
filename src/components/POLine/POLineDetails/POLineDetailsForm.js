@@ -8,6 +8,7 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
+import { sourceLabels } from '@folio/stripes-acq-components';
 
 import {
   FieldPOLineNumber,
@@ -73,8 +74,6 @@ class POLineDetailsForm extends Component {
               disabled={isOpenedOrder}
             />
           </Col>
-        </Row>
-        <Row>
           <Col xs={6}>
             <KeyValue label={<FormattedMessage id="ui-orders.poLine.createdOn" />}>
               <FolioFormattedTime dateString={get(poLine, 'metadata.createdDate')} />
@@ -86,7 +85,7 @@ class POLineDetailsForm extends Component {
           <Col xs={6}>
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.source" />}
-              value={get(poLine, 'source.code')}
+              value={sourceLabels[poLine.source]}
             />
           </Col>
           <Col xs={6}>
@@ -104,6 +103,8 @@ class POLineDetailsForm extends Component {
           <Col xs={6}>
             <FieldRequester disabled={isOpenedOrder} />
           </Col>
+        </Row>
+        <Row>
           <Col xs={3}>
             <FieldCancellationRestriction />
           </Col>
