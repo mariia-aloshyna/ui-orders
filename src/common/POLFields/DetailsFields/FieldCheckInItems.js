@@ -14,6 +14,7 @@ const FieldCheckInItems = ({ disabled }) => {
       name="checkinItems"
       type="checkbox"
       disabled={disabled}
+      vertical
     />
   );
 };

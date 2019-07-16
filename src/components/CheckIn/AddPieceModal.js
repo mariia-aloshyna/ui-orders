@@ -160,6 +160,7 @@ class AddPieceModal extends Component {
                 label={<FormattedMessage id="ui-orders.checkIn.supplement" />}
                 name="supplement"
                 type="checkbox"
+                vertical
               />
             </Col>
           </Row>

@@ -27,7 +27,6 @@ const SummaryForm = ({ initialValues: order }) => (
       />
     </Col>
     <Col xs={6} md={3}>
-      <br />
       <FieldIsApproved disabled={isWorkflowStatusOpen(order)} />
     </Col>
     <Col xs={6} md={3}>

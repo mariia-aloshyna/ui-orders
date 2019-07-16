@@ -12,6 +12,7 @@ const FieldCancellationRestriction = () => {
       label={<FormattedMessage id="ui-orders.poLine.cancellationRestriction" />}
       name="cancellationRestriction"
       type="checkbox"
+      vertical
     />
   );
 };
