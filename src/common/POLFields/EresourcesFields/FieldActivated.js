@@ -12,6 +12,7 @@ const FieldActivated = () => {
       label={<FormattedMessage id="ui-orders.eresource.activationStatus" />}
       name="eresource.activated"
       type="checkbox"
+      vertical
     />
   );
 };

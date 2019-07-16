@@ -14,6 +14,7 @@ const FieldIsReEncumber = ({ disabled }) => {
       name="reEncumber"
       type="checkbox"
       disabled={disabled}
+      vertical
     />
   );
 };

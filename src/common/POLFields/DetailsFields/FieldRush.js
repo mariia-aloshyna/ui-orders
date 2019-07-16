@@ -15,6 +15,7 @@ const FieldRush = ({ disabled }) => {
       name="rush"
       type="checkbox"
       disabled={disabled}
+      vertical
     />
   );
 };

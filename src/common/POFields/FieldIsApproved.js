@@ -13,6 +13,7 @@ const FieldIsApproved = ({ disabled }) => {
       name="approved"
       type="checkbox"
       disabled={disabled}
+      vertical
     />
   );
 };

@@ -14,6 +14,7 @@ const FieldTrial = ({ disabled }) => {
       name="eresource.trial"
       type="checkbox"
       disabled={disabled}
+      vertical
     />
   );
 };

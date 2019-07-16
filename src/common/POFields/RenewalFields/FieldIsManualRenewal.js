@@ -13,6 +13,7 @@ const FieldIsManualRenewal = ({ disabled }) => {
       name="renewal.manualRenewal"
       type="checkbox"
       disabled={disabled}
+      vertical
     />
   );
 };

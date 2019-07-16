@@ -15,6 +15,7 @@ const FieldCollection = ({ disabled }) => {
       name="collection"
       type="checkbox"
       disabled={disabled}
+      vertical
     />
   );
 };

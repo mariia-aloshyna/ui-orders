@@ -14,6 +14,7 @@ const FieldIsManualPO = ({ disabled }) => {
       name="manualPo"
       type="checkbox"
       disabled={disabled}
+      vertical
     />
   );
 };
