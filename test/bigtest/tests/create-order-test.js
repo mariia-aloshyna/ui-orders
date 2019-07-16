@@ -6,6 +6,7 @@ import OrdersInteractor from '../interactors/orders';
 import OrderEditPage from '../interactors/order-edit-page';
 // import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
 import {
+  CONFIG_ORDER_TEMPLATES,
   CONFIG_SUFFIXES,
   MODULE_ORDERS,
 } from '../../../src/components/Utils/const';
@@ -23,8 +24,31 @@ describe('Create order', function () {
       enabled: true,
       value: '{"selectedItems":["SS"],"suffixes":["SS1","SS2","SS"]}',
     });
+    this.server.create('configs', {
+      module: MODULE_ORDERS,
+      configName: CONFIG_ORDER_TEMPLATES,
+      enabled: true,
+      value: '{"templateName": "Test Template","templateCode": "TT","orderType":"One-Time"}',
+    });
     this.visit('/orders?layer=create');
     await form.whenLoaded();
+  });
+
+  describe('Template name', function () {
+    it('should be displayed', () => {
+      expect(orders.hasTemplateField).to.be.true;
+    });
+
+    describe('Should change form', function () {
+      beforeEach(async function () {
+        await orders.orderTemplate.template.click();
+        await orders.orderTemplate.options.list(2).click();
+      });
+
+      it('order type should be changed', () => {
+        expect(orders.orderType.value).to.be.equal('One-Time');
+      });
+    });
   });
 
   it('has fields and Create button', () => {

@@ -38,6 +38,7 @@ import {
   CONTRIBUTOR_NAME_TYPES,
   SUFFIXES_SETTING,
   PREFIXES_SETTING,
+  ORDER_TEMPLATES,
 } from '../components/Utils/resources';
 import OrdersNavigation from '../common/OrdersNavigation';
 import {
@@ -104,6 +105,7 @@ class OrdersList extends Component {
     orderNumberSetting: ORDER_NUMBER_SETTING,
     prefixesSetting: PREFIXES_SETTING,
     suffixesSetting: SUFFIXES_SETTING,
+    orderTemplates: ORDER_TEMPLATES,
     vendors: {
       type: 'okapi',
       path: VENDORS_API,

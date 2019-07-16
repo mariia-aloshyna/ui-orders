@@ -78,6 +78,12 @@ describe('Line edit test', function () {
     expect(lineEditPage.orderFormat.isSelect).to.be.true;
   });
 
+  describe('Template name', function () {
+    it('should not be displayed', () => {
+      expect(lineEditPage.hasTemplateField).to.be.false;
+    });
+  });
+
   describe('Location can be added', function () {
     beforeEach(async function () {
       await lineEditPage.locationAccordion.clickHeader();

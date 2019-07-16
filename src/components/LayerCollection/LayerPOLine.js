@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import {
   cloneDeep,
   get,
+  set,
 } from 'lodash';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import queryString from 'query-string';
@@ -25,6 +26,7 @@ import { ORDER } from '../Utils/resources';
 import { POLineForm } from '../POLine';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
 import { DEFAULT_CURRENCY } from '../POLine/Cost/FieldCurrency';
+import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 
 const ERROR_CODES = {
   accessProviderIsInactive: 'accessProviderIsInactive',
@@ -113,6 +115,8 @@ class LayerPOLine extends Component {
     const newLine = cloneDeep(line);
     const { parentMutator: { poLine }, onCancel } = this.props;
 
+    delete newLine.template;
+
     poLine.POST(newLine)
       .then(() => onCancel())
       .catch(e => this.handleErrorResponse(e, line));
@@ -173,11 +177,12 @@ class LayerPOLine extends Component {
   };
 
   getCreatePOLIneInitialValues = (order, vendor) => {
-    const { parentResources } = this.props;
+    const { parentResources, stripes } = this.props;
     const { id: orderId } = order;
     const createInventorySetting = getCreateInventorySetting(get(parentResources, ['createInventory', 'records'], []));
 
     const newObj = {
+      template: get(order, 'template', ''),
       source: {
         code: SOURCE_FOLIO_CODE,
       },
@@ -210,6 +215,14 @@ class LayerPOLine extends Component {
         newObj.cost.discount = vendor.discountPercent;
       }
     }
+    const templateValue = getOrderTemplateValue(parentResources, order.template);
+
+    const { form } = stripes.store.getState();
+
+    const registeredFields = get(form, 'POLineForm.registeredFields', {});
+
+    Object.keys(registeredFields)
+      .forEach(field => get(templateValue, field) && set(newObj, field, get(templateValue, field)));
 
     return newObj;
   };

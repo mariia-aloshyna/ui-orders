@@ -21,6 +21,7 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
+import { FieldSelection } from '@folio/stripes-acq-components';
 
 import {
   getAddresses,
@@ -28,10 +29,12 @@ import {
 } from '../../common/utils';
 import { isOngoing } from '../../common/POFields';
 import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
+import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { RenewalsForm } from './renewals';
 import { ORGANIZATION_STATUS_ACTIVE } from '../../common/constants';
+import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
 
 const throwError = () => {
   const errorInfo = { poNumber: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
@@ -150,6 +153,18 @@ class POForm extends Component {
     this.setState({ sections });
   }
 
+  onChangeTemplate = (e, value) => {
+    const { change, dispatch, parentResources, stripes } = this.props;
+    const templateValue = getOrderTemplateValue(parentResources, value);
+
+    const { form } = stripes.store.getState();
+    const registeredFields = get(form, 'FormPO.registeredFields', {});
+
+    dispatch(change('template', value));
+    Object.keys(registeredFields)
+      .forEach(field => get(templateValue, field) && dispatch(change(field, get(templateValue, field))));
+  };
+
   render() {
     const { change, dispatch, initialValues, onCancel, stripes, parentResources } = this.props;
     const { sections } = this.state;
@@ -169,6 +184,7 @@ class POForm extends Component {
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
     const vendors = get(parentResources, 'vendors.records', [])
       .filter(vendor => vendor.isVendor && vendor.status === ORGANIZATION_STATUS_ACTIVE);
+    const orderTemplates = getOrderTemplatesForSelect(parentResources);
 
     if (!initialValues) {
       return (
@@ -210,6 +226,23 @@ class POForm extends Component {
                         </Col>
                       </Row>
                     </Col>
+
+                    {!initialValues.id && (
+                      <Col xs={12} md={8}>
+                        <Row>
+                          <Col xs={4}>
+                            <FieldSelection
+                              dataOptions={orderTemplates}
+                              onChange={this.onChangeTemplate}
+                              label={<FormattedMessage id="ui-orders.settings.orderTemplates.editor.template.name" />}
+                              name="template"
+                              id="order-template"
+                            />
+                          </Col>
+                        </Row>
+                      </Col>
+                    )}
+
                     <Col xs={12} md={8} style={{ textAlign: 'left' }}>
                       <AccordionSet accordionStatus={sections} onToggle={this.onToggleSection}>
                         <Accordion

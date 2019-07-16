@@ -36,6 +36,12 @@ describe('Create POL', function () {
     await lineEditPage.whenLoaded();
   });
 
+  describe('Template name', function () {
+    it('should be displayed', () => {
+      expect(lineEditPage.hasTemplateField).to.be.true;
+    });
+  });
+
   describe('Physical Details', function () {
     beforeEach(async function () {
       await lineEditPage.selectOrderFormat(PHYSICAL);
