@@ -13,9 +13,9 @@ import {
   Callout,
   Layer,
 } from '@folio/stripes/components';
+import { sourceValues } from '@folio/stripes-acq-components';
 
 import getCreateInventorySetting from '../../common/utils/getCreateInventorySetting';
-import { SOURCE_FOLIO_CODE } from '../Utils/const';
 import { DISCOUNT_TYPE } from '../POLine/const';
 import { cloneOrder } from '../Utils/orderResource';
 import {
@@ -183,9 +183,7 @@ class LayerPOLine extends Component {
 
     const newObj = {
       template: get(order, 'template', ''),
-      source: {
-        code: SOURCE_FOLIO_CODE,
-      },
+      source: sourceValues.user,
       cost: {
         currency: get(vendor, 'vendorCurrencies[0]', DEFAULT_CURRENCY),
       },
