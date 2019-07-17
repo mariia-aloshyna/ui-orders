@@ -26,6 +26,9 @@ const PAYMENT_STATUSES_BY_ORDER_STATUS = {
     'fullyPaid',
     'cancelled',
   ],
+  template: [
+    'paymentNotRequired',
+  ],
 };
 
 const FieldPaymentStatus = ({ workflowStatus }) => {

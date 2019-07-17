@@ -26,6 +26,9 @@ const RECEIPT_STATUSES_BY_ORDER_STATUS = {
     'fullyReceived',
     'cancelled',
   ],
+  template: [
+    'receiptNotRequired',
+  ],
 };
 
 const FieldReceiptStatus = ({ workflowStatus }) => {
