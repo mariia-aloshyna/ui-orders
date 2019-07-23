@@ -18,13 +18,13 @@ export const ACQUISITION_METHOD = {
   technical: 'Technical',
 };
 
-const FieldAcquisitionMethod = ({ disabled }) => (
+const FieldAcquisitionMethod = ({ disabled, required }) => (
   <Field
     component={Select}
     label={<FormattedMessage id="ui-orders.poLine.acquisitionMethod" />}
     name="acquisitionMethod"
-    required
-    validate={[Required]}
+    required={required}
+    validate={required && [Required]}
     disabled={disabled}
   >
     <FormattedMessage id="ui-orders.dropdown.select">
@@ -43,6 +43,12 @@ const FieldAcquisitionMethod = ({ disabled }) => (
 
 FieldAcquisitionMethod.propTypes = {
   disabled: PropTypes.bool,
+  required: PropTypes.bool,
+};
+
+FieldAcquisitionMethod.defaultProps = {
+  disabled: false,
+  required: true,
 };
 
 export default FieldAcquisitionMethod;

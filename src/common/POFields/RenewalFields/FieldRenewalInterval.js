@@ -5,9 +5,9 @@ import { FormattedMessage } from 'react-intl';
 
 import { TextField } from '@folio/stripes/components';
 
-import { required } from '../../../components/Utils/Validate';
+import { Required } from '../../../components/Utils/Validate';
 
-const FieldRenewalInterval = ({ disabled }) => {
+const FieldRenewalInterval = ({ required, disabled }) => {
   return (
     <Field
       component={TextField}
@@ -15,7 +15,8 @@ const FieldRenewalInterval = ({ disabled }) => {
       label={<FormattedMessage id="ui-orders.renewals.renewalInterval" />}
       name="renewal.interval"
       type="number"
-      validate={required}
+      required={required}
+      validate={required && Required}
       disabled={disabled}
     />
   );
@@ -23,10 +24,12 @@ const FieldRenewalInterval = ({ disabled }) => {
 
 FieldRenewalInterval.propTypes = {
   disabled: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
 FieldRenewalInterval.defaultProps = {
   disabled: false,
+  required: true,
 };
 
 export default FieldRenewalInterval;

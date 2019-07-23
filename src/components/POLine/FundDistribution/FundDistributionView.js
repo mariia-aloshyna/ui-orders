@@ -24,9 +24,9 @@ function FundDistributionView({ line = {}, funds = [] }) {
 
   const names = map(fundsToDisplay, 'name').join(', ');
   const codes = map(fundsToDisplay, 'code').join(', ');
-  const percentages = fundsToDisplay.map(val => `${val.percentage}%`).join(', ');
+  const percentages = fundsToDisplay.map(val => `${val.percentage || '0'}%`).join(', ');
   const estimatedPrice = get(cost, 'poLineEstimatedPrice') || 0;
-  const amount = fundsToDisplay.map(d => ((d.percentage / 100) * estimatedPrice).toFixed(2)).join(', ');
+  const amount = fundsToDisplay.map(d => (((d.percentage || 0) / 100) * estimatedPrice).toFixed(2)).join(', ');
 
   return (
     <Row start="xs">

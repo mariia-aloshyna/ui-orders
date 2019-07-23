@@ -11,9 +11,9 @@ import {
   DATE_FORMAT,
   TIMEZONE,
 } from '../../../components/Utils/const';
-import { required } from '../../../components/Utils/Validate';
+import { Required } from '../../../components/Utils/Validate';
 
-const FieldRenewalDate = ({ disabled }) => {
+const FieldRenewalDate = ({ required, disabled }) => {
   return (
     <Field
       backendDateStandard={DATE_FORMAT}
@@ -23,7 +23,8 @@ const FieldRenewalDate = ({ disabled }) => {
       label={<FormattedMessage id="ui-orders.renewals.renewalDate" />}
       name="renewal.renewalDate"
       timeZone={TIMEZONE}
-      validate={required}
+      required={required}
+      validate={required && Required}
       disabled={disabled}
     />
   );
@@ -31,10 +32,12 @@ const FieldRenewalDate = ({ disabled }) => {
 
 FieldRenewalDate.propTypes = {
   disabled: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
 FieldRenewalDate.defaultProps = {
   disabled: false,
+  required: true,
 };
 
 export default FieldRenewalDate;

@@ -241,6 +241,7 @@ class OrderTemplatesEditor extends Component {
                       formValues={formValues}
                       change={change}
                       dispatch={dispatch}
+                      required={false}
                     />
                   </Accordion>
 
@@ -265,6 +266,7 @@ class OrderTemplatesEditor extends Component {
                       dispatch={dispatch}
                       formValues={formValues}
                       order={ORDER}
+                      required={false}
                     />
                   </Accordion>
 

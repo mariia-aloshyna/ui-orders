@@ -47,7 +47,7 @@ const FieldsLocation = ({ locations, disabled, withValidation }) => {
               label={<FormattedMessage id="ui-orders.location.nameCode" />}
               name={`${field}.locationId`}
               placeholder=" "
-              required
+              required={withValidation}
               validate={withValidation ? [required, validateLocation] : NO_VALIDATE}
               disabled={disabled}
             />

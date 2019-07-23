@@ -9,7 +9,7 @@ import { EMPTY_OPTION } from '../../components/Utils/const';
 import normalizeEmptySelect from '../../components/Utils/normalizeEmptySelect';
 import { requiredMaterialType } from '../../components/Utils/Validate';
 
-const FieldMaterialType = ({ name, materialTypes, disabled }) => (
+const FieldMaterialType = ({ name, materialTypes, disabled, required }) => (
   <Field
     component={Select}
     dataOptions={[EMPTY_OPTION, ...materialTypes]}
@@ -17,7 +17,7 @@ const FieldMaterialType = ({ name, materialTypes, disabled }) => (
     label={<FormattedMessage id="ui-orders.poLine.materialType" />}
     name={name}
     normalize={normalizeEmptySelect}
-    validate={[requiredMaterialType]}
+    validate={required && [requiredMaterialType]}
     disabled={disabled}
   />
 );
@@ -29,6 +29,11 @@ FieldMaterialType.propTypes = {
   })),
   name: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
+  required: PropTypes.bool,
+};
+
+FieldMaterialType.defaultProps = {
+  required: true,
 };
 
 export default FieldMaterialType;

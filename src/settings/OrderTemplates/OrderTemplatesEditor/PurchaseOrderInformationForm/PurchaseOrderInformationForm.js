@@ -47,7 +47,10 @@ const PurchaseOrderInformationForm = ({
         xs={3}
         data-col-order-template-vendor
       >
-        <FieldVendor vendors={vendors} />
+        <FieldVendor
+          vendors={vendors}
+          required={false}
+        />
       </Col>
 
       <Col
@@ -79,7 +82,7 @@ const PurchaseOrderInformationForm = ({
         xs={3}
         data-col-order-template-order-type
       >
-        <FieldOrderType />
+        <FieldOrderType required={false} />
       </Col>
 
       <Col

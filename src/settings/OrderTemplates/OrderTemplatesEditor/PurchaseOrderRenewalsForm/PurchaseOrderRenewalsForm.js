@@ -19,14 +19,14 @@ const PurchaseOrderRenewalsForm = () => {
         xs={3}
         data-col-order-template-renewal-interval
       >
-        <FieldRenewalInterval />
+        <FieldRenewalInterval required={false} />
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-renewal-date
       >
-        <FieldRenewalDate />
+        <FieldRenewalDate required={false} />
       </Col>
 
       <Col
