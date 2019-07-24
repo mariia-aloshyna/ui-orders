@@ -21,7 +21,7 @@ const Location = ({ location, locations }) => {
       >
         <KeyValue
           label={<FormattedMessage id="ui-orders.location.nameCode" />}
-          value={`${name} (${code})`}
+          value={name ? `${name} (${code})` : ''}
         />
       </Col>
       <Col

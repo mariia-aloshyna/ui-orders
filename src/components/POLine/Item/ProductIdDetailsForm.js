@@ -22,6 +22,11 @@ class ProductIdDetailsForm extends Component {
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
     onChangeField: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
+    required: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    required: true,
   };
 
   addFields = (fields) => {
@@ -62,6 +67,8 @@ class ProductIdDetailsForm extends Component {
   }
 
   renderSubForm = (elem, index, fields) => {
+    const { disabled, required } = this.props;
+
     return (
       <Row key={index}>
         <Col xs={6}>
@@ -71,7 +78,7 @@ class ProductIdDetailsForm extends Component {
             label={<FormattedMessage id="ui-orders.itemDetails.productId" />}
             name={`${elem}.productId`}
             onChange={(e, value) => this.props.onChangeField(value, `${elem}.productId`)}
-            disabled={this.props.disabled}
+            disabled={disabled}
           />
         </Col>
         <Col xs={5}>
@@ -83,9 +90,9 @@ class ProductIdDetailsForm extends Component {
             name={`${elem}.productIdType`}
             onChange={(e, value) => this.props.onChangeField(value, `${elem}.productIdType`)}
             placeholder=" "
-            required
-            validate={[Required]}
-            disabled={this.props.disabled}
+            required={required}
+            validate={required && [Required]}
+            disabled={disabled}
           />
         </Col>
         <Col

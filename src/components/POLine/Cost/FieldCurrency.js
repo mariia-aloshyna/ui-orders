@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 import { Select } from '@folio/stripes/components';
-import { required } from '../../Utils/Validate';
+import { Required } from '../../Utils/Validate';
 
 export const DEFAULT_CURRENCY = 'USD';
 
 const DEFAULT_CURRENCY_OPTIONS = [{ label: DEFAULT_CURRENCY, value: DEFAULT_CURRENCY }];
 
-const FieldCurrency = ({ disabled, currencies = [] }) => {
+const FieldCurrency = ({ required, disabled, currencies = [] }) => {
   const currenciesOptions = currencies.length
     ? currencies.map(v => ({ label: v, value: v }))
     : DEFAULT_CURRENCY_OPTIONS;
@@ -22,8 +22,8 @@ const FieldCurrency = ({ disabled, currencies = [] }) => {
       fullWidth
       label={<FormattedMessage id="ui-orders.cost.currency" />}
       name="cost.currency"
-      required
-      validate={[required]}
+      required={required}
+      validate={required && [Required]}
       disabled={disabled}
     />
   );
@@ -32,10 +32,12 @@ const FieldCurrency = ({ disabled, currencies = [] }) => {
 FieldCurrency.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string),
   disabled: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
 FieldCurrency.defaultProps = {
   currencies: [],
+  required: true,
 };
 
 FieldCurrency.displayName = 'FieldCurrency';

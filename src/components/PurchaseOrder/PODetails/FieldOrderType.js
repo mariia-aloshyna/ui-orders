@@ -11,14 +11,14 @@ export const ORDER_TYPE = {
   ongoing: 'Ongoing',
 };
 
-const FieldOrderType = ({ disabled }) => {
+const FieldOrderType = ({ disabled, required }) => {
   return (
     <Field
       component={Select}
       label={<FormattedMessage id="ui-orders.orderDetails.orderType" />}
       name="orderType"
-      required
-      validate={[Required]}
+      required={required}
+      validate={required && [Required]}
       disabled={disabled}
     >
       <FormattedMessage id="ui-orders.dropdown.select">
@@ -38,6 +38,12 @@ const FieldOrderType = ({ disabled }) => {
 
 FieldOrderType.propTypes = {
   disabled: PropTypes.bool,
+  required: PropTypes.bool,
+};
+
+FieldOrderType.defaultProps = {
+  disabled: false,
+  required: true,
 };
 
 export default FieldOrderType;

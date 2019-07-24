@@ -29,7 +29,7 @@ const calculateAmount = (fund, formValues) => {
   return amount;
 };
 
-const FieldsFundDistribution = ({ funds, disabled, formValues }) => {
+const FieldsFundDistribution = ({ funds, disabled, required, formValues }) => {
   const renderSubForm = (elem, index, fields) => {
     const fund = fields.get(index);
     const fundCode = get(funds.find(({ value }) => value === fund.fundId), 'code');
@@ -44,8 +44,8 @@ const FieldsFundDistribution = ({ funds, disabled, formValues }) => {
             label={<FormattedMessage id="ui-orders.fundDistribution.id" />}
             name={`${elem}.fundId`}
             placeholder=" "
-            required
-            validate={[Required]}
+            required={required}
+            validate={required && [Required]}
             disabled={disabled}
           />
         </Col>
@@ -57,7 +57,8 @@ const FieldsFundDistribution = ({ funds, disabled, formValues }) => {
             name={`${elem}.percentage`}
             parse={parseNumber}
             type="number"
-            validate={[Required]}
+            required={required}
+            validate={required && [Required]}
             disabled={disabled}
           />
         </Col>
@@ -96,11 +97,13 @@ FieldsFundDistribution.propTypes = {
   funds: PropTypes.arrayOf(PropTypes.object),
   formValues: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
 FieldsFundDistribution.defaultProps = {
   funds: [],
   disabled: false,
+  required: true,
 };
 
 export default FieldsFundDistribution;
