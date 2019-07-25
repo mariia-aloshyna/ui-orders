@@ -21,6 +21,7 @@ describe('Order details with Line', function () {
   let order = null;
   let vendor = null;
   let line = null;
+  let invoice = null;
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');
@@ -39,6 +40,13 @@ describe('Order details with Line', function () {
       vendor: vendor.id,
       compositePoLines: [line.attrs],
       id: line.attrs.purchaseOrderId,
+    });
+
+    invoice = this.server.create('invoice');
+
+    this.server.create('orderInvoiceRelationships', {
+      purchaseOrderId: order.id,
+      invoiceId: invoice.id,
     });
 
     this.visit(`/orders/view/${order.id}`);
@@ -63,6 +71,16 @@ describe('Order details with Line', function () {
     });
 
     it('should close Order Details pane', () => {
+      expect(orderDetailsPage.isPresent).to.be.false;
+    });
+  });
+
+  describe('clicking on invoice number', () => {
+    beforeEach(async function () {
+      await orderDetailsPage.relatedInvoicesAccordion.invoices(0).link();
+    });
+
+    it('should redirect to Invoices app', () => {
       expect(orderDetailsPage.isPresent).to.be.false;
     });
   });

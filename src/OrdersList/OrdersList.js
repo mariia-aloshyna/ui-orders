@@ -28,17 +28,17 @@ import {
 import {
   ADDRESSES,
   CLOSING_REASONS,
+  CONTRIBUTOR_NAME_TYPES,
   CREATE_INVENTORY,
   FUND,
   IDENTIFIER_TYPES,
   LOCATIONS,
   MATERIAL_TYPES,
   ORDER_NUMBER_SETTING,
-  USERS,
-  CONTRIBUTOR_NAME_TYPES,
-  SUFFIXES_SETTING,
-  PREFIXES_SETTING,
   ORDER_TEMPLATES,
+  PREFIXES_SETTING,
+  SUFFIXES_SETTING,
+  USERS,
 } from '../components/Utils/resources';
 import OrdersNavigation from '../common/OrdersNavigation';
 import {

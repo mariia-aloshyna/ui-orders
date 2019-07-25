@@ -17,3 +17,6 @@ export const FUND_API = 'finance-storage/funds';
 export const USERS_API = 'users';
 export const IDENTIFIER_TYPES_API = 'identifier-types';
 export const CONTRIBUTOR_NAME_TYPES_API = 'contributor-name-types';
+export const ORDER_INVOICE_RELNS_API = 'orders-storage/order-invoice-relns';
+export const INVOICES_API = 'invoice/invoices';
+export const INVOICE_LINES_API = 'invoice/invoice-lines';

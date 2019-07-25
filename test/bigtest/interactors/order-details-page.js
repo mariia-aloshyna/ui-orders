@@ -1,4 +1,5 @@
 import {
+  clickable,
   collection,
   interactor,
   isPresent,
@@ -28,6 +29,14 @@ import Button from './button';
   edit = new Button('[data-test-button-edit-order]');
 }
 
+@interactor class RelatedInvoicesAccordion {
+  static defaultScope = '#relatedInvoices';
+
+  invoices = collection('[class*=mclRow---]', {
+    link: clickable('[data-test-link-to-invoice]'),
+  });
+}
+
 export default interactor(class OrderDetailsPage {
   static defaultScope = '[data-test-order-details]';
   actionsMenu = new OrderDetailsActions();
@@ -43,6 +52,7 @@ export default interactor(class OrderDetailsPage {
   shipTo = new ShipTo();
   lines = collection('#POListing [class*=mclRow---]');
   isLoaded = isPresent('[class*=paneTitleLabel---]');
+  relatedInvoicesAccordion = new RelatedInvoicesAccordion();
 
   whenLoaded() {
     return this.timeout(7000).when(() => this.isLoaded);
