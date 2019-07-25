@@ -6,14 +6,14 @@ import { FieldSelection } from '@folio/stripes-acq-components';
 
 import { Required } from '../../components/Utils/Validate';
 
-const FieldVendor = ({ vendors, disabled }) => {
+const FieldVendor = ({ vendors, disabled, required }) => {
   return (
     <FieldSelection
       dataOptions={vendors}
       label={<FormattedMessage id="ui-orders.orderDetails.vendor" />}
       name="vendor"
-      required
-      validate={[Required]}
+      required={required}
+      validate={required && [Required]}
       disabled={disabled}
     />
   );
@@ -22,10 +22,12 @@ const FieldVendor = ({ vendors, disabled }) => {
 FieldVendor.propTypes = {
   vendors: PropTypes.arrayOf(PropTypes.object).isRequired,
   disabled: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
 FieldVendor.defaultProps = {
   disabled: false,
+  required: true,
 };
 
 export default FieldVendor;

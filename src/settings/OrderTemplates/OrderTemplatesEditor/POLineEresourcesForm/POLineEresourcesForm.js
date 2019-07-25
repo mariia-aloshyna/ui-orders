@@ -24,7 +24,10 @@ const POLineEresourcesForm = ({ materialTypes, vendors }) => {
         xs={3}
         data-col-order-template-eresources-access-provider
       >
-        <FieldAccessProvider vendors={vendors} />
+        <FieldAccessProvider
+          vendors={vendors}
+          required={false}
+        />
       </Col>
 
       <Col
@@ -58,6 +61,7 @@ const POLineEresourcesForm = ({ materialTypes, vendors }) => {
         <InventoryRecordTypeSelectField
           label="ui-orders.eresource.createInventory"
           name="eresource.createInventory"
+          required={false}
         />
       </Col>
 

@@ -38,7 +38,7 @@ const POLineDetailsForm = ({ change, dispatch, formValues, createInventorySettin
         xs={3}
         data-col-order-template-pol-acq-method
       >
-        <FieldAcquisitionMethod />
+        <FieldAcquisitionMethod required={false} />
       </Col>
 
       <Col
@@ -50,6 +50,7 @@ const POLineDetailsForm = ({ change, dispatch, formValues, createInventorySettin
           dispatch={dispatch}
           formValues={formValues}
           createInventorySetting={createInventorySetting}
+          required={false}
         />
       </Col>
 

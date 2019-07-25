@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -16,13 +16,13 @@
     "okapiInterfaces": {
       "configuration": "2.0",
       "contributor-name-types": "1.2",
-      "finance-storage.funds": "1.0",
+      "finance-storage.funds": "1.0 2.0",
       "identifier-types": "1.1",
       "inventory": "8.3 9.0",
       "locations": "3.0",
       "material-types": "2.2",
-      "orders": "6.0",
-      "organizations-storage.organizations": "1.0",
+      "orders": "6.0 7.0",
+      "organizations-storage.organizations": "1.0 2.0",
       "users": "15.0"
     },
     "queryResource": "query",

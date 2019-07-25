@@ -55,6 +55,7 @@ class OrderTemplatesEditor extends Component {
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
+    contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
     locations: PropTypes.arrayOf(PropTypes.object),
     funds: PropTypes.arrayOf(PropTypes.object),
     createInventorySetting: PropTypes.object,
@@ -127,6 +128,7 @@ class OrderTemplatesEditor extends Component {
   render() {
     const {
       identifierTypes,
+      contributorNameTypes,
       createInventorySetting,
       prefixesSetting,
       suffixesSetting,
@@ -234,10 +236,12 @@ class OrderTemplatesEditor extends Component {
                   >
                     <ItemForm
                       identifierTypes={identifierTypes}
+                      contributorNameTypes={contributorNameTypes}
                       order={ORDER}
                       formValues={formValues}
                       change={change}
                       dispatch={dispatch}
+                      required={false}
                     />
                   </Accordion>
 
@@ -262,6 +266,7 @@ class OrderTemplatesEditor extends Component {
                       dispatch={dispatch}
                       formValues={formValues}
                       order={ORDER}
+                      required={false}
                     />
                   </Accordion>
 

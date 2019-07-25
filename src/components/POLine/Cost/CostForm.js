@@ -37,17 +37,17 @@ const validateRequiredNotNegative = (value) => {
     : <FormattedMessage id="ui-orders.cost.validation.cantBeNegativeOrEmpty" />;
 };
 
-const disabled = true;
-const required = true;
 const FIELD_ATTRS_FOR_REQUIRED_PRICE = {
-  required,
+  required: true,
   validate: validateRequiredNotNegative,
 };
 const FIELD_ATTRS_FOR_REQUIRED_QUANTITY = {
-  required,
+  required: true,
   validate: requiredPositiveQuantity,
 };
-const ATTRS_TO_DISABLE_FIELD = { disabled };
+const ATTRS_TO_DISABLE_FIELD = {
+  disabled: true,
+};
 
 const validateNotNegative = (value) => {
   return !value || value > 0
@@ -62,6 +62,11 @@ class CostForm extends Component {
     change: PropTypes.func,
     currencies: PropTypes.arrayOf(PropTypes.string),
     order: PropTypes.object.isRequired,
+    required: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    required: true,
   };
 
   normalizeDiscount = (value, previousValue, allValues, previousAllValues) => {
@@ -86,7 +91,7 @@ class CostForm extends Component {
   render() {
     const formValues = this.props.formValues;
     const orderFormat = formValues.orderFormat;
-    const { currencies, order } = this.props;
+    const { currencies, order, required } = this.props;
     const isOpenedOrder = isWorkflowStatusOpen(order);
 
     let validateEresourcesPrices = ATTRS_TO_DISABLE_FIELD;
@@ -95,13 +100,13 @@ class CostForm extends Component {
     let validatePhresourcesQuantities = ATTRS_TO_DISABLE_FIELD;
 
     if (ERESOURCES.includes(orderFormat)) {
-      validateEresourcesPrices = FIELD_ATTRS_FOR_REQUIRED_PRICE;
-      validateEresourcesQuantities = FIELD_ATTRS_FOR_REQUIRED_QUANTITY;
+      validateEresourcesPrices = required ? FIELD_ATTRS_FOR_REQUIRED_PRICE : {};
+      validateEresourcesQuantities = required ? FIELD_ATTRS_FOR_REQUIRED_QUANTITY : {};
     }
 
     if (PHRESOURCES.includes(orderFormat) || orderFormat === OTHER) {
-      validatePhresourcesPrices = FIELD_ATTRS_FOR_REQUIRED_PRICE;
-      validatePhresourcesQuantities = FIELD_ATTRS_FOR_REQUIRED_QUANTITY;
+      validatePhresourcesPrices = required ? FIELD_ATTRS_FOR_REQUIRED_PRICE : {};
+      validatePhresourcesQuantities = required ? FIELD_ATTRS_FOR_REQUIRED_QUANTITY : {};
     }
 
     const discountType = get(formValues, 'cost.discountType', DISCOUNT_TYPE.amount) || DISCOUNT_TYPE.amount;
@@ -127,6 +132,7 @@ class CostForm extends Component {
           <FieldCurrency
             currencies={currencies}
             disabled={isOpenedOrder}
+            required={required}
           />
         </Col>
         <Col xs={6}>

@@ -47,6 +47,11 @@ class ItemForm extends Component {
     initialValues: PropTypes.object,
     order: PropTypes.object.isRequired,
     formValues: PropTypes.object.isRequired,
+    required: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    required: true,
   };
 
   constructor(props) {
@@ -137,7 +142,11 @@ class ItemForm extends Component {
 
   render() {
     const isOpenedOrder = isWorkflowStatusOpen(this.props.order);
-    const { contributorNameTypes, identifierTypes } = this.props;
+    const {
+      contributorNameTypes,
+      identifierTypes,
+      required,
+    } = this.props;
 
     return (
       <Fragment>
@@ -150,8 +159,8 @@ class ItemForm extends Component {
                 label={<FormattedMessage id="ui-orders.itemDetails.title" />}
                 name="title"
                 onChange={(e, value) => this.onChangeField(value, 'title')}
-                required
-                validate={Required}
+                required={required}
+                validate={required && Required}
                 disabled={isOpenedOrder}
               />
               <div className={css.addButton}>
@@ -246,6 +255,7 @@ class ItemForm extends Component {
               contributorNameTypes={contributorNameTypes}
               onChangeField={this.onChangeField}
               disabled={isOpenedOrder}
+              required={required}
             />
           </Col>
         </Row>
@@ -255,6 +265,7 @@ class ItemForm extends Component {
               identifierTypes={identifierTypes}
               onChangeField={this.onChangeField}
               disabled={isOpenedOrder}
+              required={required}
             />
           </Col>
         </Row>

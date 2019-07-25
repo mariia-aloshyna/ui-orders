@@ -20,7 +20,12 @@ class ContributorForm extends Component {
   static propTypes = {
     onChangeField: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
+    required: PropTypes.bool,
     contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
+  };
+
+  static defaultProps = {
+    required: true,
   };
 
   addFields = (fields) => {
@@ -61,6 +66,8 @@ class ContributorForm extends Component {
   }
 
   renderSubForm = (elem, index, fields) => {
+    const { required } = this.props;
+
     return (
       <Row key={index}>
         <Col xs={6}>
@@ -78,11 +85,11 @@ class ContributorForm extends Component {
             dataOptions={this.props.contributorNameTypes}
             component={Select}
             fullWidth
-            required
+            required={required}
             label={<FormattedMessage id="ui-orders.itemDetails.contributorType" />}
             name={`${elem}.contributorNameTypeId`}
             onChange={(e, value) => this.props.onChangeField(value, `${elem}.contributorNameTypeId`)}
-            validate={Required}
+            validate={required && Required}
             disabled={this.props.disabled}
           />
         </Col>

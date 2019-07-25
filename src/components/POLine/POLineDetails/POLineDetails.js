@@ -12,6 +12,7 @@ import {
   KeyValue,
   Row,
 } from '@folio/stripes/components';
+import { sourceLabels } from '@folio/stripes-acq-components';
 
 import FolioFormattedDate from '../../FolioFormattedDate';
 import FolioFormattedTime from '../../FolioFormattedTime';
@@ -52,8 +53,6 @@ const POLineDetails = ({ line }) => {
             value={get(line, 'orderFormat')}
           />
         </Col>
-      </Row>
-      <Row start="xs">
         <Col
           data-col-line-details-created-on
           xs={6}
@@ -79,7 +78,7 @@ const POLineDetails = ({ line }) => {
         >
           <KeyValue
             label={<FormattedMessage id="ui-orders.poLine.source" />}
-            value={get(line, 'source.code')}
+            value={sourceLabels[line.source]}
           />
         </Col>
         <Col
@@ -132,6 +131,8 @@ const POLineDetails = ({ line }) => {
             value={get(line, 'requester')}
           />
         </Col>
+      </Row>
+      <Row start="xs">
         <Col
           data-col-line-details-cancellation-restriction
           xs={6}

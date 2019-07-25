@@ -56,7 +56,7 @@ export const filterConfig = [
   },
   {
     name: FILTERS.SOURCE_CODE,
-    cql: `${FILTERS.SOURCE_CODE}.code`,
+    cql: FILTERS.SOURCE_CODE,
     values: [],
   },
   {

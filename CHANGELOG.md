@@ -1,5 +1,25 @@
 # Change history for ui-orders
 
+## [1.6.0](https://github.com/folio-org/ui-orders/tree/v1.6.0) (2019-07-23)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.5.0...v1.6.0)
+
+* [UIOR-301](https://issues.folio.org/browse/UIOR-301) Create PO and POL(s) using order templates
+* [UIOR-318](https://issues.folio.org/browse/UIOR-318) poLine.source is an enum
+* [UIOR-244](https://issues.folio.org/browse/UIOR-244) Allow user to specify a contributor-name-type for each contributor added to POL
+* [UIOR-262](https://issues.folio.org/browse/UIOR-262) Create the secondary search options for Orders
+* [UIOR-266](https://issues.folio.org/browse/UIOR-266) Create the secondary filter options for Orders
+* [UIOR-268](https://issues.folio.org/browse/UIOR-268) Create the secondary filter options for Order Lines
+* [UIOR-246](https://issues.folio.org/browse/UIOR-246) Automatically select the piece for receiving when adding barcode
+* [UIOR-269](https://issues.folio.org/browse/UIOR-269) Revise the Orders search results list columns
+* [UIOR-277](https://issues.folio.org/browse/UIOR-277) Change PO vendor lookup to filterable select list and filter out both non-vendors and inactive vendor
+* [UIOR-238](https://issues.folio.org/browse/UIOR-238) View, Edit and delete "Order templates"
+* [UIOR-264](https://issues.folio.org/browse/UIOR-264) Create the secondary search options for Order lines
+* [UIOR-237](https://issues.folio.org/browse/UIOR-237) Create order templates in settings
+* [UIOR-294](https://issues.folio.org/browse/UIOR-294) Allow select PO and POL fields to be edited when order is open
+* [UIOR-302](https://issues.folio.org/browse/UIOR-302) Remove purchase-order.owner field
+* [UIOR-256](https://issues.folio.org/browse/UIOR-256) Separate permission for deleting PO from view, create and edit PO perms
+* [UIOR-245](https://issues.folio.org/browse/UIOR-245) When receiving a single line PO, automatically select the line for receipt
+
 ## [1.5.0](https://github.com/folio-org/ui-orders/tree/v1.5.0) (2019-06-12)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.4.0...v1.5.0)
 ### Story

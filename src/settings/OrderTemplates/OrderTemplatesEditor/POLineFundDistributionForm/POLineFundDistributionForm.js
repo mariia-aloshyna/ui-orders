@@ -15,6 +15,7 @@ const POLineFundDistributionForm = ({ formValues, funds }) => {
         <FieldsFundDistribution
           funds={funds}
           formValues={formValues}
+          required={false}
         />
       </Col>
     </Row>
