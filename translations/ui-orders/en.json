@@ -50,6 +50,8 @@
   "checkIn.pieceStatus": "Piece Status",
   "checkIn.supplement": "Supplement",
   "closedLoansCount": "{count, number} {count, plural, one {closed loan} other {closed loans}}",
+  "closeOrder.error": "Order failed to close",
+  "closeOrder.success": "Order was closed",
   "closeOrderModal.cancel": "Cancel",
   "closeOrderModal.closingReasons.ceased": "Ceased",
   "closeOrderModal.closingReasons.complete": "Complete",
