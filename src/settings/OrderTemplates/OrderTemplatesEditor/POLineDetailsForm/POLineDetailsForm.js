@@ -72,14 +72,14 @@ const POLineDetailsForm = ({ change, dispatch, formValues, createInventorySettin
         xs={3}
         data-col-order-template-pol-payment-status
       >
-        <FieldPaymentStatus />
+        <FieldPaymentStatus workflowStatus="template" />
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-pol-receipt-status
       >
-        <FieldReceiptStatus />
+        <FieldReceiptStatus workflowStatus="template" />
       </Col>
 
       <Col
