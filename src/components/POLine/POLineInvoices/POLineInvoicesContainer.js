@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { get } from 'lodash';
@@ -7,27 +7,39 @@ import { stripesConnect } from '@folio/stripes/core';
 import { Accordion } from '@folio/stripes/components';
 
 import {
-  INVOICE_LINES,
-  INVOICES,
+  INVOICE_LINES, INVOICES,
   RECEIVING_HISTORY,
 } from '../../Utils/resources';
 
 import POLineInvoices from './POLineInvoices';
+import { ACCORDION_ID } from '../const';
 
-const POLineInvoicesContainer = ({
-  accordionId,
-  label,
-  resources,
-  vendors,
-}) => {
+const POLineInvoicesContainer = ({ lineId, label, resources, vendors, mutator }) => {
   const lineInvoices = get(resources, ['invoices', 'records'], []);
   const invoiceLines = get(resources, ['invoiceLines', 'records'], []);
   const pieces = get(resources, ['pieces', 'records'], []);
 
+  useEffect(() => {
+    mutator.invoiceLines.reset();
+    mutator.invoices.reset();
+
+    mutator.invoiceLines.GET().then(response => {
+      const invoicesIds = response.map(item => item.invoiceId);
+
+      if (invoicesIds.length) {
+        mutator.invoices.GET({
+          params: {
+            query: invoicesIds.map(id => `id==${id}`).join(' or '),
+          },
+        });
+      }
+    });
+  }, [lineId]);
+
   return (
     <Accordion
       label={label}
-      id={accordionId}
+      id={ACCORDION_ID.relatedInvoices}
     >
       <POLineInvoices
         lineInvoices={lineInvoices}
@@ -43,7 +55,6 @@ POLineInvoicesContainer.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
   lineId: PropTypes.string.isRequired,
   label: PropTypes.object.isRequired,
-  accordionId: PropTypes.string.isRequired,
   mutator: PropTypes.shape({
     pieces: PropTypes.object.isRequired,
     invoices: PropTypes.object.isRequired,
@@ -68,20 +79,16 @@ POLineInvoicesContainer.manifest = Object.freeze({
   },
   invoiceLines: {
     ...INVOICE_LINES,
+    fetch: false,
+    accumulate: true,
     params: {
       query: 'poLineId==!{lineId}',
     },
   },
   invoices: {
     ...INVOICES,
-    params: {
-      query: (queryParams, pathComponents, resourceData, logger, props) => {
-        const invoiceLines = get(props, ['resources', 'invoiceLines', 'records'], []);
-        const invoicesIds = invoiceLines.map(item => item.invoiceId);
-
-        return invoicesIds.length ? invoicesIds.map(id => `id==${id}`).join(' or ') : 'id==null';
-      },
-    },
+    fetch: false,
+    accumulate: true,
   },
 });
 

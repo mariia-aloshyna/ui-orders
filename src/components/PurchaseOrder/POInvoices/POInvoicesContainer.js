@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { get } from 'lodash';
@@ -12,14 +12,32 @@ import {
 } from '../../Utils/resources';
 
 import POInvoices from './POInvoices';
+import { ACCORDION_ID } from '../../POLine/const';
 
-const POInvoicesContainer = ({ label, accordionId, resources, vendors }) => {
+const POInvoicesContainer = ({ label, orderId, resources, vendors, mutator }) => {
   const orderInvoices = get(resources, ['invoices', 'records'], []);
+
+  useEffect(() => {
+    mutator.orderInvoicesRelns.reset();
+    mutator.invoices.reset();
+
+    mutator.orderInvoicesRelns.GET().then(response => {
+      const invoicesIds = response.map(item => item.invoiceId);
+
+      if (invoicesIds.length) {
+        mutator.invoices.GET({
+          params: {
+            query: invoicesIds.map(id => `id==${id}`).join(' or '),
+          },
+        });
+      }
+    });
+  }, [orderId]);
 
   return (
     <Accordion
       label={label}
-      id={accordionId}
+      id={ACCORDION_ID.relatedInvoices}
     >
       <POInvoices
         orderInvoices={orderInvoices}
@@ -33,7 +51,6 @@ POInvoicesContainer.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
   orderId: PropTypes.string.isRequired,
   label: PropTypes.object.isRequired,
-  accordionId: PropTypes.string.isRequired,
   mutator: PropTypes.shape({
     orderInvoicesRelns: PropTypes.object.isRequired,
     invoices: PropTypes.object.isRequired,
@@ -49,20 +66,16 @@ POInvoicesContainer.defaultProps = {
 POInvoicesContainer.manifest = Object.freeze({
   orderInvoicesRelns: {
     ...ORDER_INVOICES,
+    fetch: false,
+    accumulate: true,
     params: {
       query: 'purchaseOrderId==!{orderId}',
     },
   },
   invoices: {
     ...INVOICES,
-    params: {
-      query: (queryParams, pathComponents, resourceData, logger, props) => {
-        const orderInvoicesRelns = get(props, ['resources', 'orderInvoicesRelns', 'records'], []);
-        const invoicesIds = orderInvoicesRelns.map(item => item.invoiceId);
-
-        return invoicesIds.length ? invoicesIds.map(id => `id==${id}`).join(' or ') : 'id==null';
-      },
-    },
+    fetch: false,
+    accumulate: true,
   },
 });
 
