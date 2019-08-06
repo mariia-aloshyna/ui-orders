@@ -10,6 +10,7 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
+import { AcqUnits } from '@folio/stripes-acq-components';
 
 import { getAddressOptions, getVendorOptions } from '../../../common/utils';
 import {
@@ -191,6 +192,13 @@ class PODetailsForm extends Component {
               label={<FormattedMessage id="ui-orders.orderDetails.address" />}
               value={addressShipTo}
             />
+          </Col>
+
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <AcqUnits name="acqUnitIds" />
           </Col>
         </Row>
         <Row>
