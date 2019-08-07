@@ -10,7 +10,7 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
-import { AcqUnits } from '@folio/stripes-acq-components';
+import { AcqUnitsField } from '@folio/stripes-acq-components';
 
 import { getAddressOptions, getVendorOptions } from '../../../common/utils';
 import {
@@ -29,6 +29,9 @@ import FieldOrderType from './FieldOrderType';
 import { isWorkflowStatusOpen } from '../util';
 
 import css from './PODetailsForm.css';
+
+const CREATE_UNITS_PERM = 'orders.acquisitions-units-assignments.post';
+const MANAGE_UNITS_PERM = 'orders.acquisitions-units-assignments.all,orders.acquisitions-units-assignments.post';
 
 class PODetailsForm extends Component {
   static propTypes = {
@@ -66,6 +69,7 @@ class PODetailsForm extends Component {
       change,
     } = this.props;
 
+    const isEditMode = Boolean(order.id);
     const isOpenedOrder = isWorkflowStatusOpen(order);
     const vendorOptions = getVendorOptions(vendors);
     const addressesOptions = getAddressOptions(addresses);
@@ -198,7 +202,12 @@ class PODetailsForm extends Component {
             xs={6}
             lg={3}
           >
-            <AcqUnits name="acqUnitIds" />
+            <AcqUnitsField
+              name="acqUnitIds"
+              perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
+              isEdit={isEditMode}
+              preselectedUnits={order.acqUnitIds}
+            />
           </Col>
         </Row>
         <Row>

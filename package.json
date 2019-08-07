@@ -160,6 +160,24 @@
         ]
       },
       {
+        "permissionName": "ui-orders.acq.unit.assignment.create",
+        "displayName": "Orders: Assign acquisition units to new order",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.acquisitions-units-assignments.post"
+        ]
+      },
+      {
+        "permissionName": "ui-orders.acq.unit.assignment.create",
+        "displayName": "Orders: Manage acquisition units",
+        "description": "",
+        "visible": true,
+        "subPermissions": [
+          "orders.acquisitions-units-assignments.all"
+        ]
+      },
+      {
         "permissionName": "settings.orders.enabled",
         "displayName": "Settings (Orders): Display list of settings for Orders",
         "visible": true,
