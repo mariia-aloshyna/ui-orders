@@ -169,7 +169,7 @@
         ]
       },
       {
-        "permissionName": "ui-orders.acq.unit.assignment.create",
+        "permissionName": "ui-orders.acq.unit.assignment.manage",
         "displayName": "Orders: Manage acquisition units",
         "description": "",
         "visible": true,
