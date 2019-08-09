@@ -160,12 +160,12 @@
         ]
       },
       {
-        "permissionName": "ui-orders.acq.unit.assignment.create",
+        "permissionName": "ui-orders.acq.unit.assignment.assign",
         "displayName": "Orders: Assign acquisition units to new order",
         "description": "",
         "visible": true,
         "subPermissions": [
-          "orders.acquisitions-units-assignments.post"
+          "orders.acquisitions-units-assignments.assign"
         ]
       },
       {
@@ -174,7 +174,7 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "orders.acquisitions-units-assignments.all"
+          "orders.acquisitions-units-assignments.manage"
         ]
       },
       {
