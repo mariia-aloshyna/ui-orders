@@ -30,8 +30,8 @@ import { isWorkflowStatusOpen } from '../util';
 
 import css from './PODetailsForm.css';
 
-const CREATE_UNITS_PERM = 'orders.acquisitions-units-assignments.post';
-const MANAGE_UNITS_PERM = 'orders.acquisitions-units-assignments.all,orders.acquisitions-units-assignments.post';
+const CREATE_UNITS_PERM = 'orders.acquisitions-units-assignments.assign';
+const MANAGE_UNITS_PERM = 'orders.acquisitions-units-assignments.manage';
 
 class PODetailsForm extends Component {
   static propTypes = {
