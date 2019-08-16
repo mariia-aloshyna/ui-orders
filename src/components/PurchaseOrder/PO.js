@@ -27,6 +27,7 @@ import transitionToParams from '@folio/stripes-components/util/transitionToParam
 
 import {
   getAddresses,
+  getOrderApprovalsSetting,
 } from '../../common/utils';
 import { isOngoing } from '../../common/POFields';
 import { LayerPO } from '../LayerCollection';
@@ -50,6 +51,7 @@ import { RenewalsView } from './renewals';
 import LinesLimit from './LinesLimit';
 import POInvoicesContainer from './POInvoices';
 import {
+  isOpenAvailableForOrder,
   isReceiveAvailableForOrder,
 } from './util';
 import { UpdateOrderErrorModal } from './UpdateOrderErrorModal';
@@ -204,6 +206,19 @@ class PO extends Component {
     this.unmountCloseOrderModal();
   };
 
+  approveOrder = async () => {
+    const { showToast, mutator } = this.props;
+    const order = this.getOrder();
+    const orderNumber = get(order, 'poNumber', '');
+
+    try {
+      await updateOrderResource(order, mutator.order, { approved: true });
+      showToast('ui-orders.order.approved.success', 'success', { orderNumber });
+    } catch (e) {
+      await showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
+    }
+  };
+
   openOrder = async () => {
     const { mutator, resources } = this.props;
     const order = get(resources, ['order', 'records', 0]);
@@ -214,7 +229,7 @@ class PO extends Component {
     try {
       await updateOrderResource(order, mutator.order, openOrderProps);
     } catch (e) {
-      await showUpdateOrderError(e, this.callout, this.openOrderErrorModalShow);
+      await showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
     } finally {
       this.toggleOpenOrderModal();
     }
@@ -278,7 +293,7 @@ class PO extends Component {
     this.setState({ updateOrderError: null });
   };
 
-  openOrderErrorModalShow = (errors) => {
+  orderErrorModalShow = (errors) => {
     this.setState(() => ({ updateOrderError: errors }));
   };
 
@@ -316,12 +331,15 @@ class PO extends Component {
       stripes,
     } = this.props;
     const order = this.getOrder();
+    const { isApprovalRequired } = getOrderApprovalsSetting(get(parentResources, 'approvalsSetting.records', {}));
+    const isApproved = get(order, 'approved');
     const closingReasons = get(parentResources, 'closingReasons.records', []);
     const orderNumber = get(order, 'poNumber', '');
     const poLines = get(order, 'compositePoLines', []);
     const workflowStatus = get(order, 'workflowStatus');
     const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
-    const isOpenOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.pending && poLines.length > 0;
+    const isOpenOrderButtonVisible = isOpenAvailableForOrder(isApprovalRequired, order);
+    const isApproveOrderButtonVisible = isApprovalRequired && !isApproved;
     const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
     const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
 
@@ -364,6 +382,7 @@ class PO extends Component {
     const assignedTo = get(parentResources, 'users.records', []).find(d => d.id === order.assignedTo);
     const createdByUserId = get(order, 'metadata.createdByUserId');
     const createdBy = get(parentResources, 'users.records', []).find(d => d.id === createdByUserId);
+
     const orderType = get(order, 'orderType');
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
     const funds = get(parentResources, 'fund.records', []);
@@ -405,6 +424,20 @@ class PO extends Component {
           </IfPermission>
 
           <IfPermission perm="orders.item.put">
+            <IfPermission perm="orders.item.approve">
+              {isApproveOrderButtonVisible && (
+                <div className={css.buttonWrapper}>
+                  <Button
+                    buttonStyle="default"
+                    className={css.button}
+                    data-test-approve-order-button
+                    onClick={this.approveOrder}
+                  >
+                    <FormattedMessage id="ui-orders.paneBlock.approveBtn" />
+                  </Button>
+                </div>
+              )}
+            </IfPermission>
             {isCloseOrderButtonVisible && (
               <div className={css.buttonWrapper}>
                 <Button
