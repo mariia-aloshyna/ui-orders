@@ -726,5 +726,8 @@
     "relatedInvoices.status": "Status",
     "relatedInvoices.vendorName": "Vendor name",
     "settings.approvals": "Approvals",
-    "settings.approvals.isApprovalRequired": "\"Approval required\" to open orders"
+    "settings.approvals.isApprovalRequired": "\"Approval required\" to open orders",
+    "order.approved.success": "The <b>Purchase order - {orderNumber}</b> was successfully <b>approved</b>",
+    "orderDetails.approvalDate": "Approval date",
+    "paneBlock.approveBtn": "Approve"
 }
