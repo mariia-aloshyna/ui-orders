@@ -247,6 +247,9 @@ class OrdersList extends Component {
     } = this.props;
     const users = get(resources, 'users.records', []);
     const vendors = get(resources, 'vendors.records', []);
+    const acqUnitsMap = get(resources, 'acqUnits.records', [])
+      .reduce((acc, unit) => ({ ...acc, [unit.id]: unit.name }), {});
+
     const resultsFormatter = {
       'poNumber': order => get(order, 'poNumber', ''),
       'vendorCode': order => {
@@ -257,7 +260,7 @@ class OrdersList extends Component {
       'workflowStatus': order => get(order, 'workflowStatus', ''),
       'orderType': order => get(order, 'orderType', ''),
       'lastUpdated': order => <FolioFormattedDate value={get(order, 'metadata.updatedDate')} />,
-      'acquisitionsUnit': order => get(order, 'acquisitionsUnit', ''),
+      'acquisitionsUnit': order => get(order, 'acqUnitIds', []).map(unitId => acqUnitsMap[unitId] || '').join(', '),
       'assignedTo': order => {
         const assignedToId = get(order, 'assignedTo', '');
         const assignedTo = users.find(d => d.id === assignedToId);
