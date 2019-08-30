@@ -103,6 +103,7 @@ class PO extends Component {
       showConfirmDelete: false,
     };
     this.transitionToParams = transitionToParams.bind(this);
+    this.hasError = false;
   }
 
   deletePO = () => {
@@ -329,6 +330,8 @@ class PO extends Component {
       parentMutator,
       parentResources,
       stripes,
+      resources,
+      showToast,
     } = this.props;
     const order = this.getOrder();
     const { isApprovalRequired } = getOrderApprovalsSetting(get(parentResources, 'approvalsSetting.records', {}));
@@ -342,6 +345,7 @@ class PO extends Component {
     const isApproveOrderButtonVisible = isApprovalRequired && !isApproved;
     const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
     const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
+    const hasError = get(resources, ['order', 'failed']);
 
     const lastMenu = (
       <PaneMenu>
@@ -362,7 +366,13 @@ class PO extends Component {
       </PaneMenu>
     );
 
-    if (!order) {
+    if (hasError && !this.hasError) {
+      showToast('ui-orders.errors.orderNotLoaded', 'error');
+    }
+
+    this.hasError = hasError;
+
+    if (!order || hasError) {
       return (
         <Pane
           defaultWidth="fill"
