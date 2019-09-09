@@ -730,5 +730,5 @@
     "order.approved.success": "The <b>Purchase order - {orderNumber}</b> was successfully <b>approved</b>",
     "orderDetails.approvalDate": "Approval date",
     "paneBlock.approveBtn": "Approve",
-    "errors.orderNotLoaded": "Purchase Order was not loaded."
+    "errors.orderNotLoaded": "La orden de compra no se cargó."
 }
