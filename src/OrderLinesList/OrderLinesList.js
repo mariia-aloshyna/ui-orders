@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import moment from 'moment';
 
-import { stripesShape } from '@folio/stripes/core';
+import { stripesConnect, stripesShape } from '@folio/stripes/core';
 import { Callout } from '@folio/stripes/components';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
 import { changeSearchIndex, showToast } from '@folio/stripes-acq-components';
@@ -260,4 +260,4 @@ export class OrderLinesList extends Component {
   }
 }
 
-export default injectIntl(OrderLinesList);
+export default stripesConnect(injectIntl(OrderLinesList));

@@ -1,5 +1,5 @@
 /* eslint-disable filenames/match-exported */
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Route from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
@@ -23,67 +23,56 @@ import { ORDER_LINES_ROUTE } from './common/constants';
 const ORDER_DETAIL_URL = '/orders/view/:id';
 const LINE_DETAIL_URL = `${ORDER_DETAIL_URL}/po-line/view/:lineId`;
 
-class Orders extends Component {
-  static propTypes = {
-    match: ReactRouterPropTypes.match,
-    showSettings: PropTypes.bool,
-    stripes: stripesShape.isRequired,
-    location: PropTypes.object.isRequired,
+const Orders = ({ match, location, showSettings }) => {
+  if (showSettings) {
+    return <OrdersSettings {...{ match, location }} />;
   }
 
-  constructor(props, context) {
-    super(props, context);
-    this.connectedOrdersList = props.stripes.connect(OrdersList);
-    this.connectedOrderLinesList = props.stripes.connect(OrderLinesList);
-    this.connectedReceiving = props.stripes.connect(ReceivingList);
-    this.connectedReceivingHistory = props.stripes.connect(ReceivingHistory);
-    this.connectedCheckIn = props.stripes.connect(CheckIn);
-  }
+  const { path } = match;
 
-  render() {
-    if (this.props.showSettings) {
-      return <OrdersSettings {...this.props} />;
-    }
+  return (
+    <Switch>
+      <Route
+        path={`${LINE_DETAIL_URL}/check-in`}
+        component={CheckIn}
+      />
+      <Route
+        exact
+        path={`${LINE_DETAIL_URL}${RECEIVING_HISTORY}`}
+        component={ReceivingHistory}
+      />
+      <Route
+        exact
+        path={`${LINE_DETAIL_URL}${RECEIVING_ITEMS}`}
+        component={ReceivingList}
+      />
+      <Route
+        exact
+        path={`${ORDER_DETAIL_URL}${RECEIVING_HISTORY}`}
+        component={ReceivingHistory}
+      />
+      <Route
+        exact
+        path={`${ORDER_DETAIL_URL}${RECEIVING_ITEMS}`}
+        component={ReceivingList}
+      />
+      <Route
+        path={ORDER_LINES_ROUTE}
+        component={OrderLinesList}
+      />
+      <Route
+        path={path}
+        component={OrdersList}
+      />
+    </Switch>
+  );
+};
 
-    const { match: { path }, stripes } = this.props;
-
-    return (
-      <Switch>
-        <Route
-          path={`${LINE_DETAIL_URL}/check-in`}
-          render={props => <this.connectedCheckIn {...props} stripes={stripes} />}
-        />
-        <Route
-          exact
-          path={`${LINE_DETAIL_URL}${RECEIVING_HISTORY}`}
-          render={props => <this.connectedReceivingHistory {...props} stripes={stripes} />}
-        />
-        <Route
-          exact
-          path={`${LINE_DETAIL_URL}${RECEIVING_ITEMS}`}
-          render={props => <this.connectedReceiving {...props} stripes={stripes} />}
-        />
-        <Route
-          exact
-          path={`${ORDER_DETAIL_URL}${RECEIVING_HISTORY}`}
-          render={props => <this.connectedReceivingHistory {...props} stripes={stripes} />}
-        />
-        <Route
-          exact
-          path={`${ORDER_DETAIL_URL}${RECEIVING_ITEMS}`}
-          render={props => <this.connectedReceiving {...props} stripes={stripes} />}
-        />
-        <Route
-          path={ORDER_LINES_ROUTE}
-          render={props => <this.connectedOrderLinesList {...props} stripes={stripes} />}
-        />
-        <Route
-          path={path}
-          render={props => <this.connectedOrdersList {...props} stripes={stripes} />}
-        />
-      </Switch>
-    );
-  }
-}
+Orders.propTypes = {
+  match: ReactRouterPropTypes.match.isRequired,
+  showSettings: PropTypes.bool,
+  stripes: stripesShape.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
+};
 
 export default hot(module)(Orders);

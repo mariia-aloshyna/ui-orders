@@ -3,7 +3,6 @@ import {
   interactor,
   Interactor,
   isPresent,
-  isVisible,
 } from '@bigtest/interactor';
 import Button from '../../button';
 import { ORDER_TEMPLATES_ACCORDION } from '../../../../../src/settings/OrderTemplates/constants';
@@ -11,7 +10,7 @@ import { ORDER_TEMPLATES_ACCORDION } from '../../../../../src/settings/OrderTemp
 @interactor class TemplateInfoAccordion {
   static defaultScope = `#${ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO}`;
   clickHeader = clickable('[class*=defaultCollapseButton---]');
-  isExpanded = isVisible('[class*=content---]');
+  isExpanded = isPresent('[class*=expanded---]');
 }
 export default interactor(class OrderTemplateView {
   static defaultScope = '#order-settings-order-template-view';
