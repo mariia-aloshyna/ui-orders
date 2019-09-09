@@ -69,10 +69,10 @@ const Orders = ({ match, location, showSettings }) => {
 };
 
 Orders.propTypes = {
-  match: ReactRouterPropTypes.match,
+  match: ReactRouterPropTypes.match.isRequired,
   showSettings: PropTypes.bool,
   stripes: stripesShape.isRequired,
-  location: PropTypes.object.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
 };
 
 export default hot(module)(Orders);
