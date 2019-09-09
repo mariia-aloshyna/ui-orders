@@ -2,7 +2,6 @@ import {
   collection,
   fillable,
   interactor,
-  isVisible,
   selectable,
   isPresent,
 } from '@bigtest/interactor';
@@ -11,7 +10,7 @@ import Button from './button';
 import { FILTERS } from '../../../src/OrderLinesList/constants';
 
 @interactor class FilterAccordion {
-  isExpanded = isVisible('[class*=content---]');
+  isExpanded = isPresent('[class*=expanded---]');
 }
 
 @interactor class OrderLinesFilterInteractor {
