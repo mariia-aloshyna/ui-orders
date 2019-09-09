@@ -20,7 +20,7 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
-import { stripesShape } from '@folio/stripes/core';
+import { stripesConnect, stripesShape } from '@folio/stripes/core';
 
 import { EXTENDED_MUTATOR } from '../Utils/mutators';
 import getLocationsForSelect from '../Utils/getLocationsForSelect';
@@ -272,4 +272,4 @@ class ReceivingList extends Component {
   }
 }
 
-export default ReceivingList;
+export default stripesConnect(ReceivingList);

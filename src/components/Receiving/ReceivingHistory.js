@@ -18,6 +18,7 @@ import {
   Row,
   SearchField,
 } from '@folio/stripes/components';
+import { stripesConnect } from '@folio/stripes/core';
 
 import {
   ITEMS,
@@ -299,4 +300,4 @@ class ReceivingHistory extends Component {
   }
 }
 
-export default ReceivingHistory;
+export default stripesConnect(ReceivingHistory);

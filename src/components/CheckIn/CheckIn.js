@@ -13,7 +13,7 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
-import { stripesShape } from '@folio/stripes/core';
+import { stripesConnect, stripesShape } from '@folio/stripes/core';
 
 import { ORDER } from '../Utils/resources';
 import CheckInItemsWrapper from './CheckInItemsWrapper';
@@ -105,4 +105,4 @@ class CheckIn extends Component {
   }
 }
 
-export default CheckIn;
+export default stripesConnect(CheckIn);

@@ -9,7 +9,7 @@ import {
 import { get } from 'lodash';
 
 import { Callout } from '@folio/stripes/components';
-import { stripesShape } from '@folio/stripes/core';
+import { stripesConnect, stripesShape } from '@folio/stripes/core';
 import { SearchAndSort, makeQueryFunction } from '@folio/stripes/smart-components';
 import { changeSearchIndex, showToast } from '@folio/stripes-acq-components';
 
@@ -235,7 +235,6 @@ class OrdersList extends Component {
       onComponentWillUnmount,
       resources,
       showSingleResult,
-      stripes,
       stripes: {
         user: {
           user: {
@@ -309,7 +308,6 @@ class OrdersList extends Component {
           newRecordPerms="orders.item.post"
           parentResources={resources}
           parentMutator={mutator}
-          stripes={stripes}
           showSingleResult={showSingleResult}
           browseOnly={browseOnly}
           columnMapping={{
@@ -332,4 +330,4 @@ class OrdersList extends Component {
   }
 }
 
-export default injectIntl(OrdersList);
+export default stripesConnect(injectIntl(OrdersList));
