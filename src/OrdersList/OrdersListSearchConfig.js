@@ -1,8 +1,4 @@
-export const ordersSearchTemplate = `(
-  poNumber="%{query.query}" OR
-  metadata.createdDate="%{query.query}" OR
-  dateOrdered="%{query.query}"
-)`;
+import { generateQueryTemplate } from '@folio/stripes-acq-components';
 
 const indexes = [
   'metadata.createdDate',
@@ -16,3 +12,4 @@ const keywordIndex = {
 };
 
 export const searchableIndexes = [keywordIndex, ...indexes.map(index => ({ label: index, value: index }))];
+export const ordersSearchTemplate = generateQueryTemplate(indexes);
