@@ -42,7 +42,7 @@ describe('Create order', function () {
     describe('Should change form', function () {
       beforeEach(async function () {
         await orders.orderTemplate.template.click();
-        await orders.orderTemplate.options.list(2).click();
+        await orders.orderTemplate.options.list(1).click();
       });
 
       it('order type should be changed', () => {

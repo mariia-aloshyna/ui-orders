@@ -1,10 +1,15 @@
-import { get } from 'lodash';
+import {
+  get,
+  sortBy,
+} from 'lodash';
 
-export default (resources) => get(resources, 'orderTemplates.records', []).map((v) => {
-  const { templateName, templateCode } = JSON.parse(v.value);
+export default (resources) => sortBy(
+  get(resources, 'orderTemplates.records', []).map((v) => {
+    const { templateName, templateCode } = JSON.parse(v.value);
 
-  return {
-    label: `${templateName} (${templateCode})`,
-    value: v.id,
-  };
-});
+    return {
+      label: templateCode ? `${templateName} (${templateCode})` : templateName,
+      value: v.id,
+    };
+  }), 'label',
+);
