@@ -166,6 +166,17 @@ class PODetailsForm extends Component {
             xs={6}
             lg={3}
           >
+            <AcqUnitsField
+              name="acqUnitIds"
+              perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
+              isEdit={isEditMode}
+              preselectedUnits={order.acqUnitIds}
+            />
+          </Col>
+          <Col
+            xs={6}
+            lg={3}
+          >
             <FieldBillTo
               addresses={addressesOptions}
               disabled={isOpenedOrder}
@@ -195,18 +206,6 @@ class PODetailsForm extends Component {
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.address" />}
               value={addressShipTo}
-            />
-          </Col>
-
-          <Col
-            xs={6}
-            lg={3}
-          >
-            <AcqUnitsField
-              name="acqUnitIds"
-              perm={isEditMode ? MANAGE_UNITS_PERM : CREATE_UNITS_PERM}
-              isEdit={isEditMode}
-              preselectedUnits={order.acqUnitIds}
             />
           </Col>
         </Row>
