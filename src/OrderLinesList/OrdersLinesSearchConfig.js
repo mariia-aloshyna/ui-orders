@@ -1,3 +1,5 @@
+import { generateQueryTemplate } from '@folio/stripes-acq-components';
+
 const indexes = [
   'contributors',
   'poLineNumber',
@@ -17,5 +19,5 @@ const keywordIndex = {
   value: '',
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const searchableIndexes = [keywordIndex, ...indexes.map(index => ({ label: index, value: index }))];
+export const queryTemplate = generateQueryTemplate(indexes);

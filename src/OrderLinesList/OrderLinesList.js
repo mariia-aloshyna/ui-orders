@@ -35,7 +35,7 @@ import {
 import OrderLinesFilters from './OrderLinesFilters';
 import Details from './Details';
 import { filterConfig } from './OrdersLinesFilterConfig';
-import { searchableIndexes } from './OrdersLinesSearchConfig';
+import { searchableIndexes, queryTemplate } from './OrdersLinesSearchConfig';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -70,20 +70,6 @@ export const columnMapping = {
   funCodes: <FormattedMessage id="ui-orders.orderLineList.funCodes" />,
 };
 
-const OrderLinesSearchQueryTemplate = `(
-  title="%{query.query}*" OR
-  poLineNumber="%{query.query}*" OR
-  contributors="%{query.query}*" OR
-  requester="%{query.query}*" OR
-  vendorDetail.vendorAccount="%{query.query}*" OR
-  vendorDetail.refNumber="%{query.query}*" OR
-  details.productIds="%{query.query}*" OR
-  publisher="%{query.query}*" OR
-  donor="%{query.query}*" OR
-  selector="%{query.query}*" OR
-  physical.volumes="%{query.query}*"
-)`;
-
 export class OrderLinesList extends Component {
   static manifest = Object.freeze({
     query: {
@@ -106,7 +92,7 @@ export class OrderLinesList extends Component {
         params: {
           query: makeQueryFunction(
             'cql.allRecords=1',
-            OrderLinesSearchQueryTemplate,
+            queryTemplate,
             {
               updatedDate: 'metadata.updatedDate',
               vendorRefNumber: 'vendorDetail.refNumber',
