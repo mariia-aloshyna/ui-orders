@@ -1,8 +1,11 @@
-import { get } from 'lodash';
+import {
+  get,
+  sortBy,
+} from 'lodash';
 
 // eslint-disable-next-line import/prefer-default-export
 export const getOrderTemplatesList = (configs) => (
-  configs.map(item => {
+  sortBy(configs.map(item => {
     let orderTemplate = get(item, 'value', {});
 
     try {
@@ -16,4 +19,5 @@ export const getOrderTemplatesList = (configs) => (
       title: orderTemplate.templateName,
       orderTemplate,
     };
-  }));
+  }), 'title')
+);
