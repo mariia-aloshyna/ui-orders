@@ -1,5 +1,25 @@
 # Change history for ui-orders
 
+## [1.7.0](https://github.com/folio-org/ui-orders/tree/v1.7.0) (2019-09-11)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.6.0...v1.7.0)
+
+### Stories
+* [UIOR-316](https://issues.folio.org/browse/UIOR-316) Create Acq Unit secondary filter option for Orders
+* [UIOR-310](https://issues.folio.org/browse/UIOR-310) Revise the Orders search results list columns to include "Acquisition units"
+* [UIOR-300](https://issues.folio.org/browse/UIOR-300) Ability to assign acquisition unit(s) to order records
+* [UIOR-235](https://issues.folio.org/browse/UIOR-235) Settings: require approval for orders to be opened
+* [UIOR-234](https://issues.folio.org/browse/UIOR-234) Require order approval to "open" order
+* [UIOR-123](https://issues.folio.org/browse/UIOR-123) PO and PO Line: Add "Related Invoices" accordion
+
+### Bug Fixes
+* [UIOR-367](https://issues.folio.org/browse/UIOR-367) POL Keyword search not working
+* [UIOR-364](https://issues.folio.org/browse/UIOR-364) Order templates not in alphabetical order
+* [UIOR-362](https://issues.folio.org/browse/UIOR-362) Bill-to Ship-to address not aligned properly
+* [UIOR-345](https://issues.folio.org/browse/UIOR-345) Cannot select an inventory instance from a filter search
+* [UIOR-337](https://issues.folio.org/browse/UIOR-337) Wrong order displaying when there are reference integrity problems with the record
+* [UIOR-335](https://issues.folio.org/browse/UIOR-335) PO Template name not required
+* [UIOR-328](https://issues.folio.org/browse/UIOR-328) Material type should have asterisk if required
+
 ## [1.6.0](https://github.com/folio-org/ui-orders/tree/v1.6.0) (2019-07-23)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.5.0...v1.6.0)
 
