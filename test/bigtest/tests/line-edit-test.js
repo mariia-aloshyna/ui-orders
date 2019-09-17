@@ -336,7 +336,7 @@ describe('Line edit test', function () {
     });
 
     beforeEach(async function () {
-      await lineEditPage.physicalCreateInventory.select(INVENTORY_RECORDS_TYPE.all);
+      await lineEditPage.physicalCreateInventory.select('Instance, holding, item');
       await lineEditPage.updateLineButton.click();
     });
 
