@@ -50,14 +50,6 @@ const resultsFormatter = {
   productIds: line => get(line, 'details.productIds', []).map(product => product.productId).join(', '),
   vendorRefNumber: line => get(line, 'vendorDetail.refNumber', ''),
 };
-const columnWidths = {
-  poLineNumber: '9%',
-  updatedDate: '9%',
-  title: '32%',
-  productIds: '18%',
-  vendorRefNumber: '14%',
-  funCodes: '18%',
-};
 
 export const columnMapping = {
   poLineNumber: <FormattedMessage id="ui-orders.orderLineList.poLineNumber" />,
@@ -213,7 +205,6 @@ export class OrderLinesList extends Component {
           visibleColumns={visibleColumns}
           resultsFormatter={this.getResultsFormatter()}
           columnMapping={columnMapping}
-          columnWidths={columnWidths}
           massageNewRecord={this.massageNewRecord}
           initialResultCount={INITIAL_RESULT_COUNT}
           resultCountIncrement={RESULT_COUNT_INCREMENT}

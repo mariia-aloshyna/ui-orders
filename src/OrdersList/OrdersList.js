@@ -58,15 +58,6 @@ import { FILTERS } from './constants';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
-const columnWidths = {
-  poNumber: '15%',
-  vendorCode: '15%',
-  workflowStatus: '10%',
-  orderType: '15%',
-  lastUpdated: '10%',
-  acquisitionsUnit: '20%',
-  assignedTo: '15%',
-};
 const sortableColumns = ['poNumber', 'workflowStatus', 'orderType', 'lastUpdated'];
 
 class OrdersList extends Component {
@@ -324,7 +315,6 @@ class OrdersList extends Component {
           }}
           detailProps={{ showToast: this.showToast }}
           maxSortKeys={1}
-          columnWidths={columnWidths}
           sortableColumns={sortableColumns}
         />
         <Callout ref={this.callout} />
