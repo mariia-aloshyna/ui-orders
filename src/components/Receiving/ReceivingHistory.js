@@ -279,7 +279,6 @@ class ReceivingHistory extends Component {
                 receivingNote: <FormattedMessage id="ui-orders.receivingHistory.note" />,
                 receivingStatus: <FormattedMessage id="ui-orders.receiving.status" />,
               }}
-              columnWidths={{ isChecked: 35, comment: '15%' }}
               visibleColumns={['isChecked', 'title', 'poLineNumber', 'dateOrdered', 'dateReceived', 'barcode', 'comment', 'receivingNote', 'receivingStatus']}
             />
           </Pane>

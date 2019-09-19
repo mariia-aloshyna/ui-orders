@@ -58,17 +58,6 @@ const PiecesList = ({ renderActions, checkedItemsMap, items = [], toggleItem, to
         pieceStatus: <FormattedMessage id="ui-orders.checkIn.pieceStatus" />,
         actions: null,
       }}
-      columnWidths={{
-        isChecked: '2%',
-        title: '30%',
-        piece: '23%',
-        format: '7%',
-        supplement: '8%',
-        poLineNumber: '10%',
-        comment: '10%',
-        pieceStatus: '8%',
-        actions: '2%',
-      }}
     />
   );
 };
