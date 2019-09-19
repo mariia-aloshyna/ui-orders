@@ -92,14 +92,6 @@ const LineDetails = ({
         location: <FormattedMessage id="ui-orders.receiving.location" />,
         itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,
       }}
-      columnWidths={{
-        isChecked: '5%',
-        barcode: '20%',
-        format: '10%',
-        comment: '15%',
-        location: '35%',
-        itemStatus: '15%',
-      }}
     />
   );
 };
