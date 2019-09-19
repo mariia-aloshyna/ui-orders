@@ -22,13 +22,6 @@ const columnMapping = {
   status: <FormattedMessage id="ui-orders.relatedInvoices.status" />,
   expendedAmount: <FormattedMessage id="ui-orders.relatedInvoices.expendedAmount" />,
 };
-const columnWidths = {
-  invoice: '20%',
-  invoiceDate: '15%',
-  vendorName: '25%',
-  status: '15%',
-  expendedAmount: '25%',
-};
 
 const POInvoices = ({ orderInvoices, vendors }) => {
   const resultFormatter = {
@@ -57,7 +50,6 @@ const POInvoices = ({ orderInvoices, vendors }) => {
       formatter={resultFormatter}
       visibleColumns={visibleColumns}
       columnMapping={columnMapping}
-      columnWidths={columnWidths}
     />
   );
 };

@@ -25,15 +25,6 @@ const columnMapping = {
   expendedAmount: <FormattedMessage id="ui-orders.relatedInvoices.expendedAmount" />,
   pieces: <FormattedMessage id="ui-orders.relatedInvoices.pieces" />,
 };
-const columnWidths = {
-  invoice: '20%',
-  invoiceDate: '15%',
-  vendorName: '15%',
-  status: '10%',
-  quantity: '10%',
-  expendedAmount: '15%',
-  pieces: '15%',
-};
 
 const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
   const captionsList = pieces.map(item => item.caption).join(', ');
@@ -65,7 +56,6 @@ const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
       formatter={resultFormatter}
       visibleColumns={visibleColumns}
       columnMapping={columnMapping}
-      columnWidths={columnWidths}
     />
   );
 };
