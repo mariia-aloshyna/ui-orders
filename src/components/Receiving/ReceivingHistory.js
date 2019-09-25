@@ -192,6 +192,8 @@ class ReceivingHistory extends Component {
       .then(this.updateReceivingHistory);
   }
 
+  isSelected = ({ item }) => Boolean(this.state.checkedPiecesMap[item.id]);
+
   render() {
     const { checkedPiecesMap, confirming, isAllChecked, searchText, pieces } = this.state;
     const { mutator, location, resources } = this.props;
@@ -281,6 +283,8 @@ class ReceivingHistory extends Component {
               }}
               columnWidths={{ isChecked: 35, comment: '15%' }}
               visibleColumns={['isChecked', 'title', 'poLineNumber', 'dateOrdered', 'dateReceived', 'barcode', 'comment', 'receivingNote', 'receivingStatus']}
+              onRowClick={undefined}
+              isSelected={this.isSelected}
             />
           </Pane>
         </Paneset>

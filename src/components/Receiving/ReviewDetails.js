@@ -16,6 +16,7 @@ const ReviewDetails = ({
   toggleAll,
   toggleItem,
 }) => {
+  const isSelected = ({ item }) => item.isSelected;
   const resultFormatter = {
     'isChecked': (item) => (
       <Checkbox
@@ -54,11 +55,13 @@ const ReviewDetails = ({
         poLine: '20%',
         title: '15%',
         barcode: '10%',
-        comment: '15%',
+        comment: '14%',
         format: '10%',
         location: '15%',
         itemStatus: '10%',
       }}
+      onRowClick={undefined}
+      isSelected={isSelected}
     />
   );
 };

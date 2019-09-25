@@ -10,6 +10,7 @@ import {
 const VISIBLE_COLUMNS = ['isChecked', 'title', 'piece', 'format', 'supplement', 'poLineNumber', 'comment', 'pieceStatus'];
 
 const PiecesList = ({ renderActions, checkedItemsMap, items = [], toggleItem, toggleAll, isAllChecked = false }) => {
+  const isSelected = ({ item }) => checkedItemsMap[item.id];
   const resultsFormatter = {
     'isChecked': piece => (
       <Checkbox
@@ -61,7 +62,7 @@ const PiecesList = ({ renderActions, checkedItemsMap, items = [], toggleItem, to
       columnWidths={{
         isChecked: '2%',
         title: '30%',
-        piece: '23%',
+        piece: '22%',
         format: '7%',
         supplement: '8%',
         poLineNumber: '10%',
@@ -69,6 +70,8 @@ const PiecesList = ({ renderActions, checkedItemsMap, items = [], toggleItem, to
         pieceStatus: '8%',
         actions: '2%',
       }}
+      onRowClick={undefined}
+      isSelected={isSelected}
     />
   );
 };
