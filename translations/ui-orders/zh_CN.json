@@ -717,5 +717,6 @@
     "errors.orderNotLoaded": "未加载采购订单。",
     "checkIn.expectedReceiptDate": "Expected receipt date",
     "checkIn.pieceFormat.electronic": "Electronic",
-    "checkIn.pieceFormat.physical": "Physical"
+    "checkIn.pieceFormat.physical": "Physical",
+    "search.productIdISBN": "ISBN"
 }
