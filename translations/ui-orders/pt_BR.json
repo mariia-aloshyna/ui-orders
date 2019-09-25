@@ -717,5 +717,6 @@
     "errors.orderNotLoaded": "O pedido de compra não foi carregado.",
     "checkIn.expectedReceiptDate": "Expected receipt date",
     "checkIn.pieceFormat.electronic": "Electronic",
-    "checkIn.pieceFormat.physical": "Physical"
+    "checkIn.pieceFormat.physical": "Physical",
+    "search.productIdISBN": "ISBN"
 }

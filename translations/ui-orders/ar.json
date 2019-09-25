@@ -717,5 +717,6 @@
     "errors.orderNotLoaded": "لم يتم تحميل أمر الشراء",
     "checkIn.expectedReceiptDate": "تاريخ الاستلام المتوقع",
     "checkIn.pieceFormat.electronic": "إلكتروني",
-    "checkIn.pieceFormat.physical": "مادي"
+    "checkIn.pieceFormat.physical": "مادي",
+    "search.productIdISBN": "ISBN"
 }
