@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import setupApplication from '../../helpers/setup-application';
 import OrderLinesInteractor from '../../interactors/order-lines';
+import { PRODUCT_ID_TYPE } from '../../../../src/common/constants';
 
 const ORDER_LINES_COUNT = 11;
 
@@ -13,7 +14,7 @@ describe('Order lines', function () {
 
   beforeEach(async function () {
     this.server.createList('line', ORDER_LINES_COUNT);
-    this.server.create('identifierType', { name: 'ISBN' });
+    this.server.create('identifierType', { name: PRODUCT_ID_TYPE.isbn });
     this.visit('/orders/lines');
     await orderLines.whenLoaded();
   });

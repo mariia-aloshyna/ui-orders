@@ -57,6 +57,7 @@ class LayerPOLine extends Component {
       records: orderRecordsMutatorShape,
     }),
     parentResources: PropTypes.object.isRequired,
+    resources: PropTypes.object.isRequired,
     stripes: PropTypes.shape({
       store: PropTypes.object.isRequired,
       connect: PropTypes.func.isRequired,
@@ -156,16 +157,6 @@ class LayerPOLine extends Component {
     const line = cloneDeep(data);
     const { parentMutator, location: { pathname } } = this.props;
 
-    const materialSupplier = get(line, 'physical.materialSupplier');
-    const accessProvider = get(line, 'eresource.accessProvider');
-
-    if (materialSupplier === '') {
-      line.physical.materialSupplier = null;
-    }
-    if (accessProvider === '') {
-      line.eresource.accessProvider = null;
-    }
-
     parentMutator.poLine.PUT(line)
       .then(() => {
         parentMutator.query.update({
@@ -225,6 +216,18 @@ class LayerPOLine extends Component {
     return newObj;
   };
 
+  isConfigLoaded() {
+    return Boolean(get(this.props.parentResources, 'createInventory.hasLoaded'));
+  }
+
+  isOrderLoaded() {
+    return Boolean(get(this.props.resources, 'order.hasLoaded'));
+  }
+
+  isLoading() {
+    return Boolean(!this.isOrderLoaded() || !this.isConfigLoaded());
+  }
+
   render() {
     const {
       connectedSource,
@@ -239,7 +242,7 @@ class LayerPOLine extends Component {
     const { vendor: vendorId } = order || {};
     const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === vendorId);
 
-    if (!order) {
+    if (this.isLoading()) {
       return null;
     } else if (layer === 'create-po-line') {
       return (

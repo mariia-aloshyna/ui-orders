@@ -14,6 +14,7 @@ const CreateInventoryForm = () => (
         <InventoryRecordTypeSelectField
           label="ui-orders.settings.createInventory.eresource"
           name="eresource"
+          required
         />
       </Col>
     </Row>
@@ -22,6 +23,7 @@ const CreateInventoryForm = () => (
         <InventoryRecordTypeSelectField
           label="ui-orders.settings.createInventory.physical"
           name="physical"
+          required
         />
       </Col>
     </Row>
@@ -30,6 +32,7 @@ const CreateInventoryForm = () => (
         <InventoryRecordTypeSelectField
           label="ui-orders.settings.createInventory.other"
           name="other"
+          required
         />
       </Col>
     </Row>
