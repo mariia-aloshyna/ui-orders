@@ -22,6 +22,7 @@ import {
 import {
   validateYear,
 } from '../../Utils/Validate';
+import { PRODUCT_ID_TYPE } from '../../../common/constants';
 import ContributorForm from './ContributorForm';
 import ProductIdDetailsForm from './ProductIdDetailsForm';
 import InstancePlugin from './InstancePlugin';
@@ -39,7 +40,7 @@ const ALLOWED_RES_ID_TYPE_NAMES = [
   'CODEN',
   'DOI',
   'GPO item number',
-  'ISBN',
+  PRODUCT_ID_TYPE.isbn,
   'ISSN',
   'Publisher or distributor number',
   'Report number',

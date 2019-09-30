@@ -53,7 +53,6 @@ const POLineOtherResourcesForm = ({ materialTypes, vendors }) => {
           <FieldMaterialType
             materialTypes={materialTypes}
             name="physical.materialType"
-            required={false}
           />
         </Col>
       </Row>

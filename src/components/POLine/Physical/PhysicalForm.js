@@ -39,6 +39,7 @@ const PhysicalForm = ({ order, materialTypes, vendors, formValues }) => {
           label="ui-orders.physical.createInventory"
           name="physical.createInventory"
           disabled={isOpenedOrder}
+          required
         />
       </Col>
       <Col xs={6}>

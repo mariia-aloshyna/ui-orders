@@ -72,7 +72,6 @@ const POLineEresourcesForm = ({ materialTypes, vendors }) => {
         <InventoryRecordTypeSelectField
           label="ui-orders.eresource.createInventory"
           name="eresource.createInventory"
-          required={false}
         />
       </Col>
 

@@ -43,6 +43,7 @@ const EresourcesForm = ({ vendors, materialTypes, order, formValues }) => {
           label="ui-orders.eresource.createInventory"
           name="eresource.createInventory"
           disabled={isOpenedOrder}
+          required
         />
       </Col>
       <Col xs={6} md={3}>
