@@ -718,5 +718,9 @@
     "checkIn.expectedReceiptDate": "Expected receipt date",
     "checkIn.pieceFormat.electronic": "Electronic",
     "checkIn.pieceFormat.physical": "Physical",
-    "search.productIdISBN": "ISBN"
+    "search.productIdISBN": "ISBN",
+    "errors.invalidISBN": "Invalid ISBN; adjust or remove",
+    "itemDetails.qualifier": "Qualifier",
+    "itemDetails.contributors": "Contributors",
+    "itemDetails.productIds": "Product identifiers"
 }
