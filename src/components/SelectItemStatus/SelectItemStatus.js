@@ -5,17 +5,14 @@ import { FormattedMessage } from 'react-intl';
 import { Select } from '@folio/stripes/components';
 
 import {
-  STATUS_AVAILABLE,
   STATUS_IN_PROCESS,
-  STATUS_IN_TRANSIT,
 } from '../../common/constants';
 
 import css from './SelectItemStatus.css';
 
+// eslint-disable-next-line no-unused-vars
 const SelectItemStatus = ({ isAssociatedRecord, ...rest }) => {
-  const availableStatuses = isAssociatedRecord
-    ? [STATUS_IN_PROCESS, STATUS_AVAILABLE, STATUS_IN_TRANSIT]
-    : [STATUS_IN_PROCESS];
+  const availableStatuses = [STATUS_IN_PROCESS];
 
   return (
     <div className={css.fieldWrapper}>
