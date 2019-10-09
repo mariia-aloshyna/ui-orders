@@ -5,7 +5,7 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import OrderEditPage from '../interactors/order-edit-page';

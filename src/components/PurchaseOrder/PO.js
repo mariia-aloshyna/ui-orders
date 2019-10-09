@@ -43,7 +43,7 @@ import { showUpdateOrderError } from '../Utils/order';
 import { LINES_LIMIT_DEFAULT } from '../Utils/const';
 import CloseOrderModal from './CloseOrder';
 import OpenOrderConfirmationModal from './OpenOrderConfirmationModal';
-import { WORKFLOW_STATUS } from './Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../common/constants';
 import LineListing from './LineListing';
 import { PODetailsView } from './PODetails';
 import { SummaryView } from './Summary';
@@ -207,17 +207,18 @@ class PO extends Component {
     this.unmountCloseOrderModal();
   };
 
-  approveOrder = async () => {
+  approveOrder = () => {
     const { showToast, mutator } = this.props;
     const order = this.getOrder();
     const orderNumber = get(order, 'poNumber', '');
 
-    try {
-      await updateOrderResource(order, mutator.order, { approved: true });
-      showToast('ui-orders.order.approved.success', 'success', { orderNumber });
-    } catch (e) {
-      await showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
-    }
+    updateOrderResource(order, mutator.order, { approved: true })
+      .then(() => {
+        showToast('ui-orders.order.approved.success', 'success', { orderNumber });
+      })
+      .catch(e => {
+        return showUpdateOrderError(e, this.callout, this.orderErrorModalShow);
+      });
   };
 
   openOrder = async () => {

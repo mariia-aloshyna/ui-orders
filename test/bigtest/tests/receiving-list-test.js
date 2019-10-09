@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import ReceivingPage from '../interactors/receiving-page';
 import ReceivingHistoryPage from '../interactors/receiving-history-page';
-import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 
 const RECEIVING_LIST_COUNT = 10;

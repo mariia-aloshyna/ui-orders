@@ -191,7 +191,7 @@ class ItemForm extends Component {
                 name="title"
                 onChange={(e, value) => this.onChangeField(value, 'title')}
                 required={required}
-                validate={required && validateRequired}
+                validate={required ? validateRequired : undefined}
                 disabled={isOpenedOrder}
               />
               <div className={css.addButton}>

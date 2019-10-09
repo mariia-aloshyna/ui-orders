@@ -5,7 +5,7 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { WORKFLOW_STATUS } from '../../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../../../src/common/constants';
 import { PHYSICAL } from '../../../../src/components/POLine/const';
 import setupApplication from '../../helpers/setup-application';
 import LineDetailsPage from '../../interactors/line-details-page';
