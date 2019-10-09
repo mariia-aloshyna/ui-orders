@@ -9,6 +9,7 @@ import {
   IfPermission,
   stripesShape,
 } from '@folio/stripes/core';
+import { withTags } from '@folio/stripes/smart-components';
 import {
   Accordion,
   AccordionSet,
@@ -85,6 +86,12 @@ class PO extends Component {
     editLink: PropTypes.string,
     paneWidth: PropTypes.string.isRequired,
     resources: PropTypes.object.isRequired,
+    tagsToggle: PropTypes.func.isRequired,
+    tagsEnabled: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    tagsEnabled: false,
   };
 
   constructor(props) {
@@ -333,6 +340,8 @@ class PO extends Component {
       stripes,
       resources,
       showToast,
+      tagsEnabled,
+      tagsToggle,
     } = this.props;
     const order = this.getOrder();
     const { isApprovalRequired } = getOrderApprovalsSetting(get(parentResources, 'approvalsSetting.records', {}));
@@ -347,6 +356,7 @@ class PO extends Component {
     const isReceiveButtonVisible = isReceiveAvailableForOrder(order);
     const isAbleToAddLines = workflowStatus === WORKFLOW_STATUS.pending;
     const hasError = get(resources, ['order', 'failed']);
+    const tags = get(order, 'tags.tagList', []);
 
     const lastMenu = (
       <PaneMenu>
@@ -364,6 +374,21 @@ class PO extends Component {
             )}
           </FormattedMessage>
         </IfPermission>
+        {tagsEnabled && (
+          <FormattedMessage id="ui-orders.showTags">
+            {(title) => (
+              <IconButton
+                ariaLabel={title}
+                badgeCount={tags.length}
+                data-test-order-tags-action
+                icon="tag"
+                id="clickable-show-tags"
+                onClick={tagsToggle}
+                title={title}
+              />
+            )}
+          </FormattedMessage>
+        )}
       </PaneMenu>
     );
 
@@ -580,4 +605,4 @@ class PO extends Component {
   }
 }
 
-export default PO;
+export default withTags(PO);
