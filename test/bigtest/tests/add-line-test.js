@@ -5,7 +5,7 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import { ORDER_TYPE } from '../../../src/components/PurchaseOrder/PODetails/FieldOrderType';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 import LinesLimitModal from '../interactors/lines-limit-modal';

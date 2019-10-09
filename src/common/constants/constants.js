@@ -6,3 +6,9 @@ export const PRODUCT_ID_TYPE = {
   isbn: 'ISBN',
 };
 export const QUALIFIER_SEPARATOR = ' ';
+
+export const WORKFLOW_STATUS = {
+  closed: 'Closed',
+  open: 'Open',
+  pending: 'Pending',
+};

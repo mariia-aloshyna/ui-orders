@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import OrderDetailsPage from '../interactors/order-details-page';
 import ReceivingHistoryPage from '../interactors/receiving-history-page';
-import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import { PIECE_STATUS_RECEIVED } from '../../../src/components/Receiving/const';
 
 const RECEIVING_LIST_COUNT = 10;

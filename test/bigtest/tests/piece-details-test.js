@@ -5,7 +5,7 @@ import setupApplication from '../helpers/setup-application';
 import PieceDetailsModal from '../interactors/piece-details-modal';
 import ReceivingPage from '../interactors/receiving-page';
 import ReceivingHistoryPage from '../interactors/receiving-history-page';
-import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 import { PIECE_STATUS_EXPECTED } from '../../../src/components/Receiving/const';
 

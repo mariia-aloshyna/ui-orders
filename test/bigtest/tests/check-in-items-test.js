@@ -6,7 +6,7 @@ import LineDetailsPage from '../interactors/line-details-page';
 import CheckInItemsPage from '../interactors/check-in-items-page';
 import CheckInHistoryPage from '../interactors/check-in-history-page';
 import AddPieceModal from '../interactors/add-piece-modal';
-import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import {
   PE_MIX,
   INVENTORY_RECORDS_TYPE,

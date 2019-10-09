@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
-import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 
 const ORDER_NUMBER = '10001';

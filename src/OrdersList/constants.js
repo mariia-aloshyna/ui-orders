@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { WORKFLOW_STATUS } from '../components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../common/constants';
 import { ORDER_TYPE } from '../components/PurchaseOrder/PODetails/FieldOrderType';
 import {
   ACQUISITION_METHOD,

@@ -1,6 +1,6 @@
 import { some } from 'lodash';
 
-import { WORKFLOW_STATUS } from './Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../common/constants';
 import { RECEIPT_STATUS } from '../../common/POLFields';
 
 const isLineAbleToBeReceived = (line = { cost: {} }) => {

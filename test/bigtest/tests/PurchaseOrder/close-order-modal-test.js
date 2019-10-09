@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../../helpers/setup-application';
 import CloseOrderModal from '../../interactors/PurchaseOrder/close-order-modal';
 import OrderDetailsPage from '../../interactors/order-details-page';
-import { WORKFLOW_STATUS } from '../../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../../../src/common/constants';
 import {
   CONFIG_CLOSING_REASONS,
   MODULE_ORDERS,

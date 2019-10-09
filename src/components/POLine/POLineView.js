@@ -26,7 +26,7 @@ import {
   isCheckInAvailableForLine,
   isReceiveAvailableForLine,
 } from '../PurchaseOrder/util';
-import { WORKFLOW_STATUS } from '../PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../common/constants';
 
 import LocationView from './Location/LocationView';
 import { POLineDetails } from './POLineDetails';

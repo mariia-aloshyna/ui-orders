@@ -12,7 +12,7 @@ import {
   value,
 } from '@bigtest/interactor';
 
-import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import { FILTERS } from '../../../src/OrdersList';
 
 import Button from './button';

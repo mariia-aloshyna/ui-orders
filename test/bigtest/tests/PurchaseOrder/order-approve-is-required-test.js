@@ -5,15 +5,17 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
-import setupApplication from '../helpers/setup-application';
-import OrderDetailsPage from '../interactors/order-details-page';
+import {
+  WORKFLOW_STATUS,
+} from '../../../../src/common/constants';
 import {
   CONFIG_APPROVALS,
   MODULE_ORDERS,
-} from '../../../src/components/Utils/const';
-import { WORKFLOW_STATUS } from '../../../src/common/constants';
+} from '../../../../src/components/Utils/const';
+import setupApplication from '../../helpers/setup-application';
+import OrderDetailsPage from '../../interactors/order-details-page';
 
-describe('Approve order action', function () {
+describe('Approve order is required', function () {
   setupApplication();
 
   const orderDetailsPage = new OrderDetailsPage();
@@ -25,7 +27,6 @@ describe('Approve order action', function () {
       enabled: true,
       value: '{"isApprovalRequired":true}',
     });
-
     const pendingOrder = this.server.create('order', {
       approved: false,
       workflowStatus: WORKFLOW_STATUS.pending,
@@ -33,10 +34,9 @@ describe('Approve order action', function () {
 
     this.visit(`/orders/view/${pendingOrder.id}`);
     await orderDetailsPage.whenLoaded();
-    await orderDetailsPage.approveOrderButton.click();
   });
 
-  it('Approve button should be hidden after click approve', () => {
-    expect(orderDetailsPage.approveOrderButton.isPresent).to.be.false;
+  it('approve button should be visible ', () => {
+    expect(orderDetailsPage.approveOrderButton.isPresent).to.be.true;
   });
 });

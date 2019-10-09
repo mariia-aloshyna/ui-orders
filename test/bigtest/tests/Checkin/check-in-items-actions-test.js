@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import setupApplication from '../../helpers/setup-application';
 import CheckInItemsPage from '../../interactors/check-in-items-page';
-import { WORKFLOW_STATUS } from '../../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../../../src/common/constants';
 import {
   PE_MIX,
   INVENTORY_RECORDS_TYPE,

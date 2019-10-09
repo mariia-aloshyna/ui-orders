@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import setupApplication from '../helpers/setup-application';
 import LineDetailsPage from '../interactors/line-details-page';
 import CheckInHistoryPage from '../interactors/check-in-history-page';
-import { WORKFLOW_STATUS } from '../../../src/components/PurchaseOrder/Summary/FieldWorkflowStatus';
+import { WORKFLOW_STATUS } from '../../../src/common/constants';
 import { PIECE_STATUS_RECEIVED } from '../../../src/components/Receiving/const';
 import { PHYSICAL } from '../../../src/components/POLine/const';
 
