@@ -23,7 +23,7 @@ export const indexISBN = {
   label: 'productIdISBN',
   prefix: '- ',
   value: 'productIdISBN',
-  queryTemplate: 'details.productIds == "*\\"productId\\": \\"<%= normalizedISBNValue %>\\", \\"productIdType\\": \\"<%= identifierTypeId %>\\"*"',
+  queryTemplate: 'details.productIds all \\"productId\\": \\"<%= normalizedISBNValue %>\\"  AND details.productIds all  \\"productIdType\\": \\"<%= identifierTypeId %>\\"',
 };
 
 export const searchableIndexes = [
