@@ -59,6 +59,7 @@ import { ordersSearchTemplate, searchableIndexes } from './OrdersListSearchConfi
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 const sortableColumns = ['poNumber', 'workflowStatus', 'orderType', 'lastUpdated'];
+const getHelperResourcePath = (helper, id) => `${ORDERS_API}/${id}`;
 
 class OrdersList extends Component {
   static manifest = Object.freeze({
@@ -312,6 +313,7 @@ class OrdersList extends Component {
           detailProps={{ showToast: this.showToast }}
           maxSortKeys={1}
           sortableColumns={sortableColumns}
+          getHelperResourcePath={getHelperResourcePath}
         />
         <Callout ref={this.callout} />
       </div>

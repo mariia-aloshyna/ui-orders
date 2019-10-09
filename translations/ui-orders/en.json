@@ -700,6 +700,9 @@
   "settings.setPOLInesLimit.changed": "The limit of purchase order lines has been successfully saved",
   "settings.setPOLInesLimit.validation": "Please enter a whole number greater than 0 and less than 1000 to continue",
   "settings.setPOLInesLimit": "Set purchase order lines limit",
+
+  "showTags": "Show tags",
+
   "user.barcode": "Barcode",
   "user.name": "Name",
   "user.patronGroup": "Patron group",
