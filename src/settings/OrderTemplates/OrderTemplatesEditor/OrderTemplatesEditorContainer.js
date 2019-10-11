@@ -75,7 +75,7 @@ class OrderTemplatesEditorContainer extends Component {
   };
 
   render() {
-    const { close, resources, stripes } = this.props;
+    const { match, close, resources, stripes } = this.props;
     const formValues = getFormValues('orderTemplateForm')(stripes.store.getState()) || INITIAL_VALUES;
 
     const locations = getLocationsForSelect(resources);
@@ -88,7 +88,9 @@ class OrderTemplatesEditorContainer extends Component {
     const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', {}));
     const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
     const materialTypes = getMaterialTypesForSelect(resources);
-    const orderTemplate = get(resources, ['orderTemplate', 'records', 0], INITIAL_VALUES);
+    const orderTemplate = get(match, ['params', 'id'])
+      ? get(resources, ['orderTemplate', 'records', 0], INITIAL_VALUES)
+      : INITIAL_VALUES;
     const title = get(orderTemplate, ['templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
 
     return (
