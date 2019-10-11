@@ -20,7 +20,10 @@ import {
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 
-import { FundDistributionView } from '@folio/stripes-acq-components';
+import {
+  FundDistributionView,
+  TagsBadge,
+} from '@folio/stripes-acq-components';
 
 import {
   isCheckInAvailableForLine,
@@ -62,6 +65,7 @@ class POLineView extends Component {
     deleteLine: PropTypes.func,
     identifierTypes: PropTypes.arrayOf(PropTypes.object),
     contributorNameTypes: PropTypes.arrayOf(PropTypes.object),
+    tagsToggle: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -200,7 +204,9 @@ class POLineView extends Component {
       deleteLine,
       identifierTypes,
       contributorNameTypes,
+      tagsToggle,
     } = this.props;
+    const tags = get(line, ['tags', 'tagList'], []);
 
     const firstMenu = (
       <PaneMenu>
@@ -225,12 +231,16 @@ class POLineView extends Component {
             )
           }
         </IfPermission>
+        <TagsBadge
+          tagsToggle={tagsToggle}
+          tagsQuantity={tags.length}
+        />
       </PaneMenu>
     );
 
     if (!(line && order)) {
       return (
-        <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" lastMenu={lastMenu} dismissible>
+        <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" onClose={onClose} dismissible>
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
         </Pane>
       );
