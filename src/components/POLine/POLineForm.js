@@ -51,6 +51,7 @@ import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
 import { isWorkflowStatusOpen } from '../PurchaseOrder/util';
 import calculateEstimatedPrice from './calculateEstimatedPrice';
 import asyncValidate from './asyncValidate';
+import validate from './validate';
 
 class POLineForm extends Component {
   static propTypes = {
@@ -225,6 +226,7 @@ class POLineForm extends Component {
       accounts,
       vendorCurrencies,
     } = vendor;
+    const fundDistribution = get(formValues, 'fundDistribution');
 
     return (
       <Pane
@@ -320,7 +322,7 @@ class POLineForm extends Component {
                       id={ACCORDION_ID.fundDistribution}
                     >
                       <FundDistributionFields
-                        formValues={formValues}
+                        fundDistribution={fundDistribution}
                         name="fundDistribution"
                         disabled={isOpenedOrder}
                         totalAmount={estimatedPrice}
@@ -388,4 +390,5 @@ export default stripesForm({
   enableReinitialize: true,
   form: 'POLineForm',
   navigationCheck: true,
+  validate,
 })(POLineForm);
