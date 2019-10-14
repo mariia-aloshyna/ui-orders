@@ -301,12 +301,6 @@
     "workflowStatus.closed": "Closed",
     "workflowStatus.open": "Open",
     "workflowStatus.pending": "Pending",
-    "fundDistribution.id": "ID do fundo *",
-    "fundDistribution.percent": "Percent",
-    "fundDistribution.code": "Code",
-    "fundDistribution.encumbrance": "Encumbrance",
-    "fundDistribution.amount": "Amount",
-    "fundDistribution.addBtn": "Adicionar",
     "itemDetails.receivingNote": "Receiving note",
     "itemDetails.subscriptionFrom": "Subscription from",
     "itemDetails.subscriptionInterval": "Subscription interval",
@@ -722,5 +716,6 @@
     "errors.invalidISBN": "Invalid ISBN; adjust or remove",
     "itemDetails.qualifier": "Qualifier",
     "itemDetails.contributors": "Contributors",
-    "itemDetails.productIds": "Product identifiers"
+    "itemDetails.productIds": "Product identifiers",
+    "showTags": "Show tags"
 }

@@ -301,12 +301,6 @@
     "workflowStatus.closed": "مغلق",
     "workflowStatus.open": "مفتوح",
     "workflowStatus.pending": "قيد الانتظار",
-    "fundDistribution.id": "معرّف التمويل",
-    "fundDistribution.percent": "في المائة",
-    "fundDistribution.code": "رمز",
-    "fundDistribution.encumbrance": "رهن",
-    "fundDistribution.amount": "المبلغ",
-    "fundDistribution.addBtn": "إضافة",
     "itemDetails.receivingNote": "ملاحظة الاستلام",
     "itemDetails.subscriptionFrom": "الاشتراك من",
     "itemDetails.subscriptionInterval": "الفاصل الزمني للاشتراك",
@@ -722,5 +716,6 @@
     "errors.invalidISBN": "قيمة ردمك غير صالحة",
     "itemDetails.qualifier": "مؤهل",
     "itemDetails.contributors": "مساهمون",
-    "itemDetails.productIds": "معرفات المنتجات"
+    "itemDetails.productIds": "معرفات المنتجات",
+    "showTags": "عرض الوسوم"
 }
