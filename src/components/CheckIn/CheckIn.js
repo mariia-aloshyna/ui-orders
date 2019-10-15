@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import Route from 'react-router-dom/Route';
+import { Route } from 'react-router-dom';
 
 import {
   Col,
