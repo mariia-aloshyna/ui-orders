@@ -193,6 +193,7 @@ class POForm extends Component {
     const vendors = get(parentResources, 'vendors.records', [])
       .filter(vendor => vendor.isVendor && vendor.status === ORGANIZATION_STATUS_ACTIVE);
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
+    const poLinesLength = get(initialValues, 'compositePoLines', []).length;
 
     if (!initialValues) {
       return (
@@ -235,7 +236,7 @@ class POForm extends Component {
                       </Row>
                     </Col>
 
-                    {!initialValues.id && (
+                    {(!initialValues.id || !poLinesLength) && (
                       <Col xs={12} md={8}>
                         <Row>
                           <Col xs={4}>

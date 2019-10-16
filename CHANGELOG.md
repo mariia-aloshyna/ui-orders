@@ -5,6 +5,7 @@
 
 ### Bug Fixes
 * [UIOR-386](https://issues.folio.org/browse/UIOR-386) POL check box is not displaying as active in receiving and receiving history
+* [UIOR-405](https://issues.folio.org/browse/UIOR-405) Fix bug with reassign template when editing new PO
 
 ## [1.7.0](https://github.com/folio-org/ui-orders/tree/v1.7.0) (2019-09-11)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.6.0...v1.7.0)
