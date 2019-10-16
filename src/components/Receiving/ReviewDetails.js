@@ -28,6 +28,7 @@ const ReviewDetails = ({
     'poLine': (item) => get(item, 'poLineNumber', ''),
     'title': (item) => get(item, 'title', ''),
     'barcode': (item) => get(item, 'barcode', ''),
+    'hasRequest': (item) => Boolean(item.request) && <FormattedMessage id="ui-orders.requests.request.isOpened" />,
     'comment': (item) => get(item, 'comment', ''),
     'format': (item) => get(item, 'pieceFormat', ''),
     'location': (item) => get(locationsOptions.filter(el => (
@@ -39,7 +40,7 @@ const ReviewDetails = ({
     <MultiColumnList
       contentData={checkedItemsList}
       formatter={resultFormatter}
-      visibleColumns={['isChecked', 'poLine', 'title', 'barcode', 'comment', 'format', 'location', 'itemStatus']}
+      visibleColumns={['isChecked', 'poLine', 'title', 'barcode', 'hasRequest', 'comment', 'format', 'location', 'itemStatus']}
       columnMapping={{
         isChecked: <Checkbox type="checkbox" checked={allChecked.reviewDetails} onChange={() => toggleAll('reviewDetails')} />,
         poLine: <FormattedMessage id="ui-orders.receiving.poLine" />,
@@ -47,6 +48,7 @@ const ReviewDetails = ({
         barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
         comment: <FormattedMessage id="ui-orders.receiving.comment" />,
         format: <FormattedMessage id="ui-orders.receiving.format" />,
+        hasRequest: <FormattedMessage id="ui-orders.requests.request" />,
         location: <FormattedMessage id="ui-orders.receiving.location" />,
         itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,
       }}

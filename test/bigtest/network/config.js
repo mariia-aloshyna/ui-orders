@@ -31,6 +31,7 @@ import {
 import {
   configLines,
   configOrders,
+  configRequests,
 } from './configs';
 
 export default function config() {
@@ -41,6 +42,7 @@ export default function config() {
   configVendors(this);
   configOrders(this);
   configLines(this);
+  configRequests(this);
 
   this.get('/material-types');
   this.get('/contributor-name-types');

@@ -13,6 +13,7 @@ import {
   Modal,
 } from '@folio/stripes/components';
 
+import OpenedRequestsModal from '../../common/OpenedRequestsModal';
 import {
   RECEIVING_HISTORY,
   RECEIVING_ITEMS,
@@ -21,15 +22,17 @@ import LineDetails from './LineDetails';
 import {
   ITEMS,
   RECEIVE,
+  REQUESTS,
 } from '../Utils/resources';
 import ItemDetailsFooter from './ItemDetailsFooter';
 import ReviewDetails from './ReviewDetails';
-import { fetchItems, receiveItems } from './util';
+import { fetchItems, receiveItems, fetchRequests } from './util';
 import { STATUS_IN_PROCESS } from '../../common/constants';
 
 class ItemDetails extends Component {
   static manifest = Object.freeze({
     items: ITEMS,
+    requests: REQUESTS,
     query: {},
     receive: RECEIVE,
   })
@@ -52,6 +55,7 @@ class ItemDetails extends Component {
       isLoading: true,
       itemsMap: {},
       lineItems: this.props.linesItemList,
+      isRequestsModalOpened: false,
     };
   }
 
@@ -59,19 +63,21 @@ class ItemDetails extends Component {
     const { mutator } = this.props;
     const pieces = flatten(Object.values(this.state.lineItems));
 
-    fetchItems(mutator, pieces).then(itemsMap => this.setState((state) => {
-      const lineItems = {};
+    Promise.all([fetchRequests(mutator, pieces), fetchItems(mutator, pieces)])
+      .then(([requestsMap, itemsMap]) => this.setState((state) => {
+        const lineItems = {};
 
-      Object.entries(state.lineItems).forEach(([k, v]) => {
-        lineItems[k] = v.map((piece) => ({
-          ...piece,
-          barcode: get(itemsMap, [piece.itemId, 'barcode']),
-          itemStatus: STATUS_IN_PROCESS,
-        }));
-      });
+        Object.entries(state.lineItems).forEach(([k, v]) => {
+          lineItems[k] = v.map((piece) => ({
+            ...piece,
+            barcode: get(itemsMap, [piece.itemId, 'barcode']),
+            request: requestsMap[piece.itemId],
+            itemStatus: STATUS_IN_PROCESS,
+          }));
+        });
 
-      return { lineItems, itemsMap, isLoading: false };
-    }));
+        return { lineItems, itemsMap, isLoading: false };
+      }));
   }
 
   isItemChecked = (item) => item.isSelected;
@@ -129,8 +135,26 @@ class ItemDetails extends Component {
     })
   )
 
+  openReceivingHistory = () => {
+    const { mutator, location } = this.props;
+
+    mutator.query.update({
+      _path: location.pathname.replace(RECEIVING_ITEMS, RECEIVING_HISTORY),
+    });
+  }
+
+  openOpenedRequestsModal = () => {
+    this.setState({ isRequestsModalOpened: true });
+  }
+
+  closeOpenedRequestsModal = () => {
+    this.props.close();
+    this.setState({ isRequestsModalOpened: false });
+    this.openReceivingHistory();
+  }
+
   onClickNext = (linesCounter) => {
-    const { close, location, mutator } = this.props;
+    const { close, mutator } = this.props;
 
     if (this.state.currentLine === linesCounter) {
       receiveItems(this.state.lineItems.reviewDetails, mutator.receive)
@@ -138,10 +162,22 @@ class ItemDetails extends Component {
           type: 'success',
           message: <FormattedMessage id="ui-orders.receivingList.receive.success" />,
         }))
-        .then(() => close())
-        .then(() => mutator.query.update({
-          _path: location.pathname.replace(RECEIVING_ITEMS, RECEIVING_HISTORY),
-        }))
+        .then(() => {
+          if (this.state.lineItems.reviewDetails.every(piece => !piece.request)) {
+            close();
+            this.openReceivingHistory();
+          } else {
+            this.openOpenedRequestsModal();
+          }
+        })
+        .catch(() => {
+          if (this.state.lineItems.reviewDetails.every(piece => !piece.request)) {
+            close();
+            this.openReceivingHistory();
+          } else {
+            this.openRequestsModalOpened();
+          }
+        })
         .catch(() => this.callout.current.sendCallout({
           type: 'error',
           message: <FormattedMessage id="ui-orders.receivingList.receive.error" />,
@@ -192,7 +228,7 @@ class ItemDetails extends Component {
 
   render() {
     const { close, locationsOptions, linesItemList } = this.props;
-    const { allChecked, currentLine, lineItems, isLoading, itemsMap } = this.state;
+    const { allChecked, currentLine, lineItems, isLoading, itemsMap, isRequestsModalOpened } = this.state;
     const poLineIdsList = Object.keys(linesItemList);
     const poLineId = poLineIdsList[currentLine];
     const poLineNumber = get(lineItems, [poLineId, 0, 'poLineNumber'], '');
@@ -219,16 +255,8 @@ class ItemDetails extends Component {
         }
         open
       >
-        {isReviewScreen
-          ? (
-            <ReviewDetails
-              allChecked={allChecked}
-              checkedItemsList={lineItems.reviewDetails}
-              locationsOptions={locationsOptions}
-              toggleAll={this.toggleAll}
-              toggleItem={this.toggleItem}
-            />
-          ) : (
+        {
+          !(isReviewScreen || isRequestsModalOpened) && (
             <LineDetails
               allChecked={allChecked}
               isItemChecked={this.isItemChecked}
@@ -243,6 +271,26 @@ class ItemDetails extends Component {
             />
           )
         }
+
+        {
+          isReviewScreen && !isRequestsModalOpened && (
+            <ReviewDetails
+              allChecked={allChecked}
+              checkedItemsList={lineItems.reviewDetails}
+              locationsOptions={locationsOptions}
+              toggleAll={this.toggleAll}
+              toggleItem={this.toggleItem}
+            />
+          )
+        }
+
+        {isRequestsModalOpened && (
+          <OpenedRequestsModal
+            closeModal={this.closeOpenedRequestsModal}
+            pieces={lineItems.reviewDetails}
+          />
+        )}
+
         <Callout ref={this.callout} />
       </Modal>
     );
