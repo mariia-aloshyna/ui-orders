@@ -9,7 +9,10 @@
     "node": ">=8.9.4"
   },
   "stripes": {
-    "actsAs": ["app", "settings"],
+    "actsAs": [
+      "app",
+      "settings"
+    ],
     "displayName": "ui-orders.meta.title",
     "route": "/orders",
     "home": "/orders/lines?sort=-poLineNumber",
