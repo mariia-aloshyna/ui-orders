@@ -1,5 +1,7 @@
 import { some } from 'lodash';
 
+import { batchFetch } from '@folio/stripes-acq-components';
+
 import { LIMIT_MAX } from '../Utils/const';
 import { ITEM_STATUS } from '../../common/constants';
 
@@ -118,4 +120,16 @@ export const fetchItems = (mutator, pieces = []) => {
   }
 
   return Promise.resolve({});
+};
+
+export const fetchRequests = (mutator, pieces = []) => {
+  return batchFetch(mutator.requests, pieces, (piecesChunk) => {
+    const itemIdsQuery = piecesChunk
+      .filter(piece => piece.itemId)
+      .map(piece => `itemId=${piece.itemId}`)
+      .join(' or ');
+
+    return itemIdsQuery ? `(${itemIdsQuery}) and status="Open*"` : '';
+  })
+    .then(requests => requests.reduce((acc, r) => ({ ...acc, [r.itemId]: r }), {}));
 };

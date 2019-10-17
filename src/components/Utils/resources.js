@@ -9,6 +9,7 @@ import {
   INVOICES_API,
   ISBN_VALIDATOR,
   ITEMS_API,
+  REQUESTS_API,
   LINE_DETAIL_API,
   LOCATIONS_API,
   MATERIAL_TYPES_API,
@@ -83,6 +84,14 @@ export const ITEMS = {
   path: ITEMS_API,
   records: 'items',
   throwErrors: false,
+};
+
+export const REQUESTS = {
+  ...BASE_RESOURCE,
+  fetch: false,
+  accumulate: true,
+  path: REQUESTS_API,
+  records: 'requests',
 };
 
 export const CHECKIN = {
