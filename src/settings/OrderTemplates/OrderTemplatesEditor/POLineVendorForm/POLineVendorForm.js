@@ -20,14 +20,14 @@ const POLineVendorForm = () => {
         xs={3}
         data-col-order-template-vendor-number
       >
-        <FieldVendorRefNumber />
+        <FieldVendorRefNumber required={false} />
       </Col>
 
       <Col
         xs={3}
         data-col-order-template-vendor-ref-type
       >
-        <FieldRefNumberType />
+        <FieldRefNumberType required={false} />
       </Col>
 
       <Col

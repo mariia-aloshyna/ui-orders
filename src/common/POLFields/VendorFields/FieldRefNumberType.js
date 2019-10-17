@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import { FieldSelect } from '@folio/stripes-acq-components';
@@ -18,15 +19,28 @@ const REF_NUMBER_TYPE_OPTIONS = Object.keys(REF_NUMBER_TYPE).map((key) => ({
   value: REF_NUMBER_TYPE[key],
 }));
 
-const FieldRefNumberType = () => (
-  <FieldSelect
-    dataOptions={REF_NUMBER_TYPE_OPTIONS}
-    fullWidth
-    label={<FormattedMessage id="ui-orders.vendor.refNumberType" />}
-    name="vendorDetail.refNumberType"
-    validate={[requiredRefNumber]}
-  />
-);
+const FieldRefNumberType = ({ required }) => {
+  const validateRefNumberType = required ? { validate: [requiredRefNumber] } : {};
+
+  return (
+    <FieldSelect
+      dataOptions={REF_NUMBER_TYPE_OPTIONS}
+      fullWidth
+      label={<FormattedMessage id="ui-orders.vendor.refNumberType" />}
+      name="vendorDetail.refNumberType"
+      required={required}
+      {...validateRefNumberType}
+    />
+  );
+};
+
+FieldRefNumberType.propTypes = {
+  required: PropTypes.bool,
+};
+
+FieldRefNumberType.defaultProps = {
+  required: true,
+};
 
 FieldRefNumberType.displayName = 'FieldRefNumberType';
 
