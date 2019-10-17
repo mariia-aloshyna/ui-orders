@@ -6,6 +6,7 @@ import {
   configUnits,
   configUsers,
   configVendors,
+  configTags,
 } from '@folio/stripes-acq-components/test/bigtest/network';
 
 import {
@@ -40,6 +41,7 @@ export default function config() {
   configUnits(this);
   configUsers(this);
   configVendors(this);
+  configTags(this);
   configOrders(this);
   configLines(this);
   configRequests(this);

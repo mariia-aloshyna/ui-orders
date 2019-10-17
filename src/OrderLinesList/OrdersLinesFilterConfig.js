@@ -143,4 +143,9 @@ export const filterConfig = [
     rangeSeparator: ':',
     values: [],
   },
+  {
+    name: FILTERS.TAGS,
+    cql: 'tags.tagList',
+    values: [],
+  },
 ];
