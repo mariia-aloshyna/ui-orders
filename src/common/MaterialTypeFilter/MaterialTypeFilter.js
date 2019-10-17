@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import OrdersSelectionFilter from '../OrdersSelectionFilter';
+import { SelectionFilter } from '@folio/stripes-acq-components';
+
 import { getMaterialTypesOptions } from '../utils';
 import { materialTypesShape } from '../shapes';
 
@@ -10,7 +11,7 @@ const MaterialTypeFilter = ({ isElectronic = false, materialTypes, ...rest }) =>
   const labelId = isElectronic ? 'ui-orders.filter.materialType.electronic' : 'ui-orders.filter.materialType.physical';
 
   return (
-    <OrdersSelectionFilter
+    <SelectionFilter
       {...rest}
       labelId={labelId}
       options={options}
