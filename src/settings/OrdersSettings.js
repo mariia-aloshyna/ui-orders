@@ -8,7 +8,8 @@ import ClosingReasons from './ClosingReasons';
 import OrderNumber from './OrderNumber';
 import CreateInventory from './CreateInventory';
 import OrderTemplates from './OrderTemplates';
-import OrderApprovals from './OrderApprovals/OrderApprovals';
+import OrderApprovals from './OrderApprovals';
+import OpenOrder from './OpenOrder';
 import Suffixes from './Suffixes';
 import Prefixes from './Prefixes';
 
@@ -40,6 +41,11 @@ const sections = [
         component: POLinesLimit,
         label: <FormattedMessage id="ui-orders.settings.polinesLimit" />,
         route: 'polines-limit',
+      },
+      {
+        component: OpenOrder,
+        label: <FormattedMessage id="ui-orders.settings.openOrder" />,
+        route: 'open-order',
       },
     ],
   },
