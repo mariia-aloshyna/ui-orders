@@ -1,6 +1,7 @@
 import React from 'react';
 
-import OrdersSelectionFilter from '../OrdersSelectionFilter';
+import { SelectionFilter } from '@folio/stripes-acq-components';
+
 import { getUserOptions } from '../utils';
 import { usersShape } from '../shapes';
 
@@ -8,7 +9,7 @@ const UserFilter = ({ users, ...rest }) => {
   const options = getUserOptions(users);
 
   return (
-    <OrdersSelectionFilter
+    <SelectionFilter
       {...rest}
       options={options}
     />

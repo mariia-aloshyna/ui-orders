@@ -1,6 +1,7 @@
 import React from 'react';
 
-import OrdersSelectionFilter from '../OrdersSelectionFilter';
+import { SelectionFilter } from '@folio/stripes-acq-components';
+
 import {
   getVendorOptions,
 } from '../utils';
@@ -10,7 +11,7 @@ const VendorFilter = ({ vendors, ...rest }) => {
   const options = getVendorOptions(vendors);
 
   return (
-    <OrdersSelectionFilter
+    <SelectionFilter
       {...rest}
       options={options}
     />
