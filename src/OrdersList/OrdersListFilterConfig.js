@@ -83,4 +83,9 @@ export const filterConfig = [
     cql: FILTERS.ACQUISITIONS_UNIT,
     values: [],
   },
+  {
+    name: FILTERS.TAGS,
+    cql: 'tags.tagList',
+    values: [],
+  },
 ];

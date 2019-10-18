@@ -28,6 +28,7 @@ export const FILTERS = {
   RENEWAL_REVIEW_PERIOD: 'renewalReviewPeriod',
   STATUS: 'workflowStatus',
   VENDOR: 'vendor',
+  TAGS: 'tags',
 };
 
 export const STATUS_FILTER_OPTIONS = Object.keys(WORKFLOW_STATUS).map(status => ({

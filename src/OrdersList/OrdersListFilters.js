@@ -5,6 +5,7 @@ import {
   AccordionSet,
 } from '@folio/stripes/components';
 import {
+  AcqTagsFilter,
   AcqUnitFilter,
   acqUnitsShape,
 } from '@folio/stripes-acq-components';
@@ -100,6 +101,12 @@ function OrdersListFilters({ activeFilters, closingReasons, onChange, vendors, u
         name={FILTERS.VENDOR}
         onChange={onChange}
         vendors={vendors}
+      />
+      <AcqTagsFilter
+        activeFilters={activeFilters[FILTERS.TAGS]}
+        id={FILTERS.TAGS}
+        name={FILTERS.TAGS}
+        onChange={onChange}
       />
       <ClosingReasonFilter
         id={FILTERS.CLOSE_REASON}
