@@ -650,6 +650,9 @@
   "settings.inventoryInteractions": "Inventory interactions",
   "settings.newBtn": "New",
 
+  "settings.openOrder": "Opening purchase orders",
+  "settings.openOrder.isOpenOrderEnabled": "Allow save and open purchase order when creating or editing a purchase order line",
+
   "settings.orderTemplates": "Order templates",
 
   "settings.orderTemplates.accordion.template": "Template information",
