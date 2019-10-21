@@ -20,7 +20,7 @@
       "acquisitions-units": "1.1",
       "configuration": "2.0",
       "contributor-name-types": "1.2",
-      "finance-storage.funds": "2.0",
+      "finance.funds": "1.0",
       "identifier-types": "1.2",
       "inventory": "9.4",
       "invoice": "2.0 3.0",
