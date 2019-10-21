@@ -29,8 +29,8 @@ describe('OrderEditPage', function () {
     expect(orderEditPage.notes().length).to.be.equal(1);
   });
 
-  it('should haven\'t Template name field', () => {
-    expect(orderEditPage.hasTemplateField).to.be.false;
+  it('should have Template name field', () => {
+    expect(orderEditPage.hasTemplateField).to.be.true;
   });
 
   describe('Select order type Ongoing', function () {
