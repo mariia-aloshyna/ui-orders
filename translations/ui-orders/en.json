@@ -650,6 +650,9 @@
   "settings.inventoryInteractions": "Inventory interactions",
   "settings.newBtn": "New",
 
+  "settings.openOrder": "Opening purchase orders",
+  "settings.openOrder.isOpenOrderEnabled": "Allow save and open purchase order when creating or editing a purchase order line",
+
   "settings.orderTemplates": "Order templates",
 
   "settings.orderTemplates.accordion.template": "Template information",
@@ -730,5 +733,15 @@
   "orderLineList.title": "Title",
   "orderLineList.productIds": "Product ID",
   "orderLineList.vendorRefNumber": "Vendor reference number",
-  "orderLineList.funCodes": "Fund code"
+  "orderLineList.funCodes": "Fund code",
+
+  "requests.title.single": "An item has an open request",
+  "requests.title.multiple": "Multiple items have open requests",
+  "requests.message.single": "The following item has an open request",
+  "requests.message.multiple": "The following items have open requests",
+  "requests.message.barcode": "Barcode ({barcode})",
+  "requests.message.itemId": "Item ({itemId})",
+  "requests.footer.close": "Close",
+  "requests.request": "Request",
+  "requests.request.isOpened": "Yes"
 }

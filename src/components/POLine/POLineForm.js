@@ -227,6 +227,8 @@ class POLineForm extends Component {
       vendorCurrencies,
     } = vendor;
     const fundDistribution = get(formValues, 'fundDistribution');
+    const vendorRefNumberType = get(formValues, 'vendorDetail.refNumberType');
+    const vendorRefNumber = get(formValues, 'vendorDetail.refNumber');
 
     return (
       <Pane
@@ -315,6 +317,8 @@ class POLineForm extends Component {
                       <VendorForm
                         accounts={accounts}
                         order={order}
+                        vendorRefNumber={vendorRefNumber}
+                        vendorRefNumberType={vendorRefNumberType}
                       />
                     </Accordion>
                     <Accordion
@@ -388,6 +392,7 @@ export default stripesForm({
   asyncValidate,
   asyncBlurFields: ['details.productIds[].productId', 'details.productIds[].productIdType'],
   enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
   form: 'POLineForm',
   navigationCheck: true,
   validate,

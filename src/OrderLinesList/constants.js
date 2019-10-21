@@ -27,6 +27,7 @@ export const FILTERS = {
   SUBSCRIPTION_TO: 'subscriptionTo',
   TRIAL: 'trial',
   VENDOR: 'vendor',
+  TAGS: 'tags',
 };
 
 export const BOOLEAN_OPTIONS = [

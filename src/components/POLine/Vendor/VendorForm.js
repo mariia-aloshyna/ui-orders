@@ -15,20 +15,27 @@ import {
 } from '../../../common/POLFields';
 import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 
-const VendorForm = ({ order, accounts }) => {
+const VendorForm = ({
+  accounts,
+  order,
+  vendorRefNumber,
+  vendorRefNumberType,
+}) => {
   const isOpenedOrder = isWorkflowStatusOpen(order);
   const accountsDataOptions = accounts.map(({ accountNo }) => ({
     label: accountNo,
     value: accountNo,
   }));
+  const isVendorRefNumberRequired = Boolean(vendorRefNumberType);
+  const isVendorRefNumberTypeRequired = Boolean(vendorRefNumber);
 
   return (
     <Row>
       <Col xs={6}>
-        <FieldVendorRefNumber />
+        <FieldVendorRefNumber required={isVendorRefNumberRequired} />
       </Col>
       <Col xs={6}>
-        <FieldRefNumberType />
+        <FieldRefNumberType required={isVendorRefNumberTypeRequired} />
       </Col>
       <Col xs={6}>
         <FieldVendorInstructions disabled={isOpenedOrder} />
@@ -47,6 +54,8 @@ const VendorForm = ({ order, accounts }) => {
 VendorForm.propTypes = {
   accounts: PropTypes.arrayOf(PropTypes.object),
   order: PropTypes.object.isRequired,
+  vendorRefNumberType: PropTypes.string,
+  vendorRefNumber: PropTypes.string,
 };
 
 VendorForm.defaultProps = {

@@ -11,12 +11,14 @@ import {
 import { Callout } from '@folio/stripes/components';
 
 import { STATUS_IN_PROCESS } from '../../common/constants';
+import OpenedRequestsModal from '../../common/OpenedRequestsModal';
 import getLocationsForSelect from '../Utils/getLocationsForSelect';
-import { fetchItems } from '../Receiving/util';
+import { fetchItems, fetchRequests } from '../Receiving/util';
 import {
   CHECKIN,
   ITEMS,
   LOCATIONS,
+  REQUESTS,
 } from '../Utils/resources';
 import { CHECKIN_URLS } from './const';
 import ItemsListModal from './ItemsListModal';
@@ -29,6 +31,7 @@ class CheckInDetails extends Component {
   static manifest = Object.freeze({
     checkIn: CHECKIN,
     items: ITEMS,
+    requests: REQUESTS,
     locations: LOCATIONS,
     query: {},
   });
@@ -49,24 +52,27 @@ class CheckInDetails extends Component {
       isAllChecked: true,
       isLoading: true,
       items: [],
+      isRequestsModalOpened: false,
     };
   }
 
   componentDidMount() {
     const { mutator, pieces } = this.props;
 
-    fetchItems(mutator, pieces).then(itemsMap => {
-      const items = pieces.map(piece => ({
-        ...getMixedPieceAndItem(piece, itemsMap),
-        itemStatus: STATUS_IN_PROCESS,
-        isChecked: true,
-      }));
+    Promise.all([fetchRequests(mutator, pieces), fetchItems(mutator, pieces)])
+      .then(([requestsMap, itemsMap]) => {
+        const items = pieces.map(piece => ({
+          ...getMixedPieceAndItem(piece, itemsMap),
+          itemStatus: STATUS_IN_PROCESS,
+          request: requestsMap[piece.itemId],
+          isChecked: true,
+        }));
 
-      this.setState({
-        isLoading: false,
-        items,
+        this.setState({
+          isLoading: false,
+          items,
+        });
       });
-    });
   }
 
   toggleItem = (item) => {
@@ -104,8 +110,26 @@ class CheckInDetails extends Component {
     });
   };
 
+  openCheckinHistory = () => {
+    const { mutator, location } = this.props;
+
+    mutator.query.update({
+      _path: location.pathname.replace(CHECKIN_URLS.items, CHECKIN_URLS.history),
+    });
+  };
+
+  openOpenedRequestsModal = () => {
+    this.setState({ isRequestsModalOpened: true });
+  }
+
+  closeOpenedRequestsModal = () => {
+    this.props.close();
+    this.setState({ isRequestsModalOpened: false });
+    this.openCheckinHistory();
+  }
+
   submitCheckIn = () => {
-    const { close, location, mutator } = this.props;
+    const { close, mutator } = this.props;
     const checkInItemsList = this.state.items.filter(item => item.isChecked);
 
     checkInItems(checkInItemsList, mutator.checkIn)
@@ -113,10 +137,14 @@ class CheckInDetails extends Component {
         type: 'success',
         message: <FormattedMessage id="ui-orders.checkIn.checkInItem.success" />,
       }))
-      .then(() => close())
-      .then(() => mutator.query.update({
-        _path: location.pathname.replace(CHECKIN_URLS.items, CHECKIN_URLS.history),
-      }))
+      .then(() => {
+        if (checkInItemsList.every(piece => !piece.request)) {
+          close();
+          this.openCheckinHistory();
+        } else {
+          this.openOpenedRequestsModal();
+        }
+      })
       .catch(() => this.callout.current.sendCallout({
         type: 'error',
         message: <FormattedMessage id="ui-orders.checkIn.checkInItem.error" />,
@@ -136,22 +164,34 @@ class CheckInDetails extends Component {
 
   render() {
     const { close, resources } = this.props;
-    const { isAllChecked, items, isLoading } = this.state;
+    const { isAllChecked, items, isLoading, isRequestsModalOpened } = this.state;
 
     return (
       <React.Fragment>
-        <ItemsListModal
-          close={close}
-          isAllChecked={isAllChecked}
-          isLoading={isLoading}
-          items={items}
-          locations={getLocationsForSelect(resources)}
-          onChangeField={this.onChangeField}
-          submitCheckIn={this.submitCheckIn}
-          toggleAll={this.toggleAll}
-          toggleItem={this.toggleItem}
-        />
+        {
+          !isRequestsModalOpened && (
+            <ItemsListModal
+              close={close}
+              isAllChecked={isAllChecked}
+              isLoading={isLoading}
+              items={items}
+              locations={getLocationsForSelect(resources)}
+              onChangeField={this.onChangeField}
+              submitCheckIn={this.submitCheckIn}
+              toggleAll={this.toggleAll}
+              toggleItem={this.toggleItem}
+            />
+          )
+        }
+
         <Callout ref={this.callout} />
+
+        {isRequestsModalOpened && (
+          <OpenedRequestsModal
+            closeModal={this.closeOpenedRequestsModal}
+            pieces={items.filter(item => item.isChecked)}
+          />
+        )}
       </React.Fragment>
     );
   }

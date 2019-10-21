@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import {
   AccordionSet,
 } from '@folio/stripes/components';
-import { SourceFilter } from '@folio/stripes-acq-components';
+import {
+  AcqTagsFilter,
+  SourceFilter,
+} from '@folio/stripes-acq-components';
 
 import LocationFilter from '../common/LocationFilter';
 import OrdersCheckboxFilter from '../common/OrdersCheckboxFilter';
@@ -105,6 +108,12 @@ function OrderLinesFilters({ activeFilters, onChange, funds, locations, material
         name={FILTERS.VENDOR}
         onChange={onChange}
         vendors={vendors}
+      />
+      <AcqTagsFilter
+        activeFilters={activeFilters[FILTERS.TAGS]}
+        id={FILTERS.TAGS}
+        name={FILTERS.TAGS}
+        onChange={onChange}
       />
       <SourceFilter
         activeFilters={activeFilters[FILTERS.SOURCE_CODE]}

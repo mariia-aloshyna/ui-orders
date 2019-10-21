@@ -24,10 +24,10 @@ import {
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
+import { getConfigSetting } from '@folio/stripes-acq-components';
 
 import {
   getAddresses,
-  getOrderApprovalsSetting,
 } from '../../common/utils';
 import { isOngoing } from '../../common/POFields';
 import { LayerPO } from '../LayerCollection';
@@ -343,7 +343,7 @@ class PO extends Component {
       tagsToggle,
     } = this.props;
     const order = this.getOrder();
-    const { isApprovalRequired } = getOrderApprovalsSetting(get(parentResources, 'approvalsSetting.records', {}));
+    const { isApprovalRequired } = getConfigSetting(get(parentResources, 'approvalsSetting.records', {}));
     const isApproved = get(order, 'approved');
     const closingReasons = get(parentResources, 'closingReasons.records', []);
     const orderNumber = get(order, 'poNumber', '');

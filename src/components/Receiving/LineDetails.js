@@ -52,6 +52,7 @@ const LineDetails = ({
         <KeyValue value={get(item, 'pieceFormat', '')} />
       </div>
     ),
+    'hasRequest': (item) => Boolean(item.request) && <FormattedMessage id="ui-orders.requests.request.isOpened" />,
     'comment': (item) => (
       <div className={css.fieldWrapper}>
         <TextField
@@ -84,11 +85,12 @@ const LineDetails = ({
     <MultiColumnList
       contentData={lineItems[poLineId]}
       formatter={resultFormatter}
-      visibleColumns={['isChecked', 'barcode', 'format', 'comment', 'location', 'itemStatus']}
+      visibleColumns={['isChecked', 'barcode', 'format', 'hasRequest', 'comment', 'location', 'itemStatus']}
       columnMapping={{
         isChecked: <Checkbox type="checkbox" checked={allChecked[poLineId]} onChange={() => toggleAll(poLineId)} />,
         barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
         format: <FormattedMessage id="ui-orders.receiving.format" />,
+        hasRequest: <FormattedMessage id="ui-orders.requests.request" />,
         comment: <FormattedMessage id="ui-orders.receiving.comment" />,
         location: <FormattedMessage id="ui-orders.receiving.location" />,
         itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,

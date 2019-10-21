@@ -4,7 +4,8 @@ import {
   intlShape,
 } from 'react-intl';
 
-import OrdersSelectionFilter from '../OrdersSelectionFilter';
+import { SelectionFilter } from '@folio/stripes-acq-components';
+
 import { getClosingReasonsOptions } from '../utils';
 import { closingReasonsShape } from '../shapes';
 import { DEFAULT_CLOSE_ORDER_REASONS } from '../constants';
@@ -18,7 +19,7 @@ const ClosingReasonFilter = ({ closingReasons, intl: { formatMessage }, ...rest 
   });
 
   return (
-    <OrdersSelectionFilter
+    <SelectionFilter
       {...rest}
       options={[...reasons, ...translatedDefaultReasons]}
     />

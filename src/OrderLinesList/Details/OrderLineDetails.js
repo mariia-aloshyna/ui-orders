@@ -1,105 +1,107 @@
-import React, { Component } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { get } from 'lodash';
 
-import { POLineView } from '../../components/POLine';
+import {
+  baseManifest,
+  LoadingPane,
+  Tags,
+} from '@folio/stripes-acq-components';
+
 import {
   ORDERS_API,
   LINES_API,
 } from '../../components/Utils/api';
+import { POLineView } from '../../components/POLine';
 import { FILTERS as ORDER_FILTERS } from '../../OrdersList';
 
-class OrderLineDetails extends Component {
-  static manifest = Object.freeze({
-    order: {
-      type: 'okapi',
-      path: `${ORDERS_API}/%{orderId}`,
-      throwErrors: false,
-      fetch: false,
-      accumulate: true,
+const OrderLineDetails = ({
+  match,
+  mutator,
+  onClose,
+  parentMutator,
+  parentResources,
+  resources,
+  showToast,
+  ...restProps
+}) => {
+  const lineId = match.params.id;
+  const line = get(resources, ['orderLine', 'records', 0], {});
+  const order = get(resources, ['order', 'records', 0], {});
+
+  const fetchLineDetails = useCallback(
+    () => {
+      mutator.orderLine.reset();
+      mutator.order.reset();
+      mutator.orderLine.GET()
+        .then(({ purchaseOrderId }) => {
+          mutator.orderId.replace(purchaseOrderId);
+          mutator.order.GET();
+        });
     },
-    orderLine: {
-      type: 'okapi',
-      path: `${LINES_API}/:{id}`,
-      throwErrors: false,
-      fetch: false,
-      accumulate: true,
-    },
-    orderId: {},
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [lineId],
+  );
 
-  static propTypes = {
-    parentMutator: PropTypes.object.isRequired,
-    parentResources: PropTypes.object.isRequired,
-    match: ReactRouterPropTypes.match,
-    resources: PropTypes.object.isRequired,
-    mutator: PropTypes.object.isRequired,
-    showToast: PropTypes.func.isRequired,
-  }
+  useEffect(fetchLineDetails, [lineId]);
 
-  componentDidMount() {
-    this.fetchLineDetails();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.match.params.id !== prevProps.match.params.id) {
-      this.fetchLineDetails();
-    }
-  }
-
-  fetchLineDetails = () => {
-    const { mutator } = this.props;
-
-    mutator.orderLine.reset();
-    mutator.order.reset();
-    mutator.orderLine.GET()
-      .then(({ purchaseOrderId }) => {
-        mutator.orderId.replace(purchaseOrderId);
-        mutator.order.GET();
+  const goToOrderDetails = useCallback(
+    () => {
+      parentMutator.query.replace({
+        _path: `/orders/view/${order.id}`,
+        filters: `${ORDER_FILTERS.PO_NUMBER}.${order.poNumber}`,
       });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [lineId],
+  );
+
+  const deleteLine = useCallback(
+    () => {
+      const lineNumber = line.poLineNumber;
+
+      mutator.orderLine.DELETE(line).then(() => {
+        showToast('ui-orders.line.delete.success', 'success', { lineNumber });
+        parentMutator.query.update({ _path: '/orders/lines' });
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [lineId],
+  );
+
+  const updateLineTagList = async (orderLine) => {
+    await mutator.orderLine.PUT(orderLine);
+    fetchLineDetails();
+  };
+
+  const [isTagsPaneOpened, setIsTagsPaneOpened] = useState(false);
+
+  const toggleTagsPane = () => setIsTagsPaneOpened(!isTagsPaneOpened);
+
+  const locations = get(parentResources, 'locations.records', []);
+  const materialTypes = get(parentResources, 'materialTypes.records', []);
+  const vendors = get(parentResources, 'vendors.records', []);
+  const funds = get(parentResources, 'funds.records', []);
+  const identifierTypes = get(parentResources, 'identifierTypes.records', []);
+  const contributorNameTypes = get(parentResources, 'contributorNameTypes.records', []);
+
+  const receivingURL = `/orders/view/${order.id}/po-line/view/${lineId}/receiving`;
+  const checkinURL = `/orders/view/${order.id}/po-line/view/${lineId}/check-in/items`;
+
+  const isLoading = !(
+    get(resources, ['orderLine', 'hasLoaded']) &&
+    get(resources, ['order', 'hasLoaded'])
+  );
+
+  if (isLoading) {
+    return <LoadingPane onClose={onClose} />;
   }
 
-  goToOrderDetails = () => {
-    const order = get(this.props.resources, ['order', 'records', 0], {});
-
-    this.props.parentMutator.query.replace({
-      _path: `/orders/view/${order.id}`,
-      filters: `${ORDER_FILTERS.PO_NUMBER}.${order.poNumber}`,
-    });
-  };
-
-  getLine = () => get(this.props.resources, ['orderLine', 'records', 0]);
-  getOrder = () => get(this.props.resources, ['order', 'records', 0], {});
-
-  deleteLine = () => {
-    const { mutator, parentMutator, showToast } = this.props;
-    const line = this.getLine();
-    const lineNumber = line.poLineNumber;
-
-    mutator.orderLine.DELETE(line).then(() => {
-      showToast('ui-orders.line.delete.success', 'success', { lineNumber });
-      parentMutator.query.update({ _path: '/orders/lines' });
-    });
-  };
-
-  render() {
-    const { match: { params: { id } }, parentResources, parentMutator } = this.props;
-    const line = this.getLine();
-    const order = this.getOrder();
-    const locations = get(parentResources, 'locations.records', []);
-    const materialTypes = get(parentResources, 'materialTypes.records', []);
-    const vendors = get(parentResources, 'vendors.records', []);
-    const funds = get(parentResources, 'funds.records', []);
-    const identifierTypes = get(parentResources, 'identifierTypes.records', []);
-    const contributorNameTypes = get(parentResources, 'contributorNameTypes.records', []);
-
-    const receivingURL = `/orders/view/${order.id}/po-line/view/${id}/receiving`;
-    const checkinURL = `/orders/view/${order.id}/po-line/view/${id}/check-in/items`;
-
-    return (
+  return (
+    <Fragment>
       <POLineView
-        {...this.props}
+        {...restProps}
         line={line}
         order={order}
         locations={locations}
@@ -108,14 +110,49 @@ class OrderLineDetails extends Component {
         receivingURL={receivingURL}
         checkinURL={checkinURL}
         funds={funds}
-        goToOrderDetails={this.goToOrderDetails}
+        goToOrderDetails={goToOrderDetails}
         queryMutator={parentMutator.query}
-        deleteLine={this.deleteLine}
+        deleteLine={deleteLine}
         identifierTypes={identifierTypes}
         contributorNameTypes={contributorNameTypes}
+        tagsToggle={toggleTagsPane}
+        onClose={onClose}
       />
-    );
-  }
-}
+      {isTagsPaneOpened && (
+        <Tags
+          putMutator={updateLineTagList}
+          recordObj={line}
+          onClose={toggleTagsPane}
+        />
+      )}
+    </Fragment>
+  );
+};
+
+OrderLineDetails.manifest = Object.freeze({
+  orderLine: {
+    ...baseManifest,
+    path: `${LINES_API}/:{id}`,
+    accumulate: true,
+    fetch: false,
+  },
+  order: {
+    ...baseManifest,
+    path: `${ORDERS_API}/%{orderId}`,
+    accumulate: true,
+    fetch: false,
+  },
+  orderId: {},
+});
+
+OrderLineDetails.propTypes = {
+  match: ReactRouterPropTypes.match,
+  mutator: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
+  parentMutator: PropTypes.object.isRequired,
+  parentResources: PropTypes.object.isRequired,
+  resources: PropTypes.object.isRequired,
+  showToast: PropTypes.func.isRequired,
+};
 
 export default OrderLineDetails;

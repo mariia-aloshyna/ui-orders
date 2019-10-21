@@ -51,6 +51,7 @@ const ItemsListModal = ({
         />
       </div>
     ),
+    'hasRequest': (item) => Boolean(item.request) && <FormattedMessage id="ui-orders.requests.request.isOpened" />,
     'format': (item) => (
       <div className={css.fieldWrapper}>
         <KeyValue value={get(item, 'pieceFormat', '')} />
@@ -90,12 +91,13 @@ const ItemsListModal = ({
       <MultiColumnList
         contentData={items}
         formatter={resultFormatter}
-        visibleColumns={['isChecked', 'title', 'piece', 'barcode', 'format', 'location', 'itemStatus']}
+        visibleColumns={['isChecked', 'title', 'piece', 'barcode', 'hasRequest', 'format', 'location', 'itemStatus']}
         columnMapping={{
           isChecked: <Checkbox type="checkbox" checked={isAllChecked} onChange={toggleAll} />,
           title: <FormattedMessage id="ui-orders.receiving.title" />,
           piece: <FormattedMessage id="ui-orders.checkIn.piece" />,
           barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
+          hasRequest: <FormattedMessage id="ui-orders.requests.request" />,
           format: <FormattedMessage id="ui-orders.receiving.format" />,
           location: <FormattedMessage id="ui-orders.receiving.location" />,
           itemStatus: <FormattedMessage id="ui-orders.receiving.itemStatus" />,

@@ -1,13 +1,15 @@
 import {
   get,
-  sortBy,
+  orderBy,
 } from 'lodash';
 
-export default (resources) => sortBy(
+export default (resources) => orderBy(
   get(resources, 'orderTemplates.records', []).map(({ templateName, templateCode, id }) => {
     return {
       label: templateCode ? `${templateName} (${templateCode})` : templateName,
       value: id,
     };
-  }), 'label',
+  }),
+  [template => template.label.toLowerCase()],
+  ['asc'],
 );

@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
+
+import { Tags } from '@folio/stripes-acq-components';
 
 import { ORDER } from '../Utils/resources';
 import {
@@ -34,6 +36,12 @@ class POLine extends Component {
     history: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
   }
+
+  state = {
+    isTagsPaneOpened: false,
+  }
+
+  toggleTagsPane = () => this.setState(({ isTagsPaneOpened }) => ({ isTagsPaneOpened: !isTagsPaneOpened }));
 
   getOrder = () => get(this.props.resources, ['order', 'records', 0]);
 
@@ -76,23 +84,33 @@ class POLine extends Component {
     const checkinURL = `${match.url}/check-in`;
 
     return (
-      <POLineView
-        location={this.props.location}
-        history={this.props.history}
-        line={line}
-        order={order}
-        materialTypes={materialTypes}
-        locations={locations}
-        vendors={vendors}
-        poURL={poURL}
-        receivingURL={receivingURL}
-        checkinURL={checkinURL}
-        funds={funds}
-        queryMutator={parentMutator.query}
-        deleteLine={this.deleteLine}
-        identifierTypes={identifierTypes}
-        contributorNameTypes={contributorNameTypes}
-      />
+      <Fragment>
+        <POLineView
+          location={this.props.location}
+          history={this.props.history}
+          line={line}
+          order={order}
+          materialTypes={materialTypes}
+          locations={locations}
+          vendors={vendors}
+          poURL={poURL}
+          receivingURL={receivingURL}
+          checkinURL={checkinURL}
+          funds={funds}
+          queryMutator={parentMutator.query}
+          deleteLine={this.deleteLine}
+          identifierTypes={identifierTypes}
+          contributorNameTypes={contributorNameTypes}
+          tagsToggle={this.toggleTagsPane}
+        />
+        {this.state.isTagsPaneOpened && (
+          <Tags
+            putMutator={parentMutator.poLine.PUT}
+            recordObj={line}
+            onClose={this.toggleTagsPane}
+          />
+        )}
+      </Fragment>
     );
   }
 }
