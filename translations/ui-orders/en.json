@@ -741,6 +741,7 @@
   "requests.message.multiple": "The following items have open requests",
   "requests.message.barcode": "Barcode ({barcode})",
   "requests.message.itemId": "Item ({itemId})",
+  "requests.footer.close": "Close",
   "requests.request": "Request",
   "requests.request.isOpened": "Yes"
 }

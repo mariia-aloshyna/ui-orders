@@ -18,7 +18,7 @@ const buildFooter = closeModal => {
         data-test-close-opened-requests-modal-button
         onClick={closeModal}
       >
-        <FormattedMessage id="ui-orders.receiving.cancelBtn" />
+        <FormattedMessage id="ui-orders.requests.footer.close" />
       </Button>
     </Row>
   );
