@@ -167,8 +167,11 @@ class ItemForm extends Component {
 
     return (
       <Fragment>
-        <Row start="xs">
-          <Col xs={12}>
+        <Row>
+          <Col
+            xs={6}
+            md={3}
+          >
             <div className={css.titleWrapper}>
               <Field
                 component={TextField}
@@ -185,47 +188,23 @@ class ItemForm extends Component {
               </div>
             </div>
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <Field
               component={TextField}
               fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.instanceId" />}
-              name="instanceId"
-              readOnly
-            />
-          </Col>
-          <Col xs={12}>
-            <Field
-              component={TextArea}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
-              name="details.receivingNote"
-            />
-          </Col>
-          <Col xs={6}>
-            <FieldDatepicker
-              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
-              name="details.subscriptionFrom"
-            />
-          </Col>
-          <Col xs={6}>
-            <FieldDatepicker
-              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
-              name="details.subscriptionTo"
+              label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
+              name="publisher"
+              onChange={(e, value) => this.onChangeField(value, 'publisher')}
               disabled={isOpenedOrder}
             />
           </Col>
-          <Col xs={6}>
-            <Field
-              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
-              name="details.subscriptionInterval"
-              component={TextField}
-              type="number"
-              fullWidth
-              disabled={isOpenedOrder}
-            />
-          </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <Field
               component={TextField}
               fullWidth
@@ -237,17 +216,10 @@ class ItemForm extends Component {
               disabled={isOpenedOrder}
             />
           </Col>
-          <Col xs={6}>
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.publisher" />}
-              name="publisher"
-              onChange={(e, value) => this.onChangeField(value, 'publisher')}
-              disabled={isOpenedOrder}
-            />
-          </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <Field
               component={TextField}
               fullWidth
@@ -257,6 +229,42 @@ class ItemForm extends Component {
               disabled={isOpenedOrder}
             />
           </Col>
+        </Row>
+        <Row>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldDatepicker
+              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionFrom" />}
+              name="details.subscriptionFrom"
+            />
+          </Col>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldDatepicker
+              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionTo" />}
+              name="details.subscriptionTo"
+              disabled={isOpenedOrder}
+            />
+          </Col>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <Field
+              label={<FormattedMessage id="ui-orders.itemDetails.subscriptionInterval" />}
+              name="details.subscriptionInterval"
+              component={TextField}
+              type="number"
+              fullWidth
+              disabled={isOpenedOrder}
+            />
+          </Col>
+        </Row>
+        <Row>
           <Col xs={12}>
             <ContributorForm
               contributorNameTypes={contributorNameTypes}
@@ -277,12 +285,38 @@ class ItemForm extends Component {
           </Col>
         </Row>
         <Row>
-          <Col xs={12}>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <Field
+              component={TextArea}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.itemDetails.receivingNote" />}
+              name="details.receivingNote"
+            />
+          </Col>
+          <Col
+            xs={6}
+            md={3}
+          >
             <Field
               component={TextArea}
               fullWidth
               label={<FormattedMessage id="ui-orders.itemDetails.description" />}
               name="description"
+            />
+          </Col>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <Field
+              component={TextField}
+              fullWidth
+              label={<FormattedMessage id="ui-orders.itemDetails.instanceId" />}
+              name="instanceId"
+              readOnly
             />
           </Col>
         </Row>

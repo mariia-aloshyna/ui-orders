@@ -31,21 +31,38 @@ const VendorForm = ({
 
   return (
     <Row>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        md={3}
+      >
         <FieldVendorRefNumber required={isVendorRefNumberRequired} />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        md={3}
+      >
         <FieldRefNumberType required={isVendorRefNumberTypeRequired} />
       </Col>
-      <Col xs={6}>
-        <FieldVendorInstructions disabled={isOpenedOrder} />
-      </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        md={3}
+      >
         <FieldVendorAccountNumber
           accounts={accountsDataOptions}
           disabled={isOpenedOrder}
         />
+      </Col>
+      <Col
+        xs={6}
+        md={3}
+      >
         <FieldVendorNote />
+      </Col>
+      <Col
+        xs={6}
+        md={3}
+      >
+        <FieldVendorInstructions disabled={isOpenedOrder} />
       </Col>
     </Row>
   );
