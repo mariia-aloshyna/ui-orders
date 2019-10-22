@@ -1,9 +1,12 @@
 import {
+  fundsManifest,
+} from '@folio/stripes-acq-components';
+
+import {
   ACQUISITIONS_UNITS_API,
   CHECKIN_API,
   CONFIG_API,
   CONTRIBUTOR_NAME_TYPES_API,
-  FUND_API,
   IDENTIFIER_TYPES_API,
   INVOICE_LINES_API,
   INVOICES_API,
@@ -180,14 +183,7 @@ export const ADDRESSES = {
   },
 };
 
-export const FUND = {
-  ...BASE_RESOURCE,
-  path: FUND_API,
-  params: {
-    query: 'cql.allRecords=1 sortby name',
-  },
-  records: 'funds',
-};
+export const FUND = fundsManifest;
 
 export const USERS = {
   ...BASE_RESOURCE,
