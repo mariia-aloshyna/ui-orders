@@ -18,6 +18,7 @@ import {
   IconButton,
   Pane,
   PaneMenu,
+  PaneFooter,
   Paneset,
   Row,
 } from '@folio/stripes/components';
@@ -113,26 +114,43 @@ class POForm extends Component {
     );
   }
 
-  getLastMenu(id, label) {
-    const { pristine, submitting, handleSubmit } = this.props;
+  getPaneFooter(id, label) {
+    const { pristine, submitting, handleSubmit, onCancel } = this.props;
+
+    const start = (
+      <FormattedMessage id="ui-orders.buttons.line.close">
+        {(btnLabel) => (
+          <Button
+            id="clickable-close-new-purchase-order-dialog-footer"
+            onClick={onCancel}
+          >
+            {btnLabel}
+          </Button>
+        )}
+      </FormattedMessage>
+    );
+
+    const end = (
+      <FormattedMessage id={label}>
+        {btnLabel => (
+          <Button
+            id={id}
+            type="submit"
+            buttonStyle="primary"
+            disabled={pristine || submitting}
+            onClick={handleSubmit}
+          >
+            {btnLabel}
+          </Button>
+        )}
+      </FormattedMessage>
+    );
 
     return (
-      <PaneMenu>
-        <FormattedMessage id={label}>
-          {ariaLabel => (
-            <Button
-              id={id}
-              type="submit"
-              disabled={pristine || submitting}
-              onClick={handleSubmit}
-              style={{ marginBottom: '0', marginRight: '10px' }}
-            >
-              {ariaLabel}
-            </Button>
-          )}
-        </FormattedMessage>
-
-      </PaneMenu>
+      <PaneFooter
+        renderStart={start}
+        renderEnd={end}
+      />
     );
   }
 
@@ -182,9 +200,9 @@ class POForm extends Component {
     const paneTitle = initialValues.id
       ? <FormattedMessage id="ui-orders.order.paneTitle.edit" values={{ orderNumber }} />
       : <FormattedMessage id="ui-orders.paneMenu.createPurchaseOrder" />;
-    const lastMenu = initialValues.id ?
-      this.getLastMenu('clickable-update-purchase-order', 'ui-orders.paneMenu.saveOrder') :
-      this.getLastMenu('clickable-create-new-purchase-order', 'ui-orders.paneMenu.saveOrder');
+    const paneFooter = initialValues.id ?
+      this.getPaneFooter('clickable-update-purchase-order', 'ui-orders.paneMenu.saveOrder') :
+      this.getPaneFooter('clickable-create-new-purchase-order', 'ui-orders.paneMenu.saveOrder');
     const orderNumberSetting = getOrderNumberSetting(get(parentResources, 'orderNumberSetting.records', {}));
 
     const prefixesSetting = getSettingsList(get(parentResources, 'prefixesSetting.records', {}));
@@ -201,7 +219,7 @@ class POForm extends Component {
           defaultWidth="fill"
           firstMenu={firstMenu}
           id="pane-podetails"
-          lastMenu={lastMenu}
+          footer={paneFooter}
           onClose={onCancel}
           paneTitle={<FormattedMessage id="ui-orders.order.paneTitle.detailsLoading" />}
         >
@@ -217,7 +235,7 @@ class POForm extends Component {
             defaultWidth="100%"
             firstMenu={firstMenu}
             id="pane-poForm"
-            lastMenu={lastMenu}
+            footer={paneFooter}
             onClose={onCancel}
             paneTitle={paneTitle}
           >

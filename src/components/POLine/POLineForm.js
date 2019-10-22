@@ -7,7 +7,6 @@ import {
 } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 
-import { IfPermission } from '@folio/stripes/core';
 import {
   Accordion,
   AccordionSet,
@@ -18,6 +17,7 @@ import {
   IconButton,
   Pane,
   PaneMenu,
+  PaneFooter,
   Row,
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
@@ -131,25 +131,40 @@ class POLineForm extends Component {
     );
   };
 
-  getLastMenu = (id, label) => {
-    const { pristine, submitting, handleSubmit } = this.props;
+  getPaneFooter(id, label) {
+    const { pristine, submitting, handleSubmit, onCancel } = this.props;
+
+    const start = (
+      <FormattedMessage id="ui-orders.buttons.line.close">
+        {(btnLabel) => (
+          <Button
+            id="clickable-close-new-line-dialog-footer"
+            onClick={onCancel}
+          >
+            {btnLabel}
+          </Button>
+        )}
+      </FormattedMessage>
+    );
+
+    const end = (
+      <Button
+        id={id}
+        type="submit"
+        disabled={pristine || submitting}
+        onClick={handleSubmit}
+      >
+        {label}
+      </Button>
+    );
 
     return (
-      <PaneMenu>
-        <IfPermission perm="orders.po-lines.item.post">
-          <Button
-            id={id}
-            type="submit"
-            disabled={pristine || submitting}
-            onClick={handleSubmit}
-            style={{ marginBottom: '0', marginRight: '10px' }}
-          >
-            {label}
-          </Button>
-        </IfPermission>
-      </PaneMenu>
+      <PaneFooter
+        renderStart={start}
+        renderEnd={end}
+      />
     );
-  };
+  }
 
   onToggleSection = ({ id }) => {
     this.setState(({ sections }) => {
@@ -186,9 +201,9 @@ class POLineForm extends Component {
     const paneTitle = lineId
       ? <FormattedMessage id="ui-orders.line.paneTitle.edit" values={{ lineNumber }} />
       : <FormattedMessage id="ui-orders.line.paneTitle.new" />;
-    const lastMenu = lineId ?
-      this.getLastMenu('clickable-updatePoLine', <FormattedMessage id="ui-orders.buttons.line.save" />) :
-      this.getLastMenu('clickable-createnewPoLine', <FormattedMessage id="ui-orders.buttons.line.save" />);
+    const paneFooter = lineId ?
+      this.getPaneFooter('clickable-updatePoLine', <FormattedMessage id="ui-orders.buttons.line.save" />) :
+      this.getPaneFooter('clickable-createnewPoLine', <FormattedMessage id="ui-orders.buttons.line.save" />);
 
     if (!initialValues) {
       return (
@@ -198,7 +213,7 @@ class POLineForm extends Component {
           defaultWidth="fill"
           paneTitle={<FormattedMessage id="ui-orders.line.paneTitle.details" />}
           firstMenu={firstMenu}
-          lastMenu={lastMenu}
+          footer={paneFooter}
         >
           <div style={{ paddingTop: '1rem' }}>
             <Icon
@@ -236,7 +251,7 @@ class POLineForm extends Component {
         data-test-line-edit
         defaultWidth="fill"
         paneTitle={paneTitle}
-        lastMenu={lastMenu}
+        footer={paneFooter}
         onClose={onCancel}
         firstMenu={firstMenu}
       >
