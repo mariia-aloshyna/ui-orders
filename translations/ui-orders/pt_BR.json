@@ -717,5 +717,16 @@
     "itemDetails.qualifier": "Qualificador",
     "itemDetails.contributors": "Colaboradores",
     "itemDetails.productIds": "Identificadores do produto",
-    "showTags": "Mostrar tags"
+    "showTags": "Mostrar tags",
+    "requests.title.single": "Um item tem uma solicitação em aberto",
+    "requests.title.multiple": "Vários itens têm solicitações em aberto",
+    "requests.message.single": "O item a seguir possui uma solicitação em aberto",
+    "requests.message.multiple": "Os seguintes itens têm solicitações em aberto",
+    "requests.message.barcode": "Código de barras ({barcode})",
+    "requests.message.itemId": "Item ({itemId})",
+    "requests.request": "Requisição",
+    "requests.request.isOpened": "Sim",
+    "settings.openOrder": "Abertura de pedidos",
+    "settings.openOrder.isOpenOrderEnabled": "Permitir salvar e abrir um pedido ao criar ou editar uma linha de pedido",
+    "requests.footer.close": "Fechar"
 }

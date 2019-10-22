@@ -717,5 +717,16 @@
     "itemDetails.qualifier": "Qualifier",
     "itemDetails.contributors": "Contributors",
     "itemDetails.productIds": "Product identifiers",
-    "showTags": "Show tags"
+    "showTags": "Show tags",
+    "requests.title.single": "An item has an open request",
+    "requests.title.multiple": "Multiple items have open requests",
+    "requests.message.single": "The following item has an open request",
+    "requests.message.multiple": "The following items have open requests",
+    "requests.message.barcode": "Barcode ({barcode})",
+    "requests.message.itemId": "Item ({itemId})",
+    "requests.request": "Request",
+    "requests.request.isOpened": "Yes",
+    "settings.openOrder": "Opening purchase orders",
+    "settings.openOrder.isOpenOrderEnabled": "Allow save and open purchase order when creating or editing a purchase order line",
+    "requests.footer.close": "Close"
 }

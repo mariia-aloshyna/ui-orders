@@ -717,5 +717,16 @@
     "itemDetails.qualifier": "مؤهل",
     "itemDetails.contributors": "مساهمون",
     "itemDetails.productIds": "معرفات المنتجات",
-    "showTags": "عرض الوسوم"
+    "showTags": "عرض الوسوم",
+    "requests.title.single": "مادة لها طلب مفتوح",
+    "requests.title.multiple": "عدة مواد لها طلبات مفتوحة",
+    "requests.message.single": "المادة التالية لها طلب مفتوح",
+    "requests.message.multiple": "المواد التالية لها طلبات مفتوحة",
+    "requests.message.barcode": "باركود ({barcode})",
+    "requests.message.itemId": "المادة ({itemId})",
+    "requests.request": "طلب",
+    "requests.request.isOpened": "نعم",
+    "settings.openOrder": "فتح طلبيات الشراء",
+    "settings.openOrder.isOpenOrderEnabled": "السماح بحفظ وفتح أمر الشراء عند إنشاء أو تحرير سطر أمر الشراء",
+    "requests.footer.close": "Close"
 }
