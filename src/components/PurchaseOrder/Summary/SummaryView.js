@@ -50,6 +50,7 @@ const SummaryView = ({ order }) => {
           />
         </Col>
         <Col
+          data-test-workflow-status
           xs={6}
           lg={3}
         >

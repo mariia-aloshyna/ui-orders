@@ -164,6 +164,7 @@ const ITEM_DETAILS = {
   toggle = clickable('[class*=defaultCollapseButton---]');
   materialSupplierPresent = isPresent('[name="physical.materialSupplier"]');
   volumes = collection('[name*="physical.volumes"]');
+  materialType = selectable('[name="physical.materialType"]');
 }
 
 @interactor class ElectronicDetailsAccordion {
@@ -177,6 +178,7 @@ export default interactor(class LineEditPage {
   static defaultScope = '[data-test-line-edit]';
   locationAccordion = new LocationAccordion();
   updateLineButton = new Button('#clickable-updatePoLine');
+  saveAndOpenButton = new Button('[data-test-button-save-and-open]')
   lineNumberInputValue = value('input[name="poLineNumber"]');
   selectOrderFormat = selectable('[name="orderFormat"]');
   validationMessage = text('[class*=feedbackError---]');

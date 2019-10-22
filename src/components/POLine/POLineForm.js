@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import {
@@ -60,6 +60,7 @@ class POLineForm extends Component {
     stripes: PropTypes.shape({
       store: PropTypes.object.isRequired,
     }).isRequired,
+    onSubmit: PropTypes.func.isRequired,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
     onRemove: PropTypes.func,
@@ -73,6 +74,7 @@ class POLineForm extends Component {
     change: PropTypes.func,
     dispatch: PropTypes.func,
     vendor: PropTypes.object,
+    isSaveAndOpenButtonVisible: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -132,7 +134,14 @@ class POLineForm extends Component {
   };
 
   getPaneFooter(id, label) {
-    const { pristine, submitting, handleSubmit, onCancel } = this.props;
+    const {
+      pristine,
+      submitting,
+      handleSubmit,
+      onCancel,
+      isSaveAndOpenButtonVisible,
+      onSubmit,
+    } = this.props;
 
     const start = (
       <FormattedMessage id="ui-orders.buttons.line.close">
@@ -148,16 +157,32 @@ class POLineForm extends Component {
       </FormattedMessage>
     );
 
+    const buttonSaveStyle = isSaveAndOpenButtonVisible ? 'default mega' : 'primary mega';
+
     const end = (
-      <Button
-        id={id}
-        type="submit"
-        buttonStyle="primary mega"
-        disabled={pristine || submitting}
-        onClick={handleSubmit}
-      >
-        {label}
-      </Button>
+      <Fragment>
+        <Button
+          id={id}
+          type="submit"
+          buttonStyle={buttonSaveStyle}
+          disabled={pristine || submitting}
+          onClick={handleSubmit}
+        >
+          {label}
+        </Button>
+        {isSaveAndOpenButtonVisible && (
+          <Button
+            data-test-button-save-and-open
+            type="submit"
+            buttonStyle="primary mega"
+            disabled={pristine || submitting}
+            onClick={handleSubmit(values => onSubmit({ ...values, saveAndOpen: true }))}
+            marginBottom0
+          >
+            <FormattedMessage id="ui-orders.buttons.line.saveAndOpen" />
+          </Button>
+        )}
+      </Fragment>
     );
 
     return (

@@ -13,6 +13,7 @@
   "button.delete": "Delete",
   "buttons.line.close": "Close",
   "buttons.line.save": "Save & close",
+  "buttons.line.saveAndOpen": "Save & open order",
   "checkIn.addPiece.error": "Piece was not saved",
   "checkIn.addPiece.success": "Piece was saved successfully",
   "checkIn.addPieceModal.title": "Add piece",

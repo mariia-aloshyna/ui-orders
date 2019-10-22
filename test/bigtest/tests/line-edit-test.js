@@ -5,16 +5,26 @@ import {
 } from '@bigtest/mocha';
 import { expect } from 'chai';
 
+import { ACQUISITION_METHOD } from '../../../src/common/POLFields/DetailsFields/FieldAcquisitionMethod';
 import {
   INVENTORY_RECORDS_TYPE,
   OTHER,
   PHYSICAL,
 } from '../../../src/components/POLine/const';
+import {
+  CONFIG_OPEN_ORDER,
+  MODULE_ORDERS,
+} from '../../../src/components/Utils/const';
 import { DEFAULT_CURRENCY } from '../../../src/components/POLine/Cost/FieldCurrency';
 import calculateEstimatedPrice from '../../../src/components/POLine/calculateEstimatedPrice';
-import { PRODUCT_ID_TYPE } from '../../../src/common/constants';
+import {
+  PRODUCT_ID_TYPE,
+  WORKFLOW_STATUS,
+} from '../../../src/common/constants';
 import setupApplication from '../helpers/setup-application';
 import LineEditPage from '../interactors/line-edit-page';
+import LineDetailsPage from '../interactors/line-details-page';
+import OrderDetailsPage from '../interactors/order-details-page';
 
 const TITLE = 'TEST_VALUE';
 const requiredField = 'Required!';
@@ -38,7 +48,10 @@ describe('Line edit test', function () {
   let vendor = null;
   let contributorNameType = null;
   let identifierType = null;
+  let materialTypes = null;
   const lineEditPage = new LineEditPage();
+  const lineDetailsPage = new LineDetailsPage();
+  const orderDetailsPage = new OrderDetailsPage();
 
   beforeEach(async function () {
     vendor = this.server.create('vendor');
@@ -47,6 +60,7 @@ describe('Line edit test', function () {
     identifierType = this.server.create('identifier-type', {
       name: PRODUCT_ID_TYPE.isbn,
     });
+    materialTypes = this.server.createList('material-type', 2);
 
     locations = [
       {
@@ -57,6 +71,7 @@ describe('Line edit test', function () {
     ];
 
     line = this.server.create('line', {
+      acquisitionMethod: ACQUISITION_METHOD.purchase,
       orderFormat: PHYSICAL,
       cost,
       locations,
@@ -66,6 +81,15 @@ describe('Line edit test', function () {
       vendor: vendor.id,
       compositePoLines: [line.attrs],
       id: line.attrs.purchaseOrderId,
+      approved: true,
+      workflowStatus: WORKFLOW_STATUS.pending,
+    });
+
+    this.server.create('configs', {
+      module: MODULE_ORDERS,
+      configName: CONFIG_OPEN_ORDER,
+      enabled: true,
+      value: '{"isOpenOrderEnabled":true}',
     });
 
     this.visit(`/orders/view/${order.id}/po-line/view/${line.id}?layer=edit-po-line`);
@@ -79,6 +103,7 @@ describe('Line edit test', function () {
     expect(lineEditPage.updateLineButton.isButton).to.be.true;
     expect(lineEditPage.publicationDateField.isInput).to.be.true;
     expect(lineEditPage.orderFormat.isSelect).to.be.true;
+    expect(lineEditPage.saveAndOpenButton.isButton).to.be.true;
   });
 
   describe('Template name', function () {
@@ -349,6 +374,22 @@ describe('Line edit test', function () {
 
     it('Create inventory field includes Instance, Holding, Item', function () {
       expect(lineEditPage.physicalCreateInventory.value).to.be.equal(INVENTORY_RECORDS_TYPE.all);
+    });
+  });
+  describe('Save PO Line and open order', function () {
+    beforeEach(async function () {
+      await lineEditPage.itemDetailsAccordion.inputTitle(TITLE);
+      await lineEditPage.quantityPhysical.fill(2);
+      await lineEditPage.physicalCreateInventory.select('Instance, holding, item');
+      await lineEditPage.physicalDetailsAccordion.materialType(materialTypes[0].name);
+      await lineEditPage.saveAndOpenButton.click();
+      await lineDetailsPage.goBackToOrderButton.click();
+      await orderDetailsPage.whenLoaded();
+    });
+
+    it('POL is saved, PO is open', function () {
+      expect(lineEditPage.isPresent).to.be.false;
+      expect(orderDetailsPage.workflowStatus.value).to.contain(WORKFLOW_STATUS.open);
     });
   });
 });
