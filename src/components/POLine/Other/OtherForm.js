@@ -24,7 +24,10 @@ const OtherForm = ({ order, materialTypes, vendors, formValues }) => {
 
   return (
     <Row>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        md={3}
+      >
         <FieldSelect
           dataOptions={vendors}
           fullWidth
@@ -34,19 +37,28 @@ const OtherForm = ({ order, materialTypes, vendors, formValues }) => {
           disabled={isOpenedOrder}
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        md={3}
+      >
         <FieldDatepicker
           label={<FormattedMessage id="ui-orders.physical.receiptDue" />}
           name="physical.receiptDue"
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        md={3}
+      >
         <FieldDatepicker
           label={<FormattedMessage id="ui-orders.physical.expectedReceiptDate" />}
           name="physical.expectedReceiptDate"
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        md={3}
+      >
         <InventoryRecordTypeSelectField
           label="ui-orders.physical.createInventory"
           name="physical.createInventory"
@@ -54,7 +66,10 @@ const OtherForm = ({ order, materialTypes, vendors, formValues }) => {
           required
         />
       </Col>
-      <Col xs={6}>
+      <Col
+        xs={6}
+        md={3}
+      >
         <FieldMaterialType
           materialTypes={materialTypes}
           name="physical.materialType"

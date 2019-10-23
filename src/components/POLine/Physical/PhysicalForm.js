@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -21,39 +21,61 @@ const PhysicalForm = ({ order, materialTypes, vendors, formValues }) => {
   const isOpenedOrder = isWorkflowStatusOpen(order);
 
   return (
-    <Row>
-      <Col xs={6}>
-        <FieldMaterialSupplier
-          vendors={vendors}
-          disabled={isOpenedOrder}
-        />
-      </Col>
-      <Col xs={6}>
-        <FieldReceiptDue />
-      </Col>
-      <Col xs={6}>
-        <FieldExpectedReceiptDate />
-      </Col>
-      <Col xs={6}>
-        <InventoryRecordTypeSelectField
-          label="ui-orders.physical.createInventory"
-          name="physical.createInventory"
-          disabled={isOpenedOrder}
-          required
-        />
-      </Col>
-      <Col xs={6}>
-        <FieldMaterialType
-          materialTypes={materialTypes}
-          name="physical.materialType"
-          required={isMaterialTypeRequired(formValues, 'physical.createInventory')}
-          disabled={isOpenedOrder}
-        />
-      </Col>
-      <Col xs={6}>
-        <FieldsVolume disabled={isOpenedOrder} />
-      </Col>
-    </Row>
+    <Fragment>
+      <Row>
+        <Col
+          xs={6}
+          md={3}
+        >
+          <FieldMaterialSupplier
+            vendors={vendors}
+            disabled={isOpenedOrder}
+          />
+        </Col>
+        <Col
+          xs={6}
+          md={3}
+        >
+          <FieldReceiptDue />
+        </Col>
+        <Col
+          xs={6}
+          md={3}
+        >
+          <FieldExpectedReceiptDate />
+        </Col>
+        <Col
+          xs={6}
+          md={3}
+        >
+          <InventoryRecordTypeSelectField
+            label="ui-orders.physical.createInventory"
+            name="physical.createInventory"
+            disabled={isOpenedOrder}
+            required
+          />
+        </Col>
+        <Col
+          xs={6}
+          md={3}
+        >
+          <FieldMaterialType
+            materialTypes={materialTypes}
+            name="physical.materialType"
+            required={isMaterialTypeRequired(formValues, 'physical.createInventory')}
+            disabled={isOpenedOrder}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col
+          xs={6}
+          md={3}
+        >
+          <FieldsVolume disabled={isOpenedOrder} />
+        </Col>
+      </Row>
+    </Fragment>
   );
 };
 

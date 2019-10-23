@@ -115,7 +115,10 @@ class CostForm extends Component {
 
     return (
       <Row>
-        <Col xs={6}>
+        <Col
+          xs={6}
+          md={3}
+        >
           <Field
             component={TextField}
             fullWidth
@@ -128,14 +131,20 @@ class CostForm extends Component {
             {...validatePhresourcesPrices}
           />
         </Col>
-        <Col xs={6}>
+        <Col
+          xs={6}
+          md={3}
+        >
           <FieldCurrency
             currencies={currencies}
             disabled={isOpenedOrder}
             required={required}
           />
         </Col>
-        <Col xs={6}>
+        <Col
+          xs={6}
+          md={3}
+        >
           <Field
             component={TextField}
             fullWidth
@@ -147,7 +156,10 @@ class CostForm extends Component {
             {...validatePhresourcesQuantities}
           />
         </Col>
-        <Col xs={6}>
+        <Col
+          xs={6}
+          md={3}
+        >
           <Field
             component={TextField}
             fullWidth
@@ -160,7 +172,10 @@ class CostForm extends Component {
             disabled={isOpenedOrder}
           />
         </Col>
-        <Col xs={6}>
+        <Col
+          xs={6}
+          md={3}
+        >
           <Field
             component={TextField}
             fullWidth
@@ -173,7 +188,10 @@ class CostForm extends Component {
             {...validateEresourcesPrices}
           />
         </Col>
-        <Col xs={6}>
+        <Col
+          xs={6}
+          md={3}
+        >
           <Field
             component={TextField}
             format={(value) => {
@@ -189,7 +207,10 @@ class CostForm extends Component {
             disabled={isOpenedOrder}
           />
         </Col>
-        <Col xs={6}>
+        <Col
+          xs={6}
+          md={3}
+        >
           <Field
             component={TextField}
             fullWidth
@@ -204,6 +225,7 @@ class CostForm extends Component {
         <Col
           data-test-polineestimatedprice
           xs={6}
+          md={3}
         >
           <KeyValue
             label={

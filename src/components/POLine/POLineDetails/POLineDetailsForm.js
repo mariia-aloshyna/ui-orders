@@ -59,13 +59,22 @@ class POLineDetailsForm extends Component {
     return (
       <Fragment>
         <Row>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             {poLine.id && <FieldPOLineNumber />}
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldAcquisitionMethod disabled={isOpenedOrder} />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldOrderFormat
               change={change}
               dispatch={dispatch}
@@ -76,55 +85,97 @@ class POLineDetailsForm extends Component {
               disabled={isOpenedOrder}
             />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <KeyValue label={<FormattedMessage id="ui-orders.poLine.createdOn" />}>
               <FolioFormattedTime dateString={get(poLine, 'metadata.createdDate')} />
             </KeyValue>
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldReceiptDate />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <KeyValue
               label={<FormattedMessage id="ui-orders.poLine.source" />}
               value={sourceLabels[poLine.source]}
             />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldDonor disabled={isOpenedOrder} />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldPaymentStatus workflowStatus={order.workflowStatus} />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldReceiptStatus workflowStatus={order.workflowStatus} />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldSelector disabled={isOpenedOrder} />
           </Col>
-          <Col xs={6}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldRequester disabled={isOpenedOrder} />
           </Col>
         </Row>
         <Row>
-          <Col xs={3}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldCancellationRestriction />
           </Col>
-          <Col xs={3}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldRush disabled={isOpenedOrder} />
           </Col>
-          <Col xs={3}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldCollection disabled={isOpenedOrder} />
           </Col>
-          <Col xs={3}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldCheckInItems disabled={isOpenedOrder} />
           </Col>
         </Row>
         <Row>
-          <Col xs={12}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldCancellationRestrictionNote />
           </Col>
-          <Col xs={12}>
+          <Col
+            xs={6}
+            md={3}
+          >
             <FieldPOLineDescription />
           </Col>
         </Row>
