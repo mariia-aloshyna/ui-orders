@@ -41,6 +41,7 @@ import {
   ORDER_TEMPLATES_ACCORDION,
 } from '../constants';
 import TemplateInformationView from './TemplateInformationView';
+import OrderTemplateTagsView from './OrderTemplateTagsView';
 
 class OrderTemplateView extends Component {
   static propTypes = {
@@ -229,6 +230,13 @@ class OrderTemplateView extends Component {
                 </Accordion>
 
                 <Accordion
+                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_TAGS]}
+                  id={ORDER_TEMPLATES_ACCORDION.PO_TAGS}
+                >
+                  <OrderTemplateTagsView tags={get(orderTemplate, 'poTags.tagList')} />
+                </Accordion>
+
+                <Accordion
                   label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]}
                   id={ORDER_TEMPLATES_ACCORDION.PO_SUMMARY}
                 >
@@ -333,6 +341,13 @@ class OrderTemplateView extends Component {
                     lineLocations={orderTemplate.locations}
                     locations={locations}
                   />
+                </Accordion>
+
+                <Accordion
+                  label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_TAGS]}
+                  id={ORDER_TEMPLATES_ACCORDION.POL_TAGS}
+                >
+                  <OrderTemplateTagsView tags={get(orderTemplate, 'polTags.tagList')} />
                 </Accordion>
               </AccordionSet>
             </Col>

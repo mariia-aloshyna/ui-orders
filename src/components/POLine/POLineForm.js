@@ -139,6 +139,7 @@ class POLineForm extends Component {
         {(btnLabel) => (
           <Button
             id="clickable-close-new-line-dialog-footer"
+            buttonStyle="default mega"
             onClick={onCancel}
           >
             {btnLabel}
@@ -151,6 +152,7 @@ class POLineForm extends Component {
       <Button
         id={id}
         type="submit"
+        buttonStyle="primary mega"
         disabled={pristine || submitting}
         onClick={handleSubmit}
       >

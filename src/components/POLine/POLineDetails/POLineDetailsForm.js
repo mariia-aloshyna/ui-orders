@@ -11,6 +11,7 @@ import {
 import {
   FolioFormattedTime,
   sourceLabels,
+  FieldTags,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -177,6 +178,15 @@ class POLineDetailsForm extends Component {
             md={3}
           >
             <FieldPOLineDescription />
+          </Col>
+          <Col
+            xs={6}
+            md={3}
+          >
+            <FieldTags
+              formName="POLineForm"
+              name="tags.tagList"
+            />
           </Col>
         </Row>
       </Fragment>

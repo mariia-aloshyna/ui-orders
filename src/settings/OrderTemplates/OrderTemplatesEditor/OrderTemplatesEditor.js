@@ -16,6 +16,7 @@ import {
 import stripesForm from '@folio/stripes/form';
 import {
   FundDistributionFields,
+  FieldTags,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -48,6 +49,8 @@ import calculateEstimatedPrice from '../../../components/POLine/calculateEstimat
 
 const ORDER = {};
 
+const ORDER_TEMPLATES_FORM_NAME = 'orderTemplateForm';
+
 class OrderTemplatesEditor extends Component {
   static propTypes = {
     formValues: PropTypes.object.isRequired,
@@ -75,6 +78,7 @@ class OrderTemplatesEditor extends Component {
       [ORDER_TEMPLATES_ACCORDION.PO_INFO]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_NOTES]: false,
+      [ORDER_TEMPLATES_ACCORDION.PO_TAGS]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_DETAILS]: false,
@@ -85,6 +89,7 @@ class OrderTemplatesEditor extends Component {
       [ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_TAGS]: false,
     },
   };
 
@@ -227,6 +232,16 @@ class OrderTemplatesEditor extends Component {
                   </Accordion>
 
                   <Accordion
+                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_TAGS]}
+                    id={ORDER_TEMPLATES_ACCORDION.PO_TAGS}
+                  >
+                    <FieldTags
+                      formName={ORDER_TEMPLATES_FORM_NAME}
+                      name="poTags.tagList"
+                    />
+                  </Accordion>
+
+                  <Accordion
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]}
                     id={ORDER_TEMPLATES_ACCORDION.PO_SUMMARY}
                   >
@@ -340,6 +355,16 @@ class OrderTemplatesEditor extends Component {
                   >
                     <POLineLocationsForm locations={locations} />
                   </Accordion>
+
+                  <Accordion
+                    label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_TAGS]}
+                    id={ORDER_TEMPLATES_ACCORDION.POL_TAGS}
+                  >
+                    <FieldTags
+                      formName={ORDER_TEMPLATES_FORM_NAME}
+                      name="polTags.tagList"
+                    />
+                  </Accordion>
                 </AccordionSet>
               </Col>
             </Row>
@@ -352,6 +377,6 @@ class OrderTemplatesEditor extends Component {
 
 export default stripesForm({
   enableReinitialize: true,
-  form: 'orderTemplateForm',
+  form: ORDER_TEMPLATES_FORM_NAME,
   navigationCheck: true,
 })(OrderTemplatesEditor);

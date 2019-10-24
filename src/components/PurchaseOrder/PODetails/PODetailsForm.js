@@ -13,8 +13,12 @@ import {
 import {
   AcqUnitsField,
   FolioFormattedTime,
+  FieldTags,
 } from '@folio/stripes-acq-components';
 
+import {
+  PO_FORM_NAME,
+} from '../../../common/constants';
 import { getAddressOptions, getVendorOptions } from '../../../common/utils';
 import {
   FieldPrefix,
@@ -208,6 +212,15 @@ class PODetailsForm extends Component {
             <KeyValue
               label={<FormattedMessage id="ui-orders.orderDetails.address" />}
               value={addressShipTo}
+            />
+          </Col>
+          <Col
+            xs={6}
+            lg={3}
+          >
+            <FieldTags
+              formName={PO_FORM_NAME}
+              name="tags.tagList"
             />
           </Col>
         </Row>
