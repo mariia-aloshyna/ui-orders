@@ -659,6 +659,7 @@
   "settings.orderTemplates.accordion.poInfo": "PO information",
   "settings.orderTemplates.accordion.poRenewals": "PO renewal information",
   "settings.orderTemplates.accordion.poNotes": "Notes",
+  "settings.orderTemplates.accordion.poTags": "PO tags",
   "settings.orderTemplates.accordion.poSummary": "PO summary",
   "settings.orderTemplates.accordion.poItemDetails": "Item details",
   "settings.orderTemplates.accordion.polDetails": "PO line details",
@@ -669,12 +670,14 @@
   "settings.orderTemplates.accordion.polFResources": "Physical resource details",
   "settings.orderTemplates.accordion.polOtherResources": "Other resource details",
   "settings.orderTemplates.accordion.polLocation": "Location",
+  "settings.orderTemplates.accordion.polTags": "POL tags",
 
   "settings.orderTemplates.editor.titleCreate": "New order template",
   "settings.orderTemplates.editor.save": "Save",
   "settings.orderTemplates.editor.template.name": "Template name",
   "settings.orderTemplates.editor.template.code": "Code",
   "settings.orderTemplates.editor.template.description": "Description",
+  "settings.orderTemplates.editor.template.tags": "Tags",
 
   "settings.orderTemplates.confirmDelete.confirmLabel": "Confirm",
   "settings.orderTemplates.confirmDelete.heading": "Delete template",

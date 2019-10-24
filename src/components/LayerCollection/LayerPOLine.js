@@ -16,7 +16,10 @@ import {
 import { sourceValues } from '@folio/stripes-acq-components';
 
 import getCreateInventorySetting from '../../common/utils/getCreateInventorySetting';
-import { DISCOUNT_TYPE } from '../POLine/const';
+import {
+  DISCOUNT_TYPE,
+  POL_TEMPLATE_FIELDS_MAP,
+} from '../POLine/const';
 import { cloneOrder } from '../Utils/orderResource';
 import {
   lineMutatorShape,
@@ -208,10 +211,13 @@ class LayerPOLine extends Component {
 
     const { form } = stripes.store.getState();
 
-    const registeredFields = get(form, 'POLineForm.registeredFields', {});
+    Object.keys(get(form, 'POLineForm.registeredFields', {}))
+      .forEach(field => {
+        const templateField = POL_TEMPLATE_FIELDS_MAP[field] || field;
+        const templateFieldValue = get(templateValue, templateField);
 
-    Object.keys(registeredFields)
-      .forEach(field => get(templateValue, field) !== undefined && set(newObj, field, get(templateValue, field)));
+        if (templateFieldValue !== undefined) set(newObj, field, templateFieldValue);
+      });
 
     return newObj;
   };

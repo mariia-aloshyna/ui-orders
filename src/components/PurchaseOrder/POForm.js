@@ -25,17 +25,22 @@ import {
 import { FieldSelection } from '@folio/stripes-acq-components';
 
 import {
+  ORGANIZATION_STATUS_ACTIVE,
+  PO_FORM_NAME,
+} from '../../common/constants';
+import {
   getAddresses,
   getSettingsList,
 } from '../../common/utils';
 import { isOngoing } from '../../common/POFields';
 import getOrderNumberSetting from '../../common/utils/getOrderNumberSetting';
 import getOrderTemplatesForSelect from '../Utils/getOrderTemplatesForSelect';
+import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
+
 import { PODetailsForm } from './PODetails';
 import { SummaryForm } from './Summary';
 import { RenewalsForm } from './renewals';
-import { ORGANIZATION_STATUS_ACTIVE, PO_FORM_NAME } from '../../common/constants';
-import getOrderTemplateValue from '../Utils/getOrderTemplateValue';
+import { PO_TEMPLATE_FIELDS_MAP } from './constants';
 
 const throwError = () => {
   const errorInfo = { poNumber: <FormattedMessage id="ui-orders.errors.orderNumberIsNotValid" /> };
@@ -122,6 +127,7 @@ class POForm extends Component {
         {(btnLabel) => (
           <Button
             id="clickable-close-new-purchase-order-dialog-footer"
+            buttonStyle="default mega"
             onClick={onCancel}
           >
             {btnLabel}
@@ -136,7 +142,7 @@ class POForm extends Component {
           <Button
             id={id}
             type="submit"
-            buttonStyle="primary"
+            buttonStyle="primary mega"
             disabled={pristine || submitting}
             onClick={handleSubmit}
           >
@@ -179,7 +185,12 @@ class POForm extends Component {
     dispatch(change('template', value));
 
     Object.keys(get(form, [PO_FORM_NAME, 'registeredFields'], {}))
-      .forEach(field => get(templateValue, field) && dispatch(change(field, get(templateValue, field))));
+      .forEach(field => {
+        const templateField = PO_TEMPLATE_FIELDS_MAP[field] || field;
+        const templateFieldValue = get(templateValue, templateField);
+
+        if (templateFieldValue) dispatch(change(field, templateFieldValue));
+      });
 
     if (isOngoing(templateValue.orderType)) {
       setTimeout(() => {

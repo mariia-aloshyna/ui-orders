@@ -56,3 +56,7 @@ export const INVENTORY_RECORDS_TYPE_FOR_SELECT = [
 ];
 
 export const ALLOWED_YEAR_LENGTH = 4;
+
+export const POL_TEMPLATE_FIELDS_MAP = {
+  'tags.tagList': 'polTags.tagList',
+};
