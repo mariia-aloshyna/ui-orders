@@ -73,6 +73,7 @@ class OrderTemplateView extends Component {
     sections: {
       [ORDER_TEMPLATES_ACCORDION.TEMPLATE_INFO]: true,
       [ORDER_TEMPLATES_ACCORDION.PO_INFO]: false,
+      [ORDER_TEMPLATES_ACCORDION.PO_TAGS]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_SUMMARY]: false,
       [ORDER_TEMPLATES_ACCORDION.PO_RENEWALS]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_ITEM_DETAILS]: false,
@@ -84,6 +85,7 @@ class OrderTemplateView extends Component {
       [ORDER_TEMPLATES_ACCORDION.POL_FRESOURCES]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_OTHER_RESOURCES]: false,
       [ORDER_TEMPLATES_ACCORDION.POL_LOCATION]: false,
+      [ORDER_TEMPLATES_ACCORDION.POL_TAGS]: false,
     },
     showConfirmDelete: false,
   };
