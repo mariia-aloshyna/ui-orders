@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
   Row,
@@ -13,7 +14,7 @@ import {
   FieldVendorNote,
 } from '../../../../common/POLFields';
 
-const POLineVendorForm = () => {
+const POLineVendorForm = ({ accounts }) => {
   return (
     <Row>
       <Col
@@ -34,7 +35,7 @@ const POLineVendorForm = () => {
         xs={3}
         data-col-order-template-vendor-account
       >
-        <FieldVendorAccountNumber />
+        <FieldVendorAccountNumber accounts={accounts} />
       </Col>
 
       <Col
@@ -52,6 +53,14 @@ const POLineVendorForm = () => {
       </Col>
     </Row>
   );
+};
+
+POLineVendorForm.propTypes = {
+  accounts: PropTypes.arrayOf(PropTypes.object),
+};
+
+POLineVendorForm.defaultProps = {
+  accounts: [],
 };
 
 export default POLineVendorForm;

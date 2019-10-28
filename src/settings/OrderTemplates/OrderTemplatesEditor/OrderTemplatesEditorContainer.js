@@ -83,7 +83,8 @@ class OrderTemplatesEditorContainer extends Component {
     const identifierTypes = getIdentifierTypesForSelect(resources);
     const contributorNameTypes = getContributorNameTypesForSelect(resources);
     const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
-    const vendors = getVendorOptions(get(resources, 'vendors.records', []));
+    const vendors = get(resources, 'vendors.records', []);
+    const vendorOptions = getVendorOptions(vendors);
     const prefixesSetting = getSettingsList(get(resources, 'prefixesSetting.records', {}));
     const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', {}));
     const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
@@ -92,6 +93,11 @@ class OrderTemplatesEditorContainer extends Component {
       ? get(resources, ['orderTemplate', 'records', 0], INITIAL_VALUES)
       : INITIAL_VALUES;
     const title = get(orderTemplate, ['templateName']) || <FormattedMessage id="ui-orders.settings.orderTemplates.editor.titleCreate" />;
+    const vendor = vendors.find(v => v.id === get(formValues, 'vendor'));
+    const accounts = get(vendor, 'accounts', []).map(({ accountNo }) => ({
+      label: accountNo,
+      value: accountNo,
+    }));
 
     return (
       <OrderTemplatesEditor
@@ -106,10 +112,11 @@ class OrderTemplatesEditorContainer extends Component {
         prefixesSetting={prefixesSetting.selectedItems}
         suffixesSetting={suffixesSetting.selectedItems}
         addresses={addresses}
-        vendors={vendors}
+        vendors={vendorOptions}
         materialTypes={materialTypes}
         formValues={formValues}
         contributorNameTypes={contributorNameTypes}
+        accounts={accounts}
       />
     );
   }
