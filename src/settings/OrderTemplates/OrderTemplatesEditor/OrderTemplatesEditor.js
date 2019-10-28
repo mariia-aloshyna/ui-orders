@@ -47,6 +47,8 @@ import POLineOtherResourcesForm from './POLineOtherResourcesForm';
 import POLineLocationsForm from './POLineLocationsForm';
 import calculateEstimatedPrice from '../../../components/POLine/calculateEstimatedPrice';
 
+import css from './OrderTemplatesEditor.css';
+
 const ORDER = {};
 
 const ORDER_TEMPLATES_FORM_NAME = 'orderTemplateForm';
@@ -163,6 +165,7 @@ class OrderTemplatesEditor extends Component {
         <form
           id="order-template-form"
           onSubmit={handleSubmit}
+          className={css.orderTemplatesEditor}
         >
           <Pane
             id="order-settings-order-templates-editor"
@@ -235,10 +238,14 @@ class OrderTemplatesEditor extends Component {
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.PO_TAGS]}
                     id={ORDER_TEMPLATES_ACCORDION.PO_TAGS}
                   >
-                    <FieldTags
-                      formName={ORDER_TEMPLATES_FORM_NAME}
-                      name="poTags.tagList"
-                    />
+                    <Row>
+                      <Col xs={3}>
+                        <FieldTags
+                          formName={ORDER_TEMPLATES_FORM_NAME}
+                          name="poTags.tagList"
+                        />
+                      </Col>
+                    </Row>
                   </Accordion>
 
                   <Accordion
@@ -360,10 +367,14 @@ class OrderTemplatesEditor extends Component {
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_TAGS]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_TAGS}
                   >
-                    <FieldTags
-                      formName={ORDER_TEMPLATES_FORM_NAME}
-                      name="polTags.tagList"
-                    />
+                    <Row>
+                      <Col xs={3}>
+                        <FieldTags
+                          formName={ORDER_TEMPLATES_FORM_NAME}
+                          name="polTags.tagList"
+                        />
+                      </Col>
+                    </Row>
                   </Accordion>
                 </AccordionSet>
               </Col>
