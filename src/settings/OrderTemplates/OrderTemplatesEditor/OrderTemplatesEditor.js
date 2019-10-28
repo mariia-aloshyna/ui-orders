@@ -72,6 +72,7 @@ class OrderTemplatesEditor extends Component {
     vendors: PropTypes.arrayOf(PropTypes.object),
     materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
     title: PropTypes.node,
+    accounts: PropTypes.arrayOf(PropTypes.object),
   };
 
   state = {
@@ -151,6 +152,7 @@ class OrderTemplatesEditor extends Component {
       dispatch,
       change,
       title,
+      accounts,
     } = this.props;
     const { sections } = this.state;
     const orderFormat = formValues.orderFormat;
@@ -299,7 +301,7 @@ class OrderTemplatesEditor extends Component {
                     label={ORDER_TEMPLATES_ACCORDION_TITLES[ORDER_TEMPLATES_ACCORDION.POL_VENDOR]}
                     id={ORDER_TEMPLATES_ACCORDION.POL_VENDOR}
                   >
-                    <POLineVendorForm />
+                    <POLineVendorForm accounts={accounts} />
                   </Accordion>
 
                   <Accordion
