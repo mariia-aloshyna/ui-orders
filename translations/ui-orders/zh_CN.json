@@ -728,5 +728,8 @@
     "requests.request.isOpened": "是",
     "settings.openOrder": "打开采购订单",
     "settings.openOrder.isOpenOrderEnabled": "在创建或编辑采购订单行时，允许保存并打开采购订单",
-    "requests.footer.close": "Close"
+    "requests.footer.close": "Close",
+    "settings.orderTemplates.accordion.poTags": "PO tags",
+    "settings.orderTemplates.accordion.polTags": "POL tags",
+    "settings.orderTemplates.editor.template.tags": "Tags"
 }

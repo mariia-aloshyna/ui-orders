@@ -728,5 +728,8 @@
     "requests.request.isOpened": "نعم",
     "settings.openOrder": "فتح طلبيات الشراء",
     "settings.openOrder.isOpenOrderEnabled": "السماح بحفظ وفتح أمر الشراء عند إنشاء أو تحرير سطر أمر الشراء",
-    "requests.footer.close": "Close"
+    "requests.footer.close": "إغلاق",
+    "settings.orderTemplates.accordion.poTags": "وسوم أمر الشراء",
+    "settings.orderTemplates.accordion.polTags": "وسوم سطر أمر الشراء",
+    "settings.orderTemplates.editor.template.tags": "وسوم"
 }
