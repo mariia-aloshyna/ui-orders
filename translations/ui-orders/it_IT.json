@@ -728,5 +728,8 @@
     "requests.request.isOpened": "Yes",
     "settings.openOrder": "Opening purchase orders",
     "settings.openOrder.isOpenOrderEnabled": "Allow save and open purchase order when creating or editing a purchase order line",
-    "requests.footer.close": "Close"
+    "requests.footer.close": "Close",
+    "settings.orderTemplates.accordion.poTags": "PO tags",
+    "settings.orderTemplates.accordion.polTags": "POL tags",
+    "settings.orderTemplates.editor.template.tags": "Tags"
 }

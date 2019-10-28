@@ -728,5 +728,8 @@
     "requests.request.isOpened": "Sim",
     "settings.openOrder": "Abertura de pedidos",
     "settings.openOrder.isOpenOrderEnabled": "Permitir salvar e abrir um pedido ao criar ou editar uma linha de pedido",
-    "requests.footer.close": "Fechar"
+    "requests.footer.close": "Fechar",
+    "settings.orderTemplates.accordion.poTags": "Tags de pedidos",
+    "settings.orderTemplates.accordion.polTags": "Tags de políticas",
+    "settings.orderTemplates.editor.template.tags": "Tags"
 }

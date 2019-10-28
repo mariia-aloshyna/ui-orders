@@ -728,5 +728,8 @@
     "requests.request.isOpened": "Yes",
     "settings.openOrder": "打開採購訂單",
     "settings.openOrder.isOpenOrderEnabled": "在新增或編輯採購訂單子項目時，允許儲存並開啟採購訂單",
-    "requests.footer.close": "關閉"
+    "requests.footer.close": "關閉",
+    "settings.orderTemplates.accordion.poTags": "PO tags",
+    "settings.orderTemplates.accordion.polTags": "POL tags",
+    "settings.orderTemplates.editor.template.tags": "Tags"
 }
