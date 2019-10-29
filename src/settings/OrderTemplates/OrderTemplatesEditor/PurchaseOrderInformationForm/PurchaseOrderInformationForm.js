@@ -5,6 +5,7 @@ import {
   Row,
   Col,
 } from '@folio/stripes/components';
+import { AcqUnitsField } from '@folio/stripes-acq-components';
 
 import {
   FieldPrefix,
@@ -19,6 +20,7 @@ import {
 import FieldOrderType from '../../../../components/PurchaseOrder/PODetails/FieldOrderType';
 
 const PurchaseOrderInformationForm = ({
+  acqUnitIds,
   prefixesSetting,
   suffixesSetting,
   addresses,
@@ -87,6 +89,16 @@ const PurchaseOrderInformationForm = ({
 
       <Col
         xs={3}
+        data-col-order-template-order-units
+      >
+        <AcqUnitsField
+          name="acqUnitIds"
+          preselectedUnits={acqUnitIds}
+        />
+      </Col>
+
+      <Col
+        xs={3}
         data-col-order-template-manual
       >
         <FieldIsManualPO />
@@ -103,6 +115,7 @@ const PurchaseOrderInformationForm = ({
 };
 
 PurchaseOrderInformationForm.propTypes = {
+  acqUnitIds: PropTypes.arrayOf(PropTypes.string),
   prefixesSetting: PropTypes.arrayOf(PropTypes.object),
   suffixesSetting: PropTypes.arrayOf(PropTypes.object),
   addresses: PropTypes.arrayOf(PropTypes.object),
