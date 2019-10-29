@@ -73,6 +73,7 @@ class OrderTemplatesEditor extends Component {
     materialTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
     title: PropTypes.node,
     accounts: PropTypes.arrayOf(PropTypes.object),
+    initialValues: PropTypes.object,
   };
 
   state = {
@@ -137,6 +138,7 @@ class OrderTemplatesEditor extends Component {
 
   render() {
     const {
+      initialValues,
       identifierTypes,
       contributorNameTypes,
       createInventorySetting,
@@ -208,6 +210,7 @@ class OrderTemplatesEditor extends Component {
                     id={ORDER_TEMPLATES_ACCORDION.PO_INFO}
                   >
                     <PurchaseOrderInformationForm
+                      acqUnitIds={initialValues.acqUnitIds || []}
                       prefixesSetting={prefixesSetting}
                       suffixesSetting={suffixesSetting}
                       addresses={addresses}
