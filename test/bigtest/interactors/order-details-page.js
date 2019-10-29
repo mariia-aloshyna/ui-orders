@@ -18,6 +18,11 @@ import Button from './button';
   value = text('[class*=kvRoot---]');
 }
 
+@interactor class WorkflowStatus {
+  static defaultScope = '[data-test-workflow-status]';
+  value = text('[class*=kvValue---]');
+}
+
 @interactor class Header {
   static defaultScope = '[data-test-order-details] [class*=paneTitleLabel---]';
   title = text();
@@ -51,6 +56,7 @@ export default interactor(class OrderDetailsPage {
   renewalsAccordion = isPresent('#renewals');
   billTo = new BillTo();
   shipTo = new ShipTo();
+  workflowStatus = new WorkflowStatus();
   lines = collection('#POListing [class*=mclRow---]');
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   relatedInvoicesAccordion = new RelatedInvoicesAccordion();

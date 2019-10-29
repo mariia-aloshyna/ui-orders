@@ -28,16 +28,17 @@ import {
 } from './api';
 import {
   CONFIG_ADDRESSES,
+  CONFIG_APPROVALS,
   CONFIG_CLOSING_REASONS,
   CONFIG_CREATE_INVENTORY,
   CONFIG_LINES_LIMIT,
+  CONFIG_OPEN_ORDER,
   CONFIG_ORDER_NUMBER,
   CONFIG_PREFIXES,
   CONFIG_SUFFIXES,
   LIMIT_MAX,
   MODULE_ORDERS,
   MODULE_TENANT,
-  CONFIG_APPROVALS,
 } from './const';
 
 const BASE_RESOURCE = {
@@ -303,4 +304,15 @@ export const VALIDATE_ISBN = {
   accumulate: true,
   fetch: false,
   path: ISBN_VALIDATOR,
+};
+
+export const OPEN_ORDER_SETTING = {
+  ...BASE_RESOURCE,
+  path: CONFIG_API,
+  records: 'configs',
+  GET: {
+    params: {
+      query: `(module=${MODULE_ORDERS} and configName=${CONFIG_OPEN_ORDER})`,
+    },
+  },
 };

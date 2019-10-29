@@ -13,8 +13,12 @@ import {
   Callout,
   Layer,
 } from '@folio/stripes/components';
-import { sourceValues } from '@folio/stripes-acq-components';
+import {
+  getConfigSetting,
+  sourceValues,
+} from '@folio/stripes-acq-components';
 
+import { WORKFLOW_STATUS } from '../../common/constants';
 import getCreateInventorySetting from '../../common/utils/getCreateInventorySetting';
 import {
   DISCOUNT_TYPE,
@@ -25,7 +29,10 @@ import {
   lineMutatorShape,
   orderRecordsMutatorShape,
 } from '../Utils/mutators';
-import { ORDER } from '../Utils/resources';
+import {
+  OPEN_ORDER_SETTING,
+  ORDER,
+} from '../Utils/resources';
 import { POLineForm } from '../POLine';
 import LinesLimit from '../PurchaseOrder/LinesLimit';
 import { DEFAULT_CURRENCY } from '../POLine/Cost/FieldCurrency';
@@ -49,6 +56,7 @@ const ERROR_CODES = {
 class LayerPOLine extends Component {
   static manifest = Object.freeze({
     order: ORDER,
+    openOrderSetting: OPEN_ORDER_SETTING,
   });
 
   static propTypes = {
@@ -66,6 +74,7 @@ class LayerPOLine extends Component {
       connect: PropTypes.func.isRequired,
     }).isRequired,
     onCancel: PropTypes.func.isRequired,
+    mutator: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -115,13 +124,14 @@ class LayerPOLine extends Component {
     }
   };
 
-  submitPOLine = (line) => {
+  submitPOLine = ({ saveAndOpen, ...line }) => {
     const newLine = cloneDeep(line);
     const { parentMutator: { poLine }, onCancel } = this.props;
 
     delete newLine.template;
 
     poLine.POST(newLine)
+      .then(() => this.openOrder(saveAndOpen))
       .then(() => onCancel())
       .catch(e => this.handleErrorResponse(e, line));
   };
@@ -156,11 +166,28 @@ class LayerPOLine extends Component {
     }
   };
 
-  updatePOLine = (data) => {
+  openOrder = (saveAndOpen) => {
+    const { mutator } = this.props;
+    const order = this.getOrder();
+
+    return saveAndOpen
+      ? mutator.order.PUT({
+        ...order,
+        workflowStatus: WORKFLOW_STATUS.open,
+      })
+      : Promise.resolve();
+  }
+
+  updatePOLine = ({ saveAndOpen, ...data }) => {
     const line = cloneDeep(data);
-    const { parentMutator, location: { pathname } } = this.props;
+    const { location: { pathname }, parentMutator } = this.props;
 
     parentMutator.poLine.PUT(line)
+      .then(() => this.callout.current.sendCallout({
+        type: 'success',
+        message: <FormattedMessage id="ui-orders.success" />,
+      }))
+      .then(() => this.openOrder(saveAndOpen))
       .then(() => {
         parentMutator.query.update({
           _path: `${pathname}`,
@@ -241,12 +268,17 @@ class LayerPOLine extends Component {
       onCancel,
       parentMutator,
       parentResources,
+      resources,
       stripes,
     } = this.props;
     const { layer } = location.search ? queryString.parse(location.search) : {};
     const order = this.getOrder();
     const { vendor: vendorId } = order || {};
     const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === vendorId);
+    const { isOpenOrderEnabled } = getConfigSetting(get(resources, 'openOrderSetting.records', {}));
+    const isSaveAndOpenButtonVisible = isOpenOrderEnabled
+      && get(order, 'approved')
+      && get(order, 'workflowStatus') === WORKFLOW_STATUS.pending;
 
     if (this.isLoading()) {
       return null;
@@ -266,6 +298,7 @@ class LayerPOLine extends Component {
             parentMutator={parentMutator}
             parentResources={parentResources}
             stripes={stripes}
+            isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
           />
           {this.state.isLinesLimitExceededModalOpened && (
             <LinesLimit
@@ -292,6 +325,7 @@ class LayerPOLine extends Component {
             parentMutator={parentMutator}
             parentResources={parentResources}
             stripes={stripes}
+            isSaveAndOpenButtonVisible={isSaveAndOpenButtonVisible}
           />
           <Callout ref={this.callout} />
         </Layer>
