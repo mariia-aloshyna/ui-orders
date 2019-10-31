@@ -18,7 +18,7 @@ describe('Create order', function () {
       module: MODULE_ORDERS,
       configName: CONFIG_SUFFIXES,
       enabled: true,
-      value: '{"selectedItems":["SS"],"suffixes":["SS1","SS2","SS"]}',
+      value: '{"name": "SS","description":"SS1"}',
     });
     this.server.create('orderTemplate', {
       orderType: ORDER_TYPE.oneTime,

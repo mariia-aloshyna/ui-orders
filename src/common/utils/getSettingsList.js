@@ -1,22 +1,19 @@
-import { get } from 'lodash';
+import { sortBy } from 'lodash';
 
 // eslint-disable-next-line import/prefer-default-export
 export const getSettingsList = (configs) => {
-  let settingsList = get(configs, [0, 'value'], '{}');
-  const config = {
-    selectedItems: [],
-    items: [],
-  };
+  const settingsList = (configs || []).map(({ value }) => {
+    try {
+      const name = JSON.parse(value).name;
 
-  try {
-    settingsList = JSON.parse(settingsList);
-  } catch (e) {
-    settingsList = {};
-  }
+      return {
+        label: name,
+        value: name,
+      };
+    } catch (e) {
+      return undefined;
+    }
+  }).filter(setting => setting);
 
-  Object.assign(config, settingsList);
-  config.selectedItems = config.selectedItems.map(item => ({ label: item, value: item }));
-  config.items = config.items.map(item => ({ label: item, value: item }));
-
-  return config;
+  return sortBy(settingsList, 'label');
 };

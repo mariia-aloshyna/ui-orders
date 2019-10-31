@@ -85,8 +85,8 @@ class OrderTemplatesEditorContainer extends Component {
     const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
     const vendors = get(resources, 'vendors.records', []);
     const vendorOptions = getVendorOptions(vendors);
-    const prefixesSetting = getSettingsList(get(resources, 'prefixesSetting.records', {}));
-    const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', {}));
+    const prefixesSetting = getSettingsList(get(resources, 'prefixesSetting.records', []));
+    const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', []));
     const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
     const materialTypes = getMaterialTypesForSelect(resources);
     const orderTemplate = get(match, ['params', 'id'])
@@ -109,8 +109,8 @@ class OrderTemplatesEditorContainer extends Component {
         identifierTypes={identifierTypes}
         locations={locations}
         createInventorySetting={createInventorySetting}
-        prefixesSetting={prefixesSetting.selectedItems}
-        suffixesSetting={suffixesSetting.selectedItems}
+        prefixesSetting={prefixesSetting}
+        suffixesSetting={suffixesSetting}
         addresses={addresses}
         vendors={vendorOptions}
         materialTypes={materialTypes}

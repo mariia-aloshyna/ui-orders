@@ -88,7 +88,7 @@ class PODetailsForm extends Component {
           <Col xs={4}>
             <FieldPrefix
               disabled={isOpenedOrder}
-              prefixes={prefixesSetting.selectedItems}
+              prefixes={prefixesSetting}
             />
           </Col>
           <Col xs={4}>
@@ -104,7 +104,7 @@ class PODetailsForm extends Component {
           <Col xs={4}>
             <FieldSuffix
               disabled={isOpenedOrder}
-              suffixes={suffixesSetting.selectedItems}
+              suffixes={suffixesSetting}
             />
           </Col>
         </Row>
