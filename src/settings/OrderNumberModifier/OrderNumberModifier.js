@@ -12,6 +12,7 @@ import {
   TextArea,
   TextField,
 } from '@folio/stripes/components';
+import { LIMIT_MAX } from '@folio/stripes-acq-components';
 
 import css from './OrderNumberModifier.css';
 
@@ -39,7 +40,13 @@ const fieldComponents = {
 };
 
 const parseRow = row => {
-  const value = JSON.parse(row.value || '{}');
+  let value;
+
+  try {
+    value = JSON.parse(row.value || '{}');
+  } catch (e) {
+    value = {};
+  }
 
   return {
     name: value.name,
@@ -75,7 +82,7 @@ export const getOrderNumberModifierManifest = (moduleName, configName) => {
       GET: {
         params: {
           query: `(module=${moduleName} and configName=${configName})`,
-          limit: '500',
+          limit: LIMIT_MAX,
         },
       },
     },
