@@ -14,6 +14,8 @@ import {
 } from '@folio/stripes/components';
 import { LIMIT_MAX } from '@folio/stripes-acq-components';
 
+import { CONFIG_API } from '../../components/Utils/api';
+
 import css from './OrderNumberModifier.css';
 
 const fieldComponents = {
@@ -69,20 +71,20 @@ export const getOrderNumberModifierManifest = (moduleName, configName) => {
   return Object.freeze({
     values: {
       type: 'okapi',
-      path: 'configurations/entries',
+      path: CONFIG_API,
       records: 'configs',
       throwErrors: false,
       clientGeneratePk: true,
       PUT: {
-        path: 'configurations/entries/%{activeRecord.id}',
+        path: `${CONFIG_API}/%{activeRecord.id}`,
       },
       DELETE: {
-        path: 'configurations/entries/%{activeRecord.id}',
+        path: `${CONFIG_API}/%{activeRecord.id}`,
       },
       GET: {
         params: {
           query: `(module=${moduleName} and configName=${configName})`,
-          limit: LIMIT_MAX,
+          limit: LIMIT_MAX.toString(),
         },
       },
     },
