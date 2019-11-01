@@ -542,7 +542,7 @@
     "paneBlock.checkInBtn": "Devolução",
     "openOrderModal.title": "Aberto - pedido - {orderNumber}",
     "openOrderModal.submit": "Enviar",
-    "openOrderModal.cancel": "Cancelar",
+    "openOrderModal.cancel": "Fechar",
     "openOrderModal.message": "Tem certeza de que deseja abrir o pedido?",
     "paneBlock.openBtn": "Abrir",
     "errors.orderGenericError1": "O pedido não pôde ser salvo.",
@@ -571,8 +571,8 @@
     "errors.noCreateItemPlugin": "[nenhum plugin de criação de item de inventário]",
     "vendor.accountNumber": "Número da conta",
     "receiving.comment": "Comentários",
-    "buttons.line.save": "Salvar",
-    "paneMenu.saveOrder": "Salvar",
+    "buttons.line.save": "Salvar e fechar",
+    "paneMenu.saveOrder": "Salvar e fechar",
     "order.vendorCode": "Código do fornecedor",
     "order.orderType": "Tipo de pedido",
     "order.createdDate": "Data de criação",
@@ -731,5 +731,12 @@
     "requests.footer.close": "Fechar",
     "settings.orderTemplates.accordion.poTags": "Tags de pedidos",
     "settings.orderTemplates.accordion.polTags": "Tags de políticas",
-    "settings.orderTemplates.editor.template.tags": "Tags"
+    "settings.orderTemplates.editor.template.tags": "Tags",
+    "buttons.line.saveAndOpen": "Salvar e abrir pedido",
+    "errors.userHasNoPermission": "Este pedido não pode ser salvo até que a unidade de aquisição seja removida ou corrigida",
+    "order.saveError.title": "Pedido não foi salvo",
+    "settings.poNumber.modifier.name": "Nome",
+    "settings.poNumber.modifier.description": "Descrição",
+    "settings.poNumber.prefix": "Prefixo",
+    "settings.poNumber.suffix": "Sufixo"
 }
