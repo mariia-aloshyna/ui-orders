@@ -542,7 +542,7 @@
     "paneBlock.checkInBtn": "Check-in",
     "openOrderModal.title": "Open - purchase order - {orderNumber}",
     "openOrderModal.submit": "Submit",
-    "openOrderModal.cancel": "Cancel",
+    "openOrderModal.cancel": "Close",
     "openOrderModal.message": "Are you sure you want to open the order?",
     "paneBlock.openBtn": "Open",
     "errors.orderGenericError1": "Order could not be saved.",
@@ -731,5 +731,12 @@
     "requests.footer.close": "Close",
     "settings.orderTemplates.accordion.poTags": "PO tags",
     "settings.orderTemplates.accordion.polTags": "POL tags",
-    "settings.orderTemplates.editor.template.tags": "Tags"
+    "settings.orderTemplates.editor.template.tags": "Tags",
+    "buttons.line.saveAndOpen": "Save & open order",
+    "errors.userHasNoPermission": "This purchase order cannot be saved until the acquisition unit is removed or corrected",
+    "order.saveError.title": "Purchase order not saved",
+    "settings.poNumber.modifier.name": "Name",
+    "settings.poNumber.modifier.description": "Description",
+    "settings.poNumber.prefix": "Prefix",
+    "settings.poNumber.suffix": "Suffix"
 }

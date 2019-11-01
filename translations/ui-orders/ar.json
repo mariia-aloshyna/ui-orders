@@ -731,5 +731,12 @@
     "requests.footer.close": "إغلاق",
     "settings.orderTemplates.accordion.poTags": "وسوم أمر الشراء",
     "settings.orderTemplates.accordion.polTags": "وسوم سطر أمر الشراء",
-    "settings.orderTemplates.editor.template.tags": "وسوم"
+    "settings.orderTemplates.editor.template.tags": "وسوم",
+    "buttons.line.saveAndOpen": "حفظ وفتح الطلبية",
+    "errors.userHasNoPermission": "لا يمكن حفظ أمر الشراء هذا حتى إزالة وحدة التزويد أو تصحيحها",
+    "order.saveError.title": "لم يتم حفظ أمر الشراء",
+    "settings.poNumber.modifier.name": "Name",
+    "settings.poNumber.modifier.description": "Description",
+    "settings.poNumber.prefix": "Prefix",
+    "settings.poNumber.suffix": "Suffix"
 }
