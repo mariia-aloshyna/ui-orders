@@ -15,6 +15,7 @@ import {
 } from '@folio/stripes/components';
 import {
   getConfigSetting,
+  LoadingPane,
   sourceValues,
 } from '@folio/stripes-acq-components';
 
@@ -24,12 +25,16 @@ import {
   DISCOUNT_TYPE,
   POL_TEMPLATE_FIELDS_MAP,
 } from '../POLine/const';
-import { cloneOrder } from '../Utils/orderResource';
+import {
+  cloneOrder,
+  updateOrderResource,
+} from '../Utils/orderResource';
 import {
   lineMutatorShape,
   orderRecordsMutatorShape,
 } from '../Utils/mutators';
 import {
+  APPROVALS_SETTING,
   OPEN_ORDER_SETTING,
   ORDER,
 } from '../Utils/resources';
@@ -57,6 +62,7 @@ class LayerPOLine extends Component {
   static manifest = Object.freeze({
     order: ORDER,
     openOrderSetting: OPEN_ORDER_SETTING,
+    approvalsSetting: APPROVALS_SETTING,
   });
 
   static propTypes = {
@@ -69,6 +75,7 @@ class LayerPOLine extends Component {
     }),
     parentResources: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
+    showToast: PropTypes.func.isRequired,
     stripes: PropTypes.shape({
       store: PropTypes.object.isRequired,
       connect: PropTypes.func.isRequired,
@@ -126,13 +133,16 @@ class LayerPOLine extends Component {
 
   submitPOLine = ({ saveAndOpen, ...line }) => {
     const newLine = cloneDeep(line);
-    const { parentMutator: { poLine }, onCancel } = this.props;
+    const { parentMutator: { poLine }, onCancel, showToast } = this.props;
 
     delete newLine.template;
 
     poLine.POST(newLine)
       .then(() => this.openOrder(saveAndOpen))
-      .then(() => onCancel())
+      .then(() => {
+        showToast('ui-orders.line.create.success', 'success');
+        onCancel();
+      })
       .catch(e => this.handleErrorResponse(e, line));
   };
 
@@ -167,28 +177,28 @@ class LayerPOLine extends Component {
   };
 
   openOrder = (saveAndOpen) => {
-    const { mutator } = this.props;
+    const { mutator, showToast } = this.props;
     const order = this.getOrder();
 
     return saveAndOpen
-      ? mutator.order.PUT({
-        ...order,
-        workflowStatus: WORKFLOW_STATUS.open,
-      })
+      ? updateOrderResource(order, mutator.order, { workflowStatus: WORKFLOW_STATUS.open })
+        .then(() => {
+          showToast('ui-orders.order.open.success', 'success', { orderNumber: order.poNumber });
+        })
+        .catch(() => {
+          showToast('ui-orders.errors.openOrder', 'error', { orderNumber: order.poNumber });
+        })
       : Promise.resolve();
   }
 
   updatePOLine = ({ saveAndOpen, ...data }) => {
     const line = cloneDeep(data);
-    const { location: { pathname }, parentMutator } = this.props;
+    const { location: { pathname }, parentMutator, showToast } = this.props;
 
     parentMutator.poLine.PUT(line)
-      .then(() => this.callout.current.sendCallout({
-        type: 'success',
-        message: <FormattedMessage id="ui-orders.success" />,
-      }))
       .then(() => this.openOrder(saveAndOpen))
       .then(() => {
+        showToast('ui-orders.line.update.success', 'success', { lineNumber: line.poLineNumber });
         parentMutator.query.update({
           _path: `${pathname}`,
           layer: null,
@@ -249,18 +259,6 @@ class LayerPOLine extends Component {
     return newObj;
   };
 
-  isConfigLoaded() {
-    return Boolean(get(this.props.parentResources, 'createInventory.hasLoaded'));
-  }
-
-  isOrderLoaded() {
-    return Boolean(get(this.props.resources, 'order.hasLoaded'));
-  }
-
-  isLoading() {
-    return Boolean(!this.isOrderLoaded() || !this.isConfigLoaded());
-  }
-
   render() {
     const {
       connectedSource,
@@ -276,12 +274,20 @@ class LayerPOLine extends Component {
     const { vendor: vendorId } = order || {};
     const vendor = get(parentResources, 'vendors.records', []).find(d => d.id === vendorId);
     const { isOpenOrderEnabled } = getConfigSetting(get(resources, 'openOrderSetting.records', {}));
+    const { isApprovalRequired } = getConfigSetting(get(resources, 'approvalsSetting.records', {}));
+    const isOrderApproved = isApprovalRequired ? get(order, 'approved') : true;
     const isSaveAndOpenButtonVisible = isOpenOrderEnabled
-      && get(order, 'approved')
+      && isOrderApproved
       && get(order, 'workflowStatus') === WORKFLOW_STATUS.pending;
+    const isLoading = !(
+      get(parentResources, 'createInventory.hasLoaded') &&
+      get(resources, 'order.hasLoaded') &&
+      get(resources, 'openOrderSetting.hasLoaded') &&
+      get(resources, 'approvalsSetting.hasLoaded')
+    );
 
-    if (this.isLoading()) {
-      return null;
+    if (isLoading) {
+      return <LoadingPane onClose={onCancel} />;
     } else if (layer === 'create-po-line') {
       return (
         <Layer
