@@ -64,6 +64,7 @@ describe('Edit PO Line - Save updated PO Line', function () {
     await lineEditPage.physicalDetailsAccordion.toggle();
     await lineEditPage.physicalCreateInventory.select(INVENTORY_RECORDS_TYPE.none);
     await lineEditPage.updateLineButton.click();
+    await lineDetailsPage.whenLoaded();
   });
 
   it('displays updated PO Line Details pane', () => {

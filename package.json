@@ -50,9 +50,10 @@
         "displayName": "Orders: Permissions required to call services apart from mod-orders",
         "description": "",
         "subPermissions": [
+          "acquisitions-units.memberships.collection.get",
           "circulation.requests.collection.get",
           "configuration.entries.collection.get",
-          "finance-storage.funds.collection.get",
+          "finance.funds.collection.get",
           "inventory-storage.contributor-name-types.collection.get",
           "inventory-storage.identifier-types.collection.get",
           "inventory-storage.locations.collection.get",
