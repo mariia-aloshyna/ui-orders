@@ -738,5 +738,11 @@
     "settings.poNumber.modifier.name": "Nome",
     "settings.poNumber.modifier.description": "Descrição",
     "settings.poNumber.prefix": "Prefixo",
-    "settings.poNumber.suffix": "Sufixo"
+    "settings.poNumber.suffix": "Sufixo",
+    "errors.openOrder": "O <b>Pedido de Compra - {orderNumber}</b> não foi <b>aberto</b>",
+    "order.open.success": "O <b>Pedido de compra - {orderNumber}</b> foi <b>aberto</b> com sucesso",
+    "line.update.success": "A linha do pedido de compra {lineNumber} foi atualizada com sucesso",
+    "line.create.success": "A linha do pedido foi criada com sucesso",
+    "settings.orderTemplates.save.success": "O modelo foi salvo",
+    "settings.orderTemplates.save.error": "O modelo não foi salvo"
 }

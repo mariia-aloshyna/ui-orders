@@ -735,8 +735,14 @@
     "buttons.line.saveAndOpen": "حفظ وفتح الطلبية",
     "errors.userHasNoPermission": "لا يمكن حفظ أمر الشراء هذا حتى إزالة وحدة التزويد أو تصحيحها",
     "order.saveError.title": "لم يتم حفظ أمر الشراء",
-    "settings.poNumber.modifier.name": "Name",
-    "settings.poNumber.modifier.description": "Description",
-    "settings.poNumber.prefix": "Prefix",
-    "settings.poNumber.suffix": "Suffix"
+    "settings.poNumber.modifier.name": "الاسم",
+    "settings.poNumber.modifier.description": "الوصف",
+    "settings.poNumber.prefix": "بادئة",
+    "settings.poNumber.suffix": "لاحقة",
+    "errors.openOrder": "لم يتم <b>فتح</b> <b>أمر الشراء - {orderNumber}</b>",
+    "order.open.success": "تم <b>فتح</b> <b>أمر الشراء - {orderNumber}</b> بنجاح",
+    "line.update.success": "تم تحديث خط أمر الشراء {lineNumber} بنجاح",
+    "line.create.success": "تم إنشاء خط أمر الشراء بنجاح",
+    "settings.orderTemplates.save.success": "The template was saved",
+    "settings.orderTemplates.save.error": "The template was not saved"
 }
