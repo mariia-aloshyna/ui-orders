@@ -738,5 +738,11 @@
     "settings.poNumber.modifier.name": "Name",
     "settings.poNumber.modifier.description": "Description",
     "settings.poNumber.prefix": "Prefix",
-    "settings.poNumber.suffix": "Suffix"
+    "settings.poNumber.suffix": "Suffix",
+    "errors.openOrder": "The <b>Purchase order - {orderNumber}</b> has not been <b>opened</b>",
+    "order.open.success": "The <b>Purchase order - {orderNumber}</b> has been successfully <b>opened</b>",
+    "line.update.success": "The purchase order line {lineNumber} was successfully updated",
+    "line.create.success": "The purchase order line was successfully created",
+    "settings.orderTemplates.save.success": "The template was saved",
+    "settings.orderTemplates.save.error": "The template was not saved"
 }
