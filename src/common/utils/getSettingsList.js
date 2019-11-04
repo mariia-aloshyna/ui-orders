@@ -15,5 +15,5 @@ export const getSettingsList = (configs) => {
     }
   }).filter(setting => setting);
 
-  return sortBy(settingsList, 'label');
+  return sortBy(settingsList, ({ label = '' }) => label.toLowerCase());
 };
