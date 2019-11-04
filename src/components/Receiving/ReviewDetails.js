@@ -54,6 +54,8 @@ const ReviewDetails = ({
       }}
       onRowClick={undefined}
       isSelected={isSelected}
+      interactive={false}
+      selectedClass="noClass"
     />
   );
 };

@@ -104,6 +104,8 @@ const ItemsListModal = ({
         }}
         onRowClick={undefined}
         isSelected={isSelected}
+        interactive={false}
+        selectedClass="noClass"
       />
     </Modal>
   );

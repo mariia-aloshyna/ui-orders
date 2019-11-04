@@ -56,6 +56,7 @@ const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
       formatter={resultFormatter}
       visibleColumns={visibleColumns}
       columnMapping={columnMapping}
+      interactive={false}
     />
   );
 };

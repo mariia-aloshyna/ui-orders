@@ -97,6 +97,8 @@ const LineDetails = ({
       }}
       onRowClick={undefined}
       isSelected={isSelected}
+      interactive={false}
+      selectedClass="noClass"
     />
   );
 };
