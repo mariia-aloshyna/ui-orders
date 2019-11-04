@@ -60,6 +60,7 @@
           "inventory-storage.material-types.collection.get",
           "inventory.items.collection.get",
           "organizations-storage.organizations.collection.get",
+          "tags.collection.get",
           "users.collection.get"
         ]
       },
