@@ -258,6 +258,8 @@ class ReceivingList extends Component {
               }}
               onRowClick={undefined}
               isSelected={this.isSelected}
+              interactive={false}
+              selectedClass="noClass"
             />
             {this.state.isItemDetailsModalOpened && (
               <this.connectedItemDetails

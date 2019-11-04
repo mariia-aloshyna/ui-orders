@@ -64,6 +64,8 @@ const PiecesList = ({ renderActions, checkedItemsMap, items = [], toggleItem, to
       }}
       onRowClick={undefined}
       isSelected={isSelected}
+      interactive={false}
+      selectedClass="noClass"
     />
   );
 };

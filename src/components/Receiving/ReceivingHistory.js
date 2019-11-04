@@ -284,6 +284,8 @@ class ReceivingHistory extends Component {
               visibleColumns={['isChecked', 'title', 'poLineNumber', 'dateOrdered', 'dateReceived', 'barcode', 'comment', 'receivingNote', 'receivingStatus']}
               onRowClick={undefined}
               isSelected={this.isSelected}
+              interactive={false}
+              selectedClass="noClass"
             />
           </Pane>
         </Paneset>
