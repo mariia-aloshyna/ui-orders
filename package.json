@@ -51,6 +51,7 @@
         "description": "",
         "subPermissions": [
           "acquisitions-units.memberships.collection.get",
+          "acquisitions-units.units.collection.get",
           "circulation.requests.collection.get",
           "configuration.entries.collection.get",
           "finance.funds.collection.get",
