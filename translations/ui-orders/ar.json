@@ -743,6 +743,6 @@
     "order.open.success": "تم <b>فتح</b> <b>أمر الشراء - {orderNumber}</b> بنجاح",
     "line.update.success": "تم تحديث خط أمر الشراء {lineNumber} بنجاح",
     "line.create.success": "تم إنشاء خط أمر الشراء بنجاح",
-    "settings.orderTemplates.save.success": "The template was saved",
-    "settings.orderTemplates.save.error": "The template was not saved"
+    "settings.orderTemplates.save.success": "تم حفظ القالب",
+    "settings.orderTemplates.save.error": "لم يتم حفظ القالب"
 }
