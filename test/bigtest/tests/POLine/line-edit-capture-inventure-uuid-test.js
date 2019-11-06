@@ -67,7 +67,7 @@ describe('Line edit test - Capture UUID from inventory', function () {
   });
 
   it('Item details fields are shown', () => {
-    expect(lineEditPage.instanceId).to.be.equal(INSTANCE_ID);
+    expect(lineEditPage.connectedTitleLabel).to.be.true;
   });
 
   describe('Remove instance ID from form', () => {
@@ -77,8 +77,8 @@ describe('Line edit test - Capture UUID from inventory', function () {
       await lineEditPage.itemDetailsAccordion.publisher('');
     });
 
-    it('instance id is not shown', () => {
-      expect(lineEditPage.instanceId).to.be.equal('');
+    it('connected link is not shown', () => {
+      expect(lineEditPage.connectedTitleLabel).to.be.false;
     });
   });
 
@@ -87,8 +87,8 @@ describe('Line edit test - Capture UUID from inventory', function () {
       await lineEditPage.addContributorButton.click();
     });
 
-    it('instance id is shown', () => {
-      expect(lineEditPage.instanceId).to.be.equal(INSTANCE_ID);
+    it('connected link is shown', () => {
+      expect(lineEditPage.connectedTitleLabel).to.be.true;
     });
   });
 
@@ -98,8 +98,8 @@ describe('Line edit test - Capture UUID from inventory', function () {
       await lineEditPage.removeProductIdsButton.click();
     });
 
-    it('instance id is not shown', () => {
-      expect(lineEditPage.instanceId).to.be.equal('');
+    it('connected link is not shown', () => {
+      expect(lineEditPage.connectedTitleLabel).to.be.false;
     });
   });
 });

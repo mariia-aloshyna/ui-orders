@@ -391,6 +391,7 @@
   "itemDetails.addMaterialTypesBtn": "Add material types",
   "itemDetails.addProductId": "Please add product ID and product ID type",
   "itemDetails.addProductIdBtn": "Add product ID and product ID type",
+  "itemDetails.connectedTitle": "Connected",
   "itemDetails.contributor": "Contributor",
   "itemDetails.contributors": "Contributors",
   "itemDetails.contributorType": "Contributor type",

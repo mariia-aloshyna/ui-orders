@@ -4,6 +4,10 @@
   justify-content: space-between;
 }
 
+.titleWrapper div label {
+  justify-content: space-between;
+}
+
 .addButton {
   margin-left: 20px;
 }

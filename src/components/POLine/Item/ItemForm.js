@@ -4,11 +4,14 @@ import PropTypes from 'prop-types';
 import {
   Field,
 } from 'redux-form';
+import { Link } from 'react-router-dom';
 
 import { get } from 'lodash';
 
 import {
   Col,
+  Icon,
+  Label,
   Row,
   TextArea,
   TextField,
@@ -157,6 +160,34 @@ class ItemForm extends Component {
     return <InstancePlugin addInstance={this.onAddInstance} />;
   };
 
+  getTitleLabel = () => {
+    const { required, formValues } = this.props;
+    const instanceId = get(formValues, 'instanceId');
+    const title = (
+      <Label required={required}>
+        <FormattedMessage id="ui-orders.itemDetails.title" />
+      </Label>
+    );
+    const connectedTitle = (
+      <Fragment>
+        {title}
+        <Link
+          data-test-connected-link
+          to={`/inventory/view/${instanceId}`}
+          target="_blank"
+        >
+          <FormattedMessage id="ui-orders.itemDetails.connectedTitle" />
+          <Icon
+            size="small"
+            icon="external-link"
+          />
+        </Link>
+      </Fragment>
+    );
+
+    return instanceId ? connectedTitle : title;
+  }
+
   render() {
     const isOpenedOrder = isWorkflowStatusOpen(this.props.order);
     const {
@@ -176,10 +207,9 @@ class ItemForm extends Component {
               <Field
                 component={TextField}
                 fullWidth
-                label={<FormattedMessage id="ui-orders.itemDetails.title" />}
+                label={this.getTitleLabel()}
                 name="title"
                 onChange={(e, value) => this.onChangeField(value, 'title')}
-                required={required}
                 validate={required ? validateRequired : undefined}
                 disabled={isOpenedOrder}
               />
@@ -305,18 +335,6 @@ class ItemForm extends Component {
               fullWidth
               label={<FormattedMessage id="ui-orders.itemDetails.description" />}
               name="description"
-            />
-          </Col>
-          <Col
-            xs={6}
-            md={3}
-          >
-            <Field
-              component={TextField}
-              fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.instanceId" />}
-              name="instanceId"
-              readOnly
             />
           </Col>
         </Row>
