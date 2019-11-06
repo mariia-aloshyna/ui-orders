@@ -205,7 +205,7 @@ export default interactor(class LineEditPage {
   accountNumber = value('[name="vendorDetail.vendorAccount"]');
   currency = value('[name="cost.currency"]');
   subscriptionInterval = value('[name="details.subscriptionInterval"]');
-  instanceId = value('[name="instanceId"]');
+  connectedTitleLabel = isPresent('[data-test-connected-link]');
   addProductIdsButton = new Button('#productIds-add-button');
   removeProductIdsButton = new Button('#productIds [data-test-repeatable-field-remove-item-button]');
   isLoaded = isPresent('[class*=paneTitleLabel---]');
