@@ -333,7 +333,7 @@ class ItemForm extends Component {
             <Field
               component={TextArea}
               fullWidth
-              label={<FormattedMessage id="ui-orders.itemDetails.description" />}
+              label={<FormattedMessage id="ui-orders.itemDetails.internalNote" />}
               name="description"
             />
           </Col>

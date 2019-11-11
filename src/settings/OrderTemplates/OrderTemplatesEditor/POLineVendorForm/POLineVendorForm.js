@@ -11,7 +11,6 @@ import {
   FieldVendorRefNumber,
   FieldVendorInstructions,
   FieldVendorAccountNumber,
-  FieldVendorNote,
 } from '../../../../common/POLFields';
 
 const POLineVendorForm = ({ accounts }) => {
@@ -36,13 +35,6 @@ const POLineVendorForm = ({ accounts }) => {
         data-col-order-template-vendor-account
       >
         <FieldVendorAccountNumber accounts={accounts} />
-      </Col>
-
-      <Col
-        xs={3}
-        data-col-order-template-vendor-note
-      >
-        <FieldVendorNote />
       </Col>
 
       <Col

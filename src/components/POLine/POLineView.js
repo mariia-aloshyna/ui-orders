@@ -18,7 +18,10 @@ import {
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
-import { ViewMetaData } from '@folio/stripes/smart-components';
+import {
+  NotesSmartAccordion,
+  ViewMetaData,
+} from '@folio/stripes/smart-components';
 
 import {
   FundDistributionView,
@@ -29,7 +32,12 @@ import {
   isCheckInAvailableForLine,
   isReceiveAvailableForLine,
 } from '../PurchaseOrder/util';
-import { WORKFLOW_STATUS } from '../../common/constants';
+import {
+  NOTE_TYPES,
+  NOTES_ROUTE,
+  ORDERS_DOMAIN,
+  WORKFLOW_STATUS,
+} from '../../common/constants';
 
 import LocationView from './Location/LocationView';
 import { POLineDetails } from './POLineDetails';
@@ -91,6 +99,7 @@ class POLineView extends Component {
         [ACCORDION_ID.other]: true,
         [ACCORDION_ID.physical]: true,
         [ACCORDION_ID.relatedInvoices]: true,
+        [ACCORDION_ID.notes]: true,
       },
       showConfirmDelete: false,
     };
@@ -400,6 +409,19 @@ class POLineView extends Component {
           >
             <VendorView vendorDetail={line.vendorDetail} />
           </Accordion>
+          <IfPermission perm="ui-notes.item.view">
+            <NotesSmartAccordion
+              domainName={ORDERS_DOMAIN}
+              entityId={line.id}
+              entityName={poLineNumber}
+              entityType={NOTE_TYPES.poLine}
+              hideAssignButton
+              id={ACCORDION_ID.notes}
+              onToggle={this.onToggleSection}
+              pathToNoteCreate={`${NOTES_ROUTE}/new`}
+              pathToNoteDetails={NOTES_ROUTE}
+            />
+          </IfPermission>
           <POLineInvoicesContainer
             label={<FormattedMessage id="ui-orders.line.accordion.relatedInvoices" />}
             lineId={get(line, 'id')}

@@ -395,7 +395,7 @@
   "itemDetails.contributor": "Contributor",
   "itemDetails.contributors": "Contributors",
   "itemDetails.contributorType": "Contributor type",
-  "itemDetails.description": "Description",
+  "itemDetails.internalNote": "Internal note",
   "itemDetails.edition": "Edition",
   "itemDetails.productId": "Product ID",
   "itemDetails.productIds": "Product identifiers",
@@ -724,7 +724,6 @@
   "validation.quantity.canNotBeLess0": "Quantity can not be less than 0",
   "vendor.instructions": "Instructions to vendor",
   "vendor.name": "Name",
-  "vendor.noteFromVendor": "Note from vendor",
   "vendor.refNumber": "Vendor ref number",
   "vendor.refNumberType.agentsUnique": "Agent's unique subscription reference number",
   "vendor.refNumberType.internalNumber": "Internal vendor number",
@@ -760,5 +759,8 @@
   "requests.message.itemId": "Item ({itemId})",
   "requests.footer.close": "Close",
   "requests.request": "Request",
-  "requests.request.isOpened": "Yes"
+  "requests.request.isOpened": "Yes",
+
+  "poLine": "PO line",
+  "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}"
 }

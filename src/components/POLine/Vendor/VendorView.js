@@ -52,16 +52,6 @@ const VendorView = ({ vendorDetail }) => (
         value={get(vendorDetail, 'vendorAccount')}
       />
     </Col>
-    <Col
-      data-col-vendor-view-note
-      xs={6}
-      lg={3}
-    >
-      <KeyValue
-        label={<FormattedMessage id="ui-orders.vendor.noteFromVendor" />}
-        value={get(vendorDetail, 'noteFromVendor')}
-      />
-    </Col>
   </Row>
 );
 
