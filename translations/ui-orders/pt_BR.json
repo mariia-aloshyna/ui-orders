@@ -744,5 +744,6 @@
     "line.update.success": "A linha do pedido de compra {lineNumber} foi atualizada com sucesso",
     "line.create.success": "A linha do pedido foi criada com sucesso",
     "settings.orderTemplates.save.success": "O modelo foi salvo",
-    "settings.orderTemplates.save.error": "O modelo não foi salvo"
+    "settings.orderTemplates.save.error": "O modelo não foi salvo",
+    "itemDetails.connectedTitle": "Conectado"
 }

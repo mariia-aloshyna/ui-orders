@@ -744,5 +744,6 @@
     "line.update.success": "The purchase order line {lineNumber} was successfully updated",
     "line.create.success": "The purchase order line was successfully created",
     "settings.orderTemplates.save.success": "The template was saved",
-    "settings.orderTemplates.save.error": "The template was not saved"
+    "settings.orderTemplates.save.error": "The template was not saved",
+    "itemDetails.connectedTitle": "Connected"
 }
