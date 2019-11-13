@@ -1,2 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
-export const ORDER_LINES_ROUTE = '/orders/lines';
+export const ORDERS_ROUTE = '/orders';
+export const ORDER_LINES_ROUTE = `${ORDERS_ROUTE}/lines`;
+export const NOTES_ROUTE = `${ORDERS_ROUTE}/notes`;

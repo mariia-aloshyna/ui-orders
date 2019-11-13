@@ -133,7 +133,7 @@ class ItemView extends Component {
         <Row start="xs">
           <Col xs={12}>
             <KeyValue
-              label={<FormattedMessage id="ui-orders.itemDetails.description" />}
+              label={<FormattedMessage id="ui-orders.itemDetails.internalNote" />}
               value={toString(get(poLineDetails, 'description'))}
             />
           </Col>

@@ -22,7 +22,15 @@ import {
   ReceivingList,
 } from './components/Receiving';
 import CheckIn from './components/CheckIn/CheckIn';
-import { ORDER_LINES_ROUTE } from './common/constants';
+import {
+  NOTES_ROUTE,
+  ORDER_LINES_ROUTE,
+} from './common/constants';
+import {
+  NoteCreate,
+  NoteEdit,
+  NoteView,
+} from './common/Notes';
 
 const ORDER_DETAIL_URL = '/orders/view/:id';
 const LINE_DETAIL_URL = `${ORDER_DETAIL_URL}/po-line/view/:lineId`;
@@ -61,6 +69,21 @@ const Orders = ({ match, location, showSettings }) => {
         <Route
           path={ORDER_LINES_ROUTE}
           component={OrderLinesList}
+        />
+        <Route
+          exact
+          path={`${NOTES_ROUTE}/new`}
+          component={NoteCreate}
+        />
+        <Route
+          exact
+          path={`${NOTES_ROUTE}/:id`}
+          component={NoteView}
+        />
+        <Route
+          exact
+          path={`${NOTES_ROUTE}/:id/edit`}
+          component={NoteEdit}
         />
         <Route
           path={path}

@@ -24,6 +24,15 @@ import Button from './button';
   });
 }
 
+@interactor class NotesAccordion {
+  static defaultScope = '#notes';
+
+  newNoteButton = new Button('[data-test-notes-accordion-new-button]');
+  notes = collection('#notes-list [class^="mclRow-"]', {
+    click: clickable(),
+  });
+}
+
 export default interactor(class LineDetailsPage {
   static defaultScope = '#pane-poLineDetails';
   receiveButton = new Button('[data-test-line-receive-button]');
@@ -32,6 +41,7 @@ export default interactor(class LineDetailsPage {
   goBackToOrderButton = new Button('#clickable-backToPO');
   isLoaded = isPresent('[class*=paneTitleLabel---]');
   relatedInvoicesAccordion = new RelatedInvoicesAccordion();
+  notesAccordion = new NotesAccordion();
 
   actions = new LineDetailsPageActions();
   whenLoaded() {

@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const ORGANIZATION_STATUS_ACTIVE = 'Active';
 
 export const PO_FORM_NAME = 'FormPO';
@@ -16,4 +15,10 @@ export const WORKFLOW_STATUS = {
 export const ORDER_TYPE = {
   oneTime: 'One-Time',
   ongoing: 'Ongoing',
+};
+
+export const ORDERS_DOMAIN = 'orders';
+
+export const NOTE_TYPES = {
+  poLine: 'poLine',
 };

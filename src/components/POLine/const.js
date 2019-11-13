@@ -14,6 +14,7 @@ export const ACCORDION_ID = {
   lineDetails: 'lineDetails',
   location: 'location',
   other: 'other',
+  notes: 'notes',
   physical: 'physical',
   poLine: 'poLine',
   relatedInvoices: 'relatedInvoices',
