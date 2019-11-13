@@ -11,7 +11,6 @@ import {
   FieldVendorRefNumber,
   FieldVendorInstructions,
   FieldVendorAccountNumber,
-  FieldVendorNote,
 } from '../../../common/POLFields';
 import { isWorkflowStatusOpen } from '../../PurchaseOrder/util';
 
@@ -51,12 +50,6 @@ const VendorForm = ({
           accounts={accountsDataOptions}
           disabled={isOpenedOrder}
         />
-      </Col>
-      <Col
-        xs={6}
-        md={3}
-      >
-        <FieldVendorNote />
       </Col>
       <Col
         xs={6}

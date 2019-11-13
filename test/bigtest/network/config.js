@@ -189,4 +189,18 @@ export default function config() {
   this.get(ISBN_VALIDATOR, () => {
     return { isValid: true };
   });
+
+  this.get('/note-types');
+  this.get('/notes/:id', ({ notes }, { params }) => {
+    return notes.find(params.id);
+  });
+  this.get('/note-links/domain/orders/type/:type/id/:id', ({ notes }, { params, queryParams }) => {
+    if (queryParams.status === 'all') {
+      return notes.all();
+    }
+
+    return notes.where(note => note.links.some(link => {
+      return link.type === params.type && link.id === params.id;
+    }));
+  });
 }
