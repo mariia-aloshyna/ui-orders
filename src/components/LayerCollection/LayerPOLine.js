@@ -263,12 +263,14 @@ class LayerPOLine extends Component {
     const {
       connectedSource,
       location,
+      match,
       onCancel,
       parentMutator,
       parentResources,
       resources,
       stripes,
     } = this.props;
+    const { params: { id } } = match;
     const { layer } = location.search ? queryString.parse(location.search) : {};
     const order = this.getOrder();
     const { vendor: vendorId } = order || {};
@@ -283,7 +285,8 @@ class LayerPOLine extends Component {
       get(parentResources, 'createInventory.hasLoaded') &&
       get(resources, 'order.hasLoaded') &&
       get(resources, 'openOrderSetting.hasLoaded') &&
-      get(resources, 'approvalsSetting.hasLoaded')
+      get(resources, 'approvalsSetting.hasLoaded') &&
+      get(order, 'id') === id
     );
 
     if (isLoading) {
