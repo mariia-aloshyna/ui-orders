@@ -60,6 +60,8 @@
           "inventory-storage.locations.collection.get",
           "inventory-storage.material-types.collection.get",
           "inventory.items.collection.get",
+          "invoice.invoice-lines.collection.get",
+          "isbn-utils.validator.get",
           "organizations-storage.organizations.collection.get",
           "tags.collection.get",
           "users.collection.get"
@@ -71,9 +73,10 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "ui-orders.third-party-services",
+          "orders-storage.order-invoice-relationships.collection.get",
           "orders.collection.get",
-          "orders.item.get"
+          "orders.item.get",
+          "ui-orders.third-party-services"
         ]
       },
       {
@@ -118,9 +121,10 @@
         "description": "",
         "visible": true,
         "subPermissions": [
-          "ui-orders.third-party-services",
+          "orders-storage.order-invoice-relationships.collection.get",
           "orders.po-lines.collection.get",
-          "orders.po-lines.item.get"
+          "orders.po-lines.item.get",
+          "ui-orders.third-party-services"
         ]
       },
       {
