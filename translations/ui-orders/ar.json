@@ -418,7 +418,6 @@
     "instance.publishers": "الناشرون",
     "settings.poNumber": "رقم أمر الشراء",
     "settings.poNumber.editPONumber": "يمكن للمستخدم تحرير",
-    "errors.lineWasNotCreated": "تم إنشاء سطر أمر الشراء.",
     "buttons.line.close": "إغلاق",
     "line.accordion.cost": "تفاصيل التكلفة",
     "line.accordion.details": "تفاصيل خط أمر الشراء",
@@ -744,7 +743,11 @@
     "settings.orderTemplates.save.success": "تم حفظ القالب",
     "settings.orderTemplates.save.error": "لم يتم حفظ القالب",
     "itemDetails.connectedTitle": "متصل",
-    "itemDetails.internalNote": "Internal note",
-    "poLine": "PO line",
-    "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}"
+    "itemDetails.internalNote": "ملاحظة داخلية",
+    "poLine": "سطر أمر الشراء",
+    "poLine.pluralized": "{count} {count, plural, one {سطر أمر شراء} other {سطر أمر شراء}}",
+    "errors.orderLineGenericError": "تعذر حفظ سطر أمر الشراء",
+    "closeOrderModal.closingReasons.canceled": "تم الإلغاء",
+    "itemDetails.notConnectedTitle": "غير متصل",
+    "itemDetails.notConnectedInfo": "لم يعد الوعاء متصلًا. قد ينتج عن هذا إنشاء وعاء جديد عند الحفظ."
 }
