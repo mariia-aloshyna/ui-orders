@@ -749,5 +749,6 @@
     "errors.orderLineGenericError": "تعذر حفظ سطر أمر الشراء",
     "closeOrderModal.closingReasons.canceled": "تم الإلغاء",
     "itemDetails.notConnectedTitle": "غير متصل",
-    "itemDetails.notConnectedInfo": "لم يعد الوعاء متصلًا. قد ينتج عن هذا إنشاء وعاء جديد عند الحفظ."
+    "itemDetails.notConnectedInfo": "لم يعد الوعاء متصلًا. قد ينتج عن هذا إنشاء وعاء جديد عند الحفظ.",
+    "buttons.line.cancel": "Cancel"
 }
