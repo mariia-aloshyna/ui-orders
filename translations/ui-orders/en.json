@@ -11,6 +11,7 @@
   "button.addLine": "Add PO line",
   "button.edit": "Edit",
   "button.delete": "Delete",
+  "buttons.line.cancel": "Cancel",
   "buttons.line.close": "Close",
   "buttons.line.save": "Save & close",
   "buttons.line.saveAndOpen": "Save & open order",

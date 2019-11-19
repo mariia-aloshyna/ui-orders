@@ -123,7 +123,7 @@ class POForm extends Component {
     const { pristine, submitting, handleSubmit, onCancel } = this.props;
 
     const start = (
-      <FormattedMessage id="ui-orders.buttons.line.close">
+      <FormattedMessage id="ui-orders.buttons.line.cancel">
         {(btnLabel) => (
           <Button
             id="clickable-close-new-purchase-order-dialog-footer"

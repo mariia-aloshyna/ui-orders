@@ -145,7 +145,7 @@ class POLineForm extends Component {
     } = this.props;
 
     const start = (
-      <FormattedMessage id="ui-orders.buttons.line.close">
+      <FormattedMessage id="ui-orders.buttons.line.cancel">
         {(btnLabel) => (
           <Button
             id="clickable-close-new-line-dialog-footer"
