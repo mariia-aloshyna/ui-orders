@@ -749,5 +749,6 @@
     "errors.orderLineGenericError": "Não foi possível salvar a linha do pedido.",
     "closeOrderModal.closingReasons.canceled": "Cancelado",
     "itemDetails.notConnectedTitle": "Não conectado",
-    "itemDetails.notConnectedInfo": "A instância não está mais conectada. Isso pode resultar em uma nova instância sendo criada quando salva."
+    "itemDetails.notConnectedInfo": "A instância não está mais conectada. Isso pode resultar em uma nova instância sendo criada quando salva.",
+    "buttons.line.cancel": "Cancelar"
 }

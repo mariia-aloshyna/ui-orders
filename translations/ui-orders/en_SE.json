@@ -749,5 +749,6 @@
     "errors.orderLineGenericError": "Purchase order line could not be saved.",
     "closeOrderModal.closingReasons.canceled": "Canceled",
     "itemDetails.notConnectedTitle": "Not connected",
-    "itemDetails.notConnectedInfo": "Instance is no longer connected. This may result in a new instance being created when saved."
+    "itemDetails.notConnectedInfo": "Instance is no longer connected. This may result in a new instance being created when saved.",
+    "buttons.line.cancel": "Cancel"
 }
