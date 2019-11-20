@@ -13,6 +13,7 @@ import OpenOrder from './OpenOrder';
 import Suffixes from './Suffixes';
 import Prefixes from './Prefixes';
 import InstanceStatus from './InstanceStatus';
+import InstanceType from './InstanceType';
 
 const sections = [
   {
@@ -37,6 +38,11 @@ const sections = [
         component: InstanceStatus,
         label: <FormattedMessage id="ui-orders.settings.instanceStatus" />,
         route: 'instance-status',
+      },
+      {
+        component: InstanceType,
+        label: <FormattedMessage id="ui-orders.settings.instanceType" />,
+        route: 'instance-type',
       },
       {
         component: OrderTemplates,
