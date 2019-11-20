@@ -4,13 +4,13 @@ import { get } from 'lodash';
 
 import { ConfigManager } from '@folio/stripes/smart-components';
 
-import { CONFIG_INSTANCE_STATUS } from '../common/constants';
-import { INSTANCE_STATUSES } from '../common/resources';
-import { MODULE_ORDERS } from '../components/Utils/const';
-import InstanceStatusForm from './InstanceStatusForm';
-import css from './CreateInventory.css';
+import { CONFIG_LOAN_TYPE } from '../../common/constants';
+import { LOAN_TYPES } from '../../common/resources';
+import { MODULE_ORDERS } from '../../components/Utils/const';
+import LoanTypeForm from './LoanTypeForm';
+import css from '../CreateInventory.css';
 
-class InstanceStatus extends Component {
+class LoanType extends Component {
   constructor(props, context) {
     super(props, context);
 
@@ -19,36 +19,36 @@ class InstanceStatus extends Component {
 
   render() {
     const { label, resources } = this.props;
-    const instanceStatuses = get(resources, 'instanceStatuses.records', []).map(({ code, name }) => ({
+    const loanTypes = get(resources, 'loanTypes.records', []).map(({ name }) => ({
       label: name,
-      value: code,
+      value: name,
     }));
 
     return (
       <div
-        data-test-order-settings-instance-status
+        data-test-order-settings-loan-type
         className={css.formWrapper}
       >
         <this.configManager
-          configName={CONFIG_INSTANCE_STATUS}
+          configName={CONFIG_LOAN_TYPE}
           label={label}
           moduleName={MODULE_ORDERS}
         >
-          <InstanceStatusForm instanceStatuses={instanceStatuses} />
+          <LoanTypeForm loanTypes={loanTypes} />
         </this.configManager>
       </div>
     );
   }
 }
 
-InstanceStatus.manifest = Object.freeze({
-  instanceStatuses: INSTANCE_STATUSES,
+LoanType.manifest = Object.freeze({
+  loanTypes: LOAN_TYPES,
 });
 
-InstanceStatus.propTypes = {
+LoanType.propTypes = {
   label: PropTypes.object.isRequired,
   resources: PropTypes.object.isRequired,
   stripes: PropTypes.object.isRequired,
 };
 
-export default InstanceStatus;
+export default LoanType;
