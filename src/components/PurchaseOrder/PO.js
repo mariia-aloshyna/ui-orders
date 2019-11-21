@@ -344,7 +344,6 @@ class PO extends Component {
     const isApproved = get(order, 'approved');
     const closingReasons = get(parentResources, 'closingReasons.records', []);
     const orderNumber = get(order, 'poNumber', '');
-    const poLines = get(order, 'compositePoLines', []);
     const workflowStatus = get(order, 'workflowStatus');
     const isCloseOrderButtonVisible = workflowStatus === WORKFLOW_STATUS.open;
     const isOpenOrderButtonVisible = isOpenAvailableForOrder(isApprovalRequired, order);
@@ -417,7 +416,6 @@ class PO extends Component {
 
     const orderType = get(order, 'orderType');
     const addresses = getAddresses(get(parentResources, 'addresses.records', []));
-    const funds = get(parentResources, 'fund.records', []);
 
     order.vendorName = get(vendor, 'name');
     order.assignedToUser = assignedTo && assignedTo.personal
@@ -554,9 +552,6 @@ class PO extends Component {
           >
             <LineListing
               baseUrl={match.url}
-              funds={funds}
-              poLines={poLines}
-              queryMutator={parentMutator.query}
             />
           </Accordion>
         </AccordionSet>
