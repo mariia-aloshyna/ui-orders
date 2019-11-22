@@ -750,5 +750,11 @@
     "closeOrderModal.closingReasons.canceled": "Cancelado",
     "itemDetails.notConnectedTitle": "Não conectado",
     "itemDetails.notConnectedInfo": "A instância não está mais conectada. Isso pode resultar em uma nova instância sendo criada quando salva.",
-    "buttons.line.cancel": "Cancelar"
+    "buttons.line.cancel": "Cancelar",
+    "settings.instanceStatus": "Status da instância",
+    "settings.instanceStatus.select": "Status da instância padrão",
+    "settings.instanceType": "Tipo de instância",
+    "settings.instanceType.select": "Tipo de instância padrão",
+    "settings.loanType": "Tipo de empréstimo",
+    "settings.loanType.select": "Tipo de empréstimo padrão"
 }

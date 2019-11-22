@@ -750,5 +750,11 @@
     "closeOrderModal.closingReasons.canceled": "تم الإلغاء",
     "itemDetails.notConnectedTitle": "غير متصل",
     "itemDetails.notConnectedInfo": "لم يعد الوعاء متصلًا. قد ينتج عن هذا إنشاء وعاء جديد عند الحفظ.",
-    "buttons.line.cancel": "Cancel"
+    "buttons.line.cancel": "إلغاء",
+    "settings.instanceStatus": "حالة الوعاء",
+    "settings.instanceStatus.select": "حالة االوعاء الافتراضية",
+    "settings.instanceType": "نوع الوعاء",
+    "settings.instanceType.select": "نوع الوعاء الافتراضي",
+    "settings.loanType": "نوع الإعارة",
+    "settings.loanType.select": "نوع الإعارة الافتراضي"
 }
