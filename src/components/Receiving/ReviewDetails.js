@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { get } from 'lodash';
+import {
+  get,
+  sortBy,
+} from 'lodash';
 
 import {
   Checkbox,
@@ -35,10 +38,11 @@ const ReviewDetails = ({
       el.value === item.locationId)), [0, 'label'], 'Unknown location'),
     'itemStatus': (item) => <FormattedMessage id={`ui-orders.receiving.itemStatus.${item.itemStatus}`} />,
   };
+  const sortedCheckedItemsList = sortBy(checkedItemsList, ['title', 'locationId']);
 
   return (
     <MultiColumnList
-      contentData={checkedItemsList}
+      contentData={sortedCheckedItemsList}
       formatter={resultFormatter}
       visibleColumns={['isChecked', 'poLine', 'title', 'barcode', 'hasRequest', 'comment', 'format', 'location', 'itemStatus']}
       columnMapping={{

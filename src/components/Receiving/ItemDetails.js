@@ -3,8 +3,10 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {
+  cloneDeep,
   flatten,
   get,
+  sortBy,
   uniq,
 } from 'lodash';
 
@@ -68,12 +70,12 @@ class ItemDetails extends Component {
         const lineItems = {};
 
         Object.entries(state.lineItems).forEach(([k, v]) => {
-          lineItems[k] = v.map((piece) => ({
+          lineItems[k] = sortBy(v.map((piece) => ({
             ...piece,
             barcode: get(itemsMap, [piece.itemId, 'barcode']),
             request: requestsMap[piece.itemId],
             itemStatus: STATUS_IN_PROCESS,
-          }));
+          })), ['locationId']);
         });
 
         return { lineItems, itemsMap, isLoading: false };
@@ -213,7 +215,7 @@ class ItemDetails extends Component {
 
   onChangeField = (item, value, key) => {
     this.setState(({ lineItems }) => {
-      const updatedLineItems = { ...lineItems };
+      const updatedLineItems = cloneDeep(lineItems);
       const selectedItem = updatedLineItems[item.poLineId].filter(el => el.id === item.id)[0];
 
       selectedItem[key] = value;
