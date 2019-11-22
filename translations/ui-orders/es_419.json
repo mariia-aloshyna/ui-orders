@@ -747,8 +747,14 @@
     "poLine": "PO line",
     "poLine.pluralized": "{count} {count, plural, one {PO line} other {PO lines}}",
     "errors.orderLineGenericError": "Purchase order line could not be saved.",
-    "closeOrderModal.closingReasons.canceled": "Canceled",
-    "itemDetails.notConnectedTitle": "Not connected",
+    "closeOrderModal.closingReasons.canceled": "Cancelado",
+    "itemDetails.notConnectedTitle": "No conectado",
     "itemDetails.notConnectedInfo": "Instance is no longer connected. This may result in a new instance being created when saved.",
-    "buttons.line.cancel": "Cancel"
+    "buttons.line.cancel": "Cancelar",
+    "settings.instanceStatus": "Instance status",
+    "settings.instanceStatus.select": "Default instance status",
+    "settings.instanceType": "Instance type",
+    "settings.instanceType.select": "Default instance type",
+    "settings.loanType": "Tipo de préstamo",
+    "settings.loanType.select": "Default loan type"
 }

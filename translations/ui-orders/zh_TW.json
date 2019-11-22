@@ -750,5 +750,11 @@
     "closeOrderModal.closingReasons.canceled": "Canceled",
     "itemDetails.notConnectedTitle": "Not connected",
     "itemDetails.notConnectedInfo": "Instance is no longer connected. This may result in a new instance being created when saved.",
-    "buttons.line.cancel": "Cancel"
+    "buttons.line.cancel": "Cancel",
+    "settings.instanceStatus": "Instance status",
+    "settings.instanceStatus.select": "Default instance status",
+    "settings.instanceType": "Instance type",
+    "settings.instanceType.select": "Default instance type",
+    "settings.loanType": "Loan type",
+    "settings.loanType.select": "Default loan type"
 }
