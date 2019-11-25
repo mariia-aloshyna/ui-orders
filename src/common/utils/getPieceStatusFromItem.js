@@ -6,7 +6,7 @@ import { ITEM_STATUS } from '../constants';
 export const getPieceStatusFromItem = (itemsMap, itemId) => {
   const itemStatus = get(itemsMap, `${itemId}.status.name`);
 
-  return !itemStatus || itemStatus === ITEM_STATUS.onOrder
+  return itemStatus === ITEM_STATUS.onOrder
     ? ITEM_STATUS.inProcess
-    : itemStatus;
+    : itemStatus || '';
 };
