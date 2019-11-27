@@ -15,6 +15,7 @@ export const ERROR_CODES = {
   missingInstanceType: 'missingInstanceType',
   missingLoanType: 'missingLoanType',
   userHasNoPermission: 'userHasNoPermission',
+  fundCanNotBePaid: 'fundCanNotBePaid',
 };
 
 const POL_NUMBER_KEY = 'poLineNumber';

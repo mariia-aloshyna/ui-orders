@@ -357,6 +357,7 @@
   "errors.noCreateItemPlugin": "[no inventory create-item plugin]",
   "errors.nonZeroCostQtyElectronic": "Electronic cost quantity must not be specified",
   "errors.nonZeroLocQtyPhysical": "Physical cost quantity must not be specified",
+  "errors.fundCanNotBePaid": "One or more fund distributions on this order can not be encumbered, because there is not enough money in the budget",
   "errors.orderClosed": "Order cannot be modified in Closed status",
   "errors.orderGenericError1": "Order could not be saved.",
   "errors.orderNotFound": "The order cannot be found by provided order id",
