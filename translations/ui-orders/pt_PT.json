@@ -756,5 +756,7 @@
     "receiving.itemStatus.On order": "On order",
     "receiving.itemStatus.Received": "Received",
     "receiving.itemStatus.Available": "Available",
-    "receiving.itemStatus.In transit": "In transit"
+    "receiving.itemStatus.In transit": "In transit",
+    "receiving.itemStatus.Undefined": "Undefined",
+    "errors.fundCanNotBePaid": "One or more fund distributions on this order can not be encumbered, because there is not enough money in the budget"
 }
