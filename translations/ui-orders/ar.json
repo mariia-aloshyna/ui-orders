@@ -752,9 +752,11 @@
     "settings.instanceType.select": "نوع الوعاء الافتراضي",
     "settings.loanType": "نوع الإعارة",
     "settings.loanType.select": "نوع الإعارة الافتراضي",
-    "receiving.itemStatus.In process": "In process",
-    "receiving.itemStatus.On order": "On order",
-    "receiving.itemStatus.Received": "Received",
-    "receiving.itemStatus.Available": "Available",
-    "receiving.itemStatus.In transit": "In transit"
+    "receiving.itemStatus.In process": "في المعالجة",
+    "receiving.itemStatus.On order": "في الطلب",
+    "receiving.itemStatus.Received": "تم استلامه",
+    "receiving.itemStatus.Available": "متاح",
+    "receiving.itemStatus.In transit": "في النقل",
+    "receiving.itemStatus.Undefined": "غير معرّف",
+    "errors.fundCanNotBePaid": "لا يمكن رهن أحد توزيعات التمويل أو أكثر في هذه الطلبية بسبب عدم وجود مال كافٍ في الميزانية"
 }
