@@ -179,7 +179,7 @@ export const ADDRESSES = {
   path: CONFIG_API,
   GET: {
     params: {
-      query: `(module=${MODULE_TENANT} and configName=${MODULE_TENANT.toLowerCase()}.${CONFIG_ADDRESSES})`,
+      query: `(module=${MODULE_TENANT} and configName=${CONFIG_ADDRESSES})`,
     },
   },
 };
