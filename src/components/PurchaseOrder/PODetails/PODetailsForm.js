@@ -12,8 +12,9 @@ import {
 } from '@folio/stripes/components';
 import {
   AcqUnitsField,
-  FolioFormattedTime,
+  fieldSelectOptionsShape,
   FieldTags,
+  FolioFormattedTime,
 } from '@folio/stripes-acq-components';
 
 import {
@@ -43,8 +44,8 @@ class PODetailsForm extends Component {
   static propTypes = {
     generatedNumber: PropTypes.string,
     orderNumberSetting: PropTypes.object.isRequired,
-    prefixesSetting: PropTypes.object.isRequired,
-    suffixesSetting: PropTypes.object.isRequired,
+    prefixesSetting: fieldSelectOptionsShape.isRequired,
+    suffixesSetting: fieldSelectOptionsShape.isRequired,
     formValues: PropTypes.object,
     dispatch: PropTypes.func,
     change: PropTypes.func,
