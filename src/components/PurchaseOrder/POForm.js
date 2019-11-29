@@ -183,6 +183,16 @@ class POForm extends Component {
     let form = get(stripes.store.getState(), 'form', {});
 
     dispatch(change('template', value));
+    dispatch(change('vendor', ''));
+    dispatch(change('assignedToUser', ''));
+    dispatch(change('manualPo', false));
+    dispatch(change('reEncumber', false));
+    dispatch(change('orderType', ''));
+    dispatch(change('acqUnitIds', []));
+    dispatch(change('tags', { tagList: [] }));
+    dispatch(change('notes', []));
+    dispatch(change('billTo', ''));
+    dispatch(change('shipTo', ''));
 
     Object.keys(get(form, [PO_FORM_NAME, 'registeredFields'], {}))
       .forEach(field => {
