@@ -55,6 +55,7 @@ class ItemForm extends Component {
   };
 
   static defaultProps = {
+    initialValues: {},
     required: true,
   };
 
