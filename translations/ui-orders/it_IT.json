@@ -432,7 +432,7 @@
     "orderDetails.orderNumberPrefix": "Prefisso",
     "orderDetails.orderNumberSuffix": "Suffisso",
     "settings.poNumber.addOption": "Aggiungi: ",
-    "button.addLine": "Add PO line",
+    "button.addLine": "Aggiungi linea di ordine",
     "order.paneTitle.details": "Ordine d'acquisto - {orderNumber}",
     "order.paneTitle.detailsLoading": "Dettagli",
     "order.paneTitle.edit": "Modifica - {orderNumber}",

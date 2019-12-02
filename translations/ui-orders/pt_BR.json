@@ -758,5 +758,5 @@
     "receiving.itemStatus.Available": "Disponível",
     "receiving.itemStatus.In transit": "Em trânsito",
     "receiving.itemStatus.Undefined": "Indefinido",
-    "errors.fundCanNotBePaid": "One or more fund distributions on this order can not be encumbered, because there is not enough money in the budget"
+    "errors.fundCanNotBePaid": "Uma ou mais distribuições de fundos nesse pedido não podem ser oneradas, porque não há dinheiro suficiente no orçamento"
 }
