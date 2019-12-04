@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "1.7.1",
+  "version": "1.8.0",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -26,12 +26,13 @@
       "instance-statuses": "1.0",
       "instance-types": "2.0",
       "inventory": "9.4",
-      "invoice": "2.0 3.0",
+      "invoice": "3.0",
       "loan-types": "2.2",
       "locations": "3.0",
       "material-types": "2.2",
       "orders": "7.1 8.0",
       "organizations-storage.organizations": "2.1",
+      "tags": "1.0",
       "users": "15.0"
     },
     "queryResource": "query",
@@ -275,7 +276,7 @@
     "react-router-dom": "^5.1.2"
   },
   "optionalDependencies": {
-    "@folio/plugin-create-item": "^1.3.1",
+    "@folio/plugin-create-item": "^1.4.0",
     "@folio/plugin-find-instance": "^1.5.0",
     "@folio/plugin-find-organization": "^1.4.0",
     "@folio/plugin-find-user": "^1.9.0"

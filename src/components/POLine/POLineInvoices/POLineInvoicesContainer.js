@@ -34,6 +34,7 @@ const POLineInvoicesContainer = ({ lineId, label, resources, vendors, mutator })
         });
       }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lineId]);
 
   return (

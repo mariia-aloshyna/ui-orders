@@ -32,6 +32,7 @@ const POInvoicesContainer = ({ label, orderId, resources, vendors, mutator }) =>
         });
       }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
 
   return (

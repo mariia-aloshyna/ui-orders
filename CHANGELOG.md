@@ -1,5 +1,72 @@
 # Change history for ui-orders
 
+## [1.8.0](https://github.com/folio-org/ui-orders/tree/v1.8.0) (2019-12-04)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.1...v1.8.0)
+
+### Stories
+* [UIOR-431](https://issues.folio.org/browse/UIOR-431) Prevent encumbering with Funds that have insufficient amounts to cover distribution
+* [UIOR-451](https://issues.folio.org/browse/UIOR-451) Item details: UUID not connected message
+* [UIOR-376](https://issues.folio.org/browse/UIOR-376) For receiving and check-in of POLs, only display Item status = In process
+* [UIOR-284](https://issues.folio.org/browse/UIOR-284) Infinite scroll for POL table on PO - add end of the list marker
+* [UIOR-248](https://issues.folio.org/browse/UIOR-248) In receiving piece screen, keep copies for the same location next to each other
+* [UIOR-231](https://issues.folio.org/browse/UIOR-231) Add setting for specifying loan-type to use when creating items in mod-orders
+* [UIOR-229](https://issues.folio.org/browse/UIOR-229) Add setting for specifying instance-type to use when creating instances in mod-orders
+* [UIOR-230](https://issues.folio.org/browse/UIOR-230) Add setting for specifying instance-status to use when creating instances in mod-orders
+* [UIOR-452](https://issues.folio.org/browse/UIOR-452) Add Canceled as reason for closure
+* [UIOR-435](https://issues.folio.org/browse/UIOR-435) Resequence the POL accordions in the Order template
+* [UIOR-434](https://issues.folio.org/browse/UIOR-434) Resequence the accordions in the POL View and Create/Edit Screens
+* [UIOR-285](https://issues.folio.org/browse/UIOR-285) Refine the POL notes handling
+* [UIOR-430](https://issues.folio.org/browse/UIOR-430) POL item details: Replace instance UUID with user friendly message
+* [UIOR-281](https://issues.folio.org/browse/UIOR-281) Save and open PO from POL create/edit
+* [UIOR-210](https://issues.folio.org/browse/UIOR-210) Enhance PO number prefix and suffix CRUD
+* [UIOR-341](https://issues.folio.org/browse/UIOR-341) Acq Unit handling in the PO when Template is used
+* [UIOR-340](https://issues.folio.org/browse/UIOR-340) Add Acq Unit to the Order Template
+* [UIOR-342](https://issues.folio.org/browse/UIOR-342) Add PO and PO Line tags to the Order Template
+* [UIOR-379](https://issues.folio.org/browse/UIOR-379) Template fix: Account number
+* [UIOR-414](https://issues.folio.org/browse/UIOR-414) Reduce the identifier types in the POL dropdown list
+* [UIOR-420](https://issues.folio.org/browse/UIOR-420) Update POL layout for create and edit
+* [UIOR-418](https://issues.folio.org/browse/UIOR-418) Orders: Update "save and close" and "Cancel" Buttons - UX
+* [UIOR-377](https://issues.folio.org/browse/UIOR-377) Show indicator of open requests during receiving and check-in
+* [UIOR-279](https://issues.folio.org/browse/UIOR-279) Filter Orders by Tags
+* [UIOR-283](https://issues.folio.org/browse/UIOR-283) Have a setting allowing for save+open PO
+* [UIOR-275](https://issues.folio.org/browse/UIOR-275) Filter order lines by Tags
+* [UIOR-377](https://issues.folio.org/browse/UIOR-377) Show indicator of open requests during receiving and check-in
+* [UIOR-370](https://issues.folio.org/browse/UIOR-370) Order: Create fund distributions based on percentage or amount
+* [UIOR-4](https://issues.folio.org/browse/UIOR-4) Assign tags to Order Records
+* [UIOR-375](https://issues.folio.org/browse/UIOR-375) For receiving and check-in of single-title POLs, only allow Item status = In process
+* [UIOR-274](https://issues.folio.org/browse/UIOR-274) Normalize ISBNs for ISBN Product ID searching in Order lines
+* [UIOR-332](https://issues.folio.org/browse/UIOR-332) Add validation to POL product id field if product id type is isbn
+* [UIOR-406](https://issues.folio.org/browse/UIOR-406) Change the PO/POL default filters to be empty
+* [UIOR-393](https://issues.folio.org/browse/UIOR-393) Change UI for POL Contributor and Product ID fields to grid format and add Qualifier
+* [UIOR-392](https://issues.folio.org/browse/UIOR-392) Move ISBN Qualifier to separate field in UI Create/Edit screen
+* [UIOR-383](https://issues.folio.org/browse/UIOR-383) Edit POL from view POL in the three pane POL search layout
+* [UIOR-339](https://issues.folio.org/browse/UIOR-339) Expected receipt date for individual pieces
+* [UIOR-373](https://issues.folio.org/browse/UIOR-373) Reduce the Resource identifier types that are added to the POL from an Instance
+* [UIOR-374](https://issues.folio.org/browse/UIOR-374) Allow deletion of Product IDs from the POL without removing the link to the Instance
+* [UIOR-348](https://issues.folio.org/browse/UIOR-348) Store/Retrieve order templates in new order-templates API
+
+### Bug fixes
+* [UIOR-459](https://issues.folio.org/browse/UIOR-459) Cannot save tenant address
+* [UIOR-455](https://issues.folio.org/browse/UIOR-455) Cancel button on PO and POL form is now labeled "Close"
+* [UIOR-442](https://issues.folio.org/browse/UIOR-442) Creating 2nd PO automatically does not work
+* [UIOR-448](https://issues.folio.org/browse/UIOR-448) PO/POL fields are editable for closed orders
+* [UIOR-428](https://issues.folio.org/browse/UIOR-428) Cannot remove Vendor ref number once it has been saved in POL
+* [UIOR-443](https://issues.folio.org/browse/UIOR-443) Dirty form message appearing when clicking "Save and open order"
+* [UIOR-423](https://issues.folio.org/browse/UIOR-423) Receiving data input modal is too dark
+* [UIOR-416](https://issues.folio.org/browse/UIOR-416) Prefixes/Suffixes not in alpha order in settings or PO dropdown
+* [UIOR-409](https://issues.folio.org/browse/UIOR-409) Filter Material type, electronic, does not support search on 'recording'
+* [UIOR-391](https://issues.folio.org/browse/UIOR-391) T3232 Order templates are preventing the changing of POL order format
+* [UIOR-404](https://issues.folio.org/browse/UIOR-404) Sort order for templates varies
+* [UIOR-390](https://issues.folio.org/browse/UIOR-390) T3235 Template causing issues in creating Ongoing Order + PO Line
+* [UIOR-380](https://issues.folio.org/browse/UIOR-380) Template fix: E-resource details accordion
+* [UIOR-378](https://issues.folio.org/browse/UIOR-378) Template fix: Renewal Info accordion
+* [UIOR-357](https://issues.folio.org/browse/UIOR-357) Template fix: 0 price in order template should carry over to POL
+* [STCOM-590](https://issues.folio.org/browse/STCOM-590) ACQ Apps: MCL column width updates
+* [UIOR-363](https://issues.folio.org/browse/UIOR-363) POL Column headers and results not aligned in 3 pane display
+* [UIOR-336](https://issues.folio.org/browse/UIOR-336) Fix sentence capitalization in Orders app
+* [UIOR-330](https://issues.folio.org/browse/UIOR-330) Inconsistent date formats in orders
+* [UIOR-356](https://issues.folio.org/browse/UIOR-356) Locations in POL dropdown should be in alphabetical order
+
 ## [1.7.1](https://github.com/folio-org/ui-orders/tree/v1.7.1) (2019-09-25)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.0...v1.7.1)
 
