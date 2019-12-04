@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 import { ConfigManager } from '@folio/stripes/smart-components';
-import { Selection } from '@folio/stripes/components';
 
 import { CONFIG_INSTANCE_TYPE } from '../../common/constants';
 import { INSTANCE_TYPES } from '../../common/resources';
