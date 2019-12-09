@@ -506,7 +506,6 @@
     "cost.unitPriceOfElectronic": "电子单价",
     "cost.validation.cantBeNegative": "不能为负数",
     "cost.validation.shouldBePositive": "应为正数",
-    "cost.validation.cantBeNegativeOrEmpty": "不能是负数或空",
     "eresource.createInventory": "创建库存",
     "physical.createInventory": "创建库存",
     "settings.createInventory.eresource": "电子默认值",
