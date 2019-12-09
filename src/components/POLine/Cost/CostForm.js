@@ -11,6 +11,7 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
+import { validateRequiredNotNegative } from '@folio/stripes-acq-components';
 
 import { isWorkflowStatusIsPending } from '../../PurchaseOrder/util';
 import parseNumber from '../../Utils/parseNumber';
@@ -29,12 +30,6 @@ export const requiredPositiveQuantity = (value) => {
   return value >= 1
     ? undefined
     : <FormattedMessage id="ui-orders.cost.validation.shouldBePositive" />;
-};
-
-const validateRequiredNotNegative = (value) => {
-  return value === 0 || value > 0
-    ? undefined
-    : <FormattedMessage id="ui-orders.cost.validation.cantBeNegativeOrEmpty" />;
 };
 
 const FIELD_ATTRS_FOR_REQUIRED_PRICE = {
