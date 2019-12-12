@@ -1,6 +1,6 @@
 # Change history for ui-orders
 
-## [1.8.1](https://github.com/folio-org/ui-orders/tree/v1.8.1) (in progress)
+## [1.8.1](https://github.com/folio-org/ui-orders/tree/v1.8.1) (2019-12-12)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.0...v1.8.1)
 
 ### Bug fixes
