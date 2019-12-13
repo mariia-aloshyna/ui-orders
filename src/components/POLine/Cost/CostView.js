@@ -14,9 +14,17 @@ import { DISCOUNT_TYPE } from '../const';
 
 function CostView({ cost }) {
   const discountType = get(cost, 'discountType');
-  const discount = get(cost, 'discount');
+  const discount = get(cost, 'discount', 0);
+  const currency = get(cost, 'currency');
   const isPercentageDiscountType = discountType === DISCOUNT_TYPE.percentage;
-  const displayDiscount = discount && `${discount}${isPercentageDiscountType ? '%' : ''}`;
+  const displayDiscount = isPercentageDiscountType
+    ? `${discount}%`
+    : (
+      <AmountWithCurrencyField
+        currency={currency}
+        amount={discount}
+      />
+    );
 
   return (
     <Row start="xs">
@@ -27,7 +35,7 @@ function CostView({ cost }) {
       >
         <KeyValue label={<FormattedMessage id="ui-orders.cost.listPrice" />}>
           <AmountWithCurrencyField
-            currency={get(cost, 'currency')}
+            currency={currency}
             amount={get(cost, 'listUnitPrice')}
           />
         </KeyValue>
@@ -39,7 +47,7 @@ function CostView({ cost }) {
       >
         <KeyValue
           label={<FormattedMessage id="ui-orders.cost.currency" />}
-          value={get(cost, 'currency')}
+          value={currency}
         />
       </Col>
       <Col
@@ -57,10 +65,12 @@ function CostView({ cost }) {
         xs={6}
         lg={3}
       >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.cost.additionalCost" />}
-          value={get(cost, 'additionalCost')}
-        />
+        <KeyValue label={<FormattedMessage id="ui-orders.cost.additionalCost" />}>
+          <AmountWithCurrencyField
+            currency={currency}
+            amount={get(cost, 'additionalCost')}
+          />
+        </KeyValue>
       </Col>
       <Col
         data-col-cost-qty-unit-price-electronic
@@ -109,8 +119,12 @@ function CostView({ cost }) {
               />
             </div>
           }
-          value={get(cost, 'poLineEstimatedPrice')}
-        />
+        >
+          <AmountWithCurrencyField
+            currency={currency}
+            amount={get(cost, 'poLineEstimatedPrice')}
+          />
+        </KeyValue>
       </Col>
     </Row>
   );

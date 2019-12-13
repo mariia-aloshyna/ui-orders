@@ -267,7 +267,7 @@ class POLineView extends Component {
     const receivingLocation = isWorkflowStatusOpen ? receivingURL : `${receivingURL}-history`;
     const estimatedPrice = get(line, ['cost', 'poLineEstimatedPrice'], 0);
     const fundDistributions = get(line, 'fundDistribution', []);
-
+    const currency = get(line, 'cost.currency');
     const metadata = get(line, 'metadata');
 
     return (
@@ -353,6 +353,7 @@ class POLineView extends Component {
             id="FundDistribution"
           >
             <FundDistributionView
+              currency={currency}
               fundDistributions={fundDistributions}
               totalAmount={estimatedPrice}
             />
