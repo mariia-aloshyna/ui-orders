@@ -264,7 +264,7 @@ class POLineForm extends Component {
     const contributorNameTypes = getContributorNameTypesForSelect(parentResources);
     const orderTemplates = getOrderTemplatesForSelect(parentResources);
     const isPostPendingOrder = !isWorkflowStatusIsPending(order);
-    const estimatedPrice = calculateEstimatedPrice(formValues);
+    const estimatedPrice = calculateEstimatedPrice(formValues, stripes);
     const {
       accounts,
       vendorCurrencies,
@@ -273,6 +273,7 @@ class POLineForm extends Component {
     const vendorRefNumberType = get(formValues, 'vendorDetail.refNumberType');
     const vendorRefNumber = get(formValues, 'vendorDetail.refNumber');
     const metadata = get(initialValues, 'metadata');
+    const currency = get(formValues, 'cost.currency');
 
     return (
       <Pane
@@ -361,6 +362,7 @@ class POLineForm extends Component {
                       id={ACCORDION_ID.fundDistribution}
                     >
                       <FundDistributionFields
+                        currency={currency}
                         fundDistribution={fundDistribution}
                         name="fundDistribution"
                         disabled={isPostPendingOrder}

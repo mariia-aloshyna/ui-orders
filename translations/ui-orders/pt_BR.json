@@ -506,7 +506,6 @@
     "cost.unitPriceOfElectronic": "Preço unitário do eletrônico",
     "cost.validation.cantBeNegative": "Não pode ser negativo",
     "cost.validation.shouldBePositive": "Deve ser positivo",
-    "cost.validation.cantBeNegativeOrEmpty": "Não pode ser negativo ou vazio",
     "eresource.createInventory": "Criar acervo",
     "physical.createInventory": "Criar acervo",
     "settings.createInventory.eresource": "Eletrônico padrão",

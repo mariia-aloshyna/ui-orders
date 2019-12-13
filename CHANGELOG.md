@@ -1,11 +1,13 @@
 # Change history for ui-orders
 
-## [1.8.1](https://github.com/folio-org/ui-orders/tree/v1.8.1) (in progress)
+## [1.8.1](https://github.com/folio-org/ui-orders/tree/v1.8.1) (2019-12-12)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.0...v1.8.1)
 
 ### Bug fixes
 * [UIOR-462](https://issues.folio.org/browse/UIOR-462) Cannot fill in any of the cost detail fields in Order Templates
-* [UIOR-468](https://issues.folio.org/browse/UIOR-468) Add missing translations
+* [UINV-96](https://issues.folio.org/browse/UINV-96) Closing reasons are not loaded
+* [UIOR-464](https://issues.folio.org/browse/UIOR-464) Calculation of estimated price in cost details sometimes blocks POLs from being created/saved
+* [UIOR-470](https://issues.folio.org/browse/UIOR-470) Users is requested with MAX_INT limit which requests all users
 
 ## [1.8.0](https://github.com/folio-org/ui-orders/tree/v1.8.0) (2019-12-04)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.7.1...v1.8.0)
