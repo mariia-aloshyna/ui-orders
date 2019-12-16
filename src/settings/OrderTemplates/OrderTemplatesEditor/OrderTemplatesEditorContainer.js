@@ -32,8 +32,8 @@ import {
   getAddresses,
   getAddressOptions,
   getSettingsList,
-  getVendorOptions,
 } from '../../../common/utils';
+import { ORGANIZATION_STATUS_ACTIVE } from '../../../common/constants';
 
 import OrderTemplatesEditor from './OrderTemplatesEditor';
 
@@ -62,8 +62,8 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
   const identifierTypes = getIdentifierTypesForSelect(resources);
   const contributorNameTypes = getContributorNameTypesForSelect(resources);
   const createInventorySetting = getCreateInventorySetting(get(resources, ['createInventory', 'records'], []));
-  const vendors = get(resources, 'vendors.records', []);
-  const vendorOptions = getVendorOptions(vendors);
+  const vendors = get(resources, 'vendors.records', [])
+    .filter(vendor => vendor.isVendor && vendor.status === ORGANIZATION_STATUS_ACTIVE);
   const prefixesSetting = getSettingsList(get(resources, 'prefixesSetting.records', []));
   const suffixesSetting = getSettingsList(get(resources, 'suffixesSetting.records', []));
   const addresses = getAddressOptions(getAddresses(get(resources, 'addresses.records', [])));
@@ -91,7 +91,7 @@ function OrderTemplatesEditorContainer({ match: { params: { id } }, close, resou
       prefixesSetting={prefixesSetting}
       suffixesSetting={suffixesSetting}
       addresses={addresses}
-      vendors={vendorOptions}
+      vendors={vendors}
       materialTypes={materialTypes}
       formValues={formValues}
       contributorNameTypes={contributorNameTypes}

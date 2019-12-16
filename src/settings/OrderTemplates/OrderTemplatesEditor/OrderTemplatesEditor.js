@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import {
+  find,
+  get,
+} from 'lodash';
 
 import {
   Pane,
@@ -35,7 +39,7 @@ import {
 import { WORKFLOW_STATUS } from '../../../common/constants';
 import { ItemForm } from '../../../components/POLine/Item';
 import { CostForm } from '../../../components/POLine/Cost';
-
+import { getVendorOptions } from '../../../common/utils';
 import TemplateInformationForm from './TemplateInformationForm';
 import PurchaseOrderInformationForm from './PurchaseOrderInformationForm';
 import PurchaseOrderRenewalsForm from './PurchaseOrderRenewalsForm';
@@ -166,6 +170,8 @@ class OrderTemplatesEditor extends Component {
     const orderFormat = formValues.orderFormat;
     const estimatedPrice = calculateEstimatedPrice(formValues, stripes);
     const fundDistribution = formValues.fundDistribution || [];
+    const currencies = get(find(vendors, { id: formValues.vendor }), 'vendorCurrencies', []);
+    const vendorOptions = getVendorOptions(vendors);
 
     return (
       <Layer
@@ -220,7 +226,7 @@ class OrderTemplatesEditor extends Component {
                       prefixesSetting={prefixesSetting}
                       suffixesSetting={suffixesSetting}
                       addresses={addresses}
-                      vendors={vendors}
+                      vendors={vendorOptions}
                       formValues={formValues}
                       change={change}
                       dispatch={dispatch}
@@ -299,6 +305,7 @@ class OrderTemplatesEditor extends Component {
                   >
                     <CostForm
                       change={change}
+                      currencies={currencies}
                       dispatch={dispatch}
                       formValues={formValues}
                       order={ORDER}
