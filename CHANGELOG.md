@@ -5,6 +5,7 @@
 
 ### Bug fixes
 * [UIOR-460](https://issues.folio.org/browse/UIOR-460) Capture cost information and fund distributions in the currency selected at POL
+* [UIOR-381](https://issues.folio.org/browse/UIOR-381) Template fix: Currency
 
 ## [1.8.1](https://github.com/folio-org/ui-orders/tree/v1.8.1) (2019-12-12)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.0...v1.8.1)
