@@ -1,5 +1,11 @@
 # Change history for ui-orders
 
+## [1.8.2](https://github.com/folio-org/ui-orders/tree/v1.8.2) (In progress)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.1...v1.8.2)
+
+### Bug fixes
+* [UIOR-460](https://issues.folio.org/browse/UIOR-460) Capture cost information and fund distributions in the currency selected at POL
+
 ## [1.8.1](https://github.com/folio-org/ui-orders/tree/v1.8.1) (2019-12-12)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.0...v1.8.1)
 

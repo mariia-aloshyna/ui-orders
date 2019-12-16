@@ -77,10 +77,12 @@ function CostView({ cost }) {
         xs={6}
         lg={3}
       >
-        <KeyValue
-          label={<FormattedMessage id="ui-orders.cost.unitPriceOfElectronic" />}
-          value={get(cost, 'listUnitPriceElectronic')}
-        />
+        <KeyValue label={<FormattedMessage id="ui-orders.cost.unitPriceOfElectronic" />}>
+          <AmountWithCurrencyField
+            currency={currency}
+            amount={get(cost, 'listUnitPriceElectronic')}
+          />
+        </KeyValue>
       </Col>
       <Col
         data-col-cost-discount
