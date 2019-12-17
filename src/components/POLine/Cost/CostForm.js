@@ -88,7 +88,7 @@ class CostForm extends Component {
       dispatch(change('cost.discountType', discountType));
     }
 
-    return parseInt(value, 10) || undefined;
+    return parseFloat(value) || undefined;
   };
 
   render() {
