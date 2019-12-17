@@ -211,8 +211,10 @@
         "displayName": "Settings (Orders): Display list of settings for Orders",
         "visible": true,
         "subPermissions": [
+          "configuration.all",
           "orders.order-templates.all",
-          "settings.enabled"
+          "settings.enabled",
+          "ui-orders.third-party-services"
         ]
       }
     ]
