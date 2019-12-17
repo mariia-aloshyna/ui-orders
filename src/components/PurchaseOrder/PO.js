@@ -536,7 +536,6 @@ class PO extends Component {
           <POInvoicesContainer
             label={<FormattedMessage id="ui-orders.paneBlock.relatedInvoices" />}
             orderId={order.id}
-            vendors={vendors}
           />
           <Accordion
             displayWhenOpen={this.addPOLineButton(isAbleToAddLines)}

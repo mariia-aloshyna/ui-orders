@@ -24,6 +24,10 @@ const columnMapping = {
 };
 
 const POInvoices = ({ orderInvoices, vendors }) => {
+  if (!orderInvoices || !vendors) {
+    return null;
+  }
+
   const resultFormatter = {
     invoice: invoice => (
       <Link
@@ -61,8 +65,6 @@ POInvoices.propTypes = {
 };
 
 POInvoices.defaultProps = {
-  orderInvoices: [],
-  vendors: [],
 };
 
 export default POInvoices;

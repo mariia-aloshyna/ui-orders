@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
-import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { Accordion } from '@folio/stripes/components';
+import {
+  batchFetch,
+  organizationsManifest,
+} from '@folio/stripes-acq-components';
 
 import {
   INVOICES,
@@ -14,23 +16,28 @@ import {
 import POInvoices from './POInvoices';
 import { ACCORDION_ID } from '../../POLine/const';
 
-const POInvoicesContainer = ({ label, orderId, resources, vendors, mutator }) => {
-  const orderInvoices = get(resources, ['invoices', 'records'], []);
+const POInvoicesContainer = ({ label, orderId, mutator }) => {
+  const [orderInvoices, setOrderInvoices] = useState();
+  const [vendors, setVendors] = useState();
 
   useEffect(() => {
-    mutator.orderInvoicesRelns.reset();
-    mutator.invoices.reset();
+    setOrderInvoices();
+    setVendors();
 
     mutator.orderInvoicesRelns.GET().then(response => {
       const invoicesIds = response.map(item => item.invoiceId);
 
-      if (invoicesIds.length) {
-        mutator.invoices.GET({
-          params: {
-            query: invoicesIds.map(id => `id==${id}`).join(' or '),
-          },
+      batchFetch(mutator.invoices, invoicesIds)
+        .then(orderInvoicesResponse => {
+          setOrderInvoices(orderInvoicesResponse);
+
+          return orderInvoicesResponse;
+        }).then(orderInvoicesResponse => {
+          const vendorIds = orderInvoicesResponse.map(item => item.vendorId);
+
+          batchFetch(mutator.invoicesVendors, vendorIds)
+            .then(setVendors);
         });
-      }
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
@@ -56,12 +63,9 @@ POInvoicesContainer.propTypes = {
     orderInvoicesRelns: PropTypes.object.isRequired,
     invoices: PropTypes.object.isRequired,
   }).isRequired,
-  resources: PropTypes.object.isRequired,
-  vendors: PropTypes.arrayOf(PropTypes.object),
 };
 
 POInvoicesContainer.defaultProps = {
-  vendors: [],
 };
 
 POInvoicesContainer.manifest = Object.freeze({
@@ -77,6 +81,11 @@ POInvoicesContainer.manifest = Object.freeze({
     ...INVOICES,
     fetch: false,
     accumulate: true,
+  },
+  invoicesVendors: {
+    ...organizationsManifest,
+    accumulate: true,
+    fetch: false,
   },
 });
 

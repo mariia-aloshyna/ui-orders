@@ -27,6 +27,10 @@ const columnMapping = {
 };
 
 const POLineInvoices = ({ lineInvoices, invoiceLines, vendors, pieces }) => {
+  if (!(lineInvoices && invoiceLines && vendors && pieces)) {
+    return null;
+  }
+
   const captionsList = pieces.map(item => item.caption).join(', ');
   const resultFormatter = {
     invoice: invoice => (
@@ -69,10 +73,6 @@ POLineInvoices.propTypes = {
 };
 
 POLineInvoices.defaultProps = {
-  lineInvoices: [],
-  invoiceLines: [],
-  vendors: [],
-  pieces: [],
 };
 
 export default POLineInvoices;

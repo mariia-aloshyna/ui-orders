@@ -247,7 +247,7 @@ class POLineView extends Component {
       </PaneMenu>
     );
 
-    if (!(line && order)) {
+    if (!(get(line, 'id') && get(order, 'id'))) {
       return (
         <Pane id="pane-poLineDetails" defaultWidth="fill" paneTitle="PO Line Details" onClose={onClose} dismissible>
           <div style={{ paddingTop: '1rem' }}><Icon icon="spinner-ellipsis" width="100px" /></div>
@@ -426,7 +426,6 @@ class POLineView extends Component {
           <POLineInvoicesContainer
             label={<FormattedMessage id="ui-orders.line.accordion.relatedInvoices" />}
             lineId={get(line, 'id')}
-            vendors={vendors}
           />
         </AccordionSet>
         {this.state.showConfirmDelete && (

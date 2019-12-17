@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
-import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { Accordion } from '@folio/stripes/components';
+import {
+  batchFetch,
+  organizationsManifest,
+} from '@folio/stripes-acq-components';
 
 import {
   INVOICE_LINES, INVOICES,
@@ -14,26 +16,37 @@ import {
 import POLineInvoices from './POLineInvoices';
 import { ACCORDION_ID } from '../const';
 
-const POLineInvoicesContainer = ({ lineId, label, resources, vendors, mutator }) => {
-  const lineInvoices = get(resources, ['invoices', 'records'], []);
-  const invoiceLines = get(resources, ['invoiceLines', 'records'], []);
-  const pieces = get(resources, ['pieces', 'records'], []);
+const POLineInvoicesContainer = ({ lineId, label, mutator }) => {
+  const [lineInvoices, setLineInvoices] = useState();
+  const [invoiceLines, setInvoiceLines] = useState();
+  const [pieces, setPieces] = useState();
+  const [vendors, setVendors] = useState();
 
   useEffect(() => {
-    mutator.invoiceLines.reset();
-    mutator.invoices.reset();
+    setLineInvoices();
+    setInvoiceLines();
+    setPieces();
+    setVendors();
 
     mutator.invoiceLines.GET().then(response => {
+      setInvoiceLines(response);
       const invoicesIds = response.map(item => item.invoiceId);
 
-      if (invoicesIds.length) {
-        mutator.invoices.GET({
-          params: {
-            query: invoicesIds.map(id => `id==${id}`).join(' or '),
-          },
+      batchFetch(mutator.invoices, invoicesIds)
+        .then(invoicesResponse => {
+          setLineInvoices(invoicesResponse);
+
+          return invoicesResponse;
+        })
+        .then(invoicesResponse => {
+          const vendorIds = invoicesResponse.map(item => item.vendorId);
+
+          batchFetch(mutator.invoiceLinesVendors, vendorIds)
+            .then(setVendors);
         });
-      }
     });
+
+    mutator.pieces.GET().then(setPieces);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lineId]);
 
@@ -61,19 +74,16 @@ POLineInvoicesContainer.propTypes = {
     invoices: PropTypes.object.isRequired,
     invoiceLines: PropTypes.object.isRequired,
   }).isRequired,
-  resources: PropTypes.object.isRequired,
-  vendors: PropTypes.arrayOf(PropTypes.object),
 };
 
 POLineInvoicesContainer.defaultProps = {
-  vendors: [],
 };
 
 POLineInvoicesContainer.manifest = Object.freeze({
   pieces: {
     ...RECEIVING_HISTORY,
-    fetch: true,
-    accumulate: false,
+    fetch: false,
+    accumulate: true,
     params: {
       query: 'checkin==true and poLineId==!{lineId}',
     },
@@ -90,6 +100,11 @@ POLineInvoicesContainer.manifest = Object.freeze({
     ...INVOICES,
     fetch: false,
     accumulate: true,
+  },
+  invoiceLinesVendors: {
+    ...organizationsManifest,
+    accumulate: true,
+    fetch: false,
   },
 });
 

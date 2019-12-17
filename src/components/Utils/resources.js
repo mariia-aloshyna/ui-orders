@@ -67,9 +67,8 @@ export const LOCATIONS = {
 };
 
 export const ORDER = {
-  type: 'okapi',
+  ...BASE_RESOURCE,
   path: ORDER_DETAIL_API,
-  throwErrors: false,
 };
 
 export const RECEIVE = {
