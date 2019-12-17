@@ -13,8 +13,8 @@ export default {
   lowQuality: 'Low quality',
   unpreferredFormat: 'Unpreferred format',
   error: 'Error',
-  titleWontBePublishedThisYear: 'Title won’t be published this year',
-  titleWontBePublished: 'Title won’t be published',
+  titleWontBePublishedThisYear: "Title won't be published this year",
+  titleWontBePublished: "Title won't be published",
   titleOutOtPrint: 'Title is out of print',
   titleRecievedAsGift: 'Title received as a gift',
 };
