@@ -1,6 +1,6 @@
 {
   "name": "@folio/orders",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Description for orders",
   "main": "src/index.js",
   "repository": "",
@@ -30,7 +30,7 @@
       "loan-types": "2.2",
       "locations": "3.0",
       "material-types": "2.2",
-      "orders": "7.1 8.0",
+      "orders": "8.0",
       "organizations-storage.organizations": "2.1",
       "tags": "1.0",
       "users": "15.0"
