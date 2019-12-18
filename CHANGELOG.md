@@ -7,6 +7,9 @@
 * [UIOR-460](https://issues.folio.org/browse/UIOR-460) Capture cost information and fund distributions in the currency selected at POL
 * [UIOR-381](https://issues.folio.org/browse/UIOR-381) Template fix: Currency
 * [UIOR-478](https://issues.folio.org/browse/UIOR-478) Invoices from the previous order is shown
+* [UIOR-485](https://issues.folio.org/browse/UIOR-485) "Check-in error" when using "Check-in" in "Add piece" modal
+* [UIOR-482](https://issues.folio.org/browse/UIOR-482) Can't create more "closing purchase order reasons"
+* [UIOR-483](https://issues.folio.org/browse/UIOR-483) Orders: Can't filter on 'reason for closure'
 
 ## [1.8.1](https://github.com/folio-org/ui-orders/tree/v1.8.1) (2019-12-12)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.0...v1.8.1)
