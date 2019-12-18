@@ -83,6 +83,7 @@
           "orders-storage.order-invoice-relationships.collection.get",
           "orders.collection.get",
           "orders.item.get",
+          "orders.receiving-history.collection.get",
           "ui-orders.third-party-services"
         ]
       },
@@ -131,6 +132,7 @@
           "orders-storage.order-invoice-relationships.collection.get",
           "orders.po-lines.collection.get",
           "orders.po-lines.item.get",
+          "orders.receiving-history.collection.get",
           "ui-orders.third-party-services"
         ]
       },
