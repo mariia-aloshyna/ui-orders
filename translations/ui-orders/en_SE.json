@@ -462,7 +462,7 @@
     "receiving.barcode": "Barcode",
     "receiving.location": "Location",
     "receiving.itemStatus": "Item status",
-    "receiving.modalPaneTitle": "Update Item Details",
+    "receiving.modalPaneTitle": "POL {poLineNumber} - Title {title}",
     "line.accordion.location": "Location",
     "location.button.addLocation": "Add location",
     "location.nameCode": "Name (code)",
