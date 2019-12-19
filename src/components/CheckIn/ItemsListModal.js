@@ -18,6 +18,18 @@ import ItemsListModalFooter from './ItemsListModalFooter';
 import { getItemStatusLabel } from '../../common/constants';
 import centeredRowFormatter from '../../common/centeredRowFormatter';
 
+const visibleColumns = [
+  'isChecked',
+  'title',
+  'piece',
+  'barcode',
+  'callNumber',
+  'hasRequest',
+  'format',
+  'location',
+  'itemStatus',
+];
+
 const ItemsListModal = ({
   close,
   isAllChecked,
@@ -30,6 +42,7 @@ const ItemsListModal = ({
   toggleItem,
 }) => {
   const isSelected = ({ item }) => item.isChecked;
+  const isDisabled = (pieceFormat) => isLoading || pieceFormat !== 'Physical';
   const resultFormatter = {
     'isChecked': (item) => (
       <Checkbox
@@ -42,10 +55,19 @@ const ItemsListModal = ({
     'piece': (item) => get(item, 'caption', ''),
     'barcode': (item) => (
       <TextField
-        disabled={isLoading || item.pieceFormat !== 'Physical'}
+        disabled={isDisabled(item.pieceFormat)}
         onChange={(e) => onChangeField(item, e.target.value, 'barcode')}
         type="text"
         value={item.barcode}
+        marginBottom0
+      />
+    ),
+    'callNumber': (item) => (
+      <TextField
+        disabled={isDisabled(item.pieceFormat)}
+        onChange={(e) => onChangeField(item, e.target.value, 'callNumber')}
+        type="text"
+        value={item.callNumber}
         marginBottom0
       />
     ),
@@ -81,12 +103,13 @@ const ItemsListModal = ({
       <MultiColumnList
         contentData={items}
         formatter={resultFormatter}
-        visibleColumns={['isChecked', 'title', 'piece', 'barcode', 'hasRequest', 'format', 'location', 'itemStatus']}
+        visibleColumns={visibleColumns}
         columnMapping={{
           isChecked: <Checkbox type="checkbox" checked={isAllChecked} onChange={toggleAll} />,
           title: <FormattedMessage id="ui-orders.receiving.title" />,
           piece: <FormattedMessage id="ui-orders.checkIn.piece" />,
           barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
+          callNumber: <FormattedMessage id="ui-orders.receiving.callNumber" />,
           hasRequest: <FormattedMessage id="ui-orders.requests.request" />,
           format: <FormattedMessage id="ui-orders.receiving.format" />,
           location: <FormattedMessage id="ui-orders.receiving.location" />,

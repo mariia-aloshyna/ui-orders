@@ -595,6 +595,7 @@
   "receiving.btn.remove": "Remove",
   "receiving.links.items": "Receiving items",
   "receiving.links.history": "Receiving history",
+  "receiving.callNumber": "Call number",
   "receiving.cancelBtn": "Cancel",
   "receiving.comment": "Comments",
   "receiving.dateOrdered": "Date ordered",
