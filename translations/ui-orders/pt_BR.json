@@ -780,5 +780,6 @@
     "poLine.vendor": "Linha do fornecedor",
     "renewals.renewalPeriod": "Período de renovação",
     "updatedDateAndTime": "Data e hora atualizadas",
-    "updatedSource": "Fonte atualizada"
+    "updatedSource": "Fonte atualizada",
+    "receiving.callNumber": "Número de chamada"
 }
