@@ -780,5 +780,6 @@
     "poLine.vendor": "POL vendor",
     "renewals.renewalPeriod": "Renewal period",
     "updatedDateAndTime": "Updated date and time",
-    "updatedSource": "Updated source"
+    "updatedSource": "Updated source",
+    "receiving.callNumber": "Call number"
 }

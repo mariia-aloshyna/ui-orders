@@ -344,7 +344,7 @@
     "orderDetails.addNoteBtn": "Add note",
     "orderDetails.manualPO": "Manual",
     "orderDetails.note": "Note",
-    "orderDetails.removeNoteBtn": "Remove Note",
+    "orderDetails.removeNoteBtn": "Remove",
     "cost.listPrice": "List unit price",
     "cost.currency": "Currency*",
     "cost.quantityPhysical": "Quantity physical",
@@ -780,5 +780,6 @@
     "poLine.vendor": "POL vendor",
     "renewals.renewalPeriod": "Renewal period",
     "updatedDateAndTime": "Updated date and time",
-    "updatedSource": "Updated source"
+    "updatedSource": "Updated source",
+    "receiving.callNumber": "Call number"
 }

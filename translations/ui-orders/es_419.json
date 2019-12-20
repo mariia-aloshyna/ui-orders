@@ -462,7 +462,7 @@
     "receiving.barcode": "Barcode",
     "receiving.location": "Location",
     "receiving.itemStatus": "Item status",
-    "receiving.modalPaneTitle": "POL {poLineNumber} - Title {title}",
+    "receiving.modalPaneTitle": "Línea de orden de pedido {poLineNumber} - Título {title}",
     "line.accordion.location": "Location",
     "location.button.addLocation": "Add location",
     "location.nameCode": "Name (code)",
@@ -667,7 +667,7 @@
     "settings.orderTemplates.confirmDelete.message": "Are you sure you want to delete the template?",
     "settings.orderTemplates.remove.success": "The template was deleted",
     "settings.orderTemplates.remove.error": "The template was not deleted",
-    "settings.orderTemplates.accordion.poRenewals": "PO renewal information",
+    "settings.orderTemplates.accordion.poRenewals": "Información sobre la renovación del pedido de compra",
     "settings.orderTemplates.accordion.polOtherResources": "Other resource details",
     "order.poNumber": "PO number",
     "order.lastUpdated": "Last updated",
@@ -780,5 +780,6 @@
     "poLine.vendor": "POL vendor",
     "renewals.renewalPeriod": "Renewal period",
     "updatedDateAndTime": "Updated date and time",
-    "updatedSource": "Updated source"
+    "updatedSource": "Updated source",
+    "receiving.callNumber": "Call number"
 }

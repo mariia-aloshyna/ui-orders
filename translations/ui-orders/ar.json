@@ -780,5 +780,6 @@
     "poLine.vendor": "مورّد سطر أمر الشراء",
     "renewals.renewalPeriod": "فترة التجديد",
     "updatedDateAndTime": "التاريخ والوقت المحدث",
-    "updatedSource": "المصدر المحدث"
+    "updatedSource": "المصدر المحدث",
+    "receiving.callNumber": "رقم الاستدعاء"
 }
