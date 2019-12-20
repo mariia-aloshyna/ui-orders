@@ -14,6 +14,17 @@ import {
 import { getItemStatusLabel } from '../../common/constants';
 import centeredRowFormatter from '../../common/centeredRowFormatter';
 
+const visibleColumns = [
+  'isChecked',
+  'barcode',
+  'format',
+  'callNumber',
+  'hasRequest',
+  'comment',
+  'location',
+  'itemStatus',
+];
+
 const LineDetails = ({
   allChecked,
   isItemChecked,
@@ -27,6 +38,7 @@ const LineDetails = ({
   toggleItem,
 }) => {
   const isSelected = ({ item }) => isItemChecked(item);
+  const isDisabled = (itemId) => isLoading || itemsMap[itemId] === undefined;
   const resultFormatter = {
     'isChecked': (item) => (
       <Checkbox
@@ -38,7 +50,7 @@ const LineDetails = ({
     'barcode': (item) => (
       <TextField
         data-test-barcode
-        disabled={isLoading || itemsMap[item.itemId] === undefined}
+        disabled={isDisabled(item.itemId)}
         onChange={(e) => onChangeField(item, e.target.value, 'barcode')}
         type="text"
         value={item.barcode}
@@ -47,6 +59,16 @@ const LineDetails = ({
     ),
     'format': (item) => (
       <KeyValue value={get(item, 'pieceFormat', '')} />
+    ),
+    'callNumber': (item) => (
+      <TextField
+        data-test-call-number
+        disabled={isDisabled(item.itemId)}
+        onChange={(e) => onChangeField(item, e.target.value, 'callNumber')}
+        type="text"
+        value={item.callNumber}
+        marginBottom0
+      />
     ),
     'hasRequest': (item) => Boolean(item.request) && <FormattedMessage id="ui-orders.requests.request.isOpened" />,
     'comment': (item) => (
@@ -74,11 +96,12 @@ const LineDetails = ({
     <MultiColumnList
       contentData={lineItems[poLineId]}
       formatter={resultFormatter}
-      visibleColumns={['isChecked', 'barcode', 'format', 'hasRequest', 'comment', 'location', 'itemStatus']}
+      visibleColumns={visibleColumns}
       columnMapping={{
         isChecked: <Checkbox type="checkbox" checked={allChecked[poLineId]} onChange={() => toggleAll(poLineId)} />,
         barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
         format: <FormattedMessage id="ui-orders.receiving.format" />,
+        callNumber: <FormattedMessage id="ui-orders.receiving.callNumber" />,
         hasRequest: <FormattedMessage id="ui-orders.requests.request" />,
         comment: <FormattedMessage id="ui-orders.receiving.comment" />,
         location: <FormattedMessage id="ui-orders.receiving.location" />,

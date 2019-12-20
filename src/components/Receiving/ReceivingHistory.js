@@ -36,6 +36,18 @@ import {
 } from './util';
 
 const RECEIVING_HISTORY_LIMIT = 25;
+const visibleColumns = [
+  'isChecked',
+  'title',
+  'poLineNumber',
+  'dateOrdered',
+  'dateReceived',
+  'barcode',
+  'callNumber',
+  'comment',
+  'receivingNote',
+  'receivingStatus',
+];
 
 class ReceivingHistory extends Component {
   static manifest = Object.freeze({
@@ -95,6 +107,7 @@ class ReceivingHistory extends Component {
         const pieces = piecesFromHistory.map((piece) => ({
           ...piece,
           barcode: get(itemsMap, [piece.itemId, 'barcode']),
+          callNumber: get(itemsMap, [piece.itemId, 'itemLevelCallNumber']),
         }));
 
         this.setState(prevState => ({
@@ -217,6 +230,7 @@ class ReceivingHistory extends Component {
           {get(piece, 'barcode', '')}
         </span>
       ),
+      'callNumber': piece => get(piece, 'callNumber', ''),
       'receivingNote': piece => get(piece, 'receivingNote', ''),
       'receivingStatus': piece => get(piece, 'receivingStatus', ''),
     };
@@ -278,10 +292,11 @@ class ReceivingHistory extends Component {
                 dateReceived: <FormattedMessage id="ui-orders.receivingHistory.dateReceived" />,
                 comment: <FormattedMessage id="ui-orders.receiving.comment" />,
                 barcode: <FormattedMessage id="ui-orders.receiving.barcode" />,
+                callNumber: <FormattedMessage id="ui-orders.receiving.callNumber" />,
                 receivingNote: <FormattedMessage id="ui-orders.receivingHistory.note" />,
                 receivingStatus: <FormattedMessage id="ui-orders.receiving.status" />,
               }}
-              visibleColumns={['isChecked', 'title', 'poLineNumber', 'dateOrdered', 'dateReceived', 'barcode', 'comment', 'receivingNote', 'receivingStatus']}
+              visibleColumns={visibleColumns}
               onRowClick={undefined}
               isSelected={this.isSelected}
               interactive={false}

@@ -64,6 +64,7 @@ export const receiveItems = (itemList, mutator) => {
   pieces.forEach(piece => {
     const item = {
       barcode: piece.barcode || '',
+      callNumber: piece.callNumber || '',
       comment: piece.comment,
       itemStatus: piece.itemStatus,
       locationId: piece.locationId,

@@ -10,6 +10,7 @@ export const checkInItems = (pieces, mutator) => {
     const item = {
       id: piece.id,
       barcode: piece.barcode,
+      callNumber: piece.callNumber,
       comment: piece.comment,
       caption: piece.caption,
       supplement: piece.supplement,
@@ -47,4 +48,5 @@ export const checkInItems = (pieces, mutator) => {
 export const getMixedPieceAndItem = (piece, itemsMap) => ({
   ...piece,
   barcode: get(itemsMap, [piece.itemId, 'barcode'], ''),
+  callNumber: get(itemsMap, [piece.itemId, 'callNumber'], ''),
 });
