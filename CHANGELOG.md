@@ -6,6 +6,7 @@
 ### Stories
 * [UIOR-432](https://issues.folio.org/browse/UIOR-432) Add or update call number during receiving/checkin
 * [UIOR-465](https://issues.folio.org/browse/UIOR-465) Error Message: No budget for this fund and fiscal year
+* [UIOR-239](https://issues.folio.org/browse/UIOR-239) Add "Package" checkbox to POL
 
 ## [1.8.2](https://github.com/folio-org/ui-orders/tree/v1.8.2) (2019-12-18)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.1...v1.8.2)
