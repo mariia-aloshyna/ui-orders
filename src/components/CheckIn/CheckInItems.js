@@ -183,7 +183,7 @@ class CheckInItems extends Component {
     const { orderFormat, id: poLineId, instanceId, receiptDate } = poLine;
     const initialValuesPiece = {
       ...addPieceInitialValues,
-      receivedDate: receiptDate,
+      receiptDate,
       poLineId,
     };
     const items = this.getItems();

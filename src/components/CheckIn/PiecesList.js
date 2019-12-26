@@ -33,10 +33,11 @@ const PiecesList = ({ renderActions, checkedItemsMap, items = [], toggleItem, to
     'poLineNumber': piece => piece.poLineNumber,
     'comment': piece => piece.comment,
     'pieceStatus': piece => piece.receivingStatus,
-    'expectedReceiptDate': piece => <FolioFormattedDate value={piece.receivedDate} />,
+    'expectedReceiptDate': piece => <FolioFormattedDate value={piece.receiptDate} />,
+    'receivedDate': piece => <FolioFormattedDate value={piece.receivedDate} />,
     'actions': renderActions,
   };
-  const visibleColumns = renderActions ? [...VISIBLE_COLUMNS, 'expectedReceiptDate', 'actions'] : VISIBLE_COLUMNS;
+  const visibleColumns = renderActions ? [...VISIBLE_COLUMNS, 'expectedReceiptDate', 'actions'] : [...VISIBLE_COLUMNS, 'receivedDate'];
 
   return (
     <MultiColumnList
@@ -60,6 +61,7 @@ const PiecesList = ({ renderActions, checkedItemsMap, items = [], toggleItem, to
         comment: <FormattedMessage id="ui-orders.checkIn.comment" />,
         pieceStatus: <FormattedMessage id="ui-orders.checkIn.pieceStatus" />,
         expectedReceiptDate: <FormattedMessage id="ui-orders.checkIn.expectedReceiptDate" />,
+        receivedDate: <FormattedMessage id="ui-orders.checkIn.receivedDate" />,
         actions: null,
       }}
       onRowClick={undefined}
