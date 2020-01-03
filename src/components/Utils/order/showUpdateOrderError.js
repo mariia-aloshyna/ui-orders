@@ -5,17 +5,23 @@ import { Link } from 'react-router-dom';
 import { get } from 'lodash';
 
 export const ERROR_CODES = {
-  vendorIsInactive: 'vendorIsInactive',
   accessProviderIsInactive: 'accessProviderIsInactive',
-  vendorNotFound: 'vendorNotFound',
-  orderOpen: 'orderOpen',
-  orderClosed: 'orderClosed',
   accessProviderNotFound: 'accessProviderNotFound',
+  budgetIsInactive: 'budgetIsInactive',
+  budgetNotFoundForTransaction: 'budgetNotFoundForTransaction',
+  currentFYearNotFound: 'currentFYearNotFound',
+  fundCanNotBePaid: 'fundCanNotBePaid',
+  ledgerNotFoundForTransaction: 'ledgerNotFoundForTransaction',
   missingInstanceStatus: 'missingInstanceStatus',
   missingInstanceType: 'missingInstanceType',
   missingLoanType: 'missingLoanType',
+  orderClosed: 'orderClosed',
+  orderOpen: 'orderOpen',
+  organizationNotAVendor: 'organizationNotAVendor',
   userHasNoPermission: 'userHasNoPermission',
-  fundCanNotBePaid: 'fundCanNotBePaid',
+  vendorIsInactive: 'vendorIsInactive',
+  vendorIssue: 'vendorIssue',
+  vendorNotFound: 'vendorNotFound',
 };
 
 const POL_NUMBER_KEY = 'poLineNumber';
