@@ -763,7 +763,7 @@
     "createdSource": "Created source",
     "fund.fundIdentifier": "Fund ID",
     "fund.selectAdjustment": "Select adjustment",
-    "fund.value": "Value",
+    "fund.value": "Valeur",
     "order.adminData": "PO admin data",
     "order.notes.date": "Date",
     "order.notes.type": "Type",
@@ -781,5 +781,11 @@
     "renewals.renewalPeriod": "Renewal period",
     "updatedDateAndTime": "Updated date and time",
     "updatedSource": "Updated source",
-    "receiving.callNumber": "Call number"
+    "receiving.callNumber": "Call number",
+    "errors.budgetIsInactive": "Cannot create encumbrance from the not active budget",
+    "errors.budgetNotFoundForTransaction": "One or more fund distribution(s) on this order can not be encumbered, because there is no current budget",
+    "errors.currentFYearNotFound": "Current fiscal year not found for ledger",
+    "errors.ledgerNotFoundForTransaction": "Ledger not found for transaction",
+    "errors.organizationNotAVendor": "Order cannot be opened as the associated vendorId belongs to non-vendor organization",
+    "errors.vendorIssue": "Order cannot be updated due to issues related to associated vendor/access provider"
 }
