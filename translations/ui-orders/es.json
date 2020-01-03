@@ -665,8 +665,8 @@
     "settings.orderTemplates.confirmDelete.confirmLabel": "Confirm",
     "settings.orderTemplates.confirmDelete.heading": "Delete template",
     "settings.orderTemplates.confirmDelete.message": "Are you sure you want to delete the template?",
-    "settings.orderTemplates.remove.success": "The template was deleted",
-    "settings.orderTemplates.remove.error": "The template was not deleted",
+    "settings.orderTemplates.remove.success": "La plantilla se ha eliminado",
+    "settings.orderTemplates.remove.error": "La plantilla no se ha eliminado",
     "settings.orderTemplates.accordion.poRenewals": "Información sobre la renovación del pedido de compra",
     "settings.orderTemplates.accordion.polOtherResources": "Other resource details",
     "order.poNumber": "PO number",
@@ -781,5 +781,11 @@
     "renewals.renewalPeriod": "Renewal period",
     "updatedDateAndTime": "Fecha y hora actualización",
     "updatedSource": "Fuente actualizada",
-    "receiving.callNumber": "Call number"
+    "receiving.callNumber": "Número de clasificación",
+    "errors.budgetIsInactive": "Cannot create encumbrance from the not active budget",
+    "errors.budgetNotFoundForTransaction": "One or more fund distribution(s) on this order can not be encumbered, because there is no current budget",
+    "errors.currentFYearNotFound": "Current fiscal year not found for ledger",
+    "errors.ledgerNotFoundForTransaction": "Ledger not found for transaction",
+    "errors.organizationNotAVendor": "Order cannot be opened as the associated vendorId belongs to non-vendor organization",
+    "errors.vendorIssue": "Order cannot be updated due to issues related to associated vendor/access provider"
 }
