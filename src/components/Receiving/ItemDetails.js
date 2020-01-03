@@ -73,7 +73,7 @@ class ItemDetails extends Component {
           lineItems[k] = sortBy(v.map((piece) => ({
             ...piece,
             barcode: get(itemsMap, [piece.itemId, 'barcode']),
-            callNumber: get(itemsMap, [piece.itemId, 'callNumber']),
+            callNumber: get(itemsMap, [piece.itemId, 'itemLevelCallNumber']),
             request: requestsMap[piece.itemId],
             itemStatus: getPieceStatusFromItem(itemsMap, piece.itemId),
           })), ['locationId']);
