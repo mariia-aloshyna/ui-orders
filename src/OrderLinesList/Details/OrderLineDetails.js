@@ -61,10 +61,14 @@ const OrderLineDetails = ({
     () => {
       const lineNumber = line.poLineNumber;
 
-      mutator.orderLine.DELETE(line).then(() => {
-        showToast('ui-orders.line.delete.success', 'success', { lineNumber });
-        parentMutator.query.update({ _path: '/orders/lines' });
-      });
+      mutator.orderLine.DELETE(line)
+        .then(() => {
+          showToast('ui-orders.line.delete.success', 'success', { lineNumber });
+          parentMutator.query.update({ _path: '/orders/lines' });
+        })
+        .catch(() => {
+          showToast('ui-orders.errors.lineWasNotDeleted', 'error');
+        });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [lineId],

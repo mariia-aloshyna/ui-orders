@@ -58,10 +58,14 @@ class POLine extends Component {
     const line = this.getLine();
     const lineNumber = line.poLineNumber;
 
-    parentMutator.poLine.DELETE(line).then(() => {
-      showToast('ui-orders.line.delete.success', 'success', { lineNumber });
-      parentMutator.query.update({ _path: poURL });
-    });
+    parentMutator.poLine.DELETE(line)
+      .then(() => {
+        showToast('ui-orders.line.delete.success', 'success', { lineNumber });
+        parentMutator.query.update({ _path: poURL });
+      })
+      .catch(() => {
+        showToast('ui-orders.errors.lineWasNotDeleted', 'error');
+      });
   };
 
   render() {
