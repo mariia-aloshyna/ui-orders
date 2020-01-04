@@ -1,5 +1,10 @@
 # Change history for ui-orders
 
+## [1.8.3](https://github.com/folio-org/ui-orders/tree/v1.8.3) (2020-01-04)
+[Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.2...v1.8.3)
+
+* Handle more error codes on save PO and PO line to provide more meaningful messages
+
 ## [1.8.2](https://github.com/folio-org/ui-orders/tree/v1.8.2) (2019-12-18)
 [Full Changelog](https://github.com/folio-org/ui-orders/compare/v1.8.1...v1.8.2)
 
