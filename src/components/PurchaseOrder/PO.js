@@ -118,13 +118,17 @@ class PO extends Component {
     const order = this.getOrder();
     const orderNumber = order.poNumber;
 
-    parentMutator.records.DELETE(order).then(() => {
-      showToast('ui-orders.order.delete.success', 'success', { orderNumber });
-      parentMutator.query.update({
-        _path: '/orders',
-        layer: null,
+    parentMutator.records.DELETE(order)
+      .then(() => {
+        showToast('ui-orders.order.delete.success', 'success', { orderNumber });
+        parentMutator.query.update({
+          _path: '/orders',
+          layer: null,
+        });
+      })
+      .catch(() => {
+        showToast('ui-orders.errors.orderWasNotDeleted', 'error');
       });
-    });
   }
 
   actionMenu = ({ onToggle }) => (
