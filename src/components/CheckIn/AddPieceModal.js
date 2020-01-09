@@ -134,7 +134,7 @@ class AddPieceModal extends Component {
             <Col xs>
               <FieldDatepicker
                 labelId="ui-orders.checkIn.expectedReceiptDate"
-                name="receivedDate"
+                name="receiptDate"
                 required
                 validate={validateRequired}
               />
