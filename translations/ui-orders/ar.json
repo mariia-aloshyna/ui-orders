@@ -813,5 +813,5 @@
     "errors.userHasNoAcqUnitsPermission": "لا يملك المستخدم صلاحيات إدارة مهام وحدات التزويد - العملية مقيدة",
     "errors.userHasNoApprovalPermission": "لا يملك المستخدم صلاحيات قبول الطلبية - العملية مقيدة",
     "errors.zeroLocQty": "يجب تحديد كمية الموقع الإلكتروني أو المادي",
-    "checkIn.receivedDate": "Received date"
+    "checkIn.receivedDate": "تاريخ الاستلام"
 }
