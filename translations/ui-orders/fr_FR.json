@@ -649,7 +649,7 @@
     "settings.orderTemplates.accordion.poNotes": "Commentaires",
     "settings.orderTemplates.accordion.poSummary": "Résumé du bon de commande",
     "settings.orderTemplates.accordion.poItemDetails": "Détails de l'élément",
-    "settings.orderTemplates.accordion.polDetails": "PO line details",
+    "settings.orderTemplates.accordion.polDetails": "Détails de la ligne de commande",
     "settings.orderTemplates.accordion.polCostDetails": "Détail des coûts",
     "settings.orderTemplates.accordion.polVendor": "Fournisseur",
     "settings.orderTemplates.accordion.polFundDistribution": "Répartition budgétaire",
